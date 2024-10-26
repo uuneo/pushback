@@ -1,0 +1,51 @@
+{
+  "originHash" : "e1cecaaf44eb44a63dfcd9b82986c76a24eb2bfdc45f00f114bb7f1f8c53604b",
+  "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/Defaults.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "a89f799930c92a85aa04b72131849d46c0833ab3"
+      }
+    },
+    {
+      "identity" : "qrscanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/QRScanner.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "0262bf06c1f4683b6cde9ee9a72f3b720147e81c"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "85eeca41654cc9070ad81a21a4b1d153ad467c33",
+        "version" : "14.13.1"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/realm-swift.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5553cfd1c789efdb3d6daf7f0cc0733cfe601846"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/SwiftyJSON.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "58391413ad113d98ea7f434354dceb8cb751b54e"
+      }
+    }
+  ],
+  "version" : 3
+}

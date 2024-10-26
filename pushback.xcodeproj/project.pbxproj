@@ -86,6 +86,7 @@
 		19C13CF72CCCDB4100A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
 		19C13CF92CCCDB4A00A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CF82CCCDB4A00A2F1A8 /* Defaults */; };
 		19C13CFA2CCCDBCA00A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
+		19C13EA82CCD00E000A2F1A8 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C272CCC8BBA00A2F1A8 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +133,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19C13EA92CCD00E000A2F1A8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				19C13EA82CCD00E000A2F1A8 /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +439,7 @@
 				19C13BA22CCBDF8B00A2F1A8 /* Frameworks */,
 				19C13BA32CCBDF8B00A2F1A8 /* Resources */,
 				19C13C992CCCD70F00A2F1A8 /* Embed Foundation Extensions */,
+				19C13EA92CCD00E000A2F1A8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

@@ -36,6 +36,11 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="37"/>
+                    <connections>
+                        <outlet property="imageView" destination="jsE-jk-vzN" id="oP5-RJ-C37"/>
+                        <outlet property="loadingView" destination="Pmt-y1-hSf" id="Ty7-gs-zjv"/>
+                        <outlet property="videoPlayerView" destination="YAg-iL-q2j" id="QJj-1M-Oai"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

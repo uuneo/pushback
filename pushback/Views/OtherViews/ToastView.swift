@@ -57,7 +57,10 @@ fileprivate class PassthroughWindow: UIWindow {
 
 class Toast: ObservableObject {
 	static let shared = Toast()
-	fileprivate var toasts: [ToastItem] = []
+	private init() { }
+	@Published fileprivate var toasts: [ToastItem] = []
+	
+	
 	
 	func present(title: String, symbol: String?, tint: Color = .primary, timing: ToastTime = .medium) {
 		
@@ -124,7 +127,7 @@ enum ToastSymbol: String{
 
 
 fileprivate struct ToastGroup: View {
-	var model = Toast.shared
+	@ObservedObject var model = Toast.shared
 	var body: some View {
 		GeometryReader {
 			let size = $0.size
@@ -136,9 +139,6 @@ fileprivate struct ToastGroup: View {
 						.scaleEffect(scale(toast))
 						.offset(y: offsetY(toast))
 						.zIndex(Double(model.toasts.firstIndex(where: { $0.id == toast.id }) ?? 0))
-						.onTapGesture {
-							debugPrint("点击了通知")
-						}
 				}
 			}
 			

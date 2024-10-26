@@ -98,16 +98,16 @@ struct SettingsView: View {
 								
 							}
 						}
-//						.fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false) { result in
-//							switch result {
-//							case .success(let files):
-//								Toast.shared.present(title: RealmProxy.shared.importMessage(files), symbol: .info)
-//							case .failure(let err):
-//								Toast.shared.present(title: err.localizedDescription, symbol: .error)
-//							}
-//						} onCancellation: {
-//							
-//						}
+						
+						
+						.fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
+							switch result {
+							case .success(let files):
+								Toast.shared.present(title: RealmProxy.shared.importMessage(files), symbol: .info)
+							case .failure(let err):
+								Toast.shared.present(title: err.localizedDescription, symbol: .error)
+							}
+						})
 						
 						
 						

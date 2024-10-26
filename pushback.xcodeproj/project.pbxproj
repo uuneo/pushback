@@ -68,7 +68,6 @@
 		19C13CCE2CCCD97100A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCD2CCCD97100A2F1A8 /* Defaults */; };
 		19C13CD02CCCD97100A2F1A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCF2CCCD97100A2F1A8 /* SwiftyJSON */; };
 		19C13CD22CCCD97100A2F1A8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CD12CCCD97100A2F1A8 /* RealmSwift */; };
-		19C13CD42CCCD97100A2F1A8 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CD12CCCD97100A2F1A8 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		19C13CD52CCCD9A100A2F1A8 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */; };
 		19C13CD62CCCD9B700A2F1A8 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */; };
 		19C13CD72CCCD9C900A2F1A8 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */; };
@@ -133,7 +132,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				19C13CD42CCCD97100A2F1A8 /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -858,7 +856,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = pushback/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = " 反推";
+				INFOPLIST_KEY_CFBundleDisplayName = Pushback;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -893,7 +891,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = pushback/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = " 反推";
+				INFOPLIST_KEY_CFBundleDisplayName = Pushback;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

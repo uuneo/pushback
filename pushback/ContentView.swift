@@ -75,10 +75,14 @@ struct ContentView: View {
 			
 			
 		}
+		.task {
+			for await value in Defaults.updates(.servers) {
+				PushServerCloudKit.shared.updatePushServers(items: value)
+			}
+		}
 		
 		
 		
-
 		
 	}
 	

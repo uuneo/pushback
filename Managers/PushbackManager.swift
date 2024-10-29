@@ -108,13 +108,13 @@ extension PushbackManager{
 		
 		do{
 			
-			
 			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toDictionary()
 			
 			if let response:baseResponse<ChangeKeyInfo> = try await self.fetch(url: "\(server.url)/change",method: .post, params: params),
 			   let index = Defaults[.servers].firstIndex(where: {$0.id == server.id}){
 				if let data = response.data{
-					Defaults[.servers][index].key = data.newKey
+					
+					Defaults[.servers].append(PushServerModal(url: server.url,key: data.newKey))
 					Toast.shared.present(title: String(localized: "修改成功"), symbol: .success)
 					return true
 				}else{

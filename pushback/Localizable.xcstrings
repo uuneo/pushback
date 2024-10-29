@@ -617,6 +617,16 @@
         }
       }
     },
+    "历史服务器和key" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historical server and key"
+          }
+        }
+      }
+    },
     "参数错误" : {
       "localizations" : {
         "en" : {
@@ -957,7 +967,18 @@
         }
       }
     },
+    "恢复" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "recover"
+          }
+        }
+      }
+    },
     "恢复默认服务器" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1188,15 +1209,11 @@
       }
     },
     "新增服务器" : {
-
-    },
-    "新增服务器地址" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add new server address"
+            "value" : "Add a server"
           }
         }
       }
@@ -1432,7 +1449,14 @@
       }
     },
     "添加" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "append"
+          }
+        }
+      }
     },
     "清空所有" : {
       "localizations" : {
@@ -1504,17 +1528,6 @@
         }
       }
     },
-    "确认修改" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confirm"
-          }
-        }
-      }
-    },
     "示例" : {
       "localizations" : {
         "en" : {
@@ -1571,17 +1584,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algorithm setup"
-          }
-        }
-      }
-    },
-    "编辑状态" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit status"
           }
         }
       }

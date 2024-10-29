@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
 		19C13BDC2CCC850400A2F1A8 /* electronic.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC32CCC850400A2F1A8 /* electronic.caf */; };
 		19C13BDD2CCC850400A2F1A8 /* anticipate.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBB2CCC850400A2F1A8 /* anticipate.caf */; };
@@ -151,6 +152,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		19C13BA52CCBDF8B00A2F1A8 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
 		19C13BBA2CCC850400A2F1A8 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
@@ -316,9 +318,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1957E9082CD1218A00CF05A0 /* ICloudData */ = {
+			isa = PBXGroup;
+			children = (
+				1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */,
+			);
+			path = ICloudData;
+			sourceTree = "<group>";
+		};
 		19C13B9C2CCBDF8B00A2F1A8 = {
 			isa = PBXGroup;
 			children = (
+				1957E9082CD1218A00CF05A0 /* ICloudData */,
 				19C13BB92CCC84F300A2F1A8 /* Extensions */,
 				19C13C162CCC8A0F00A2F1A8 /* Managers */,
 				19C13BDA2CCC850400A2F1A8 /* Sounds */,
@@ -664,6 +675,7 @@
 				19C13C322CCC8C0D00A2F1A8 /* RealmProxy.swift in Sources */,
 				19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */,
 				19C13C1A2CCC8A4100A2F1A8 /* View+.swift in Sources */,
+				1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */,
 				19C13C1B2CCC8A4100A2F1A8 /* image+.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
 				19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */,

@@ -332,7 +332,8 @@ struct PushServerModal: Codable, Identifiable,Equatable, Defaults.Serializable, 
 		self.status = try container.decode(Bool.self, forKey: .status)
 	}
 	
-	init(url:String, key: String = "", statues:Bool = false){
+	init(id:String = UUID().uuidString, url:String, key: String = "", statues:Bool = false){
+		self.id = id
 		self.url = url
 		self.key = key
 		self.status = statues

@@ -114,7 +114,7 @@ struct SettingsView: View {
 					} header: {
 						Text(String(localized: "导出消息列表"))
 					} footer:{
-						Text("只能导入.up结尾的JSON数据")
+						Text("只能导入.exv结尾的JSON数据")
 					}
 							 
 							 

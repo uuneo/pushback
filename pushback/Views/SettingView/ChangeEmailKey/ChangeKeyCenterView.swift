@@ -71,7 +71,7 @@ struct ChnageKeyCenterView: View {
 			Divider()
 			
 			HStack{
-				Text(String(localized: "不知道如何开始? **获取帮助**"))
+				Text(String(localized: "如果设置太简单，会被其他人推送信息的风险！"))
 					.font(.footnote)
 					.foregroundColor(.primary.opacity(0.7))
 					.accentColor(.primary.opacity(0.7))

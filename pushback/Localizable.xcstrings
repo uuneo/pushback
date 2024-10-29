@@ -48,17 +48,6 @@
         }
       }
     },
-    "**重试**" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try again"
-          }
-        }
-      }
-    },
     "%@s" : {
       "localizations" : {
         "en" : {
@@ -229,17 +218,6 @@
         }
       }
     },
-    "一个6位数的代码已发送到您的邮箱" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A 6-digit code has been sent to your email address"
-          }
-        }
-      }
-    },
     "一周前" : {
       "localizations" : {
         "en" : {
@@ -306,16 +284,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid address"
-          }
-        }
-      }
-    },
-    "不知道如何开始? **获取帮助**" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not sure how to get started? Get Help "
           }
         }
       }
@@ -421,7 +389,14 @@
       }
     },
     "信息" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
     },
     "信息状态已更改" : {
       "localizations" : {
@@ -464,7 +439,14 @@
       }
     },
     "修改失败" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modification failure"
+          }
+        }
+      }
     },
     "修改成功" : {
       "localizations" : {
@@ -492,17 +474,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mark all as read"
-          }
-        }
-      }
-    },
-    "关闭键盘" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close"
           }
         }
       }
@@ -578,7 +549,14 @@
       }
     },
     "删除以下时间的信息!" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the following time information!"
+          }
+        }
+      }
     },
     "删除全部已读" : {
       "localizations" : {
@@ -700,8 +678,15 @@
         }
       }
     },
-    "只能导入.up结尾的JSON数据" : {
-
+    "只能导入.exv结尾的JSON数据" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only j s o n data ending in.exv can be imported"
+          }
+        }
+      }
     },
     "可以为推送设置不同的铃声" : {
       "localizations" : {
@@ -803,8 +788,25 @@
         }
       }
     },
+    "如果设置太简单，会被其他人推送信息的风险！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If the setting is too simple, it will be the risk of being pushed by others!"
+          }
+        }
+      }
+    },
     "字符数小于3" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not less than 3"
+          }
+        }
+      }
     },
     "完成" : {
       "localizations" : {
@@ -817,13 +819,34 @@
       }
     },
     "导入" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import"
+          }
+        }
+      }
     },
     "导入成功" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import successfully"
+          }
+        }
+      }
     },
     "导入数据" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import data"
+          }
+        }
+      }
     },
     "导出" : {
       "localizations" : {
@@ -836,10 +859,24 @@
       }
     },
     "导出%d条通知消息" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export the %d notification message"
+          }
+        }
+      }
     },
     "导出成功" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export successfully"
+          }
+        }
+      }
     },
     "导出消息列表" : {
       "localizations" : {
@@ -992,7 +1029,14 @@
       }
     },
     "找到%1$d条数据" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found %1$d data"
+          }
+        }
+      }
     },
     "持续响铃" : {
       "localizations" : {
@@ -1135,10 +1179,24 @@
       }
     },
     "文件不存在" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File does not exist"
+          }
+        }
+      }
     },
     "文件格式错误" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File format error"
+          }
+        }
+      }
     },
     "新增服务器地址" : {
       "localizations" : {
@@ -1271,7 +1329,14 @@
       }
     },
     "标记" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markers"
+          }
+        }
+      }
     },
     "标题" : {
       "localizations" : {
@@ -1333,17 +1398,6 @@
         }
       }
     },
-    "注册成功" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Register  Successfully"
-          }
-        }
-      }
-    },
     "测试" : {
       "localizations" : {
         "en" : {
@@ -1375,7 +1429,14 @@
       }
     },
     "清空所有" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear all"
+          }
+        }
+      }
     },
     "清除" : {
       "localizations" : {
@@ -1658,15 +1719,11 @@
       }
     },
     "请输入自定义推送Key" : {
-
-    },
-    "请输入邮件地址" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : " email address Please"
+            "value" : "Please enter a custom push key"
           }
         }
       }
@@ -1701,19 +1758,15 @@
         }
       }
     },
-    "输入验证码" : {
-      "extractionState" : "stale",
+    "远程本地化地址: %1$@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter verification code"
+            "value" : "Remote localization address: %1$@"
           }
         }
       }
-    },
-    "远程本地化地址: %1$@" : {
-
     },
     "选择" : {
       "localizations" : {

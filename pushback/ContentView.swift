@@ -172,7 +172,7 @@ struct ContentView: View {
 		case .appIcon:
 			NavigationStack{
 				AppIconView()
-			}.presentationDetents([.medium])
+			}.presentationDetents([.height(300)])
 		case .web:
 			SFSafariView(url: manager.webUrl)
 				.ignoresSafeArea()

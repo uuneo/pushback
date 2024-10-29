@@ -13,7 +13,7 @@ struct ToolsSlideView<Content:View>: View {
 	@State var appearBackground = false
 	@State var viewState = CGSize.zero
 	var dismiss:()-> Void
-   
+	var leftButton:(()-> Void)? = nil
 	
 	var drag: some Gesture {
 		DragGesture()
@@ -52,6 +52,20 @@ struct ToolsSlideView<Content:View>: View {
 			
 			VStack{
 				HStack{
+					if let leftButton{
+						Button{
+							leftButton()
+						}label: {
+							Image(systemName: "rectangle.and.pencil.and.ellipsis")
+								.font(.system(size: 17, weight: .bold))
+								.foregroundColor(.secondary)
+								.padding(8)
+								.background(.ultraThinMaterial, in: Circle())
+						}
+						.offset(y: 50)
+						.padding()
+						.offset(x: appear ? 0 : -100)
+					}
 					Spacer()
 					Button {
 						dismissModal()

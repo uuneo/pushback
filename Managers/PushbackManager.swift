@@ -261,15 +261,16 @@ extension PushbackManager{
 	/// add server
 	func appendServer(server:PushServerModal, completion: @escaping (PushServerModal,String)-> Void ){
 		Task.detached(priority: .background) {
+			let isServer = Defaults[.servers].contains(where: {$0.url == server.url})
 			let (_, success, msg) = await self.health(url: server.url)
-			if success {
+			if !isServer, success {
 				await MainActor.run {
 					Defaults[.servers].insert(server, at: 0)
 				}
 				let (serverresult,msg) = await self.register(server: server)
 				completion(serverresult,msg)
 			}else{
-				completion(server ,msg ?? "")
+				completion(server , isServer ? String(localized: "服务器已存在") : (msg ?? ""))
 			}
 		}
 	}

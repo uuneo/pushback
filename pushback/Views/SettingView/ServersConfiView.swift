@@ -14,74 +14,14 @@ struct ServersConfigView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	
 	@State private var showAction:Bool = false
-	@State private var isEditing:EditMode = .inactive
 	@State private var serverText:String = ""
 	@State private var serverName:String = ""
 	@State private var pickerSelect:requestHeader = .https
 	var showClose:Bool = false
-	@State private  var animationError = false
-	private let timer = Timer.publish(every: 1.0, on: .current, in: .common).autoconnect()
+	@State private var showAddView:Bool = false
 	var body: some View {
 		NavigationStack{
 			List{
-				
-				if isEditing == .active{
-					
-					VStack(alignment: .leading){
-						Text(String(localized: "新增服务器地址"))
-							.font(.body.bold())
-							.foregroundStyle(.gray)
-							.padding(.vertical, 10)
-							.transition(.slide)
-						
-						TextField(String(localized: "输入服务器地址"), text: $serverName)
-							.textContentType(.flightNumber)
-							.keyboardType(.URL)
-							.autocapitalization(.none)
-							.disableAutocorrection(true)
-							.padding(.leading, 100)
-							.overlay{
-								HStack{
-									Picker(selection: $pickerSelect) {
-										Text(requestHeader.http.rawValue).tag(requestHeader.http)
-										Text(requestHeader.https.rawValue).tag(requestHeader.https)
-									}label:{}.pickerStyle(.automatic)
-										.frame(maxWidth: 100)
-										.offset(x:-20)
-									Spacer()
-								}
-								
-							}
-						
-						
-						HStack{
-							Button{
-								manager.webUrl = BaseConfig.delpoydoc
-								manager.fullPage = .web
-							}label: {
-								Text(String(localized: "查看服务器部署教程"))
-									.font(.caption2)
-							}
-							
-							Spacer()
-							
-							Button{
-								
-								_servers.reset()
-								
-							}label: {
-								Text(String(localized: "恢复默认服务器"))
-									.font(.caption2)
-							}
-							
-						}.padding(.vertical, 10)
-					}
-					.transition(.slide)
-					
-					
-					
-				}
-				
 	
 				ForEach(servers, id: \.id){ item in
 					HStack(alignment: .center){
@@ -93,7 +33,7 @@ struct ServersConfigView: View {
 									.foregroundStyle( Color.primary, .green)
 								
 							}else{
-								Image(systemName: animationError ? "antenna.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
+								Image(systemName: "antenna.radiowaves.left.and.right.slash")
 									.scaleEffect(1.5)
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(Color.primary, .red)
@@ -103,14 +43,6 @@ struct ServersConfigView: View {
 							
 						}
 						.padding(.horizontal,5)
-						.onReceive(timer) { _ in
-							if !item.status{
-								withAnimation {
-									self.animationError.toggle()
-								}
-							}
-							
-						}
 						
 						VStack{
 							HStack(alignment: .bottom){
@@ -175,14 +107,10 @@ struct ServersConfigView: View {
 					
 				}
 				.onDelete(perform: { indexSet in
-					if isEditing == .active{
-						if servers.count > 1{
-							servers.remove(atOffsets: indexSet)
-						}else{
-							Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
-						}
+					if servers.count > 1{
+						servers.remove(atOffsets: indexSet)
 					}else{
-						Toast.shared.present(title:String(localized: "编辑状态"), symbol: .info)
+						Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
 					}
 				})
 				.onMove(perform: { indices, newOffset in
@@ -196,25 +124,22 @@ struct ServersConfigView: View {
 			.listRowSpacing(20)
 			.refreshable {
 				// MARK: - 刷新策略
-				manager.registers()
-			}
-			
-			.toolbar{
-				
-				ToolbarItem {
-					Button {
-						manager.fullPage = .scan
-					} label: {
-						Image(systemName: "qrcode.viewfinder")
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(.tint, Color.primary)
-					}
+				manager.registers(){ result in
+					Toast.shared.present(title: String(localized: "操作成功"), symbol: .info)
 					
 				}
 				
+			}
+			.toolbar{
 				ToolbarItem {
 					withAnimation {
-						EditButton()
+						Button{
+							showAddView.toggle()
+						}label:{
+							Image(systemName: "externaldrive.badge.plus")
+								.symbolRenderingMode(.palette)
+								.foregroundStyle(Color.primary, Color.accentColor)
+						}
 					}
 					
 				}
@@ -232,24 +157,112 @@ struct ServersConfigView: View {
 					}
 				}
 			}
-			.environment(\.editMode, $isEditing)
 			.navigationTitle(String(localized: "服务器列表"))
+			.sheet(isPresented: $showAddView) {
+				
+				NavigationStack{
+					VStack(alignment: .leading){
+						
+						Spacer()
+						TextField(String(localized: "输入服务器地址"), text: $serverName)
+							.textContentType(.flightNumber)
+							.keyboardType(.URL)
+							.autocapitalization(.none)
+							.disableAutocorrection(true)
+							.padding(.leading, 100)
+							.overlay{
+								HStack{
+									Picker(selection: $pickerSelect) {
+										Text(requestHeader.http.rawValue).tag(requestHeader.http)
+										Text(requestHeader.https.rawValue).tag(requestHeader.https)
+									}label:{}
+									.pickerStyle(.automatic)
+									.frame(maxWidth: 100)
+									.offset(x:-20)
+									.contentShape(RoundedRectangle(cornerRadius: 20))
+									Spacer()
+								}
+								
+							}
+						Spacer()
+						
+						HStack{
+							Button{
+								manager.webUrl = BaseConfig.delpoydoc
+								manager.fullPage = .web
+							}label: {
+								Text(String(localized: "查看服务器部署教程"))
+									.font(.caption2)
+							}
+							
+							Spacer()
+							
+							Button{
+								
+								_servers.reset()
+								
+							}label: {
+								Text(String(localized: "恢复默认服务器"))
+									.font(.caption2)
+							}
+							
+						}.padding(.vertical, 20)
 			
-			.onChange(of: isEditing) { value in
-				if isEditing == .inactive && serverName.count > 0{
-					let serverUrl = "\(pickerSelect.rawValue)\(serverName)"
-					if serverUrl.isValidURL() == .remote {
-						let item = PushServerModal(url: serverUrl)
-						manager.appendServer(server: item){_,msg in
-							Toast.shared.present(title: msg, symbol: .info)
-							self.serverName = ""
-						}
 						
 					}
-					
+					.padding()
+	//				.presentationCornerRadius(20)
+					.presentationDetents([.height(320)])
+					.interactiveDismissDisabled()
+					.navigationTitle(String(localized: "新增服务器"))
+					.toolbar {
+						ToolbarItem(placement: .keyboard) {
+							HStack{
+								Spacer()
+								
+								Button{
+									if serverName.count > 0{
+										let serverUrl = "\(pickerSelect.rawValue)\(serverName)"
+										if serverUrl.isValidURL() == .remote {
+											let item = PushServerModal(url: serverUrl)
+											manager.appendServer(server: item){_,msg in
+												Toast.shared.present(title: msg, symbol: .info)
+												self.serverName = ""
+											}
+											
+										}
+										
+									}
+								}label:{
+									Text(String(localized: "添加"))
+								}
+							}
+							
+						}
+						
+						ToolbarItem(placement: .topBarLeading) {
+							Button(action: {
+								self.showAddView.toggle()
+							}, label: {
+								Image(systemName: "arrow.left")
+									.font(.title2)
+									.foregroundStyle(.gray)
+							})
+						}
+						
+						
+						ToolbarItem(placement: .topBarTrailing) {
+							Button {
+								manager.fullPage = .scan
+							} label: {
+								Image(systemName: "qrcode.viewfinder")
+									.symbolRenderingMode(.palette)
+									.foregroundStyle(.tint, Color.primary)
+							}
+						}
+					}
 					
 				}
-				
 			}
 			
 		}

@@ -1,17 +1,6 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    "" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " "
-          }
-        }
-      }
-    },
     " 删除成功" : {
       "localizations" : {
         "en" : {
@@ -1198,7 +1187,11 @@
         }
       }
     },
+    "新增服务器" : {
+
+    },
     "新增服务器地址" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1284,6 +1277,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Servers"
+          }
+        }
+      }
+    },
+    "服务器已存在" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server already exists"
           }
         }
       }
@@ -1428,6 +1431,9 @@
         }
       }
     },
+    "添加" : {
+
+    },
     "清空所有" : {
       "localizations" : {
         "en" : {
@@ -1499,6 +1505,7 @@
       }
     },
     "确认修改" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1569,6 +1576,7 @@
       }
     },
     "编辑状态" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

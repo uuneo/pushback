@@ -23,16 +23,12 @@ struct ImageDetailView:View {
 					.onAppear{
 						self.name = image
 					}
-					.overlay(alignment: .bottomTrailing){
-						AngularButton(title: "修改") {
-							self.showSheet.toggle()
-						}
-						.padding()
-					}
 					
 					
 			}dismiss: {
 				self.imageUrl = nil
+			}leftButton: {
+				self.showSheet.toggle()
 			}
 			
 			
@@ -43,14 +39,7 @@ struct ImageDetailView:View {
 			NavigationStack{
 				VStack(alignment: .leading){
 					
-					Button(action: {
-						self.showSheet.toggle()
-					}, label: {
-						Image(systemName: "arrow.left")
-							.font(.title2)
-							.foregroundStyle(.gray)
-					})
-					.padding(.top, 15)
+					
 					
 					Text("本地化地址")
 						.font(.largeTitle)
@@ -69,20 +58,7 @@ struct ImageDetailView:View {
 					.customField(icon: "pencil")
 					.padding(.vertical)
 					Spacer()
-					/// SignUp Button
-					AngularButton(title: String(localized: "确认修改")) {
-						/// YOUR CODE
-						Task.detached(priority: .high) {
-							let success = await ImageManager.renameImage(oldName: image, newName: name)
-							if success {
-								await MainActor.run {
-									self.imageUrl = nil
-									self.name = ""
-								}
-							}
-							
-						}
-					}
+					
 				}
 				.padding()
 //				.presentationCornerRadius(20)
@@ -92,14 +68,43 @@ struct ImageDetailView:View {
 					ToolbarItem(placement: .keyboard) {
 						HStack{
 							
-							Spacer()
 							Button{
 								self.name = ""
 							}label: {
 								Text("清除")
 							}
+							
+							Spacer()
+							
+							Button{
+								Task.detached(priority: .high) {
+									let success = await ImageManager.renameImage(oldName: image, newName: name)
+									if success {
+										await MainActor.run {
+											self.imageUrl = nil
+											self.name = ""
+										}
+									}
+									
+								}
+							}label: {
+								Text("完成")
+							}
+							
 						}
 					}
+					
+					
+					ToolbarItem(placement: .topBarLeading) {
+						Button(action: {
+							self.showSheet.toggle()
+						}, label: {
+							Image(systemName: "arrow.left")
+								.font(.title2)
+								.foregroundStyle(.gray)
+						})
+					}
+					
 				}
 			}
 		}

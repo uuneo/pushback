@@ -24,7 +24,7 @@ struct ImageDetailView:View {
 						self.name = image
 					}
 					.overlay(alignment: .bottomTrailing){
-						GradientButton(title: "修改", icon: "") {
+						AngularButton(title: "修改") {
 							self.showSheet.toggle()
 						}
 						.padding()
@@ -63,14 +63,14 @@ struct ImageDetailView:View {
 						.foregroundStyle(.gray)
 						.padding(.top, -5)
 					
-					TextField(text: $name.limit(10)) {
+					TextField(text: $name) {
 						Label("修改", systemImage: "pencil")
 					}
 					.customField(icon: "pencil")
 					.padding(.vertical)
 					
 					/// SignUp Button
-					GradientButton(title: String(localized: "确认修改"), icon: "arrow.right.circle.dotted") {
+					AngularButton(title: String(localized: "确认修改")) {
 						/// YOUR CODE
 						Task.detached(priority: .high) {
 							let success = await ImageManager.renameImage(oldName: image, newName: name)
@@ -83,7 +83,6 @@ struct ImageDetailView:View {
 							
 						}
 					}
-					.hSpacing(.trailing)
 				}
 				.padding()
 //				.presentationCornerRadius(20)

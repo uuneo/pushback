@@ -10,7 +10,7 @@ import RealmSwift
 
 struct MessageView: View {
 	
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@ObservedRealmObject var message:Message
 	
     var searchText:String = ""
@@ -139,7 +139,7 @@ struct MessageView: View {
             .frame(width: 300)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
-			.environmentObject(PushBackManager.shared)
+			.environmentObject(PushbackManager.shared)
         
     }.listStyle(GroupedListStyle())
     

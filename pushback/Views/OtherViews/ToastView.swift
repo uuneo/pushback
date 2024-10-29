@@ -41,19 +41,35 @@ struct RootView<Content: View>: View {
 	}
 }
 
+
+
 fileprivate class PassthroughWindow: UIWindow {
 	override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-		guard let view = super.hitTest(point, with: event) else { return nil }
-		//		return  view.subviews.count > 1 ? view : nil
-		if Toast.shared.toasts.count > 0{
-			withAnimation(.snappy) {
-				Toast.shared.toasts.removeAll()
+		guard let hitView = super.hitTest(point, with: event),
+				let rootView = rootViewController?.view
+		else { return nil }
+		
+		if #available(iOS 18, *) {
+			for subview in rootView.subviews.reversed() {
+				/// Finding if any of rootview's is receving hit test
+				let pointInSubView = subview.convert(point, from: rootView)
+				if subview.hitTest(pointInSubView, with: event) != nil {
+					return hitView
+				}
 			}
+			
+			return nil
+		} else {
+			return hitView == rootView ? nil : hitView
 		}
-		return rootViewController?.view == view ? nil : view
-
 	}
 }
+
+
+
+
+
+
 
 class Toast: ObservableObject {
 	static let shared = Toast()
@@ -62,32 +78,39 @@ class Toast: ObservableObject {
 	
 	
 	
-	func present(title: String, symbol: String?, tint: Color = .primary, timing: ToastTime = .medium) {
-		
-		withAnimation(.snappy) {
-			toasts.append(
-				.init(
-					title: title,
-					symbol: symbol,
-					tint: tint,
-					timing: timing
+	func present(title: String, symbol: String?, tint: Color = .primary,isUserInteractionEnabled:Bool = true, timing: ToastTime = .medium) {
+		DispatchQueue.main.async{
+			withAnimation(.snappy) {
+				self.toasts.append(
+					.init(
+						title: title,
+						symbol: symbol,
+						tint: tint,
+						isUserInteractionEnabled: true,
+						timing: timing
+					)
 				)
-			)
+			}
 		}
 	}
 	
-	func present(title: String, symbol: ToastSymbol?, tint: Color = .primary, timing: ToastTime = .medium) {
+	func present(title: String, symbol: ToastSymbol?, tint: Color = .primary,isUserInteractionEnabled:Bool = true ,timing: ToastTime = .medium) {
 		
-		withAnimation(.snappy) {
-			toasts.append(
-				.init(
-					title: title,
-					symbol: symbol?.rawValue,
-					tint: symbol != nil ? symbol!.color  : tint,
-					timing: timing
+		DispatchQueue.main.async{
+			withAnimation(.snappy) {
+				self.toasts.append(
+					.init(
+						title: title,
+						symbol: symbol?.rawValue,
+						tint: symbol != nil ? symbol!.color  : tint,
+						isUserInteractionEnabled: isUserInteractionEnabled,
+						timing: timing
+					)
 				)
-			)
+			}
 		}
+		
+	
 	}
 }
 
@@ -97,6 +120,7 @@ fileprivate struct ToastItem: Identifiable {
 	var title: String
 	var symbol: String?
 	var tint: Color
+	var isUserInteractionEnabled: Bool
 	/// Timing
 	var timing: ToastTime = .medium
 }
@@ -142,6 +166,8 @@ fileprivate struct ToastGroup: View {
 				}
 			}
 			
+			
+			
 			.padding(.bottom, safeArea.top == .zero ? 15 : 10)
 			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
 		}
@@ -186,6 +212,19 @@ fileprivate struct ToastView: View {
 				
 		)
 		.contentShape(.capsule)
+		.gesture(
+			DragGesture(minimumDistance: 0)
+				.onEnded({ value in
+					guard item.isUserInteractionEnabled else { return }
+					let endY = value.translation.height
+					let velocityY = value.velocity.height
+					
+					if (endY + velocityY) > 100 {
+						/// Removing Toast
+						removeToast()
+					}
+				})
+		)
 		.onAppear {
 			guard delayTask == nil else { return }
 			delayTask = .init(block: {
@@ -199,6 +238,7 @@ fileprivate struct ToastView: View {
 		/// Limiting Size
 		.frame(maxWidth: size.width * 0.7)
 		.transition(.offset(y: 150))
+	
 	}
 	
 	func removeToast() {

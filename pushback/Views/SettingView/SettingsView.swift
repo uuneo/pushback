@@ -19,7 +19,7 @@ struct exportJsonData:Identifiable{
 struct SettingsView: View {
 	
 	
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@ObservedResults(Message.self) var messages
 	@Default(.appIcon) var setting_active_app_icon
 	@Default(.isMessageStorage) var  isMessageStorage
@@ -427,7 +427,7 @@ struct SettingsView: View {
 #Preview {
 	NavigationStack{
 		SettingsView()
-			.environmentObject(PushBackManager.shared)
+			.environmentObject(PushbackManager.shared)
 	}
 	
 }

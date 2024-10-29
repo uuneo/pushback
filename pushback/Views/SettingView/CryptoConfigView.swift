@@ -10,7 +10,7 @@ import Defaults
 
 struct CryptoConfigView: View {
 	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@Default(.cryptoConfig) var cryptoConfig
 	@Default(.servers) var servers
 	var expectKeyLength:Int {
@@ -288,5 +288,5 @@ struct CryptoConfigView: View {
 
 #Preview {
 	CryptoConfigView()
-		.environmentObject(PushBackManager.shared)
+		.environmentObject(PushbackManager.shared)
 }

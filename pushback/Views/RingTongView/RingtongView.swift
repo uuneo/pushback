@@ -11,7 +11,7 @@ import UIKit
 
 struct RingtongView: View {
 	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@State private var showUpload:Bool = false
 	
 	var body: some View {
@@ -108,6 +108,6 @@ struct RingtongView: View {
 
 #Preview {
 	RingtongView()
-		.environmentObject(PushBackManager.shared)
+		.environmentObject(PushbackManager.shared)
 	
 }

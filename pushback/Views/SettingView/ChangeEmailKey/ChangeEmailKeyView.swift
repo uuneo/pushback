@@ -1,5 +1,5 @@
 //
-//  ChangeEmailKeyView.swift
+// ChangeKeyView.swift
 //  pushback
 //
 //  Created by He Cho on 2024/10/13.
@@ -8,8 +8,8 @@
 
 import SwiftUI
 
-struct ChangeKeyWithEmailView: View {
-	@EnvironmentObject private var manager:PushBackManager
+struct ChangeKeyView: View {
+	@EnvironmentObject private var manager:PushbackManager
 	@State var appear = false
 	@State var appearBackground = false
 	@State var viewState = CGSize.zero
@@ -117,5 +117,5 @@ struct ChangeKeyWithEmailView: View {
 }
 
 #Preview {
-	ChangeKeyWithEmailView()
+	ChangeKeyView()
 }

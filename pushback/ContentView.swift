@@ -13,7 +13,7 @@ import UniformTypeIdentifiers
 struct ContentView: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.scenePhase) private var scenePhase
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@StateObject private var monitor = Monitors()
 	@ObservedResults(Message.self) private var messages
 	@Default(.servers) private var servers
@@ -135,7 +135,7 @@ struct ContentView: View {
 		
 		switch manager.fullPage {
 		case .login:
-			ChangeKeyWithEmailView()
+			ChangeKeyView()
 		case .servers:
 			ServersConfigView(showClose: true)
 		case .music:
@@ -268,5 +268,5 @@ extension ContentView{
 
 #Preview {
 	ContentView()
-		.environmentObject(PushBackManager.shared)
+		.environmentObject(PushbackManager.shared)
 }

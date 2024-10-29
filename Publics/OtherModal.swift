@@ -9,6 +9,7 @@ import SwiftUI
 import Defaults
 import Foundation
 
+
 // MARK: - Remote Response
 struct baseResponse<T:Codable>: Codable{
 	var code:Int
@@ -20,15 +21,24 @@ struct baseResponse<T:Codable>: Codable{
 struct DeviceInfo: Codable {
 	var deviceKey: String
 	var deviceToken: String
-	var pawKey: String
 
 	// 使用 `CodingKeys` 枚举来匹配 JSON 键和你的变量命名
 	enum CodingKeys: String, CodingKey {
-		case deviceKey = "device_key"
-		case deviceToken = "device_token"
-		case pawKey = "key"
+		case deviceKey = "key"
+		case deviceToken = "token"
 	}
 }
+
+struct ChangeKeyInfo:Codable{
+	var oldKey:String
+	var newKey:String
+	var deviceToken:String
+}
+
+
+
+
+
 
 struct ServersForSync:Codable{
 	var key,url:String

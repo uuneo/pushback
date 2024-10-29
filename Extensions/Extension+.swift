@@ -379,3 +379,20 @@ extension Notification.Name {
 	static let messagePreview = Notification.Name("messagePreview")
 	static let imageFileCount = Notification.Name("imageFileCount")
 }
+
+
+
+extension Encodable {
+	func toDictionary() -> [String: Any]? {
+		// 1. 使用 JSONEncoder 将结构体编码为 JSON 数据
+		let encoder = JSONEncoder()
+		guard let data = try? encoder.encode(self) else { return nil }
+		
+		// 2. 使用 JSONSerialization 将 JSON 数据转换为字典
+		guard let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+			return nil
+		}
+		
+		return dictionary
+	}
+}

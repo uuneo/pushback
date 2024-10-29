@@ -12,7 +12,7 @@ import Defaults
 
 struct ImageCacheView: View {
 	
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@Default(.photoName) var photoName
 	@Default(.images) var images
 	@State private var isSelect:Bool = false
@@ -105,7 +105,7 @@ struct ImageCacheView: View {
 				.padding(.horizontal, 10)
 				
 			}
-//			.safeAreaPadding(.bottom, 50)
+			.padding(.bottom, 50)
 			
 			if let imageDetail {
 				ImageDetailView(image: imageDetail,imageUrl: $imageDetail )
@@ -328,5 +328,5 @@ struct ImageCacheView: View {
 
 #Preview {
 	ImageCacheView()
-		.environmentObject(PushBackManager.shared)
+		.environmentObject(PushbackManager.shared)
 }

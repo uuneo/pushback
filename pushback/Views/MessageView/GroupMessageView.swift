@@ -13,7 +13,7 @@ struct GroupMessageView: View {
 	
 	@ObservedSectionedResults(Message.self,sectionKeyPath: \.group,sortDescriptors: [ SortDescriptor(keyPath: "createDate", ascending: false)]) var messages
 	
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	@Default(.appIcon) private var appicon
 	@State private var showAction = false
 	@State private var helpviewSize:CGSize = .zero
@@ -230,5 +230,5 @@ struct GroupMessageView: View {
 
 #Preview {
 	GroupMessageView()
-		.environmentObject(PushBackManager.shared)
+		.environmentObject(PushbackManager.shared)
 }

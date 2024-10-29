@@ -2,6 +2,7 @@
   "sourceLanguage" : "zh-Hans",
   "strings" : {
     "" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -48,6 +49,7 @@
       }
     },
     "**重试**" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -228,6 +230,7 @@
       }
     },
     "一个6位数的代码已发送到您的邮箱" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -460,6 +463,9 @@
         }
       }
     },
+    "修改失败" : {
+
+    },
     "修改成功" : {
       "localizations" : {
         "en" : {
@@ -491,6 +497,7 @@
       }
     },
     "关闭键盘" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -795,6 +802,9 @@
           }
         }
       }
+    },
+    "字符数小于3" : {
+
     },
     "完成" : {
       "localizations" : {
@@ -1324,6 +1334,7 @@
       }
     },
     "注册成功" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1646,7 +1657,11 @@
         }
       }
     },
+    "请输入自定义推送Key" : {
+
+    },
     "请输入邮件地址" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1687,6 +1702,7 @@
       }
     },
     "输入验证码" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

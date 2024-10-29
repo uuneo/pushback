@@ -11,7 +11,7 @@ import Defaults
 struct ServersConfigView: View {
 	@Environment(\.dismiss) var dismiss
 	@Default(.servers) var servers
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
 	
 	@State private var showAction:Bool = false
 	@State private var isEditing:EditMode = .inactive
@@ -196,11 +196,10 @@ struct ServersConfigView: View {
 					
 				}
 				.listRowSpacing(20)
-//				.safeAreaPadding(.top, 20)
+				.padding(.top, 30)
 				.refreshable {
 					// MARK: - 刷新策略
 					manager.registers()
-					Toast.shared.present(title:String(localized: "注册成功"), symbol: .success)
 				}
 				
 				
@@ -266,7 +265,7 @@ struct ServersConfigView: View {
 
 #Preview {
 	ServersConfigView()
-		.environmentObject(PushBackManager.shared)
+		.environmentObject(PushbackManager.shared)
 }
 
 

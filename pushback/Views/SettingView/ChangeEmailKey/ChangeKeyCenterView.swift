@@ -10,31 +10,18 @@ import SwiftUI
 import Defaults
 
 struct ChnageKeyCenterView: View {
-	@State private var emailName:String = ""
-	@State private var codeNumber:String = ""
-	@State private var isCountingDown:Bool = false
+	@EnvironmentObject private var manager:PushbackManager
+	
+	@State private var keyName:String = ""
 	
 	@State private var appear = [false, false, false]
 	@State private var circleInitialY:CGFloat = CGFloat.zero
 	@State private var circleY:CGFloat = CGFloat.zero
 	
-	@State private var countdown:Int = 180
-	@FocusState private var isPhoneFocused: Bool
-	@FocusState private var isCodeFocused: Bool
-	
-	
-	@State private var loadingText:String = ""
-	
-	private let timer = Timer.publish(every: 1, on: .current, in: .common).autoconnect()
-
-	private var filedColor:Color{
-		emailName.isValidEmail() ? .blue : .red
-	}
-	
 	@Default(.servers) var servers
 	@State private var selectServer:PushServerModal
-	@State private var askOTP:Bool = false
-	@State private var otpText:String = ""
+	
+	@FocusState private var isPhoneFocused
 	
 	init(){
 		self.selectServer = Defaults[.servers].first!
@@ -69,13 +56,13 @@ struct ChnageKeyCenterView: View {
 				}
 				.tint(Color.primary)
 				.pickerStyle(DefaultPickerStyle())
-				
+
 			}
 			
 			
 			
 			VStack{
-				EmailAdderss()
+				InputKey()
 				
 				CodeButton()
 			}
@@ -92,17 +79,6 @@ struct ChnageKeyCenterView: View {
 						// MARK: - 打开web页面
 					}
 				Spacer()
-				if self.countdown != 180{
-					Button(action: {
-						self.countdown = 0
-						self.codeNumber = ""
-						self.isCodeFocused = false
-						self.isCountingDown = false
-			
-					}) {
-						Text(String(localized: "**重试**"))
-					}
-				}
 				
 	 
 			}
@@ -123,44 +99,14 @@ struct ChnageKeyCenterView: View {
 		)
 		.modifier(OutlineModifier(cornerRadius: 30))
 		.onAppear { animate() }
-		.onChange(of: isCountingDown) { value in
-			if value{
-//				self.startCountdown()
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-					self.isPhoneFocused.toggle()
-					self.isCodeFocused.toggle()
-				}
-			}
-		}
-		.sheet(isPresented: $askOTP){
-			OTPView(otpText: $otpText)
-				.presentationDetents([.height(350)])
-//				.presentationCornerRadius(30)
-				.background(
-					CircleView()
-					
-				)
-	
-		}
+
 		
 
 	}
 	
 	@ViewBuilder
-	func CircleView() -> some View {
-		Circle()
-			.fill(.linearGradient(colors: [.appYellow, .orange, .red], startPoint: .top, endPoint: .bottom))
-			.frame(width: 200, height: 200)
-			/// Moving When the Signup Pages Loads/Dismisses
-			.offset(x: 90, y: -90 )
-			.blur(radius: 15)
-			.vSpacing(.top)
-	}
-	
-	
-	@ViewBuilder
-	func EmailAdderss()-> some View{
-		TextField(String(localized: "请输入邮件地址"), text: $emailName)
+	func InputKey()-> some View{
+		TextField(String(localized: "请输入自定义推送Key"), text: $keyName)
 			.textContentType(.flightNumber)
 			.keyboardType(.emailAddress)
 			.autocapitalization(.none)
@@ -169,17 +115,15 @@ struct ChnageKeyCenterView: View {
 			.customField(
 				icon: "envelope.fill"
 			)
-			.foregroundStyle(filedColor)
 			.overlay(
 				GeometryReader { proxy in
 					let offset = proxy.frame(in: .named("stack")).minY + 32
 					Color.clear.preference(key: CirclePreferenceKey.self, value: offset)
 					
+				}.onPreferenceChange(CirclePreferenceKey.self) { value in
+					circleInitialY = value
+					circleY = value
 				}
-					.onPreferenceChange(CirclePreferenceKey.self) { value in
-						circleInitialY = value
-						circleY = value
-					}
 			)
 			.focused($isPhoneFocused)
 			.onChange(of: isPhoneFocused) { value in
@@ -192,15 +136,28 @@ struct ChnageKeyCenterView: View {
 			.onTapGesture {
 				self.isPhoneFocused = true
 			}
-			.disabled(isCountingDown)
 	}
 	
 	
 	@ViewBuilder
 	private func CodeButton()-> some View{
 		VStack{
-			GradientButton(title: "获取验证码", icon: "arrow.right.circle.dotted") {
-				self.askOTP.toggle()
+			AngularButton(title: String(localized: "修改Key")) {
+				if keyName.count > 3{
+					
+					// TODO: - 修改key
+					Task.detached {
+						let success = await PushbackManager.shared.changeKey(server: selectServer, newKey: self.keyName)
+						
+						if success{
+							await MainActor.run {
+								manager.fullPage = .none
+							}
+						}
+					}
+				}else{
+					Toast.shared.present(title: String(localized: "字符数小于3"), symbol: .info)
+				}
 				
 				
 			}
@@ -232,6 +189,8 @@ struct ChnageKeyCenterView: View {
 		return (false, "")
 	}
 }
+
+
 
 #Preview {
 	ChnageKeyCenterView()

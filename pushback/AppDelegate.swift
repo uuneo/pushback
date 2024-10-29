@@ -31,14 +31,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 		
+	
 		
-		let deviceTokenDisk = Defaults[.deviceToken]
-		
-		if deviceTokenDisk != token{
+		if Defaults[.deviceToken] != token{
 			
 			Defaults[.deviceToken] = token
 			// MARK: 注册设备
-			PushBackManager.shared.registers()
+			PushbackManager.shared.registers()
 		}
 		
 		
@@ -125,7 +124,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		if let urlStr = userInfo["url"] as? String,
 		   let url = URL(string: urlStr)
 		{
-			PushBackManager.shared.openUrl(url: url, unOpen: nil)
+			PushbackManager.shared.openUrl(url: url, unOpen: nil)
 		}
 	}
 	

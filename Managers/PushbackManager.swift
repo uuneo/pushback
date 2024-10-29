@@ -1,5 +1,5 @@
 //
-//  PushBackManager.swift
+//  PushbackManager.swift
 //  pushback
 //
 //  Created by He Cho on 2024/10/26.
@@ -9,8 +9,8 @@ import SwiftUI
 import Defaults
 
 
-class PushBackManager: ObservableObject{
-	static let shared = PushBackManager()
+class PushbackManager: ObservableObject{
+	static let shared = PushbackManager()
 	
 	private let session = URLSession(configuration: .default)
 	
@@ -57,14 +57,83 @@ class PushBackManager: ObservableObject{
 		/// get sound file list
 		getFileList()
 	}
+	
+	
+}
+
+extension PushbackManager{
 	// MARK: - Remote Request
 	
+	enum requestMethod:String{
+		case get = "GET"
+		case post = "POST"
+		
+		var method:String{
+			self.rawValue
+		}
+	}
+	
 	/// Request Data
-	func fetch<T:Codable>(url:String) async throws -> T?{
-		guard let requestUrl = URL(string: url) else {return  nil}
-		let data = try await session.data(for: URLRequest(url: requestUrl))
+	func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any]? = nil) async throws -> T? {
+		// 根据请求方法和参数构建请求 URL
+		var requestUrl = URL(string: url)
+		
+		// 如果是 GET 请求且有参数，将参数拼接到 URL 上
+		if method == .get, let params = params {
+			var urlComponents = URLComponents(string: url)
+			urlComponents?.queryItems = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+			requestUrl = urlComponents?.url
+		}
+		
+		// 检查 URL 是否有效
+		guard let finalUrl = requestUrl else { return nil }
+		
+		// 创建 URLRequest
+		var request = URLRequest(url: finalUrl)
+		request.httpMethod = method.method
+		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+		
+		// 如果是 POST 请求且有参数，将参数编码为 JSON 并设置为请求体
+		if method == .post, let params = params {
+			request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+		}
+		
+		// 发送请求并解析响应
+		let (data, _) = try await URLSession.shared.data(for: request)
 		let result = try JSONDecoder().decode(T.self, from: data)
 		return result
+	}
+	
+	func changeKey(server:PushServerModal, newKey:String) async -> Bool{
+		
+		do{
+			
+			
+			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toDictionary()
+			
+			if let response:baseResponse<ChangeKeyInfo> = try await self.fetch(url: "\(server.url)/change",method: .post, params: params),
+			   let index = Defaults[.servers].firstIndex(where: {$0.id == server.id}){
+				if let data = response.data{
+					Defaults[.servers][index].key = data.newKey
+					Toast.shared.present(title: String(localized: "修改成功"), symbol: .success)
+					return true
+				}else{
+					Toast.shared.present(title: response.message, symbol: .error)
+					return false
+				}
+				
+			}
+			   
+			
+		}catch{
+			debugPrint(error.localizedDescription)
+			Toast.shared.present(title: error.localizedDescription, symbol: .error)
+			return false
+		}
+		
+		Toast.shared.present(title: String(localized: "修改失败"), symbol: .error)
+		
+		return false
 	}
 	
 	/// Update Server Status
@@ -151,12 +220,17 @@ class PushBackManager: ObservableObject{
 		do{
 			let deviceToken = Defaults[.deviceToken]
 			if let index = Defaults[.servers].firstIndex(of: server){
-				let url = server.url + "/register/" + deviceToken + "/" + server.key
+			
+				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toDictionary()
 				
-				let response:baseResponse<DeviceInfo>? = try await self.fetch(url: url)
+				
+				let response:baseResponse<DeviceInfo>? = try await self.fetch(url: server.url + "/register",method: .post, params: params)
+				
 				if let response = response,
 				   let data = response.data
 				{
+					
+					
 					DispatchQueue.main.async{
 						Defaults[.servers][index].key = data.deviceKey
 						Defaults[.servers][index].status = true
@@ -200,6 +274,12 @@ class PushBackManager: ObservableObject{
 		}
 	}
 	
+	
+	
+}
+
+
+extension PushbackManager{
 	// MARK: - Tools Function
 	
 	/// Copy information to clipboard
@@ -341,9 +421,6 @@ class PushBackManager: ObservableObject{
 		}
 		try? manager.copyItem(at: sourceUrl, to: destinationUrl)
 	}
-	
-	
 }
-
 
 

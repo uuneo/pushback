@@ -53,7 +53,7 @@
 		19C13C302CCC8C0D00A2F1A8 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */; };
 		19C13C312CCC8C0D00A2F1A8 /* Monitors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2A2CCC8C0D00A2F1A8 /* Monitors.swift */; };
 		19C13C322CCC8C0D00A2F1A8 /* RealmProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C292CCC8C0D00A2F1A8 /* RealmProxy.swift */; };
-		19C13C342CCC8C9900A2F1A8 /* PushBackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C332CCC8C8500A2F1A8 /* PushBackManager.swift */; };
+		19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */; };
 		19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
 		19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
 		19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
@@ -194,7 +194,7 @@
 		19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		19C13C2C2CCC8C0D00A2F1A8 /* BsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsyncImageView.swift; sourceTree = "<group>"; };
 		19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cryptoManager.swift; sourceTree = "<group>"; };
-		19C13C332CCC8C8500A2F1A8 /* PushBackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushBackManager.swift; sourceTree = "<group>"; };
+		19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushbackManager.swift; sourceTree = "<group>"; };
 		19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModal.swift; sourceTree = "<group>"; };
 		19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherModal.swift; sourceTree = "<group>"; };
 		19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
@@ -408,7 +408,7 @@
 		19C13C162CCC8A0F00A2F1A8 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				19C13C332CCC8C8500A2F1A8 /* PushBackManager.swift */,
+				19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */,
 				19C13C292CCC8C0D00A2F1A8 /* RealmProxy.swift */,
 				19C13C2A2CCC8C0D00A2F1A8 /* Monitors.swift */,
 				19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */,
@@ -668,7 +668,7 @@
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
 				19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */,
 				19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */,
-				19C13C342CCC8C9900A2F1A8 /* PushBackManager.swift in Sources */,
+				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
 				19C13C7D2CCC965B00A2F1A8 /* PushExampleModal.swift in Sources */,
 				19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */,
 			);

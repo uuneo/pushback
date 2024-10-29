@@ -11,7 +11,7 @@ import Defaults
 
 
 struct RingtoneItemView: View {
-	@EnvironmentObject private var manager:PushBackManager
+	@EnvironmentObject private var manager:PushbackManager
     var audio:URL
     @State var duration:Double = 0.0
 	@Default(.sound) var sound

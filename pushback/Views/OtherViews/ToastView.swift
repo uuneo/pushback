@@ -216,10 +216,10 @@ fileprivate struct ToastView: View {
 			DragGesture(minimumDistance: 0)
 				.onEnded({ value in
 					guard item.isUserInteractionEnabled else { return }
-					let endY = value.translation.height
-					let velocityY = value.velocity.height
+					let endX = value.translation.width
+					let velocityX = value.velocity.width
 					
-					if (endY + velocityY) > 100 {
+					if (abs(endX) + velocityX) > 100 {
 						/// Removing Toast
 						removeToast()
 					}

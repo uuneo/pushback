@@ -68,7 +68,7 @@ struct ImageDetailView:View {
 					}
 					.customField(icon: "pencil")
 					.padding(.vertical)
-					
+					Spacer()
 					/// SignUp Button
 					AngularButton(title: String(localized: "确认修改")) {
 						/// YOUR CODE
@@ -86,7 +86,7 @@ struct ImageDetailView:View {
 				}
 				.padding()
 //				.presentationCornerRadius(20)
-				.presentationDetents([.height(300)])
+				.presentationDetents([.height(320)])
 				.interactiveDismissDisabled()
 				.toolbar {
 					ToolbarItem(placement: .keyboard) {

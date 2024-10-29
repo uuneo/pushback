@@ -236,20 +236,7 @@ struct SettingsView: View {
 						}.onChange(of: badgeMode) { newValue in
 							RealmProxy.ChangeBadge()
 						}
-						
-						//					NavigationLink(destination:
-						//									EmailPageView() .toolbar(.hidden, for: .tabBar)
-						//					) {
-						//
-						//						Label {
-						//							Text(String(localized:"mailTitle", comment: "自动化配置"))
-						//						} icon: {
-						//							Image(systemName: "paperclip")
-						//								.scaleEffect(0.9)
-						//						}
-						//					}
-						//
-						
+
 						NavigationLink(destination:
 										CryptoConfigView()
 							.toolbar(.hidden, for: .tabBar)

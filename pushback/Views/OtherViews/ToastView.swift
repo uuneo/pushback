@@ -219,7 +219,7 @@ fileprivate struct ToastView: View {
 					let endX = value.translation.width
 					let velocityX = value.velocity.width
 					
-					if (abs(endX) + velocityX) > 100 {
+					if (abs(endX) + velocityX) > 50 {
 						/// Removing Toast
 						removeToast()
 					}

@@ -84,8 +84,7 @@ struct ServersConfigView: View {
 						
 					}
 					
-					
-					
+		
 					ForEach(servers, id: \.id){ item in
 						HStack(alignment: .center){
 							VStack{
@@ -194,9 +193,9 @@ struct ServersConfigView: View {
 					
 					
 					
+					
 				}
 				.listRowSpacing(20)
-				.padding(.top, 30)
 				.refreshable {
 					// MARK: - 刷新策略
 					manager.registers()

@@ -215,7 +215,7 @@ struct ImageCacheView: View {
 	@ViewBuilder
 	private func ImageCacheHeaderView() -> some View{
 		HStack{
-			Label(String(localized:  "相册名"), systemImage: "photo.badge.plus")
+			Label(String(localized:  "相册名"), systemImage: "text.below.photo")
 				.symbolRenderingMode(.palette)
 				.foregroundStyle( .tint, Color.primary)
 			

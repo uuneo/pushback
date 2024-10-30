@@ -20,11 +20,11 @@ struct CryptoConfigView: View {
 	var labelIcoc:String{
 		switch cryptoConfig.algorithm{
 		case .AES128:
-			"gauge.with.dots.needle.bottom.0percent"
+			"gauge.low"
 		case .AES192:
-			"gauge.with.dots.needle.bottom.50percent"
+			"gauge.medium"
 		case .AES256:
-			"gauge.with.dots.needle.bottom.100percent"
+			"gauge.high"
 		}
 	}
 	
@@ -163,7 +163,7 @@ struct CryptoConfigView: View {
 				Button {
 					createCopyText()
 				} label: {
-					Label(String(localized:  "复制发送脚本"), systemImage: "document.on.document")
+					Label(String(localized:  "复制发送脚本"), systemImage: "doc.on.doc")
 						.symbolRenderingMode(.palette)
 						.foregroundStyle(.white, Color.primary)
 						.padding(.horizontal)

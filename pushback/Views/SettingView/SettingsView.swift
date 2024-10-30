@@ -76,7 +76,7 @@ struct SettingsView: View {
 						HStack{
 							ShareLink(item: MessageExportJson(data: Array(messages)), preview:
 										SharePreview(Text(String(format: String(localized: "导出%d条通知消息"), messages.count)), image: Image("json_png"), icon: "trash")) {
-								Label(String(localized: "导出"), systemImage: "arrow.up.circle.dotted")
+								Label(String(localized: "导出"), systemImage: "arrow.up.circle")
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
 							}
@@ -90,7 +90,7 @@ struct SettingsView: View {
 						}label: {
 							HStack{
 								
-								Label(String(localized: "导入"), systemImage: "arrow.down.circle.dotted")
+								Label(String(localized: "导入"), systemImage: "arrow.down.circle")
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
 								

@@ -78,6 +78,11 @@ struct ContentView: View {
 		.task {
 			for await value in Defaults.updates(.servers) {
 				PushServerCloudKit.shared.updatePushServers(items: value)
+				
+				try? await Task.sleep(for: .seconds(0.5))
+				await MainActor.run {
+					manager.registers()
+				}
 			}
 		}
 		
@@ -147,7 +152,6 @@ struct ContentView: View {
 		case .scan:
 			ScanView { code in
 				manager.appendServer(server: PushServerModal(url: code)) { server, msg in
-					
 					Toast.shared.present(title: msg, symbol: "document.viewfinder")
 				}
 				

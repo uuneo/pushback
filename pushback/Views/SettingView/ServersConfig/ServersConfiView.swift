@@ -123,6 +123,20 @@ struct ServersConfigView: View {
 			List{
 				VStack(alignment: .leading){
 					
+					HStack{
+						Spacer()
+						Text(String(localized: "查看服务器部署教程"))
+							.font(.caption2)
+							.foregroundStyle(Color.accentColor)
+							.onTapGesture {
+								manager.webUrl = BaseConfig.delpoydoc
+								manager.fullPage = .web
+							}
+						
+						
+						
+					}.padding(.top, 20)
+					
 					Spacer()
 					TextField(String(localized: "输入服务器地址"), text: $serverName)
 						.textContentType(.flightNumber)
@@ -136,54 +150,59 @@ struct ServersConfigView: View {
 									Text(requestHeader.http.rawValue).tag(requestHeader.http)
 									Text(requestHeader.https.rawValue).tag(requestHeader.https)
 								}label:{}
-								.pickerStyle(.automatic)
-								.frame(maxWidth: 100)
-								.offset(x:-20)
-								.contentShape(RoundedRectangle(cornerRadius: 20))
+									.pickerStyle(MenuPickerStyle())
+									.frame(maxWidth: 100)
+									.offset(x:-20)
+						
 								Spacer()
 							}
 							
 						}
+						.padding()
+						.background(.background)
+						
 					
 					Spacer()
 					
-					HStack{
-						Button{
-							manager.webUrl = BaseConfig.delpoydoc
-							manager.fullPage = .web
-						}label: {
-							Text(String(localized: "查看服务器部署教程"))
-								.font(.caption2)
-						}
-						
-						Spacer()
-						
-						
-					}.padding(.vertical, 20)
+					
 					
 				}
 				.listRowBackground(Color.clear)
 				.listRowInsets(.init())
 				
 				
+				
+				
+				
 				if  self.cloudDatas.count > 0{
-					HStack{
-						Spacer()
-						Text("历史服务器和key")
-							.font(.title3)
-							.fontWeight(.heavy)
-							.padding(.top, 5)
-						Spacer()
-					}
-					.listRowInsets(.init())
-					.listRowBackground(Color.clear)
-					.padding(.bottom)
 					
-					ForEach(self.cloudDatas, id: \.id){ item in
-						ServerCardView(item: item){ result in
-							debugPrint(result)
+					Section{
+						
+						
+						ForEach(self.cloudDatas, id: \.id){ item in
+							ServerCardView(item: item){ result in
+								if servers.count(where: {$0.url == result.url && $0.key == result.key}) != 0{
+									Toast.shared.present(title: String(localized: "服务器已经存在"), symbol: .info)
+								}else{
+									restorePushServerModals(cloudItem: result)
+									self.showAddView.toggle()
+								}
+								
+							}
+							.padding(.vertical,5)
 						}
+					}header: {
+						HStack{
+							
+							Text("历史服务器和key")
+								.font(.headline)
+								.fontWeight(.medium)
+								
+							Spacer()
+						}
+						.padding(.bottom)
 					}
+					
 				}
 				
 				
@@ -248,11 +267,21 @@ struct ServersConfigView: View {
 				}
 			}
 			
-			
 		}
-		.presentationDetents([.medium])
+		.presentationDetents([.height(300),.medium,.large])
 	}
 	
+	func restorePushServerModals( cloudItem: PushServerModal){
+		
+		if let index = servers.firstIndex(where: {$0.url == cloudItem.url}){
+			
+			servers[index] = cloudItem
+		}else{
+			servers.insert(cloudItem, at: 0)
+		}
+		
+		
+	}
 }
 
 #Preview {

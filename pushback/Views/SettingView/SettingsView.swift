@@ -142,7 +142,7 @@ struct SettingsView: View {
 										.lineLimit(1)
 										.foregroundStyle(.textBlack)
 								} icon: {
-									Image(systemName: "key.radiowaves.forward")
+									Image(systemName: "key")
 										.scaleEffect(0.9)
 										.symbolRenderingMode(.palette)
 										.foregroundStyle(Color.primary, .tint)

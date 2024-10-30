@@ -94,7 +94,7 @@ struct CryptoConfigView: View {
 					Label {
 						Text("Key：")
 					} icon: {
-						Image(systemName: "key.radiowaves.forward.fill")
+						Image(systemName: "key")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle( Color.primary, .tint)
 					}

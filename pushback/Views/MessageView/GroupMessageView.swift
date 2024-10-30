@@ -79,7 +79,7 @@ struct GroupMessageView: View {
 					Button{
 						self.showExample.toggle()
 					}label:{
-						Image(systemName: "questionmark.circle.dashed")
+						Image(systemName: "questionmark.circle")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(.green, Color.primary)
 					}

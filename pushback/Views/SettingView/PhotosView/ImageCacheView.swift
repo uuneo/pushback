@@ -177,7 +177,7 @@ struct ImageCacheView: View {
 					ShareLink(items: imagesData, subject: Text(String(localized: "图片")), message: Text(String(localized: "图片"))) { value in
 						SharePreview( String(format: String(localized:  "%d张图片"), imagesData.count) , image: value)
 					} label: {
-						Image(systemName: imagesData.count > 0 ? "square.and.arrow.up" : "square.and.arrow.up.badge.clock")
+						Image(systemName:  "square.and.arrow.up")
 					}.disabled(selectImageArr.count == 0 || images.count == 0)
 						
 					

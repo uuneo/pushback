@@ -134,9 +134,9 @@ enum ToastTime: CGFloat {
 enum ToastSymbol: String{
 	case success = "checkmark.bubble"
 	case info = "info.bubble"
-	case question = "questionmark.circle.dashed"
+	case question = "questionmark.circle"
 	case error = "xmark.app"
-	case copy = "document.on.document"
+	case copy = "doc.on.doc"
 	
 	var color:Color{
 		switch self {

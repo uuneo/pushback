@@ -170,7 +170,7 @@ struct ServersConfigView: View {
 					HStack{
 						Spacer()
 						Text("历史服务器和key")
-							.font(.title2)
+							.font(.title3)
 							.fontWeight(.heavy)
 							.padding(.top, 5)
 						Spacer()

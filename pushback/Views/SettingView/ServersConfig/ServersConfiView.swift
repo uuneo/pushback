@@ -247,9 +247,10 @@ struct ServersConfigView: View {
 					}
 				}
 			}
-			.presentationDetents([.medium])
+			
 			
 		}
+		.presentationDetents([.medium])
 	}
 	
 }

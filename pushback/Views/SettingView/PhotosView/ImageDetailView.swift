@@ -39,8 +39,6 @@ struct ImageDetailView:View {
 			NavigationStack{
 				VStack(alignment: .leading){
 					
-					
-					
 					Text("本地化地址")
 						.font(.largeTitle)
 						.fontWeight(.heavy)
@@ -62,8 +60,6 @@ struct ImageDetailView:View {
 				}
 				.padding()
 //				.presentationCornerRadius(20)
-				.presentationDetents([.height(320)])
-				.interactiveDismissDisabled()
 				.toolbar {
 					ToolbarItem(placement: .keyboard) {
 						HStack{
@@ -107,6 +103,8 @@ struct ImageDetailView:View {
 					
 				}
 			}
+			.presentationDetents([.height(320)])
+			.interactiveDismissDisabled()
 		}
 		.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 		.background(.ultraThinMaterial)

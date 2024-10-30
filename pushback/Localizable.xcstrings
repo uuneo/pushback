@@ -977,17 +977,6 @@
         }
       }
     },
-    "恢复默认服务器" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Restore default server"
-          }
-        }
-      }
-    },
     "或者网址" : {
       "localizations" : {
         "en" : {
@@ -1309,7 +1298,14 @@
       }
     },
     "服务器已经存在" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The server already exists"
+          }
+        }
+      }
     },
     "未读" : {
       "localizations" : {

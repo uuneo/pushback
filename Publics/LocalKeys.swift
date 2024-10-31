@@ -16,7 +16,6 @@ extension Defaults.Keys {
 	static let isMessageStorage = Key<Bool>(BaseConfig.isMessageStorage, default: true, suite: DEFAULTSTORE)
 	static let badgeMode = Key<BadgeAutoMode>(BaseConfig.badgemode, default: .auto, suite: DEFAULTSTORE)
 	static let sound = Key<String>(BaseConfig.defaultSound, default: "silence", suite: DEFAULTSTORE)
-	static let emailConfig = Key<EmailConfigModal>(BaseConfig.emailConfig, default: EmailConfigModal.data, suite: DEFAULTSTORE)
 	static let firstStart = Key<Bool>(BaseConfig.firstStartApp,default: true, suite: DEFAULTSTORE)
 	static let photoName = Key<String>(BaseConfig.customPhotoName, default: "pushback.", suite: DEFAULTSTORE)
 

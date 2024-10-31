@@ -231,7 +231,7 @@ struct CryptoConfigView: View {
 		
 		
 		let text = """
-	 # Documentation: "https://alarmpaw.twown.com/#/encryption"
+	 # Documentation: "https://pushback.twown.com/#/encryption"
 	 # python demo: \(String(localized: "使用AES加密数据，并发送到服务器"))
 	 # pip3 install pycryptodome
 	 

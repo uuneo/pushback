@@ -45,17 +45,16 @@ class BaseConfig {
 #else
 	static let defaultServer = "https://push.twown.com"
 #endif
-	static let docServer = "https://alarmpaw.twown.com"
+	static let docServer = "https://pushback.twown.com"
 	static let defaultImage = docServer + "/_media/avatar.jpg"
 	static let helpWebUrl = docServer + "/#/tutorial"
 	static let problemWebUrl = docServer + "/#/faq"
-	static let delpoydoc = docServer + "/#/?id=alarmpaw"
+	static let delpoydoc = docServer + "/#/?id=pushback"
 	static let emailHelpUrl = docServer + "/#/email"
 	static let helpRegisterWebUrl = docServer + "/#/registerUser"
-	static let actinsRunUrl = "https://github.com/96bit/AlarmPaw/actions/runs/"
 	static let musicUrl = "https://convertio.co/mp3-caf/"
 	static let callback = defaultServer + "/callback"
-	static let issues = "https://github.com/uuneo/MeowWorld/issues/new"
+	static let issues = "https://github.com/uuneo/pushback/issues/new"
 	
 	
 }

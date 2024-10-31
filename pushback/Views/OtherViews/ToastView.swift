@@ -66,11 +66,6 @@ fileprivate class PassthroughWindow: UIWindow {
 }
 
 
-
-
-
-
-
 class Toast: ObservableObject {
 	static let shared = Toast()
 	private init() { }

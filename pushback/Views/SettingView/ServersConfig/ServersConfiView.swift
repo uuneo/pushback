@@ -160,9 +160,14 @@ struct ServersConfigView: View {
 						}
 						.padding()
 						.background(.background)
+					
+				
 						
 					
 					Spacer()
+					
+					
+				
 					
 					
 					
@@ -221,29 +226,6 @@ struct ServersConfigView: View {
 			.interactiveDismissDisabled()
 			.navigationTitle(String(localized: "新增服务器"))
 			.toolbar {
-				ToolbarItem(placement: .keyboard) {
-					HStack{
-						Spacer()
-						
-						Button{
-							if serverName.count > 0{
-								let serverUrl = "\(pickerSelect.rawValue)\(serverName)"
-								if serverUrl.isValidURL() == .remote {
-									let item = PushServerModal(url: serverUrl)
-									manager.appendServer(server: item){_,msg in
-										Toast.shared.present(title: msg, symbol: .info)
-										self.serverName = ""
-									}
-									
-								}
-								
-							}
-						}label:{
-							Text(String(localized: "添加"))
-						}
-					}
-					
-				}
 				
 				ToolbarItem(placement: .topBarLeading) {
 					Button(action: {
@@ -255,8 +237,31 @@ struct ServersConfigView: View {
 					})
 				}
 				
+				ToolbarItem(placement: .topBarTrailing) {
+					Button{
+						if serverName.count > 0{
+							let serverUrl = "\(pickerSelect.rawValue)\(serverName)"
+							if serverUrl.isValidURL() == .remote {
+								let item = PushServerModal(url: serverUrl)
+								manager.appendServer(server: item){_,msg in
+									Toast.shared.present(title: msg, symbol: .info)
+									self.serverName = ""
+								}
+								
+							}
+							
+						}
+					} label:{
+						Text(String(localized: "添加"))
+					}
+				}
+				
 				
 				ToolbarItem(placement: .topBarTrailing) {
+					
+					
+					
+					
 					Button {
 						manager.fullPage = .scan
 					} label: {

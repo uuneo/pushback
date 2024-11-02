@@ -121,3 +121,20 @@ extension UIImage {
 
 
 
+extension Image {
+	func customDraggable(_ width:CGFloat = .zero, appear:((Image)-> Void)? = nil, disappear:((Image)-> Void)? = nil) -> some View{
+		self
+			.draggable(self){
+				self
+					.resizable()
+					.aspectRatio(contentMode: .fill)
+					.frame(width: width == .zero ? 300 : width)
+					.onAppear{
+						appear?(self)
+					}
+					.onDisappear{
+						disappear?(self)
+					}
+			}
+	}
+}

@@ -168,9 +168,6 @@ struct ContentView: View {
 		case .web:
 			SFSafariView(url: manager.webUrl)
 				.ignoresSafeArea()
-		case .issues:
-			SFSafariView(url: manager.webUrl)
-				.ignoresSafeArea()
 		default:
 			EmptyView()
 				.onAppear{
@@ -190,6 +187,7 @@ struct ContentView: View {
 			NavigationStack{
 				AppIconView()
 			}.presentationDetents([.height(300)])
+				
 		case .web:
 			SFSafariView(url: manager.webUrl)
 				.ignoresSafeArea()

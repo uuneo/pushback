@@ -54,7 +54,6 @@ class BaseConfig {
 	static let helpRegisterWebUrl = docServer + "/#/registerUser"
 	static let musicUrl = "https://convertio.co/mp3-caf/"
 	static let callback = defaultServer + "/callback"
-	static let issues = "https://github.com/uuneo/pushback/issues/new"
 	
 	
 }

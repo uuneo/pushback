@@ -91,7 +91,6 @@ enum SubPage{
 	case music
 	case appIcon
 	case web
-	case issues
 	case none
 }
 
@@ -351,13 +350,13 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 	var logo: String{
 		switch self {
 		case .def:
-			"logo"
+			return "logo"
 		case .zero:
-			"logo0"
+			return "logo0"
 		case .one:
-			"logo1"
+			return "logo1"
 		case .two:
-			"logo2"
+			return "logo2"
 		}
 	}
 }

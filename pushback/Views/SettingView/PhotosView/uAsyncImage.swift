@@ -77,14 +77,12 @@ struct uAsyncImage:View {
 				if isDragg{
 					image
 						.resizable()
+						.customDraggable(300, appear: { item in
+							completion?(url)
+						})
 						.aspectRatio(contentMode: mode)
 						.frame(width: min(size.width, size.height))
-						.draggable(image){
-							image
-								.onAppear{
-									completion?(url)
-								}
-						}
+						
 				}else{
 					image
 						.resizable()

@@ -20,6 +20,7 @@ struct ServersConfigView: View {
 	var showClose:Bool = false
 	@State private var showAddView:Bool = false
 	@State private var cloudDatas:[PushServerModal] = []
+	@FocusState private var serverNameFocus
 	var body: some View {
 		NavigationStack{
 			List{
@@ -160,6 +161,10 @@ struct ServersConfigView: View {
 						}
 						.padding()
 						.background(.background)
+						.customKeyboardTools(_serverNameFocus,clear: {
+							serverName = ""
+						})
+
 					
 				
 						

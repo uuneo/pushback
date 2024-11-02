@@ -224,6 +224,7 @@ struct ImageCacheView: View {
 				String(localized:  "相册名"),
 				text: $photoName
 			)
+			.focused($nameFieldIsFocused)
 			.foregroundStyle(Color.primary)
 			.multilineTextAlignment(.trailing)
 			.padding(.trailing, 30)
@@ -240,28 +241,16 @@ struct ImageCacheView: View {
 					
 				}
 			}
-			.focused($nameFieldIsFocused)
+			
 			.onChange(of: photoName) {newValue in
 				// 去除空格并更新绑定的文本值
 				photoName = newValue.trimmingCharacters(in: .whitespaces)
 			}
-			.toolbar {
-				if nameFieldIsFocused{
-					ToolbarItemGroup(placement: .keyboard) {
-						
-						Button(String(localized: "清除")) {
-							self.photoName = ""
-						}
-						
-						Spacer()
-						Button(String(localized: "完成")) {
-							nameFieldIsFocused = false
-						}
-						
-					}
-				}
-				
-			}
+			.customKeyboardTools(_nameFieldIsFocused, clear: {
+				self.photoName = ""
+			},complete: {
+				nameFieldIsFocused = false
+			})
 			
 			
 			

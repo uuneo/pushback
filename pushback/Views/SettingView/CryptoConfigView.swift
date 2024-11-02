@@ -13,6 +13,11 @@ struct CryptoConfigView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	@Default(.cryptoConfig) var cryptoConfig
 	@Default(.servers) var servers
+	
+	
+	@FocusState private var keyFocus
+	@FocusState private var ivFocus
+	
 	var expectKeyLength:Int {
 		cryptoConfig.algorithm.rawValue
 	}
@@ -100,8 +105,11 @@ struct CryptoConfigView: View {
 					}
 					Spacer()
 					
+				
+					
 					TextEditor(text: $cryptoConfig.key)
-						
+						.focused($keyFocus)
+						.frame(minHeight: 50)
 						.overlay{
 							if cryptoConfig.key.isEmpty{
 								Text(String(format: String(localized: "输入%d位数的key"), expectKeyLength))
@@ -113,6 +121,14 @@ struct CryptoConfigView: View {
 						}
 						.foregroundStyle(.gray)
 						.lineLimit(2)
+						.customKeyboardTools(_keyFocus) {
+							cryptoConfig.key = ""
+						} next: {
+							ivFocus = true
+						}
+
+						
+
 				
 					
 				}
@@ -137,7 +153,7 @@ struct CryptoConfigView: View {
 					Spacer()
 					
 					TextEditor(text: $cryptoConfig.iv)
-						
+						.focused($ivFocus)
 						.overlay{
 							if cryptoConfig.iv.isEmpty{
 								Text(String(localized: "请输入16位Iv"))
@@ -149,7 +165,10 @@ struct CryptoConfigView: View {
 						}
 						.foregroundStyle(.gray)
 						.lineLimit(2)
-					
+						.customKeyboardTools(_ivFocus, clear: {
+							cryptoConfig.iv =  ""
+						})
+
 						
 				}
 				

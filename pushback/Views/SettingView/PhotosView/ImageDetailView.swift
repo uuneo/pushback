@@ -11,7 +11,7 @@ struct ImageDetailView:View {
 	@Binding var imageUrl:String?
 	@State var draggImage:String? = nil
 	@State private var name:String = ""
-	@FocusState var photoNamesShow:Bool
+	@FocusState private var photoNamesShow
 	@State private var showSheet:Bool = false
 	var body: some View {
 		
@@ -54,50 +54,35 @@ struct ImageDetailView:View {
 						Label("修改", systemImage: "pencil")
 					}
 					.customField(icon: "pencil")
+					.focused($photoNamesShow)
 					.padding(.vertical)
+					.customKeyboardTools(_photoNamesShow,clear: {
+						self.name = ""
+					},complete: {
+						Task.detached(priority: .high) {
+							let success = await ImageManager.renameImage(oldName: image, newName: name)
+							if success {
+								await MainActor.run {
+									self.showSheet.toggle()
+								}
+								try? await Task.sleep(for: .seconds(0.6))
+								
+								await MainActor.run {
+									self.imageUrl = nil
+									self.name = ""
+								}
+							}else{
+								Toast.shared.present(title: String(localized: "操作失败"), symbol: .info)
+							}
+							
+						}
+					})
+					
 					Spacer()
 					
 				}
 				.padding()
-//				.presentationCornerRadius(20)
 				.toolbar {
-					ToolbarItem(placement: .keyboard) {
-						HStack{
-							
-							Spacer()
-							
-							Button{
-								self.name = ""
-							}label: {
-								Text("清除")
-							}
-							
-						}
-					}
-					
-					ToolbarItem(placement: .topBarTrailing) {
-						Button{
-							Task.detached(priority: .high) {
-								let success = await ImageManager.renameImage(oldName: image, newName: name)
-								if success {
-									await MainActor.run {
-										self.showSheet.toggle()
-									}
-									try? await Task.sleep(for: .seconds(0.6))
-									
-									await MainActor.run {
-										self.imageUrl = nil
-										self.name = ""
-									}
-								}
-								
-							}
-						}label: {
-							Text("完成")
-						}
-					}
-					
-					
 					
 					ToolbarItem(placement: .topBarLeading) {
 						Button(action: {

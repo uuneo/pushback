@@ -6,254 +6,147 @@
 //
 
 import UIKit
-import AVKit
-import CoreMotion
-import UserNotifications
-import UserNotificationsUI
+import Social
+import SwiftUI
 
-
-
-class NotificationViewController: UIViewController, UNNotificationContentExtension {
-	
-	
-	@IBOutlet weak var loadingView:UIActivityIndicatorView!
-	@IBOutlet weak var imageView: UIImageView!
-	@IBOutlet weak var videoPlayerView: UIView!
-	
-	var player: AVPlayer?
-	var playPauseButton: UIButton?
-	
-
-	
+class ShareViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.imageView.contentMode = .scaleAspectFit
-		// 添加点击手势识别器到视频播放视图
-		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerViewTapped))
-		self.videoPlayerView.addGestureRecognizer(tapGesture)
+		/// Interactive Dismiss Disabled
+		isModalInPresentation = true
 		
-		self.preferredContentSize = CGSize(width: self.view.bounds.size.width, height: 50)
-		
-		setupLoading()
-	   
-	}
-	
-	
-	func setupLoading(){
-		loadingView.sizeToFit()
-		loadingView.color = .green
-		loadingView.hidesWhenStopped = true
-		loadingView.style = .large
-		
-		// 禁用自动调整子视图大小
-		loadingView.translatesAutoresizingMaskIntoConstraints = false
-		
-		// 设置 loadingView 的约束
-		NSLayoutConstraint.activate([
-			loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-			loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-		])
-		
-	}
-	
-	
-	func didReceive(_ notification: UNNotification) {
-		let userInfo = notification.request.content.userInfo
-		
-		if userInfo["autocopy"] as? String == "1" || userInfo["automaticallycopy"] as? String == "1" {
-			if let copy = userInfo["copy"] as? String {
-				UIPasteboard.general.string = copy
-			} else {
-				UIPasteboard.general.string = notification.request.content.body
-			}
+		if let itemProviders = (extensionContext!.inputItems.first as? NSExtensionItem)?.attachments {
+			let hostingView = UIHostingController(rootView: ShareView(itemProviders: itemProviders, extensionContext: extensionContext))
+			hostingView.view.frame = view.frame
+			view.addSubview(hostingView.view)
 		}
-		
-		if let videoUrl = userInfo["video"] as? String, let videoUrl = URL(string: videoUrl) {
-			VideoHandler(videoUrl: videoUrl)
-		} else if let imageUrl = userInfo["image"] as? String {
-			ImageHandler(imageUrl: imageUrl)
-		} else {
-			self.preferredContentSize = CGSize(width: self.view.frame.width, height: 1)
-		}
-	}
-	
-	func didReceive(_ response: UNNotificationResponse, completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void) {
-		let userInfo = response.notification.request.content.userInfo
-		
-		switch response.actionIdentifier {
-		case Identifiers.detailAction:
-			completion(.dismissAndForwardAction)
-		case Identifiers.copyAction:
-			if let copy = userInfo["copy"] as? String {
-				UIPasteboard.general.string = copy
-			} else {
-				UIPasteboard.general.string = response.notification.request.content.body
-			}
-			completion(.dismiss)
-		default:
-			completion(.dismiss)
-		}
-	}
-	
-   
-	
-	func ImageHandler(imageUrl: String) {
-		self.videoPlayerView.frame = .zero
-		loadingView?.startAnimating()
-		Task.detached(priority: .high) {
-			if let imageFileUrl = await ImageManager.fetchImage(from: imageUrl),
-			   let image = UIImage(contentsOfFile: imageFileUrl) {
-				
-				let size = await self.sizecalculation(size: image.size)
-				
-				await MainActor.run { [weak self] in
-					guard let self = self else { return }
-					
-					self.loadingView.stopAnimating()
-					self.imageView.image = image
-					self.preferredContentSize = size
-					self.imageView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-				}
-			} else {
-				await MainActor.run { [weak self] in
-					guard let self = self else { return }
-					
-					self.preferredContentSize = .zero
-					self.loadingView.stopAnimating()
-				}
-			}
-		}
-	}
-	
-	func sizecalculation(size: CGSize) -> CGSize {
-		let viewWidth = view.bounds.size.width
-		let aspectRatio = size.width / size.height
-		let viewHeight = viewWidth / aspectRatio
-		self.preferredContentSize = CGSize(width: viewWidth, height: viewHeight)
-		return self.preferredContentSize
 	}
 }
 
-extension NotificationViewController{
-	func VideoHandler(videoUrl: URL) {
-		self.imageView.frame = .zero
+fileprivate struct ShareView: View {
+	var itemProviders: [NSItemProvider]
+	var extensionContext: NSExtensionContext?
+	/// View Properties
+	@State private var items: [Item] = []
+	var body: some View {
+		GeometryReader {
+			let size = $0.size
+			Spacer()
+			VStack(spacing: 15) {
+				Text(String(localized: "添加到APP"))
+					.font(.title3.bold())
+					.frame(maxWidth: .infinity)
+					.overlay(alignment: .leading) {
+						Button(String(localized: "取消"), action: dismiss)
+							.tint(.red)
+					}
+					.padding(.bottom, 10)
 		
-		// 显示加载视图
-		loadingView?.startAnimating()
+				
+				ScrollView(.horizontal) {
+					LazyHStack(spacing: 0) {
+						ForEach(items, id: \.id) { item in
+							VStack{
+								Image(uiImage: item.previewImage)
+									.resizable()
+									.aspectRatio(contentMode: .fit)
+									.padding(.horizontal, 15)
+									.frame(width: size.width)
+								
+								TextField(String(localized: "输入图片Key"), text: Binding(get: {
+									item.id
+								}, set: { value in
+									if let index = items.firstIndex(where: {$0.id == item.id}){
+										items[index].id = value
+									}
+								}))
+								.customField(icon: "square.and.pencil.circle")
+								.padding(.horizontal)
+							}
+							.frame(width: size.width)
+						}
+					}
+				}
+				.frame(height: 500)
+//				.scrollIndicators(.hidden)
+//				.scrollTargetBehavior(.paging)
+				.padding(.horizontal, -15)
+				
+				/// Save Button
+				Button(action: saveItems, label: {
+					Text(String(localized: "保存"))
+						.font(.title3)
+						.fontWeight(.semibold)
+						.padding(.vertical, 10)
+						.frame(maxWidth: .infinity)
+						.foregroundStyle(.white)
+						.background(.blue, in: .rect(cornerRadius: 10))
+						.contentShape(.rect)
+				})
+				
+				Spacer(minLength: 0)
+				
+			}
+			.padding(15)
+			.onAppear(perform: {
+				extractItems(size: size)
+			})
+		}
+	}
+	
+	/// Extracting Image Data and Creating Thumbnail Preview Images
+	func extractItems(size: CGSize) {
+		guard items.isEmpty else { return }
+		DispatchQueue.global(qos: .userInteractive).async {
+			for provider in itemProviders {
+				let _ = provider.loadDataRepresentation(for: .image) { data, error in
+					if let data, let image = UIImage(data: data), let thumbnail = image.preparingThumbnail(of: .init(width: size.width, height: 300)) {
+						/// UI Must Be Updated On Main Thread
+						DispatchQueue.main.async {
+							items.append(.init(imageData: data, previewImage: thumbnail))
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/// Saving Items to SwiftData
+	func saveItems() {
 		
-		let player = AVPlayer(url: videoUrl)
-		self.player = player
-		let playerLayer = AVPlayerLayer(player: player)
-		playerLayer.videoGravity = .resizeAspect
-		player.actionAtItemEnd = .pause
-		
-		let asset = AVURLAsset(url: videoUrl)
-		
-		// 异步加载视频轨道
-		asset.loadTracks(withMediaType: .video) { tracks, error in
-			guard let videoTrack = tracks?.first else {
-				print("加载视频轨道时出错: \(String(describing: error))")
-				return
+		Task{
+			
+			var idsToRemove: [String] = []
+			for item in items{
+				let path =  await ImageManager.storeImage(from: item.id, at: UIImage(data: item.imageData)!)
+				if path != nil{
+					idsToRemove.append(item.id)
+				}
 			}
 			
-			// 使用 Task 来异步加载视频的自然尺寸
-			Task.detached(priority: .high) {
-				do {
-					let videoSize: CGSize = try await videoTrack.load(.naturalSize)
-					let videoAspectRatio = videoSize.width / videoSize.height
-					
-					// 根据视频的宽高比计算新的高度
-					let newHeight = await self.view.bounds.width / videoAspectRatio
-					let playerLayerFrame = await CGRect(x: 0, y: 0, width: self.view.bounds.width, height: newHeight)
-					
-					// 在主线程上更新 playerLayer 并确保它居中
-					await MainActor.run { [weak self] in
-						guard let self = self else { return }
-						self.preferredContentSize = CGSize(width: self.view.bounds.width, height: newHeight)
-						self.videoPlayerView.frame = playerLayerFrame
-						playerLayer.frame = self.videoPlayerView.bounds // playerLayer 跟随 videoPlayerView 的 bounds
-						
-						
-						// 视频加载完成后隐藏加载视图
-						self.loadingView?.stopAnimating()
-						
-						self.videoPlayerView.layer.addSublayer(playerLayer)
-						
-						player.play()
-						
-						// 添加观察者监听播放完成事件
-						NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying), name: .AVPlayerItemDidPlayToEndTime, object: player.currentItem)
-						
-						// 添加播放/暂停按钮
-						self.setupPlayPauseButton()
-					}
-				   
-				} catch {
-					print("加载视频自然尺寸时出错: \(error)")
-					// 如果加载失败，停止加载指示器
-					await MainActor.run {
-						self.loadingView?.stopAnimating()
-					}
-				}
+			items.removeAll { item in
+				idsToRemove.contains(item.id)
 			}
+			
+			if items.count  == 0 {
+				dismiss()
+			}else{
+				
+			}
+			
 		}
 		
-	   
+		
 	}
 	
-	func setupPlayPauseButton() {
-		// 定义按钮的宽度和高度
-		let buttonSize: CGFloat = 60 // 可以根据需求调整大小
-		
-		// 初始化播放/暂停按钮，放在左下角
-		let playPauseButton = UIButton(type: .custom)
-		playPauseButton.frame = CGRect(x: 20, y: self.videoPlayerView.bounds.height - buttonSize - 20, width: buttonSize, height: buttonSize)
-		
-		if let image = UIImage(systemName: "play.circle.fill") {
-			let resizedImage = image.withConfiguration(UIImage.SymbolConfiguration(pointSize: buttonSize * 0.8, weight: .bold))
-			playPauseButton.setImage(resizedImage, for: .normal)
-		}
-		
-		playPauseButton.isHidden = true
-		
-		playPauseButton.tintColor = .white
-		
-		// 绑定点击事件
-		playPauseButton.addTarget(self, action: #selector(playPauseButtonTapped(_:)), for: .touchUpInside)
-		
-		
-		// 将按钮添加到视频视图
-		self.videoPlayerView.addSubview(playPauseButton)
-		self.playPauseButton = playPauseButton
+	/// Dismissing View
+	func dismiss() {
+		extensionContext?.completeRequest(returningItems: [])
 	}
 	
-	func togglePlayPause() {
-		guard let player = self.player else { return }
-		guard let button = self.playPauseButton else { return }
-		
-		if player.timeControlStatus == .playing {
-			player.pause()
-			button.isHidden = false // 暂停时显示播放按钮
-		} else {
-			player.play()
-			button.isHidden = true // 播放时隐藏按钮
-		}
+	private struct Item: Identifiable {
+		var id: String = UUID().uuidString
+		var imageData: Data
+		var previewImage: UIImage
 	}
-
-	@objc func playPauseButtonTapped(_ sender: UIButton) {
-		togglePlayPause()
-	}
-
-	@objc func videoPlayerViewTapped() {
-		togglePlayPause()
-	}
-	
-	@objc func playerDidFinishPlaying() {
-		guard let player = self.player else { return }
-		player.seek(to: .zero) // 将视频进度重置为开头
-		self.playPauseButton?.isHidden = false // 显示按钮
-	}
-	
 }
-
-

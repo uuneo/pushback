@@ -6,20 +6,23 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
-			<key>UNNotificationExtensionCategory</key>
-			<array>
-				<string>copy</string>
-				<string>myNotificationCategory</string>
-			</array>
-			<key>UNNotificationExtensionInitialContentSizeRatio</key>
-			<real>0.01</real>
-			<key>UNNotificationExtensionUserInteractionEnabled</key>
-			<true/>
+			<key>NSExtensionActivationRule</key>
+			<string>
+					SUBQUERY (
+						extensionItems,
+						$extensionItem,
+						SUBQUERY (
+							$extensionItem.attachments,
+							$attachment,
+							ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.image&quot;
+						).@count == $extensionItem.attachments.@count
+					).@count == 1
+				</string>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
 		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.usernotifications.content-extension</string>
+		<string>com.apple.share-services</string>
 	</dict>
 </dict>
 </plist>

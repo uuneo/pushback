@@ -239,21 +239,23 @@ struct ServersConfigView: View {
 				
 				ToolbarItem(placement: .topBarTrailing) {
 					Button{
-						if serverName.count > 0{
-							let serverUrl = "\(pickerSelect.rawValue)\(serverName)"
-							if serverUrl.isValidURL() == .remote {
-								let item = PushServerModal(url: serverUrl)
-								manager.appendServer(server: item){_,msg in
-									Toast.shared.present(title: msg, symbol: .info)
-									self.serverName = ""
-								}
-								
+						let serverUrl = "\(pickerSelect.rawValue)\(serverName)"
+						
+						if serverName.count > 3 && serverUrl.isValidURL() == .remote{
+							
+							let item = PushServerModal(url: serverUrl)
+							manager.appendServer(server: item){_,msg in
+								Toast.shared.present(title: msg, symbol: .info)
+								self.serverName = ""
 							}
 							
+						}else {
+							Toast.shared.present(title: String(localized: "格式错误"), symbol: .error)
 						}
 					} label:{
 						Text(String(localized: "添加"))
 					}
+					
 				}
 				
 				
@@ -287,6 +289,7 @@ struct ServersConfigView: View {
 		
 		
 	}
+	
 }
 
 #Preview {

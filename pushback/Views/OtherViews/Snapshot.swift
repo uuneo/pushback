@@ -2,7 +2,7 @@
 //  Snapshot.swift
 //  ViewSnapshot
 //
-//  Created by Balaji Venkatesh on 30/10/24.
+//  Created by  on 30/10/24.
 //
 
 import SwiftUI

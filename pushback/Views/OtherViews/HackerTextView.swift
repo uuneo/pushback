@@ -2,7 +2,7 @@
 //  HackerTextView.swift
 //  HackerText
 //
-//  Created by Balaji Venkatesh on 19/05/24.
+//  Created by on 19/05/24.
 //
 
 import SwiftUI

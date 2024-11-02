@@ -110,7 +110,7 @@ struct ImageCacheView: View {
 			if let imageDetail {
 				ImageDetailView(image: imageDetail,imageUrl: $imageDetail )
 					.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-					.contentTransition(.identity)
+					.transition(.slide)
 			}
 		}
 		

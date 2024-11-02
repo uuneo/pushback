@@ -230,59 +230,12 @@ struct CryptoConfigView: View {
 		
 		
 		
-		let text = """
-	 # Documentation: "https://pushback.twown.com/#/encryption"
-	 # python demo: \(String(localized: "使用AES加密数据，并发送到服务器"))
-	 # pip3 install pycryptodome
-	 
-	 import json
-	 import base64
-	 import requests
-	 from Crypto.Cipher import AES
-	 from Crypto.Util.Padding import pad
-	 
-	 
-	 def encrypt_AES_CBC(data, key, iv):
-	 cipher = AES.new(key, AES.MODE_\(cryptoConfig.mode.rawValue), iv)
-	 padded_data = pad(data.encode(), AES.block_size)
-	 encrypted_data = cipher.encrypt(padded_data)
-	 return encrypted_data
-	 
-	 # \(String(localized: "JSON数据"))
-	 json_string = json.dumps({"body": "test", "sound": "birdsong"})
-	 
-	 # \(String(format: String(localized: "必须%d位"), Int(cryptoConfig.algorithm.name.suffix(3))! / 8))
-	 key = b"\(cryptoConfig.key)"
-	 # \(String(localized: "IV可以是随机生成的，但如果是随机的就需要放在 iv 参数里传递。"))
-	 iv= b"\(cryptoConfig.iv)"
-	 
-	 # \(String(localized: "加密"))
-	 # \(String(localized: "控制台将打印")) "\( self.createExample() )"
-	 encrypted_data = encrypt_AES_CBC(json_string, key, iv)
-	 
-	 # \(String(localized: "将加密后的数据转换为Base64编码"))
-	 encrypted_base64 = base64.b64encode(encrypted_data).decode()
-	 
-	 print("\(String(localized: "加密后的数据（Base64编码"))"）：", encrypted_base64)
-	 
-	 deviceKey = '\(servers[0].key)'
-	 
-	 res = requests.get(f"\(servers[0].url)/{deviceKey}/test",
-	 params = {"ciphertext": encrypted_base64, "iv": iv})
-	 
-	 print(res.text)
-	 """
+		let text = CreateCryptoExample.shared.cryptoExampleHandler()
 		manager.copy(text)
 		Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
 		
 	}
 	
-	func createExample()-> String{
-		if let data = CryptoManager(cryptoConfig).encrypt("{\"body\": \"test\", \"sound\": \"birdsong\"}"){
-			return data.base64EncodedString()
-		}
-		return ""
-	}
 	
 }
 

@@ -19,8 +19,8 @@ class CryptoManager {
 	private let algorithm: CryptoAlgorithm
 	private let mode: CryptoMode
 	private let key: Data
-	private let iv: Data?
-	
+	private let iv: Data
+
 
 	init(_ data: CryptoModal) {
 		self.key = data.key.data(using: .utf8)!
@@ -69,7 +69,7 @@ class CryptoManager {
 		let cryptStatus = dataOut.withUnsafeMutableBytes { dataOutBytes in
 			data.withUnsafeBytes { dataInBytes in
 				key.withUnsafeBytes { keyBytes in
-					iv?.withUnsafeBytes { ivBytes in
+					iv.withUnsafeBytes { ivBytes in
 						CCCrypt(operation,
 								algorithm, // AES algorithm
 								options,
@@ -78,14 +78,7 @@ class CryptoManager {
 								dataInBytes.baseAddress!, data.count,
 								dataOutBytes.baseAddress!, dataOutLength,
 								&numBytesEncrypted)
-					} ?? CCCrypt(operation,
-								 algorithm, // AES algorithm
-								 options,
-								 keyBytes.baseAddress!, key.count, // Key length based on key.count
-								 nil, // No IV for ECB
-								 dataInBytes.baseAddress!, data.count,
-								 dataOutBytes.baseAddress!, dataOutLength,
-								 &numBytesEncrypted)
+					}
 				}
 			}
 		}
@@ -99,8 +92,9 @@ class CryptoManager {
 	// CryptoKit (GCM) Encryption
 	private func gcmEncrypt(data: Data) -> Data? {
 		let symmetricKey = SymmetricKey(data: key)
-		let nonce = AES.GCM.Nonce()
+		
 		do {
+			let nonce = try AES.GCM.Nonce(data: iv.prefix(12))
 			let sealedBox = try AES.GCM.seal(data, using: symmetricKey, nonce: nonce)
 			return nonce + sealedBox.ciphertext + sealedBox.tag // Nonce + Ciphertext + Tag
 		} catch {

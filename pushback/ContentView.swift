@@ -35,11 +35,34 @@ struct ContentView: View {
 	var body: some View {
 		
 		ZStack{
+			
 			if ISPAD{
 				IpadHomeView()
+					
 			}else{
 				IphoneHomeView()
+					
 			}
+			
+			
+			if firstStart{
+				LauchFirstStartView(){
+					withAnimation {
+						self.firstStart.toggle()
+					}
+				}
+				.onAppear{
+					for msg in Message.messages{
+						if let realm = try? Realm(){
+							try? realm.write {
+								realm.add(msg)
+							}
+						}
+					}
+				}
+				.background(.white.gradient)
+			}
+			
 		}
 		.sheet(isPresented: manager.sheetShow){ ContentSheetViewPage() }
 		.fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
@@ -60,21 +83,7 @@ struct ContentView: View {
 						}
 					), secondaryButton: .cancel())
 		}
-		.onAppear{
-			if firstStart {
-				for msg in Message.messages{
-					if let realm = try? Realm(){
-						try? realm.write {
-							realm.add(msg)
-						}
-					}
-				}
-				self.firstStart = false
-			}
-			
-			
-			
-		}
+		
 		.task {
 			for await value in Defaults.updates(.servers) {
 				PushServerCloudKit.shared.updatePushServers(items: value)
@@ -256,9 +265,9 @@ extension ContentView{
 			HapticsManager.shared.restartEngine()
 			manager.registers()
 		case .background:
+			
 			manager.addQuickActions()
 			HapticsManager.shared.stopEngine()
-			firstStart = false
 			
 		default:
 			break

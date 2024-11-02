@@ -64,31 +64,39 @@ struct ImageDetailView:View {
 					ToolbarItem(placement: .keyboard) {
 						HStack{
 							
+							Spacer()
+							
 							Button{
 								self.name = ""
 							}label: {
 								Text("清除")
 							}
 							
-							Spacer()
-							
-							Button{
-								Task.detached(priority: .high) {
-									let success = await ImageManager.renameImage(oldName: image, newName: name)
-									if success {
-										await MainActor.run {
-											self.imageUrl = nil
-											self.name = ""
-										}
-									}
-									
-								}
-							}label: {
-								Text("完成")
-							}
-							
 						}
 					}
+					
+					ToolbarItem(placement: .topBarTrailing) {
+						Button{
+							Task.detached(priority: .high) {
+								let success = await ImageManager.renameImage(oldName: image, newName: name)
+								if success {
+									await MainActor.run {
+										self.showSheet.toggle()
+									}
+									try? await Task.sleep(for: .seconds(0.6))
+									
+									await MainActor.run {
+										self.imageUrl = nil
+										self.name = ""
+									}
+								}
+								
+							}
+						}label: {
+							Text("完成")
+						}
+					}
+					
 					
 					
 					ToolbarItem(placement: .topBarLeading) {

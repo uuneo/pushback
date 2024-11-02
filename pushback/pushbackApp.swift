@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct pushbackApp: SwiftUI.App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -15,6 +16,8 @@ struct pushbackApp: SwiftUI.App {
 		WindowGroup {
 			RootView{
 				ContentView()
+				
+				
 			}
 			.environmentObject(PushbackManager.shared)
 		}

@@ -35,30 +35,48 @@ struct ImageDetailView:View {
 			
 		}
 		.sheet(isPresented: $showSheet){
-			
-			NavigationStack{
-				VStack(alignment: .leading){
-					
-					Text("本地化地址")
-						.font(.largeTitle)
-						.fontWeight(.heavy)
-						.padding(.top, 5)
-					
-					Text(String(format: String(localized: "远程本地化地址: %1$@"), name))
-						.font(.caption)
-						.fontWeight(.semibold)
-						.foregroundStyle(.gray)
-						.padding(.top, -5)
-					
-					TextField(text: $name) {
-						Label("修改", systemImage: "pencil")
-					}
-					.customField(icon: "pencil")
-					.focused($photoNamesShow)
-					.padding(.vertical)
-					.customKeyboardTools(_photoNamesShow,clear: {
-						self.name = ""
-					},complete: {
+			changeImageKey()
+		}
+		.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+		.background(.ultraThinMaterial)
+		.ignoresSafeArea()
+	}
+	
+	
+	@ViewBuilder
+	func changeImageKey() -> some View{
+		NavigationStack{
+			VStack(alignment: .leading){
+				
+				Text("本地化地址")
+					.font(.largeTitle)
+					.fontWeight(.heavy)
+					.padding(.top, 5)
+				
+				Text(String(format: String(localized: "远程本地化地址: %1$@"), name))
+					.font(.caption)
+					.fontWeight(.semibold)
+					.foregroundStyle(.gray)
+					.padding(.top, -5)
+				
+				TextField(text: $name) {
+					Label("修改", systemImage: "pencil")
+				}
+				.customField(icon: "pencil")
+				.focused($photoNamesShow)
+				.padding(.vertical)
+				.customKeyboardTools(_photoNamesShow,clear: {
+					self.name = ""
+				})
+				
+				Spacer()
+				
+			}
+			.padding()
+			.toolbar {
+				
+				ToolbarItem(placement: .topBarTrailing) {
+					Button{
 						Task.detached(priority: .high) {
 							let success = await ImageManager.renameImage(oldName: image, newName: name)
 							if success {
@@ -71,36 +89,30 @@ struct ImageDetailView:View {
 									self.imageUrl = nil
 									self.name = ""
 								}
-							}else{
-								Toast.shared.present(title: String(localized: "操作失败"), symbol: .info)
 							}
 							
 						}
-					})
-					
-					Spacer()
-					
-				}
-				.padding()
-				.toolbar {
-					
-					ToolbarItem(placement: .topBarLeading) {
-						Button(action: {
-							self.showSheet.toggle()
-						}, label: {
-							Image(systemName: "arrow.left")
-								.font(.title2)
-								.foregroundStyle(.gray)
-						})
+					}label: {
+						Text("完成")
 					}
-					
 				}
+				
+				
+				
+				ToolbarItem(placement: .topBarLeading) {
+					Button(action: {
+						self.showSheet.toggle()
+					}, label: {
+						Image(systemName: "arrow.left")
+							.font(.title2)
+							.foregroundStyle(.gray)
+					})
+				}
+				
 			}
-			.presentationDetents([.height(320)])
-			.interactiveDismissDisabled()
+			
 		}
-		.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-		.background(.ultraThinMaterial)
-		.ignoresSafeArea()
+		.presentationDetents([.height(320)])
+		.interactiveDismissDisabled()
 	}
 }

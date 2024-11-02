@@ -98,6 +98,7 @@ struct ImageCacheView: View {
 								}
 							}
 							.animation(.snappy, value: images)
+							.shadow(radius: 3)
 						
 						
 					}

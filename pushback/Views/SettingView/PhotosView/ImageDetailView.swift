@@ -71,10 +71,15 @@ struct ImageDetailView:View {
 			.padding()
 			.toolbar {
 				
-				ToolbarItem(placement: .keyboard) {
-					customKeyboardTools(show: $photoNamesShow,clear: {
-						self.name = ""
-					})
+				
+				ToolbarItemGroup(placement: .keyboard) {
+					Button(String(localized: "清除")) {
+						name = ""
+					}
+					Spacer()
+					Button(String(localized: "完成")) {
+						photoNamesShow.toggle()
+					}
 				}
 				
 				ToolbarItem(placement: .topBarTrailing) {

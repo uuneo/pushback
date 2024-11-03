@@ -284,35 +284,6 @@ extension View {
 		modifier(LoadingPress(show: show, title: title))
 	}
 }
+ 
 
 
-
-struct customKeyboardTools: View {
-	var show: FocusState<Bool>.Binding
-	var clear:(()-> Void)? = nil
-	var next:(()-> Void)? = nil
-	var complete:(()-> Void)? = nil
-	
-	var body: some View {
-		HStack{
-			if show.wrappedValue {
-				Button(String(localized: "清除")) {
-					clear?()
-				}
-				if next != nil{
-					Spacer()
-					Button(String(localized: "下一项")) {
-						next?()
-					}
-				}
-				
-				Spacer()
-				Button(String(localized: "完成")) {
-					complete?()
-					show.wrappedValue.toggle()
-				}
-			}
-			
-		}
-	}
-}

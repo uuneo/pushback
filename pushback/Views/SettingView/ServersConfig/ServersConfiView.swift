@@ -231,11 +231,16 @@ struct ServersConfigView: View {
 			.navigationTitle(String(localized: "新增服务器"))
 			.toolbar {
 				
-				ToolbarItem(placement: .keyboard) {
-					customKeyboardTools(show: $serverNameFocus,clear: {
+				ToolbarItemGroup(placement: .keyboard) {
+					Button(String(localized: "清除")) {
 						serverName = ""
-					})
+					}
+					Spacer()
+					Button(String(localized: "完成")) {
+						serverNameFocus.toggle()
+					}
 				}
+				
 				
 				ToolbarItem(placement: .topBarLeading) {
 					Button(action: {

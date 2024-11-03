@@ -258,6 +258,7 @@
       }
     },
     "下一项" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

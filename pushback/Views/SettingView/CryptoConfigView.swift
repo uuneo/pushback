@@ -121,16 +121,7 @@ struct CryptoConfigView: View {
 						}
 						.foregroundStyle(.gray)
 						.lineLimit(2)
-						.customKeyboardTools(_keyFocus) {
-							cryptoConfig.key = ""
-						} next: {
-							ivFocus = true
-						}
-
 						
-
-				
-					
 				}
 				
 				
@@ -165,9 +156,7 @@ struct CryptoConfigView: View {
 						}
 						.foregroundStyle(.gray)
 						.lineLimit(2)
-						.customKeyboardTools(_ivFocus, clear: {
-							cryptoConfig.iv =  ""
-						})
+						
 
 						
 				}
@@ -200,6 +189,19 @@ struct CryptoConfigView: View {
 			
 		}.navigationTitle(String(localized:  "算法配置"))
 			.toolbar{
+				ToolbarItem(placement: .keyboard) {
+					customKeyboardTools(show: $keyFocus) {
+						cryptoConfig.key = ""
+					} next: {
+						ivFocus = true
+					}
+					
+					customKeyboardTools(show: $ivFocus, clear: {
+						cryptoConfig.iv =  ""
+					})
+					
+					
+				}
 				ToolbarItem {
 					Button {
 						if verifyKey() && verifyIv(){

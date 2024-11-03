@@ -213,54 +213,6 @@ struct ImageCacheView: View {
 	}
 	
 	
-	@ViewBuilder
-	private func ImageCacheHeaderView() -> some View{
-		HStack{
-			Label(String(localized:  "相册名"), systemImage: "text.below.photo")
-				.symbolRenderingMode(.palette)
-				.foregroundStyle( .tint, Color.primary)
-			
-			Spacer()
-			TextField(
-				String(localized:  "相册名"),
-				text: $photoName
-			)
-			.focused($nameFieldIsFocused)
-			.foregroundStyle(Color.primary)
-			.multilineTextAlignment(.trailing)
-			.padding(.trailing, 30)
-			.overlay {
-				HStack{
-					Spacer()
-					Button {
-						self.nameFieldIsFocused.toggle()
-					} label: {
-						Image(systemName: "square.and.pencil.circle")
-							.symbolRenderingMode(.palette)
-							.foregroundStyle( .tint, Color.primary)
-					}
-					
-				}
-			}
-			
-			.onChange(of: photoName) {newValue in
-				// 去除空格并更新绑定的文本值
-				photoName = newValue.trimmingCharacters(in: .whitespaces)
-			}
-			.customKeyboardTools(_nameFieldIsFocused, clear: {
-				self.photoName = ""
-			},complete: {
-				nameFieldIsFocused = false
-			})
-			
-			
-			
-		}.padding()
-			.padding(.horizontal)
-	}
-	
-	
-	
 	func saveImage(_ items:[String]){
 		
 		Task.detached(priority: .background) {

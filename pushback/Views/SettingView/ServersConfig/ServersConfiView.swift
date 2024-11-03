@@ -145,6 +145,7 @@ struct ServersConfigView: View {
 						.autocapitalization(.none)
 						.disableAutocorrection(true)
 						.padding(.leading, 100)
+						.focused($serverNameFocus)
 						.overlay{
 							HStack{
 								Picker(selection: $pickerSelect) {
@@ -231,7 +232,7 @@ struct ServersConfigView: View {
 			.toolbar {
 				
 				ToolbarItem(placement: .keyboard) {
-					customKeyboardTools(show: _serverNameFocus,clear: {
+					customKeyboardTools(show: $serverNameFocus,clear: {
 						serverName = ""
 					})
 				}
@@ -284,7 +285,7 @@ struct ServersConfigView: View {
 			}
 			
 		}
-		.presentationDetents([.height(300),.medium,.large])
+		.presentationDetents([.height(300),.medium])
 	}
 	
 	func restorePushServerModals( cloudItem: PushServerModal){

@@ -287,35 +287,32 @@ extension View {
 
 
 
-extension View{
-	func customKeyboardTools(_ show:FocusState<Bool>, clear:(()-> Void)? = nil, next:(()-> Void)? = nil, complete:(()-> Void)? = nil) -> some View{
-		self
-			.toolbar {
-				if show.wrappedValue {
-					
-					ToolbarItem( placement: .keyboard){
-						HStack{
-							Button(String(localized: "清除")) {
-								clear?()
-							}
-							if next != nil{
-								Spacer()
-								Button(String(localized: "下一项")) {
-									next?()
-								}
-							}
-							
-							Spacer()
-							Button(String(localized: "完成")) {
-								complete?()
-								show.wrappedValue.toggle()
-							}
-						}
+struct customKeyboardTools: View {
+	var show: FocusState<Bool>.Binding
+	var clear:(()-> Void)? = nil
+	var next:(()-> Void)? = nil
+	var complete:(()-> Void)? = nil
+	
+	var body: some View {
+		HStack{
+			if show.wrappedValue {
+				Button(String(localized: "清除")) {
+					clear?()
+				}
+				if next != nil{
+					Spacer()
+					Button(String(localized: "下一项")) {
+						next?()
 					}
-					
-					
-					
+				}
+				
+				Spacer()
+				Button(String(localized: "完成")) {
+					complete?()
+					show.wrappedValue.toggle()
 				}
 			}
+			
+		}
 	}
 }

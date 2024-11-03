@@ -127,7 +127,7 @@ struct IntroView<ActionView: View>: View {
                         Button {
                             changeIntro()
                         } label: {
-                            Text("Next")
+							Text(String(localized: "继续"))
                                 .fontWeight(.semibold)
                                 .foregroundColor(.white)
                                 .frame(width: size.width * 0.4)

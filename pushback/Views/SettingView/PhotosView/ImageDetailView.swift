@@ -62,18 +62,20 @@ struct ImageDetailView:View {
 				TextField(text: $name) {
 					Label("修改", systemImage: "pencil")
 				}
-				.customField(icon: "pencil")
 				.focused($photoNamesShow)
 				.padding(.vertical)
-				.customKeyboardTools(_photoNamesShow,clear: {
-					self.name = ""
-				})
-				
+				.customField(icon: "pencil")
 				Spacer()
 				
 			}
 			.padding()
 			.toolbar {
+				
+				ToolbarItem(placement: .keyboard) {
+					customKeyboardTools(show: $photoNamesShow,clear: {
+						self.name = ""
+					})
+				}
 				
 				ToolbarItem(placement: .topBarTrailing) {
 					Button{

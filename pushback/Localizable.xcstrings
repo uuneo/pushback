@@ -177,9 +177,6 @@
         }
       }
     },
-    "Next" : {
-
-    },
     "Padding:" : {
       "localizations" : {
         "en" : {
@@ -261,7 +258,14 @@
       }
     },
     "下一项" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next "
+          }
+        }
+      }
     },
     "不保存消息" : {
       "localizations" : {
@@ -944,7 +948,14 @@
       }
     },
     "开始使用" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting Started"
+          }
+        }
+      }
     },
     "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息" : {
       "localizations" : {
@@ -1397,7 +1408,14 @@
       }
     },
     "格式错误" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formatting error"
+          }
+        }
+      }
     },
     "模式" : {
       "localizations" : {
@@ -1529,16 +1547,6 @@
         }
       }
     },
-    "相册名" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Album name"
-          }
-        }
-      }
-    },
     "示例" : {
       "localizations" : {
         "en" : {
@@ -1595,6 +1603,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algorithm setup"
+          }
+        }
+      }
+    },
+    "继续" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "continue"
           }
         }
       }

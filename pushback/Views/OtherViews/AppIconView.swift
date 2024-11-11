@@ -52,6 +52,7 @@ struct AppIconView: View {
 									Task{
 										do {
 											try await manager.setAlternateIconName(iconName)
+//											applicationIconImage										
 										}catch{
 	#if DEBUG
 											print(error.localizedDescription)

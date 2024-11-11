@@ -7,40 +7,49 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190E0CCE2CE1C45100F01858 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCC2CE1C45100F01858 /* xiu.caf */; };
+		190E0CCF2CE1C45100F01858 /* error.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC02CE1C45100F01858 /* error.caf */; };
+		190E0CD02CE1C45100F01858 /* kacha.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC32CE1C45100F01858 /* kacha.caf */; };
+		190E0CD22CE1C45100F01858 /* success.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC92CE1C45100F01858 /* success.caf */; };
+		190E0CD32CE1C45100F01858 /* bo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBB2CE1C45100F01858 /* bo.caf */; };
+		190E0CD42CE1C45100F01858 /* ping.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC62CE1C45100F01858 /* ping.caf */; };
+		190E0CD52CE1C45100F01858 /* blue.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBA2CE1C45100F01858 /* blue.caf */; };
+		190E0CD62CE1C45100F01858 /* dog.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBE2CE1C45100F01858 /* dog.caf */; };
+		190E0CD72CE1C45100F01858 /* duang.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBF2CE1C45100F01858 /* duang.caf */; };
+		190E0CD82CE1C45100F01858 /* gun.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC12CE1C45100F01858 /* gun.caf */; };
+		190E0CD92CE1C45100F01858 /* tubosu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCA2CE1C45100F01858 /* tubosu.caf */; };
+		190E0CDA2CE1C45100F01858 /* jingbao.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC22CE1C45100F01858 /* jingbao.caf */; };
+		190E0CDB2CE1C45100F01858 /* ding.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBD2CE1C45100F01858 /* ding.caf */; };
+		190E0CDC2CE1C45100F01858 /* weapon.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBC2CE1C45100F01858 /* weapon.caf */; };
+		190E0CDE2CE1C45100F01858 /* drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CB92CE1C45100F01858 /* drop.caf */; };
+		190E0CDF2CE1C45100F01858 /* runaway.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC72CE1C45100F01858 /* runaway.caf */; };
+		190E0CE02CE1C45100F01858 /* seconds.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC82CE1C45100F01858 /* seconds.caf */; };
+		190E0CE62CE1CAE100F01858 /* gold.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE22CE1CAE100F01858 /* gold.caf */; };
+		190E0CE72CE1CAE100F01858 /* click.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE12CE1CAE100F01858 /* click.caf */; };
+		190E0CE82CE1CAE100F01858 /* kill.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE32CE1CAE100F01858 /* kill.caf */; };
+		190E0CE92CE1CAE100F01858 /* no.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE42CE1CAE100F01858 /* no.caf */; };
+		190E0CEA2CE1CAE100F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
 		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		1957EA322CD5290A00CF05A0 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
-		19C13BDC2CCC850400A2F1A8 /* electronic.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC32CCC850400A2F1A8 /* electronic.caf */; };
-		19C13BDD2CCC850400A2F1A8 /* anticipate.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBB2CCC850400A2F1A8 /* anticipate.caf */; };
 		19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
-		19C13BDF2CCC850400A2F1A8 /* update.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD92CCC850400A2F1A8 /* update.caf */; };
 		19C13BE02CCC850400A2F1A8 /* ladder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC92CCC850400A2F1A8 /* ladder.caf */; };
 		19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
 		19C13BE22CCC850400A2F1A8 /* minuet.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCB2CCC850400A2F1A8 /* minuet.caf */; };
-		19C13BE32CCC850400A2F1A8 /* typewriters.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD82CCC850400A2F1A8 /* typewriters.caf */; };
 		19C13BE42CCC850400A2F1A8 /* multiwayinvitation.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */; };
-		19C13BE52CCC850400A2F1A8 /* sherwoodforest.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD22CCC850400A2F1A8 /* sherwoodforest.caf */; };
 		19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD32CCC850400A2F1A8 /* silence.caf */; };
 		19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC02CCC850400A2F1A8 /* chime.caf */; };
 		19C13BE82CCC850400A2F1A8 /* calypso.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBF2CCC850400A2F1A8 /* calypso.caf */; };
 		19C13BE92CCC850400A2F1A8 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBA2CCC850400A2F1A8 /* alarm.caf */; };
-		19C13BEA2CCC850400A2F1A8 /* suspense.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD52CCC850400A2F1A8 /* suspense.caf */; };
-		19C13BEB2CCC850400A2F1A8 /* gotosleep.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC62CCC850400A2F1A8 /* gotosleep.caf */; };
-		19C13BEC2CCC850400A2F1A8 /* paymentsuccess.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD02CCC850400A2F1A8 /* paymentsuccess.caf */; };
+		19C13BEC2CCC850400A2F1A8 /* paysuccess.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD02CCC850400A2F1A8 /* paysuccess.caf */; };
 		19C13BED2CCC850400A2F1A8 /* newmail.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCD2CCC850400A2F1A8 /* newmail.caf */; };
-		19C13BEE2CCC850400A2F1A8 /* bloom.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBE2CCC850400A2F1A8 /* bloom.caf */; };
-		19C13BEF2CCC850400A2F1A8 /* healthnotification.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC72CCC850400A2F1A8 /* healthnotification.caf */; };
+		19C13BEF2CCC850400A2F1A8 /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC72CCC850400A2F1A8 /* health.caf */; };
 		19C13BF02CCC850400A2F1A8 /* noir.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCF2CCC850400A2F1A8 /* noir.caf */; };
-		19C13BF12CCC850400A2F1A8 /* fanfare.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC42CCC850400A2F1A8 /* fanfare.caf */; };
 		19C13BF22CCC850400A2F1A8 /* telegraph.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD62CCC850400A2F1A8 /* telegraph.caf */; };
 		19C13BF32CCC850400A2F1A8 /* tiptoes.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD72CCC850400A2F1A8 /* tiptoes.caf */; };
 		19C13BF42CCC850400A2F1A8 /* birdsong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBD2CCC850400A2F1A8 /* birdsong.caf */; };
-		19C13BF52CCC850400A2F1A8 /* glass.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC52CCC850400A2F1A8 /* glass.caf */; };
 		19C13BF62CCC850400A2F1A8 /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD12CCC850400A2F1A8 /* shake.caf */; };
-		19C13BF72CCC850400A2F1A8 /* descent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC22CCC850400A2F1A8 /* descent.caf */; };
-		19C13BF82CCC850400A2F1A8 /* newsflash.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCE2CCC850400A2F1A8 /* newsflash.caf */; };
 		19C13BF92CCC850400A2F1A8 /* choo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC12CCC850400A2F1A8 /* choo.caf */; };
-		19C13BFA2CCC850400A2F1A8 /* bell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBC2CCC850400A2F1A8 /* bell.caf */; };
 		19C13C182CCC8A4100A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13C192CCC8A4100A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13C1A2CCC8A4100A2F1A8 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
@@ -61,10 +70,10 @@
 		19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
 		19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */; };
 		19C13C7D2CCC965B00A2F1A8 /* PushExampleModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C7C2CCC965100A2F1A8 /* PushExampleModal.swift */; };
-		19C13C942CCCD70F00A2F1A8 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		19C13C942CCCD70F00A2F1A8 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CBA2CCCD77600A2F1A8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */; };
 		19C13CBC2CCCD77600A2F1A8 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */; };
-		19C13CC62CCCD77600A2F1A8 /* NotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		19C13CC62CCCD77600A2F1A8 /* NotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CCB2CCCD8F800A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
 		19C13CCC2CCCD91500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CCE2CCCD97100A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCD2CCCD97100A2F1A8 /* Defaults */; };
@@ -81,7 +90,7 @@
 		19C13CDD2CCCDA6100A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
 		19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CE02CCCDA9500A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CDF2CCCDA9500A2F1A8 /* Defaults */; };
-		19C13CEF2CCCDADC00A2F1A8 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		19C13CEF2CCCDADC00A2F1A8 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CF42CCCDB4100A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CF52CCCDB4100A2F1A8 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */; };
 		19C13CF62CCCDB4100A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
@@ -153,41 +162,50 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		190E0CB92CE1C45100F01858 /* drop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = drop.caf; sourceTree = "<group>"; };
+		190E0CBA2CE1C45100F01858 /* blue.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = blue.caf; sourceTree = "<group>"; };
+		190E0CBB2CE1C45100F01858 /* bo.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bo.caf; sourceTree = "<group>"; };
+		190E0CBC2CE1C45100F01858 /* weapon.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = weapon.caf; sourceTree = "<group>"; };
+		190E0CBD2CE1C45100F01858 /* ding.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ding.caf; sourceTree = "<group>"; };
+		190E0CBE2CE1C45100F01858 /* dog.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dog.caf; sourceTree = "<group>"; };
+		190E0CBF2CE1C45100F01858 /* duang.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = duang.caf; sourceTree = "<group>"; };
+		190E0CC02CE1C45100F01858 /* error.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.caf; sourceTree = "<group>"; };
+		190E0CC12CE1C45100F01858 /* gun.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gun.caf; sourceTree = "<group>"; };
+		190E0CC22CE1C45100F01858 /* jingbao.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jingbao.caf; sourceTree = "<group>"; };
+		190E0CC32CE1C45100F01858 /* kacha.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kacha.caf; sourceTree = "<group>"; };
+		190E0CC62CE1C45100F01858 /* ping.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ping.caf; sourceTree = "<group>"; };
+		190E0CC72CE1C45100F01858 /* runaway.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = runaway.caf; sourceTree = "<group>"; };
+		190E0CC82CE1C45100F01858 /* seconds.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = seconds.caf; sourceTree = "<group>"; };
+		190E0CC92CE1C45100F01858 /* success.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = success.caf; sourceTree = "<group>"; };
+		190E0CCA2CE1C45100F01858 /* tubosu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tubosu.caf; sourceTree = "<group>"; };
+		190E0CCC2CE1C45100F01858 /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
+		190E0CE12CE1CAE100F01858 /* click.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = click.caf; sourceTree = "<group>"; };
+		190E0CE22CE1CAE100F01858 /* gold.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gold.caf; sourceTree = "<group>"; };
+		190E0CE32CE1CAE100F01858 /* kill.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kill.caf; sourceTree = "<group>"; };
+		190E0CE42CE1CAE100F01858 /* no.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = no.caf; sourceTree = "<group>"; };
+		190E0CE52CE1CAE100F01858 /* what.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = what.caf; sourceTree = "<group>"; };
 		1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		19C13BA52CCBDF8B00A2F1A8 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
 		19C13BBA2CCC850400A2F1A8 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
-		19C13BBB2CCC850400A2F1A8 /* anticipate.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = anticipate.caf; sourceTree = "<group>"; };
-		19C13BBC2CCC850400A2F1A8 /* bell.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bell.caf; sourceTree = "<group>"; };
 		19C13BBD2CCC850400A2F1A8 /* birdsong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = birdsong.caf; sourceTree = "<group>"; };
-		19C13BBE2CCC850400A2F1A8 /* bloom.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bloom.caf; sourceTree = "<group>"; };
 		19C13BBF2CCC850400A2F1A8 /* calypso.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = calypso.caf; sourceTree = "<group>"; };
 		19C13BC02CCC850400A2F1A8 /* chime.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = chime.caf; sourceTree = "<group>"; };
 		19C13BC12CCC850400A2F1A8 /* choo.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = choo.caf; sourceTree = "<group>"; };
-		19C13BC22CCC850400A2F1A8 /* descent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = descent.caf; sourceTree = "<group>"; };
-		19C13BC32CCC850400A2F1A8 /* electronic.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = electronic.caf; sourceTree = "<group>"; };
-		19C13BC42CCC850400A2F1A8 /* fanfare.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fanfare.caf; sourceTree = "<group>"; };
-		19C13BC52CCC850400A2F1A8 /* glass.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = glass.caf; sourceTree = "<group>"; };
-		19C13BC62CCC850400A2F1A8 /* gotosleep.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gotosleep.caf; sourceTree = "<group>"; };
-		19C13BC72CCC850400A2F1A8 /* healthnotification.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = healthnotification.caf; sourceTree = "<group>"; };
+		19C13BC72CCC850400A2F1A8 /* health.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = health.caf; sourceTree = "<group>"; };
 		19C13BC82CCC850400A2F1A8 /* horn.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = horn.caf; sourceTree = "<group>"; };
 		19C13BC92CCC850400A2F1A8 /* ladder.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ladder.caf; sourceTree = "<group>"; };
 		19C13BCA2CCC850400A2F1A8 /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mailsent.caf; sourceTree = "<group>"; };
 		19C13BCB2CCC850400A2F1A8 /* minuet.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = minuet.caf; sourceTree = "<group>"; };
 		19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = multiwayinvitation.caf; sourceTree = "<group>"; };
 		19C13BCD2CCC850400A2F1A8 /* newmail.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newmail.caf; sourceTree = "<group>"; };
-		19C13BCE2CCC850400A2F1A8 /* newsflash.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newsflash.caf; sourceTree = "<group>"; };
 		19C13BCF2CCC850400A2F1A8 /* noir.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = noir.caf; sourceTree = "<group>"; };
-		19C13BD02CCC850400A2F1A8 /* paymentsuccess.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = paymentsuccess.caf; sourceTree = "<group>"; };
+		19C13BD02CCC850400A2F1A8 /* paysuccess.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = paysuccess.caf; sourceTree = "<group>"; };
 		19C13BD12CCC850400A2F1A8 /* shake.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shake.caf; sourceTree = "<group>"; };
-		19C13BD22CCC850400A2F1A8 /* sherwoodforest.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sherwoodforest.caf; sourceTree = "<group>"; };
 		19C13BD32CCC850400A2F1A8 /* silence.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence.caf; sourceTree = "<group>"; };
 		19C13BD42CCC850400A2F1A8 /* spell.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = spell.caf; sourceTree = "<group>"; };
-		19C13BD52CCC850400A2F1A8 /* suspense.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = suspense.caf; sourceTree = "<group>"; };
 		19C13BD62CCC850400A2F1A8 /* telegraph.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = telegraph.caf; sourceTree = "<group>"; };
 		19C13BD72CCC850400A2F1A8 /* tiptoes.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tiptoes.caf; sourceTree = "<group>"; };
-		19C13BD82CCC850400A2F1A8 /* typewriters.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = typewriters.caf; sourceTree = "<group>"; };
-		19C13BD92CCC850400A2F1A8 /* update.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = update.caf; sourceTree = "<group>"; };
 		19C13BFB2CCC852000A2F1A8 /* Extension+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+.swift"; sourceTree = "<group>"; };
 		19C13BFC2CCC852000A2F1A8 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		19C13BFD2CCC852000A2F1A8 /* image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "image+.swift"; sourceTree = "<group>"; };
@@ -382,37 +400,46 @@
 			isa = PBXGroup;
 			children = (
 				19C13BBA2CCC850400A2F1A8 /* alarm.caf */,
-				19C13BBB2CCC850400A2F1A8 /* anticipate.caf */,
-				19C13BBC2CCC850400A2F1A8 /* bell.caf */,
 				19C13BBD2CCC850400A2F1A8 /* birdsong.caf */,
-				19C13BBE2CCC850400A2F1A8 /* bloom.caf */,
+				190E0CBA2CE1C45100F01858 /* blue.caf */,
+				190E0CBB2CE1C45100F01858 /* bo.caf */,
 				19C13BBF2CCC850400A2F1A8 /* calypso.caf */,
 				19C13BC02CCC850400A2F1A8 /* chime.caf */,
 				19C13BC12CCC850400A2F1A8 /* choo.caf */,
-				19C13BC22CCC850400A2F1A8 /* descent.caf */,
-				19C13BC32CCC850400A2F1A8 /* electronic.caf */,
-				19C13BC42CCC850400A2F1A8 /* fanfare.caf */,
-				19C13BC52CCC850400A2F1A8 /* glass.caf */,
-				19C13BC62CCC850400A2F1A8 /* gotosleep.caf */,
-				19C13BC72CCC850400A2F1A8 /* healthnotification.caf */,
+				190E0CE12CE1CAE100F01858 /* click.caf */,
+				190E0CBD2CE1C45100F01858 /* ding.caf */,
+				190E0CBE2CE1C45100F01858 /* dog.caf */,
+				190E0CB92CE1C45100F01858 /* drop.caf */,
+				190E0CBF2CE1C45100F01858 /* duang.caf */,
+				190E0CC02CE1C45100F01858 /* error.caf */,
+				190E0CE22CE1CAE100F01858 /* gold.caf */,
+				190E0CC12CE1C45100F01858 /* gun.caf */,
+				19C13BC72CCC850400A2F1A8 /* health.caf */,
 				19C13BC82CCC850400A2F1A8 /* horn.caf */,
+				190E0CC22CE1C45100F01858 /* jingbao.caf */,
+				190E0CC32CE1C45100F01858 /* kacha.caf */,
+				190E0CE32CE1CAE100F01858 /* kill.caf */,
 				19C13BC92CCC850400A2F1A8 /* ladder.caf */,
 				19C13BCA2CCC850400A2F1A8 /* mailsent.caf */,
 				19C13BCB2CCC850400A2F1A8 /* minuet.caf */,
 				19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */,
 				19C13BCD2CCC850400A2F1A8 /* newmail.caf */,
-				19C13BCE2CCC850400A2F1A8 /* newsflash.caf */,
+				190E0CE42CE1CAE100F01858 /* no.caf */,
 				19C13BCF2CCC850400A2F1A8 /* noir.caf */,
-				19C13BD02CCC850400A2F1A8 /* paymentsuccess.caf */,
+				19C13BD02CCC850400A2F1A8 /* paysuccess.caf */,
+				190E0CC62CE1C45100F01858 /* ping.caf */,
+				190E0CC72CE1C45100F01858 /* runaway.caf */,
+				190E0CC82CE1C45100F01858 /* seconds.caf */,
 				19C13BD12CCC850400A2F1A8 /* shake.caf */,
-				19C13BD22CCC850400A2F1A8 /* sherwoodforest.caf */,
 				19C13BD32CCC850400A2F1A8 /* silence.caf */,
 				19C13BD42CCC850400A2F1A8 /* spell.caf */,
-				19C13BD52CCC850400A2F1A8 /* suspense.caf */,
+				190E0CC92CE1C45100F01858 /* success.caf */,
 				19C13BD62CCC850400A2F1A8 /* telegraph.caf */,
 				19C13BD72CCC850400A2F1A8 /* tiptoes.caf */,
-				19C13BD82CCC850400A2F1A8 /* typewriters.caf */,
-				19C13BD92CCC850400A2F1A8 /* update.caf */,
+				190E0CCA2CE1C45100F01858 /* tubosu.caf */,
+				190E0CBC2CE1C45100F01858 /* weapon.caf */,
+				190E0CE52CE1CAE100F01858 /* what.caf */,
+				190E0CCC2CE1C45100F01858 /* xiu.caf */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -605,37 +632,46 @@
 			buildActionMask = 2147483647;
 			files = (
 				19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */,
-				19C13BDC2CCC850400A2F1A8 /* electronic.caf in Resources */,
-				19C13BDD2CCC850400A2F1A8 /* anticipate.caf in Resources */,
 				19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */,
-				19C13BDF2CCC850400A2F1A8 /* update.caf in Resources */,
 				19C13BE02CCC850400A2F1A8 /* ladder.caf in Resources */,
 				19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */,
 				19C13BE22CCC850400A2F1A8 /* minuet.caf in Resources */,
-				19C13BE32CCC850400A2F1A8 /* typewriters.caf in Resources */,
 				19C13BE42CCC850400A2F1A8 /* multiwayinvitation.caf in Resources */,
-				19C13BE52CCC850400A2F1A8 /* sherwoodforest.caf in Resources */,
+				190E0CE62CE1CAE100F01858 /* gold.caf in Resources */,
+				190E0CE72CE1CAE100F01858 /* click.caf in Resources */,
+				190E0CE82CE1CAE100F01858 /* kill.caf in Resources */,
+				190E0CE92CE1CAE100F01858 /* no.caf in Resources */,
+				190E0CEA2CE1CAE100F01858 /* what.caf in Resources */,
+				190E0CCE2CE1C45100F01858 /* xiu.caf in Resources */,
+				190E0CCF2CE1C45100F01858 /* error.caf in Resources */,
+				190E0CD02CE1C45100F01858 /* kacha.caf in Resources */,
+				190E0CD22CE1C45100F01858 /* success.caf in Resources */,
+				190E0CD32CE1C45100F01858 /* bo.caf in Resources */,
+				190E0CD42CE1C45100F01858 /* ping.caf in Resources */,
+				190E0CD52CE1C45100F01858 /* blue.caf in Resources */,
+				190E0CD62CE1C45100F01858 /* dog.caf in Resources */,
+				190E0CD72CE1C45100F01858 /* duang.caf in Resources */,
+				190E0CD82CE1C45100F01858 /* gun.caf in Resources */,
+				190E0CD92CE1C45100F01858 /* tubosu.caf in Resources */,
+				190E0CDA2CE1C45100F01858 /* jingbao.caf in Resources */,
+				190E0CDB2CE1C45100F01858 /* ding.caf in Resources */,
+				190E0CDC2CE1C45100F01858 /* weapon.caf in Resources */,
+				190E0CDE2CE1C45100F01858 /* drop.caf in Resources */,
+				190E0CDF2CE1C45100F01858 /* runaway.caf in Resources */,
+				190E0CE02CE1C45100F01858 /* seconds.caf in Resources */,
 				19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */,
 				19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */,
 				19C13BE82CCC850400A2F1A8 /* calypso.caf in Resources */,
 				19C13BE92CCC850400A2F1A8 /* alarm.caf in Resources */,
-				19C13BEA2CCC850400A2F1A8 /* suspense.caf in Resources */,
-				19C13BEB2CCC850400A2F1A8 /* gotosleep.caf in Resources */,
-				19C13BEC2CCC850400A2F1A8 /* paymentsuccess.caf in Resources */,
+				19C13BEC2CCC850400A2F1A8 /* paysuccess.caf in Resources */,
 				19C13BED2CCC850400A2F1A8 /* newmail.caf in Resources */,
-				19C13BEE2CCC850400A2F1A8 /* bloom.caf in Resources */,
-				19C13BEF2CCC850400A2F1A8 /* healthnotification.caf in Resources */,
+				19C13BEF2CCC850400A2F1A8 /* health.caf in Resources */,
 				19C13BF02CCC850400A2F1A8 /* noir.caf in Resources */,
-				19C13BF12CCC850400A2F1A8 /* fanfare.caf in Resources */,
 				19C13BF22CCC850400A2F1A8 /* telegraph.caf in Resources */,
 				19C13BF32CCC850400A2F1A8 /* tiptoes.caf in Resources */,
 				19C13BF42CCC850400A2F1A8 /* birdsong.caf in Resources */,
-				19C13BF52CCC850400A2F1A8 /* glass.caf in Resources */,
 				19C13BF62CCC850400A2F1A8 /* shake.caf in Resources */,
-				19C13BF72CCC850400A2F1A8 /* descent.caf in Resources */,
-				19C13BF82CCC850400A2F1A8 /* newsflash.caf in Resources */,
 				19C13BF92CCC850400A2F1A8 /* choo.caf in Resources */,
-				19C13BFA2CCC850400A2F1A8 /* bell.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,16 +767,19 @@
 /* Begin PBXTargetDependency section */
 		19C13C932CCCD70F00A2F1A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 19C13C8C2CCCD70E00A2F1A8 /* NotificationService */;
 			targetProxy = 19C13C922CCCD70F00A2F1A8 /* PBXContainerItemProxy */;
 		};
 		19C13CC52CCCD77600A2F1A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 19C13CB62CCCD77600A2F1A8 /* NotificationContent */;
 			targetProxy = 19C13CC42CCCD77600A2F1A8 /* PBXContainerItemProxy */;
 		};
 		19C13CEE2CCCDADC00A2F1A8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 19C13CE42CCCDADC00A2F1A8 /* ShareExtension */;
 			targetProxy = 19C13CED2CCCDADC00A2F1A8 /* PBXContainerItemProxy */;
 		};
@@ -899,6 +938,10 @@
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -934,6 +977,10 @@
 				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -961,6 +1008,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -988,6 +1036,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1015,6 +1064,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1042,6 +1092,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1069,6 +1120,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1096,6 +1148,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

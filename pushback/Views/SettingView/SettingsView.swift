@@ -355,13 +355,14 @@ struct SettingsView: View {
 					}
 					
 					
-				}.listStyle(.insetGrouped)
-				
-				
+					
+				}
+				.environment(\.defaultMinListRowHeight, 70)
+				.scrollContentBackground(.hidden)
 			}
 			.navigationTitle(String(localized: "设置"))
 			.loading(showLoading)
-			.background(Color(hex: "#f5f5f5"))
+			.background(.background)
 			.tipsToolbar(wifi: Monitors.shared.isConnected, notification: Monitors.shared.isAuthorized, callback: {
 				manager.openSetting()
 			})

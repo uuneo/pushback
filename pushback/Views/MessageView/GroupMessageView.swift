@@ -151,6 +151,7 @@ struct GroupMessageView: View {
 					
 				}))
 			}
+			
 		}
 	}
 	

@@ -18,7 +18,6 @@
 		190E0CD72CE1C45100F01858 /* duang.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBF2CE1C45100F01858 /* duang.caf */; };
 		190E0CD82CE1C45100F01858 /* gun.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC12CE1C45100F01858 /* gun.caf */; };
 		190E0CD92CE1C45100F01858 /* tubosu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCA2CE1C45100F01858 /* tubosu.caf */; };
-		190E0CDA2CE1C45100F01858 /* jingbao.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC22CE1C45100F01858 /* jingbao.caf */; };
 		190E0CDB2CE1C45100F01858 /* ding.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBD2CE1C45100F01858 /* ding.caf */; };
 		190E0CDC2CE1C45100F01858 /* weapon.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBC2CE1C45100F01858 /* weapon.caf */; };
 		190E0CDE2CE1C45100F01858 /* drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CB92CE1C45100F01858 /* drop.caf */; };
@@ -29,6 +28,7 @@
 		190E0CE82CE1CAE100F01858 /* kill.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE32CE1CAE100F01858 /* kill.caf */; };
 		190E0CE92CE1CAE100F01858 /* no.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE42CE1CAE100F01858 /* no.caf */; };
 		190E0CEA2CE1CAE100F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
+		190E0CF02CE1DD4F00F01858 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CEF2CE1DD4F00F01858 /* alarm.caf */; };
 		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		1957EA322CD5290A00CF05A0 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
@@ -40,7 +40,6 @@
 		19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD32CCC850400A2F1A8 /* silence.caf */; };
 		19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC02CCC850400A2F1A8 /* chime.caf */; };
 		19C13BE82CCC850400A2F1A8 /* calypso.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBF2CCC850400A2F1A8 /* calypso.caf */; };
-		19C13BE92CCC850400A2F1A8 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBA2CCC850400A2F1A8 /* alarm.caf */; };
 		19C13BEC2CCC850400A2F1A8 /* paysuccess.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD02CCC850400A2F1A8 /* paysuccess.caf */; };
 		19C13BED2CCC850400A2F1A8 /* newmail.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCD2CCC850400A2F1A8 /* newmail.caf */; };
 		19C13BEF2CCC850400A2F1A8 /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC72CCC850400A2F1A8 /* health.caf */; };
@@ -171,7 +170,6 @@
 		190E0CBF2CE1C45100F01858 /* duang.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = duang.caf; sourceTree = "<group>"; };
 		190E0CC02CE1C45100F01858 /* error.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.caf; sourceTree = "<group>"; };
 		190E0CC12CE1C45100F01858 /* gun.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gun.caf; sourceTree = "<group>"; };
-		190E0CC22CE1C45100F01858 /* jingbao.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jingbao.caf; sourceTree = "<group>"; };
 		190E0CC32CE1C45100F01858 /* kacha.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kacha.caf; sourceTree = "<group>"; };
 		190E0CC62CE1C45100F01858 /* ping.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ping.caf; sourceTree = "<group>"; };
 		190E0CC72CE1C45100F01858 /* runaway.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = runaway.caf; sourceTree = "<group>"; };
@@ -184,10 +182,10 @@
 		190E0CE32CE1CAE100F01858 /* kill.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kill.caf; sourceTree = "<group>"; };
 		190E0CE42CE1CAE100F01858 /* no.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = no.caf; sourceTree = "<group>"; };
 		190E0CE52CE1CAE100F01858 /* what.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = what.caf; sourceTree = "<group>"; };
+		190E0CEF2CE1DD4F00F01858 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
 		1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		19C13BA52CCBDF8B00A2F1A8 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
-		19C13BBA2CCC850400A2F1A8 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
 		19C13BBD2CCC850400A2F1A8 /* birdsong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = birdsong.caf; sourceTree = "<group>"; };
 		19C13BBF2CCC850400A2F1A8 /* calypso.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = calypso.caf; sourceTree = "<group>"; };
 		19C13BC02CCC850400A2F1A8 /* chime.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = chime.caf; sourceTree = "<group>"; };
@@ -399,7 +397,7 @@
 		19C13BDA2CCC850400A2F1A8 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				19C13BBA2CCC850400A2F1A8 /* alarm.caf */,
+				190E0CEF2CE1DD4F00F01858 /* alarm.caf */,
 				19C13BBD2CCC850400A2F1A8 /* birdsong.caf */,
 				190E0CBA2CE1C45100F01858 /* blue.caf */,
 				190E0CBB2CE1C45100F01858 /* bo.caf */,
@@ -416,7 +414,6 @@
 				190E0CC12CE1C45100F01858 /* gun.caf */,
 				19C13BC72CCC850400A2F1A8 /* health.caf */,
 				19C13BC82CCC850400A2F1A8 /* horn.caf */,
-				190E0CC22CE1C45100F01858 /* jingbao.caf */,
 				190E0CC32CE1C45100F01858 /* kacha.caf */,
 				190E0CE32CE1CAE100F01858 /* kill.caf */,
 				19C13BC92CCC850400A2F1A8 /* ladder.caf */,
@@ -642,6 +639,7 @@
 				190E0CE82CE1CAE100F01858 /* kill.caf in Resources */,
 				190E0CE92CE1CAE100F01858 /* no.caf in Resources */,
 				190E0CEA2CE1CAE100F01858 /* what.caf in Resources */,
+				190E0CF02CE1DD4F00F01858 /* alarm.caf in Resources */,
 				190E0CCE2CE1C45100F01858 /* xiu.caf in Resources */,
 				190E0CCF2CE1C45100F01858 /* error.caf in Resources */,
 				190E0CD02CE1C45100F01858 /* kacha.caf in Resources */,
@@ -653,7 +651,6 @@
 				190E0CD72CE1C45100F01858 /* duang.caf in Resources */,
 				190E0CD82CE1C45100F01858 /* gun.caf in Resources */,
 				190E0CD92CE1C45100F01858 /* tubosu.caf in Resources */,
-				190E0CDA2CE1C45100F01858 /* jingbao.caf in Resources */,
 				190E0CDB2CE1C45100F01858 /* ding.caf in Resources */,
 				190E0CDC2CE1C45100F01858 /* weapon.caf in Resources */,
 				190E0CDE2CE1C45100F01858 /* drop.caf in Resources */,
@@ -662,7 +659,6 @@
 				19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */,
 				19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */,
 				19C13BE82CCC850400A2F1A8 /* calypso.caf in Resources */,
-				19C13BE92CCC850400A2F1A8 /* alarm.caf in Resources */,
 				19C13BEC2CCC850400A2F1A8 /* paysuccess.caf in Resources */,
 				19C13BED2CCC850400A2F1A8 /* newmail.caf in Resources */,
 				19C13BEF2CCC850400A2F1A8 /* health.caf in Resources */,
@@ -935,7 +931,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -974,7 +970,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -1004,7 +1000,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1032,7 +1028,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1060,7 +1056,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1088,7 +1084,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1116,7 +1112,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1144,7 +1140,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

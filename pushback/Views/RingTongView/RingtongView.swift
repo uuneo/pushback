@@ -12,23 +12,11 @@ import UIKit
 struct RingtongView: View {
 	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject private var manager:PushbackManager
+	@State private var searchText:String = ""
 	@State private var showUpload:Bool = false
 	
 	var body: some View {
 		List {
-			Section{
-				ForEach(manager.customSounds, id: \.self) { url in
-					RingtoneItemView(audio: url)
-					
-				}.onDelete { indexSet in
-					for index in indexSet{
-						manager.deleteSound(url: manager.customSounds[index])
-					}
-				}
-			}header: {
-				Text(String(localized:  "自定义铃声"))
-			}
-			
 			
 			
 			Section {
@@ -77,6 +65,8 @@ struct RingtongView: View {
 					
 					Spacer()
 				}
+			}header: {
+				Spacer()
 			}footer: {
 				HStack{
 					Text(String(localized:  "请先将铃声"))
@@ -92,6 +82,21 @@ struct RingtongView: View {
 				}
 			}
 			
+			if manager.customSounds.count > 0{
+				Section{
+					ForEach(manager.customSounds, id: \.self) { url in
+						RingtoneItemView(audio: url)
+						
+					}.onDelete { indexSet in
+						for index in indexSet{
+							manager.deleteSound(url: manager.customSounds[index])
+						}
+					}
+				}header: {
+					Text(String(localized:  "自定义铃声"))
+				}
+			}
+			
 			
 			Section{
 				ForEach(manager.defaultSounds, id: \.self) { url in
@@ -103,11 +108,25 @@ struct RingtongView: View {
 			
 			
 		}
+		.searchable(text: $searchText,  prompt: Text("搜索云端共享铃声")){
+			Text("")
+		}
+
 	}
 }
 
 #Preview {
-	RingtongView()
-		.environmentObject(PushbackManager.shared)
+	NavigationStack{
+		RingtongView()
+			.environmentObject(PushbackManager.shared)
+	}
 	
+}
+
+struct RingtoneCloudData: Codable,Identifiable{
+	var id:String = UUID().uuidString
+	var name:String
+	var prompt:[String] = []
+	var count:Int
+	var data:Data
 }

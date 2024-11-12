@@ -68,8 +68,8 @@ fileprivate struct ShareView: View {
 					}
 				}
 				.frame(height: 500)
-//				.scrollIndicators(.hidden)
-//				.scrollTargetBehavior(.paging)
+				.scrollIndicators(.hidden)
+				.scrollTargetBehavior(.paging)
 				.padding(.horizontal, -15)
 				
 				/// Save Button

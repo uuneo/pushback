@@ -14,6 +14,7 @@ struct GroupMessageView: View {
 	@ObservedSectionedResults(Message.self,sectionKeyPath: \.group,sortDescriptors: [ SortDescriptor(keyPath: "createDate", ascending: false)]) var messages
 	
 	@EnvironmentObject private var manager:PushbackManager
+	@Environment(\.isSearching) var isSearching
 	@Default(.appIcon) private var appicon
 	@State private var showAction = false
 	@State private var helpviewSize:CGSize = .zero
@@ -129,7 +130,7 @@ struct GroupMessageView: View {
 				
 			}
 			.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic)){
-				SearchMessageView(searchText: searchText, group: searchText)
+				SearchMessageView(searchText: searchText)
 			}
 			.actionSheet(isPresented: $showAction) {
 				

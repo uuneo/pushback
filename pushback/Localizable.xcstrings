@@ -247,6 +247,16 @@
         }
       }
     },
+    "上传" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload"
+          }
+        }
+      }
+    },
     "上传铃声" : {
       "localizations" : {
         "en" : {
@@ -257,13 +267,12 @@
         }
       }
     },
-    "下一项" : {
-      "extractionState" : "stale",
+    "下载量前30" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next "
+            "value" : " Top 30"
           }
         }
       }
@@ -284,6 +293,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid address"
+          }
+        }
+      }
+    },
+    "云共享" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud sharing"
+          }
+        }
+      }
+    },
+    "云端共享" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud sharing"
+          }
+        }
+      }
+    },
+    "云音" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud Sound"
           }
         }
       }
@@ -508,6 +547,16 @@
         }
       }
     },
+    "分享成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share success"
+          }
+        }
+      }
+    },
     "切换服务器" : {
       "localizations" : {
         "en" : {
@@ -614,6 +663,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encrypted data (base64 encoded"
+          }
+        }
+      }
+    },
+    "加载中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading…"
           }
         }
       }
@@ -1138,6 +1197,46 @@
         }
       }
     },
+    "描述不能为空" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description required"
+          }
+        }
+      }
+    },
+    "描述词逗号间隔" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description words separated by commas"
+          }
+        }
+      }
+    },
+    "搜索云端共享铃声" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search cloud-shared ringtones"
+          }
+        }
+      }
+    },
+    "搜索结果" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search results"
+          }
+        }
+      }
+    },
     "携带一个image" : {
       "localizations" : {
         "en" : {
@@ -1198,6 +1297,16 @@
         }
       }
     },
+    "文件(名)重复" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filename duplicate"
+          }
+        }
+      }
+    },
     "文件不存在" : {
       "localizations" : {
         "en" : {
@@ -1208,12 +1317,52 @@
         }
       }
     },
+    "文件名" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File Name"
+          }
+        }
+      }
+    },
+    "文件名不能小于5个字符" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "be at least 5 chars"
+          }
+        }
+      }
+    },
+    "文件名不能重复,不要携带.caf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filename must be unique, no \".caf\""
+          }
+        }
+      }
+    },
     "文件格式错误" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "File format error"
+          }
+        }
+      }
+    },
+    "文件重复" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File duplication"
           }
         }
       }
@@ -1874,6 +2023,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ringtone list"
+          }
+        }
+      }
+    },
+    "铃声描述词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ringtone description words"
           }
         }
       }

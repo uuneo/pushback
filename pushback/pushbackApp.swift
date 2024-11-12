@@ -16,8 +16,6 @@ struct pushbackApp: SwiftUI.App {
 		WindowGroup {
 			RootView{
 				ContentView()
-				
-				
 			}
 			.environmentObject(PushbackManager.shared)
 		}

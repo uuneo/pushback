@@ -329,7 +329,8 @@ extension PushbackManager{
 		}()
 		
 		let customSounds: [URL] = {
-			let soundsDirectoryUrl = getSoundsDirectory()
+			guard let soundsDirectoryUrl = getSoundsGroupDirectory() else { return []}
+			
 			var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
 			urlemp.sort { u1, u2 -> Bool in
 				u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == ComparisonResult.orderedAscending
@@ -362,11 +363,36 @@ extension PushbackManager{
 	}
 	
 	
-	/// 将指定文件保存在 Library/Sound，如果存在则覆盖
-	func saveSound(url: URL) {
-		let soundsDirectoryUrl = getSoundsDirectory()
-		saveFile(to: soundsDirectoryUrl, from: url)
-		saveSoundToGroupDirectory(url: url)
+	/// 通用文件保存方法
+	func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
+		guard let groupDirectoryUrl = getSoundsGroupDirectory() else  {
+			return
+		}
+		
+		var destinationUrl:URL{
+			if let lastPath {
+				return groupDirectoryUrl.appendingPathComponent(lastPath)
+			}else{
+				return groupDirectoryUrl.appendingPathComponent(sourceUrl.lastPathComponent)
+			}
+		}
+		
+		
+		if manager.fileExists(atPath: destinationUrl.path) {
+			try? manager.removeItem(at: destinationUrl)
+		}
+		
+		do{
+			try manager.copyItem(at: sourceUrl, to: destinationUrl)
+			Toast.shared.present(title: String(localized: "保存成功"), symbol: .success)
+		}catch{
+			Toast.shared.present(title: error.localizedDescription, symbol: .error)
+		}
+		
+		
+		
+		
+		
 		getFileList()
 	}
 	
@@ -380,26 +406,6 @@ extension PushbackManager{
 		getFileList()
 	}
 	
-	/// 获取 Library 目录下的 Sounds 文件夹
-	/// 如果不存在就创建
-	private func getSoundsDirectory() -> URL {
-		let soundFolderPath = manager.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent(BaseConfig.Sounds)
-		
-		var isDirectory: ObjCBool = false
-		
-		if !manager.fileExists(atPath: soundFolderPath.path, isDirectory: &isDirectory) || !isDirectory.boolValue{
-			try? manager.createDirectory(at: soundFolderPath, withIntermediateDirectories: true, attributes: nil)
-		}
-		
-		return soundFolderPath
-	}
-	
-	/// 保存到共享文件夹，供 NotificationServiceExtension 使用
-	private func saveSoundToGroupDirectory(url: URL) {
-		if let groupDirectoryUrl = getSoundsGroupDirectory() {
-			saveFile(to: groupDirectoryUrl, from: url)
-		}
-	}
 	
 	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
 	private func getSoundsGroupDirectory() -> URL? {
@@ -414,14 +420,10 @@ extension PushbackManager{
 	
 	
 	
-	/// 通用文件保存方法
-	private func saveFile(to directoryUrl: URL, from sourceUrl: URL) {
-		let destinationUrl = directoryUrl.appendingPathComponent(sourceUrl.lastPathComponent)
-		if manager.fileExists(atPath: destinationUrl.path) {
-			try? manager.removeItem(at: destinationUrl)
-		}
-		try? manager.copyItem(at: sourceUrl, to: destinationUrl)
+	func hideKeyboard() {
+		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
+	
 }
 
 

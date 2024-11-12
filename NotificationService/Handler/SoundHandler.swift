@@ -16,7 +16,7 @@ class SoundHandler: NotificationContentHandler{
         guard sound.count == 0 else { return bestAttemptContent }
 		
         
-        bestAttemptContent.sound = UNNotificationSound(named:  .init(rawValue: "\(Defaults[.sound]).caf") )
+		bestAttemptContent.sound = UNNotificationSound(named:  .init(rawValue: "\(Defaults[.sound].name).caf") )
         
         return bestAttemptContent
         

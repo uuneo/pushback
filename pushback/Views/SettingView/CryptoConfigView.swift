@@ -200,11 +200,7 @@ struct CryptoConfigView: View {
 					}
 					Spacer()
 					Button(String(localized: "完成")) {
-						if keyFocus {
-							keyFocus.toggle()
-						}else if ivFocus{
-							ivFocus.toggle()
-						}
+						PushbackManager.shared.hideKeyboard()
 					}
 				}
 				

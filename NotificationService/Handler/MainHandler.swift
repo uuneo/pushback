@@ -29,9 +29,9 @@ enum NotificationContentHandlerItem: CaseIterable {
         case .ciphertext:
             return CiphertextHandler()
         case .level:
-            return LevelHandler()
+			return LevelHandler()
 		case .badge:
-			return BadgeProcessor()
+			return BadgeHandler()
         case .autoCopy:
             return AutoCopyHandler()
         case .archive:

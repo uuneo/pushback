@@ -140,7 +140,6 @@ struct ContentView: View {
 	func IpadHomeView() -> some View{
 		NavigationSplitView(columnVisibility: $noShow) {
 			SettingsView()
-				
 		} detail: {
 			GroupMessageView()
 		}

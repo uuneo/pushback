@@ -37,6 +37,7 @@ class BaseConfig {
 	static let  activeAppIcon = "setting_active_app_icon"
 	static let 	customPhotoName = "CustomPhotoName"
 	static let 	imagsList = "customImagesCache"
+	static let 	RingTongRecord = "RingTongRecord"
 	
 	
 	

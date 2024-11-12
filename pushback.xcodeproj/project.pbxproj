@@ -29,13 +29,17 @@
 		190E0CE92CE1CAE100F01858 /* no.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE42CE1CAE100F01858 /* no.caf */; };
 		190E0CEA2CE1CAE100F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
 		190E0CF02CE1DD4F00F01858 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CEF2CE1DD4F00F01858 /* alarm.caf */; };
+		190E0CF52CE1E1B600F01858 /* care.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF12CE1E1B600F01858 /* care.caf */; };
+		190E0CF62CE1E1B600F01858 /* oldphone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF32CE1E1B600F01858 /* oldphone.caf */; };
+		190E0CF72CE1E1B600F01858 /* dongdong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF22CE1E1B600F01858 /* dongdong.caf */; };
+		190E0CF82CE1E1B600F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
+		190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */; };
 		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		1957EA322CD5290A00CF05A0 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
 		19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
 		19C13BE02CCC850400A2F1A8 /* ladder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC92CCC850400A2F1A8 /* ladder.caf */; };
 		19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
-		19C13BE22CCC850400A2F1A8 /* minuet.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCB2CCC850400A2F1A8 /* minuet.caf */; };
 		19C13BE42CCC850400A2F1A8 /* multiwayinvitation.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */; };
 		19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD32CCC850400A2F1A8 /* silence.caf */; };
 		19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC02CCC850400A2F1A8 /* chime.caf */; };
@@ -183,6 +187,11 @@
 		190E0CE42CE1CAE100F01858 /* no.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = no.caf; sourceTree = "<group>"; };
 		190E0CE52CE1CAE100F01858 /* what.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = what.caf; sourceTree = "<group>"; };
 		190E0CEF2CE1DD4F00F01858 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
+		190E0CF12CE1E1B600F01858 /* care.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = care.caf; sourceTree = "<group>"; };
+		190E0CF22CE1E1B600F01858 /* dongdong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dongdong.caf; sourceTree = "<group>"; };
+		190E0CF32CE1E1B600F01858 /* oldphone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = oldphone.caf; sourceTree = "<group>"; };
+		190E0CF42CE1E1B600F01858 /* weixin.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = weixin.caf; sourceTree = "<group>"; };
+		190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsTongCloudKit.swift; sourceTree = "<group>"; };
 		1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		19C13BA52CCBDF8B00A2F1A8 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
@@ -194,7 +203,6 @@
 		19C13BC82CCC850400A2F1A8 /* horn.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = horn.caf; sourceTree = "<group>"; };
 		19C13BC92CCC850400A2F1A8 /* ladder.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ladder.caf; sourceTree = "<group>"; };
 		19C13BCA2CCC850400A2F1A8 /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mailsent.caf; sourceTree = "<group>"; };
-		19C13BCB2CCC850400A2F1A8 /* minuet.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = minuet.caf; sourceTree = "<group>"; };
 		19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = multiwayinvitation.caf; sourceTree = "<group>"; };
 		19C13BCD2CCC850400A2F1A8 /* newmail.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newmail.caf; sourceTree = "<group>"; };
 		19C13BCF2CCC850400A2F1A8 /* noir.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = noir.caf; sourceTree = "<group>"; };
@@ -338,6 +346,7 @@
 		1957E9082CD1218A00CF05A0 /* ICloudData */ = {
 			isa = PBXGroup;
 			children = (
+				190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */,
 				1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */,
 			);
 			path = ICloudData;
@@ -346,10 +355,10 @@
 		19C13B9C2CCBDF8B00A2F1A8 = {
 			isa = PBXGroup;
 			children = (
+				19C13BDA2CCC850400A2F1A8 /* Sounds */,
 				1957E9082CD1218A00CF05A0 /* ICloudData */,
 				19C13BB92CCC84F300A2F1A8 /* Extensions */,
 				19C13C162CCC8A0F00A2F1A8 /* Managers */,
-				19C13BDA2CCC850400A2F1A8 /* Sounds */,
 				19C13BB62CCBE24A00A2F1A8 /* Publics */,
 				19C13BA72CCBDF8B00A2F1A8 /* pushback */,
 				19C13C8E2CCCD70F00A2F1A8 /* NotificationService */,
@@ -402,11 +411,13 @@
 				190E0CBA2CE1C45100F01858 /* blue.caf */,
 				190E0CBB2CE1C45100F01858 /* bo.caf */,
 				19C13BBF2CCC850400A2F1A8 /* calypso.caf */,
+				190E0CF12CE1E1B600F01858 /* care.caf */,
 				19C13BC02CCC850400A2F1A8 /* chime.caf */,
 				19C13BC12CCC850400A2F1A8 /* choo.caf */,
 				190E0CE12CE1CAE100F01858 /* click.caf */,
 				190E0CBD2CE1C45100F01858 /* ding.caf */,
 				190E0CBE2CE1C45100F01858 /* dog.caf */,
+				190E0CF22CE1E1B600F01858 /* dongdong.caf */,
 				190E0CB92CE1C45100F01858 /* drop.caf */,
 				190E0CBF2CE1C45100F01858 /* duang.caf */,
 				190E0CC02CE1C45100F01858 /* error.caf */,
@@ -418,11 +429,11 @@
 				190E0CE32CE1CAE100F01858 /* kill.caf */,
 				19C13BC92CCC850400A2F1A8 /* ladder.caf */,
 				19C13BCA2CCC850400A2F1A8 /* mailsent.caf */,
-				19C13BCB2CCC850400A2F1A8 /* minuet.caf */,
 				19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */,
 				19C13BCD2CCC850400A2F1A8 /* newmail.caf */,
 				190E0CE42CE1CAE100F01858 /* no.caf */,
 				19C13BCF2CCC850400A2F1A8 /* noir.caf */,
+				190E0CF32CE1E1B600F01858 /* oldphone.caf */,
 				19C13BD02CCC850400A2F1A8 /* paysuccess.caf */,
 				190E0CC62CE1C45100F01858 /* ping.caf */,
 				190E0CC72CE1C45100F01858 /* runaway.caf */,
@@ -435,6 +446,7 @@
 				19C13BD72CCC850400A2F1A8 /* tiptoes.caf */,
 				190E0CCA2CE1C45100F01858 /* tubosu.caf */,
 				190E0CBC2CE1C45100F01858 /* weapon.caf */,
+				190E0CF42CE1E1B600F01858 /* weixin.caf */,
 				190E0CE52CE1CAE100F01858 /* what.caf */,
 				190E0CCC2CE1C45100F01858 /* xiu.caf */,
 			);
@@ -632,7 +644,6 @@
 				19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */,
 				19C13BE02CCC850400A2F1A8 /* ladder.caf in Resources */,
 				19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */,
-				19C13BE22CCC850400A2F1A8 /* minuet.caf in Resources */,
 				19C13BE42CCC850400A2F1A8 /* multiwayinvitation.caf in Resources */,
 				190E0CE62CE1CAE100F01858 /* gold.caf in Resources */,
 				190E0CE72CE1CAE100F01858 /* click.caf in Resources */,
@@ -658,6 +669,10 @@
 				190E0CE02CE1C45100F01858 /* seconds.caf in Resources */,
 				19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */,
 				19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */,
+				190E0CF52CE1E1B600F01858 /* care.caf in Resources */,
+				190E0CF62CE1E1B600F01858 /* oldphone.caf in Resources */,
+				190E0CF72CE1E1B600F01858 /* dongdong.caf in Resources */,
+				190E0CF82CE1E1B600F01858 /* weixin.caf in Resources */,
 				19C13BE82CCC850400A2F1A8 /* calypso.caf in Resources */,
 				19C13BEC2CCC850400A2F1A8 /* paysuccess.caf in Resources */,
 				19C13BED2CCC850400A2F1A8 /* newmail.caf in Resources */,
@@ -712,6 +727,7 @@
 				19C13C1B2CCC8A4100A2F1A8 /* image+.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
 				19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */,
+				190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */,
 				19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */,
 				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
 				19C13C7D2CCC965B00A2F1A8 /* PushExampleModal.swift in Sources */,
@@ -1110,7 +1126,7 @@
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1139,7 +1155,7 @@
 				INFOPLIST_FILE = ShareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ShareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

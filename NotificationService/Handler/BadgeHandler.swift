@@ -10,7 +10,7 @@ import Defaults
 
 
 /// 通知角标
-class BadgeProcessor: NotificationContentHandler {
+class BadgeHandler: NotificationContentHandler {
 	
 	private lazy var realm: Realm? = {
 		Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration

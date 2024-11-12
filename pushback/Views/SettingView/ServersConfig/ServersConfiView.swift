@@ -237,7 +237,7 @@ struct ServersConfigView: View {
 					}
 					Spacer()
 					Button(String(localized: "完成")) {
-						serverNameFocus.toggle()
+						PushbackManager.shared.hideKeyboard()
 					}
 				}
 				

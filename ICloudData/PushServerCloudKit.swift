@@ -17,10 +17,16 @@ class PushServerCloudKit {
 
 	// MARK: - 保存记录到私有数据库
 	func savePushServerModal(_ modal: PushServerModal, completion: @escaping (Result<CKRecord, Error>) -> Void) {
+		
+		if modal.key.count < 3 {
+			return
+		}
 		let recordID = CKRecord.ID(recordName: modal.id)
 		let record = CKRecord(recordType: recordType, recordID: recordID)
 		record["url"] = modal.url as CKRecordValue
 		record["key"] = modal.key as CKRecordValue
+		
+	
 
 		database.save(record) { savedRecord, error in
 			DispatchQueue.main.async {
@@ -80,12 +86,8 @@ class PushServerCloudKit {
 				// 创建 Set 集合来高效比较
 				let cloudItemsSet = Set(results.map { $0.id })
 				
-				debugPrint(cloudItemsSet)
-
 				// 找到本地有但云端没有的项
 				let itemsToUpload = items.filter { !cloudItemsSet.contains($0.id) }
-				
-				debugPrint("itemsToUpload",itemsToUpload)
 				
 				// 保存这些未在云端的项
 				for item in itemsToUpload {

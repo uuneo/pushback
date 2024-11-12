@@ -61,10 +61,11 @@ struct MessageView: View {
 						
 					}
 					.padding(10)
-					.background(Color("lightAndgray"))
+					.background(Color.whiteGary)
 					.clipShape(RoundedRectangle(cornerRadius: 10))
+					
 				}
-
+				
 				
 			}header: {
 				HStack{

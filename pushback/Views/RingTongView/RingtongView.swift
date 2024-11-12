@@ -12,121 +12,125 @@ import UIKit
 struct RingtongView: View {
 	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject private var manager:PushbackManager
-	@State private var searchText:String = ""
 	@State private var showUpload:Bool = false
-	
 	var body: some View {
-		List {
-			
-			
-			Section {
-				HStack{
-					Spacer()
-					Button {
-						self.showUpload.toggle()
-#if DEBUG
-						print("上传铃声")
-#endif
-						
-						
-					} label: {
-						Label(String(localized:  "上传铃声"), systemImage: "waveform" )
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(.tint)
-						
-					}
-					.fileImporter(isPresented: $showUpload, allowedContentTypes:  UTType.types(tag: "caf", tagClass: UTTagClass.filenameExtension,conformingTo: nil)) { result in
-						switch result{
-						case .success(let file):
-							defer {
-								file.stopAccessingSecurityScopedResource()
-							}
-#if DEBUG
-							print(file)
-#endif
+		NavigationStack{
+			List {
+				
+				
+				Section {
+					HStack{
+						Spacer()
+						Button {
+							self.showUpload.toggle()
+	#if DEBUG
+							print("上传铃声")
+	#endif
 							
-							if file.startAccessingSecurityScopedResource() {
-								manager.saveSound(url: file)
-							}else{
-#if DEBUG
-								print("保存失败")
-#endif
-								
-								
-							}
 							
-						case .failure(let err):
-#if DEBUG
-							print(err)
-#endif
+						} label: {
+							Label(String(localized:  "上传铃声"), systemImage: "waveform" )
+								.symbolRenderingMode(.palette)
+								.foregroundStyle(.tint)
 							
 						}
-					}
-					
-					Spacer()
-				}
-			}header: {
-				Spacer()
-			}footer: {
-				HStack{
-					Text(String(localized:  "请先将铃声"))
-					Button{
-						
-						manager.webUrl = BaseConfig.musicUrl
-						manager.fullPage = .web
-					}label: {
-						Text(String(localized: "转换成 caf 格式"))
-							.font(.footnote)
-					}
-					Text(String(localized: ",时长不超过 30 秒。"))
-				}
-			}
-			
-			if manager.customSounds.count > 0{
-				Section{
-					ForEach(manager.customSounds, id: \.self) { url in
-						RingtoneItemView(audio: url)
-						
-					}.onDelete { indexSet in
-						for index in indexSet{
-							manager.deleteSound(url: manager.customSounds[index])
+						.fileImporter(isPresented: $showUpload, allowedContentTypes:  UTType.types(tag: "caf", tagClass: UTTagClass.filenameExtension,conformingTo: nil)) { result in
+							switch result{
+							case .success(let file):
+								defer {
+									file.stopAccessingSecurityScopedResource()
+								}
+	#if DEBUG
+								print(file)
+	#endif
+								
+								if file.startAccessingSecurityScopedResource() {
+									manager.saveSound(url: file)
+								}else{
+	#if DEBUG
+									print("保存失败")
+	#endif
+									
+									
+								}
+								
+							case .failure(let err):
+	#if DEBUG
+								print(err)
+	#endif
+								
+							}
 						}
+						
+						Spacer()
 					}
 				}header: {
-					Text(String(localized:  "自定义铃声"))
+					Spacer()
+				}footer: {
+					HStack{
+						Text(String(localized:  "请先将铃声"))
+						Button{
+							
+							manager.webUrl = BaseConfig.musicUrl
+							manager.fullPage = .web
+						}label: {
+							Text(String(localized: "转换成 caf 格式"))
+								.font(.footnote)
+						}
+						Text(String(localized: ",时长不超过 30 秒。"))
+					}
+				}
+				
+				if manager.customSounds.count > 0{
+					Section{
+						ForEach(manager.customSounds, id: \.self) { url in
+							RingtoneItemView(audio: url,ringType: .custom)
+							
+						}.onDelete { indexSet in
+							for index in indexSet{
+								manager.deleteSound(url: manager.customSounds[index])
+							}
+						}
+					}header: {
+						Text(String(localized:  "自定义铃声"))
+					}
+				}
+				
+				
+				Section{
+					ForEach(manager.defaultSounds, id: \.self) { url in
+						RingtoneItemView(audio: url, ringType: .local)
+					}
+				}header: {
+					Text(String(localized:  "自带铃声"))
+				}
+				
+				
+			}
+			.navigationTitle(String(localized: "所有铃声"))
+			.toolbar {
+				
+				ToolbarItem {
+					
+					NavigationLink {
+						CloudRingTongsView()
+					} label: {
+						Label("云音", systemImage: "icloud.and.arrow.down")
+					}
+
 				}
 			}
-			
-			
-			Section{
-				ForEach(manager.defaultSounds, id: \.self) { url in
-					RingtoneItemView(audio: url)
-				}
-			}header: {
-				Text(String(localized:  "自带铃声"))
-			}
-			
-			
 		}
-		.searchable(text: $searchText,  prompt: Text("搜索云端共享铃声")){
-			Text("")
-		}
+		
+		
+		
 
 	}
 }
 
 #Preview {
-	NavigationStack{
-		RingtongView()
-			.environmentObject(PushbackManager.shared)
-	}
+	RingtongView()
+		.environmentObject(PushbackManager.shared)
 	
 }
 
-struct RingtoneCloudData: Codable,Identifiable{
-	var id:String = UUID().uuidString
-	var name:String
-	var prompt:[String] = []
-	var count:Int
-	var data:Data
-}

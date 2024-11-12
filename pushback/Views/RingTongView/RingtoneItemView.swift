@@ -10,21 +10,24 @@ import AVKit
 import Defaults
 
 
+
 struct RingtoneItemView: View {
 	@EnvironmentObject private var manager:PushbackManager
-    var audio:URL
+	var audio:URL
+	var fileName:String?
     @State var duration:Double = 0.0
 	@Default(.sound) var sound
 	@State private var title:String?
-    
+	@State private var showCloudEdit:Bool = false
 	var name:String{
-		audio.deletingPathExtension().lastPathComponent
+		ringType == .cloud ? (fileName ?? "") : audio.deletingPathExtension().lastPathComponent
 	}
     
     var selectSound:Bool{
-        sound == audio.deletingPathExtension().lastPathComponent
+		sound.name == audio.deletingPathExtension().lastPathComponent && ringType == sound.type
     }
-    
+	
+	var ringType:RingTongType = .local
     var body: some View{
         HStack{
             
@@ -53,19 +56,32 @@ struct RingtoneItemView: View {
             
             HStack{
                 Spacer()
-                if duration <= 30{
-                    Image(systemName: "doc.on.doc")
+				if ringType == .cloud{
+					Image(systemName: "square.and.arrow.down.on.square")
 						.symbolRenderingMode(.palette)
 						.foregroundStyle( .tint, Color.primary)
-                        .onTapGesture {
-                            UIPasteboard.general.string = self.name
-							Toast.shared.present(title: String(localized:  "复制成功"), symbol: "document.on.document")
-                        }
-                }else{
-                    Text(String(localized: "长度不能超过30秒"))
-                        .foregroundStyle(.red)
-                }
-                
+						.onTapGesture {
+							if let fileName{
+								manager.saveSound(url: audio,name: "\(fileName).caf")
+							}
+							
+						}
+				}else{
+					if duration <= 30{
+						Image(systemName: "doc.on.doc")
+							.symbolRenderingMode(.palette)
+							.foregroundStyle( .tint, Color.primary)
+							.onTapGesture {
+								UIPasteboard.general.string = self.name
+								Toast.shared.present(title: String(localized:  "复制成功"), symbol: "document.on.document")
+							}
+					}else{
+						Text(String(localized: "长度不能超过30秒"))
+							.foregroundStyle(.red)
+					}
+					
+				}
+               
             }
             
             
@@ -74,31 +90,59 @@ struct RingtoneItemView: View {
             
         }
         .swipeActions(edge: .leading) {
-            Button {
-                sound = audio.deletingPathExtension().lastPathComponent
-				self.playAudio()
-            } label: {
-                Text("选择")
-            }
-            
+			if ringType == .cloud{
+				Image(systemName: "square.and.arrow.down.on.square")
+					.symbolRenderingMode(.palette)
+					.foregroundStyle( .tint, Color.primary)
+					.onTapGesture {
+						manager.saveSound(url: audio,name: fileName)
+					}
+			}else{
+				Button {
+					sound = .init(type: ringType, name: audio.deletingPathExtension().lastPathComponent)
+					self.playAudio()
+				} label: {
+					Text("选择")
+				}
+			}
+          
         }
-        
+		.swipeActions(edge: .leading, allowsFullSwipe: true){
+			if ringType == .custom{
+				Button{
+					self.showCloudEdit.toggle()
+				}label: {
+					Text("云共享")
+				}.tint(.yellow)
+			}
+		}
+		.sheet(isPresented: $showCloudEdit){
+			RingTongAddCloudView(fileUrl: audio) {
+				self.showCloudEdit.toggle()
+			}
+			.presentationDetents([.height(500)])
+			.interactiveDismissDisabled()
+		}
         .task {
             do {
                 self.duration =  try await loadVideoDuration(fromURL: self.audio)
             } catch {
 #if DEBUG
-                print("Error loading video duration: \(error.localizedDescription)")
+                print("Error loading aideo duration: \(error.localizedDescription)")
 #endif
                 
             }
-        }.navigationTitle(String(localized: "所有铃声"))
+        }
+
         
         
     }
 	
+
+	
+	
 	private func playAudio(){
-		debugPrint("url",audio)
+		debugPrint("url:",audio)
 		var soundID: SystemSoundID = 0
 		AudioServicesCreateSystemSoundID(audio as CFURL, &soundID)
 		AudioServicesPlaySystemSoundWithCompletion(soundID) {
@@ -111,16 +155,8 @@ struct RingtoneItemView: View {
 
 extension RingtoneItemView{
 	// 定义一个异步函数来加载audio的持续时间
-	func loadVideoDuration(fromURL videoURL: URL) async throws -> Double {
-		
-		let asset =  AVURLAsset(url: videoURL)
-		
-		// 使用async/await来加载持续时间
-		let duration = try await asset.load(.duration)
-		
-        // 计算并返回持续时间（以秒为单位）
-        let durationInSeconds = CMTimeGetSeconds(duration)
-        return durationInSeconds
+	func loadVideoDuration(fromURL audioURL: URL) async throws -> Double {
+		return try AVAudioPlayer(contentsOf: audioURL).duration
     }
     
     
@@ -133,3 +169,12 @@ extension RingtoneItemView{
     
 }
 
+
+
+
+
+
+#Preview{
+	SettingsView()
+		.environmentObject(PushbackManager.shared)
+}

@@ -78,7 +78,7 @@ struct ImageDetailView:View {
 					}
 					Spacer()
 					Button(String(localized: "完成")) {
-						photoNamesShow.toggle()
+						PushbackManager.shared.hideKeyboard()
 					}
 				}
 				
@@ -96,6 +96,8 @@ struct ImageDetailView:View {
 									self.imageUrl = nil
 									self.name = ""
 								}
+							}else{
+								Toast.shared.present(title: String(localized: "文件重复"), symbol: .info)
 							}
 							
 						}
@@ -122,4 +124,6 @@ struct ImageDetailView:View {
 		.presentationDetents([.height(320)])
 		.interactiveDismissDisabled()
 	}
+	
+	
 }

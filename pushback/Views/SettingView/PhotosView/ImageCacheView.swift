@@ -61,8 +61,6 @@ struct ImageCacheView: View {
 		
 		ZStack{
 			ScrollView{
-//				ImageCacheHeaderView()
-				
 				LazyVGrid(columns: columns, spacing: 10) {
 					PhotoPickerView(draggImage: $draggImage, imageSize: imageSize)
 					

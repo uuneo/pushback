@@ -81,7 +81,7 @@ class Monitors: ObservableObject {
     // MARK: 注册设备
     func registerForRemoteNotifications() {
         
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .carPlay], completionHandler: { (_ granted: Bool, _: Error?) -> Void in
+		UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert], completionHandler: { (_ granted: Bool, _: Error?) -> Void in
             
             if granted {
 				DispatchQueue.main.async{

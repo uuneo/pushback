@@ -19,7 +19,6 @@ enum NotificationContentHandlerItem: CaseIterable {
     case setIcon
     case setImage
 	case video
-    case action
     case call
     
     
@@ -42,8 +41,6 @@ enum NotificationContentHandlerItem: CaseIterable {
             return ImageHandler()
         case .call:
             return CallHandler()
-        case .action:
-            return ActionHandler()
         case .sound:
             return SoundHandler()
         case .video:

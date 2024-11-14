@@ -46,8 +46,8 @@ class ImageManager {
 			return false
 		}
 		
-		let oldPath = imagesDirectory.appendingPathComponent(oldName1).appendingPathExtension("png")
-		let newPath = imagesDirectory.appendingPathComponent(newName1).appendingPathExtension("png")
+		let oldPath = imagesDirectory.appendingPathComponent(oldName1)
+		let newPath = imagesDirectory.appendingPathComponent(newName1)
 		
 		if !FileManager.default.fileExists(atPath: oldPath.path) {
 			print("File not found at path: \(oldPath.absoluteString)")
@@ -80,7 +80,7 @@ class ImageManager {
 		}
 		
 		// Construct the full image path
-		let imagePath = imagesDirectory.appendingPathComponent(name).appendingPathExtension("png")
+		let imagePath = imagesDirectory.appendingPathComponent(name)
 		
 		// Save the image data to the file system
 		do {
@@ -107,7 +107,7 @@ class ImageManager {
 		}
 		
 		// Construct the full image path
-		let imagePath = imagesDirectory.appendingPathComponent(name).appendingPathExtension("png")
+		let imagePath = imagesDirectory.appendingPathComponent(name)
 		
 		// Check if the file exists and delete it
 		if FileManager.default.fileExists(atPath: imagePath.path) {
@@ -137,7 +137,7 @@ class ImageManager {
 		}
 		
 		// Construct the full image path
-		let imagePath = imagesDirectory.appendingPathComponent(name).appendingPathExtension("png")
+		let imagePath = imagesDirectory.appendingPathComponent(name)
 		
 		// Check if the file exists at the path
 		if FileManager.default.fileExists(atPath: imagePath.path) {

@@ -94,7 +94,6 @@ struct GroupMessageView: View {
 					
 					if ISPAD{
 						Menu {
-							
 							ForEach( MessageAction.allCases, id: \.self){ item in
 								Button{
 									deleteMessage(item)

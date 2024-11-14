@@ -169,4 +169,7 @@ class RingsTongCloudKit:ObservableObject {
 		
 		database.add(operation)
 	}
+	
+	
+	
 }

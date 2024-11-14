@@ -83,16 +83,18 @@ struct ContentView: View {
 						}
 					), secondaryButton: .cancel())
 		}
-		
 		.task {
 			for await value in Defaults.updates(.servers) {
-				PushServerCloudKit.shared.updatePushServers(items: value)
-				
-				try? await Task.sleep(for: .seconds(0.5))
+				try? await Task.sleep(for: .seconds(1))
 				await MainActor.run {
 					manager.registers()
 				}
+				PushServerCloudKit.shared.updatePushServers(items: value)
 			}
+		}
+		.onReceive(NotificationCenter.default.publisher(for: .messagePreview)) { _ in
+			// 接收到通知时的处理
+			manager.page = .message
 		}
 		
 		

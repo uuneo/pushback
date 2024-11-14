@@ -51,14 +51,9 @@ class ActionHandler: NotificationContentHandler{
 		
 		
 		// MARK: - 处理 Ringtone
-		if (userInfo["aps"] as? [String: Any])?["sound"] as? String == nil{
-			bestAttemptContent.sound = UNNotificationSound(named:  .init(rawValue: "\(Defaults[.sound].name).caf") )
+		if let  sound = (userInfo["aps"] as? [String: Any])?["sound"] as? String , sound == ""{
+			bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
 		}
-		
-		
-		
-		
-		
 		
 		return bestAttemptContent
 	}

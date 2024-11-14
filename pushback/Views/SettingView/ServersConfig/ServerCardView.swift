@@ -11,12 +11,13 @@ import SwiftUI
 struct ServerCardView:View {
 	@StateObject private var manager = PushbackManager.shared
 	var item: PushServerModal
-	var select:((PushServerModal) -> Void )? = nil
+	var isCloud:Bool = false
+	
 	
 	var body: some View {
 		HStack(alignment: .center){
 			
-			if select == nil{
+			if !isCloud {
 				VStack{
 					
 					if item.status{
@@ -62,14 +63,10 @@ struct ServerCardView:View {
 				
 			}
 			Spacer()
-			if let select{
-				Button{
-					select(item)
-				}label: {
-					Text("恢复")
-				}
-				
-			}else{
+			
+			
+			
+			if !isCloud{
 				Image(systemName: "doc.on.doc")
 					.symbolRenderingMode(.palette)
 					.foregroundStyle( .tint, Color.primary)
@@ -77,6 +74,7 @@ struct ServerCardView:View {
 						Toast.shared.present(title: String(localized: "复制成功"), symbol: .copy)
 						manager.copy( item.url + "/" + item.key)
 					}
+				
 			}
 			
 			

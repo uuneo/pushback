@@ -34,6 +34,49 @@
 		190E0CF72CE1E1B600F01858 /* dongdong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF22CE1E1B600F01858 /* dongdong.caf */; };
 		190E0CF82CE1E1B600F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
 		190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */; };
+		190E0E722CE637EE00F01858 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CEF2CE1DD4F00F01858 /* alarm.caf */; };
+		190E0E732CE637EE00F01858 /* birdsong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBD2CCC850400A2F1A8 /* birdsong.caf */; };
+		190E0E742CE637EE00F01858 /* blue.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBA2CE1C45100F01858 /* blue.caf */; };
+		190E0E752CE637EE00F01858 /* bo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBB2CE1C45100F01858 /* bo.caf */; };
+		190E0E762CE637EE00F01858 /* calypso.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBF2CCC850400A2F1A8 /* calypso.caf */; };
+		190E0E772CE637EE00F01858 /* care.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF12CE1E1B600F01858 /* care.caf */; };
+		190E0E782CE637EE00F01858 /* chime.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC02CCC850400A2F1A8 /* chime.caf */; };
+		190E0E792CE637EE00F01858 /* choo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC12CCC850400A2F1A8 /* choo.caf */; };
+		190E0E7A2CE637EE00F01858 /* click.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE12CE1CAE100F01858 /* click.caf */; };
+		190E0E7B2CE637EE00F01858 /* ding.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBD2CE1C45100F01858 /* ding.caf */; };
+		190E0E7C2CE637EE00F01858 /* dog.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBE2CE1C45100F01858 /* dog.caf */; };
+		190E0E7D2CE637EE00F01858 /* dongdong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF22CE1E1B600F01858 /* dongdong.caf */; };
+		190E0E7E2CE637EE00F01858 /* drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CB92CE1C45100F01858 /* drop.caf */; };
+		190E0E7F2CE637EE00F01858 /* duang.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBF2CE1C45100F01858 /* duang.caf */; };
+		190E0E802CE637EE00F01858 /* error.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC02CE1C45100F01858 /* error.caf */; };
+		190E0E812CE637EE00F01858 /* gold.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE22CE1CAE100F01858 /* gold.caf */; };
+		190E0E822CE637EE00F01858 /* gun.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC12CE1C45100F01858 /* gun.caf */; };
+		190E0E832CE637EE00F01858 /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC72CCC850400A2F1A8 /* health.caf */; };
+		190E0E842CE637EE00F01858 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
+		190E0E852CE637EE00F01858 /* kacha.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC32CE1C45100F01858 /* kacha.caf */; };
+		190E0E862CE637EE00F01858 /* kill.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE32CE1CAE100F01858 /* kill.caf */; };
+		190E0E872CE637EE00F01858 /* ladder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC92CCC850400A2F1A8 /* ladder.caf */; };
+		190E0E882CE637EE00F01858 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
+		190E0E892CE637EE00F01858 /* multiwayinvitation.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */; };
+		190E0E8A2CE637EE00F01858 /* newmail.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCD2CCC850400A2F1A8 /* newmail.caf */; };
+		190E0E8B2CE637EE00F01858 /* no.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE42CE1CAE100F01858 /* no.caf */; };
+		190E0E8C2CE637EE00F01858 /* noir.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCF2CCC850400A2F1A8 /* noir.caf */; };
+		190E0E8D2CE637EE00F01858 /* oldphone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF32CE1E1B600F01858 /* oldphone.caf */; };
+		190E0E8E2CE637EE00F01858 /* paysuccess.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD02CCC850400A2F1A8 /* paysuccess.caf */; };
+		190E0E8F2CE637EE00F01858 /* ping.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC62CE1C45100F01858 /* ping.caf */; };
+		190E0E902CE637EE00F01858 /* runaway.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC72CE1C45100F01858 /* runaway.caf */; };
+		190E0E912CE637EE00F01858 /* seconds.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC82CE1C45100F01858 /* seconds.caf */; };
+		190E0E922CE637EE00F01858 /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD12CCC850400A2F1A8 /* shake.caf */; };
+		190E0E932CE637EE00F01858 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD32CCC850400A2F1A8 /* silence.caf */; };
+		190E0E942CE637EE00F01858 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
+		190E0E952CE637EE00F01858 /* success.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC92CE1C45100F01858 /* success.caf */; };
+		190E0E962CE637EE00F01858 /* telegraph.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD62CCC850400A2F1A8 /* telegraph.caf */; };
+		190E0E972CE637EE00F01858 /* tiptoes.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD72CCC850400A2F1A8 /* tiptoes.caf */; };
+		190E0E982CE637EE00F01858 /* tubosu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCA2CE1C45100F01858 /* tubosu.caf */; };
+		190E0E992CE637EE00F01858 /* weapon.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBC2CE1C45100F01858 /* weapon.caf */; };
+		190E0E9A2CE637EE00F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
+		190E0E9B2CE637EE00F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
+		190E0E9C2CE637EE00F01858 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCC2CE1C45100F01858 /* xiu.caf */; };
 		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		1957EA322CD5290A00CF05A0 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
@@ -235,6 +278,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		190E0E9E2CE637FA00F01858 /* Exceptions for "pushback" folder in "NotificationService" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 19C13C8C2CCCD70E00A2F1A8 /* NotificationService */;
+		};
+		190E0EA02CE6383800F01858 /* Exceptions for "pushback" folder in "NotificationContent" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 19C13CB62CCCD77600A2F1A8 /* NotificationContent */;
+		};
 		19C13C882CCCD5F900A2F1A8 /* Exceptions for "pushback" folder in "pushback" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -265,11 +322,24 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		190E0E422CE61F0700F01858 /* Exceptions for "pushback" folder in "Compile Sources" phase from "ShareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 19C13CE12CCCDADC00A2F1A8 /* Sources */;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		19C13BA72CCBDF8B00A2F1A8 /* pushback */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				19C13C882CCCD5F900A2F1A8 /* Exceptions for "pushback" folder in "pushback" target */,
+				190E0E9E2CE637FA00F01858 /* Exceptions for "pushback" folder in "NotificationService" target */,
+				190E0EA02CE6383800F01858 /* Exceptions for "pushback" folder in "NotificationContent" target */,
+				190E0E422CE61F0700F01858 /* Exceptions for "pushback" folder in "Compile Sources" phase from "ShareExtension" target */,
 			);
 			path = pushback;
 			sourceTree = "<group>";
@@ -690,6 +760,49 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				190E0E722CE637EE00F01858 /* alarm.caf in Resources */,
+				190E0E732CE637EE00F01858 /* birdsong.caf in Resources */,
+				190E0E742CE637EE00F01858 /* blue.caf in Resources */,
+				190E0E752CE637EE00F01858 /* bo.caf in Resources */,
+				190E0E762CE637EE00F01858 /* calypso.caf in Resources */,
+				190E0E772CE637EE00F01858 /* care.caf in Resources */,
+				190E0E782CE637EE00F01858 /* chime.caf in Resources */,
+				190E0E792CE637EE00F01858 /* choo.caf in Resources */,
+				190E0E7A2CE637EE00F01858 /* click.caf in Resources */,
+				190E0E7B2CE637EE00F01858 /* ding.caf in Resources */,
+				190E0E7C2CE637EE00F01858 /* dog.caf in Resources */,
+				190E0E7D2CE637EE00F01858 /* dongdong.caf in Resources */,
+				190E0E7E2CE637EE00F01858 /* drop.caf in Resources */,
+				190E0E7F2CE637EE00F01858 /* duang.caf in Resources */,
+				190E0E802CE637EE00F01858 /* error.caf in Resources */,
+				190E0E812CE637EE00F01858 /* gold.caf in Resources */,
+				190E0E822CE637EE00F01858 /* gun.caf in Resources */,
+				190E0E832CE637EE00F01858 /* health.caf in Resources */,
+				190E0E842CE637EE00F01858 /* horn.caf in Resources */,
+				190E0E852CE637EE00F01858 /* kacha.caf in Resources */,
+				190E0E862CE637EE00F01858 /* kill.caf in Resources */,
+				190E0E872CE637EE00F01858 /* ladder.caf in Resources */,
+				190E0E882CE637EE00F01858 /* mailsent.caf in Resources */,
+				190E0E892CE637EE00F01858 /* multiwayinvitation.caf in Resources */,
+				190E0E8A2CE637EE00F01858 /* newmail.caf in Resources */,
+				190E0E8B2CE637EE00F01858 /* no.caf in Resources */,
+				190E0E8C2CE637EE00F01858 /* noir.caf in Resources */,
+				190E0E8D2CE637EE00F01858 /* oldphone.caf in Resources */,
+				190E0E8E2CE637EE00F01858 /* paysuccess.caf in Resources */,
+				190E0E8F2CE637EE00F01858 /* ping.caf in Resources */,
+				190E0E902CE637EE00F01858 /* runaway.caf in Resources */,
+				190E0E912CE637EE00F01858 /* seconds.caf in Resources */,
+				190E0E922CE637EE00F01858 /* shake.caf in Resources */,
+				190E0E932CE637EE00F01858 /* silence.caf in Resources */,
+				190E0E942CE637EE00F01858 /* spell.caf in Resources */,
+				190E0E952CE637EE00F01858 /* success.caf in Resources */,
+				190E0E962CE637EE00F01858 /* telegraph.caf in Resources */,
+				190E0E972CE637EE00F01858 /* tiptoes.caf in Resources */,
+				190E0E982CE637EE00F01858 /* tubosu.caf in Resources */,
+				190E0E992CE637EE00F01858 /* weapon.caf in Resources */,
+				190E0E9A2CE637EE00F01858 /* weixin.caf in Resources */,
+				190E0E9B2CE637EE00F01858 /* what.caf in Resources */,
+				190E0E9C2CE637EE00F01858 /* xiu.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

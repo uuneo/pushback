@@ -34,6 +34,7 @@ struct AvatarView: View {
 						Image(uiImage: image)
 							.resizable()
 							.frame(width: size.width, height: size.height)
+					
 						
 					} else {
 						// 如果图片尚未加载，则显示加载中的视图

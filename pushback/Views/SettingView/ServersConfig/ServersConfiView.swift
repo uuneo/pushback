@@ -42,7 +42,9 @@ struct ServersConfigView: View {
 						Button{
 							
 							if let index = servers.firstIndex(where: {$0.id == item.id}){
+								
 								servers[index].key = ""
+								servers[index].id = UUID().uuidString
 								manager.register(server: servers[index] ){ _, msg in
 									Toast.shared.present(title: msg, symbol: "questionmark.bubble")
 								}
@@ -189,16 +191,35 @@ struct ServersConfigView: View {
 						
 						
 						ForEach(self.cloudDatas, id: \.id){ item in
-							ServerCardView(item: item){ result in
-								if servers.count(where: {$0.url == result.url && $0.key == result.key}) != 0{
-									Toast.shared.present(title: String(localized: "服务器已经存在"), symbol: .info)
-								}else{
-									restorePushServerModals(cloudItem: result)
-									self.showAddView.toggle()
-								}
+							if servers.count(where: {$0.url == item.url && $0.key == item.key}) == 0{
 								
+								ServerCardView(item: item,isCloud: true)
+								.padding(.vertical,5)
+								.swipeActions(edge: .leading, allowsFullSwipe: true) {
+									Button{
+										
+										Defaults[.servers].insert(item, at: 0)
+										self.showAddView.toggle()
+									}label:{
+										Text("恢复")
+									}.tint(Color.green)
+								}
+								.swipeActions(edge: .trailing, allowsFullSwipe: true) {
+									Button{
+										PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
+											if let err{
+												debugPrint(err.localizedDescription)
+											}else{
+												updateCloudServers()
+											}
+											
+										}
+									}label:{
+										Text("删除")
+									}.tint(Color.red)
+								}
 							}
-							.padding(.vertical,5)
+							
 						}
 					}header: {
 						HStack{
@@ -218,14 +239,8 @@ struct ServersConfigView: View {
 			}
 			.listRowSpacing(20)
 			.onAppear{
-				PushServerCloudKit.shared.fetchPushServerModals { response in
-					switch response {
-					case .success(let results):
-						self.cloudDatas = results
-					case .failure(let failure):
-						debugPrint(failure.localizedDescription)
-					}
-				}
+				updateCloudServers()
+				
 			}
 			.interactiveDismissDisabled()
 			.navigationTitle(String(localized: "新增服务器"))
@@ -293,17 +308,20 @@ struct ServersConfigView: View {
 		.presentationDetents([.height(300),.medium])
 	}
 	
-	func restorePushServerModals( cloudItem: PushServerModal){
-		
-		if let index = servers.firstIndex(where: {$0.url == cloudItem.url}){
-			
-			servers[index] = cloudItem
-		}else{
-			servers.insert(cloudItem, at: 0)
+	
+	func updateCloudServers(){
+		PushServerCloudKit.shared.fetchPushServerModals { response in
+			switch response {
+			case .success(let results):
+				withAnimation(.easeInOut) {
+					self.cloudDatas = results
+				}
+			case .failure(let failure):
+				debugPrint(failure.localizedDescription)
+			}
 		}
-		
-		
 	}
+	
 	
 }
 

@@ -91,12 +91,14 @@ class PushServerCloudKit {
 				
 				// 保存这些未在云端的项
 				for item in itemsToUpload {
-					self.savePushServerModal(item) { result in
-						switch result {
-						case .success:
-							print("保存成功: \(item)")
-						case .failure(let error):
-							print("保存失败: \(error.localizedDescription)")
+					if item.key != ""{
+						self.savePushServerModal(item) { result in
+							switch result {
+							case .success:
+								print("保存成功: \(item)")
+							case .failure(let error):
+								print("保存失败: \(error.localizedDescription)")
+							}
 						}
 					}
 				}
@@ -117,6 +119,23 @@ class PushServerCloudKit {
 		}
 	}
 	
+	
+	// 删除指定的 RingtoneCloudData
+	func deleteCloudServer(_ ringtoneID: String, completion: @escaping (Error?) -> Void) {
+		// 创建 CKRecord.ID 对象
+		let recordID = CKRecord.ID(recordName: ringtoneID)
+		
+		// 调用数据库的 delete 方法删除记录
+		database.delete(withRecordID: recordID) { (deletedRecordID, error) in
+			if let error = error {
+				// 删除失败时，调用 completion 回调并传递错误信息
+				completion(error)
+			} else {
+				// 删除成功时，调用 completion 回调
+				completion(nil)
+			}
+		}
+	}
 	
 	
 	

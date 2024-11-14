@@ -1508,6 +1508,7 @@
       }
     },
     "服务器已经存在" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1673,6 +1674,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "append"
+          }
+        }
+      }
+    },
+    "添加到APP" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add To App"
           }
         }
       }
@@ -1983,6 +1995,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter a %d-digit ke"
+          }
+        }
+      }
+    },
+    "输入图片Key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input Image Key"
           }
         }
       }

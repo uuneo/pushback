@@ -69,6 +69,10 @@ struct GroupMessageView: View {
 			.navigationDestination(isPresented: $showExample){
 				ExampleView()
 			}
+			.onReceive(NotificationCenter.default.publisher(for: .messagePreview)) { _ in
+				// 接收到通知时的处理
+				self.showExample = false
+			}
 			
 			.tipsToolbar(wifi: Monitors.shared.isConnected, notification: Monitors.shared.isAuthorized, callback: {
 				manager.openSetting()

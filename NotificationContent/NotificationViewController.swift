@@ -218,7 +218,10 @@ extension NotificationViewController{
 		
 		playPauseButton.isHidden = true
 		
-		playPauseButton.tintColor = .white
+		playPauseButton.tintColor = .red
+		
+		playPauseButton.layer.compositingFilter = "differenceBlendMode"
+		
 		
 		// 绑定点击事件
 		playPauseButton.addTarget(self, action: #selector(playPauseButtonTapped(_:)), for: .touchUpInside)

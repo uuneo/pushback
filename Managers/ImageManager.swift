@@ -139,6 +139,9 @@ class ImageManager {
 		// Construct the full image path
 		let imagePath = imagesDirectory.appendingPathComponent(name)
 		
+		debugPrint(imagePath, FileManager.default.fileExists(atPath: imagePath.path))
+		
+		
 		// Check if the file exists at the path
 		if FileManager.default.fileExists(atPath: imagePath.path) {
 			return imagePath.path
@@ -193,7 +196,7 @@ class ImageManager {
 	
 	// Get the directory to store images in the App Group
 	fileprivate static func getImagesDirectory() -> URL? {
-		guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.pushback") else {
+		guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName) else {
 			return nil
 		}
 		let imagesDirectory = containerURL.appendingPathComponent("Images")

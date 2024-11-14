@@ -57,4 +57,16 @@ class BaseConfig {
 	static let callback = defaultServer + "/callback"
 	
 	
+	
+	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
+	static func getSoundsGroupDirectory() -> URL? {
+		if let directoryUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.Sounds) {
+			if !FileManager.default.fileExists(atPath: directoryUrl.path) {
+				try? FileManager.default.createDirectory(at: directoryUrl, withIntermediateDirectories: true, attributes: nil)
+			}
+			return directoryUrl
+		}
+		return nil
+	}
+	
 }

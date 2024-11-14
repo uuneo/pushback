@@ -16,27 +16,28 @@ class CallHandler: NotificationContentHandler {
       /// 是否需要停止播放，由主APP发出停止通知赋值
       var needsStop = false
       
-      func process(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
+      func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
           
-          var mode :String{
-              let userInfo = bestAttemptContent.userInfo
-              if let call = userInfo["call"] as? String, call == "1" {
-                  return call
-              }
-              if let mode = userInfo["mode"] as? String, mode == "1" {
-                  return mode
-              }
-              return "0"
-          }
+		  let userInfo = bestAttemptContent.userInfo
+		  
           
-          guard mode == "1" else {
+          guard userInfo["call"] as? String == "1" || userInfo["mode"] as? String == "1"  else {
               return bestAttemptContent
           }
           self.content = bestAttemptContent
           
           self.registerObserver()
           self.sendLocalNotification(identifier: identifier, content: bestAttemptContent)
-          self.cancelRemoteNotification(content: bestAttemptContent)
+         
+		  // 远程推送在响铃结束后静默不显示
+		  // 至于iOS15以下的设备，因不支持这个特性会在响铃结束后再展示一次, 但会取消声音
+		  // 如果设置了 level 参数，就还是以 level 参数为准不做修改
+		  if self.content?.userInfo["level"] == nil {
+			  self.content?.interruptionLevel = .passive
+		  }
+		  
+		  
+		  
           await startAudioWork()
 
           return bestAttemptContent
@@ -61,18 +62,7 @@ class CallHandler: NotificationContentHandler {
 		let request = UNNotificationRequest(identifier: identifier, content: content, trigger: nil)
 		UNUserNotificationCenter.current().add(request)
 	}
-	
-	/// 响铃结束时取消显示远程推送，因为已经用本地推送显示了一遍
-	private func cancelRemoteNotification(content: UNMutableNotificationContent) {
-		// 远程推送在响铃结束后静默不显示
-		// 至于iOS15以下的设备，因不支持这个特性会在响铃结束后再展示一次, 但会取消声音
-		// 如果设置了 level 参数，就还是以 level 参数为准不做修改
-		if #available(iOSApplicationExtension 15.0, *), self.content?.userInfo["level"] == nil {
-			self.content?.interruptionLevel = .passive
-		} else {
-			content.sound = nil
-		}
-	}
+
 	
 	// 开始播放铃声，startAudioWork(completion:) 方法的异步包装
       private func startAudioWork() async {
@@ -94,15 +84,12 @@ class CallHandler: NotificationContentHandler {
           self.startAudioWorkCompletion = completion
           
           let sound = ((content.userInfo["aps"] as? [String: Any])?["sound"] as? String)?.split(separator: ".")
-          let soundName: String
-          let soundType: String
-          if sound?.count == 2, let first = sound?.first, let last = sound?.last {
-              soundName = String(first)
-              soundType = String(last)
-          } else {
-              soundName = "multiwayinvitation"
-              soundType = "caf"
-          }
+		  
+		  
+		  
+		  let soundName: String = sound?.first as? String ?? "multiwayinvitation"
+          let soundType: String = sound?.last as? String ?? "caf"
+
           
           // 先找自定义上传的铃声，再找内置铃声
           guard let audioPath = getSoundInCustomSoundsDirectory(soundName: "\(soundName).\(soundType)") ??
@@ -150,7 +137,7 @@ class CallHandler: NotificationContentHandler {
       
       func getSoundInCustomSoundsDirectory(soundName: String) -> String? {
           // 扩展访问不到主APP中的铃声，需要先共享铃声文件，再实现自定义铃声响铃
-          guard let soundsDirectoryUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.Sounds) else {
+		  guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else {
               return nil
           }
           let path = soundsDirectoryUrl.appendingPathComponent(soundName).path

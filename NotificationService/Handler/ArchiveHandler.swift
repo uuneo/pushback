@@ -15,7 +15,7 @@ class ArchiveHandler: NotificationContentHandler{
         return try? Realm()
     }()
     
-    func process(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
+    func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
         let userInfo = bestAttemptContent.userInfo
         
 

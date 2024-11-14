@@ -60,6 +60,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 	func didReceive(_ notification: UNNotification) {
 		let userInfo = notification.request.content.userInfo
 		
+		
+		// 兼容bark
 		if userInfo["autocopy"] as? String == "1" || userInfo["automaticallycopy"] as? String == "1" {
 			if let copy = userInfo["copy"] as? String {
 				UIPasteboard.general.string = copy

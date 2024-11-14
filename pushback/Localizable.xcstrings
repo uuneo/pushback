@@ -1297,6 +1297,46 @@
         }
       }
     },
+    "支持数字 level=-1 小于0 都代表 active" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support for digital level=-1 and below, all represent active."
+          }
+        }
+      }
+    },
+    "支持数字 level=0" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support for digital level=0"
+          }
+        }
+      }
+    },
+    "支持数字 level=1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support for digital level=1"
+          }
+        }
+      }
+    },
+    "支持数字(2-10) level=2 声音最小 level=10 声音最大 " : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support for digital levels (2-10): level 2 is the minimum volume, and level 10 is the maximum volume."
+          }
+        }
+      }
+    },
     "文件(名)重复" : {
       "localizations" : {
         "en" : {
@@ -1387,12 +1427,12 @@
         }
       }
     },
-    "时效性通知，可在专注模式下显示通知。" : {
+    "时效性通知,专注模式下可显示通知。" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Time-sensitive notification, can be displayed during Focus Mode"
+            "value" : "Time-sensitive notifications can be shown in Do Not Disturb mode."
           }
         }
       }
@@ -1817,6 +1857,16 @@
         }
       }
     },
+    "自定义推送显示的logo" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Push Logo"
+          }
+        }
+      }
+    },
     "自定义角标" : {
       "localizations" : {
         "en" : {
@@ -1977,6 +2027,16 @@
         }
       }
     },
+    "通知类型" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification Level"
+          }
+        }
+      }
+    },
     "通知铃声将持续播放30s，同时收到多个将按顺序依次响铃" : {
       "localizations" : {
         "en" : {
@@ -2017,6 +2077,16 @@
         }
       }
     },
+    "重要提醒，静音或专注模式可正常提醒" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Important reminder: Mute or Do Not Disturb modes allow normal alerts."
+          }
+        }
+      }
+    },
     "铃声列表" : {
       "localizations" : {
         "en" : {
@@ -2043,16 +2113,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "less 30s"
-          }
-        }
-      }
-    },
-    "需要ios15及以上" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Requires iOS 15 or later"
           }
         }
       }

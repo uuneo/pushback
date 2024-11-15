@@ -51,7 +51,7 @@ struct CryptoConfigView: View {
 			
 			Section{
 				Picker(selection: $cryptoConfig.algorithm, label:
-						Label(String(localized: "算法"), systemImage: labelIcoc)
+						Label( "算法", systemImage: labelIcoc)
 						.symbolRenderingMode(.palette)
 						.foregroundStyle( .tint, Color.primary)
 						
@@ -61,11 +61,13 @@ struct CryptoConfigView: View {
 						Text(item.name).tag(item)
 					}
 				}
+			}header:{
+				Text("选择后配置自动保存")
 			}
 			
 			Section {
 				Picker(selection: $cryptoConfig.mode, label:
-						Label(String(localized:  "模式"), systemImage: modeIcon)
+						Label("模式", systemImage: modeIcon)
 					.symbolRenderingMode(.palette)
 					.foregroundStyle( .tint, Color.primary)
 					
@@ -147,7 +149,7 @@ struct CryptoConfigView: View {
 						.focused($ivFocus)
 						.overlay{
 							if cryptoConfig.iv.isEmpty{
-								Text(String(localized: "请输入16位Iv"))
+								Text( "请输入16位Iv")
 									
 							}
 						}
@@ -171,7 +173,7 @@ struct CryptoConfigView: View {
 				Button {
 					createCopyText()
 				} label: {
-					Label(String(localized:  "复制发送脚本"), systemImage: "doc.on.doc")
+					Label("复制发送脚本", systemImage: "doc.on.doc")
 						.symbolRenderingMode(.palette)
 						.foregroundStyle(.white, Color.primary)
 						.padding(.horizontal)
@@ -187,11 +189,11 @@ struct CryptoConfigView: View {
 			
 			
 			
-		}.navigationTitle(String(localized:  "算法配置"))
+		}.navigationTitle( "算法配置")
 			.toolbar{
 				
 				ToolbarItemGroup(placement: .keyboard) {
-					Button(String(localized: "清除")) {
+					Button("清除") {
 						if keyFocus {
 							cryptoConfig.key = ""
 						}else if ivFocus{
@@ -199,7 +201,7 @@ struct CryptoConfigView: View {
 						}
 					}
 					Spacer()
-					Button(String(localized: "完成")) {
+					Button( "完成") {
 						PushbackManager.shared.hideKeyboard()
 					}
 				}
@@ -213,7 +215,7 @@ struct CryptoConfigView: View {
 							
 						}
 					} label: {
-						Text(String(localized:  "验证"))
+						Text(  "验证")
 					}
 					
 				}

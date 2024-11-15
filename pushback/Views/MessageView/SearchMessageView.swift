@@ -20,7 +20,7 @@ struct SearchMessageView:View {
 	var body: some View {
 		LazyVStack{
 			HStack{
-				Text(String(format:String(localized: "找到%1$d条数据"), messages.count))
+				Text(String(format: String(localized: "找到%1$d条数据"), messages.count))
 					.foregroundStyle(.gray)
 					.padding(.leading)
 				Spacer()

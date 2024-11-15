@@ -1507,17 +1507,6 @@
         }
       }
     },
-    "服务器已经存在" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The server already exists"
-          }
-        }
-      }
-    },
     "未读" : {
       "localizations" : {
         "en" : {
@@ -2020,6 +2009,16 @@
         }
       }
     },
+    "这是加密的正文部分" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is the encrypted body part"
+          }
+        }
+      }
+    },
     "远程本地化地址: %1$@" : {
       "localizations" : {
         "en" : {
@@ -2036,6 +2035,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select"
+          }
+        }
+      }
+    },
+    "选择后配置自动保存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select and automatically save configuration"
           }
         }
       }

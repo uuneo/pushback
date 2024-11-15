@@ -33,11 +33,11 @@ fileprivate struct ShareView: View {
 			let size = $0.size
 			Spacer()
 			VStack(spacing: 15) {
-				Text(String(localized: "添加到APP"))
+				Text( "添加到APP")
 					.font(.title3.bold())
 					.frame(maxWidth: .infinity)
 					.overlay(alignment: .leading) {
-						Button(String(localized: "取消"), action: dismiss)
+						Button( "取消", action: dismiss)
 							.tint(.red)
 					}
 					.padding(.bottom, 10)
@@ -53,7 +53,7 @@ fileprivate struct ShareView: View {
 									.padding(.horizontal, 15)
 									.frame(width: size.width)
 								
-								TextField(String(localized: "输入图片Key"), text: Binding(get: {
+								TextField( "输入图片Key", text: Binding(get: {
 									item.id
 								}, set: { value in
 									if let index = items.firstIndex(where: {$0.id == item.id}){
@@ -74,7 +74,7 @@ fileprivate struct ShareView: View {
 				
 				/// Save Button
 				Button(action: saveItems, label: {
-					Text(String(localized: "保存"))
+					Text( "保存")
 						.font(.title3)
 						.fontWeight(.semibold)
 						.padding(.vertical, 10)

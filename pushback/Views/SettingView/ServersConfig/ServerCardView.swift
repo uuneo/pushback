@@ -42,7 +42,7 @@ struct ServerCardView:View {
 			
 			VStack{
 				HStack(alignment: .bottom){
-					Text(String(localized: "服务器") + ":")
+					Text( String(localized: "服务器") + ":")
 						.font(.system(size: 10))
 						.frame(width: 40)
 					Text(item.name)

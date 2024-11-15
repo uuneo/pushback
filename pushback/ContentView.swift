@@ -70,14 +70,13 @@ struct ContentView: View {
 		.onOpenURL(perform: self.openUrlView)
 		.alert(isPresented: $showAlart) {
 			Alert(title:
-					Text(String(localized: "操作不可逆!")),
+					Text( "操作不可逆!"),
 				  message:
-					Text( activeName == "alldelnotread" ?
-						  String(localized: "是否确认删除所有未读消息!") : String(localized: "是否确认删除所有已读消息!")
+					Text( activeName == "alldelnotread" ? "是否确认删除所有未读消息!" :  "是否确认删除所有已读消息!"
 						),
 				  primaryButton:
 					.destructive(
-						Text( String(localized: "删除") ),
+						Text("删除"),
 						action: {
 							RealmProxy.shared.read(activeName == "alldelnotread")
 						}
@@ -116,7 +115,7 @@ struct ContentView: View {
 			GroupMessageView()
 				.badge(readCount)
 				.tabItem {
-					Label(String(localized: "消息"), systemImage: "ellipsis.message")
+					Label( "消息", systemImage: "ellipsis.message")
 						.symbolRenderingMode(.palette)
 						.foregroundStyle( .green, tabColor2)
 				}
@@ -126,7 +125,7 @@ struct ContentView: View {
 			
 			SettingsView()
 				.tabItem {
-					Label(String(localized: "设置"), systemImage: "gear.badge.questionmark")
+					Label( "设置", systemImage: "gear.badge.questionmark")
 						.symbolRenderingMode(.palette)
 						.foregroundStyle( .green, tabColor2)
 					

@@ -20,10 +20,7 @@ class ArchiveHandler: NotificationContentHandler{
         
 
 		
-        var isArchive: Bool = Defaults[.isMessageStorage]
-        if let archive = userInfo["isarchive"] as? String {
-            isArchive = archive == "1" ? true : false
-        }
+		let isArchive = userInfo["isarchive"] as? String == "1" || Defaults[.isMessageStorage]
         
         if  isArchive {
             
@@ -47,7 +44,6 @@ class ArchiveHandler: NotificationContentHandler{
                 }
                 return nil
             }
-            
             
             try? realm?.write {
                 let message = Message()

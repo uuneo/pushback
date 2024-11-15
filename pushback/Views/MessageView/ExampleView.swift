@@ -22,7 +22,7 @@ struct ExampleView: View {
                 
                 HStack{
                     Spacer()
-                    Picker(selection: $pickerSeletion, label: Text(String(localized:  "切换服务器"))) {
+                    Picker(selection: $pickerSeletion, label: Text("切换服务器")) {
                         ForEach(servers.indices, id: \.self){index in
                             let server = servers[index]
                             Text(server.name).tag(server.id)
@@ -55,7 +55,7 @@ struct ExampleView: View {
                 
                     
                 }
-                .navigationTitle(String(localized: "使用示例"))
+                .navigationTitle( "使用示例")
               
         }
     }

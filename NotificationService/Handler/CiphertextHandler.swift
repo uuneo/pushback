@@ -77,6 +77,7 @@ class CiphertextHandler: NotificationContentHandler {
 			  let data = json.data(using: .utf8),
 			  let map = JSON(data).dictionaryObject
 		else {
+		
 			throw "JSON parsing failed"
 		}
 		

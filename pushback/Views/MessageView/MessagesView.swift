@@ -31,7 +31,7 @@ struct MessagesView: View {
 								RealmProxy.shared.read(message)
 								Toast.shared.present(title: String(localized:  "信息状态已更改"), symbol: "highlighter")
 							} label: {
-								Label(message.read ? String(localized: "已读") :  String(localized: "未读"), systemImage: message.read ? "envelope.open": "envelope")
+								Label(message.read ? "已读" :  "未读", systemImage: message.read ? "envelope.open": "envelope")
 							}.tint(.blue)
 						}
 					

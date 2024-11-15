@@ -74,7 +74,7 @@ struct AppIconView: View {
 			}
 		}
 		.scrollIndicators(.hidden)
-		.navigationTitle(String(localized:  "程序图标"))
+		.navigationTitle( "程序图标")
 		.navigationBarTitleDisplayMode(.inline)
 		.toolbar{
 			ToolbarItem{

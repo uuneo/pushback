@@ -34,7 +34,7 @@ struct ServersConfigView: View {
 							manager.fullPage = .login
 							manager.sheetPage = .none
 						} label: {
-							Text(String(localized:  "修改key"))
+							Text(  "修改key")
 						}.tint(.blue)
 					}
 					.listRowSeparator(.hidden)
@@ -54,7 +54,7 @@ struct ServersConfigView: View {
 							
 							
 						}label: {
-							Text(String(localized: "重置Key"))
+							Text( "重置Key")
 						}.tint(.red)
 					}
 					
@@ -111,7 +111,7 @@ struct ServersConfigView: View {
 					}
 				}
 			}
-			.navigationTitle(String(localized: "服务器列表"))
+			.navigationTitle( "服务器列表")
 			.sheet(isPresented: $showAddView) {
 				addServerView()
 			}
@@ -128,7 +128,7 @@ struct ServersConfigView: View {
 					
 					HStack{
 						Spacer()
-						Text(String(localized: "查看服务器部署教程"))
+						Text( "查看服务器部署教程")
 							.font(.caption2)
 							.foregroundStyle(Color.accentColor)
 							.onTapGesture {
@@ -141,7 +141,7 @@ struct ServersConfigView: View {
 					}.padding(.top, 20)
 					
 					Spacer()
-					TextField(String(localized: "输入服务器地址"), text: $serverName)
+					TextField("输入服务器地址", text: $serverName)
 						.textContentType(.flightNumber)
 						.keyboardType(.URL)
 						.autocapitalization(.none)
@@ -243,15 +243,15 @@ struct ServersConfigView: View {
 				
 			}
 			.interactiveDismissDisabled()
-			.navigationTitle(String(localized: "新增服务器"))
+			.navigationTitle("新增服务器")
 			.toolbar {
 				
 				ToolbarItemGroup(placement: .keyboard) {
-					Button(String(localized: "清除")) {
+					Button( "清除") {
 						serverName = ""
 					}
 					Spacer()
-					Button(String(localized: "完成")) {
+					Button("完成") {
 						PushbackManager.shared.hideKeyboard()
 					}
 				}
@@ -283,7 +283,7 @@ struct ServersConfigView: View {
 							Toast.shared.present(title: String(localized: "格式错误"), symbol: .error)
 						}
 					} label:{
-						Text(String(localized: "添加"))
+						Text( "添加")
 					}
 					
 				}

@@ -13,7 +13,7 @@ class CreateCryptoExample{
 	static let shared = CreateCryptoExample()
 	
 	
-	let testData = "{\"body\": \"test\", \"sound\": \"birdsong\"}"
+	let testData = "{\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"birdsong\"}"
 	
 	func cryptoExampleHandler() -> String {
 		let config = Defaults[.cryptoConfig]

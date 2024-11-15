@@ -173,7 +173,7 @@ struct ImageCacheView: View {
 			ToolbarItem(placement: .bottomBar) {
 				HStack{
 					
-					ShareLink(items: imagesData, subject: Text(String(localized: "图片")), message: Text(String(localized: "图片"))) { value in
+					ShareLink(items: imagesData, subject: Text( "图片"), message: Text( "图片")) { value in
 						SharePreview( String(format: String(localized:  "%d张图片"), imagesData.count) , image: value)
 					} label: {
 						Image(systemName:  "square.and.arrow.up")

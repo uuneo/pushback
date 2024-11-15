@@ -30,7 +30,7 @@ struct ChnageKeyCenterView: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 20) {
 			HStack{
-				Text(String(localized: "修改Key"))
+				Text( "修改Key")
 					.font(.largeTitle).bold()
 					.blendMode(.overlay)
 					.slideFadeIn(show: appear[0], offset: 30)
@@ -52,7 +52,7 @@ struct ChnageKeyCenterView: View {
 						
 					}
 				} label: {
-					Label(String(localized: "更改服务器"), systemImage: "pencil")
+					Label("更改服务器", systemImage: "pencil")
 				}
 				.tint(Color.primary)
 				.pickerStyle(DefaultPickerStyle())
@@ -71,7 +71,7 @@ struct ChnageKeyCenterView: View {
 			Divider()
 			
 			HStack{
-				Text(String(localized: "如果设置太简单，会被其他人推送信息的风险！"))
+				Text( "如果设置太简单，会被其他人推送信息的风险！")
 					.font(.footnote)
 					.foregroundColor(.primary.opacity(0.7))
 					.accentColor(.primary.opacity(0.7))
@@ -106,7 +106,7 @@ struct ChnageKeyCenterView: View {
 	
 	@ViewBuilder
 	func InputKey()-> some View{
-		TextField(String(localized: "请输入自定义推送Key"), text: $keyName)
+		TextField("请输入自定义推送Key", text: $keyName)
 			.textContentType(.flightNumber)
 			.keyboardType(.emailAddress)
 			.autocapitalization(.none)

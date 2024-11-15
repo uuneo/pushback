@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct PushExample:Identifiable {
 	var id = UUID().uuidString
@@ -98,11 +99,15 @@ level=critical:  \(String(localized: "重要提醒，静音或专注模式可正
 		PushExample(header: String(localized: "需要在设置>算法设置中进行配置"),
 					footer: String(localized: "发送和接收时对推送内容进行加密和解密"),
 					title: String(localized: "推送加密"),
-					params: "?ciphertext=\(String(localized:  "加密后的数据"))",
+					params: "\(String(localized:  "加密后的数据"))?ciphertext=\(PushExample.createExample())",
 					index: 13),
 		
 	]
 	
+	static func createExample()-> String{
+		let text = CreateCryptoExample.shared.createExample()
+		return text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+	}
 	
 }
 

@@ -73,11 +73,11 @@ struct ImageDetailView:View {
 				
 				
 				ToolbarItemGroup(placement: .keyboard) {
-					Button(String(localized: "清除")) {
+					Button("清除") {
 						name = ""
 					}
 					Spacer()
-					Button(String(localized: "完成")) {
+					Button("完成") {
 						PushbackManager.shared.hideKeyboard()
 					}
 				}

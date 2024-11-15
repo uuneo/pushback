@@ -46,7 +46,7 @@ struct GroupMessageView: View {
 									
 								} label: {
 									
-									Label( String(localized: "标记"), systemImage: unRead(groupMessage) == 0 ?  "envelope.open" : "envelope")
+									Label( "标记", systemImage: unRead(groupMessage) == 0 ?  "envelope.open" : "envelope")
 										.symbolRenderingMode(.palette)
 										.foregroundStyle(.white, Color.primary)
 									
@@ -64,7 +64,7 @@ struct GroupMessageView: View {
 				})
 			}
 			.listStyle(.plain)
-			.navigationTitle(String(localized: "信息"))
+			.navigationTitle( "信息")
 			
 			.navigationDestination(isPresented: $showExample){
 				ExampleView()
@@ -137,7 +137,7 @@ struct GroupMessageView: View {
 			}
 			.actionSheet(isPresented: $showAction) {
 				
-				ActionSheet(title: Text(String(localized: "删除以下时间的信息!")),
+				ActionSheet(title: Text( "删除以下时间的信息!"),
 							buttons: MessageAction.allCases.map({ item in
 					
 					switch item{

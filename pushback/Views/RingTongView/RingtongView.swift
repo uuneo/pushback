@@ -29,7 +29,7 @@ struct RingtongView: View {
 							
 							
 						} label: {
-							Label(String(localized:  "上传铃声"), systemImage: "waveform" )
+							Label("上传铃声", systemImage: "waveform" )
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint)
 							
@@ -68,16 +68,16 @@ struct RingtongView: View {
 					Spacer()
 				}footer: {
 					HStack{
-						Text(String(localized:  "请先将铃声"))
+						Text( "请先将铃声")
 						Button{
 							
 							manager.webUrl = BaseConfig.musicUrl
 							manager.fullPage = .web
 						}label: {
-							Text(String(localized: "转换成 caf 格式"))
+							Text( "转换成 caf 格式")
 								.font(.footnote)
 						}
-						Text(String(localized: ",时长不超过 30 秒。"))
+						Text( ",时长不超过 30 秒。")
 					}
 				}
 				
@@ -92,7 +92,7 @@ struct RingtongView: View {
 							}
 						}
 					}header: {
-						Text(String(localized:  "自定义铃声"))
+						Text(  "自定义铃声")
 					}
 				}
 				
@@ -102,12 +102,12 @@ struct RingtongView: View {
 						RingtoneItemView(audio: url, ringType: .local)
 					}
 				}header: {
-					Text(String(localized:  "自带铃声"))
+					Text(  "自带铃声")
 				}
 				
 				
 			}
-			.navigationTitle(String(localized: "所有铃声"))
+			.navigationTitle("所有铃声")
 			.toolbar {
 				
 				ToolbarItem {

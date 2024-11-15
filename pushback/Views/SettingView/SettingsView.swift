@@ -58,9 +58,9 @@ struct SettingsView: View {
 				if ISPAD{
 					NavigationLink{
 						GroupMessageView()
-							.navigationTitle(String(localized:  "消息"))
+							.navigationTitle( "消息")
 					}label: {
-						Label(String(localized:  "消息"), systemImage: "app.badge")
+						Label( "消息", systemImage: "app.badge")
 							
 					}
 					
@@ -76,12 +76,12 @@ struct SettingsView: View {
 					HStack{
 						ShareLink(item: MessageExportJson(data: Array(messages)), preview:
 									SharePreview(Text(String(format: String(localized: "导出%d条通知消息"), messages.count)), image: Image("json_png"), icon: "trash")) {
-							Label(String(localized: "导出"), systemImage: "arrow.up.circle")
+							Label("导出", systemImage: "arrow.up.circle")
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint, Color.primary)
 						}
 						Spacer()
-						Text(String(format: String(localized:"%d条消息"), messages.count) )
+						Text(String(format: String(localized: "%d条消息"), messages.count) )
 							.foregroundStyle(Color.green)
 					}
 					
@@ -90,7 +90,7 @@ struct SettingsView: View {
 					}label: {
 						HStack{
 							
-							Label(String(localized: "导入"), systemImage: "arrow.down.circle")
+							Label( "导入", systemImage: "arrow.down.circle")
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint, Color.primary)
 							
@@ -112,7 +112,7 @@ struct SettingsView: View {
 					
 					
 				} header: {
-					Text(String(localized: "导出消息列表"))
+					Text( "导出消息列表")
 				} footer:{
 					Text("只能导入.exv结尾的JSON数据")
 				}
@@ -123,7 +123,7 @@ struct SettingsView: View {
 				
 				
 				
-				Section(footer:Text(String(localized:  "苹果设备推送Token,不要外泄"))) {
+				Section(footer:Text(  "苹果设备推送Token,不要外泄")) {
 					Button{
 						if deviceToken != ""{
 							manager.copy(deviceToken)
@@ -138,7 +138,7 @@ struct SettingsView: View {
 						HStack{
 							
 							Label {
-								Text(String(localized: "令牌"))
+								Text( "令牌")
 									.lineLimit(1)
 									.foregroundStyle(.textBlack)
 							} icon: {
@@ -160,10 +160,10 @@ struct SettingsView: View {
 				
 				Section {
 					Toggle(isOn: $isMessageStorage) {
-						Text(String(localized:  "默认保存"))
+						Text(  "默认保存")
 					}
 				}footer:{
-					Text(String(localized: "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息"))
+					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
 						.foregroundStyle(.gray)
 				}
 				
@@ -175,17 +175,17 @@ struct SettingsView: View {
 					NavigationLink {
 						ImageCacheView()
 							.toolbar(.hidden, for: .tabBar)
-							.navigationTitle(String(localized: "图片"))
+							.navigationTitle("图片")
 						
 					} label: {
-						Label(String(localized: "图片"), systemImage: "photo.on.rectangle")
+						Label("图片", systemImage: "photo.on.rectangle")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle( .tint, Color.primary)
 					}
 					
 					
 				}header :{
-					Text(String(localized:  "图片"))
+					Text(  "图片")
 						.foregroundStyle(.gray)
 					
 				}
@@ -194,7 +194,7 @@ struct SettingsView: View {
 				
 				
 				
-				Section(header: Text(String(localized:  "配置"))) {
+				Section(header: Text(  "配置")) {
 					Button{
 						manager.sheetPage = .appIcon
 					}label: {
@@ -202,7 +202,7 @@ struct SettingsView: View {
 						
 						HStack(alignment:.center){
 							Label {
-								Text(String(localized:"程序图标"))
+								Text("程序图标")
 									.foregroundStyle(.textBlack)
 							} icon: {
 								Image(setting_active_app_icon.logo)
@@ -222,11 +222,11 @@ struct SettingsView: View {
 					
 					
 					Picker(selection: $badgeMode) {
-						Text(String(localized: "自动")).tag(BadgeAutoMode.auto)
-						Text(String(localized: "自定义")).tag(BadgeAutoMode.custom)
+						Text( "自动").tag(BadgeAutoMode.auto)
+						Text( "自定义").tag(BadgeAutoMode.custom)
 					} label: {
 						Label {
-							Text(String(localized: "角标模式"))
+							Text( "角标模式")
 						} icon: {
 							Image(systemName: "app.badge")
 								.scaleEffect(0.9)
@@ -244,7 +244,7 @@ struct SettingsView: View {
 						
 						
 						Label {
-							Text(String(localized: "算法配置") )
+							Text( "算法配置")
 						} icon: {
 							Image(systemName: "bolt.shield")
 								.scaleEffect(0.9)
@@ -260,7 +260,7 @@ struct SettingsView: View {
 						
 						HStack{
 							Label {
-								Text(String(localized: "铃声列表") )
+								Text( "铃声列表")
 							} icon: {
 								Image(systemName: "headphones.circle")
 									.scaleEffect(0.9)
@@ -278,7 +278,7 @@ struct SettingsView: View {
 				}
 				
 				
-				Section(header:Text( String(localized: "其他" ) )) {
+				Section(header:Text( "其他" )) {
 					
 					
 					Button{
@@ -287,7 +287,7 @@ struct SettingsView: View {
 						HStack(alignment:.center){
 							
 							Label {
-								Text(String(localized:  "打开设置"))
+								Text(  "打开设置")
 									.foregroundStyle(.textBlack)
 							} icon: {
 								Image(systemName: "gear.circle")
@@ -311,7 +311,7 @@ struct SettingsView: View {
 					}label: {
 						HStack(alignment:.center){
 							Label {
-								Text(String(localized:  "常见问题"))
+								Text(  "常见问题")
 									
 									.foregroundStyle(.textBlack)
 							} icon: {
@@ -335,7 +335,7 @@ struct SettingsView: View {
 					}label: {
 						HStack(alignment:.center){
 							Label {
-								Text(String(localized: "使用帮助"))
+								Text( "使用帮助")
 									.foregroundStyle(.textBlack)
 							} icon: {
 								Image(systemName: "person.fill.questionmark")
@@ -358,7 +358,7 @@ struct SettingsView: View {
 				
 				
 			}
-			.navigationTitle(String(localized: "设置"))
+			.navigationTitle("设置")
 			.loading(showLoading)
 			.tipsToolbar(wifi: Monitors.shared.isConnected, notification: Monitors.shared.isAuthorized, callback: {
 				manager.openSetting()

@@ -76,7 +76,7 @@ struct RingtoneItemView: View {
 								Toast.shared.present(title: String(localized:  "复制成功"), symbol: "document.on.document")
 							}
 					}else{
-						Text(String(localized: "长度不能超过30秒"))
+						Text("长度不能超过30秒")
 							.foregroundStyle(.red)
 					}
 					

@@ -36,9 +36,9 @@ struct ScanView: View {
                 .actionSheet(isPresented: $showActive) {
                 
                     
-                    ActionSheet(title: Text(String(localized: "不正确的地址")),buttons: [
+                    ActionSheet(title: Text( "不正确的地址"),buttons: [
                         
-                        .default(Text(String(localized: "重新扫码")), action: {
+                        .default(Text( "重新扫码"), action: {
 #if DEBUG
                             debugPrint(self.scanCode)
 #endif

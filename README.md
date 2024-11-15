@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="/logo.png " alt="pushback" title="pushback" width="557"/>
+<img src="/logo.png " alt="pushback" title="pushback" width="300"/>
 </p>
 
 

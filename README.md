@@ -2,6 +2,8 @@
 # Pushback 反推
 ## 是一款 iOS 应用程序，可让您将自定义通知推送到您的 iPhone
 
+![IOS](https://img.shields.io/badge/IOS-16+-ff69b4.svg)
+
 ## 项目是来自Bark开源版本的 SwiftUI IOS16+ 版本实现
 [Bark](https://github.com/Finb/Bark)
 

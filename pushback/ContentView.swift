@@ -245,7 +245,7 @@ extension ContentView{
 		switch newValue{
 		case .active:
 			
-			stopCallNotificationProcessor()
+			stopCallNotificationHandler()
 			if let name = QuickAction.selectAction?.userInfo?["name"] as? String{
 				QuickAction.selectAction = nil
 				manager.page = .message
@@ -275,8 +275,8 @@ extension ContentView{
 	}
 	
 	/// 停止响铃
-	func stopCallNotificationProcessor() {
-		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName(BaseConfig.kStopCallProcessorKey as CFString), nil, nil, true)
+	func stopCallNotificationHandler() {
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName(BaseConfig.kStopCallHandlerKey as CFString), nil, nil, true)
 	}
 	
 

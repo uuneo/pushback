@@ -1,24 +1,25 @@
  *感谢[BARK](https://github.com/Finb/Bark) 的开源项目*
 ### pushback <!-- {docsify-ignore-all} -->
+- 提供调试服务器，https://dev.twown.com 无需搭建服务器即可自编译ipa文件使用
 - 免费、轻量！简单调用接口即可给自己的iPhone发送推送。
 - 依赖苹果APNs，及时、稳定、可靠
 - 不会消耗设备的电量， 基于系统推送服务与推送扩展，APP本体并不需要运行。
 - 隐私安全，可以通过一些方式确保包含作者本人在内的所有人都无法窃取你的隐私。<br>*点击详细了解如何保障[隐私安全](/privacy)*
+
 
 ### 源码
 - [pushback](https://github.com/uuneo/pushback) 是完整开源的 iOS APP，用来接收自定义推送。
 - [pushbackServer](https://github.com/uuneo/pushbackServer) 是完整开源的 pushback 服务后端，用来接收用户的推送请求并转发给苹果APNS。
 
 ### 反馈
-- [pushback 问题反馈群](https://t.me/pushback)
-- [GitHub Issues](https://github.com/uuneo/pushback/issues)
+- [pushback 问题反馈群](https://t.me/+1Q469Adt96RmNGE1)
+- [pushback GitHub Issues](https://github.com/uuneo/pushback/issues)
 
 - [Bark 问题反馈群](https://t.me/joinchat/OsCbLzovUAE0YjY1) （注意点击入群验证）
 - [GitHub Issues](https://github.com/Finb/Bark/issues)
 
 ### 免费
-* pushback **2024年1月**上线。 *（ BARK他搞多久，我就多久...）*<br> 
-* Bark **2018年7月**上线至少会维持运营到 **2031年7月** 。*（说不出口“永久”这个词，后续还有需求再续吧）*<br> 
+* pushback **2024年1月**上线。 *（业余爱好，不知道搞多久）*<br> 
 
 
 APP在维持期间，不会有任何形式的收费与广告，各位彦祖放心使用。

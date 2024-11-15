@@ -29,7 +29,7 @@ class BaseConfig {
 	static let  CryptoSettingFields = "CryptoSettingFields"
 	static let  recordType = "NotificationMessage"
 	static let  realmName = "Meowrld.realm"
-	static let  kStopCallProcessorKey = "stopCallProcessorNotification"
+	static let  kStopCallHandlerKey = "stopCallHandlerNotification"
 	static let  Sounds = "Sounds"
 	static let  isMessageStorage = "isMessageStorage"
 	static let  realmModalVersion:UInt64 = 21

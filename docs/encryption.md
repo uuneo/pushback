@@ -14,29 +14,47 @@
 #### 发送加密推送
 要发送加密推送，首先需要把 Bark 请求参数转换成 json 格式的字符串，然后用之前设置的秘钥和相应的算法对字符串进行加密，最后把加密后的密文作为ciphertext参数发送到服务器。<br><br>
 **示例：**
-```sh
-#!/usr/bin/env bash
+```python
+# Documentation: "https://pushback.twown.com/#/encryption"
+# python demo: 使用AES加密数据，并发送到服务器
+# pip3 install pycryptodome
+# 下面只是一种加密的示例
 
-set -e
+import json
+import base64
+import requests
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
 
-# bark key
-deviceKey='F5u42Bd3HyW8KxkUqo2gRA'
-# push payload
-json='{"body": "test", "sound": "birdsong"}'
 
-# must be 16 bit long
-key='1234567890123456'
-iv='1111111111111111'
+def encrypt_aes_mode(data, key, iv):
+	cipher = AES.new(key, AES.MODE_GCM, iv)
+	padded_data = data.encode()
+	encrypted_data, tag = cipher.encrypt_and_digest(padded_data)
+	return iv + encrypted_data + tag
 
-# openssl requires Hex encoding of manual keys and IVs, not ASCII encoding.
-key=$(printf $key | xxd -ps -c 200)
-iv=$(printf $iv | xxd -ps -c 200)
 
-ciphertext=$(echo -n $json | openssl enc -aes-128-cbc -K $key -iv $iv | base64)
+# JSON数据
+json_string = json.dumps({"body": "test", "sound": "birdsong"})
 
-# The console will print "d3QhjQjP5majvNt5CjsvFWwqqj2gKl96RFj5OO+u6ynTt7lkyigDYNA3abnnCLpr"
-echo $ciphertext
+# 必须32位
+key = b"BxXqdEFEuALb4SGJMQ5zm2fJLrRIz83R"
+# IV可以是随机生成的，但如果是随机的就需要放在 iv 参数里传递。
+iv= b"BipwZliixOcJDOz8"
 
-# URL encoding the ciphertext, there may be special characters.
-curl --data-urlencode "ciphertext=$ciphertext" http://api.day.app/$deviceKey
+# 加密
+# 控制台将打印 "Qmlwd1psaWl4T2NKE2CTw4aoH2dGiJ2G0G39EbOK3IiKhxm6URNmqRBDlTh1U1CEoAaeX/zD+vygVi68wnKh3iI="
+encrypted_data = encrypt_aes_mode(json_string, key, iv[:12])
+
+# 将加密后的数据转换为Base64编码
+encrypted_base64 = base64.b64encode(encrypted_data).decode()
+
+print("加密后的数据（Base64编码", encrypted_base64)
+
+deviceKey = '2uvg28SiADdcrXH46f4xmP'
+
+res = requests.get(f"https://push.twown.com/{deviceKey}/test", params = {"ciphertext": encrypted_base64})
+
+print(res.text)
+
 ```

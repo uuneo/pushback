@@ -1,2 +1,0 @@
- [:uk: English](/en-us/)
-  

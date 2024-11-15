@@ -1,4 +1,11 @@
 
+> [!WARNING]
+> 
+> - 兼容Bark的所有使用方法
+>
+
+
+
 # Pushback 反推
 ![IOS](https://img.shields.io/badge/IOS-16+-ff69b4.svg)
 ### 是一款 iOS 应用程序，可让您将自定义通知推送到您的 iPhone

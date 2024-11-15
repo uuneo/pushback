@@ -41,7 +41,6 @@
 		190E0E762CE637EE00F01858 /* calypso.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBF2CCC850400A2F1A8 /* calypso.caf */; };
 		190E0E772CE637EE00F01858 /* care.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF12CE1E1B600F01858 /* care.caf */; };
 		190E0E782CE637EE00F01858 /* chime.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC02CCC850400A2F1A8 /* chime.caf */; };
-		190E0E792CE637EE00F01858 /* choo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC12CCC850400A2F1A8 /* choo.caf */; };
 		190E0E7A2CE637EE00F01858 /* click.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE12CE1CAE100F01858 /* click.caf */; };
 		190E0E7B2CE637EE00F01858 /* ding.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBD2CE1C45100F01858 /* ding.caf */; };
 		190E0E7C2CE637EE00F01858 /* dog.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBE2CE1C45100F01858 /* dog.caf */; };
@@ -55,9 +54,7 @@
 		190E0E842CE637EE00F01858 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
 		190E0E852CE637EE00F01858 /* kacha.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CC32CE1C45100F01858 /* kacha.caf */; };
 		190E0E862CE637EE00F01858 /* kill.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE32CE1CAE100F01858 /* kill.caf */; };
-		190E0E872CE637EE00F01858 /* ladder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC92CCC850400A2F1A8 /* ladder.caf */; };
 		190E0E882CE637EE00F01858 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
-		190E0E892CE637EE00F01858 /* multiwayinvitation.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */; };
 		190E0E8A2CE637EE00F01858 /* newmail.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCD2CCC850400A2F1A8 /* newmail.caf */; };
 		190E0E8B2CE637EE00F01858 /* no.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE42CE1CAE100F01858 /* no.caf */; };
 		190E0E8C2CE637EE00F01858 /* noir.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCF2CCC850400A2F1A8 /* noir.caf */; };
@@ -77,13 +74,15 @@
 		190E0E9A2CE637EE00F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
 		190E0E9B2CE637EE00F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
 		190E0E9C2CE637EE00F01858 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCC2CE1C45100F01858 /* xiu.caf */; };
+		1957022B2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
+		1957022C2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
+		1957022D2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
+		1957022E2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
 		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		1957EA322CD5290A00CF05A0 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
 		19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
-		19C13BE02CCC850400A2F1A8 /* ladder.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC92CCC850400A2F1A8 /* ladder.caf */; };
 		19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
-		19C13BE42CCC850400A2F1A8 /* multiwayinvitation.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */; };
 		19C13BE62CCC850400A2F1A8 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD32CCC850400A2F1A8 /* silence.caf */; };
 		19C13BE72CCC850400A2F1A8 /* chime.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC02CCC850400A2F1A8 /* chime.caf */; };
 		19C13BE82CCC850400A2F1A8 /* calypso.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBF2CCC850400A2F1A8 /* calypso.caf */; };
@@ -95,7 +94,6 @@
 		19C13BF32CCC850400A2F1A8 /* tiptoes.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD72CCC850400A2F1A8 /* tiptoes.caf */; };
 		19C13BF42CCC850400A2F1A8 /* birdsong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBD2CCC850400A2F1A8 /* birdsong.caf */; };
 		19C13BF62CCC850400A2F1A8 /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD12CCC850400A2F1A8 /* shake.caf */; };
-		19C13BF92CCC850400A2F1A8 /* choo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC12CCC850400A2F1A8 /* choo.caf */; };
 		19C13C182CCC8A4100A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13C192CCC8A4100A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13C1A2CCC8A4100A2F1A8 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
@@ -235,18 +233,17 @@
 		190E0CF32CE1E1B600F01858 /* oldphone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = oldphone.caf; sourceTree = "<group>"; };
 		190E0CF42CE1E1B600F01858 /* weixin.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = weixin.caf; sourceTree = "<group>"; };
 		190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsTongCloudKit.swift; sourceTree = "<group>"; };
+		195702292CE7485D009F55B0 /* car.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = car.caf; sourceTree = "<group>"; };
+		1957022A2CE7485D009F55B0 /* tuola.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tuola.caf; sourceTree = "<group>"; };
 		1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		19C13BA52CCBDF8B00A2F1A8 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
 		19C13BBD2CCC850400A2F1A8 /* birdsong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = birdsong.caf; sourceTree = "<group>"; };
 		19C13BBF2CCC850400A2F1A8 /* calypso.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = calypso.caf; sourceTree = "<group>"; };
 		19C13BC02CCC850400A2F1A8 /* chime.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = chime.caf; sourceTree = "<group>"; };
-		19C13BC12CCC850400A2F1A8 /* choo.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = choo.caf; sourceTree = "<group>"; };
 		19C13BC72CCC850400A2F1A8 /* health.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = health.caf; sourceTree = "<group>"; };
 		19C13BC82CCC850400A2F1A8 /* horn.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = horn.caf; sourceTree = "<group>"; };
-		19C13BC92CCC850400A2F1A8 /* ladder.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ladder.caf; sourceTree = "<group>"; };
 		19C13BCA2CCC850400A2F1A8 /* mailsent.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mailsent.caf; sourceTree = "<group>"; };
-		19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = multiwayinvitation.caf; sourceTree = "<group>"; };
 		19C13BCD2CCC850400A2F1A8 /* newmail.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = newmail.caf; sourceTree = "<group>"; };
 		19C13BCF2CCC850400A2F1A8 /* noir.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = noir.caf; sourceTree = "<group>"; };
 		19C13BD02CCC850400A2F1A8 /* paysuccess.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = paysuccess.caf; sourceTree = "<group>"; };
@@ -483,7 +480,6 @@
 				19C13BBF2CCC850400A2F1A8 /* calypso.caf */,
 				190E0CF12CE1E1B600F01858 /* care.caf */,
 				19C13BC02CCC850400A2F1A8 /* chime.caf */,
-				19C13BC12CCC850400A2F1A8 /* choo.caf */,
 				190E0CE12CE1CAE100F01858 /* click.caf */,
 				190E0CBD2CE1C45100F01858 /* ding.caf */,
 				190E0CBE2CE1C45100F01858 /* dog.caf */,
@@ -497,9 +493,7 @@
 				19C13BC82CCC850400A2F1A8 /* horn.caf */,
 				190E0CC32CE1C45100F01858 /* kacha.caf */,
 				190E0CE32CE1CAE100F01858 /* kill.caf */,
-				19C13BC92CCC850400A2F1A8 /* ladder.caf */,
 				19C13BCA2CCC850400A2F1A8 /* mailsent.caf */,
-				19C13BCC2CCC850400A2F1A8 /* multiwayinvitation.caf */,
 				19C13BCD2CCC850400A2F1A8 /* newmail.caf */,
 				190E0CE42CE1CAE100F01858 /* no.caf */,
 				19C13BCF2CCC850400A2F1A8 /* noir.caf */,
@@ -519,6 +513,8 @@
 				190E0CF42CE1E1B600F01858 /* weixin.caf */,
 				190E0CE52CE1CAE100F01858 /* what.caf */,
 				190E0CCC2CE1C45100F01858 /* xiu.caf */,
+				195702292CE7485D009F55B0 /* car.caf */,
+				1957022A2CE7485D009F55B0 /* tuola.caf */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -712,9 +708,7 @@
 			files = (
 				19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */,
 				19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */,
-				19C13BE02CCC850400A2F1A8 /* ladder.caf in Resources */,
 				19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */,
-				19C13BE42CCC850400A2F1A8 /* multiwayinvitation.caf in Resources */,
 				190E0CE62CE1CAE100F01858 /* gold.caf in Resources */,
 				190E0CE72CE1CAE100F01858 /* click.caf in Resources */,
 				190E0CE82CE1CAE100F01858 /* kill.caf in Resources */,
@@ -733,6 +727,8 @@
 				190E0CD82CE1C45100F01858 /* gun.caf in Resources */,
 				190E0CD92CE1C45100F01858 /* tubosu.caf in Resources */,
 				190E0CDB2CE1C45100F01858 /* ding.caf in Resources */,
+				1957022D2CE7485E009F55B0 /* car.caf in Resources */,
+				1957022E2CE7485E009F55B0 /* tuola.caf in Resources */,
 				190E0CDC2CE1C45100F01858 /* weapon.caf in Resources */,
 				190E0CDE2CE1C45100F01858 /* drop.caf in Resources */,
 				190E0CDF2CE1C45100F01858 /* runaway.caf in Resources */,
@@ -752,7 +748,6 @@
 				19C13BF32CCC850400A2F1A8 /* tiptoes.caf in Resources */,
 				19C13BF42CCC850400A2F1A8 /* birdsong.caf in Resources */,
 				19C13BF62CCC850400A2F1A8 /* shake.caf in Resources */,
-				19C13BF92CCC850400A2F1A8 /* choo.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,7 +762,6 @@
 				190E0E762CE637EE00F01858 /* calypso.caf in Resources */,
 				190E0E772CE637EE00F01858 /* care.caf in Resources */,
 				190E0E782CE637EE00F01858 /* chime.caf in Resources */,
-				190E0E792CE637EE00F01858 /* choo.caf in Resources */,
 				190E0E7A2CE637EE00F01858 /* click.caf in Resources */,
 				190E0E7B2CE637EE00F01858 /* ding.caf in Resources */,
 				190E0E7C2CE637EE00F01858 /* dog.caf in Resources */,
@@ -781,9 +775,7 @@
 				190E0E842CE637EE00F01858 /* horn.caf in Resources */,
 				190E0E852CE637EE00F01858 /* kacha.caf in Resources */,
 				190E0E862CE637EE00F01858 /* kill.caf in Resources */,
-				190E0E872CE637EE00F01858 /* ladder.caf in Resources */,
 				190E0E882CE637EE00F01858 /* mailsent.caf in Resources */,
-				190E0E892CE637EE00F01858 /* multiwayinvitation.caf in Resources */,
 				190E0E8A2CE637EE00F01858 /* newmail.caf in Resources */,
 				190E0E8B2CE637EE00F01858 /* no.caf in Resources */,
 				190E0E8C2CE637EE00F01858 /* noir.caf in Resources */,
@@ -803,6 +795,8 @@
 				190E0E9A2CE637EE00F01858 /* weixin.caf in Resources */,
 				190E0E9B2CE637EE00F01858 /* what.caf in Resources */,
 				190E0E9C2CE637EE00F01858 /* xiu.caf in Resources */,
+				1957022B2CE7485E009F55B0 /* car.caf in Resources */,
+				1957022C2CE7485E009F55B0 /* tuola.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

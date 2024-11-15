@@ -87,7 +87,7 @@ class CallHandler: NotificationContentHandler {
 		
 		
 		
-		let soundName: String = sound?.first as? String ?? "multiwayinvitation"
+		let soundName: String = sound?.first as? String ?? "oldphone"
 		let soundType: String = sound?.last as? String ?? "caf"
 		
 		

@@ -21,5 +21,10 @@
 [查看文档](https://uuneo.github.io/pushback)
 
 
+## 项目中使用的第三方库
 
+- [Defaults](https://github.com/sindresorhus/Defaults)
+- [QRScanner](https://github.com/mercari/QRScanner)
+- [realm](https://github.com/realm/realm-swift)
+- [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
 

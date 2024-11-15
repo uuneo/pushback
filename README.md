@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="./pushback/pushback/Assets.xcassets/AppIcon.appiconset/pushbackLogo.png " alt="pushback" title="pushback" width="557"/>
+<img src="/logo.png " alt="pushback" title="pushback" width="557"/>
 </p>
 
 

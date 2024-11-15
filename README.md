@@ -1,5 +1,5 @@
 
-> [!WARNING]
+> [!SUCCESS]
 > 
 > - 兼容Bark的所有使用方法
 >

@@ -1,5 +1,5 @@
 
-#Pushback 有推
+# Pushback 反推
 ## 是一款 iOS 应用程序，可让您将自定义通知推送到您的 iPhone
 
 ## 项目是来自Bark开源版本的 SwiftUI IOS16+ 版本实现

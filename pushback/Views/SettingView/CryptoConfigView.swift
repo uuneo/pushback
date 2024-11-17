@@ -64,6 +64,13 @@ struct CryptoConfigView: View {
 			}header:{
 				Text("选择后配置自动保存")
 			}
+			.onChange(of: cryptoConfig.algorithm) {  _ in
+				createCopyText()
+			}
+			
+			
+			
+			
 			
 			Section {
 				Picker(selection: $cryptoConfig.mode, label:
@@ -76,6 +83,9 @@ struct CryptoConfigView: View {
 						Text(item.rawValue).tag(item)
 					}
 				}
+			}
+			.onChange(of: cryptoConfig.mode) {  _ in
+				createCopyText()
 			}
 			
 			Section {
@@ -171,9 +181,10 @@ struct CryptoConfigView: View {
 			HStack{
 				Spacer()
 				Button {
-					createCopyText()
+					cryptoConfig.iv = CryptoModal.generateRandomString()
+					cryptoConfig.key = CryptoModal.generateRandomString(cryptoConfig.algorithm.rawValue)
 				} label: {
-					Label("复制发送脚本", systemImage: "doc.on.doc")
+					Label("随机生成密钥", systemImage: "dice")
 						.symbolRenderingMode(.palette)
 						.foregroundStyle(.white, Color.primary)
 						.padding(.horizontal)
@@ -190,6 +201,8 @@ struct CryptoConfigView: View {
 			
 			
 		}.navigationTitle( "算法配置")
+			
+		
 			.toolbar{
 				
 				ToolbarItemGroup(placement: .keyboard) {
@@ -208,21 +221,22 @@ struct CryptoConfigView: View {
 				
 				ToolbarItem {
 					Button {
-						if verifyKey() && verifyIv(){
-							
-							Toast.shared.present(title: String(localized:  "验证成功"), symbol: .success)
-							
-							
-						}
+						createCopyText()
 					} label: {
-						Text(  "验证")
+						Label("复制发送脚本", systemImage: "doc.on.doc")
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(.white, Color.primary)
+							.padding(.horizontal)
 					}
 					
 				}
 			}
 		
+			
+		
 	}
 	func verifyKey()-> Bool{
+		debugPrint(cryptoConfig.key.count , expectKeyLength)
 		if cryptoConfig.key.count != expectKeyLength{
 			cryptoConfig.key = ""
 		
@@ -246,16 +260,16 @@ struct CryptoConfigView: View {
 		
 		
 		if !verifyIv() {
-			cryptoConfig.iv = CryptoModal.generateRandomString(by32: false)
+			cryptoConfig.iv = CryptoModal.generateRandomString()
 		}
 		
 		if !verifyKey(){
-			cryptoConfig.key = CryptoModal.generateRandomString(by32: expectKeyLength == 32)
+			cryptoConfig.key = CryptoModal.generateRandomString(cryptoConfig.algorithm.rawValue)
 		}
 		
 		
 		
-		let text = CreateCryptoExample.shared.cryptoExampleHandler()
+		let text = CreateCryptoExample().cryptoExampleHandler()
 		manager.copy(text)
 		Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
 		
@@ -268,3 +282,4 @@ struct CryptoConfigView: View {
 	CryptoConfigView()
 		.environmentObject(PushbackManager.shared)
 }
+

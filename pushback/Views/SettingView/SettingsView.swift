@@ -10,6 +10,8 @@ import SwiftUI
 import RealmSwift
 import Combine
 import Defaults
+import RevenueCat
+import RevenueCatUI
 
 struct exportJsonData:Identifiable{
 	var id:UUID = UUID()
@@ -36,6 +38,8 @@ struct SettingsView: View {
 	@State private var showServerListView:Bool = false
 
 	@State private var showImport:Bool = false
+	
+	@State private var showPayWall:Bool = false
 	var serverTypeColor:Color{
 
 		let right =  servers.filter(\.status == true).count
@@ -353,6 +357,43 @@ struct SettingsView: View {
 					}
 					
 					
+				}
+				
+				Section {
+					
+					Button{
+						self.showPayWall.toggle()
+					}label:{
+						HStack(alignment:.center){
+							Label {
+								Text("开发者支持计划")
+									.foregroundStyle(.textBlack)
+							} icon: {
+								Image(systemName: "creditcard.circle")
+									.scaleEffect(0.9)
+									.symbolRenderingMode(.palette)
+									.foregroundStyle(.tint, Color.primary)
+							}
+							
+							Spacer()
+							Image(systemName: "chevron.right")
+								.foregroundStyle(.gray)
+						}
+						.overlay {
+							if showPayWall{
+								Divider()
+									.presentPaywallIfNeeded(requiredEntitlementIdentifier: "premium"){ customInfo in
+										debugPrint(customInfo.localizedPriceString)
+										
+									}onDismiss: {
+										self.showPayWall = false
+									}
+							}
+						}
+					}
+					
+				}header: {
+					Text("写着玩的，别整这么客气")
 				}
 				
 				

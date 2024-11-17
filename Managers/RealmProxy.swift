@@ -140,53 +140,7 @@ class RealmProxy{
 		}
 		
 	}
-	
-	
-	static func exportFiles(_ items:Results<Message>, completion: @escaping ((URL?,String?)-> Void)){
-		
-		Task.detached(priority: .high){
-			do{
-				
-				var arr = [[String: AnyObject]]()
-				for message in items {
-					arr.append(message.toDictionary())
-				}
-				
-				
-				let jsonData = try JSON(arr).rawData(options: JSONSerialization.WritingOptions.prettyPrinted)
-				
-				let fileManager = FileManager.default
-				let tempDirectoryURL = fileManager.temporaryDirectory
-				let fileName = "meow_\(Date().formatString(format: "yyyy_MM_dd_HH_mm_ss")).json"
-				let linkURL = tempDirectoryURL.appendingPathComponent(fileName)
-				
-				// 清空temp文件夹
-				try fileManager
-					.contentsOfDirectory(at: tempDirectoryURL, includingPropertiesForKeys: nil, options: .skipsSubdirectoryDescendants)
-					.forEach { file in
-						try? fileManager.removeItem(atPath: file.path)
-					}
-				// 写入临时文件
-				try jsonData.write(to: linkURL)
-				
-				
-				await MainActor.run {
-					completion(linkURL,String(localized: "导出成功"))
-				}
-			} catch {
-#if DEBUG
-				print("errors: \(error.localizedDescription)")
-#endif
-				await MainActor.run {
-					completion(nil, error.localizedDescription)
-				}
-			}
-			
-		}
-		
-		
-	}
-	
+
 	func importMessage(_ data: [URL]) -> String {
 		do{
 			

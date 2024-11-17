@@ -108,7 +108,7 @@ extension PushbackManager{
 		
 		do{
 			
-			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toDictionary()
+			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toEncodableDictionary()
 			
 			if let response:baseResponse<ChangeKeyInfo> = try await self.fetch(url: "\(server.url)/change",method: .post, params: params),
 			   let index = Defaults[.servers].firstIndex(where: {$0.id == server.id}){
@@ -221,7 +221,7 @@ extension PushbackManager{
 			let deviceToken = Defaults[.deviceToken]
 			if let index = Defaults[.servers].firstIndex(of: server){
 			
-				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toDictionary()
+				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary()
 				
 				
 				let response:baseResponse<DeviceInfo>? = try await self.fetch(url: server.url + "/register",method: .post, params: params)
@@ -288,10 +288,6 @@ extension PushbackManager{
 		UIPasteboard.general.string = text
 	}
 	
-	/// Add Hold app to display the shortcut menu
-	func addQuickActions(){
-		UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
-	}
 	
 	/// open app settings
 	func openSetting(){
@@ -301,18 +297,22 @@ extension PushbackManager{
 		
 		UIApplication.shared.open(settingsURL)
 	}
-	
-	
-	///  open url or urlscheme
-	func openUrl(url: URL, unOpen: ((URL)->Void)?) {
-		if url.path().isValidURL() != .remote{
+	/// Open a URL or handle a fallback if the URL cannot be opened
+	/// - Parameters:
+	///   - url: The URL to open
+	///   - unOpen: A closure called when the URL cannot be opened, passing the URL as an argument
+	func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
+		// Check if the URL can be opened
+		if UIApplication.shared.canOpenURL(url) {
+			// Attempt to open the URL as a universal link
 			UIApplication.shared.open(url, options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: true]) { success in
 				if !success {
+					// If the universal link cannot be opened, call the fallback closure
 					unOpen?(url)
 				}
 			}
-		}
-		else {
+		} else {
+			// Fallback to opening the URL normally if it's not a universal link or cannot be opened
 			UIApplication.shared.open(url, options: [:], completionHandler: nil)
 		}
 	}

@@ -150,38 +150,45 @@ extension String{
 
 extension Date {
 	func formatString(format: String) -> String {
-		let formatter = DateFormatter()
-		formatter.dateFormat = format
-		return formatter.string(for: self) ?? ""
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateFormat = format
+		return dateFormatter.string(from: self)
 	}
 
 	func agoFormatString() -> String {
-		let clendar = NSCalendar(calendarIdentifier: .gregorian)
-		let cps = clendar?.components([.hour, .minute, .second, .day, .month, .year], from: self, to: Date(), options: .wrapComponents)
+		   let calendar = Calendar(identifier: .gregorian)
+		   guard let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self, to: Date()) as DateComponents? else {
+			   return String(localized: "未知时间")
+		   }
 
-		let year = cps!.year!
-		let month = cps!.month!
-		let day = cps!.day!
-		let hour = cps!.hour!
-		let minute = cps!.minute!
+		   let year = components.year ?? 0
+		   let month = components.month ?? 0
+		   let day = components.day ?? 0
+		   let hour = components.hour ?? 0
+		   let minute = components.minute ?? 0
 
-		if year > 0 || month > 0 || day > 0 || hour > 12 {
-			return formatString(format: "yyyy-MM-dd HH:mm")
-		}
-		if hour > 1 {
-			return formatString(format: "HH:mm")
-		}
-		if hour > 0 {
-			if minute > 0 {
-				return String(format: String(localized: "%1$d小时%2$d分钟前"), hour, minute)
-			}
-			return String(format: String(localized: "%1$d小时前"), hour)
-		}
-		if minute > 1 {
-			return String(format: String(localized: "%1$d分钟前"), minute)
-		}
-		return String(localized: "刚刚")
-	}
+		   if year > 0 || month > 0 || day > 0 || hour > 12 {
+			   // Display full date if it's more than 12 hours ago
+			   return formatString(format: "yyyy-MM-dd HH:mm")
+		   }
+		   if hour > 1 {
+			   // Display in hours and minutes if it's more than 1 hour ago
+			   return formatString(format: "HH:mm")
+		   }
+		   if hour > 0 {
+			   // Display in hours and optionally minutes
+			   if minute > 0 {
+				   return String(format: String(localized: "%1$d小时%2$d分钟前"), hour, minute)
+			   }
+			   return String(format: String(localized: "%1$d小时前"), hour)
+		   }
+		   if minute > 1 {
+			   // Display in minutes if it's more than 1 minute ago
+			   return String(format: String(localized: "%1$d分钟前"), minute)
+		   }
+		   // Display "just now" for time differences of less than 1 minute
+		   return String(localized: "刚刚")
+	   }
 	
 	// 计算日期与当前日期的差异，并根据差异生成颜色
 	 func colorForDate() -> Color {
@@ -205,10 +212,6 @@ extension Date {
 		 // 5小时到24小时之间，显示灰色
 		 else if timeDifference <= twentyFourHours {
 			 return Color.gray
-		 }
-		 // 超过一周，显示红色
-		 else if timeDifference > oneWeek {
-			 return Color.red
 		 }
 		 // 24小时到一周之间，显示黄色
 		 else {
@@ -383,7 +386,7 @@ extension Notification.Name {
 
 
 extension Encodable {
-	func toDictionary() -> [String: Any]? {
+	func toEncodableDictionary() -> [String: Any]? {
 		// 1. 使用 JSONEncoder 将结构体编码为 JSON 数据
 		let encoder = JSONEncoder()
 		guard let data = try? encoder.encode(self) else { return nil }

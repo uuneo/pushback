@@ -263,8 +263,7 @@ extension ContentView{
 			HapticsManager.shared.restartEngine()
 			manager.registers()
 		case .background:
-			
-			manager.addQuickActions()
+			UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
 			HapticsManager.shared.stopEngine()
 			
 		default:

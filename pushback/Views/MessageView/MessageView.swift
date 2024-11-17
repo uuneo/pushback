@@ -30,10 +30,8 @@ struct MessageView: View {
 							}
 						}
 						.onTapGesture {
-							if let url = message.url,
-							   let fileUrl = URL(string: url)
-							{
-								manager.openUrl(url: fileUrl, unOpen: nil)
+							if let url = message.url, let fileUrl = URL(string: url) {
+								manager.openUrl(url: fileUrl)
 							}
 							
 						}

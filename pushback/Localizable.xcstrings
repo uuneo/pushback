@@ -37,6 +37,22 @@
         }
       }
     },
+    "%@：\nlevel=active: %@ \n*  %@\nlevel=timeSensitive:  %@\n*  %@\nlevel=passive：  %@\n*  %@\nlevel=critical:  %@\n*  %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical:  %8$@\n*  %9$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical:  %8$@\n*  %9$@"
+          }
+        }
+      }
+    },
     "%@s" : {
       "localizations" : {
         "en" : {
@@ -187,6 +203,16 @@
         }
       }
     },
+    "URLScheme或者网址" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URLScheme Or website"
+          }
+        }
+      }
+    },
     "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转" : {
       "localizations" : {
         "en" : {
@@ -267,6 +293,16 @@
         }
       }
     },
+    "下拉消息会显示图片" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The drop down message displays the picture"
+          }
+        }
+      }
+    },
     "下载量前30" : {
       "localizations" : {
         "en" : {
@@ -293,6 +329,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid address"
+          }
+        }
+      }
+    },
+    "中进行配置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configure "
           }
         }
       }
@@ -547,6 +593,16 @@
         }
       }
     },
+    "写着玩的，别整这么客气" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's for fun. Don't be so polite"
+          }
+        }
+      }
+    },
     "分享成功" : {
       "localizations" : {
         "en" : {
@@ -647,22 +703,22 @@
         }
       }
     },
-    "加密后的数据" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encrypted data"
-          }
-        }
-      }
-    },
     "加密后的数据（Base64编码" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encrypted data (base64 encoded"
+          }
+        }
+      }
+    },
+    "加密后请求需要注意特殊字符的处理" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Special characters should be handled in encrypted requests"
           }
         }
       }
@@ -703,16 +759,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Parameter error"
-          }
-        }
-      }
-    },
-    "发送和接收时对推送内容进行加密和解密" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Encrypt and decrypt push content during sending and receiving."
           }
         }
       }
@@ -763,16 +809,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Different ringtones can be set for push notifications"
-          }
-        }
-      }
-    },
-    "可以自定义icon=https://图片网址" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can customize the icon with icon=https://imageURL"
           }
         }
       }
@@ -938,6 +974,7 @@
       }
     },
     "导出成功" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1007,6 +1044,16 @@
         }
       }
     },
+    "开发者支持计划" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Developer support Plan"
+          }
+        }
+      }
+    },
     "开始使用" : {
       "localizations" : {
         "en" : {
@@ -1053,16 +1100,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "recover"
-          }
-        }
-      }
-    },
-    "或者网址" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Or website"
           }
         }
       }
@@ -1123,16 +1160,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuous ringing"
-          }
-        }
-      }
-    },
-    "控制台将打印" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The console will print"
           }
         }
       }
@@ -1237,12 +1264,12 @@
         }
       }
     },
-    "携带一个image" : {
+    "携带一个image,会自动下载缓存" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Include an image"
+            "value" : "Carrying an image will automatically download the cache"
           }
         }
       }
@@ -1506,6 +1533,9 @@
           }
         }
       }
+    },
+    "未知时间" : {
+
     },
     "未读" : {
       "localizations" : {
@@ -1828,16 +1858,6 @@
         }
       }
     },
-    "自动缓存,app内外都可以查看" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auto-cache, viewable both inside and outside the app."
-          }
-        }
-      }
-    },
     "自定义" : {
       "localizations" : {
         "en" : {
@@ -2009,6 +2029,16 @@
         }
       }
     },
+    "这是一个加密示例" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "example of encryption"
+          }
+        }
+      }
+    },
     "这是加密的正文部分" : {
       "localizations" : {
         "en" : {
@@ -2149,32 +2179,22 @@
         }
       }
     },
-    "需要在设置>算法设置中进行配置" : {
+    "随机生成密钥" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configuration is required in Settings > Algorithm Setup"
+            "value" : "Randomly  key"
           }
         }
       }
     },
-    "验证" : {
+    "需要在" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verification"
-          }
-        }
-      }
-    },
-    "验证成功" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verification successful."
+            "value" : "Require in"
           }
         }
       }

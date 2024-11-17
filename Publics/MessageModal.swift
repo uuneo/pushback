@@ -31,6 +31,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		return ["group", "createDate", "from"]
 	}
 	
+	
 	enum CodingKeys: CodingKey {
 		case id
 		case title
@@ -59,7 +60,6 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		try container.encode(self.read, forKey: .read)
 	}
 	
-
 	
 }
 
@@ -68,8 +68,9 @@ extension Message{
 		static let messages = [
 			
 		   
-			Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"icon":"warn","image":BaseConfig.defaultImage,"mode":"999"]),
-			Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","icon":"weixin","cloud":true,"mode":"999"])
+			Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"icon":"warn","mode":"999"]),
+			
+			Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","icon":"weixin","mode":"999"])
 		]
 	
 }

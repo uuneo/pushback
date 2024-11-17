@@ -124,7 +124,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		if let urlStr = userInfo["url"] as? String,
 		   let url = URL(string: urlStr)
 		{
-			PushbackManager.shared.openUrl(url: url, unOpen: nil)
+			PushbackManager.shared.openUrl(url: url)
 		}
 	}
 	

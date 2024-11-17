@@ -21,7 +21,6 @@ class ImageManager {
 	class func fetchImage(from url: String) async -> String? {
 		// First, check if the image already exists in the local cache
 		if let cachedImage = await loadImageFromCache(for: url) {
-			print("Image loaded from cache for URL: \(url)")
 			return cachedImage
 		}
 		
@@ -29,7 +28,6 @@ class ImageManager {
 		guard let image = await downloadImage(url),
 			  let fileUrl = await storeImage(from: url, at: image)
 		else {
-			print("Failed to download image from URL: \(url)")
 			return nil
 		}
 		
@@ -139,8 +137,6 @@ class ImageManager {
 		// Construct the full image path
 		let imagePath = imagesDirectory.appendingPathComponent(name)
 		
-		debugPrint(imagePath, FileManager.default.fileExists(atPath: imagePath.path))
-		
 		
 		// Check if the file exists at the path
 		if FileManager.default.fileExists(atPath: imagePath.path) {
@@ -154,7 +150,8 @@ class ImageManager {
 	
 	// Download the image from a URL
 	fileprivate static func downloadImage(_ url: String) async -> UIImage? {
-		guard let url = URL(string: url) else {
+		
+		guard url.isValidURL() == .remote, let url = URL(string: url)  else {
 			print("Invalid URL: \(url)")
 			return nil
 		}

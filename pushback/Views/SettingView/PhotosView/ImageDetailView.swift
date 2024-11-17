@@ -5,6 +5,7 @@
 //  Created by He Cho on 2024/10/16.
 //
 import SwiftUI
+import RealmSwift
 
 struct ImageDetailView:View {
 	var image: String
@@ -63,8 +64,9 @@ struct ImageDetailView:View {
 					Label("修改", systemImage: "pencil")
 				}
 				.focused($photoNamesShow)
-				.padding(.vertical)
+				.padding(.vertical, 10)
 				.customField(icon: "pencil")
+				
 				Spacer()
 				
 			}
@@ -84,23 +86,7 @@ struct ImageDetailView:View {
 				
 				ToolbarItem(placement: .topBarTrailing) {
 					Button{
-						Task.detached(priority: .high) {
-							let success = await ImageManager.renameImage(oldName: image, newName: name)
-							if success {
-								await MainActor.run {
-									self.showSheet.toggle()
-								}
-								try? await Task.sleep(for: .seconds(0.6))
-								
-								await MainActor.run {
-									self.imageUrl = nil
-									self.name = ""
-								}
-							}else{
-								Toast.shared.present(title: String(localized: "文件重复"), symbol: .info)
-							}
-							
-						}
+						reanameImage()
 					}label: {
 						Text("完成")
 					}
@@ -123,6 +109,51 @@ struct ImageDetailView:View {
 		}
 		.presentationDetents([.height(320)])
 		.interactiveDismissDisabled()
+	}
+	
+	
+	func reanameImage(){
+		Task.detached(priority: .high) {
+			let success = await ImageManager.renameImage(oldName: image, newName: name)
+			if success {
+				await MainActor.run {
+					self.showSheet = false
+				}
+				
+				try? await Task.sleep(for: .seconds(1.5))
+				
+				
+				await MainActor.run {
+					changeRealmImageNameName()
+					self.imageUrl = nil
+					self.name = ""
+				}
+			}else{
+				Toast.shared.present(title: String(localized: "文件重复"), symbol: .info)
+			}
+			
+		}
+	}
+	
+	func changeRealmImageNameName(){
+		do{
+			let realm = try Realm()
+			let datas = realm.objects(Message.self).where({$0.url == image || $0.icon == image})
+			
+			for data in datas{
+				try realm.write {
+					if data.url == image{
+						data.url = name
+					}else if data.icon == image{
+						data.icon = name
+					}
+					
+				}
+			}
+			
+		}catch{
+			debugPrint(error.localizedDescription)
+		}
 	}
 	
 	

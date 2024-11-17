@@ -276,14 +276,14 @@ struct CryptoModal: Equatable{
 	var key: String
 	var iv: String
 	
-	static let data = CryptoModal(algorithm: .AES256, mode: .GCM, key: generateRandomString(), iv: generateRandomString(by32: false))
+	static let data = CryptoModal(algorithm: .AES256, mode: .GCM, key: generateRandomString(32), iv: generateRandomString())
 	
 	
-	static func generateRandomString(by32:Bool = true) -> String {
+	static func generateRandomString(_ length: Int = 16) -> String {
 		// 创建可用字符集（大写、小写字母和数字）
 		let charactersArray = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 		
-		return String(Array(1...(by32 ? 32 : 16)).compactMap { _ in charactersArray.randomElement() })
+		return String(Array(1...length).compactMap { _ in charactersArray.randomElement() })
 	}
 	
 }
@@ -359,4 +359,13 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 			return "logo2"
 		}
 	}
+}
+
+// MARK: - PushExampleModal
+
+struct PushExampleModal:Identifiable {
+	var id = UUID().uuidString
+	var header,footer: AnyView
+	var title,params:String
+	var index:Int
 }

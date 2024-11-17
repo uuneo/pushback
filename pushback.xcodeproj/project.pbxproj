@@ -78,8 +78,11 @@
 		1957022C2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
 		1957022D2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
 		1957022E2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
+		195702302CE84C00009F55B0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1957022F2CE84C00009F55B0 /* StoreKit.framework */; };
 		1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */; };
 		1957EA322CD5290A00CF05A0 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
+		1969F9C02CE8692D00152167 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 1969F9BF2CE8692D00152167 /* RevenueCat */; };
+		1969F9C22CE8692D00152167 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1969F9C12CE8692D00152167 /* RevenueCatUI */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
 		19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
 		19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
@@ -113,7 +116,6 @@
 		19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
 		19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
 		19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */; };
-		19C13C7D2CCC965B00A2F1A8 /* PushExampleModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C7C2CCC965100A2F1A8 /* PushExampleModal.swift */; };
 		19C13C942CCCD70F00A2F1A8 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CBA2CCCD77600A2F1A8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */; };
 		19C13CBC2CCCD77600A2F1A8 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */; };
@@ -235,6 +237,7 @@
 		190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsTongCloudKit.swift; sourceTree = "<group>"; };
 		195702292CE7485D009F55B0 /* car.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = car.caf; sourceTree = "<group>"; };
 		1957022A2CE7485D009F55B0 /* tuola.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tuola.caf; sourceTree = "<group>"; };
+		1957022F2CE84C00009F55B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		19C13BA52CCBDF8B00A2F1A8 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
@@ -266,7 +269,6 @@
 		19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherModal.swift; sourceTree = "<group>"; };
 		19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
 		19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
-		19C13C7C2CCC965100A2F1A8 /* PushExampleModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushExampleModal.swift; sourceTree = "<group>"; };
 		19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -374,6 +376,9 @@
 			files = (
 				19C13C282CCC8BBA00A2F1A8 /* RealmSwift in Frameworks */,
 				19C13C222CCC8B3600A2F1A8 /* SwiftyJSON in Frameworks */,
+				1969F9C22CE8692D00152167 /* RevenueCatUI in Frameworks */,
+				1969F9C02CE8692D00152167 /* RevenueCat in Frameworks */,
+				195702302CE84C00009F55B0 /* StoreKit.framework in Frameworks */,
 				19C13C252CCC8B4E00A2F1A8 /* QRScanner in Frameworks */,
 				19C13C1F2CCC8AF100A2F1A8 /* Defaults in Frameworks */,
 			);
@@ -453,7 +458,6 @@
 				19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */,
 				19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */,
 				19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */,
-				19C13C7C2CCC965100A2F1A8 /* PushExampleModal.swift */,
 				19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */,
 				19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */,
 			);
@@ -536,6 +540,7 @@
 		19C13CB82CCCD77600A2F1A8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1957022F2CE84C00009F55B0 /* StoreKit.framework */,
 				19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */,
 				19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */,
 			);
@@ -571,6 +576,8 @@
 				19C13C212CCC8B3600A2F1A8 /* SwiftyJSON */,
 				19C13C242CCC8B4E00A2F1A8 /* QRScanner */,
 				19C13C272CCC8BBA00A2F1A8 /* RealmSwift */,
+				1969F9BF2CE8692D00152167 /* RevenueCat */,
+				1969F9C12CE8692D00152167 /* RevenueCatUI */,
 			);
 			productName = pushback;
 			productReference = 19C13BA52CCBDF8B00A2F1A8 /* pushback.app */;
@@ -655,7 +662,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
+				LastSwiftUpdateCheck = 1610;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					19C13BA42CCBDF8B00A2F1A8 = {
@@ -687,6 +694,7 @@
 				19C13C202CCC8B3600A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				19C13C232CCC8B4E00A2F1A8 /* XCRemoteSwiftPackageReference "QRScanner" */,
 				19C13C262CCC8BBA00A2F1A8 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19C13BA62CCBDF8B00A2F1A8 /* Products */;
@@ -837,7 +845,6 @@
 				190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */,
 				19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */,
 				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
-				19C13C7D2CCC965B00A2F1A8 /* PushExampleModal.swift in Sources */,
 				19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1331,6 +1338,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.0;
+			};
+		};
 		19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/Defaults.git";
@@ -1366,6 +1381,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1969F9BF2CE8692D00152167 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+		1969F9C12CE8692D00152167 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCatUI;
+		};
 		19C13C1E2CCC8AF100A2F1A8 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */;

@@ -66,10 +66,13 @@ class CiphertextHandler: NotificationContentHandler {
 		
 		var fields = Defaults[.cryptoConfig]
 		
+		
 		if let iv = iv {
 			// Support using specified IV parameter for decryption
 			fields.iv = iv
 		}
+		
+		debugPrint(ciphertext)
 		
 		let aes = CryptoManager(fields)
 		guard let textData = Data(base64Encoded: ciphertext),

@@ -28,14 +28,13 @@ struct AvatarView: View {
 			let size = $0.size
 			
 			VStack{
-				if let icon = icon, icon.isValidURL() == .remote, success{
+				if let icon = icon, success{
 					if let image = image {
 						// 如果已经加载了图片，则显示图片
 						Image(uiImage: image)
 							.resizable()
 							.frame(width: size.width, height: size.height)
 					
-						
 					} else {
 						// 如果图片尚未加载，则显示加载中的视图
 						ProgressView()

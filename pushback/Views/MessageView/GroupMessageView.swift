@@ -21,6 +21,7 @@ struct GroupMessageView: View {
 	@State private var searchText:String = ""
 	@State private var showExample:Bool = false
 
+
 	
 	var body: some View {
 		NavigationStack{
@@ -68,6 +69,7 @@ struct GroupMessageView: View {
 			
 			.navigationDestination(isPresented: $showExample){
 				ExampleView()
+					.toolbar(.hidden, for: .tabBar)
 			}
 			.onReceive(NotificationCenter.default.publisher(for: .messagePreview)) { _ in
 				// 接收到通知时的处理
@@ -235,5 +237,4 @@ struct GroupMessageView: View {
 
 #Preview {
 	GroupMessageView()
-		.environmentObject(PushbackManager.shared)
 }

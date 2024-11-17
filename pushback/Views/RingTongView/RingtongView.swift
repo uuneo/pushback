@@ -13,6 +13,7 @@ struct RingtongView: View {
 	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject private var manager:PushbackManager
 	@State private var showUpload:Bool = false
+	@State private var soundID:SystemSoundID = 0
 	var body: some View {
 		NavigationStack{
 			List {
@@ -50,8 +51,6 @@ struct RingtongView: View {
 	#if DEBUG
 									print("保存失败")
 	#endif
-									
-									
 								}
 								
 							case .failure(let err):
@@ -84,7 +83,7 @@ struct RingtongView: View {
 				if manager.customSounds.count > 0{
 					Section{
 						ForEach(manager.customSounds, id: \.self) { url in
-							RingtoneItemView(audio: url,ringType: .custom)
+							RingtoneItemView(audio: url,soundID: $soundID, ringType: .custom)
 							
 						}.onDelete { indexSet in
 							for index in indexSet{
@@ -99,7 +98,7 @@ struct RingtongView: View {
 				
 				Section{
 					ForEach(manager.defaultSounds, id: \.self) { url in
-						RingtoneItemView(audio: url, ringType: .local)
+						RingtoneItemView(audio: url, soundID: $soundID, ringType: .local)
 					}
 				}header: {
 					Text(  "自带铃声")
@@ -122,10 +121,14 @@ struct RingtongView: View {
 			}
 		}
 		
-		
-		
-
 	}
+	
+	
+	
+	
+	
+
+	
 }
 
 #Preview {

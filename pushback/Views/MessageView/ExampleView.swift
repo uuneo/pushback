@@ -124,7 +124,7 @@ struct ExampleView: View {
 extension ExampleView{
 	func createExample(cryptoData:CryptoModal)-> [PushExampleModal]{
 		
-		let data = CryptoManager(cryptoData).encrypt(CreateCryptoExample.testData)
+		let data = CryptoManager(cryptoData).encrypt(BaseConfig.testData)
 		/// 加号害人啊！！！！！！！！！！！！！！
 		let ciphertext = data?.base64EncodedString().replacingOccurrences(of: "+", with: "%2B") ?? ""
 		

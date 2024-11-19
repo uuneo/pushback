@@ -457,11 +457,11 @@
 		19C13BB62CCBE24A00A2F1A8 /* Publics */ = {
 			isa = PBXGroup;
 			children = (
+				19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */,
+				19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */,
 				19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */,
 				19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */,
-				19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */,
 				19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */,
-				19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */,
 			);
 			path = Publics;
 			sourceTree = "<group>";

@@ -57,6 +57,10 @@ class BaseConfig {
 	static let callback = defaultServer + "/callback"
 	
 	
+	
+	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"birdsong\"}"
+	
+	
 	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
 	static func getSoundsGroupDirectory() -> URL? {
 		if let directoryUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.Sounds) {

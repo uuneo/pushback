@@ -266,11 +266,7 @@ struct CryptoConfigView: View {
 		if !verifyKey(){
 			cryptoConfig.key = CryptoModal.generateRandomString(cryptoConfig.algorithm.rawValue)
 		}
-		
-		
-		
-		let text = CreateCryptoExample().cryptoExampleHandler()
-		manager.copy(text)
+		manager.copy(cryptoExampleHandler())
 		Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
 		
 	}

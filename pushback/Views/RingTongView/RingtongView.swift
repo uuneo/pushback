@@ -83,7 +83,7 @@ struct RingtongView: View {
 				if manager.customSounds.count > 0{
 					Section{
 						ForEach(manager.customSounds, id: \.self) { url in
-							RingtoneItemView(audio: url,soundID: $soundID, ringType: .custom)
+							RingtoneItemView(audio: url, ringType: .custom)
 							
 						}.onDelete { indexSet in
 							for index in indexSet{
@@ -98,7 +98,7 @@ struct RingtongView: View {
 				
 				Section{
 					ForEach(manager.defaultSounds, id: \.self) { url in
-						RingtoneItemView(audio: url, soundID: $soundID, ringType: .local)
+						RingtoneItemView(audio: url, ringType: .local)
 					}
 				}header: {
 					Text(  "自带铃声")

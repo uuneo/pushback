@@ -120,6 +120,7 @@ struct ContentView: View {
 						.foregroundStyle( .green, tabColor2)
 				}
 				.tag(TabPage.message)
+				
 			
 			// MARK: 设置页面
 			
@@ -131,7 +132,7 @@ struct ContentView: View {
 					
 				}
 				.tag(TabPage.setting)
-			
+				
 			
 		}
 		

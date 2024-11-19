@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ToolsSlideView<Content:View>: View {
+	@Binding var show:Bool
 	@ViewBuilder var content: Content
 	@State var appear = false
 	@State var appearBackground = false
@@ -106,7 +107,11 @@ struct ToolsSlideView<Content:View>: View {
 				appearBackground = true
 			}
 		}
-		
+		.onChange(of: show) { value in
+			if !value{
+				self.dismissModal()
+			}
+		}
 	}
 	
 	

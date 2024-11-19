@@ -21,7 +21,6 @@ class PushbackManager: ObservableObject{
 	@Published var scanUrl:String = ""
 	@Published var showServerListView:Bool = false
 	
-	
 	@Published var defaultSounds:[URL] =  []
 	@Published var customSounds:[URL] =  []
 	

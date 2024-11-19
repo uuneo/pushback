@@ -18,7 +18,7 @@ struct CloudRingTongsView : View {
 	@State private var cursor: CKQueryOperation.Cursor?
 	@StateObject private var cloud = RingsTongCloudKit.shared
 	@Environment(\.isSearching) var isSearching
-	@State private var soundID:SystemSoundID = 0
+	
 	var body: some View {
 		NavigationStack {
 			List{
@@ -37,7 +37,7 @@ struct CloudRingTongsView : View {
 						
 						Section {
 							ForEach(datas, id: \.id) { result in
-								RingtoneItemView(audio: result.data, fileName: result.name,soundID:$soundID, ringType: .cloud)
+								RingtoneItemView(audio: result.data, fileName: result.name, ringType: .cloud)
 							}
 						} header: {
 							Text("搜索结果")
@@ -47,7 +47,7 @@ struct CloudRingTongsView : View {
 					}else{
 						Section {
 							ForEach(topDatas, id: \.id) { result in
-								RingtoneItemView(audio: result.data, fileName: result.name,soundID:$soundID, ringType: .cloud)
+								RingtoneItemView(audio: result.data, fileName: result.name, ringType: .cloud)
 							}
 						} header: {
 							Text("下载量前30")

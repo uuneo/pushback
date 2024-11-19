@@ -11,8 +11,7 @@ import Defaults
 
 struct GroupMessageView: View {
 	
-	@ObservedSectionedResults(Message.self,sectionKeyPath: \.group,sortDescriptors: [ SortDescriptor(keyPath: "createDate", ascending: false)]) var messages
-	
+	@ObservedResults(Message.self) var messagesAll
 	@EnvironmentObject private var manager:PushbackManager
 	@Environment(\.isSearching) var isSearching
 	@Default(.appIcon) private var appicon
@@ -21,6 +20,18 @@ struct GroupMessageView: View {
 	@State private var searchText:String = ""
 	@State private var showExample:Bool = false
 
+	
+	
+	var groupMessages:[Message]{
+		messagesAll.reduce(into: [String: [Message]]()) { result, message in
+			// 根据 group 分类
+			result[message.group, default: []].append(message)
+		}
+		.map { group, messages in
+			messages.sorted(by: { $0.createDate > $1.createDate }).first!
+		}
+		.sorted{$0.createDate > $1.createDate}
+	}
 
 	
 	var body: some View {
@@ -28,26 +39,23 @@ struct GroupMessageView: View {
 			List {
 				
 				
-				ForEach(messages,id: \.key){ groupMessage in
+				ForEach(groupMessages,id: \.id){ message in
 					
 					NavigationLink {
 						
-						MessagesView(group: groupMessage.key)
+						MessagesView(group: message.group)
 							.toolbar(.hidden, for: .tabBar)
-							.navigationTitle(groupMessage.key)
+							.navigationTitle(message.group)
 					} label: {
-						MessageRow(message: groupMessage.first!, unreadCount: unRead(groupMessage))
+						MessageRow(message: message, unreadCount: unRead(message))
 							.swipeActions(edge: .leading) {
 								Button {
 									
-									Task{
-										
-										RealmProxy.shared.read(groupMessage.key)
-									}
+									Task{ RealmProxy.shared.read(message.group) }
 									
 								} label: {
 									
-									Label( "标记", systemImage: unRead(groupMessage) == 0 ?  "envelope.open" : "envelope")
+									Label( "标记", systemImage: unRead(message) == 0 ?  "envelope.open" : "envelope")
 										.symbolRenderingMode(.palette)
 										.foregroundStyle(.white, Color.primary)
 									
@@ -60,7 +68,7 @@ struct GroupMessageView: View {
 					
 				}.onDelete(perform: { indexSet in
 					for index in indexSet{
-						RealmProxy.shared.delete( messages[index].key)
+						RealmProxy.shared.delete( groupMessages[index].group)
 					}
 				})
 			}
@@ -166,11 +174,10 @@ struct GroupMessageView: View {
 	func deleteMessage(_ mode: MessageAction){
 		
 		
-		if messages.count == 0{
+		if messagesAll.count == 0{
 			Toast.shared.present(title: "没有消息", symbol: .error)
 			return
 		}
-		
 		switch mode {
 		case .markRead:
 			RealmProxy.shared.read()
@@ -181,8 +188,6 @@ struct GroupMessageView: View {
 		}
 		
 		Toast.shared.present(title: "删除成功", symbol: .success)
-		
-		
 		
 	}
 	
@@ -199,6 +204,7 @@ struct GroupMessageView: View {
 				.frame(width: 45, height: 45)
 				.clipped()
 				.clipShape(RoundedRectangle(cornerRadius: 10))
+			
 			
 			VStack(alignment: .leading) {
 				HStack {
@@ -227,8 +233,8 @@ struct GroupMessageView: View {
 	}
 	
 	
-	private func unRead(_ messages: ResultsSection<String,Message>) -> Int{
-		messages.filter {!$0.read}.count
+	private func unRead(_ message: Message) -> Int{
+		messagesAll.filter {$0.group == message.group && !$0.read}.count
 	}
 	
 	

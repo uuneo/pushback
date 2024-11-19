@@ -22,12 +22,13 @@ struct AvatarView: View {
 	@State private var success:Bool = true
 	@State private var image: UIImage?
 	
-	
 	var body: some View {
 		GeometryReader {
 			let size = $0.size
 			
 			VStack{
+				
+				
 				if let icon = icon, success{
 					if let image = image {
 						// 如果已经加载了图片，则显示图片
@@ -40,9 +41,7 @@ struct AvatarView: View {
 						ProgressView()
 							.frame(width: size.width, height: size.height)
 							.onAppear{
-								Task.detached {
-									await loadImage(icon: icon)
-								}
+								loadImage(icon: icon)
 							}
 						
 					}
@@ -60,21 +59,33 @@ struct AvatarView: View {
 				
 			}
 			.aspectRatio(contentMode: .fill )
+			.onReceive(NotificationCenter.default.publisher(for: .imageUpdate)) { result in
+				if let name = result.userInfo?["name"] as? String, name == icon {
+					debugPrint("收到头像更新",name , icon ?? "")
+					self.loadImage(icon: name)
+					
+				}
+			}
+			
 			
 		}
 		
 		
 	}
 	
-	private func loadImage(icon:String ) async {
-		if let imagePath = await ImageManager.fetchImage(from: icon) {
-			await MainActor.run {
-				self.image = UIImage(contentsOfFile: imagePath)
-			}
-		} else {
-			await MainActor.run {
-				self.success = false
+	private func loadImage(icon:String ) {
+		self.success = true
+		Task.detached(priority: .background)  {
+			if let imagePath = await ImageManager.fetchImage(from: icon) {
+				await MainActor.run {
+					self.image = UIImage(contentsOfFile: imagePath)
+				}
+			} else {
+				await MainActor.run {
+					self.success = false
+				}
 			}
 		}
+		
 	}
 }

@@ -14,11 +14,12 @@ struct ImageDetailView:View {
 	@State private var name:String = ""
 	@FocusState private var photoNamesShow
 	@State private var showSheet:Bool = false
+	@State private var showSlideView:Bool = true
 	var body: some View {
 		
 		ZStack{
 			
-			ToolsSlideView{
+			ToolsSlideView(show: $showSlideView){
 				uAsyncImage(url: image, size: CGSize(width: UIScreen.main.bounds.width  - 20, height: UIScreen.main.bounds.height * 0.8), mode: .fit, isThumbnail: false)
 					.navigationBarHidden(true)
 					.onAppear{
@@ -118,16 +119,15 @@ struct ImageDetailView:View {
 			if success {
 				await MainActor.run {
 					self.showSheet = false
-				}
-				
-				try? await Task.sleep(for: .seconds(1.5))
-				
-				
-				await MainActor.run {
 					changeRealmImageNameName()
-					self.imageUrl = nil
-					self.name = ""
+					self.showSlideView.toggle()
+					DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+						NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": name])
+					}
+					
 				}
+				
+				
 			}else{
 				Toast.shared.present(title: String(localized: "文件重复"), symbol: .info)
 			}

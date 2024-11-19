@@ -125,6 +125,9 @@ struct ImageCacheView: View {
 							}else{
 								for item in await selectImageArr{
 									_ = await ImageManager.deleteImage(for: item)
+									DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+										NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": item])
+									}
 								}
 							}
 							await MainActor.run {

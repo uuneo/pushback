@@ -15,7 +15,6 @@ struct RingtoneItemView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	var audio:URL
 	var fileName:String?
-	@Binding var soundID: SystemSoundID
     @State var duration:Double = 0.0
 	@Default(.sound) var sound
 	@State private var title:String?
@@ -144,13 +143,14 @@ struct RingtoneItemView: View {
 	
 	
 	private func playAudio(){
+		var soundID: SystemSoundID = 0
 		AudioServicesCreateSystemSoundID(audio as CFURL, &soundID)
 		AudioServicesPlaySystemSoundWithCompletion(soundID) {
 			AudioServicesDisposeSystemSoundID(soundID)
 		}
 	}
 	
-    
+	
 }
 
 extension RingtoneItemView{

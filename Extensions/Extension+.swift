@@ -381,6 +381,7 @@ extension Color {
 extension Notification.Name {
 	static let messagePreview = Notification.Name("messagePreview")
 	static let imageFileCount = Notification.Name("imageFileCount")
+	static let imageUpdate = Notification.Name("imageUpdate")
 }
 
 

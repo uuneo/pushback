@@ -58,7 +58,6 @@ class ImageManager {
 			if let index = Defaults[.images].firstIndex(of: oldName){
 				Defaults[.images][index] = newName
 			}
-			
 			print("File renamed from \(oldName) to \(newName)")
 			
 			return true
@@ -247,6 +246,7 @@ class ImageManager {
 					// 如果文件不在列表中，删除该文件
 					do {
 						try fileManager.removeItem(at: fileURL)
+					
 						print("Deleted: \(fileName)")
 					} catch {
 						print("Failed to delete: \(fileName), error: \(error)")

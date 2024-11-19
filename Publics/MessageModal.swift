@@ -172,7 +172,6 @@ struct MessageExportJson:Transferable, Identifiable {
 			
 	}
 	
-	
 	public var id:UUID = UUID()
 	public var data: Data
 	

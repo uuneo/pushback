@@ -100,7 +100,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		
 		notificatonHandler(userInfo: response.notification.request.content.userInfo)
 		// MARK: 点击信息 跳转到信息页面
+		BaseConfig.stopCallNotificationHandler(mode: "click")
 		NotificationCenter.default.post(name: .messagePreview, object: nil)
+		
 		debugPrint("点击了信息")
 		completionHandler()
 	}
@@ -116,7 +118,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		
 		HapticsManager.shared.complexSuccess()
 		
-		BaseConfig.stopCallNotificationHandler(mode: "click")
 		completionHandler(.badge)
 		
 	}

@@ -21,6 +21,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 	@Persisted var from:String?
 	@Persisted var mode:String = "999"
 	@Persisted var createDate = Date()
+	@Persisted var saveDays:Int = -1
 	@Persisted var read:Bool = false
 	
 	override class func primaryKey() -> String? {
@@ -42,6 +43,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		case from
 		case mode
 		case createDate
+		case saveDays
 		case read
 	}
 	
@@ -57,6 +59,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		try container.encode(self.from, forKey: .from)
 		try container.encode(self.mode, forKey: .mode)
 		try container.encode(self.createDate, forKey: .createDate)
+		try container.encode(self.saveDays, forKey: .saveDays)
 		try container.encode(self.read, forKey: .read)
 	}
 	
@@ -123,6 +126,10 @@ extension Message{
 		}catch{
 			completion?(error.localizedDescription)
 		}
+	}
+	
+	func isExpired() -> Bool{
+		self.createDate.isExpired(days: self.saveDays)
 	}
 	
 }

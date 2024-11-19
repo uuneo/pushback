@@ -31,14 +31,14 @@ class BaseConfig {
 	static let  realmName = "Meowrld.realm"
 	static let  kStopCallHandlerKey = "stopCallHandlerNotification"
 	static let  Sounds = "Sounds"
-	static let  isMessageStorage = "isMessageStorage"
-	static let  realmModalVersion:UInt64 = 21
+	static let  realmModalVersion:UInt64 = 22
 	static let  defaultSound = "defaultSound"
 	static let  activeAppIcon = "setting_active_app_icon"
 	static let 	customPhotoName = "CustomPhotoName"
 	static let 	imagsList = "customImagesCache"
 	static let 	RingTongRecord = "RingTongRecord"
-	
+	static let 	intoApp = "intoNotificationApp"
+	static let 	messageExpirtion = "messageExpirtionTime"
 	
 	
 #if DEBUG

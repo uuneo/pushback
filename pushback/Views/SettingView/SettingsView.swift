@@ -13,10 +13,9 @@ import Defaults
 import RevenueCat
 import RevenueCatUI
 
-struct exportJsonData:Identifiable{
-	var id:UUID = UUID()
-	var url:URL
-}
+
+
+
 
 struct SettingsView: View {
 	
@@ -24,11 +23,11 @@ struct SettingsView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	@ObservedResults(Message.self) var messages
 	@Default(.appIcon) var setting_active_app_icon
-	@Default(.isMessageStorage) var  isMessageStorage
 	@Default(.badgeMode) var badgeMode
 	@Default(.sound) var sound
 	@Default(.deviceToken) var deviceToken
 	@Default(.servers) var servers
+	@Default(.messageExpiration) var messageExpiration
 
 	@State private var webShow:Bool = false
 	@State private var webUrl:String = BaseConfig.helpWebUrl
@@ -40,6 +39,7 @@ struct SettingsView: View {
 	@State private var showImport:Bool = false
 	
 	@State private var showPayWall:Bool = false
+
 	var serverTypeColor:Color{
 
 		let right =  servers.filter(\.status == true).count
@@ -53,6 +53,15 @@ struct SettingsView: View {
 			return .orange
 		}
 	}
+	
+	// 定义一个 NumberFormatter
+	   private var numberFormatter: NumberFormatter {
+		   let formatter = NumberFormatter()
+		   formatter.numberStyle = .decimal
+		   formatter.minimumFractionDigits = 0
+		   formatter.maximumFractionDigits = 2
+		   return formatter
+	   }
 	
 	
 	var body: some View {
@@ -84,6 +93,8 @@ struct SettingsView: View {
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint, Color.primary)
 						}
+						
+						
 						Spacer()
 						Text(String(format: String(localized: "%d条消息"), messages.count) )
 							.foregroundStyle(Color.green)
@@ -163,12 +174,35 @@ struct SettingsView: View {
 				}
 				
 				Section {
-					Toggle(isOn: $isMessageStorage) {
-						Text(  "默认保存")
+					
+					
+					Picker(selection: $messageExpiration) {
+						ForEach(MessageExpirationTime.allCases, id: \.self){ item in
+							Text(item.title)
+								.tag(item)
+						}
+					} label: {
+						Label {
+							Text( "保存时间")
+						} icon: {
+							Image(systemName: "externaldrive.badge.timemachine")
+								.scaleEffect(0.9)
+								.symbolRenderingMode(.palette)
+								.foregroundStyle((messageExpiration.days == 0 ? .red : (messageExpiration.days == -1 ? .green : .yellow)), Color.primary)
+							
+							
+							
+						}
 					}
+					
+					
+				}header:{
+					Text( "消息存档设置")
 				}footer:{
+					
 					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
 						.foregroundStyle(.gray)
+					
 				}
 				
 				
@@ -353,9 +387,7 @@ struct SettingsView: View {
 								.foregroundStyle(.gray)
 						}
 						
-						
 					}
-					
 					
 				}
 				

@@ -154,70 +154,69 @@ extension Date {
 		dateFormatter.dateFormat = format
 		return dateFormatter.string(from: self)
 	}
-
+	
 	func agoFormatString() -> String {
-		   let calendar = Calendar(identifier: .gregorian)
-		   guard let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self, to: Date()) as DateComponents? else {
-			   return String(localized: "未知时间")
-		   }
-
-		   let year = components.year ?? 0
-		   let month = components.month ?? 0
-		   let day = components.day ?? 0
-		   let hour = components.hour ?? 0
-		   let minute = components.minute ?? 0
-
-		   if year > 0 || month > 0 || day > 0 || hour > 12 {
-			   // Display full date if it's more than 12 hours ago
-			   return formatString(format: "yyyy-MM-dd HH:mm")
-		   }
-		   if hour > 1 {
-			   // Display in hours and minutes if it's more than 1 hour ago
-			   return formatString(format: "HH:mm")
-		   }
-		   if hour > 0 {
-			   // Display in hours and optionally minutes
-			   if minute > 0 {
-				   return String(format: String(localized: "%1$d小时%2$d分钟前"), hour, minute)
-			   }
-			   return String(format: String(localized: "%1$d小时前"), hour)
-		   }
-		   if minute > 1 {
-			   // Display in minutes if it's more than 1 minute ago
-			   return String(format: String(localized: "%1$d分钟前"), minute)
-		   }
-		   // Display "just now" for time differences of less than 1 minute
-		   return String(localized: "刚刚")
-	   }
+		let calendar = Calendar(identifier: .gregorian)
+		guard let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: self, to: Date()) as DateComponents? else {
+			return String(localized: "未知时间")
+		}
+		
+		let year = components.year ?? 0
+		let month = components.month ?? 0
+		let day = components.day ?? 0
+		let hour = components.hour ?? 0
+		let minute = components.minute ?? 0
+		
+		if year > 0 || month > 0 || day > 0 || hour > 12 {
+			// Display full date if it's more than 12 hours ago
+			return formatString(format: "yyyy-MM-dd HH:mm")
+		}
+		if hour > 1 {
+			// Display in hours and minutes if it's more than 1 hour ago
+			return formatString(format: "HH:mm")
+		}
+		if hour > 0 {
+			// Display in hours and optionally minutes
+			if minute > 0 {
+				return String(format: String(localized: "%1$d小时%2$d分钟前"), hour, minute)
+			}
+			return String(format: String(localized: "%1$d小时前"), hour)
+		}
+		if minute > 1 {
+			// Display in minutes if it's more than 1 minute ago
+			return String(format: String(localized: "%1$d分钟前"), minute)
+		}
+		// Display "just now" for time differences of less than 1 minute
+		return String(localized: "刚刚")
+	}
 	
 	// 计算日期与当前日期的差异，并根据差异生成颜色
-	 func colorForDate() -> Color {
-		 let now = Date()
-		 let timeDifference = now.timeIntervalSince(self) // 获取过去的时间差（秒为单位）
-
-		 let threeHours: TimeInterval = 3 * 60 * 60
-		 let fiveHours: TimeInterval = 5 * 60 * 60
-		 let twentyFourHours: TimeInterval = 24 * 60 * 60
-		 let oneWeek: TimeInterval = 7 * 24 * 60 * 60
-
-		 // 根据过去时间的长短判断颜色
-		 // 3小时以内，显示绿色
-		 if timeDifference <= threeHours {
-			 return Color.green
-		 }
-		 // 3小时到5小时之间，显示蓝色
-		 else if timeDifference <= fiveHours {
-			 return Color.blue
-		 }
-		 // 5小时到24小时之间，显示灰色
-		 else if timeDifference <= twentyFourHours {
-			 return Color.gray
-		 }
-		 // 24小时到一周之间，显示黄色
-		 else {
-			 return Color.yellow
-		 }
-	 }
+	func colorForDate() -> Color {
+		let now = Date()
+		let timeDifference = now.timeIntervalSince(self) // 获取过去的时间差（秒为单位）
+		
+		let threeHours: TimeInterval = 3 * 60 * 60
+		let fiveHours: TimeInterval = 5 * 60 * 60
+		let twentyFourHours: TimeInterval = 24 * 60 * 60
+		
+		// 根据过去时间的长短判断颜色
+		// 3小时以内，显示绿色
+		if timeDifference <= threeHours {
+			return Color.green
+		}
+		// 3小时到5小时之间，显示蓝色
+		else if timeDifference <= fiveHours {
+			return Color.blue
+		}
+		// 5小时到24小时之间，显示灰色
+		else if timeDifference <= twentyFourHours {
+			return Color.gray
+		}
+		// 24小时到一周之间，显示黄色
+		else {
+			return Color.yellow
+		}
+	}
 }
 
 extension Date {
@@ -254,6 +253,15 @@ extension Date {
 	
 	var s1970: Date{
 		return Calendar.current.date(from: DateComponents(year: 1970, month: 1,day: 1))!
+	}
+	
+	func isExpired(days: Int) -> Bool {
+		// 计算指定天数后的日期
+		
+		guard let targetDate = Calendar.current.date(byAdding: .day, value: days, to: self), days >= 0 else {
+			return false
+		}
+		return Date() > targetDate
 	}
 }
 

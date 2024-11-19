@@ -123,6 +123,36 @@
         }
       }
     },
+    "1周" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Week"
+          }
+        }
+      }
+    },
+    "1天" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Day"
+          }
+        }
+      }
+    },
+    "1月" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Month"
+          }
+        }
+      }
+    },
     "Iv：" : {
       "localizations" : {
         "en" : {
@@ -313,6 +343,9 @@
         }
       }
     },
+    "不保存" : {
+
+    },
     "不保存消息" : {
       "localizations" : {
         "en" : {
@@ -469,6 +502,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saved successfully"
+          }
+        }
+      }
+    },
+    "保存时间" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archiving time"
           }
         }
       }
@@ -969,17 +1012,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export the %d notification message"
-          }
-        }
-      }
-    },
-    "导出成功" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export successfully"
           }
         }
       }
@@ -1535,7 +1567,14 @@
       }
     },
     "未知时间" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown time"
+          }
+        }
+      }
     },
     "未读" : {
       "localizations" : {
@@ -1673,6 +1712,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Message"
+          }
+        }
+      }
+    },
+    "消息存档设置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message archive Settings"
           }
         }
       }
@@ -2179,6 +2228,16 @@
         }
       }
     },
+    "长期" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forever"
+          }
+        }
+      }
+    },
     "随机生成密钥" : {
       "localizations" : {
         "en" : {
@@ -2210,6 +2269,7 @@
       }
     },
     "默认保存" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

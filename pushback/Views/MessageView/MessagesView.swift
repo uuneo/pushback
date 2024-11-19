@@ -22,34 +22,24 @@ struct MessagesView: View {
 	var body: some View {
 		
 		List {
-			if let messages = loadMessage(){
-				ForEach(messages, id: \.id) { message in
-					
-					MessageView(message: message, searchText: searchText)
-						.swipeActions(edge: .leading) {
-							Button {
-								RealmProxy.shared.read(message)
-								Toast.shared.present(title: String(localized:  "信息状态已更改"), symbol: "highlighter")
-							} label: {
-								Label(message.read ? "已读" :  "未读", systemImage: message.read ? "envelope.open": "envelope")
-							}.tint(.blue)
-						}
-					
-						.listRowBackground(Color.clear)
-						.listSectionSeparator(.hidden)
-					
-					
-				}
-				.onDelete { indexSet in
-					for index in indexSet{
-						RealmProxy.shared.delete( messages[index])
+			ForEach(messages, id: \.id) { message in
+				
+				MessageView(message: message, searchText: searchText)
+					.swipeActions(edge: .leading) {
+						Button {
+							RealmProxy.shared.read(message)
+							Toast.shared.present(title: String(localized:  "信息状态已更改"), symbol: "highlighter")
+						} label: {
+							Label(message.read ? "已读" :  "未读", systemImage: message.read ? "envelope.open": "envelope")
+						}.tint(.blue)
 					}
-				}
-			}
-			
-			
-			
-			
+				
+					.listRowBackground(Color.clear)
+					.listSectionSeparator(.visible)
+					
+				
+			}.onDelete(perform: $messages.remove)
+				
 		}
 		.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic)){
 			SearchMessageView(searchText: searchText, group: group ?? "")
@@ -70,11 +60,5 @@ struct MessagesView: View {
 		
 	}
 	
-	func loadMessage() -> [Message]?{
-		
-		messages.filter({
-			searchText.isEmpty || ($0.title?.contains(searchText) ?? false) || ($0.body?.contains(searchText) ?? false)
-		})
-	}
 	
 }

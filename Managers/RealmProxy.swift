@@ -78,6 +78,16 @@ class RealmProxy{
 		
 	}
 	
+	func deleteExampled() {
+		self.realm { proxy in
+			let messages =  proxy.objects(Message.self).filter({$0.isExpired()})
+			for msg in messages{
+				proxy.delete(msg)
+			}
+			RealmProxy.ChangeBadge()
+		}
+	}
+	
 	func delete(_ group: String){
 		
 		self.realm { proxy in

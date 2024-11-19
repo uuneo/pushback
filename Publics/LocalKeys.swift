@@ -26,12 +26,12 @@ extension Defaults.Keys {
 	static let servers = Key<[PushServerModal]>(BaseConfig.server, default: PushServerModal.serverArr, suite: DEFAULTSTORE)
 	static let appIcon = Key<AppIconEnum>(BaseConfig.activeAppIcon, default: .def, suite: DEFAULTSTORE)
 	static let cryptoConfig = Key<CryptoModal>(BaseConfig.CryptoSettingFields, default: CryptoModal.data, suite: DEFAULTSTORE)
-	static let isMessageStorage = Key<Bool>(BaseConfig.isMessageStorage, default: true, suite: DEFAULTSTORE)
 	static let badgeMode = Key<BadgeAutoMode>(BaseConfig.badgemode, default: .auto, suite: DEFAULTSTORE)
 	static let sound = Key<SoundDefault>(BaseConfig.defaultSound, default: SoundDefault.def, suite: DEFAULTSTORE)
 	static let firstStart = Key<Bool>(BaseConfig.firstStartApp,default: true, suite: DEFAULTSTORE)
 	static let photoName = Key<String>(BaseConfig.customPhotoName, default: "pushback.", suite: DEFAULTSTORE)
-
+	static let intoApp = Key<Bool>(BaseConfig.intoApp,default: false, suite: DEFAULTSTORE)
+	static let messageExpiration = Key<MessageExpirationTime>(BaseConfig.messageExpirtion,default: .no,suite: DEFAULTSTORE)
 }
 
 

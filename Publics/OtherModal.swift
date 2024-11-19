@@ -369,3 +369,40 @@ struct PushExampleModal:Identifiable {
 	var title,params:String
 	var index:Int
 }
+
+// MARK: - exportJsonData
+
+struct exportJsonData:Identifiable{
+	var id:UUID = UUID()
+	var url:URL
+}
+
+// MARK: - MessageExpirationTime
+
+enum MessageExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
+	case forever = -1
+	case no = 0
+	case oneDay = 1
+	case weekDay = 7
+	case month = 30
+	
+	
+	var days: Int{ self.rawValue }
+	
+	var title:String{
+		switch self {
+		case .no:
+			String(localized: "不保存")
+		case .oneDay:
+			String(localized:"1天")
+		case .weekDay:
+			String(localized:"1周")
+		case .month:
+			String(localized:"1月")
+		case .forever:
+			String(localized: "长期")
+		}
+	}
+	
+	
+}

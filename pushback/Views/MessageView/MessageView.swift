@@ -15,74 +15,65 @@ struct MessageView: View {
 	
     var searchText:String = ""
     var body: some View {
-		
-			Section {
-				
-				HStack(alignment: .bottom){
-					AvatarView(id: message.id, icon: message.icon, mode: message.mode)
-						.frame(width: 35, height: 35, alignment: .center)
-						.clipShape(RoundedRectangle(cornerRadius: 10))
-						.overlay(alignment: .topTrailing) {
-							if let _ =  message.url {
-								Image(systemName: "link")
-									.foregroundStyle(.green)
-									.offset(x:5 , y: -5)
-							}
+		Section {
+			
+			HStack(alignment: .bottom){
+				AvatarView(id: message.id, icon: message.icon, mode: message.mode)
+					.frame(width: 35, height: 35, alignment: .center)
+					.clipShape(RoundedRectangle(cornerRadius: 10))
+					.overlay(alignment: .topTrailing) {
+						if let _ =  message.url {
+							Image(systemName: "link")
+								.foregroundStyle(.green)
+								.offset(x:5 , y: -5)
 						}
-						.onTapGesture {
-							if let url = message.url, let fileUrl = URL(string: url) {
-								manager.openUrl(url: fileUrl)
-							}
-							
-						}
-					
-					VStack(alignment: .leading, spacing:5){
-						
-						HStack{
-							if let title = message.title{
-								highlightedText(searchText: searchText, text: title)
-									.font(.system(.headline))
-									.textSelection(.enabled)
-								Spacer()
-							}
-						}
-						
-						HStack{
-							if let body = message.body{
-								highlightedText(searchText: searchText, text: body)
-									.font(.subheadline)
-									.textSelection(.enabled)
-							}
-							
-							Spacer()
+					}
+					.onTapGesture {
+						if let url = message.url, let fileUrl = URL(string: url) {
+							manager.openUrl(url: fileUrl)
 						}
 						
 					}
-					.padding(10)
-					.background(Color.whiteGary)
-					.clipShape(RoundedRectangle(cornerRadius: 10))
+				
+				VStack(alignment: .leading, spacing:5){
+					
+					HStack{
+						if let title = message.title{
+							highlightedText(searchText: searchText, text: title)
+								.font(.system(.headline))
+								.textSelection(.enabled)
+							Spacer()
+						}
+					}
+					
+					HStack{
+						if let body = message.body{
+							highlightedText(searchText: searchText, text: body)
+								.font(.subheadline)
+								.textSelection(.enabled)
+						}
+						
+						Spacer()
+					}
 					
 				}
-				
-				
-			}header: {
-				HStack{
-					Spacer()
-					Text(message.createDate.agoFormatString())
-						.font(.caption2)
-						.foregroundStyle(message.createDate.colorForDate())
-					
-				}
+				.padding(10)
+				.background(Color.whiteGary)
+				.clipShape(RoundedRectangle(cornerRadius: 10))
 				
 			}
-		
-       
-		.onAppear{
-//			message.update { message in
-//				message?.read = true
-//			}
+			
+			
+		}header: {
+			HStack{
+				Spacer()
+				Text(message.createDate.agoFormatString())
+					.font(.caption2)
+					.foregroundStyle(message.createDate.colorForDate())
+				
+			}
+			
 		}
-        
         
     }
 	

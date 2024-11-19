@@ -119,7 +119,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 			} else {
 				await MainActor.run { [weak self] in
 					guard let self = self else { return }
-					
 					self.preferredContentSize = .zero
 					self.loadingView.stopAnimating()
 				}

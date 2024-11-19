@@ -93,23 +93,6 @@ struct HackerTextView: View {
     }
 }
 
-fileprivate extension View {
-    @ViewBuilder
-    func customOnChange<T: Equatable>(value: T, result: @escaping (T) -> ()) -> some View {
-        if #available(iOS 17, *) {
-            self
-                .onChange(of: value) { oldValue, newValue in
-                    result(newValue)
-                }
-        } else {
-           self
-                .onChange(of: value, perform: { value in
-                    result(value)
-                })
-        }
-    }
-}
-
 #Preview {
 	
 	if #available(iOS 16.1, *) {

@@ -74,7 +74,6 @@
 		190E0E9A2CE637EE00F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
 		190E0E9B2CE637EE00F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
 		190E0E9C2CE637EE00F01858 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCC2CE1C45100F01858 /* xiu.caf */; };
-		192B04B02CEB8C28003634DA /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192B04AF2CEB8C0F003634DA /* SoundManager.swift */; };
 		1957022B2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
 		1957022C2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
 		1957022D2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
@@ -236,7 +235,6 @@
 		190E0CF32CE1E1B600F01858 /* oldphone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = oldphone.caf; sourceTree = "<group>"; };
 		190E0CF42CE1E1B600F01858 /* weixin.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = weixin.caf; sourceTree = "<group>"; };
 		190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsTongCloudKit.swift; sourceTree = "<group>"; };
-		192B04AF2CEB8C0F003634DA /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		195702292CE7485D009F55B0 /* car.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = car.caf; sourceTree = "<group>"; };
 		1957022A2CE7485D009F55B0 /* tuola.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tuola.caf; sourceTree = "<group>"; };
 		1957022F2CE84C00009F55B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -528,7 +526,6 @@
 		19C13C162CCC8A0F00A2F1A8 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				192B04AF2CEB8C0F003634DA /* SoundManager.swift */,
 				19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */,
 				19C13C292CCC8C0D00A2F1A8 /* RealmProxy.swift */,
 				19C13C2A2CCC8C0D00A2F1A8 /* Monitors.swift */,
@@ -841,7 +838,6 @@
 				19C13C322CCC8C0D00A2F1A8 /* RealmProxy.swift in Sources */,
 				19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */,
 				19C13C1A2CCC8A4100A2F1A8 /* View+.swift in Sources */,
-				192B04B02CEB8C28003634DA /* SoundManager.swift in Sources */,
 				1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */,
 				19C13C1B2CCC8A4100A2F1A8 /* image+.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,

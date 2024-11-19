@@ -116,6 +116,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		
 		HapticsManager.shared.complexSuccess()
 		
+		BaseConfig.stopCallNotificationHandler(mode: "click")
 		completionHandler(.badge)
 		
 	}
@@ -127,7 +128,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 			PushbackManager.shared.openUrl(url: url)
 		}
 	}
-	
 	
 	
 	

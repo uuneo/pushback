@@ -72,4 +72,8 @@ class BaseConfig {
 		return nil
 	}
 	
+	static func stopCallNotificationHandler(mode: String = "app") {
+		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName(kStopCallHandlerKey as CFString), nil, ["viewType": mode ] as CFDictionary, true)
+	}
+	
 }

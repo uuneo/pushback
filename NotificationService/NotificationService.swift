@@ -44,6 +44,7 @@ enum NotificationContentHandlerItem: CaseIterable {
 
 enum NotificationContentHandlerError: Swift.Error {
 	case error(content: UNMutableNotificationContent)
+	case call
 }
 
 public protocol NotificationContentHandler {
@@ -90,7 +91,6 @@ class NotificationService: UNNotificationServiceExtension {
 				}
 			}
 			
-			// 处理完后交付推送
 			contentHandler(bestAttemptContent)
 		}
 	}

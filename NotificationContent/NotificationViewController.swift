@@ -23,8 +23,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 	var player: AVPlayer?
 	var playPauseButton: UIButton?
 	
-
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.imageView.contentMode = .scaleAspectFit
@@ -35,6 +33,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 		self.preferredContentSize = CGSize(width: self.view.bounds.size.width, height: 50)
 		
 		setupLoading()
+		
 	   
 	}
 	
@@ -53,6 +52,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 			loadingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			loadingView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
 		])
+		
+		BaseConfig.stopCallNotificationHandler(mode: "costom")
+		
 		
 	}
 	

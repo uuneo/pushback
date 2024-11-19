@@ -7,36 +7,33 @@
 
 import AudioToolbox
 import Foundation
+import AVFoundation
 
 class CallHandler: NotificationContentHandler {
 	/// 循环播放的铃声
 	var soundID: SystemSoundID = 0
 	/// 播放完毕后，返回的 content
 	var content: UNMutableNotificationContent? = nil
-	/// 是否需要停止播放，由主APP发出停止通知赋值
-	var needsStop = false
+	
+	var identifier: String? = nil
 	
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		
 		let userInfo = bestAttemptContent.userInfo
 		
-		
 		guard userInfo["call"] as? String == "1" || userInfo["mode"] as? String == "1"  else {
 			return bestAttemptContent
 		}
 		self.content = bestAttemptContent
+		self.identifier = identifier
 		
 		self.registerObserver()
-		self.sendLocalNotification(identifier: identifier, content: bestAttemptContent)
+		self.sendLocalNotification()
 		
 		// 远程推送在响铃结束后静默不显示
 		// 至于iOS15以下的设备，因不支持这个特性会在响铃结束后再展示一次, 但会取消声音
-		// 如果设置了 level 参数，就还是以 level 参数为准不做修改
-		if self.content?.userInfo["level"] == nil {
-			self.content?.interruptionLevel = .passive
-		}
 		
-		
+		self.content?.interruptionLevel = .passive
 		
 		await startAudioWork()
 		
@@ -51,9 +48,11 @@ class CallHandler: NotificationContentHandler {
 	}
 	
 	/// 生成一个本地推送
-	private func sendLocalNotification(identifier: String, content: UNMutableNotificationContent) {
+	private func sendLocalNotification() {
 		// 推送id和推送的内容都使用远程APNS的
-		guard let content = content.mutableCopy() as? UNMutableNotificationContent else {
+		guard let selfContent = self.content,
+			  let identifier = self.identifier,
+			  let content = selfContent.mutableCopy() as? UNMutableNotificationContent else {
 			return
 		}
 		if !content.isCritical { // 重要警告的声音可以无视静音模式，所以别把这特性给弄没了
@@ -99,39 +98,42 @@ class CallHandler: NotificationContentHandler {
 			return
 		}
 		
-		let fileUrl = URL(string: audioPath)
+		
+		let soundFile = mergeCAFFilesToDuration(inputFile: URL(string: audioPath)!)
+		
 		// 创建响铃任务
-		AudioServicesCreateSystemSoundID(fileUrl! as CFURL, &soundID)
+		AudioServicesCreateSystemSoundID(soundFile as CFURL, &soundID)
 		// 播放震动、响铃
 		AudioServicesPlayAlertSound(soundID)
 		// 监听响铃完成状态
-		let selfPointer = unsafeBitCast(self, to: UnsafeMutableRawPointer.self)
-		AudioServicesAddSystemSoundCompletion(soundID, nil, nil, { sound, clientData in
-			guard let pointer = clientData else { return }
-			let handler = unsafeBitCast(pointer, to: CallHandler.self)
-			if handler.needsStop {
-				handler.startAudioWorkCompletion?()
-				return
-			}
-			// 音频文件一次播放完成，再次播放
-			AudioServicesPlayAlertSound(sound)
-		}, selfPointer)
+		AudioServicesPlaySystemSoundWithCompletion(soundID) {
+			AudioServicesDisposeSystemSoundID(self.soundID)
+		}
+		
 	}
 	
 	/// 停止播放
 	private func stopAudioWork() {
 		AudioServicesRemoveSystemSoundCompletion(soundID)
 		AudioServicesDisposeSystemSoundID(soundID)
+		
 	}
 	
 	/// 注册停止通知
 	func registerObserver() {
 		let notification = CFNotificationCenterGetDarwinNotifyCenter()
 		let observer = Unmanaged.passUnretained(self).toOpaque()
-		CFNotificationCenterAddObserver(notification, observer, { _, pointer, _, _, _ in
+		CFNotificationCenterAddObserver(notification, observer, { _, pointer, _, _, userInfoPointer in
 			guard let observer = pointer else { return }
 			let handler = Unmanaged<CallHandler>.fromOpaque(observer).takeUnretainedValue()
-			handler.needsStop = true
+			
+			if let identifier = handler.identifier{
+				UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
+			}
+			
+			handler.startAudioWorkCompletion?()
+			handler.stopAudioWork()
+		
 		}, BaseConfig.kStopCallHandlerKey as CFString, nil, .deliverImmediately)
 	}
 	
@@ -152,4 +154,63 @@ class CallHandler: NotificationContentHandler {
 		let name = CFNotificationName(BaseConfig.kStopCallHandlerKey as CFString)
 		CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(), observer, name, nil)
 	}
+	
+	func mergeCAFFilesToDuration(inputFile: URL, targetDuration: TimeInterval = 30) -> URL {
+		
+		let outputFile = FileManager.default.temporaryDirectory.appendingPathComponent("test.caf", conformingTo: .audio)
+		
+		do {
+			// 打开输入文件并获取音频格式
+			let audioFile = try AVAudioFile(forReading: inputFile)
+			let audioFormat = audioFile.processingFormat
+			let sampleRate = audioFormat.sampleRate
+			
+			// 计算目标帧数
+			let targetFrames = AVAudioFramePosition(targetDuration * sampleRate)
+			var currentFrames: AVAudioFramePosition = 0
+			
+			// 创建输出音频文件
+			let outputAudioFile = try AVAudioFile(forWriting: outputFile, settings: audioFormat.settings)
+			
+			// 循环读取文件数据，拼接到目标时长
+			while currentFrames < targetFrames {
+				// 每次读取整个文件的音频数据
+				let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: AVAudioFrameCount(audioFile.length))
+				if let buffer = buffer {
+					try audioFile.read(into: buffer)
+					
+					// 计算剩余所需帧数
+					let remainingFrames = targetFrames - currentFrames
+					if AVAudioFramePosition(buffer.frameLength) > remainingFrames {
+						// 如果当前缓冲区帧数超出所需，截取剩余部分
+						let truncatedBuffer = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: AVAudioFrameCount(remainingFrames))!
+						let channelCount = Int(buffer.format.channelCount)
+						for channel in 0..<channelCount {
+							let sourcePointer = buffer.floatChannelData![channel]
+							let destinationPointer = truncatedBuffer.floatChannelData![channel]
+							memcpy(destinationPointer, sourcePointer, Int(remainingFrames) * MemoryLayout<Float>.size)
+						}
+						truncatedBuffer.frameLength = AVAudioFrameCount(remainingFrames)
+						try outputAudioFile.write(from: truncatedBuffer)
+						break
+					} else {
+						// 否则写入整个缓冲区
+						try outputAudioFile.write(from: buffer)
+						currentFrames += AVAudioFramePosition(buffer.frameLength)
+					}
+				}
+				// 重置输入文件读取位置
+				audioFile.framePosition = 0
+			}
+			
+			print("CAF file processed and extended successfully to \(targetDuration) seconds at \(outputFile.path).")
+			
+		} catch {
+			print("Error processing CAF file: \(error)")
+		}
+		
+		return outputFile
+	}
 }
+
+

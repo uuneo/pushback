@@ -151,13 +151,13 @@ extension ExampleView{
 			PushExampleModal(header: AnyView(Text( "自定义推送显示的logo")),
 							 footer: AnyView(Spacer()),
 							 title: String(localized:  "自定义icon"),
-							 params:  "\(String(localized: "推送内容"))?icon=https://pushback.twown.com/_media/avatar.png",
+							 params:  "\(String(localized: "推送内容"))?icon=https://pushback.uuneo.com/_media/avatar.png",
 							 index: 4),
 			
 			PushExampleModal(header: AnyView(Text( "下拉消息会显示图片")),
 							 footer: AnyView(Text( "携带一个image,会自动下载缓存")),
 							 title: String(localized:  "携带图片"),
-							 params:  "?title=\(String(localized: "标题" ))&body=\(String(localized: "内容" ))&image=https://pushback.twown.com/_media/avatar.png",
+							 params:  "?title=\(String(localized: "标题" ))&body=\(String(localized: "内容" ))&image=https://pushback.uuneo.com/_media/avatar.png",
 							 index: 5),
 			
 			PushExampleModal(header: AnyView(Text( "只能在消息提醒查看,不自动缓存")),

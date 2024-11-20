@@ -215,7 +215,7 @@ extension View{
 
 struct TextFieldModifier: ViewModifier {
 	var icon: String
-	
+	var complete: (()-> Void)? = nil
 	
 	func body(content: Content) -> some View {
 		content
@@ -227,14 +227,18 @@ struct TextFieldModifier: ViewModifier {
 						.cornerRadius(14)
 						.modifier(OutlineOverlay(cornerRadius: 14))
 						.offset(x: -46)
-						.foregroundStyle(.secondary)
 						.accessibility(hidden: true)
+						.symbolRenderingMode(.palette)
+						.foregroundStyle(.tint,.secondary)
+						.onTapGesture {
+							complete?()
+						}
 					Spacer()
 				}
 			)
 			.foregroundStyle(.primary)
-			.padding(15)
-			.padding(.leading, 40)
+			.padding(10)
+			.padding(.leading, 43)
 			.background(.thinMaterial)
 			.cornerRadius(20)
 			.modifier(OutlineOverlay(cornerRadius: 20))
@@ -242,9 +246,8 @@ struct TextFieldModifier: ViewModifier {
 }
 
 extension View {
-	func customField(icon: String) -> some View {
-		
-		self.modifier(TextFieldModifier( icon: icon))
+	func customField(icon: String, complete: (()-> Void)? = nil) -> some View {
+		self.modifier(TextFieldModifier( icon: icon,complete: complete))
 	}
 }
 

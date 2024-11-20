@@ -28,6 +28,7 @@ struct SettingsView: View {
 	@Default(.deviceToken) var deviceToken
 	@Default(.servers) var servers
 	@Default(.messageExpiration) var messageExpiration
+	@Default(.imageSaveDays) var imageSaveDays
 
 	@State private var webShow:Bool = false
 	@State private var webUrl:String = BaseConfig.helpWebUrl
@@ -79,12 +80,8 @@ struct SettingsView: View {
 					
 				}
 			
-					
-				
 				
 				Section {
-					
-					
 					
 					HStack{
 						ShareLink(item: MessageExportJson(data: Array(messages)), preview:
@@ -176,14 +173,16 @@ struct SettingsView: View {
 				Section {
 					
 					
+					
+					
 					Picker(selection: $messageExpiration) {
-						ForEach(MessageExpirationTime.allCases, id: \.self){ item in
+						ForEach(ExpirationTime.allCases, id: \.self){ item in
 							Text(item.title)
 								.tag(item)
 						}
 					} label: {
 						Label {
-							Text( "保存时间")
+							Text( "默认保存时间")
 						} icon: {
 							Image(systemName: "externaldrive.badge.timemachine")
 								.scaleEffect(0.9)
@@ -197,7 +196,7 @@ struct SettingsView: View {
 					
 					
 				}header:{
-					Text( "消息存档设置")
+					Text( "消息存档")
 				}footer:{
 					
 					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
@@ -222,10 +221,30 @@ struct SettingsView: View {
 					}
 					
 					
+					Picker(selection: $imageSaveDays) {
+						ForEach(ExpirationTime.allCases, id: \.self){ item in
+							Text(item.title)
+								.tag(item)
+						}
+					} label: {
+						Label {
+							Text( "默认保存时间")
+						} icon: {
+							Image(systemName: "externaldrive.badge.timemachine")
+								.scaleEffect(0.9)
+								.symbolRenderingMode(.palette)
+								.foregroundStyle((imageSaveDays.days == 0 ? .red : (imageSaveDays.days == -1 ? .green : .yellow)), Color.primary)
+							
+						}
+					}
+					
+					
 				}header :{
-					Text(  "图片")
+					Text(  "图片存档")
 						.foregroundStyle(.gray)
 					
+				}footer:{
+					Text("图片默认保存时间，本地化图片不受影响")
 				}
 				
 				

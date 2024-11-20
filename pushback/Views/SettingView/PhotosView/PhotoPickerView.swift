@@ -36,7 +36,7 @@ struct PhotoPickerView:View {
 					Task.detached(priority: .high) {
 						for item in items {
 							if let image = UIImage(data: item){
-								_ = await ImageManager.storeImage(from: UUID().uuidString, at: image)
+								_ = await ImageManager.storeImage(from: UUID().uuidString, at: image, local: true)
 							}
 						}
 						Toast.shared.present(title: String(localized: "保存成功"), symbol: "photo.badge.checkmark")
@@ -64,7 +64,7 @@ struct PhotoPickerView:View {
 					if let data{
 						Task.detached(priority: .high){
 							if let image = UIImage(data: data){
-								_ = await ImageManager.storeImage(from: UUID().uuidString, at: image)
+								_ = await ImageManager.storeImage(from: UUID().uuidString, at: image, local: true)
 							}
 							
 						}

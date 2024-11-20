@@ -15,8 +15,8 @@ class IconHandler: NotificationContentHandler{
 		
 		
 		guard  let imageUrl = userInfo["icon"] as? String,
-			   let imageFileUrl = await ImageManager.fetchImage(from: imageUrl),
-			   let imageData = NSData(contentsOfFile: imageFileUrl) as? Data else{
+			   let localPath = await ImageManager.fetchImage(from: imageUrl)?.localPath,
+			   let imageData = NSData(contentsOfFile: localPath.path) as? Data else{
 			return bestAttemptContent
 		}
 		

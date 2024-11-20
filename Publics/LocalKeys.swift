@@ -7,20 +7,6 @@
 
 @_exported import Defaults
 
-
-enum RingTongType: Codable{
-	case local
-	case custom
-	case cloud
-}
-
-struct SoundDefault: Codable, Defaults.Serializable{
-	var type:RingTongType
-	var name:String
-	static let def = SoundDefault(type: .local, name: "silence")
-}
-
-
 extension Defaults.Keys {
 	static let deviceToken = Key<String>(BaseConfig.deviceToken, default: "", suite: DEFAULTSTORE)
 	static let servers = Key<[PushServerModal]>(BaseConfig.server, default: PushServerModal.serverArr, suite: DEFAULTSTORE)
@@ -29,9 +15,10 @@ extension Defaults.Keys {
 	static let badgeMode = Key<BadgeAutoMode>(BaseConfig.badgemode, default: .auto, suite: DEFAULTSTORE)
 	static let sound = Key<SoundDefault>(BaseConfig.defaultSound, default: SoundDefault.def, suite: DEFAULTSTORE)
 	static let firstStart = Key<Bool>(BaseConfig.firstStartApp,default: true, suite: DEFAULTSTORE)
-	static let photoName = Key<String>(BaseConfig.customPhotoName, default: "pushback.", suite: DEFAULTSTORE)
-	static let intoApp = Key<Bool>(BaseConfig.intoApp,default: false, suite: DEFAULTSTORE)
-	static let messageExpiration = Key<MessageExpirationTime>(BaseConfig.messageExpirtion,default: .no,suite: DEFAULTSTORE)
+	static let photoName = Key<String>(BaseConfig.customPhotoName, default: BaseConfig.photoName, suite: DEFAULTSTORE)
+	static let messageExpiration = Key<ExpirationTime>(BaseConfig.messageExpirtion,default: .forever,suite: DEFAULTSTORE)
+
+	
 }
 
 
@@ -51,7 +38,7 @@ func cryptoExampleHandler() -> String {
 	let nonce = config.mode == .GCM ? "iv[:12]" : "iv"
 	
 	return """
- # Documentation: "https://pushback.twown.com/#/encryption"
+ # Documentation: "https://pushback.uuneo.com/#/encryption"
  # python demo: \(String(localized: "使用AES加密数据，并发送到服务器"))
  # pip3 install pycryptodome
  

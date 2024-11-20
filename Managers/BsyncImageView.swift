@@ -76,9 +76,9 @@ struct AvatarView: View {
 	private func loadImage(icon:String ) {
 		self.success = true
 		Task.detached(priority: .background)  {
-			if let imagePath = await ImageManager.fetchImage(from: icon) {
+			if let localPath = await ImageManager.fetchImage(from: icon)?.localPath {
 				await MainActor.run {
-					self.image = UIImage(contentsOfFile: imagePath)
+					self.image = UIImage(contentsOfFile: localPath.path)
 				}
 			} else {
 				await MainActor.run {

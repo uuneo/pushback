@@ -74,6 +74,8 @@
 		190E0E9A2CE637EE00F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
 		190E0E9B2CE637EE00F01858 /* what.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CE52CE1CAE100F01858 /* what.caf */; };
 		190E0E9C2CE637EE00F01858 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CCC2CE1C45100F01858 /* xiu.caf */; };
+		19214DCB2CEE02EC000D9463 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
+		19214DCC2CEE02FF000D9463 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
 		1957022B2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
 		1957022C2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
 		1957022D2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
@@ -114,7 +116,6 @@
 		19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */; };
 		19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
 		19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
-		19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
 		19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */; };
 		19C13C942CCCD70F00A2F1A8 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CBA2CCCD77600A2F1A8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */; };
@@ -132,7 +133,6 @@
 		19C13CD92CCCDA2700A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13CDA2CCCDA3E00A2F1A8 /* cryptoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */; };
 		19C13CDB2CCCDA5000A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
-		19C13CDC2CCCDA5A00A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
 		19C13CDD2CCCDA6100A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
 		19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CE02CCCDA9500A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CDF2CCCDA9500A2F1A8 /* Defaults */; };
@@ -829,6 +829,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19214DCC2CEE02FF000D9463 /* LocalKeys.swift in Sources */,
 				19C13C182CCC8A4100A2F1A8 /* ImageManager.swift in Sources */,
 				19C13C192CCC8A4100A2F1A8 /* Extension+.swift in Sources */,
 				19C13C2E2CCC8C0D00A2F1A8 /* BsyncImageView.swift in Sources */,
@@ -841,7 +842,6 @@
 				1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */,
 				19C13C1B2CCC8A4100A2F1A8 /* image+.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
-				19C13C3F2CCC921500A2F1A8 /* LocalKeys.swift in Sources */,
 				190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */,
 				19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */,
 				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
@@ -853,9 +853,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19214DCB2CEE02EC000D9463 /* LocalKeys.swift in Sources */,
 				19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */,
 				19C13CDD2CCCDA6100A2F1A8 /* MessageModal.swift in Sources */,
-				19C13CDC2CCCDA5A00A2F1A8 /* LocalKeys.swift in Sources */,
 				19C13CDB2CCCDA5000A2F1A8 /* OtherModal.swift in Sources */,
 				19C13CDA2CCCDA3E00A2F1A8 /* cryptoManager.swift in Sources */,
 				19C13CD82CCCD9F400A2F1A8 /* Extension+.swift in Sources */,

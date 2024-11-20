@@ -377,9 +377,9 @@ struct exportJsonData:Identifiable{
 	var url:URL
 }
 
-// MARK: - MessageExpirationTime
+// MARK: - ExpirationTime
 
-enum MessageExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
+enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	case forever = -1
 	case no = 0
 	case oneDay = 1
@@ -405,4 +405,36 @@ enum MessageExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	}
 	
 	
+}
+
+// MARK: - ImageCacheModal
+
+struct ImageCacheModal: Codable, Identifiable, Defaults.Serializable,Equatable{
+	var id:String = UUID().uuidString
+	var url:String
+	var local:String?
+	var key:String
+	var createDate:Date = Date()
+	
+	var name:String{
+		return local ?? url
+	}
+	var localPath:URL?{
+		BaseConfig.getImagesDirectory()?.appendingPathComponent(self.key)
+	}
+}
+
+
+// MARK: - RingTongType
+
+enum RingTongType: Codable{
+	case local
+	case custom
+	case cloud
+}
+
+struct SoundDefault: Codable, Defaults.Serializable{
+	var type:RingTongType
+	var name:String
+	static let def = SoundDefault(type: .local, name: "silence")
 }

@@ -263,15 +263,18 @@ extension ContentView{
 			HapticsManager.shared.restartEngine()
 			manager.registers()
 		case .background:
-			
 			UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
+			Task(priority: .background) {
+				await ImageManager.deleExpired()
+			}
 			HapticsManager.shared.stopEngine()
+			
 			
 		default:
 			break
 		}
 		
-		RealmProxy.shared.deleteExampled()
+		RealmProxy.shared.deleteExpired()
 		UNUserNotificationCenter.current().removeAllDeliveredNotifications()
 		RealmProxy.ChangeBadge()
 	}

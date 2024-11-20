@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct uAsyncImage:View {
-	var url:String
+	var imageCache:ImageCacheModal
 	var size:CGSize
 	var mode: ContentMode = .fill
 	var isDragg:Bool = true
@@ -29,8 +29,8 @@ struct uAsyncImage:View {
 					.onAppear{
 						Task.detached(priority: .medium) {
 							
-							if let fileUrl = await ImageManager.fetchImage(from: url),
-							   let uiimage = UIImage(contentsOfFile: fileUrl) {
+							if let localPath = imageCache.localPath,
+							   let uiimage = UIImage(contentsOfFile: localPath.path) {
 								if isThumbnail,
 								   let preview = uiimage.preparingThumbnail(of: .init(width: max(uiimage.size.width / 10, size.width), height: max(uiimage.size.height / 10, size.height))){
 									
@@ -46,7 +46,7 @@ struct uAsyncImage:View {
 								
 								return
 							}else{
-								debugPrint("error",url)
+								debugPrint("error",imageCache.name)
 								await MainActor.run {
 									self.phase = .failure("Not Image")
 								}
@@ -55,8 +55,8 @@ struct uAsyncImage:View {
 							
 							
 							
-							if let fileUrl = await ImageManager.fetchImage(from: url),
-							   let uiimage = UIImage(contentsOfFile: fileUrl),
+							if let localPath = imageCache.localPath,
+							   let uiimage = UIImage(contentsOfFile: localPath.path),
 							   let preview = uiimage.preparingThumbnail(of: .init(width: uiimage.size.width / 5, height: uiimage.size.height / 5))
 							{
 								await MainActor.run {
@@ -65,7 +65,7 @@ struct uAsyncImage:View {
 								}
 								return
 							}else{
-								debugPrint("error",url)
+								debugPrint("error",imageCache.name)
 								await MainActor.run {
 									self.phase = .failure("Not Image")
 								}
@@ -78,7 +78,7 @@ struct uAsyncImage:View {
 					image
 						.resizable()
 						.customDraggable(300, appear: { item in
-							completion?(url)
+							completion?(imageCache.name)
 						})
 						.aspectRatio(contentMode: mode)
 						.frame(width: min(size.width, size.height))

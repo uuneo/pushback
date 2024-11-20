@@ -10,15 +10,17 @@ import CryptoKit
 import Defaults
 
 
-extension Defaults.Keys{
-	static let images = Key<[String]>("imagesCache", default: [], suite: DEFAULTSTORE )
+extension Defaults.Keys {
+	static let images = Key<[ImageCacheModal]>("imagesCache", default: [], suite: DEFAULTSTORE )
+	static let imageSaveDays = Key<ExpirationTime>(BaseConfig.imageSaveDays,default: .forever, suite: DEFAULTSTORE)
 }
+
 
 
 class ImageManager {
 	
 	// Public method to retrieve or download an image
-	class func fetchImage(from url: String) async -> String? {
+	class func fetchImage(from url: String) async -> ImageCacheModal? {
 		// First, check if the image already exists in the local cache
 		if let cachedImage = await loadImageFromCache(for: url) {
 			return cachedImage
@@ -35,17 +37,19 @@ class ImageManager {
 	}
 	
 	// New method to rename an image file
-	class func renameImage(oldName: String, newName: String) -> Bool {
-		guard let imagesDirectory = getImagesDirectory(),
-			  let oldName1 = sha256(from: oldName),
-			  let newName1 = sha256(from: newName)
+	class func renameImage(item: ImageCacheModal, newName: String) -> Bool {
+		
+		var newImage = item
+
+		guard let imagesDirectory = BaseConfig.getImagesDirectory(),
+			  let oldPath = item.localPath,
+			  let newkey = sha256(from: newName)
 		else {
 			print("Images directory not found")
 			return false
 		}
 		
-		let oldPath = imagesDirectory.appendingPathComponent(oldName1)
-		let newPath = imagesDirectory.appendingPathComponent(newName1)
+		let newPath = imagesDirectory.appendingPathComponent(newkey)
 		
 		if !FileManager.default.fileExists(atPath: oldPath.path) {
 			print("File not found at path: \(oldPath.absoluteString)")
@@ -55,10 +59,13 @@ class ImageManager {
 		do {
 			try FileManager.default.moveItem(at: oldPath, to: newPath)
 			
-			if let index = Defaults[.images].firstIndex(of: oldName){
-				Defaults[.images][index] = newName
+			if let index = Defaults[.images].firstIndex(where: {$0.key == item.key }){
+				newImage.key = newkey
+				newImage.local = newName
+				Defaults[.images][index] = newImage
 			}
-			print("File renamed from \(oldName) to \(newName)")
+			
+			print("File renamed from \(item.key) to \(newName)")
 			
 			return true
 		} catch {
@@ -68,13 +75,17 @@ class ImageManager {
 	}
 	
 	// Method to store the image in the local cache
-	class func storeImage(from url: String, at image: UIImage) async -> String? {
-		guard let imagesDirectory = getImagesDirectory(),
+	class func storeImage(from url: String, at image: UIImage, local:Bool = false) async -> ImageCacheModal? {
+		
+		guard let imagesDirectory = BaseConfig.getImagesDirectory(),
 			  let imageData = image.pngData(),
 			  let name = sha256(from: url) else {
 			print("Failed to convert image to PNG data")
 			return nil
 		}
+		
+		
+		let imageCache = ImageCacheModal(url: url, local: (local ? url : nil), key: name)
 		
 		// Construct the full image path
 		let imagePath = imagesDirectory.appendingPathComponent(name)
@@ -83,10 +94,10 @@ class ImageManager {
 		do {
 			try imageData.write(to: imagePath)
 			await MainActor.run {
-				Defaults[.images].insert(url, at: 0)
+				Defaults[.images].insert(imageCache, at: 0)
 			}
 			print("Image successfully saved at: \(imagePath)")
-			return imagePath.path
+			return imageCache
 		} catch {
 			print("Failed to save image: \(error.localizedDescription)")
 		}
@@ -96,22 +107,19 @@ class ImageManager {
 	
 	
 	// Method to delete an image file
-	class func deleteImage(for url: String) async -> Bool {
-		guard let imagesDirectory = getImagesDirectory(),
-			  let name = sha256(from: url) else {
-			print("Failed to generate path for cached image")
-			return false
-		}
+	class func deleteImage(for item: ImageCacheModal) async -> Bool {
 		
 		// Construct the full image path
-		let imagePath = imagesDirectory.appendingPathComponent(name)
+		guard let imagePath = item.localPath  else {
+			return false
+		}
 		
 		// Check if the file exists and delete it
 		if FileManager.default.fileExists(atPath: imagePath.path) {
 			do {
 				try FileManager.default.removeItem(at: imagePath)
 				await MainActor.run {
-					Defaults[.images].removeAll(where: {$0 == url})
+					Defaults[.images].removeAll(where: {$0.name == item.name})
 				}
 				print("Image successfully deleted at: \(imagePath)")
 				return true
@@ -120,31 +128,24 @@ class ImageManager {
 				return false
 			}
 		} else {
+			
+			Defaults[.images].removeAll(where: {$0.name == item.name})
+			
 			print("Image not found at path: \(imagePath.absoluteString)")
 			return false
 		}
 	}
 	
 	// Method to load image from local cache if it exists
-	fileprivate static func loadImageFromCache(for url: String) async -> String? {
-		guard let imagesDirectory = getImagesDirectory(),
-			  let name = sha256(from: url) else {
-			print("Failed to generate path for cached image")
+	fileprivate static func loadImageFromCache(for url: String) async -> ImageCacheModal? {
+		
+		
+		guard let imageCache = Defaults[.images].filter({$0.name == url}).first else {
 			return nil
 		}
 		
-		// Construct the full image path
-		let imagePath = imagesDirectory.appendingPathComponent(name)
-		
-		
-		// Check if the file exists at the path
-		if FileManager.default.fileExists(atPath: imagePath.path) {
-			return imagePath.path
-		} else {
-			print("Image not found in cache")
-		}
-		
-		return nil
+		return imageCache
+
 	}
 	
 	// Download the image from a URL
@@ -190,24 +191,7 @@ class ImageManager {
 		}
 	}
 	
-	// Get the directory to store images in the App Group
-	fileprivate static func getImagesDirectory() -> URL? {
-		guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName) else {
-			return nil
-		}
-		let imagesDirectory = containerURL.appendingPathComponent("Images")
-		
-		// If the directory doesn't exist, create it
-		if !FileManager.default.fileExists(atPath: imagesDirectory.path) {
-			do {
-				try FileManager.default.createDirectory(at: imagesDirectory, withIntermediateDirectories: true, attributes: nil)
-			} catch {
-				print("Failed to create images directory: \(error.localizedDescription)")
-				return nil
-			}
-		}
-		return imagesDirectory
-	}
+
 	
 	// Generate SHA-256 hash for a given URL
 	fileprivate static func sha256(from url: String) -> String? {
@@ -228,7 +212,7 @@ class ImageManager {
 		
 		let fileManager = FileManager.default
 		
-		guard let imagesDirectory = getImagesDirectory() else {
+		guard let imagesDirectory = BaseConfig.getImagesDirectory() else {
 			return
 		}
 
@@ -240,7 +224,7 @@ class ImageManager {
 				
 				let fileName = fileURL.lastPathComponent
 				// 检查文件是否在列表中
-				let validFileNames = allData ?  [] : Defaults[.images].compactMap({ sha256(from: $0) })
+				let validFileNames = allData ?  [] : Defaults[.images].compactMap({ $0.key})
 				
 				if !validFileNames.contains(fileName) {
 					// 如果文件不在列表中，删除该文件
@@ -259,6 +243,13 @@ class ImageManager {
 		}
 	}
 	
+	class func deleExpired() async {
+		let days = Defaults[.imageSaveDays]
+		let images = Defaults[.images].filter({$0.local == nil && $0.createDate.isExpired(days: days.days)})
+		for image in images{
+			_ = await self.deleteImage(for: image)
+		}
+	}
 	
 	
 	

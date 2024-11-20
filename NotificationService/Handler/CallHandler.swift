@@ -65,9 +65,16 @@ class CallHandler: NotificationContentHandler {
 	
 	// 开始播放铃声，startAudioWork(completion:) 方法的异步包装
 	private func startAudioWork() async {
-		return await withCheckedContinuation { continuation in
+		await withCheckedContinuation { continuation in
+			var hasResumed = false
+
+			// Start the audio work, and provide a completion handler
 			self.startAudioWork {
-				continuation.resume()
+				// Check if the continuation has already been resumed
+				if !hasResumed {
+					continuation.resume()
+					hasResumed = true
+				}
 			}
 		}
 	}
@@ -82,24 +89,36 @@ class CallHandler: NotificationContentHandler {
 		}
 		self.startAudioWorkCompletion = completion
 		
-		let sound = ((content.userInfo["aps"] as? [String: Any])?["sound"] as? String)?.split(separator: ".")
+		
+		let soundName: String
+		let soundType: String
+		
+		if let sound = ((content.userInfo["aps"] as? [String: Any])?["sound"] as? String)?.split(separator: "."),
+		   let name = sound.first, let ext = sound.last{
+			debugPrint(type(of: name),type(of: ext))
+			soundName = String(name)
+			soundType = String(ext)
+		}else{
+			soundName = "oldphone"
+			soundType = "caf"
+		}
 		
 		
-		
-		let soundName: String = sound?.first as? String ?? "oldphone"
-		let soundType: String = sound?.last as? String ?? "caf"
-		
-		
+		debugPrint(soundName, soundType)
 		// 先找自定义上传的铃声，再找内置铃声
 		guard let audioPath = getSoundInCustomSoundsDirectory(soundName: "\(soundName).\(soundType)") ??
-				Bundle.main.path(forResource: soundName, ofType: soundType)
+			Bundle.main.path(forResource: soundName, ofType: soundType)
+				
 		else {
 			completion()
 			return
 		}
 		
-		
+		let startDate = Date()
 		let soundFile = mergeCAFFilesToDuration(inputFile: URL(string: audioPath)!)
+		let endDate = Date()
+		let executionTime = endDate.timeIntervalSince(startDate)
+		print("Execution Time: \(executionTime) seconds")
 		
 		// 创建响铃任务
 		AudioServicesCreateSystemSoundID(soundFile as CFURL, &soundID)
@@ -131,9 +150,9 @@ class CallHandler: NotificationContentHandler {
 				UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
 			}
 			
-			handler.startAudioWorkCompletion?()
 			handler.stopAudioWork()
-		
+			handler.startAudioWorkCompletion?()
+			
 		}, BaseConfig.kStopCallHandlerKey as CFString, nil, .deliverImmediately)
 	}
 	
@@ -155,24 +174,40 @@ class CallHandler: NotificationContentHandler {
 		CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(), observer, name, nil)
 	}
 	
-	func mergeCAFFilesToDuration(inputFile: URL, targetDuration: TimeInterval = 30) -> URL {
+	func mergeCAFFilesToDuration(inputFile: URL, targetDuration: TimeInterval = 30, silenceDuration: TimeInterval = 0.3) -> URL {
 		
-		let outputFile = FileManager.default.temporaryDirectory.appendingPathComponent("test.caf", conformingTo: .audio)
+		// 输出文件路径
+		guard let outputFile = BaseConfig.getSoundsGroupDirectory()?.appendingPathComponent("call-\(inputFile.lastPathComponent)") else { return inputFile}
+		
+		if FileManager.default.fileExists(atPath: outputFile.path){
+			return outputFile
+		}
 		
 		do {
 			// 打开输入文件并获取音频格式
 			let audioFile = try AVAudioFile(forReading: inputFile)
 			let audioFormat = audioFile.processingFormat
 			let sampleRate = audioFormat.sampleRate
+			let channelCount = Int(audioFormat.channelCount)
 			
-			// 计算目标帧数
-			let targetFrames = AVAudioFramePosition(targetDuration * sampleRate)
+			// 计算空帧和目标帧数
+			let silenceFrames = AVAudioFramePosition(silenceDuration * sampleRate)
+			let targetFrames = AVAudioFramePosition((targetDuration - silenceDuration) * sampleRate)
 			var currentFrames: AVAudioFramePosition = 0
 			
 			// 创建输出音频文件
 			let outputAudioFile = try AVAudioFile(forWriting: outputFile, settings: audioFormat.settings)
 			
-			// 循环读取文件数据，拼接到目标时长
+			// 添加自定义时长的空帧
+			let silenceBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: AVAudioFrameCount(silenceFrames))!
+			for channel in 0..<channelCount {
+				let silencePointer = silenceBuffer.floatChannelData![channel]
+				memset(silencePointer, 0, Int(silenceFrames) * MemoryLayout<Float>.size) // 填充零值
+			}
+			silenceBuffer.frameLength = AVAudioFrameCount(silenceFrames)
+			try outputAudioFile.write(from: silenceBuffer)
+			
+			// 循环读取文件数据，拼接到剩余目标时长
 			while currentFrames < targetFrames {
 				// 每次读取整个文件的音频数据
 				let buffer = AVAudioPCMBuffer(pcmFormat: audioFormat, frameCapacity: AVAudioFrameCount(audioFile.length))
@@ -184,7 +219,6 @@ class CallHandler: NotificationContentHandler {
 					if AVAudioFramePosition(buffer.frameLength) > remainingFrames {
 						// 如果当前缓冲区帧数超出所需，截取剩余部分
 						let truncatedBuffer = AVAudioPCMBuffer(pcmFormat: buffer.format, frameCapacity: AVAudioFrameCount(remainingFrames))!
-						let channelCount = Int(buffer.format.channelCount)
 						for channel in 0..<channelCount {
 							let sourcePointer = buffer.floatChannelData![channel]
 							let destinationPointer = truncatedBuffer.floatChannelData![channel]
@@ -208,6 +242,8 @@ class CallHandler: NotificationContentHandler {
 		} catch {
 			print("Error processing CAF file: \(error)")
 		}
+		
+		
 		
 		return outputFile
 	}

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    " %@" : {
+
+    },
     " 删除成功" : {
       "localizations" : {
         "en" : {
@@ -507,6 +510,7 @@
       }
     },
     "保存时间" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -537,6 +541,7 @@
       }
     },
     "修改" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -796,6 +801,9 @@
         }
       }
     },
+    "原始地址:" : {
+
+    },
     "参数错误" : {
       "localizations" : {
         "en" : {
@@ -895,6 +903,12 @@
           }
         }
       }
+    },
+    "图片存档" : {
+
+    },
+    "图片默认保存时间，本地化图片不受影响" : {
+
     },
     "复制发送脚本" : {
       "localizations" : {
@@ -1587,6 +1601,7 @@
       }
     },
     "本地化地址" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1716,7 +1731,11 @@
         }
       }
     },
+    "消息存档" : {
+
+    },
     "消息存档设置" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2057,6 +2076,9 @@
         }
       }
     },
+    "输入一个字符串 远程可以直接使用：" : {
+
+    },
     "输入图片Key" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2078,6 +2100,9 @@
         }
       }
     },
+    "输入本地地址" : {
+
+    },
     "这是一个加密示例" : {
       "localizations" : {
         "en" : {
@@ -2098,7 +2123,11 @@
         }
       }
     },
+    "远程本地化" : {
+
+    },
     "远程本地化地址: %1$@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2278,6 +2307,9 @@
           }
         }
       }
+    },
+    "默认保存时间" : {
+
     },
     "默认值，系统会立即亮屏显示通知。" : {
       "localizations" : {

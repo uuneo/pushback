@@ -64,6 +64,12 @@ class ActionHandler: NotificationContentHandler{
 			}
 		}
 		
+		// MARK: - 删除过期图片
+		
+		Task(priority: .background) {
+			await ImageManager.deleExpired()
+		}
+		
 		return bestAttemptContent
 	}
 	

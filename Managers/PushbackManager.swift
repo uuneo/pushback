@@ -301,8 +301,8 @@ extension PushbackManager{
 	///   - url: The URL to open
 	///   - unOpen: A closure called when the URL cannot be opened, passing the URL as an argument
 	func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
-		// Check if the URL can be opened
-		if UIApplication.shared.canOpenURL(url) {
+		
+		if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
 			// Attempt to open the URL as a universal link
 			UIApplication.shared.open(url, options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: true]) { success in
 				if !success {
@@ -310,6 +310,7 @@ extension PushbackManager{
 					unOpen?(url)
 				}
 			}
+			
 		} else {
 			// Fallback to opening the URL normally if it's not a universal link or cannot be opened
 			UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -328,7 +329,7 @@ extension PushbackManager{
 		}()
 		
 		let customSounds: [URL] = {
-			guard let soundsDirectoryUrl = getSoundsGroupDirectory() else { return []}
+			guard let soundsDirectoryUrl = BaseConfig.getSoundslibraryDirectory() else { return []}
 			
 			var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
 			urlemp.sort { u1, u2 -> Bool in
@@ -364,32 +365,32 @@ extension PushbackManager{
 	
 	/// 通用文件保存方法
 	func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
-		guard let groupDirectoryUrl = getSoundsGroupDirectory() else  {
+		guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory(),
+			  let libraryDirectoryUrl = BaseConfig.getSoundslibraryDirectory()
+		else  {
 			return
 		}
+	
 		
-		var destinationUrl:URL{
-			if let lastPath {
-				return groupDirectoryUrl.appendingPathComponent(lastPath)
-			}else{
-				return groupDirectoryUrl.appendingPathComponent(sourceUrl.lastPathComponent)
-			}
+		let  groupDestinationUrl = groupDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
+		
+		let  libraryDestinationUrl = libraryDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
+		
+		
+		if manager.fileExists(atPath: groupDestinationUrl.path) {
+			try? manager.removeItem(at: groupDestinationUrl)
 		}
-		
-		
-		if manager.fileExists(atPath: destinationUrl.path) {
-			try? manager.removeItem(at: destinationUrl)
+		if manager.fileExists(atPath: libraryDestinationUrl.path) {
+			try? manager.removeItem(at: libraryDestinationUrl)
 		}
 		
 		do{
-			try manager.copyItem(at: sourceUrl, to: destinationUrl)
+			try manager.copyItem(at: sourceUrl, to: groupDestinationUrl)
+			try manager.copyItem(at: sourceUrl, to: libraryDestinationUrl)
 			Toast.shared.present(title: String(localized: "保存成功"), symbol: .success)
 		}catch{
 			Toast.shared.present(title: error.localizedDescription, symbol: .error)
 		}
-		
-		
-		
 		
 		
 		getFileList()
@@ -399,23 +400,12 @@ extension PushbackManager{
 		// 删除sounds目录铃声文件
 		try? manager.removeItem(at: url)
 		// 删除共享目录中的文件
-		if let groupSoundUrl = getSoundsGroupDirectory()?.appendingPathComponent(url.lastPathComponent) {
+		if let groupSoundUrl = BaseConfig.getSoundsGroupDirectory()?.appendingPathComponent(url.lastPathComponent) {
 			try? manager.removeItem(at: groupSoundUrl)
 		}
 		getFileList()
 	}
 	
-	
-	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
-	private func getSoundsGroupDirectory() -> URL? {
-		if let directoryUrl = manager.containerURL(forSecurityApplicationGroupIdentifier: appGroupIdentifier)?.appendingPathComponent(BaseConfig.Sounds) {
-			if !manager.fileExists(atPath: directoryUrl.path) {
-				try? manager.createDirectory(at: directoryUrl, withIntermediateDirectories: true, attributes: nil)
-			}
-			return directoryUrl
-		}
-		return nil
-	}
 	
 	
 	

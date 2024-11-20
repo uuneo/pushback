@@ -98,14 +98,17 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		
-		notificatonHandler(userInfo: response.notification.request.content.userInfo)
+		let userInfo = response.notification.request.content.userInfo
+		
+		notificatonHandler(userInfo: userInfo)
 		// MARK: 点击信息 跳转到信息页面
-		BaseConfig.stopCallNotificationHandler(mode: "click")
 		NotificationCenter.default.post(name: .messagePreview, object: nil)
 		
-		debugPrint("点击了信息")
+		
+
 		completionHandler()
 	}
+	
 	
 	
 	// 处理应用程序在前台是否显示通知
@@ -123,6 +126,14 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	}
 	
 	func notificatonHandler(userInfo: [AnyHashable : Any]){
+		
+		
+		if userInfo["call"] as? String == "1" || userInfo["mode"] as? String == "1"{
+			
+			BaseConfig.stopCallNotificationHandler(mode: "click")
+			debugPrint("取消音频信息")
+		}
+		
 		if let urlStr = userInfo["url"] as? String,
 		   let url = URL(string: urlStr)
 		{

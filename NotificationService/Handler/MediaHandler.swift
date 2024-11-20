@@ -16,34 +16,6 @@ class MediaHandler:NotificationContentHandler{
 		let userInfo = bestAttemptContent.userInfo
 		
 		
-		
-//		if bestAttemptContent.userInfo["video"] is String{
-//			
-//			
-//			guard let uiImage = UIImage(named: "video"),
-//				  let imageData = uiImage.pngData() else {
-//				return bestAttemptContent
-//			}
-//			
-//			
-//			let temDir = FileManager.default.temporaryDirectory
-//			
-//			// Construct the full image path
-//			let imagePath = temDir.appendingPathComponent("video.png")
-//			
-//			try imageData.write(to: imagePath)
-//		
-//			// 创建通知附件
-//			let attachment = try UNNotificationAttachment(
-//				identifier: "video",
-//				url: imagePath,
-//				options: [UNNotificationAttachmentOptionsTypeHintKey: UTType.png.identifier]
-//			)
-//			
-//			// 将附件添加到通知内容中
-//			bestAttemptContent.attachments = [attachment]
-//		}
-		
 		// 处理视频的情况
 		if let videoUrlString = userInfo["video"] as? String, let videoUrl = URL(string: videoUrlString) {
 			// 获取视频的第一帧
@@ -75,15 +47,15 @@ class MediaHandler:NotificationContentHandler{
 		
 		if let imageUrl = userInfo["image"] as? String{
 			
-			guard let imageFileUrl = await ImageManager.fetchImage(from: imageUrl) else {
+			guard let localPath = await ImageManager.fetchImage(from: imageUrl)?.localPath else {
 				return bestAttemptContent
 			}
 			
 			
-			let copyDestUrl = URL(fileURLWithPath: imageFileUrl).appendingPathExtension(".tmp")
+			let copyDestUrl = URL(fileURLWithPath: localPath.path).appendingPathExtension(".tmp")
 			// 将图片缓存复制一份，推送使用完后会自动删除，但图片缓存需要留着以后在历史记录里查看
 			try? FileManager.default.copyItem(
-				at: URL(fileURLWithPath: imageFileUrl),
+				at: URL(fileURLWithPath: localPath.path),
 				to: copyDestUrl
 			)
 			

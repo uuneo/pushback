@@ -16,7 +16,7 @@ struct ImageCacheView: View {
 	@Default(.photoName) var photoName
 	@Default(.images) var images
 	@State private var isSelect:Bool = false
-	@State private var selectImageArr:[String] = []
+	@State private var selectImageArr:[ImageCacheModal] = []
 	@State private var showEditPhotoName:Bool = false
 	@State private var alart:AlertData?
 	
@@ -24,7 +24,7 @@ struct ImageCacheView: View {
 	
 	@State private var draggImage:String?
 	
-	@State private var imageDetail:String?
+	@State private var imageDetail:ImageCacheModal?
 	
 	@State private var imagesData:[Image] = []
 	
@@ -64,8 +64,9 @@ struct ImageCacheView: View {
 				LazyVGrid(columns: columns, spacing: 10) {
 					PhotoPickerView(draggImage: $draggImage, imageSize: imageSize)
 					
-					ForEach( images, id: \.self){ item  in
-						uAsyncImage(url: item,size: imageSize) { draggImage = $0}
+					ForEach( images, id: \.id){ item  in
+						
+						uAsyncImage(imageCache: item, size: imageSize) { draggImage = $0}
 							.frame(width: imageSize.width,height: imageSize.height)
 							.overlay(alignment: .bottomTrailing) {
 								if selectImageArr.contains(item){
@@ -214,12 +215,12 @@ struct ImageCacheView: View {
 	}
 	
 	
-	func saveImage(_ items:[String]){
+	func saveImage(_ items:[ImageCacheModal]){
 		
 		Task.detached(priority: .background) {
 			for item in items{
-				if let fileUrl = await ImageManager.fetchImage(from: item),
-				   let image = UIImage(contentsOfFile: fileUrl)
+				if let fileUrl = item.localPath,
+				   let image = UIImage(contentsOfFile: fileUrl.path)
 				{
 					await image.bat_save(intoAlbum: self.photoName) { success, status in
 						debugPrint(success,status)
@@ -240,13 +241,13 @@ struct ImageCacheView: View {
 	}
 	
 	
-	func loadSharkImages(images: [String]){
+	func loadSharkImages(images: [ImageCacheModal]){
 		var results:[Image] = []
 		Task.detached(priority: .background) {
 			
 			for item in images{
-				if let fileUrl = await ImageManager.fetchImage(from: item),
-				   let uiimage = UIImage(contentsOfFile: fileUrl)
+				if let fileUrl = item.localPath,
+				   let uiimage = UIImage(contentsOfFile: fileUrl.path)
 				{
 					results.append(Image(uiImage: uiimage))
 					

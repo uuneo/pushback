@@ -8,10 +8,10 @@ import SwiftUI
 import RealmSwift
 
 struct ImageDetailView:View {
-	var image: String
-	@Binding var imageUrl:String?
+	var image: ImageCacheModal
+	@Binding var imageUrl:ImageCacheModal?
 	@State var draggImage:String? = nil
-	@State private var name:String = ""
+	@State private var localName:String = ""
 	@FocusState private var photoNamesShow
 	@State private var showSheet:Bool = false
 	@State private var showSlideView:Bool = true
@@ -20,11 +20,9 @@ struct ImageDetailView:View {
 		ZStack{
 			
 			ToolsSlideView(show: $showSlideView){
-				uAsyncImage(url: image, size: CGSize(width: UIScreen.main.bounds.width  - 20, height: UIScreen.main.bounds.height * 0.8), mode: .fit, isThumbnail: false)
+				
+				uAsyncImage(imageCache: image, size: CGSize(width: UIScreen.main.bounds.width  - 20, height: UIScreen.main.bounds.height * 0.8), mode: .fit, isThumbnail: false)
 					.navigationBarHidden(true)
-					.onAppear{
-						self.name = image
-					}
 					
 					
 			}dismiss: {
@@ -50,23 +48,56 @@ struct ImageDetailView:View {
 		NavigationStack{
 			VStack(alignment: .leading){
 				
-				Text("本地化地址")
+				Text("远程本地化")
 					.font(.largeTitle)
 					.fontWeight(.heavy)
 					.padding(.top, 5)
+					.onAppear{
+						
+						self.localName = image.local ?? ""
+					}
 				
-				Text(String(format: String(localized: "远程本地化地址: %1$@"), name))
+				Divider()
+				
+				Text("原始地址:")
 					.font(.caption)
 					.fontWeight(.semibold)
 					.foregroundStyle(.gray)
 					.padding(.top, -5)
 				
-				TextField(text: $name) {
-					Label("修改", systemImage: "pencil")
+				Text(" \(image.url)")
+					.lineLimit(1)
+					.font(.title3)
+					.customField(icon: "doc.on.doc"){
+						PushbackManager.shared.copy(image.url)
+						Toast.shared.present(title: String(localized: "复制成功"), symbol: "doc.on.doc")
+					}
+				
+				Divider()
+				Text("输入一个字符串 远程可以直接使用：")
+					.font(.caption)
+					.fontWeight(.semibold)
+					.foregroundStyle(.gray)
+					.padding(.top, -5)
+				
+				TextField(text:  Binding(
+					get: {
+						localName
+					},
+					set: {
+						// 确保更新后无 "+" 和空格
+						localName = $0.replacingOccurrences(of: "+", with: "")
+							.replacingOccurrences(of: " ", with: "")
+					}
+				)) {
+					Label("输入本地地址", systemImage: "pencil")
 				}
 				.focused($photoNamesShow)
 				.padding(.vertical, 10)
-				.customField(icon: "pencil")
+				.customField(icon: "pencil"){
+					self.photoNamesShow.toggle()
+				}
+				
 				
 				Spacer()
 				
@@ -77,7 +108,7 @@ struct ImageDetailView:View {
 				
 				ToolbarItemGroup(placement: .keyboard) {
 					Button("清除") {
-						name = ""
+						localName = ""
 					}
 					Spacer()
 					Button("完成") {
@@ -108,26 +139,24 @@ struct ImageDetailView:View {
 			}
 			
 		}
-		.presentationDetents([.height(320)])
+		.presentationDetents([.height(360)])
 		.interactiveDismissDisabled()
+		
 	}
 	
 	
 	func reanameImage(){
 		Task.detached(priority: .high) {
-			let success = await ImageManager.renameImage(oldName: image, newName: name)
+			let success = await ImageManager.renameImage(item: image, newName: localName)
 			if success {
 				await MainActor.run {
 					self.showSheet = false
 					changeRealmImageNameName()
 					self.showSlideView.toggle()
 					DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-						NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": name])
+						NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": localName])
 					}
-					
 				}
-				
-				
 			}else{
 				Toast.shared.present(title: String(localized: "文件重复"), symbol: .info)
 			}
@@ -138,14 +167,14 @@ struct ImageDetailView:View {
 	func changeRealmImageNameName(){
 		do{
 			let realm = try Realm()
-			let datas = realm.objects(Message.self).where({$0.url == image || $0.icon == image})
+			let datas = realm.objects(Message.self).where({$0.url == image.name || $0.icon == image.name})
 			
 			for data in datas{
 				try realm.write {
-					if data.url == image{
-						data.url = name
-					}else if data.icon == image{
-						data.icon = name
+					if data.url == image.name{
+						data.url = localName
+					}else if data.icon == image.name{
+						data.icon = localName
 					}
 					
 				}

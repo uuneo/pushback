@@ -24,11 +24,13 @@ class ArchiveHandler: NotificationContentHandler{
 		let url = userInfo["url"] as? String
 		let icon = userInfo["icon"] as? String
 		let isArchive = userInfo["isarchive"] as? String
-		let group = userInfo["group"] as? String ?? String(localized: "默认")
+		let group = userInfo["group"] as? String ?? "Basic"
 		let call = userInfo["call"] as? String
 		let mode = (userInfo["mode"] as? String ?? call) ?? "999"
 		
+
 		bestAttemptContent.threadIdentifier = group
+		
 		
 		//  获取保存时间
 		var saveDays:Int {

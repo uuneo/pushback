@@ -184,7 +184,7 @@ extension ExampleView{
 							 params:  "\(String(localized: "推送内容"))?icon=weixin&url=weixin://",
 							 index: 9),
 			
-			PushExampleModal(header: AnyView(Text( "默认分组名：信息")),
+			PushExampleModal(header: AnyView(Text( "默认分组名：默认")),
 							 footer: AnyView(Text( "推送将按照group参数分组显示在通知中心和应用程序内")),
 							 title: String(localized: "推送消息分组"),
 							 params:  "\(String(localized: "推送消息分组"))?group=\(String(localized: "测试"))",

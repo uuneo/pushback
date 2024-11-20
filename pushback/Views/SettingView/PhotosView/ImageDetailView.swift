@@ -65,7 +65,7 @@ struct ImageDetailView:View {
 					.foregroundStyle(.gray)
 					.padding(.top, -5)
 				
-				Text(" \(image.url)")
+				Text(image.url)
 					.lineLimit(1)
 					.font(.title3)
 					.customField(icon: "doc.on.doc"){

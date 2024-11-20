@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    " %@" : {
-
-    },
     " 删除成功" : {
       "localizations" : {
         "en" : {
@@ -347,7 +344,14 @@
       }
     },
     "不保存" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don't save"
+          }
+        }
+      }
     },
     "不保存消息" : {
       "localizations" : {
@@ -509,17 +513,6 @@
         }
       }
     },
-    "保存时间" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Archiving time"
-          }
-        }
-      }
-    },
     "信息" : {
       "localizations" : {
         "en" : {
@@ -536,17 +529,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Message status has been updated"
-          }
-        }
-      }
-    },
-    "修改" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change"
           }
         }
       }
@@ -802,7 +784,14 @@
       }
     },
     "原始地址:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Original address:"
+          }
+        }
+      }
     },
     "参数错误" : {
       "localizations" : {
@@ -905,10 +894,24 @@
       }
     },
     "图片存档" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picture archive"
+          }
+        }
+      }
     },
     "图片默认保存时间，本地化图片不受影响" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The default image storage time is not affected for localized images"
+          }
+        }
+      }
     },
     "复制发送脚本" : {
       "localizations" : {
@@ -1600,17 +1603,6 @@
         }
       }
     },
-    "本地化地址" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Localized address"
-          }
-        }
-      }
-    },
     "查看服务器部署教程" : {
       "localizations" : {
         "en" : {
@@ -1732,15 +1724,11 @@
       }
     },
     "消息存档" : {
-
-    },
-    "消息存档设置" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Message archive Settings"
+            "value" : "Message archive"
           }
         }
       }
@@ -2077,7 +2065,14 @@
       }
     },
     "输入一个字符串 远程可以直接使用：" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a string remote can be used directly:"
+          }
+        }
+      }
     },
     "输入图片Key" : {
       "extractionState" : "manual",
@@ -2101,7 +2096,14 @@
       }
     },
     "输入本地地址" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter local address"
+          }
+        }
+      }
     },
     "这是一个加密示例" : {
       "localizations" : {
@@ -2124,15 +2126,11 @@
       }
     },
     "远程本地化" : {
-
-    },
-    "远程本地化地址: %1$@" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remote localization address: %1$@"
+            "value" : "Remote localization"
           }
         }
       }
@@ -2288,6 +2286,7 @@
       }
     },
     "默认" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2297,19 +2296,15 @@
         }
       }
     },
-    "默认保存" : {
-      "extractionState" : "stale",
+    "默认保存时间" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save by default"
+            "value" : "Default save time"
           }
         }
       }
-    },
-    "默认保存时间" : {
-
     },
     "默认值，系统会立即亮屏显示通知。" : {
       "localizations" : {
@@ -2321,12 +2316,12 @@
         }
       }
     },
-    "默认分组名：信息" : {
+    "默认分组名：默认" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Default group name: Messages"
+            "value" : "Default group name: Default"
           }
         }
       }

@@ -16,7 +16,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 	@Persisted var title:String?
 	@Persisted var body:String?
 	@Persisted var icon:String?
-	@Persisted var group:String = String(localized: "默认")
+	@Persisted var group:String = "Basic"
 	@Persisted var url:String?
 	@Persisted var from:String?
 	@Persisted var mode:String = "999"
@@ -75,6 +75,8 @@ extension Message{
 			
 			Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","icon":"weixin","mode":"999"])
 		]
+	
+	
 	
 }
 

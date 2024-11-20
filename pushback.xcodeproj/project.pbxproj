@@ -329,6 +329,13 @@
 				Localizable.xcstrings,
 			);
 		};
+		19214DDD2CEE0F4E000D9463 /* Exceptions for "pushback" folder in "Compile Sources" phase from "NotificationService" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 19C13C892CCCD70E00A2F1A8 /* Sources */;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -337,6 +344,7 @@
 			exceptions = (
 				19C13C882CCCD5F900A2F1A8 /* Exceptions for "pushback" folder in "pushback" target */,
 				190E0E9E2CE637FA00F01858 /* Exceptions for "pushback" folder in "NotificationService" target */,
+				19214DDD2CEE0F4E000D9463 /* Exceptions for "pushback" folder in "Compile Sources" phase from "NotificationService" target */,
 				190E0EA02CE6383800F01858 /* Exceptions for "pushback" folder in "NotificationContent" target */,
 				190E0E422CE61F0700F01858 /* Exceptions for "pushback" folder in "Compile Sources" phase from "ShareExtension" target */,
 			);

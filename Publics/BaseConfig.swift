@@ -31,7 +31,7 @@ class BaseConfig {
 	static let  realmName = "Meowrld.realm"
 	static let  kStopCallHandlerKey = "stopCallHandlerNotification"
 	static let  Sounds = "Sounds"
-	static let  realmModalVersion:UInt64 = 22
+	static let  realmModalVersion:UInt64 = 23
 	static let  defaultSound = "defaultSound"
 	static let  activeAppIcon = "setting_active_app_icon"
 	static let 	customPhotoName = "CustomPhotoName"
@@ -56,10 +56,9 @@ class BaseConfig {
 	static let helpRegisterWebUrl = docServer + "/#/registerUser"
 	static let musicUrl = "https://convertio.co/mp3-caf/"
 	static let callback = defaultServer + "/callback"
+	static let iconRemote = "https://pushback.uuneo.com/_media/avatar.png"
 	
-	
-	
-	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"birdsong\"}"
+	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"telegraph\"}"
 
 	
 	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建

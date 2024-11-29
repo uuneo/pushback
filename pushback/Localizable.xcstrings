@@ -37,18 +37,18 @@
         }
       }
     },
-    "%@：\nlevel=active: %@ \n*  %@\nlevel=timeSensitive:  %@\n*  %@\nlevel=passive：  %@\n*  %@\nlevel=critical:  %@\n*  %@" : {
+    "%@：\nlevel=active: %@ \n*  %@\nlevel=timeSensitive:  %@\n*  %@\nlevel=passive：  %@\n*  %@\nlevel=critical: %@  \n*\t%@\n*  %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical:  %8$@\n*  %9$@"
+            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical: %8$@  \n*\t%9$@\n*  %10$@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical:  %8$@\n*  %9$@"
+            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical: %8$@  \n*\t%9$@\n*  %10$@"
           }
         }
       }
@@ -153,6 +153,9 @@
         }
       }
     },
+    "Close" : {
+
+    },
     "Iv：" : {
       "localizations" : {
         "en" : {
@@ -232,6 +235,9 @@
           }
         }
       }
+    },
+    "Raw" : {
+
     },
     "URLScheme或者网址" : {
       "localizations" : {
@@ -903,6 +909,9 @@
         }
       }
     },
+    "图片缓存" : {
+
+    },
     "图片默认保存时间，本地化图片不受影响" : {
       "localizations" : {
         "en" : {
@@ -1403,12 +1412,12 @@
         }
       }
     },
-    "支持数字(2-10) level=2 声音最小 level=10 声音最大 " : {
+    "支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Support for digital levels (2-10): level 2 is the minimum volume, and level 10 is the maximum volume."
+            "value" : "Supported numbers (2-10) level=2 Minimum voice level=10 Maximum voice,"
           }
         }
       }
@@ -1529,6 +1538,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Are you sure you want to delete all unread messages?"
+          }
+        }
+      }
+    },
+    "暂时不可用,等待苹果授权中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "waiting for Apple authorization..."
           }
         }
       }
@@ -2281,17 +2300,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Require in"
-          }
-        }
-      }
-    },
-    "默认" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default"
           }
         }
       }

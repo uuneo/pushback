@@ -1,66 +1,70 @@
 //
 //  CiphertextHandler.swift
-//  NotificationServiceExtension
+//  pushback
 //
-//  Created by He Cho on 2024/8/8.
+//  Created by He Cho on 2024/11/23.
 //
 
-import Foundation
 import SwiftyJSON
-import Defaults
+import Foundation
 
+class CiphertextHandler:NotificationContentHandler{
+	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
+		
+		guard let ciphertext = bestAttemptContent.userInfo[Params.ciphertext.name] as? String  else {
+			return bestAttemptContent
+		}
+		var userInfo = bestAttemptContent.userInfo
 
-class CiphertextHandler: NotificationContentHandler {
-    
-    func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
-        var userInfo = bestAttemptContent.userInfo
-        guard let ciphertext = userInfo["ciphertext"] as? String else {
-            return bestAttemptContent
-        }
-        
-        // 如果是加密推送，则使用密文配置 bestAttemptContent
-        do {
-            var map = try self.decrypt(ciphertext: ciphertext, iv: userInfo["iv"] as? String)
-            
-            var alert = [String: Any]()
-            var soundName: String? = nil
-            if let title = map["title"] as? String {
-                bestAttemptContent.title = title
-                alert["title"] = title
-            }
-            if let body = map["body"] as? String {
-                bestAttemptContent.body = body
-                alert["body"] = body
-            }
-            if let group = map["group"] as? String {
-                bestAttemptContent.threadIdentifier = group
-            }
-            if var sound = map["sound"] as? String {
-                if !sound.hasSuffix(".caf") {
-                    sound = "\(sound).caf"
-                }
-                soundName = sound
-                bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: sound))
-            }
-            if let badge = map["badge"] as? Int {
-                bestAttemptContent.badge = badge as NSNumber
-            }
-            var aps: [String: Any] = ["alert": alert]
-            if let soundName {
-                aps["sound"] = soundName
-            }
-            map["aps"] = aps
-        
-            userInfo = map
-            bestAttemptContent.userInfo = userInfo
-            return bestAttemptContent
-        } catch {
-            bestAttemptContent.body = "Decryption Failed"
-            bestAttemptContent.userInfo = ["aps": ["alert": ["body": bestAttemptContent.body]]]
-            throw NotificationContentHandlerError.error(content: bestAttemptContent)
-        }
-    }
-    
+		// 如果是加密推送，则使用密文配置 bestAttemptContent
+		do {
+			let map = try self.decrypt(ciphertext: ciphertext, iv: userInfo[Params.iv.name] as? String)
+			
+			var alert = [String: Any]()
+			var soundName: String? = nil
+			if let title = map[Params.title.name] as? String {
+				bestAttemptContent.title = title
+				alert[Params.title.name] = title
+			}
+			if let body = map[Params.body.name] as? String {
+				bestAttemptContent.body = body
+				alert[Params.body.name] = body
+			}
+			if let group = map[Params.group.name] as? String {
+				bestAttemptContent.threadIdentifier = group
+			}
+			if var sound = map[Params.sound.name] as? String {
+				if !sound.hasSuffix(Params.caf.name) {
+					sound = "\(sound).\(Params.caf.name)"
+				}
+				soundName = sound
+				bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: sound))
+			}
+			
+			var aps: [String: Any] = [Params.alert.name: alert]
+			if let soundName {
+				aps[Params.sound.name] = soundName
+			}
+			
+			userInfo[Params.aps.name] = aps
+			
+			for (key,value) in map{
+				userInfo[key] = value
+			}
+			
+			bestAttemptContent.userInfo = userInfo
+			
+		} catch {
+			bestAttemptContent.title = "Decryption Failed"
+			bestAttemptContent.body = ciphertext
+			bestAttemptContent.userInfo = [Params.aps.name: [Params.alert.name: [Params.body.name: bestAttemptContent.body,Params.title.name: bestAttemptContent.title]]]
+			throw NotificationContentHandlerError.error(content: bestAttemptContent)
+		}
+		
+		return bestAttemptContent
+	}
+	
+	
 	// MARK: 解密
 	func decrypt(ciphertext: String, iv: String? = nil) throws -> [AnyHashable: Any] {
 		
@@ -91,5 +95,5 @@ class CiphertextHandler: NotificationContentHandler {
 		}
 		return result
 	}
-
+	
 }

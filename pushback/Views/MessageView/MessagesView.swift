@@ -5,6 +5,10 @@
 //  Created by He Cho on 2024/8/10.
 //
 
+
+
+
+
 import SwiftUI
 import RealmSwift
 
@@ -15,8 +19,13 @@ struct MessagesView: View {
 	var group:String?
 	
 	init(group: String? = nil) {
-		self.group = group
-		self._messages = ObservedResults(Message.self, where: { $0.group == (group ?? "") }, sortDescriptor:  SortDescriptor(keyPath: "createDate", ascending: false))
+		if let group = group {
+			self.group = group
+			self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: "createDate", ascending: false))
+		}else{
+			self._messages = ObservedResults(Message.self, sortDescriptor:  SortDescriptor(keyPath: "createDate", ascending: false))
+		}
+		
 	}
 	
 	var body: some View {
@@ -50,7 +59,6 @@ struct MessagesView: View {
 					.font(.caption)
 			}
 		}
-	
 		.onAppear{
 			if let group = group{
 				RealmProxy.shared.read( group)

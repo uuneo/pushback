@@ -23,6 +23,7 @@ class PushbackManager: ObservableObject{
 	
 	@Published var defaultSounds:[URL] =  []
 	@Published var customSounds:[URL] =  []
+	@Published var premiumSubscriptionInfo: SubscriptionInfo?
 	
 	private let appGroupIdentifier = BaseConfig.groupName
 	

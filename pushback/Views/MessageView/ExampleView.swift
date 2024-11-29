@@ -151,13 +151,13 @@ extension ExampleView{
 			PushExampleModal(header: AnyView(Text( "自定义推送显示的logo")),
 							 footer: AnyView(Spacer()),
 							 title: String(localized:  "自定义icon"),
-							 params:  "\(String(localized: "推送内容"))?icon=https://pushback.uuneo.com/_media/avatar.png",
+							 params:  "\(String(localized: "推送内容"))?icon=\(BaseConfig.iconRemote)",
 							 index: 4),
 			
 			PushExampleModal(header: AnyView(Text( "下拉消息会显示图片")),
 							 footer: AnyView(Text( "携带一个image,会自动下载缓存")),
 							 title: String(localized:  "携带图片"),
-							 params:  "?title=\(String(localized: "标题" ))&body=\(String(localized: "内容" ))&image=https://pushback.uuneo.com/_media/avatar.png",
+							 params:  "?title=\(String(localized: "标题" ))&body=\(String(localized: "内容" ))&image=\(BaseConfig.iconRemote)",
 							 index: 5),
 			
 			PushExampleModal(header: AnyView(Text( "只能在消息提醒查看,不自动缓存")),
@@ -181,7 +181,7 @@ extension ExampleView{
 			PushExampleModal(header: AnyView(Text("URLScheme或者网址")),
 							 footer: AnyView(Text( "点击跳转app")),
 							 title: String(localized: "打开第三方App或者网站"),
-							 params:  "\(String(localized: "推送内容"))?icon=weixin&url=weixin://",
+							 params:  "\(String(localized: "推送内容"))?url=weixin://",
 							 index: 9),
 			
 			PushExampleModal(header: AnyView(Text( "默认分组名：默认")),
@@ -205,8 +205,9 @@ extension ExampleView{
  *  \(String(localized: "支持数字 level=0" ))
  level=passive：  \(String(localized: "仅添加到列表，不会亮屏提醒" ))
  *  \(String(localized: "支持数字 level=1" ))
- level=critical:  \(String(localized: "重要提醒，静音或专注模式可正常提醒" ))
- *  \(String(localized: "支持数字(2-10) level=2 声音最小 level=10 声音最大 " ))
+ level=critical: \(String(localized: "暂时不可用,等待苹果授权中..." ))  
+ *	\(String(localized: "重要提醒，静音或专注模式可正常提醒" ))
+ *  \(String(localized: "支持数字(2-10) level=2 声音最小 level=10 声音最大 ," ))
  """)),
 							 title: String(localized:  "通知类型"),
 							 params: "\(String(localized:  "时效性通知"))?level=timeSensitive",

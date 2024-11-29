@@ -11,20 +11,34 @@ import RevenueCat
 @main
 struct pushbackApp: SwiftUI.App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	@ObservedObject var manager = PushbackManager.shared
+	
+	let iapService: IAPService
+	
+	
 	init() {
-		Purchases.logLevel = .info
-		Purchases.configure(
-			with: .init(withAPIKey: "appl_YxyORDctxiNiyaANzrzSLiFGkYJ")
-				.with(userDefaults: DEFAULTSTORE)
-		)
+		RevenueCatService.configOnLaunch()
+		iapService = RevenueCatService()
 	}
 	var body: some Scene {
 		WindowGroup {
 			RootView{
 				ContentView()
-					
 			}
 			.environmentObject(PushbackManager.shared)
+			.task {
+				do {
+					try await iapService.monitoringSubscriptionInfoUpdates { [weak manager] newInfo in
+						guard let manager = manager else{ return }
+						DispatchQueue.main.async {
+							manager.premiumSubscriptionInfo = newInfo
+						}
+						debugPrint(newInfo)
+					}
+				} catch {
+					Logger.iapService.error("Error on handling customer info updates: \(error, privacy: .public)")
+				}
+			}
 		}
 	}
 }

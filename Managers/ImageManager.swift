@@ -85,6 +85,7 @@ class ImageManager {
 		}
 		
 		
+		
 		let imageCache = ImageCacheModal(url: url, local: (local ? url : nil), key: name)
 		
 		// Construct the full image path

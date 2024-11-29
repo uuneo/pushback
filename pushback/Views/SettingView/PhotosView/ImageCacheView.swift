@@ -60,7 +60,7 @@ struct ImageCacheView: View {
 	var body: some View {
 		
 		ZStack{
-			ScrollView{
+			ScrollView(.vertical, showsIndicators: false){
 				LazyVGrid(columns: columns, spacing: 10) {
 					PhotoPickerView(draggImage: $draggImage, imageSize: imageSize)
 					
@@ -145,6 +145,7 @@ struct ImageCacheView: View {
 			
 		}
 	
+
 	
 	
 	@ToolbarContentBuilder

@@ -16,6 +16,7 @@ struct ContentView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	@StateObject private var monitor = Monitors()
 	@ObservedResults(Message.self) private var messages
+	
 	@Default(.servers) private var servers
 	@Default(.firstStart) private var firstStart
 	@Default(.badgeMode) private var badgeMode
@@ -52,11 +53,16 @@ struct ContentView: View {
 					}
 				}
 				.onAppear{
+					
 					for msg in Message.messages{
-						if let realm = try? Realm(){
+						
+						if let realm = try? Realm(),
+						   realm.objects(Message.self).count == 0
+						{
 							try? realm.write {
 								realm.add(msg)
 							}
+							
 						}
 					}
 				}

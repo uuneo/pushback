@@ -107,7 +107,8 @@ struct IntroView<ActionView: View>: View {
                 
                 Text(intro.title)
                     .font(.system(size: 30))
-                    .fontWeight(.black)
+					.fontWeight(.bold)
+					.foregroundStyle(.blue)
                 
                 Text(intro.subTitle)
                     .font(.caption)

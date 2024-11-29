@@ -17,7 +17,6 @@ extension Defaults.Keys {
 	static let firstStart = Key<Bool>(BaseConfig.firstStartApp,default: true, suite: DEFAULTSTORE)
 	static let photoName = Key<String>(BaseConfig.customPhotoName, default: BaseConfig.photoName, suite: DEFAULTSTORE)
 	static let messageExpiration = Key<ExpirationTime>(BaseConfig.messageExpirtion,default: .forever,suite: DEFAULTSTORE)
-
 	
 }
 

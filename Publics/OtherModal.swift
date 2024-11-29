@@ -438,3 +438,4 @@ struct SoundDefault: Codable, Defaults.Serializable{
 	var name:String
 	static let def = SoundDefault(type: .local, name: "silence")
 }
+

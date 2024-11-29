@@ -19,7 +19,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 	@IBOutlet weak var loadingView:UIActivityIndicatorView!
 	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var videoPlayerView: UIView!
-	
+
 	var player: AVPlayer?
 	var playPauseButton: UIButton?
 	
@@ -62,19 +62,22 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 	func didReceive(_ notification: UNNotification) {
 		let userInfo = notification.request.content.userInfo
 		
-		
 		// 兼容bark
-		if userInfo["autocopy"] as? String == "1" || userInfo["automaticallycopy"] as? String == "1" {
-			if let copy = userInfo["copy"] as? String {
+		if userInfo[Params.autocopy.name] as? String == "1" {
+			if let copy = userInfo[Params.copy.name] as? String {
 				UIPasteboard.general.string = copy
 			} else {
 				UIPasteboard.general.string = notification.request.content.body
 			}
 		}
 		
-		if let videoUrl = userInfo["video"] as? String, let videoUrl = URL(string: videoUrl) {
+		
+		let videoList = mediaHandler(userInfo: userInfo, name: Params.video.name)
+		let imageList = mediaHandler(userInfo: userInfo, name: Params.image.name)
+		
+		if let videoUrl = videoList.first, let videoUrl = URL(string: videoUrl) {
 			VideoHandler(videoUrl: videoUrl)
-		} else if let imageUrl = userInfo["image"] as? String {
+		} else if let imageUrl = imageList.first {
 			ImageHandler(imageUrl: imageUrl)
 		} else {
 			self.preferredContentSize = CGSize(width: self.view.frame.width, height: 1)
@@ -88,7 +91,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 		case Identifiers.detailAction:
 			completion(.dismissAndForwardAction)
 		case Identifiers.copyAction:
-			if let copy = userInfo["copy"] as? String {
+			if let copy = userInfo[Params.copy.name] as? String {
 				UIPasteboard.general.string = copy
 			} else {
 				UIPasteboard.general.string = response.notification.request.content.body
@@ -259,6 +262,18 @@ extension NotificationViewController{
 		player.seek(to: .zero) // 将视频进度重置为开头
 		self.playPauseButton?.isHidden = false // 显示按钮
 	}
+	
+	
+	func mediaHandler(userInfo:[AnyHashable:Any], name:String) -> [String]{
+
+		if let media = userInfo[name] as? String{
+			return [media]
+		}else if let medias = userInfo[name] as? [String]{
+			return medias
+		}
+		return []
+	}
+
 	
 }
 

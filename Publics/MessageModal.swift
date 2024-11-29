@@ -10,19 +10,21 @@ import CoreTransferable
 import UniformTypeIdentifiers
 import SwiftyJSON
 
-
-final class Message: Object , ObjectKeyIdentifiable, Codable {
+final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var id:String = UUID().uuidString
 	@Persisted var title:String?
 	@Persisted var body:String?
 	@Persisted var icon:String?
 	@Persisted var group:String = "Basic"
 	@Persisted var url:String?
+	@Persisted var image:List<String>
+	@Persisted var video:List<String>
 	@Persisted var from:String?
 	@Persisted var mode:String = "999"
 	@Persisted var createDate = Date()
 	@Persisted var saveDays:Int = -1
 	@Persisted var read:Bool = false
+	@Persisted var userInfo:String
 	
 	override class func primaryKey() -> String? {
 		return "id"
@@ -40,11 +42,14 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		case icon
 		case group
 		case url
+		case image
+		case video
 		case from
 		case mode
 		case createDate
 		case saveDays
 		case read
+		case userInfo
 	}
 	
 	
@@ -54,6 +59,8 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		try container.encode(self.title, forKey: .title)
 		try container.encode(self.body, forKey: .body)
 		try container.encode(self.icon, forKey: .icon)
+		try container.encode(self.image, forKey: .image)
+		try container.encode(self.video, forKey: .video)
 		try container.encode(self.group, forKey: .group)
 		try container.encode(self.url, forKey: .url)
 		try container.encode(self.from, forKey: .from)
@@ -61,6 +68,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 		try container.encode(self.createDate, forKey: .createDate)
 		try container.encode(self.saveDays, forKey: .saveDays)
 		try container.encode(self.read, forKey: .read)
+		try container.encode(self.userInfo, forKey: .userInfo)
 	}
 	
 	
@@ -69,11 +77,9 @@ final class Message: Object , ObjectKeyIdentifiable, Codable {
 extension Message{
    
 		static let messages = [
+			Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999"]),
 			
-		   
-			Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"icon":"warn","mode":"999"]),
-			
-			Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","icon":"weixin","mode":"999"])
+			Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999"])
 		]
 	
 	
@@ -149,6 +155,7 @@ extension ResultsSection: @retroactive Hashable{
 
 extension Object {
 	func toDictionary() -> [String: AnyObject] {
+
 		var dicProps = [String: AnyObject]()
 		self.objectSchema.properties.forEach { property in
 			if property.isArray {

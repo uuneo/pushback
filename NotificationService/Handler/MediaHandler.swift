@@ -16,8 +16,11 @@ class MediaHandler:NotificationContentHandler{
 		let userInfo = bestAttemptContent.userInfo
 		
 		
+		let videoList = mediaHandler(userInfo: userInfo, name: Params.video.name)
+		let imageList = mediaHandler(userInfo: userInfo, name: Params.image.name)
+		
 		// 处理视频的情况
-		if let videoUrlString = userInfo["video"] as? String, let videoUrl = URL(string: videoUrlString) {
+		if let videoUrlString = videoList.first, let videoUrl = URL(string: videoUrlString) {
 			// 获取视频的第一帧
 			guard let uiImage = await getFirstFrameFromVideo(url: videoUrl) else {
 				return bestAttemptContent
@@ -45,7 +48,9 @@ class MediaHandler:NotificationContentHandler{
 		}
 		
 		
-		if let imageUrl = userInfo["image"] as? String{
+		
+		if let imageUrl =  imageList.first {
+		
 			
 			guard let localPath = await ImageManager.fetchImage(from: imageUrl)?.localPath else {
 				return bestAttemptContent
@@ -65,9 +70,8 @@ class MediaHandler:NotificationContentHandler{
 			///  import UniformTypeIdentifiers
 			///  'kUTTypePNG' was deprecated in iOS 15.0: Use  UTType.png.identifier
 			let attachment = try UNNotificationAttachment(
-				identifier: "image",
+				identifier: Params.image.name,
 				url: copyDestUrl,
-				
 				options: [UNNotificationAttachmentOptionsTypeHintKey:  UTType.png.identifier]
 			   
 			)
@@ -88,8 +92,8 @@ class MediaHandler:NotificationContentHandler{
 		   let assetImageGenerator = AVAssetImageGenerator(asset: asset)
 		   assetImageGenerator.appliesPreferredTrackTransform = true
 		   
-		   // 设置提取的时间点（视频的第0秒）
-		   let time = CMTimeMakeWithSeconds(3, preferredTimescale: 600)
+		   // 设置提取的时间点（视频的第1秒）
+		   let time = CMTimeMakeWithSeconds(1, preferredTimescale: 600)
 		   
 		   do {
 			   // 同步提取第一帧

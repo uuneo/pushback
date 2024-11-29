@@ -173,8 +173,6 @@ struct SettingsView: View {
 				Section {
 					
 					
-					
-					
 					Picker(selection: $messageExpiration) {
 						ForEach(ExpirationTime.allCases, id: \.self){ item in
 							Text(item.title)
@@ -212,13 +210,14 @@ struct SettingsView: View {
 					NavigationLink {
 						ImageCacheView()
 							.toolbar(.hidden, for: .tabBar)
-							.navigationTitle("图片")
+							.navigationTitle("图片缓存")
 						
 					} label: {
-						Label("图片", systemImage: "photo.on.rectangle")
+						Label("图片缓存", systemImage: "photo.on.rectangle")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle( .tint, Color.primary)
 					}
+					.showPayWell()
 					
 					
 					Picker(selection: $imageSaveDays) {
@@ -413,7 +412,7 @@ struct SettingsView: View {
 				Section {
 					
 					Button{
-						self.showPayWall.toggle()
+						
 					}label:{
 						HStack(alignment:.center){
 							Label {
@@ -430,19 +429,9 @@ struct SettingsView: View {
 							Image(systemName: "chevron.right")
 								.foregroundStyle(.gray)
 						}
-						.overlay {
-							if showPayWall{
-								Divider()
-									.presentPaywallIfNeeded(requiredEntitlementIdentifier: "premium"){ customInfo in
-										debugPrint(customInfo.localizedPriceString)
-										
-									}onDismiss: {
-										self.showPayWall = false
-									}
-							}
-						}
-					}
 					
+					}
+					.showPayWell(false)
 				}header: {
 					Text("写着玩的，别整这么客气")
 				}

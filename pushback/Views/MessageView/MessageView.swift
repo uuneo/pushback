@@ -12,22 +12,27 @@ struct MessageView: View {
 	
 	@EnvironmentObject private var manager:PushbackManager
 	@ObservedRealmObject var message:Message
-	
     var searchText:String = ""
+	@State var showRaw:Bool = false
+	
     var body: some View {
 		Section {
 			
-			HStack(alignment: .bottom){
+			HStack(alignment: .top){
+				
 				AvatarView(id: message.id, icon: message.icon, mode: message.mode)
 					.frame(width: 35, height: 35, alignment: .center)
 					.clipShape(RoundedRectangle(cornerRadius: 10))
-					.overlay(alignment: .topTrailing) {
+					.overlay(alignment: .topLeading) {
 						if let _ =  message.url {
-							Image(systemName: "link")
-								.foregroundStyle(.green)
-								.offset(x:5 , y: -5)
+							Image(systemName: "link.circle")
+								.symbolRenderingMode(.palette)
+								.foregroundStyle(Color.primary, .green)
+								.offset(x:-10 , y: -10)
 						}
 					}
+					.padding(.top,10)
+					
 					.onTapGesture {
 						if let url = message.url, let fileUrl = URL(string: url) {
 							manager.openUrl(url: fileUrl)
@@ -37,40 +42,57 @@ struct MessageView: View {
 				
 				VStack(alignment: .leading, spacing:5){
 					
-					HStack{
-						if let title = message.title{
-							highlightedText(searchText: searchText, text: title)
-								.font(.system(.headline))
-								.textSelection(.enabled)
-							Spacer()
-						}
-					}
-					
-					HStack{
-						if let body = message.body{
-							highlightedText(searchText: searchText, text: body)
-								.font(.subheadline)
-								.textSelection(.enabled)
+					if !showRaw{
+						HStack{
+							if let title = message.title{
+								highlightedText(searchText: searchText, text: title)
+									.font(.system(.headline))
+									.textSelection(.enabled)
+								
+								
+								Spacer()
+							}
 						}
 						
-						Spacer()
+						HStack{
+							if let body = message.body{
+								highlightedText(searchText: searchText, text: body)
+									.font(.subheadline)
+									.textSelection(.enabled)
+							}
+							
+							Spacer()
+						}
+						
+					}else{
+						Text(message.userInfo)
+							.font(.subheadline)
 					}
 					
+				
 				}
+				
 				.padding(10)
 				.background(Color.whiteGary)
 				.clipShape(RoundedRectangle(cornerRadius: 10))
+				
+				
+			
 				
 			}
 			
 			
 		}header: {
 			HStack{
-				Spacer()
 				Text(message.createDate.agoFormatString())
 					.font(.caption2)
 					.foregroundStyle(message.createDate.colorForDate())
+				Spacer()
 				
+				Text(showRaw ? "Close" : "Raw")
+					.onTapGesture {
+						self.showRaw.toggle()
+					}
 			}
 			
 		}

@@ -33,7 +33,7 @@ struct pushbackApp: SwiftUI.App {
 						DispatchQueue.main.async {
 							manager.premiumSubscriptionInfo = newInfo
 						}
-						debugPrint(newInfo)
+						debugPrint("update:",newInfo)
 					}
 				} catch {
 					Logger.iapService.error("Error on handling customer info updates: \(error, privacy: .public)")

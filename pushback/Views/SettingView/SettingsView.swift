@@ -217,7 +217,6 @@ struct SettingsView: View {
 							.symbolRenderingMode(.palette)
 							.foregroundStyle( .tint, Color.primary)
 					}
-					.showPayWell()
 					
 					
 					Picker(selection: $imageSaveDays) {
@@ -429,11 +428,18 @@ struct SettingsView: View {
 							Image(systemName: "chevron.right")
 								.foregroundStyle(.gray)
 						}
-					
+						
 					}
 					.showPayWell(false)
 				}header: {
-					Text("写着玩的，别整这么客气")
+					if let premiumSubscriptionInfo =   manager.premiumSubscriptionInfo,
+					   premiumSubscriptionInfo.canAccessContent
+					{
+						Text(premiumSubscriptionInfo.subscriptionState.description)
+					}else{
+						Text("写着玩的，别整这么客气")
+					}
+					
 				}
 				
 				

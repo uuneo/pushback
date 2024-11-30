@@ -21,7 +21,7 @@ class CallHandler: NotificationContentHandler {
 		
 		let userInfo = bestAttemptContent.userInfo
 		
-		guard userInfo["call"] as? String == "1" || userInfo["mode"] as? String == "1"  else {
+		guard userInfo[Params.call.name] as? String == "1" || userInfo["mode"] as? String == "1"  else {
 			return bestAttemptContent
 		}
 		self.content = bestAttemptContent
@@ -31,8 +31,6 @@ class CallHandler: NotificationContentHandler {
 		self.sendLocalNotification()
 		
 		// 远程推送在响铃结束后静默不显示
-		// 至于iOS15以下的设备，因不支持这个特性会在响铃结束后再展示一次, 但会取消声音
-		
 		self.content?.interruptionLevel = .passive
 		
 		await startAudioWork()
@@ -93,14 +91,14 @@ class CallHandler: NotificationContentHandler {
 		let soundName: String
 		let soundType: String
 		
-		if let sound = ((content.userInfo["aps"] as? [String: Any])?["sound"] as? String)?.split(separator: "."),
+		if let sound = ((content.userInfo[Params.aps.name] as? [String: Any])?[Params.sound.name] as? String)?.split(separator: "."),
 		   let name = sound.first, let ext = sound.last{
 			debugPrint(type(of: name),type(of: ext))
 			soundName = String(name)
 			soundType = String(ext)
 		}else{
 			soundName = "oldphone"
-			soundType = "caf"
+			soundType = Params.caf.name
 		}
 		
 		

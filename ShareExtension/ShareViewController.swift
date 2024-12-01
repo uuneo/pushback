@@ -73,7 +73,11 @@ fileprivate struct ShareView: View {
 				.padding(.horizontal, -15)
 				
 				/// Save Button
-				Button(action: saveItems, label: {
+				Button(action: {
+					saveItems()
+					extensionContext?.open(URL(string: "pushback://")!)
+					
+				}, label: {
 					Text( "保存")
 						.font(.title3)
 						.fontWeight(.semibold)

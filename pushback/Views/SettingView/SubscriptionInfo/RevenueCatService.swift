@@ -38,7 +38,7 @@ extension RevenueCatService: IAPService {
         Purchases.logLevel = .info
         Purchases.configure(with:
                 .init(withAPIKey: RCConstants.apiKey)
-                .with(entitlementVerificationMode: .informational)
+				.with(entitlementVerificationMode: .informational)
         )
     }
     

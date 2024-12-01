@@ -10,6 +10,8 @@ import CoreTransferable
 import UniformTypeIdentifiers
 import SwiftyJSON
 
+
+
 final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var id:String = UUID().uuidString
 	@Persisted var title:String?
@@ -29,7 +31,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	override class func primaryKey() -> String? {
 		return "id"
 	}
-
+	
 	override class func indexedProperties() -> [String] {
 		return ["group", "createDate", "from"]
 	}
@@ -75,12 +77,12 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 }
 
 extension Message{
-   
-		static let messages = [
-			Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999"]),
-			
-			Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999"])
-		]
+	
+	static let messages = [
+		Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999"]),
+		
+		Message(value: ["group":  "App","title":String(localized: "点击跳转其他app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999"])
+	]
 	
 	
 	
@@ -155,28 +157,43 @@ extension ResultsSection: @retroactive Hashable{
 
 extension Object {
 	func toDictionary() -> [String: AnyObject] {
-
+		
 		var dicProps = [String: AnyObject]()
 		self.objectSchema.properties.forEach { property in
+			
+			
+			
+			
 			if property.isArray {
-				var arr: [[String: AnyObject]] = []
-				for obj in self.dynamicList(property.name) {
-					arr.append(obj.toDictionary())
+				// 处理 List 类型
+				if let listValue = self[property.name] as? List<String> {
+					var images:[String] = []
+					for item in listValue {
+						images.append(item)
+					}
+					dicProps[property.name] = images as AnyObject
+				} else {
+					var arr: [[String: AnyObject]] = []
+					for obj in self.dynamicList(property.name) {
+						arr.append(obj.toDictionary())
+					}
+					dicProps[property.name] = arr as AnyObject
 				}
-				dicProps[property.name] = arr as AnyObject
-			} else if let value = self[property.name] as? Object {
+			}else if let value = self[property.name] as? Object {
 				dicProps[property.name] = value.toDictionary() as AnyObject
 			} else if let value = self[property.name] as? Date {
 				dicProps[property.name] = Int64(value.timeIntervalSince1970) as AnyObject
 			} else if let value = self[property.name] as? Bool {
 				dicProps[property.name] = value as NSNumber  // 使用 NSNumber 来包装 Bool
-			} else {
+			}else {
 				let value = self[property.name]
 				dicProps[property.name] = value as AnyObject
 			}
 		}
 		return dicProps
 	}
+	
+	
 }
 
 
@@ -184,8 +201,8 @@ extension Object {
 struct MessageExportJson:Transferable, Identifiable {
 	static var transferRepresentation: some TransferRepresentation {
 		DataRepresentation(exportedContentType: .trnExportType, exporting: \.data)
-			.suggestedFileName("pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm_ss"))")
-			
+			.suggestedFileName("pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))")
+		
 	}
 	
 	public var id:UUID = UUID()
@@ -197,6 +214,7 @@ struct MessageExportJson:Transferable, Identifiable {
 		
 		let data = try! JSON(results).rawData(options: JSONSerialization.WritingOptions.prettyPrinted)
 		self.data = data
+		
 	}
 }
 

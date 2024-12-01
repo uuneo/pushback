@@ -154,7 +154,14 @@
       }
     },
     "Close" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
     },
     "Iv：" : {
       "localizations" : {
@@ -237,7 +244,14 @@
       }
     },
     "Raw" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raw"
+          }
+        }
+      }
     },
     "URLScheme或者网址" : {
       "localizations" : {
@@ -910,7 +924,14 @@
       }
     },
     "图片缓存" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picture cache"
+          }
+        }
+      }
     },
     "图片默认保存时间，本地化图片不受影响" : {
       "localizations" : {
@@ -1612,6 +1633,16 @@
         }
       }
     },
+    "未订阅" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not subscribed"
+          }
+        }
+      }
+    },
     "未读" : {
       "localizations" : {
         "en" : {
@@ -2013,12 +2044,32 @@
         }
       }
     },
+    "订阅至%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe to %@"
+          }
+        }
+      }
+    },
     "设置" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "试用期至%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trial period to %@"
           }
         }
       }

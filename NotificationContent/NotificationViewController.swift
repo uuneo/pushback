@@ -12,7 +12,6 @@ import UserNotifications
 import UserNotificationsUI
 
 
-
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
 	
 	

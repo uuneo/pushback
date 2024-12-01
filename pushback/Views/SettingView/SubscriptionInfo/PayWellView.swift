@@ -25,8 +25,9 @@ struct PayWellViewModifier: ViewModifier {
 			if showPayWall{
 				content
 					.disabled(disable)
-					.presentPaywallIfNeeded(requiredEntitlementIdentifier: "premium"){ customInfo in
-						debugPrint(customInfo.localizedPriceString)
+					.presentPaywallIfNeeded(requiredEntitlementIdentifier: RCConstants.premium){ customInfo in
+						
+						debugPrint("genggai:\(customInfo)")
 					}onDismiss: {
 						self.showPayWall = false
 					}

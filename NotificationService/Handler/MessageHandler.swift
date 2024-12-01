@@ -61,6 +61,7 @@ class MessageHandler: NotificationContentHandler{
 				message.url = url
 				message.group = group
 				message.icon = icon
+
 				message.image = mediaHandler(userInfo: userInfo, name: Params.image.name)
 				message.video = mediaHandler(userInfo: userInfo, name: Params.video.name)
 				message.createDate = Date()

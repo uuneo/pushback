@@ -53,16 +53,11 @@ struct ContentView: View {
 					}
 				}
 				.onAppear{
-					
-					for msg in Message.messages{
-						
-						if let realm = try? Realm(),
-						   realm.objects(Message.self).count == 0
-						{
+					if let realm = try? Realm(), realm.objects(Message.self).count == 0{
+						for msg in Message.messages{
 							try? realm.write {
 								realm.add(msg)
 							}
-							
 						}
 					}
 				}

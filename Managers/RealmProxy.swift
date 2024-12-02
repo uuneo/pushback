@@ -181,7 +181,10 @@ class RealmProxy{
 				
 
 						let messageObject = Message()
-						messageObject.id = id
+						
+						if let idString = UUID(uuidString: id){
+							messageObject.id = idString
+						}
 						messageObject.title = title
 						messageObject.body = body
 						messageObject.url = url

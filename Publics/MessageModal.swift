@@ -13,28 +13,20 @@ import SwiftyJSON
 
 
 final class Message: Object , ObjectKeyIdentifiable, Codable  {
-	@Persisted var id:String = UUID().uuidString
+	@Persisted(primaryKey: true) var id:UUID
+	@Persisted(indexed: true) var group:String = "Basic"
+	@Persisted(indexed: true) var createDate:Date
 	@Persisted var title:String?
 	@Persisted var body:String?
 	@Persisted var icon:String?
-	@Persisted var group:String = "Basic"
 	@Persisted var url:String?
 	@Persisted var image:List<String>
 	@Persisted var video:List<String>
 	@Persisted var from:String?
 	@Persisted var mode:String = "999"
-	@Persisted var createDate = Date()
 	@Persisted var saveDays:Int = -1
 	@Persisted var read:Bool = false
 	@Persisted var userInfo:String
-	
-	override class func primaryKey() -> String? {
-		return "id"
-	}
-	
-	override class func indexedProperties() -> [String] {
-		return ["group", "createDate", "from"]
-	}
 	
 	
 	enum CodingKeys: CodingKey {
@@ -58,16 +50,16 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	func encode(to encoder: any Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(self.id, forKey: .id)
+		try container.encode(self.group, forKey: .group)
+		try container.encode(self.createDate, forKey: .createDate)
 		try container.encode(self.title, forKey: .title)
 		try container.encode(self.body, forKey: .body)
 		try container.encode(self.icon, forKey: .icon)
 		try container.encode(self.image, forKey: .image)
 		try container.encode(self.video, forKey: .video)
-		try container.encode(self.group, forKey: .group)
 		try container.encode(self.url, forKey: .url)
 		try container.encode(self.from, forKey: .from)
 		try container.encode(self.mode, forKey: .mode)
-		try container.encode(self.createDate, forKey: .createDate)
 		try container.encode(self.saveDays, forKey: .saveDays)
 		try container.encode(self.read, forKey: .read)
 		try container.encode(self.userInfo, forKey: .userInfo)
@@ -161,9 +153,6 @@ extension Object {
 		var dicProps = [String: AnyObject]()
 		self.objectSchema.properties.forEach { property in
 			
-			
-			
-			
 			if property.isArray {
 				// 处理 List 类型
 				if let listValue = self[property.name] as? List<String> {
@@ -179,6 +168,8 @@ extension Object {
 					}
 					dicProps[property.name] = arr as AnyObject
 				}
+			}else if let value = self[property.name] as? UUID{
+				dicProps[property.name] = value.uuidString as AnyObject
 			}else if let value = self[property.name] as? Object {
 				dicProps[property.name] = value.toDictionary() as AnyObject
 			} else if let value = self[property.name] as? Date {
@@ -209,12 +200,8 @@ struct MessageExportJson:Transferable, Identifiable {
 	public var data: Data
 	
 	init(data: [Message]) {
-		
-		let results = data.compactMap({ $0.toDictionary() })
-		
-		let data = try! JSON(results).rawData(options: JSONSerialization.WritingOptions.prettyPrinted)
+		let data = try! JSON(data.compactMap({ $0.toDictionary() })).rawData(options: JSONSerialization.WritingOptions.prettyPrinted)
 		self.data = data
-		
 	}
 }
 

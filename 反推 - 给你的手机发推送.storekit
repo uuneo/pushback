@@ -1,0 +1,198 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "E13DACF6",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "19.99",
+      "familyShareable" : false,
+      "internalID" : "6738459675",
+      "localizations" : [
+        {
+          "description" : "Support developer continuous development",
+          "displayName" : "Unlock Full Content",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "支持开发者持续开发",
+          "displayName" : "解锁完整内容",
+          "locale" : "zh_CN"
+        }
+      ],
+      "productID" : "pushback_once_18",
+      "referenceName" : "开发者支持",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6615073345",
+    "_compatibilityTimeRate" : {
+      "3" : 6
+    },
+    "_developerTeamID" : "FUWV6U942Q",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 754576534.250916,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ],
+    "_timeRate" : 13
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21582431",
+      "localizations" : [
+
+      ],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+            {
+              "eligibility" : [
+                "new"
+              ],
+              "internalID" : "BD0A60D2",
+              "isStackable" : true,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "pushback free",
+              "subscriptionPeriod" : "P1Y"
+            }
+          ],
+          "displayPrice" : "3.99",
+          "familyShareable" : true,
+          "groupNumber" : 2,
+          "internalID" : "6738301302",
+          "introductoryOffer" : {
+            "internalID" : "2C23022F",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : " automatically renewed each year",
+              "displayName" : "Unlock Full Content",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "年度订阅，每年自动续订",
+              "displayName" : "解锁完整内容",
+              "locale" : "zh_CN"
+            }
+          ],
+          "productID" : "pushback_yearly_128_intro7days_free",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "年度持续支持",
+          "subscriptionGroupID" : "21582431",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "6738301125",
+          "introductoryOffer" : {
+            "internalID" : "969BA707",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "每月自动续订",
+              "displayName" : "解锁完整内容",
+              "locale" : "zh_CN"
+            },
+            {
+              "description" : "Automatic monthly renewal",
+              "displayName" : "Unlock Full Content",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "pushback_monthly_18_intro7days_free",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "月度持续支持",
+          "subscriptionGroupID" : "21582431",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

@@ -21,6 +21,14 @@ struct ServersConfigView: View {
 	@State private var showAddView:Bool = false
 	@State private var cloudDatas:[PushServerModal] = []
 	@FocusState private var serverNameFocus
+	
+	
+	var filteredCloudDatas:[PushServerModal]{
+		self.cloudDatas.filter { item in
+			// 筛选不在本地服务器列表中的云服务器
+			!servers.contains(where: { $0.url == item.url && $0.key == item.key })
+		}
+	}
 	var body: some View {
 		NavigationStack{
 			List{
@@ -185,19 +193,17 @@ struct ServersConfigView: View {
 				
 				
 				
-				if  self.cloudDatas.count > 0{
+				
 					
 					Section{
 						
 						
-						ForEach(self.cloudDatas, id: \.id){ item in
-							if servers.count(where: {$0.url == item.url && $0.key == item.key}) == 0{
-								
+						ForEach(filteredCloudDatas, id: \.id){ item in
+						
 								ServerCardView(item: item,isCloud: true)
 								.padding(.vertical,5)
 								.swipeActions(edge: .leading, allowsFullSwipe: true) {
 									Button{
-										
 										Defaults[.servers].insert(item, at: 0)
 										self.showAddView.toggle()
 									}label:{
@@ -218,7 +224,7 @@ struct ServersConfigView: View {
 										Text("删除")
 									}.tint(Color.red)
 								}
-							}
+							
 							
 						}
 					}header: {
@@ -229,11 +235,12 @@ struct ServersConfigView: View {
 								.fontWeight(.medium)
 								
 							Spacer()
+							Text("\(self.cloudDatas.count)")
 						}
 						.padding(.bottom)
 					}
 					
-				}
+				
 				
 				
 			}
@@ -305,7 +312,7 @@ struct ServersConfigView: View {
 			}
 			
 		}
-		.presentationDetents([.height(300),.medium])
+		.presentationDetents([.height(300),.medium, .large])
 	}
 	
 	

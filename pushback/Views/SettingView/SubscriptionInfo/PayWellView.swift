@@ -19,6 +19,9 @@ struct PayWellViewModifier: ViewModifier {
 		if let premiumSubscriptionInfo = manager.premiumSubscriptionInfo,
 		   premiumSubscriptionInfo.canAccessContent {
 			content
+				.onAppear{
+					debugPrint(premiumSubscriptionInfo)
+				}
 		}else{
 			
 			
@@ -26,7 +29,6 @@ struct PayWellViewModifier: ViewModifier {
 				content
 					.disabled(disable)
 					.presentPaywallIfNeeded(requiredEntitlementIdentifier: RCConstants.premium){ customInfo in
-						
 						debugPrint("genggai:\(customInfo)")
 					}onDismiss: {
 						self.showPayWall = false

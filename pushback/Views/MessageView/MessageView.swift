@@ -20,7 +20,7 @@ struct MessageView: View {
 			
 			HStack(alignment: .top){
 				
-				AvatarView(id: message.id, icon: message.icon, mode: message.mode)
+				AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
 					.frame(width: 35, height: 35, alignment: .center)
 					.clipShape(RoundedRectangle(cornerRadius: 10))
 					.overlay(alignment: .topLeading) {
@@ -89,10 +89,13 @@ struct MessageView: View {
 					.foregroundStyle(message.createDate.colorForDate())
 				Spacer()
 				
-				Text(showRaw ? "Close" : "Raw")
-					.onTapGesture {
-						self.showRaw.toggle()
-					}
+				if message.userInfo.count > 10{
+					Text(showRaw ? "Close" : "Raw")
+						.onTapGesture {
+							self.showRaw.toggle()
+						}
+				}
+				
 			}
 			
 		}

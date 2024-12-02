@@ -145,7 +145,7 @@ extension ExampleView{
 			PushExampleModal(header: AnyView(Text( "右上角点击耳机查看所有铃声")),
 							 footer: AnyView(Text( "可以为推送设置不同的铃声")),
 							 title: String(localized:  "推送铃声"),
-							 params: "\(String(localized: "推送内容"))?sound=minuet",
+							 params: "\(String(localized: "推送内容"))?sound=tuola",
 							 index: 3),
 			
 			PushExampleModal(header: AnyView(Text( "自定义推送显示的logo")),

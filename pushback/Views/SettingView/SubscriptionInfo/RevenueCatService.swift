@@ -10,7 +10,7 @@ import Foundation
 
 enum RCConstants {
 	static var apiKey: String { "appl_YxyORDctxiNiyaANzrzSLiFGkYJ" }
-	static var premium: String { "premium" }
+	static var premium: String { "Premium" }
 }
 
 protocol IAPService {
@@ -44,6 +44,7 @@ extension RevenueCatService: IAPService {
     
     func monitoringSubscriptionInfoUpdates(updateHandler: @escaping (SubscriptionInfo) -> Void) async throws {
         for try await customerInfo in service.customerInfoStream {
+			
             guard customerInfo.entitlements.verification.isVerified else {
                 throw IAPError.verificationFailed
             }

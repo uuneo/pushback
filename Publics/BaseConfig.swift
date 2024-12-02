@@ -31,7 +31,7 @@ class BaseConfig {
 	static let  realmName = "Meowrld.realm"
 	static let  kStopCallHandlerKey = "stopCallHandlerNotification"
 	static let  Sounds = "Sounds"
-	static let  realmModalVersion:UInt64 = 23
+	static let  realmModalVersion:UInt64 = 25
 	static let  defaultSound = "defaultSound"
 	static let  activeAppIcon = "setting_active_app_icon"
 	static let 	customPhotoName = "CustomPhotoName"

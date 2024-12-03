@@ -333,7 +333,7 @@ struct SettingsView: View {
 				}
 				
 				
-				Section(header:Text( "其他" )) {
+				Section(header:Text( "系统" )) {
 					
 					
 					Button{
@@ -350,30 +350,6 @@ struct SettingsView: View {
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
 								
-							}
-							
-							Spacer()
-							Image(systemName: "chevron.right")
-								.foregroundStyle(.gray)
-						}
-						
-					}
-					
-					Button{
-						manager.fullPage = .web
-						manager.webUrl =  BaseConfig.problemWebUrl
-						
-					}label: {
-						HStack(alignment:.center){
-							Label {
-								Text(  "常见问题")
-									
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(systemName: "questionmark.circle")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
 							}
 							
 							Spacer()
@@ -410,37 +386,62 @@ struct SettingsView: View {
 				
 				Section {
 					
-					Button{
-						
-					}label:{
-						HStack(alignment:.center){
-							Label {
-								Text("开发者支持计划")
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(systemName: "creditcard.circle")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-							}
-							
-							Spacer()
-							Image(systemName: "chevron.right")
-								.foregroundStyle(.gray)
-						}
-						
-					}
-					.showPayWell(false)
-				}header: {
-					if let premiumSubscriptionInfo =   manager.premiumSubscriptionInfo,
+					if let premiumSubscriptionInfo = manager.premiumSubscriptionInfo,
 					   premiumSubscriptionInfo.canAccessContent
 					{
-						Text(premiumSubscriptionInfo.subscriptionState.description)
+						HStack{
+							Spacer()
+							Text(premiumSubscriptionInfo.subscriptionState.description)
+							Spacer()
+						}
+						
 					}else{
-						Text("写着玩的，别整这么客气")
+						Button{
+							
+						}label:{
+							
+							HStack(alignment:.center){
+								
+								
+								Label {
+									
+									Text("开发者支持计划")
+										.foregroundStyle(.textBlack)
+								} icon: {
+									Image(systemName: "creditcard.circle")
+										.scaleEffect(0.9)
+										.symbolRenderingMode(.palette)
+										.foregroundStyle(.tint, Color.primary)
+								}
+								
+								Spacer()
+								Image(systemName: "chevron.right")
+									.foregroundStyle(.gray)
+							}
+							
+						}
+						.showPayWell(false)
 					}
-					
+				}footer:{
+					HStack{
+						Spacer()
+						Text("版本号: ")
+						var buildVersion:String{
+							// 版本号
+							let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+							// build号
+							let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+							
+							return "\(appVersion)(\(buildVersion))"
+						}
+						
+						Text(buildVersion)
+						Spacer()
+					}.padding(.vertical)
 				}
+				
+				
+				
 				
 				
 				

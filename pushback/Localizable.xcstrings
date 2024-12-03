@@ -163,9 +163,6 @@
         }
       }
     },
-    "Hello, World!" : {
-
-    },
     "Iv：" : {
       "localizations" : {
         "en" : {
@@ -616,16 +613,6 @@
         }
       }
     },
-    "其他" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Other"
-          }
-        }
-      }
-    },
     "其他错误" : {
       "localizations" : {
         "en" : {
@@ -647,6 +634,7 @@
       }
     },
     "写着玩的，别整这么客气" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1112,16 +1100,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d images selected"
-          }
-        }
-      }
-    },
-    "常见问题" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Frequently Asked Questions"
           }
         }
       }
@@ -1736,6 +1714,16 @@
         }
       }
     },
+    "没有找到历史服务器" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No iCloud Servers"
+          }
+        }
+      }
+    },
     "没有数据" : {
       "localizations" : {
         "en" : {
@@ -1877,6 +1865,16 @@
         }
       }
     },
+    "版本号: " : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version:"
+          }
+        }
+      }
+    },
     "示例" : {
       "localizations" : {
         "en" : {
@@ -1933,6 +1931,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algorithm setup"
+          }
+        }
+      }
+    },
+    "系统" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
           }
         }
       }

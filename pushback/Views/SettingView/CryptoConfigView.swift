@@ -190,20 +190,11 @@ struct CryptoConfigView: View {
 						.padding(.horizontal)
 					
 				}.buttonStyle(BorderedProminentButtonStyle())
-				
-				
 				Spacer()
 			} .listRowBackground(Color.clear)
-			
-			
-			
-			
-			
-			
-		}.navigationTitle( "算法配置")
-			
-		
-			.toolbar{
+		}
+		.navigationTitle( "算法配置")
+		.toolbar{
 				
 				ToolbarItemGroup(placement: .keyboard) {
 					Button("清除") {
@@ -236,7 +227,6 @@ struct CryptoConfigView: View {
 		
 	}
 	func verifyKey()-> Bool{
-		debugPrint(cryptoConfig.key.count , expectKeyLength)
 		if cryptoConfig.key.count != expectKeyLength{
 			cryptoConfig.key = ""
 		

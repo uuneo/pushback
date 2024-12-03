@@ -60,6 +60,25 @@ struct ContentView: View {
 							}
 						}
 					}
+					
+					if servers.isEmpty {
+						PushServerCloudKit.shared.fetchPushServerModals { response in
+							switch response {
+							case .success(let results):
+								withAnimation(.easeInOut) {
+									if let result = results.first{
+										self.servers.append(result)
+										return
+									}
+								}
+							case .failure(let failure):
+								debugPrint(failure)
+								Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
+							}
+							
+							self.servers.append(PushServerModal(url: BaseConfig.defaultServer))
+						}
+					}
 				}
 				.background(.white.gradient)
 			}
@@ -86,9 +105,7 @@ struct ContentView: View {
 		.task {
 			for await value in Defaults.updates(.servers) {
 				try? await Task.sleep(for: .seconds(1))
-				await MainActor.run {
-					manager.registers()
-				}
+				await manager.registers()
 				PushServerCloudKit.shared.updatePushServers(items: value)
 			}
 		}
@@ -262,7 +279,10 @@ extension ContentView{
 			}
 			
 			HapticsManager.shared.restartEngine()
-			manager.registers()
+			Task.detached {
+				await manager.registers()
+			}
+			
 		case .background:
 			UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
 			Task(priority: .background) {

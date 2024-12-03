@@ -17,12 +17,12 @@ struct ServersConfigView: View {
 	@State private var serverText:String = ""
 	@State private var serverName:String = ""
 	@State private var pickerSelect:requestHeader = .https
-	var showClose:Bool = false
 	@State private var showAddView:Bool = false
 	@State private var cloudDatas:[PushServerModal] = []
 	@FocusState private var serverNameFocus
 	
 	
+	var showClose:Bool = false
 	var filteredCloudDatas:[PushServerModal]{
 		self.cloudDatas.filter { item in
 			// 筛选不在本地服务器列表中的云服务器
@@ -32,8 +32,9 @@ struct ServersConfigView: View {
 	var body: some View {
 		NavigationStack{
 			List{
-	
+					
 				ForEach(servers, id: \.id){ item in
+					
 					ServerCardView( item: item)
 					.padding(.vertical,5)
 					.swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -65,15 +66,23 @@ struct ServersConfigView: View {
 							Text( "重置Key")
 						}.tint(.red)
 					}
+					.swipeActions(edge: .trailing,allowsFullSwipe: true) {
+						Button{
+							if servers.count > 1{
+								if let index = servers.firstIndex(where: {$0.id == item.id}){
+									servers.remove(at: index)
+								}
+							}else{
+								Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
+							}
+						}label:{
+							Text("删除")
+								
+						}.tint(.red)
+						
+					}
 					
 				}
-				.onDelete(perform: { indexSet in
-					if servers.count > 1{
-						servers.remove(atOffsets: indexSet)
-					}else{
-						Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
-					}
-				})
 				.onMove(perform: { indices, newOffset in
 					servers.move(fromOffsets: indices, toOffset: newOffset)
 				})
@@ -82,14 +91,14 @@ struct ServersConfigView: View {
 				
 				
 			}
+			.padding(.vertical)
 			.listRowSpacing(20)
 			.refreshable {
 				// MARK: - 刷新策略
-				manager.registers(){ result in
+				await manager.registers(){ result in
 					Toast.shared.present(title: String(localized: "操作成功"), symbol: .info)
 					
 				}
-				
 			}
 			.toolbar{
 				

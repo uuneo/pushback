@@ -19,9 +19,7 @@ struct PayWellViewModifier: ViewModifier {
 		if let premiumSubscriptionInfo = manager.premiumSubscriptionInfo,
 		   premiumSubscriptionInfo.canAccessContent {
 			content
-				.onAppear{
-					debugPrint(premiumSubscriptionInfo)
-				}
+				
 		}else{
 			
 			
@@ -29,29 +27,38 @@ struct PayWellViewModifier: ViewModifier {
 				content
 					.disabled(disable)
 					.presentPaywallIfNeeded(requiredEntitlementIdentifier: RCConstants.premium){ customInfo in
-						debugPrint("genggai:\(customInfo)")
+						debugPrint("\(customInfo)")
 					}onDismiss: {
 						self.showPayWall = false
 					}
 			}else{
 				content
 					.disabled(disable)
-					.overlay(alignment: .topTrailing){
-						Button{
-							self.showPayWall.toggle()
-						}label: {
-							Image(systemName:  "lock.shield")
-								
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-								.padding(5)
-								.background(
-									Circle()
-										.fill(.ultraThinMaterial)
-								)
+					.overlay{
+						ZStack(alignment: .topTrailing){
+							Color.white
+								.opacity(0.1)
+								.blur(radius: 10)
+							VStack{
+								Spacer()
+								Image(systemName:  "lock.shield")
+									.symbolRenderingMode(.palette)
+									.foregroundStyle(.tint, Color.primary)
+									.background(
+										Circle()
+											.fill(.ultraThinMaterial)
+									)
+									.padding(.trailing, 15)
+								Spacer()
+							}
+							
 						}
+						
 					}
-					
+					.onTapGesture {
+						self.showPayWall.toggle()
+					}
+				
 			}
 			
 			

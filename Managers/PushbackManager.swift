@@ -196,20 +196,17 @@ extension PushbackManager{
 	///  - Parameters:
 	///  server: 服务器数据
 	///  completion: 列表 ( 服务器数据，提示消息 )
-	func registers(completion: (([(PushServerModal,String)])-> Void)? = nil){
-		Task.detached(priority: .background) {
-			
-			await withTaskGroup(of: (PushServerModal,String).self) { group in
-				for server in Defaults[.servers] {
-					group.addTask {await self.register(server: server)}
-				}
-				
-				var results:[(PushServerModal,String)] = []
-				for await result in group{
-					results.append(result)
-				}
-				completion?(results)
+	func registers(completion: (([(PushServerModal,String)])-> Void)? = nil) async {
+		await withTaskGroup(of: (PushServerModal,String).self) { group in
+			for server in Defaults[.servers] {
+				group.addTask {await self.register(server: server)}
 			}
+			
+			var results:[(PushServerModal,String)] = []
+			for await result in group{
+				results.append(result)
+			}
+			completion?(results)
 		}
 	}
 	

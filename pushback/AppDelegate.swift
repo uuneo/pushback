@@ -37,7 +37,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 			
 			Defaults[.deviceToken] = token
 			// MARK: 注册设备
-			PushbackManager.shared.registers()
+			Task.detached {
+				await PushbackManager.shared.registers()
+			}
 		}
 		
 		

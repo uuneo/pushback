@@ -65,6 +65,7 @@ struct ChnageKeyCenterView: View {
 				InputKey()
 				
 				CodeButton()
+					
 			}
 			.slideFadeIn(show: appear[2], offset: 10)
 			
@@ -160,7 +161,8 @@ struct ChnageKeyCenterView: View {
 				}
 				
 				
-			}
+			}.showPayWell()
+			
 
 		}.padding()
 		

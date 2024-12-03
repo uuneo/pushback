@@ -9,7 +9,7 @@
 
 extension Defaults.Keys {
 	static let deviceToken = Key<String>(BaseConfig.deviceToken, default: "", suite: DEFAULTSTORE)
-	static let servers = Key<[PushServerModal]>(BaseConfig.server, default: PushServerModal.serverArr, suite: DEFAULTSTORE)
+	static let servers = Key<[PushServerModal]>(BaseConfig.server, default: [], suite: DEFAULTSTORE)
 	static let appIcon = Key<AppIconEnum>(BaseConfig.activeAppIcon, default: .def, suite: DEFAULTSTORE)
 	static let cryptoConfig = Key<CryptoModal>(BaseConfig.CryptoSettingFields, default: CryptoModal.data, suite: DEFAULTSTORE)
 	static let badgeMode = Key<BadgeAutoMode>(BaseConfig.badgemode, default: .auto, suite: DEFAULTSTORE)

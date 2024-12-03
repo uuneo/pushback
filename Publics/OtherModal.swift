@@ -234,9 +234,6 @@ struct PushServerModal: Codable, Identifiable,Equatable, Defaults.Serializable, 
 		self.key = key
 		self.status = statues
 	}
-	
-	static let serverDefault = PushServerModal(url: BaseConfig.defaultServer, key: "")
-	static let serverArr = [serverDefault]
   
 }
 

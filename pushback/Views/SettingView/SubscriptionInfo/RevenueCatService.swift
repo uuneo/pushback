@@ -75,12 +75,15 @@ private extension RevenueCatService {
     }
     
     func convertCustomerInfo(_ customerInfo: CustomerInfo) -> SubscriptionInfo? {
-        guard
-            let entitlement = customerInfo.entitlements[entitlement],
-            entitlement.isActive,
-            let expirationDate = entitlement.expirationDate else {
+		
+        guard let entitlement = customerInfo.entitlements[entitlement],
+			  entitlement.isActive,
+			  let expirationDate = entitlement.expirationDate
+		else {
             return nil
         }
+	
+		
         let state: SubscriptionState = switch entitlement.periodType {
         case .normal: .subscribed(endDate: expirationDate)
         case .intro, .trial: .inTrial(endDate: expirationDate)

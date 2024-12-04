@@ -61,49 +61,50 @@ class NetworkManager {
 	
 	
 	func sign(url: String, method: requestMethod = .get, params: [String: Any]?, key:String) -> String{
-		var newParams:[String: Any] = [:]
-		newParams["url"] = url
-		newParams["method"] = method
-		if let params = params{
-			for (key,value) in params{
-				newParams[key] = value
-			}
-		}
-		let paramsArr = newParams.sorted(by: { $0.key < $1.key})
 		
 		// 使用 HMAC-SHA256 对 JSON 数据进行签名
 		let keyData = key.data(using: .utf8)!
 		var hmac = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
 		
-		guard let jsonData = try? JSONSerialization.data(withJSONObject: newParams.map { $0 }, options: []) else {
-			return ""
-		}
-		
-		keyData.withUnsafeBytes { keyBytes in
-			jsonData.withUnsafeBytes { dataBytes in
-				CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), keyBytes.baseAddress, keyBytes.count, dataBytes.baseAddress, dataBytes.count, &hmac)
+		var newParams:[String: Any] = [:]
+		newParams["url"] = url
+		newParams["method"] = method.method
+		if let params = params{
+			for (key,value) in params{
+				newParams[key] = value
 			}
 		}
 		
+		let paramsStr = newParams.sorted(by: { $0.key < $1.key}).map({"\($0.key):\($0.value)"}).joined(separator: ",")
+		guard let strData = paramsStr.data(using: .utf8) else {
+			return ""
+		}
+		keyData.withUnsafeBytes { keyBytes in
+			strData.withUnsafeBytes { dataBytes in
+				CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), keyBytes.baseAddress, keyBytes.count, dataBytes.baseAddress, dataBytes.count, &hmac)
+			}
+		}
 		let hmacData = Data(hmac)
-		return hmacData.map { String(format: "%02x", $0) }.joined()
+		let signString = hmacData.map { String(format: "%02x", $0) }.joined()
+		return signString
+		
 	}
 	
 	
 	func generateUserAgent() -> String {
 		// 获取设备信息
-		let deviceModel = UIDevice.current.model   // 设备型号，例如 iPhone, iPad, MacBook
+		let deviceModel = UIDevice.current.model   			// 设备型号，例如 iPhone, iPad, MacBook
 		let systemVersion = UIDevice.current.systemVersion  // 操作系统版本，如 16.0
-		let deviceName = UIDevice.current.name     // 设备名称，如 John's iPhone
+		let deviceName = UIDevice.current.name     			// 设备名称，如 John's iPhone
 		
 		// 获取应用信息
 		let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "UnknownApp"
 		let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0"
 		let appBuild = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
 		
-
+		
 		// 生成 User-Agent 字符串
-		let userAgent = "Mozilla/5.0 (\(deviceModel); U; \(deviceModel) \(systemVersion); \(deviceName) Build/\(appBuild)) \(appName)/\(appVersion) Mobile Safari/537.36"
+		let userAgent = "Mozilla/5.0 (\(deviceModel); U; \(deviceModel) \(systemVersion); \(deviceName) Build/\(appBuild)) \(appName)/\(appVersion)"
 		
 		return userAgent
 	}

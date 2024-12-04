@@ -30,9 +30,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 		let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-		
 	
-		
 		if Defaults[.deviceToken] != token{
 			
 			Defaults[.deviceToken] = token
@@ -129,11 +127,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	
 	func notificatonHandler(userInfo: [AnyHashable : Any]){
 		
-		
 		if userInfo["call"] as? String == "1" || userInfo["mode"] as? String == "1"{
-			
 			BaseConfig.stopCallNotificationHandler(mode: "click")
-			debugPrint("取消音频信息")
 		}
 		
 		if let urlStr = userInfo["url"] as? String,

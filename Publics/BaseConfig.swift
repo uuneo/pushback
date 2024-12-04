@@ -40,7 +40,7 @@ class BaseConfig {
 	static let 	messageExpirtion = "messageExpirtionTime"
 	static let  imageSaveDays = "imageSaveDays"
 	static let 	photoName = "pushback."
-	static let	signKey = "com.uuneo.pushback.xxxxxx"
+	static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
 	
 #if DEBUG
 	static let defaultServer = "https://dev.uuneo.com"

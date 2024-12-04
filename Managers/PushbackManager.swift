@@ -9,7 +9,7 @@ import SwiftUI
 import Defaults
 
 
-class PushbackManager: ObservableObject{
+class PushbackManager: NetworkManager, ObservableObject{
 	static let shared = PushbackManager()
 	
 	private let session = URLSession(configuration: .default)
@@ -53,9 +53,10 @@ class PushbackManager: ObservableObject{
 	}
 	
 	
-	private init() {
+	private override init() {
 		/// get sound file list
-		getFileList()
+		super.init()
+		self.getFileList()
 	}
 	
 	
@@ -64,45 +65,7 @@ class PushbackManager: ObservableObject{
 extension PushbackManager{
 	// MARK: - Remote Request
 	
-	enum requestMethod:String{
-		case get = "GET"
-		case post = "POST"
-		
-		var method:String{
-			self.rawValue
-		}
-	}
 	
-	/// Request Data
-	func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any]? = nil) async throws -> T? {
-		// 根据请求方法和参数构建请求 URL
-		var requestUrl = URL(string: url)
-		
-		// 如果是 GET 请求且有参数，将参数拼接到 URL 上
-		if method == .get, let params = params {
-			var urlComponents = URLComponents(string: url)
-			urlComponents?.queryItems = params.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
-			requestUrl = urlComponents?.url
-		}
-		
-		// 检查 URL 是否有效
-		guard let finalUrl = requestUrl else { return nil }
-		
-		// 创建 URLRequest
-		var request = URLRequest(url: finalUrl)
-		request.httpMethod = method.method
-		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-		
-		// 如果是 POST 请求且有参数，将参数编码为 JSON 并设置为请求体
-		if method == .post, let params = params {
-			request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
-		}
-		
-		// 发送请求并解析响应
-		let (data, _) = try await URLSession.shared.data(for: request)
-		let result = try JSONDecoder().decode(T.self, from: data)
-		return result
-	}
 	
 	func changeKey(server:PushServerModal, newKey:String) async -> Bool{
 		
@@ -226,8 +189,6 @@ extension PushbackManager{
 				if let response = response,
 				   let data = response.data
 				{
-					
-					
 					DispatchQueue.main.async{
 						Defaults[.servers][index].key = data.deviceKey
 						Defaults[.servers][index].status = true

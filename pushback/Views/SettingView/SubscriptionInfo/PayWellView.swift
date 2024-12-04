@@ -37,7 +37,7 @@ struct PayWellViewModifier: ViewModifier {
 					.overlay{
 						ZStack(alignment: .topTrailing){
 							Color.white
-								.opacity(0.1)
+								.opacity(0.001)
 								.blur(radius: 10)
 							VStack{
 								Spacer()

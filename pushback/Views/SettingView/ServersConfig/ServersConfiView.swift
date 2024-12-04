@@ -91,7 +91,7 @@ struct ServersConfigView: View {
 				
 				
 			}
-			.padding(.vertical)
+			.padding(.vertical, 30)
 			.listRowSpacing(20)
 			.refreshable {
 				// MARK: - 刷新策略
@@ -254,10 +254,7 @@ struct ServersConfigView: View {
 				
 			}
 			.listRowSpacing(20)
-			.onAppear{
-				updateCloudServers()
-				
-			}
+			.onAppear{ updateCloudServers() }
 			.interactiveDismissDisabled()
 			.navigationTitle("新增服务器")
 			.toolbar {

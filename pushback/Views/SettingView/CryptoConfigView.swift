@@ -65,7 +65,7 @@ struct CryptoConfigView: View {
 				Text("选择后配置自动保存")
 			}
 			.onChange(of: cryptoConfig.algorithm) {  _ in
-				createCopyText()
+				verifyCopyText()
 			}
 			
 			
@@ -85,7 +85,7 @@ struct CryptoConfigView: View {
 				}
 			}
 			.onChange(of: cryptoConfig.mode) {  _ in
-				createCopyText()
+				verifyCopyText()
 			}
 			
 			Section {
@@ -212,11 +212,11 @@ struct CryptoConfigView: View {
 				
 				ToolbarItem {
 					Button {
-						createCopyText()
+						verifyCopyText(false)
 					} label: {
 						Label("复制发送脚本", systemImage: "doc.on.doc")
 							.symbolRenderingMode(.palette)
-							.foregroundStyle(.white, Color.primary)
+							.foregroundStyle(.green, Color.primary)
 							.padding(.horizontal)
 					}
 					
@@ -226,38 +226,45 @@ struct CryptoConfigView: View {
 			
 		
 	}
-	func verifyKey()-> Bool{
+	func verifyKey(_ showMsg:Bool = true)-> Bool{
 		if cryptoConfig.key.count != expectKeyLength{
 			cryptoConfig.key = ""
-		
-			Toast.shared.present(title: String(localized:  "Key参数长度不正确"), symbol: .info)
+			if showMsg{
+				Toast.shared.present(title: String(localized:  "自动更正Key参数"), symbol: .info)
+			}
 			return false
 		}
 		return true
 	}
 	
-	func verifyIv() -> Bool{
+	func verifyIv(_ showMsg:Bool = true) -> Bool{
 		if cryptoConfig.iv.count != 16 {
 			cryptoConfig.iv = ""
-			Toast.shared.present(title: String(localized:  "Iv参数长度不正确"), symbol: .info)
+			if showMsg{
+				Toast.shared.present(title: String(localized:  "自动更正Iv参数"), symbol: .info)
+			}
 			return false
 		}
 		return true
 	}
 	
 	
-	func createCopyText(){
+	func verifyCopyText(_ showMsg:Bool = true){
 		
 		
-		if !verifyIv() {
+		if !verifyIv(showMsg) {
 			cryptoConfig.iv = CryptoModal.generateRandomString()
 		}
 		
-		if !verifyKey(){
+		if !verifyKey(showMsg){
 			cryptoConfig.key = CryptoModal.generateRandomString(cryptoConfig.algorithm.rawValue)
 		}
-		manager.copy(cryptoExampleHandler())
-		Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
+		
+		
+		if !showMsg{
+			manager.copy(cryptoExampleHandler())
+			Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
+		}
 		
 	}
 	

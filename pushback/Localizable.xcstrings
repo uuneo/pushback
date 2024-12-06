@@ -173,16 +173,6 @@
         }
       }
     },
-    "Iv参数长度不正确" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid IV parameter length"
-          }
-        }
-      }
-    },
     "IV可以是随机生成的，但如果是随机的就需要放在 iv 参数里传递。" : {
       "localizations" : {
         "en" : {
@@ -219,16 +209,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "KEY:"
-          }
-        }
-      }
-    },
-    "Key参数长度不正确" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid key parameter length"
           }
         }
       }
@@ -463,6 +443,16 @@
         }
       }
     },
+    "使用中的服务器" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server in use"
+          }
+        }
+      }
+    },
     "使用帮助" : {
       "localizations" : {
         "en" : {
@@ -633,17 +623,6 @@
         }
       }
     },
-    "写着玩的，别整这么客气" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It's for fun. Don't be so polite"
-          }
-        }
-      }
-    },
     "分享成功" : {
       "localizations" : {
         "en" : {
@@ -784,12 +763,12 @@
         }
       }
     },
-    "历史服务器和key" : {
+    "历史服务器" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Historical server and key"
+            "value" : "Historical server"
           }
         }
       }
@@ -1971,6 +1950,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auto-save"
+          }
+        }
+      }
+    },
+    "自动更正Iv参数" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autocorrect iv"
+          }
+        }
+      }
+    },
+    "自动更正Key参数" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autocorrect key"
           }
         }
       }

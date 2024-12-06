@@ -32,66 +32,123 @@ struct ServersConfigView: View {
 	var body: some View {
 		NavigationStack{
 			List{
-					
-				ForEach(servers, id: \.id){ item in
-					
-					ServerCardView( item: item)
-					.padding(.vertical,5)
-					.swipeActions(edge: .leading, allowsFullSwipe: true) {
-						
-						Button {
-							manager.fullPage = .login
-							manager.sheetPage = .none
-						} label: {
-							Text(  "修改key")
-						}.tint(.blue)
-					}
-					.listRowSeparator(.hidden)
-					.swipeActions(edge: .leading) {
-						Button{
-							
-							if let index = servers.firstIndex(where: {$0.id == item.id}){
-								
-								servers[index].key = ""
-								servers[index].id = UUID().uuidString
-								manager.register(server: servers[index] ){ _, msg in
-									Toast.shared.present(title: msg, symbol: "questionmark.bubble")
-								}
-							}else{
-								Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
-							}
-							
-							
-						}label: {
-							Text( "重置Key")
-						}.tint(.red)
-					}
-					.swipeActions(edge: .trailing,allowsFullSwipe: true) {
-						Button{
-							if servers.count > 1{
-								if let index = servers.firstIndex(where: {$0.id == item.id}){
-									servers.remove(at: index)
-								}
-							}else{
-								Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
-							}
-						}label:{
-							Text("删除")
-								
-						}.tint(.red)
-						
-					}
-					
-				}
-				.onMove(perform: { indices, newOffset in
-					servers.move(fromOffsets: indices, toOffset: newOffset)
-				})
 				
+				
+				Section{
+					ForEach(servers, id: \.id){ item in
+						
+						
+						
+						ServerCardView( item: item)
+							.padding(.vertical,5)
+							
+							.swipeActions(edge: .leading, allowsFullSwipe: true) {
+								
+								Button {
+									manager.fullPage = .login
+									manager.sheetPage = .none
+								} label: {
+									Text(  "修改key")
+								}.tint(.blue)
+							}
+							.listRowSeparator(.hidden)
+							.swipeActions(edge: .leading) {
+								Button{
+									
+									if let index = servers.firstIndex(where: {$0.id == item.id}){
+										
+										servers[index].key = ""
+										servers[index].id = UUID().uuidString
+										manager.register(server: servers[index] ){ _, msg in
+											Toast.shared.present(title: msg, symbol: "questionmark.bubble")
+										}
+									}else{
+										Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
+									}
+									
+									
+								}label: {
+									Text( "重置Key")
+								}.tint(.red)
+							}
+							.swipeActions(edge: .trailing,allowsFullSwipe: true) {
+								Button{
+									if servers.count > 1{
+										if let index = servers.firstIndex(where: {$0.id == item.id}){
+											servers.remove(at: index)
+										}
+									}else{
+										Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
+									}
+								}label:{
+									Text("删除")
+									
+								}.tint(.red)
+								
+							}
+						
+						
+						
+						
+						
+					}
+					.onMove(perform: { indices, newOffset in
+						servers.move(fromOffsets: indices, toOffset: newOffset)
+					})
+				}header:{
+					Text("使用中的服务器")
+				}
+				
+				
+				if filteredCloudDatas.count > 0{
+					Section{
+						
+						
+						ForEach(filteredCloudDatas, id: \.id){ item in
+							
+							ServerCardView(item: item,isCloud: true)
+								.padding(.vertical,5)
+								.swipeActions(edge: .leading, allowsFullSwipe: true) {
+									Button{
+										Defaults[.servers].insert(item, at: 0)
+									}label:{
+										Text("恢复")
+									}.tint(Color.green)
+								}
+								.swipeActions(edge: .trailing, allowsFullSwipe: true) {
+									Button{
+										PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
+											if let err{
+												debugPrint(err.localizedDescription)
+											}else{
+												updateCloudServers()
+											}
+											
+										}
+									}label:{
+										Text("删除")
+									}.tint(Color.red)
+								}
+							
+							
+						}
+					}header: {
+						HStack{
+							
+							Text("历史服务器")
+							Spacer()
+							Text("\(self.cloudDatas.count)")
+						}
+					}
+					.transaction { view in
+						view.animation = .easeInOut
+					}
+				}
 				
 				
 				
 			}
-			.padding(.vertical, 30)
+			.animation(.easeInOut, value: servers)
 			.listRowSpacing(20)
 			.refreshable {
 				// MARK: - 刷新策略
@@ -99,7 +156,10 @@ struct ServersConfigView: View {
 					Toast.shared.present(title: String(localized: "操作成功"), symbol: .info)
 					
 				}
+				
+				updateCloudServers()
 			}
+			
 			.toolbar{
 				
 				ToolbarItem {
@@ -132,6 +192,7 @@ struct ServersConfigView: View {
 			.sheet(isPresented: $showAddView) {
 				addServerView()
 			}
+			.onAppear{ updateCloudServers() }
 			
 		}
 	}
@@ -174,23 +235,23 @@ struct ServersConfigView: View {
 									.pickerStyle(MenuPickerStyle())
 									.frame(maxWidth: 100)
 									.offset(x:-20)
-						
+								
 								Spacer()
 							}
 							
 						}
 						.padding()
 						.background(.background)
-						
-
 					
-				
-						
+					
+					
+					
+					
 					
 					Spacer()
 					
 					
-				
+					
 					
 					
 					
@@ -203,58 +264,14 @@ struct ServersConfigView: View {
 				
 				
 				
-					
-					Section{
-						
-						
-						ForEach(filteredCloudDatas, id: \.id){ item in
-						
-								ServerCardView(item: item,isCloud: true)
-								.padding(.vertical,5)
-								.swipeActions(edge: .leading, allowsFullSwipe: true) {
-									Button{
-										Defaults[.servers].insert(item, at: 0)
-										self.showAddView.toggle()
-									}label:{
-										Text("恢复")
-									}.tint(Color.green)
-								}
-								.swipeActions(edge: .trailing, allowsFullSwipe: true) {
-									Button{
-										PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
-											if let err{
-												debugPrint(err.localizedDescription)
-											}else{
-												updateCloudServers()
-											}
-											
-										}
-									}label:{
-										Text("删除")
-									}.tint(Color.red)
-								}
-							
-							
-						}
-					}header: {
-						HStack{
-							
-							Text("历史服务器和key")
-								.font(.headline)
-								.fontWeight(.medium)
-								
-							Spacer()
-							Text("\(self.cloudDatas.count)")
-						}
-						.padding(.bottom)
-					}
-					
+				
+			
+				
 				
 				
 				
 			}
 			.listRowSpacing(20)
-			.onAppear{ updateCloudServers() }
 			.interactiveDismissDisabled()
 			.navigationTitle("新增服务器")
 			.toolbar {
@@ -318,7 +335,7 @@ struct ServersConfigView: View {
 			}
 			
 		}
-		.presentationDetents([.height(300),.medium, .large])
+		.presentationDetents([.height(300)])
 	}
 	
 	

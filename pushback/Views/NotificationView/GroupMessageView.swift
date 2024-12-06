@@ -11,10 +11,12 @@ import Defaults
 
 struct GroupMessageView: View {
 	
-	@ObservedResults(Message.self) var messagesAll
 	@EnvironmentObject private var manager:PushbackManager
 	@Environment(\.isSearching) var isSearching
+	
+	@ObservedResults(Message.self) var messagesAll
 	@Default(.appIcon) private var appicon
+	
 	@State private var showAction = false
 	@State private var helpviewSize:CGSize = .zero
 	@State private var searchText:String = ""

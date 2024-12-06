@@ -290,3 +290,41 @@ extension View {
  
 
 
+
+
+extension View{
+	@ViewBuilder
+	func viewExtractor(result: @escaping (UIView)-> ()) -> some View{
+		self
+			.background(ViewExtractHelper(result: result))
+			.compositingGroup()
+	}
+}
+
+fileprivate struct ViewExtractHelper: UIViewRepresentable {
+	var result:(UIView) -> ()
+	func makeUIView(context: Context) -> some UIView {
+		let view  = UIView(frame: .zero)
+		view.backgroundColor = .clear
+		view.isUserInteractionEnabled = false
+		DispatchQueue.main.async {
+			if let uikitview = view.superview?.superview?.subviews.last?.subviews.first{
+				result(uikitview)
+			}
+		}
+		
+		return view
+		
+	}
+	
+	func updateUIView(_ uiView: UIViewType, context: Context) {
+		
+	}
+}
+
+
+
+
+
+
+

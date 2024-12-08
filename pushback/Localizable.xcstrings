@@ -163,9 +163,6 @@
         }
       }
     },
-    "Hello, World!" : {
-
-    },
     "Iv：" : {
       "localizations" : {
         "en" : {
@@ -1486,6 +1483,17 @@
         }
       }
     },
+    "无分组" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Group"
+          }
+        }
+      }
+    },
     "时效性通知" : {
       "localizations" : {
         "en" : {
@@ -2364,6 +2372,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Require in"
+          }
+        }
+      }
+    },
+    "默认" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
           }
         }
       }

@@ -26,11 +26,12 @@ class MessageHandler: NotificationContentHandler{
 		
 		let icon = userInfo[Params.icon.name] as? String
 		let isArchive = userInfo[Params.isarchive.name] as? String
-		let group = userInfo[Params.group.name] as? String ?? "Basic"
+		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
 		let call = userInfo[Params.call.name] as? String
 		let mode = (userInfo[Params.mode.name] as? String ?? call) ?? "999"
 		
 		var userInfoString:String{
+			
 			if let userInfoData = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
 			   let userInfo = String(data: userInfoData , encoding: .utf8){
 				debugPrint(userInfo)

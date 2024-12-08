@@ -71,7 +71,7 @@ struct SettingsView: View {
 				
 				if ISPAD{
 					NavigationLink{
-						GroupMessageView()
+						MessageHomeView()
 							.navigationTitle( "消息")
 					}label: {
 						Label( "消息", systemImage: "app.badge")

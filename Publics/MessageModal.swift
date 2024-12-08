@@ -14,7 +14,7 @@ import SwiftyJSON
 
 final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted(primaryKey: true) var id:UUID
-	@Persisted(indexed: true) var group:String = "Basic"
+	@Persisted(indexed: true) var group:String
 	@Persisted(indexed: true) var createDate:Date
 	@Persisted var title:String?
 	@Persisted var body:String?
@@ -64,7 +64,6 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.read, forKey: .read)
 		try container.encode(self.userInfo, forKey: .userInfo)
 	}
-	
 	
 }
 

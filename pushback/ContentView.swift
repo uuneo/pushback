@@ -129,8 +129,7 @@ struct ContentView: View {
 		})) {
 			
 			// MARK: 信息页面
-			
-			GroupMessageView()
+			MessageHomeView()
 				.badge(readCount)
 				.tabItem {
 					Label( "消息", systemImage: "ellipsis.message")
@@ -161,7 +160,7 @@ struct ContentView: View {
 		NavigationSplitView(columnVisibility: $noShow) {
 			SettingsView()
 		} detail: {
-			GroupMessageView()
+			MessageHomeView()
 		}
 		
 	}

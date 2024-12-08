@@ -10,24 +10,27 @@ struct SearchMessageView:View {
 	init(searchText: String, group:String? = nil) {
 		self.searchText = searchText
 		if let group = group{
-			self._messages =  ObservedResults(Message.self, filter: NSPredicate(format: "(body CONTAINS[c] %@ OR title CONTAINS[c] %@) AND group CONTAINS[c] %@", searchText, searchText, group), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages =  ObservedResults(Message.self, filter: NSPredicate(format: "userInfo CONTAINS[c] %@ AND group ==[c] %@", searchText, group), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
 		}else{
-			self._messages =  ObservedResults(Message.self, filter: NSPredicate(format: "body CONTAINS[c] %@ OR title CONTAINS[c] %@ OR group CONTAINS[c] %@", searchText, searchText, searchText), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages =  ObservedResults(Message.self, filter: NSPredicate(format: "userInfo CONTAINS[c] %@", searchText), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
 		}
 		
 	}
 	
 	var body: some View {
-		LazyVStack{
+		Group{
 			HStack{
+				Spacer()
 				Text(String(format: String(localized: "找到%1$d条数据"), messages.count))
 					.foregroundStyle(.gray)
-					.padding(.leading)
-				Spacer()
+					.padding(.trailing, 10)
+				
 			}
+			.listRowBackground(Color.clear)
+			.listRowSeparator(.hidden)
 			
 			ForEach(messages, id: \.id) { message in
-				MessageView(message: message, searchText: searchText)
+				MessageView(message: message, searchText: searchText, showGroup: true)
 			}
 		}
 	}

@@ -41,8 +41,6 @@ class LevelHandler: NotificationContentHandler {
 			audioVolume = max(0.1, min(1, Float(levelNumber) / 10.0))
 		}
 		
-		debugPrint(level)
-		
 		// 兼容bark的使用方法 重要警告
 		if level == "critical" {
 			

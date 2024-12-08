@@ -14,33 +14,17 @@ struct MessageView: View {
 	@ObservedRealmObject var message:Message
     var searchText:String = ""
 	@State var showRaw:Bool = false
-	
+	var showGroup:Bool =  false
     var body: some View {
 		Section {
 			
 			HStack(alignment: .top){
 				
-				AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
-					.frame(width: 35, height: 35, alignment: .center)
-					.clipShape(RoundedRectangle(cornerRadius: 10))
-					.overlay(alignment: .topLeading) {
-						if let _ =  message.url {
-							Image(systemName: "link.circle")
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(Color.primary, .green)
-								.offset(x:-10 , y: -10)
-						}
-					}
-					.padding(.top,10)
-					
-					.onTapGesture {
-						if let url = message.url, let fileUrl = URL(string: url) {
-							manager.openUrl(url: fileUrl)
-						}
-						
-					}
+				headView()
+				
 				
 				VStack(alignment: .leading, spacing:5){
+					
 					
 					if !showRaw{
 						HStack{
@@ -65,7 +49,7 @@ struct MessageView: View {
 						}
 						
 					}else{
-						Text(message.userInfo)
+						highlightedText(searchText: searchText, text: message.userInfo)
 							.font(.subheadline)
 					}
 					
@@ -98,6 +82,14 @@ struct MessageView: View {
 				
 			}
 			
+		}footer: {
+			if showGroup{
+				HStack{
+					highlightedText(searchText: searchText, text: message.group)
+						.textSelection(.enabled)
+					Spacer()
+				}
+			}
 		}
         
     }
@@ -142,6 +134,29 @@ struct MessageView: View {
 		return result
 	}
 	
+	
+	@ViewBuilder
+	func headView() -> some View{
+		AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
+			.frame(width: 35, height: 35, alignment: .center)
+			.clipShape(RoundedRectangle(cornerRadius: 10))
+			.overlay(alignment: .topLeading) {
+				if let _ =  message.url {
+					Image(systemName: "link.circle")
+						.symbolRenderingMode(.palette)
+						.foregroundStyle(Color.primary, .green)
+						.offset(x:-10 , y: -10)
+				}
+			}
+			.padding(.top,10)
+			
+			.onTapGesture {
+				if let url = message.url, let fileUrl = URL(string: url) {
+					manager.openUrl(url: fileUrl)
+				}
+				
+			}
+	}
 	
     
 }

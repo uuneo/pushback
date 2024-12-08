@@ -311,6 +311,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Localizable.xcstrings,
 			);
 			target = 19C13C8C2CCCD70E00A2F1A8 /* NotificationService */;
 		};
@@ -366,13 +367,6 @@
 				Localizable.xcstrings,
 			);
 		};
-		19214DDD2CEE0F4E000D9463 /* Exceptions for "pushback" folder in "Compile Sources" phase from "NotificationService" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 19C13C892CCCD70E00A2F1A8 /* Sources */;
-			membershipExceptions = (
-				Localizable.xcstrings,
-			);
-		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -381,7 +375,6 @@
 			exceptions = (
 				19214EDC2CF20E61000D9463 /* Exceptions for "pushback" folder in "pushback" target */,
 				190E0E9E2CE637FA00F01858 /* Exceptions for "pushback" folder in "NotificationService" target */,
-				19214DDD2CEE0F4E000D9463 /* Exceptions for "pushback" folder in "Compile Sources" phase from "NotificationService" target */,
 				190E0EA02CE6383800F01858 /* Exceptions for "pushback" folder in "NotificationContent" target */,
 				190E0E422CE61F0700F01858 /* Exceptions for "pushback" folder in "Compile Sources" phase from "ShareExtension" target */,
 			);
@@ -1321,7 +1314,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1350,7 +1343,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -51,9 +51,8 @@ struct ContentView: View {
 					withAnimation {
 						self.firstStart.toggle()
 					}
-				}
-				.onAppear{
-					if let realm = try? Realm(), realm.objects(Message.self).count == 0{
+					
+					if let realm = try? Realm(){
 						for msg in Message.messages{
 							try? realm.write {
 								realm.add(msg)
@@ -61,24 +60,26 @@ struct ContentView: View {
 						}
 					}
 					
-					if servers.isEmpty {
-						PushServerCloudKit.shared.fetchPushServerModals { response in
-							switch response {
-							case .success(let results):
-								withAnimation(.easeInOut) {
-									if let result = results.first{
-										self.servers.append(result)
-										return
-									}
+					
+					PushServerCloudKit.shared.fetchPushServerModals { response in
+						switch response {
+						case .success(let results):
+							withAnimation(.easeInOut) {
+								if let result = results.first{
+									self.servers.append(result)
+									return
 								}
-							case .failure(let failure):
-								debugPrint(failure)
-								Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
 							}
-							
+						case .failure(let failure):
+							debugPrint(failure)
+							Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
 							self.servers.append(PushServerModal(url: BaseConfig.defaultServer))
 						}
+						
+						
 					}
+					
+					
 				}
 				.background(.white.gradient)
 			}

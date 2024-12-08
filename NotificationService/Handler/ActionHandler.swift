@@ -40,12 +40,18 @@ class ActionHandler: NotificationContentHandler{
 		switch Defaults[.badgeMode] {
 		case .auto:
 			// MARK: 通知角标 .auto
-			let messages = realm?.objects(Message.self).where {!$0.read}
-			bestAttemptContent.badge = NSNumber(value:  messages?.count ?? 1)
+			if let messages = realm?.objects(Message.self).where({!$0.read}){
+				bestAttemptContent.badge = NSNumber(value:  messages.count)
+			}
+			
 		case .custom:
 			// MARK: 通知角标 .custom
 			if let badgeStr = userInfo["badge"] as? String, let badge = Int(badgeStr) {
 				bestAttemptContent.badge = NSNumber(value: badge)
+				// 清除通知中心的通知
+				if badge == -1 {
+					UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+				}
 			}
 		}
 		
@@ -69,10 +75,6 @@ class ActionHandler: NotificationContentHandler{
 		Task(priority: .background) {
 			await ImageManager.deleExpired()
 		}
-		
-		
-		
-		
 		
 		return bestAttemptContent
 	}

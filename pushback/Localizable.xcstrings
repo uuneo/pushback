@@ -163,6 +163,9 @@
         }
       }
     },
+    "Hello, World!" : {
+
+    },
     "Iv：" : {
       "localizations" : {
         "en" : {

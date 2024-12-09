@@ -2,7 +2,7 @@ English | **[中文](README.md)**
 
 
 <p align="center">
-<img src="/logo.png" alt="pushback" title="pushback" width="300"/>
+<img src="/pushback/Assets.xcassets/AppIcon.appiconset/pushbackLogo.png" alt="pushback" title="pushback" width="300"/>
 </p>
 
 > [!IMPORTANT]

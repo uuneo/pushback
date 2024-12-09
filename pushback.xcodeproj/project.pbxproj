@@ -114,7 +114,6 @@
 		19C13C1A2CCC8A4100A2F1A8 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFC2CCC852000A2F1A8 /* View+.swift */; };
 		19C13C1B2CCC8A4100A2F1A8 /* image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFD2CCC852000A2F1A8 /* image+.swift */; };
 		19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */; };
-		19C13C1F2CCC8AF100A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C1E2CCC8AF100A2F1A8 /* Defaults */; };
 		19C13C222CCC8B3600A2F1A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C212CCC8B3600A2F1A8 /* SwiftyJSON */; };
 		19C13C252CCC8B4E00A2F1A8 /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C242CCC8B4E00A2F1A8 /* QRScanner */; };
 		19C13C282CCC8BBA00A2F1A8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C272CCC8BBA00A2F1A8 /* RealmSwift */; };
@@ -133,7 +132,6 @@
 		19C13CC62CCCD77600A2F1A8 /* NotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CCB2CCCD8F800A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
 		19C13CCC2CCCD91500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
-		19C13CCE2CCCD97100A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCD2CCCD97100A2F1A8 /* Defaults */; };
 		19C13CD02CCCD97100A2F1A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCF2CCCD97100A2F1A8 /* SwiftyJSON */; };
 		19C13CD22CCCD97100A2F1A8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CD12CCCD97100A2F1A8 /* RealmSwift */; };
 		19C13CD52CCCD9A100A2F1A8 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */; };
@@ -145,15 +143,17 @@
 		19C13CDB2CCCDA5000A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
 		19C13CDD2CCCDA6100A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
 		19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
-		19C13CE02CCCDA9500A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CDF2CCCDA9500A2F1A8 /* Defaults */; };
 		19C13CEF2CCCDADC00A2F1A8 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CF42CCCDB4100A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CF52CCCDB4100A2F1A8 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */; };
 		19C13CF62CCCDB4100A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
 		19C13CF72CCCDB4100A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
-		19C13CF92CCCDB4A00A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CF82CCCDB4A00A2F1A8 /* Defaults */; };
 		19C13CFA2CCCDBCA00A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13EA82CCD00E000A2F1A8 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C272CCC8BBA00A2F1A8 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		19F60A862D07051900812815 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19F60A852D07051900812815 /* Defaults */; };
+		19F60BB42D070B0900812815 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19F60BB32D070B0900812815 /* Defaults */; };
+		19F60CE22D070E1500812815 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19F60CE12D070E1500812815 /* Defaults */; };
+		19F60CE42D070E9400812815 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19F60CE32D070E9400812815 /* Defaults */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -419,7 +419,7 @@
 				1969F9C02CE8692D00152167 /* RevenueCat in Frameworks */,
 				195702302CE84C00009F55B0 /* StoreKit.framework in Frameworks */,
 				19C13C252CCC8B4E00A2F1A8 /* QRScanner in Frameworks */,
-				19C13C1F2CCC8AF100A2F1A8 /* Defaults in Frameworks */,
+				19F60A862D07051900812815 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,9 +427,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19F60CE42D070E9400812815 /* Defaults in Frameworks */,
 				19C13CD22CCCD97100A2F1A8 /* RealmSwift in Frameworks */,
 				19C13CD02CCCD97100A2F1A8 /* SwiftyJSON in Frameworks */,
-				19C13CCE2CCCD97100A2F1A8 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,7 +437,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19C13CE02CCCDA9500A2F1A8 /* Defaults in Frameworks */,
+				19F60CE22D070E1500812815 /* Defaults in Frameworks */,
 				19C13CBC2CCCD77600A2F1A8 /* UserNotificationsUI.framework in Frameworks */,
 				19C13CBA2CCCD77600A2F1A8 /* UserNotifications.framework in Frameworks */,
 			);
@@ -447,7 +447,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19C13CF92CCCDB4A00A2F1A8 /* Defaults in Frameworks */,
+				19F60BB42D070B0900812815 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,12 +630,12 @@
 			);
 			name = pushback;
 			packageProductDependencies = (
-				19C13C1E2CCC8AF100A2F1A8 /* Defaults */,
 				19C13C212CCC8B3600A2F1A8 /* SwiftyJSON */,
 				19C13C242CCC8B4E00A2F1A8 /* QRScanner */,
 				19C13C272CCC8BBA00A2F1A8 /* RealmSwift */,
 				1969F9BF2CE8692D00152167 /* RevenueCat */,
 				1969F9C12CE8692D00152167 /* RevenueCatUI */,
+				19F60A852D07051900812815 /* Defaults */,
 			);
 			productName = pushback;
 			productReference = 19C13BA52CCBDF8B00A2F1A8 /* pushback.app */;
@@ -659,9 +659,9 @@
 			);
 			name = NotificationService;
 			packageProductDependencies = (
-				19C13CCD2CCCD97100A2F1A8 /* Defaults */,
 				19C13CCF2CCCD97100A2F1A8 /* SwiftyJSON */,
 				19C13CD12CCCD97100A2F1A8 /* RealmSwift */,
+				19F60CE32D070E9400812815 /* Defaults */,
 			);
 			productName = NotificationService;
 			productReference = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */;
@@ -684,7 +684,7 @@
 			);
 			name = NotificationContent;
 			packageProductDependencies = (
-				19C13CDF2CCCDA9500A2F1A8 /* Defaults */,
+				19F60CE12D070E1500812815 /* Defaults */,
 			);
 			productName = NotificationContent;
 			productReference = 19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */;
@@ -707,7 +707,7 @@
 			);
 			name = ShareExtension;
 			packageProductDependencies = (
-				19C13CF82CCCDB4A00A2F1A8 /* Defaults */,
+				19F60BB32D070B0900812815 /* Defaults */,
 			);
 			productName = ShareExtension;
 			productReference = 19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */;
@@ -748,11 +748,11 @@
 			mainGroup = 19C13B9C2CCBDF8B00A2F1A8;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */,
 				19C13C202CCC8B3600A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				19C13C232CCC8B4E00A2F1A8 /* XCRemoteSwiftPackageReference "QRScanner" */,
 				19C13C262CCC8BBA00A2F1A8 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				19F60A842D07051900812815 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19C13BA62CCBDF8B00A2F1A8 /* Products */;
@@ -1414,14 +1414,6 @@
 				minimumVersion = 5.9.0;
 			};
 		};
-		19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/uuneo/Defaults.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		19C13C202CCC8B3600A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/SwiftyJSON.git";
@@ -1446,6 +1438,14 @@
 				kind = branch;
 			};
 		};
+		19F60A842D07051900812815 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uuneo/Defaults.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1458,11 +1458,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCatUI;
-		};
-		19C13C1E2CCC8AF100A2F1A8 /* Defaults */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = Defaults;
 		};
 		19C13C212CCC8B3600A2F1A8 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1479,11 +1474,6 @@
 			package = 19C13C262CCC8BBA00A2F1A8 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
-		19C13CCD2CCCD97100A2F1A8 /* Defaults */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = Defaults;
-		};
 		19C13CCF2CCCD97100A2F1A8 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19C13C202CCC8B3600A2F1A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
@@ -1494,14 +1484,24 @@
 			package = 19C13C262CCC8BBA00A2F1A8 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
-		19C13CDF2CCCDA9500A2F1A8 /* Defaults */ = {
+		19F60A852D07051900812815 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */;
+			package = 19F60A842D07051900812815 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
 		};
-		19C13CF82CCCDB4A00A2F1A8 /* Defaults */ = {
+		19F60BB32D070B0900812815 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */;
+			package = 19F60A842D07051900812815 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		19F60CE12D070E1500812815 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19F60A842D07051900812815 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		19F60CE32D070E9400812815 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19F60A842D07051900812815 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
 		};
 /* End XCSwiftPackageProductDependency section */

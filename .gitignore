@@ -1,0 +1,45 @@
+# Xcode
+
+xcuserdata/
+
+timeline.xctimeline
+playground.xcworkspace
+
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+
+# Xcode 项目生成的文件
+*.xcuserstate      
+*.xcworkspace          
+*.xcscmblueprint      
+*.moved-aside        
+*.xcodeproj/xcuserdata  
+*.xcodeproj/project.xcworkspace/xcuserdata 
+
+# 代码生成的文件
+DerivedData/         
+build/               
+.build/
+
+# 依赖管理工具产生的文件
+Carthage/        
+CocoaPods/          
+Pods/          
+
+
+# 用户配置文件（每个开发者不同）
+.idea/              
+.vscode/       
+
+# 一些临时文件
+*.swp                 
+*.swo                  
+*.DS_Store     
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM

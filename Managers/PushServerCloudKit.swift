@@ -25,8 +25,6 @@ class PushServerCloudKit {
 		let record = CKRecord(recordType: recordType, recordID: recordID)
 		record["url"] = modal.url as CKRecordValue
 		record["key"] = modal.key as CKRecordValue
-		
-	
 
 		database.save(record) { savedRecord, error in
 			DispatchQueue.main.async {
@@ -121,9 +119,9 @@ class PushServerCloudKit {
 	
 	
 	// 删除指定的 RingtoneCloudData
-	func deleteCloudServer(_ ringtoneID: String, completion: @escaping (Error?) -> Void) {
+	func deleteCloudServer(_ serverID: String, completion: @escaping (Error?) -> Void) {
 		// 创建 CKRecord.ID 对象
-		let recordID = CKRecord.ID(recordName: ringtoneID)
+		let recordID = CKRecord.ID(recordName: serverID)
 		
 		// 调用数据库的 delete 方法删除记录
 		database.delete(withRecordID: recordID) { (deletedRecordID, error) in

@@ -21,12 +21,10 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var scanUrl:String = ""
 	@Published var showServerListView:Bool = false
 	
-	@Published var defaultSounds:[URL] =  []
-	@Published var customSounds:[URL] =  []
+	
 	@Published var premiumSubscriptionInfo: SubscriptionInfo?
 	
 	private let appGroupIdentifier = BaseConfig.groupName
-	
 	private var customSoundsDirectoryMonitor: DispatchSourceFileSystemObject?
 	private let manager = FileManager.default
 	
@@ -56,23 +54,24 @@ class PushbackManager: NetworkManager, ObservableObject{
 	private override init() {
 		/// get sound file list
 		super.init()
-		self.getFileList()
-	}
-	
-	
-}
-
-extension PushbackManager{
-	// MARK: - Remote Request
-	
-	
-	
-	func changeKey(server:PushServerModal, newKey:String) async -> Bool{
 		
+	}
+
+
+
+
+
+
+	// MARK: - Remote Request
+
+
+
+	func changeKey(server:PushServerModal, newKey:String) async -> Bool{
+
 		do{
-			
-			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toEncodableDictionary()
-			
+
+			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toEncodableDictionary() ?? [:]
+
 			if let response:baseResponse<ChangeKeyInfo> = try await self.fetch(url: "\(server.url)/change",method: .post, params: params),
 			   let index = Defaults[.servers].firstIndex(where: {$0.id == server.id}){
 				if let data = response.data{
@@ -84,21 +83,21 @@ extension PushbackManager{
 					Toast.shared.present(title: response.message, symbol: .error)
 					return false
 				}
-				
+
 			}
-			   
-			
+
+
 		}catch{
 			debugPrint(error.localizedDescription)
 			Toast.shared.present(title: error.localizedDescription, symbol: .error)
 			return false
 		}
-		
+
 		Toast.shared.present(title: String(localized: "修改失败"), symbol: .error)
-		
+
 		return false
 	}
-	
+
 	/// Update Server Status
 	///  - Parameters:
 	///  	- completion: (  url, success, message ) - > void
@@ -119,7 +118,7 @@ extension PushbackManager{
 					Defaults[.servers][index].status = false
 				}
 			}
-			
+
 			return (url,false, error.localizedDescription)
 		}
 	}
@@ -132,18 +131,18 @@ extension PushbackManager{
 				for server in Defaults[.servers] {
 					group.addTask{  await self.health(url: server.url)  }
 				}
-				
+
 				var results:[(String, Bool, String?)] = []
-				
+
 				for await result in group{
 					results.append(result)
 				}
 				completion?(results)
 			}
-			
+
 		}
 	}
-	
+
 	/// Register  Server
 	///  - Parameters:
 	///  server: 服务器数据
@@ -154,7 +153,7 @@ extension PushbackManager{
 			completion?(server1, msg)
 		}
 	}
-	
+
 	/// Register  Servers Status
 	///  - Parameters:
 	///  server: 服务器数据
@@ -164,7 +163,7 @@ extension PushbackManager{
 			for server in Defaults[.servers] {
 				group.addTask {await self.register(server: server)}
 			}
-			
+
 			var results:[(PushServerModal,String)] = []
 			for await result in group{
 				results.append(result)
@@ -172,20 +171,20 @@ extension PushbackManager{
 			completion?(results)
 		}
 	}
-	
-	
+
+
 	/// Register  Server async
 	func register(server: PushServerModal) async -> (PushServerModal,String){
-		
+
 		do{
 			let deviceToken = Defaults[.deviceToken]
 			if let index = Defaults[.servers].firstIndex(of: server){
-			
-				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary()
-				
-				
+
+				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary() ?? [:]
+
+
 				let response:baseResponse<DeviceInfo>? = try await self.fetch(url: server.url + "/register",method: .post, params: params)
-				
+
 				if let response = response,
 				   let data = response.data
 				{
@@ -199,10 +198,10 @@ extension PushbackManager{
 						Defaults[.servers][index].status = false
 					}
 				}
-				
-				
+
+
 			}
-			
+
 		}catch{
 			if let index = Defaults[.servers].firstIndex(of: server){
 				Defaults[.servers][index].status = false
@@ -210,12 +209,12 @@ extension PushbackManager{
 			print(error.localizedDescription)
 			return (server,error.localizedDescription)
 		}
-		
+
 		return (server,"注册失败")
 	}
-	
-	
-	
+
+
+
 	/// add server
 	func appendServer(server:PushServerModal, completion: @escaping (PushServerModal,String)-> Void ){
 		Task.detached(priority: .background) {
@@ -232,27 +231,22 @@ extension PushbackManager{
 			}
 		}
 	}
-	
-	
-	
-}
 
 
-extension PushbackManager{
 	// MARK: - Tools Function
-	
+
 	/// Copy information to clipboard
 	func copy(_ text:String){
 		UIPasteboard.general.string = text
 	}
-	
-	
+
+
 	/// open app settings
 	func openSetting(){
 		guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
 			return
 		}
-		
+
 		UIApplication.shared.open(settingsURL)
 	}
 	/// Open a URL or handle a fallback if the URL cannot be opened
@@ -260,7 +254,7 @@ extension PushbackManager{
 	///   - url: The URL to open
 	///   - unOpen: A closure called when the URL cannot be opened, passing the URL as an argument
 	func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
-		
+
 		if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
 			// Attempt to open the URL as a universal link
 			UIApplication.shared.open(url, options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: true]) { success in
@@ -269,109 +263,22 @@ extension PushbackManager{
 					unOpen?(url)
 				}
 			}
-			
+
 		} else {
 			// Fallback to opening the URL normally if it's not a universal link or cannot be opened
 			UIApplication.shared.open(url, options: [:], completionHandler: nil)
 		}
 	}
-	
-	// MARK: - Get audio folder data
-	
-	private func getFileList() {
-		let defaultSounds:[URL] = {
-			var temurl = Bundle.main.urls(forResourcesWithExtension: "caf", subdirectory: nil) ?? []
-			temurl.sort { u1, u2 -> Bool in
-				u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == ComparisonResult.orderedAscending
-			}
-			return temurl
-		}()
-		
-		let customSounds: [URL] = {
-			guard let soundsDirectoryUrl = BaseConfig.getSoundslibraryDirectory() else { return []}
-			
-			var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
-			urlemp.sort { u1, u2 -> Bool in
-				u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == ComparisonResult.orderedAscending
-			}
-			
-			return urlemp
-		}()
-		
-		DispatchQueue.main.async {
-			self.customSounds = customSounds
-			self.defaultSounds = defaultSounds
-		}
-		
-	}
-	
-	/// 返回指定文件夹，指定后缀的文件列表数组
-	func getFilesInDirectory(directory: String, suffix: String) -> [URL] {
-		
-		do {
-			let files = try manager.contentsOfDirectory(atPath: directory)
-			return files.compactMap { file -> URL? in
-				if file.hasSuffix(suffix) {
-					return URL(fileURLWithPath: directory).appendingPathComponent(file)
-				}
-				return nil
-			}
-		} catch {
-			return []
-		}
-	}
-	
-	
-	/// 通用文件保存方法
-	func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
-		guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory(),
-			  let libraryDirectoryUrl = BaseConfig.getSoundslibraryDirectory()
-		else  {
-			return
-		}
-	
-		
-		let  groupDestinationUrl = groupDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
-		
-		let  libraryDestinationUrl = libraryDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
-		
-		
-		if manager.fileExists(atPath: groupDestinationUrl.path) {
-			try? manager.removeItem(at: groupDestinationUrl)
-		}
-		if manager.fileExists(atPath: libraryDestinationUrl.path) {
-			try? manager.removeItem(at: libraryDestinationUrl)
-		}
-		
-		do{
-			try manager.copyItem(at: sourceUrl, to: groupDestinationUrl)
-			try manager.copyItem(at: sourceUrl, to: libraryDestinationUrl)
-			Toast.shared.present(title: String(localized: "保存成功"), symbol: .success)
-		}catch{
-			Toast.shared.present(title: error.localizedDescription, symbol: .error)
-		}
-		
-		
-		getFileList()
-	}
-	
-	func deleteSound(url: URL) {
-		// 删除sounds目录铃声文件
-		try? manager.removeItem(at: url)
-		// 删除共享目录中的文件
-		if let groupSoundUrl = BaseConfig.getSoundsGroupDirectory()?.appendingPathComponent(url.lastPathComponent) {
-			try? manager.removeItem(at: groupSoundUrl)
-		}
-		getFileList()
-	}
-	
-	
-	
-	
+
+
+
+
 	func hideKeyboard() {
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
-	
+
+
 }
+
 
 

@@ -38,7 +38,7 @@ struct MessagesView: View {
 					MessageView(message: message, searchText: searchText)
 						.swipeActions(edge: .leading) {
 							Button {
-								RealmProxy.shared.read(message)
+								RealmManager.shared.read(message)
 								Toast.shared.present(title: String(localized:  "信息状态已更改"), symbol: "highlighter")
 							} label: {
 								Label(message.read ? "已读" :  "未读", systemImage: message.read ? "envelope.open": "envelope")
@@ -65,7 +65,7 @@ struct MessagesView: View {
 		}
 		.onAppear{
 			if let group = group{
-				RealmProxy.shared.read( group)
+				RealmManager.shared.read( group)
 			}
 			
 		}

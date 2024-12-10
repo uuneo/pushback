@@ -85,7 +85,7 @@ class CiphertextHandler:NotificationContentHandler{
 			  let map = JSON(data).dictionaryObject
 		else {
 		
-			throw "JSON parsing failed"
+			throw  StringError( "JSON parsing failed" )
 		}
 		
 		var result: [AnyHashable: Any] = [:]

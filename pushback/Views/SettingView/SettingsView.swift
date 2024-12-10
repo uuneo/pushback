@@ -115,7 +115,7 @@ struct SettingsView: View {
 					.fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
 						switch result {
 						case .success(let files):
-							Toast.shared.present(title: RealmProxy.shared.importMessage(files), symbol: .info)
+							Toast.shared.present(title: RealmManager.shared.importMessage(files), symbol: .info)
 						case .failure(let err):
 							Toast.shared.present(title: err.localizedDescription, symbol: .error)
 						}
@@ -289,7 +289,7 @@ struct SettingsView: View {
 								.foregroundStyle(.tint, Color.primary)
 						}
 					}.onChange(of: badgeMode) { newValue in
-						RealmProxy.ChangeBadge()
+						RealmManager.ChangeBadge()
 					}
 
 					NavigationLink(destination:
@@ -448,7 +448,7 @@ struct SettingsView: View {
 			}
 			.navigationTitle("设置")
 			.loading(showLoading)
-			.tipsToolbar(wifi: Monitors.shared.isConnected, notification: Monitors.shared.isAuthorized, callback: {
+			.tipsToolbar(wifi: MonitorsManager.shared.isConnected, notification: MonitorsManager.shared.isAuthorized, callback: {
 				manager.openSetting()
 			})
 			.toolbar {

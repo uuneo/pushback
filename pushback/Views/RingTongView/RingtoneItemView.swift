@@ -12,13 +12,14 @@ import Defaults
 
 
 struct RingtoneItemView: View {
-	@EnvironmentObject private var manager:PushbackManager
+	@StateObject private var audioManager = AudioManager.shared
+	@Default(.sound) var sound
+
 	var audio:URL
 	var fileName:String?
+	var ringType:RingTongType = .local
     @State var duration:Double = 0.0
-	@Default(.sound) var sound
 	@State private var title:String?
-	@State private var showCloudEdit:Bool = false
 	var name:String{
 		ringType == .cloud ? (fileName ?? "") : audio.deletingPathExtension().lastPathComponent
 	}
@@ -27,7 +28,7 @@ struct RingtoneItemView: View {
 		sound.name == audio.deletingPathExtension().lastPathComponent && ringType == sound.type
     }
 	
-	var ringType:RingTongType = .local
+
 
     var body: some View{
         HStack{
@@ -40,7 +41,7 @@ struct RingtoneItemView: View {
                 }
                 
                 Button{
-					self.playAudio()
+					audioManager.playAudio(url: audio)
                 }label: {
 					VStack(alignment: .leading){
 						Text( name)
@@ -63,7 +64,7 @@ struct RingtoneItemView: View {
 						.foregroundStyle( .tint, Color.primary)
 						.onTapGesture {
 							if let fileName{
-								manager.saveSound(url: audio,name: "\(fileName).caf")
+								audioManager.saveSound(url: audio,name: "\(fileName).caf")
 							}
 							
 						}
@@ -96,34 +97,18 @@ struct RingtoneItemView: View {
 					.symbolRenderingMode(.palette)
 					.foregroundStyle( .tint, Color.primary)
 					.onTapGesture {
-						manager.saveSound(url: audio,name: fileName)
+						audioManager.saveSound(url: audio,name: fileName)
 					}
 			}else{
 				Button {
 					sound = .init(type: ringType, name: audio.deletingPathExtension().lastPathComponent)
-					self.playAudio()
+					audioManager.playAudio(url: audio)
 				} label: {
-					Text("选择")
-				}
+					Text("设置")
+				}.tint(.green)
 			}
           
         }
-		.swipeActions(edge: .leading, allowsFullSwipe: true){
-			if ringType == .custom{
-				Button{
-					self.showCloudEdit.toggle()
-				}label: {
-					Text("云共享")
-				}.tint(.yellow)
-			}
-		}
-		.sheet(isPresented: $showCloudEdit){
-			RingTongAddCloudView(fileUrl: audio) {
-				self.showCloudEdit.toggle()
-			}
-			.presentationDetents([.height(500)])
-			.interactiveDismissDisabled()
-		}
         .task {
             do {
                 self.duration =  try await loadVideoDuration(fromURL: self.audio)
@@ -134,22 +119,11 @@ struct RingtoneItemView: View {
                 
             }
         }
-
+	
         
         
     }
-	
 
-	
-	
-	private func playAudio(){
-		var soundID: SystemSoundID = 0
-		AudioServicesCreateSystemSoundID(audio as CFURL, &soundID)
-		AudioServicesPlaySystemSoundWithCompletion(soundID) {
-			AudioServicesDisposeSystemSoundID(soundID)
-		}
-	}
-	
 	
 }
 

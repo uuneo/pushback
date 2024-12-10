@@ -10,8 +10,8 @@ import Network
 import UserNotifications
 import SwiftUI
 
-class Monitors: ObservableObject {
-    static let shared = Monitors()
+class MonitorsManager: ObservableObject {
+    static let shared = MonitorsManager()
     
     private var monitor: NWPathMonitor
     private let queue = DispatchQueue.global(qos: .background)

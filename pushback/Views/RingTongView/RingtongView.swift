@@ -11,56 +11,40 @@ import UIKit
 
 struct RingtongView: View {
 	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject private var manager:PushbackManager
+	@StateObject private var audioManager = AudioManager.shared
 	@State private var showUpload:Bool = false
-	@State private var soundID:SystemSoundID = 0
 	var body: some View {
 		NavigationStack{
 			List {
-				
-				
+
+
 				Section {
 					HStack{
 						Spacer()
 						Button {
 							self.showUpload.toggle()
-	#if DEBUG
-							print("上传铃声")
-	#endif
-							
-							
 						} label: {
 							Label("上传铃声", systemImage: "waveform" )
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint)
-							
+
 						}
 						.fileImporter(isPresented: $showUpload, allowedContentTypes:  UTType.types(tag: "caf", tagClass: UTTagClass.filenameExtension,conformingTo: nil)) { result in
 							switch result{
-							case .success(let file):
-								defer {
-									file.stopAccessingSecurityScopedResource()
-								}
-	#if DEBUG
-								print(file)
-	#endif
-								
-								if file.startAccessingSecurityScopedResource() {
-									manager.saveSound(url: file)
-								}else{
-	#if DEBUG
-									print("保存失败")
-	#endif
-								}
-								
-							case .failure(let err):
-	#if DEBUG
-								print(err)
-	#endif
-								
+								case .success(let file):
+									defer {
+										file.stopAccessingSecurityScopedResource()
+									}
+									if file.startAccessingSecurityScopedResource() {
+										audioManager.saveSound(url: file)
+									}
+
+								case .failure(let err):
+									debugPrint(err)
+
 							}
 						}
-						
+
 						Spacer()
 					}
 				}header: {
@@ -69,9 +53,8 @@ struct RingtongView: View {
 					HStack{
 						Text( "请先将铃声")
 						Button{
-							
-							manager.webUrl = BaseConfig.musicUrl
-							manager.fullPage = .web
+							PushbackManager.shared.webUrl = BaseConfig.musicUrl
+							PushbackManager.shared.fullPage = .web
 						}label: {
 							Text( "转换成 caf 格式")
 								.font(.footnote)
@@ -79,64 +62,54 @@ struct RingtongView: View {
 						Text( ",时长不超过 30 秒。")
 					}
 				}
-				
-				if manager.customSounds.count > 0{
+
+				if audioManager.customSounds.count > 0{
 					Section{
-						
-						
-						
-						ForEach(manager.customSounds, id: \.self) { url in
+
+
+
+						ForEach(audioManager.customSounds, id: \.self) { url in
 							RingtoneItemView(audio: url, ringType: .custom)
-							
 						}.onDelete { indexSet in
 							for index in indexSet{
-								manager.deleteSound(url: manager.customSounds[index])
+								audioManager.deleteSound(url: audioManager.customSounds[index])
 							}
 						}
 					}header: {
 						Text(  "自定义铃声")
 					}
 				}
-				
-				
+
+
 				Section{
-					ForEach(manager.defaultSounds, id: \.self) { url in
+					ForEach(audioManager.defaultSounds, id: \.self) { url in
 						RingtoneItemView(audio: url, ringType: .local)
 					}
 				}header: {
 					Text(  "自带铃声")
 				}
-				
-				
+
+
 			}
 			.navigationTitle("所有铃声")
-			.toolbar {
-				
-				ToolbarItem {
-					
-					NavigationLink {
-						CloudRingTongsView()
-					} label: {
-						Label("云音", systemImage: "icloud.and.arrow.down")
-					}
-
-				}
+			.onDisappear{
+				audioManager.playAudio(url: nil)
 			}
 		}
-		
-	}
-	
-	
-	
-	
-	
 
-	
+	}
+
+
+
+
+
+
+
 }
 
 #Preview {
 	RingtongView()
 		.environmentObject(PushbackManager.shared)
-	
+
 }
 

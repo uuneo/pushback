@@ -58,8 +58,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	
 	
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-		
-		
+
 		// 必须在应用一开始就配置，否则应用可能提前在配置之前试用了 Realm() ，则会创建两个独立数据库。
 		setupRealm()
 		
@@ -70,18 +69,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		let copyAction =  UNNotificationAction(identifier:Identifiers.copyAction, title: String(localized: "复制后关闭"), options: [.destructive],icon: .init(systemImageName: "doc.on.doc"))
 		
 		
-		let detailActionAction =  UNNotificationAction(identifier:Identifiers.detailAction, title: String(localized: "查看详情"), options: [.foreground],icon: .init(systemImageName: "ellipsis.circle"))
-		
-		// 创建 category
-		let category = UNNotificationCategory(identifier: Identifiers.reminderCategory,
-											  actions: [copyAction, detailActionAction],
-											  intentIdentifiers: [],
-											  options: [.hiddenPreviewsShowTitle])
-		
-		UNUserNotificationCenter.current().setNotificationCategories([category])
-		
-	
-		
+		let detailActionAction =  UNNotificationAction(identifier:Identifiers.detailAction, title: String(localized: "查看详情"), options: [.foreground, ],icon: .init(systemImageName: "ellipsis.circle"))
+
+		// 创建 category	
+		UNUserNotificationCenter.current().setNotificationCategories([
+			UNNotificationCategory(identifier: Identifiers.reminderCategory,
+								   actions: [copyAction, detailActionAction],
+								   intentIdentifiers: [],
+								   options: [.hiddenPreviewsShowTitle])
+		])
+
 		
 		return true
 	}

@@ -58,7 +58,7 @@ struct MessageHomeView: View {
 								.swipeActions(edge: .leading) {
 									Button {
 										
-										Task{ RealmProxy.shared.read(message.group) }
+										Task{ RealmManager.shared.read(message.group) }
 										
 									} label: {
 										
@@ -75,7 +75,7 @@ struct MessageHomeView: View {
 						
 					}.onDelete(perform: { indexSet in
 						for index in indexSet{
-							RealmProxy.shared.delete( groupMessages[index].group)
+							RealmManager.shared.delete( groupMessages[index].group)
 						}
 					})
 				}else{
@@ -95,7 +95,7 @@ struct MessageHomeView: View {
 				self.showExample = false
 			}
 			
-			.tipsToolbar(wifi: Monitors.shared.isConnected, notification: Monitors.shared.isAuthorized, callback: {
+			.tipsToolbar(wifi: MonitorsManager.shared.isConnected, notification: MonitorsManager.shared.isAuthorized, callback: {
 				manager.openSetting()
 			})
 			.toolbar{
@@ -189,11 +189,11 @@ struct MessageHomeView: View {
 		}
 		switch mode {
 		case .markRead:
-			RealmProxy.shared.read()
+			RealmManager.shared.read()
 		case .cancel:
 			break
 		default:
-			RealmProxy.shared.delete(mode.date)
+			RealmManager.shared.delete(mode.date)
 		}
 		
 		Toast.shared.present(title: "删除成功", symbol: .success)

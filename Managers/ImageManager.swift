@@ -151,47 +151,31 @@ class ImageManager {
 	
 	// Download the image from a URL
 	fileprivate static func downloadImage(_ url: String) async -> UIImage? {
-		
+
 		guard url.isValidURL() == .remote, let url = URL(string: url)  else {
 			print("Invalid URL: \(url)")
 			return nil
 		}
 		
 		let urlRequest = URLRequest(url: url)
-		
+
 		do {
-			let (data, response) = try await URLSession.shared.data(for: urlRequest)
-			
-			// Check HTTP response status
-			guard let response = response as? HTTPURLResponse else {
-				print("Invalid HTTP response")
-				return nil
-			}
-			
-			guard 200...299 ~= response.statusCode else {
-				print("Failed with status code: \(response.statusCode)")
-				return nil
-			}
-			
+			let data = try await URLSession(configuration: .default).data(for: urlRequest, timeout: 30)
+
 			// Convert data to UIImage
 			guard let image = UIImage(data: data) else {
 				print("Failed to decode image from data")
 				return nil
 			}
-			
+
 			return image
-		} catch URLError.notConnectedToInternet {
-			print("No internet connection")
-			return nil
-		} catch URLError.timedOut {
-			print("Request timed out")
-			return nil
+
 		} catch {
 			print("Failed to download image: \(error.localizedDescription)")
 			return nil
 		}
 	}
-	
+
 
 	
 	// Generate SHA-256 hash for a given URL

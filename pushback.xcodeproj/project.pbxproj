@@ -33,7 +33,6 @@
 		190E0CF62CE1E1B600F01858 /* oldphone.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF32CE1E1B600F01858 /* oldphone.caf */; };
 		190E0CF72CE1E1B600F01858 /* dongdong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF22CE1E1B600F01858 /* dongdong.caf */; };
 		190E0CF82CE1E1B600F01858 /* weixin.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CF42CE1E1B600F01858 /* weixin.caf */; };
-		190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */; };
 		190E0E722CE637EE00F01858 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CEF2CE1DD4F00F01858 /* alarm.caf */; };
 		190E0E732CE637EE00F01858 /* birdsong.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BBD2CCC850400A2F1A8 /* birdsong.caf */; };
 		190E0E742CE637EE00F01858 /* blue.caf in Resources */ = {isa = PBXBuildFile; fileRef = 190E0CBA2CE1C45100F01858 /* blue.caf */; };
@@ -118,11 +117,10 @@
 		19C13C222CCC8B3600A2F1A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C212CCC8B3600A2F1A8 /* SwiftyJSON */; };
 		19C13C252CCC8B4E00A2F1A8 /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C242CCC8B4E00A2F1A8 /* QRScanner */; };
 		19C13C282CCC8BBA00A2F1A8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C272CCC8BBA00A2F1A8 /* RealmSwift */; };
-		19C13C2E2CCC8C0D00A2F1A8 /* BsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2C2CCC8C0D00A2F1A8 /* BsyncImageView.swift */; };
 		19C13C2F2CCC8C0D00A2F1A8 /* cryptoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */; };
 		19C13C302CCC8C0D00A2F1A8 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */; };
-		19C13C312CCC8C0D00A2F1A8 /* Monitors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2A2CCC8C0D00A2F1A8 /* Monitors.swift */; };
-		19C13C322CCC8C0D00A2F1A8 /* RealmProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C292CCC8C0D00A2F1A8 /* RealmProxy.swift */; };
+		19C13C312CCC8C0D00A2F1A8 /* MonitorsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2A2CCC8C0D00A2F1A8 /* MonitorsManager.swift */; };
+		19C13C322CCC8C0D00A2F1A8 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C292CCC8C0D00A2F1A8 /* RealmManager.swift */; };
 		19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */; };
 		19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
 		19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
@@ -154,6 +152,7 @@
 		19C13CF92CCCDB4A00A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CF82CCCDB4A00A2F1A8 /* Defaults */; };
 		19C13CFA2CCCDBCA00A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13EA82CCD00E000A2F1A8 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C272CCC8BBA00A2F1A8 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		19F60EAC2D08645D00812815 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F60EAB2D08645700812815 /* AudioManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,7 +253,6 @@
 		190E0CF22CE1E1B600F01858 /* dongdong.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dongdong.caf; sourceTree = "<group>"; };
 		190E0CF32CE1E1B600F01858 /* oldphone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = oldphone.caf; sourceTree = "<group>"; };
 		190E0CF42CE1E1B600F01858 /* weixin.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = weixin.caf; sourceTree = "<group>"; };
-		190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingsTongCloudKit.swift; sourceTree = "<group>"; };
 		19214D4A2CECB7FE000D9463 /* AutoSizingTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSizingTextEditor.swift; sourceTree = "<group>"; };
 		19214D4B2CECB7FE000D9463 /* FullSwipeNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullSwipeNavigationStack.swift; sourceTree = "<group>"; };
 		19214D4C2CECB7FE000D9463 /* HackerTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackerTextView.swift; sourceTree = "<group>"; };
@@ -289,10 +287,9 @@
 		19C13BFC2CCC852000A2F1A8 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		19C13BFD2CCC852000A2F1A8 /* image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "image+.swift"; sourceTree = "<group>"; };
 		19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
-		19C13C292CCC8C0D00A2F1A8 /* RealmProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmProxy.swift; sourceTree = "<group>"; };
-		19C13C2A2CCC8C0D00A2F1A8 /* Monitors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitors.swift; sourceTree = "<group>"; };
+		19C13C292CCC8C0D00A2F1A8 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		19C13C2A2CCC8C0D00A2F1A8 /* MonitorsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorsManager.swift; sourceTree = "<group>"; };
 		19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
-		19C13C2C2CCC8C0D00A2F1A8 /* BsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BsyncImageView.swift; sourceTree = "<group>"; };
 		19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cryptoManager.swift; sourceTree = "<group>"; };
 		19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushbackManager.swift; sourceTree = "<group>"; };
 		19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModal.swift; sourceTree = "<group>"; };
@@ -304,6 +301,7 @@
 		19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		19F60EAB2D08645700812815 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -470,21 +468,11 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		1957E9082CD1218A00CF05A0 /* ICloudData */ = {
-			isa = PBXGroup;
-			children = (
-				190E0CF92CE1E2D800F01858 /* RingsTongCloudKit.swift */,
-				1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */,
-			);
-			path = ICloudData;
-			sourceTree = "<group>";
-		};
 		19C13B9C2CCBDF8B00A2F1A8 = {
 			isa = PBXGroup;
 			children = (
 				19214E1F2CF04B51000D9463 /* Helpers */,
 				19C13BDA2CCC850400A2F1A8 /* Sounds */,
-				1957E9082CD1218A00CF05A0 /* ICloudData */,
 				19C13BB92CCC84F300A2F1A8 /* Extensions */,
 				19C13C162CCC8A0F00A2F1A8 /* Managers */,
 				19C13BB62CCBE24A00A2F1A8 /* Publics */,
@@ -582,11 +570,12 @@
 		19C13C162CCC8A0F00A2F1A8 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */,
+				19F60EAB2D08645700812815 /* AudioManager.swift */,
 				19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */,
-				19C13C292CCC8C0D00A2F1A8 /* RealmProxy.swift */,
-				19C13C2A2CCC8C0D00A2F1A8 /* Monitors.swift */,
+				19C13C292CCC8C0D00A2F1A8 /* RealmManager.swift */,
+				19C13C2A2CCC8C0D00A2F1A8 /* MonitorsManager.swift */,
 				19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */,
-				19C13C2C2CCC8C0D00A2F1A8 /* BsyncImageView.swift */,
 				19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */,
 				19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */,
 				198D3D482D0011130065FA3E /* NetworkManager.swift */,
@@ -890,11 +879,10 @@
 				19214DCC2CEE02FF000D9463 /* LocalKeys.swift in Sources */,
 				19C13C182CCC8A4100A2F1A8 /* ImageManager.swift in Sources */,
 				19C13C192CCC8A4100A2F1A8 /* Extension+.swift in Sources */,
-				19C13C2E2CCC8C0D00A2F1A8 /* BsyncImageView.swift in Sources */,
 				19C13C2F2CCC8C0D00A2F1A8 /* cryptoManager.swift in Sources */,
 				19C13C302CCC8C0D00A2F1A8 /* HapticsManager.swift in Sources */,
-				19C13C312CCC8C0D00A2F1A8 /* Monitors.swift in Sources */,
-				19C13C322CCC8C0D00A2F1A8 /* RealmProxy.swift in Sources */,
+				19C13C312CCC8C0D00A2F1A8 /* MonitorsManager.swift in Sources */,
+				19C13C322CCC8C0D00A2F1A8 /* RealmManager.swift in Sources */,
 				19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */,
 				19C13C1A2CCC8A4100A2F1A8 /* View+.swift in Sources */,
 				19214E3B2CF07F1F000D9463 /* DisintegrationEffect.swift in Sources */,
@@ -907,9 +895,9 @@
 				19214DE82CEF8FA1000D9463 /* ParticleEffect.swift in Sources */,
 				1957E9072CD120BE00CF05A0 /* PushServerCloudKit.swift in Sources */,
 				19C13C1B2CCC8A4100A2F1A8 /* image+.swift in Sources */,
+				19F60EAC2D08645D00812815 /* AudioManager.swift in Sources */,
 				198D3D492D0011140065FA3E /* NetworkManager.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
-				190E0CFA2CE1E2E700F01858 /* RingsTongCloudKit.swift in Sources */,
 				19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */,
 				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
 				19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */,

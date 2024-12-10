@@ -48,7 +48,7 @@ struct uAsyncImage:View {
 							}else{
 								debugPrint("error",imageCache.name)
 								await MainActor.run {
-									self.phase = .failure("Not Image")
+									self.phase = .failure( StringError( "Not Image"))
 								}
 							}
 							
@@ -67,7 +67,7 @@ struct uAsyncImage:View {
 							}else{
 								debugPrint("error",imageCache.name)
 								await MainActor.run {
-									self.phase = .failure("Not Image")
+									self.phase = .failure( StringError( "Not Image" ))
 								}
 							}
 						}

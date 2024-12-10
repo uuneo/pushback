@@ -53,14 +53,19 @@ struct markDownPreferenceKey: PreferenceKey {
 
 // MARK: - Error+.swift
 
-extension String: @retroactive Error {}
+public struct StringError: Error{
+	var info:String
+	init(_ info: String) { self.info = info }
+}
 
-public enum ApiError: Swift.Error {
+
+
+public enum ApiError: Error {
 	case Error(info: String)
 	case AccountBanned(info: String)
 }
 
-extension Swift.Error {
+extension Error {
 	func rawString() -> String {
 		if let err = self as? String {
 			return err
@@ -77,27 +82,6 @@ extension Swift.Error {
 	}
 }
 
-// MARK: -  Array+.swift
-
-extension Array: @retroactive RawRepresentable where Element: Codable {
-	public init?(rawValue: String) {
-		guard let data = rawValue.data(using: .utf8),
-			  let result = try? JSONDecoder().decode([Element].self, from: data)
-		else {
-			return nil
-		}
-		self = result
-	}
-	
-	public var rawValue: String {
-		guard let data = try? JSONEncoder().encode(self),
-			  let result = String(data: data, encoding: .utf8)
-		else {
-			return "[]"
-		}
-		return result
-	}
-}
 
 // MARK: -  String+.swift
 
@@ -286,36 +270,40 @@ extension URLSession{
 		case invalidCode(Int)
 	}
 	
-	
-	func data(for urlRequest:URLRequest) async throws -> Data{
-		var request = urlRequest
-		request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-		request.setValue(generateCustomUserAgent(), forHTTPHeaderField: "User-Agent")
-		
+	func data(for request:URLRequest, timeout:Double = 30) async throws -> Data{
+
+		self.configuration.httpAdditionalHeaders = [
+			"application/json" : "Content-Type",
+			"User-Agent" : self.generateCustomUserAgent()
+		]
+		self.configuration.timeoutIntervalForRequest = timeout
+
 		let (data,response) = try await self.data(for: request)
 		guard let response = response as? HTTPURLResponse else{ throw APIError.invalidURL }
 		guard 200...299 ~= response.statusCode else {throw APIError.invalidCode(response.statusCode) }
 		return data
 	}
-	
-	
+
+
 	func generateCustomUserAgent() -> String {
-		   // 获取设备信息
-		   let device = UIDevice.current
-		   let systemName = device.systemName      // iOS
-		   let systemVersion = device.systemVersion // 系统版本
-		   let model = device.model                 // 设备型号 (例如 iPhone, iPad)
+		// 获取设备信息
+		let device = UIDevice.current
+		let systemName = device.systemName      // iOS
+		let systemVersion = device.systemVersion // 系统版本
+		let model = device.model                 // 设备型号 (例如 iPhone, iPad)
 
-		   // 获取应用信息
-		   let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "UnknownApp"
-		   let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-		   let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+		// 获取应用信息
+		let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "UnknownApp"
+		let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+		let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
 
-		   // 自定义User-Agent字符串
-		   let userAgent = "\(appName)/\(appVersion) (\(model); \(systemName) \(systemVersion); Build/\(buildVersion))"
+		// 自定义User-Agent字符串
+		let userAgent = "\(appName)/\(appVersion) (\(model); \(systemName) \(systemVersion); Build/\(buildVersion))"
 
-		   return userAgent
-	   }
+		return userAgent
+	}
+
+
   
 }
 
@@ -356,7 +344,7 @@ func == <T, Value: Equatable>( keyPath: KeyPath<T, Value>, value: Value) -> (T) 
 }
 
 
-// MARK: - Color.+swift
+// MARK: - Color.swift
 
 
 extension Color {
@@ -374,25 +362,21 @@ extension Color {
 		
 		self.init(red: red, green: green, blue: blue, opacity: alpha)
 	}
-	
-}
 
 
-extension Color {
-	
 	static let appDarkGray = Color(hex: "#0C0C0C")
 	static let appGray = Color(hex: "#0C0C0C").opacity(0.8)
 	static let appLightGray = Color(hex: "#0C0C0C").opacity(0.4)
 	static let appYellow = Color(hex: "#FFAC0C")
-	
+
 	//Booking
 	static let appRed = Color(hex: "#F62154")
 	static let appBookingBlue = Color(hex: "#1874E0")
-	
+
 	//Profile
 	static let appProfileBlue = Color(hex: "#374BFE")
-}
 
+}
 
 
 // MARK: -  Notification.Name

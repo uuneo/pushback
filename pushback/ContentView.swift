@@ -14,7 +14,7 @@ struct ContentView: View {
 	@Environment(\.colorScheme) private var colorScheme
 	@Environment(\.scenePhase) private var scenePhase
 	@EnvironmentObject private var manager:PushbackManager
-	@StateObject private var monitor = Monitors()
+	@StateObject private var monitor = MonitorsManager()
 	@ObservedResults(Message.self) private var messages
 	
 	@Default(.servers) private var servers
@@ -99,7 +99,7 @@ struct ContentView: View {
 					.destructive(
 						Text("删除"),
 						action: {
-							RealmProxy.shared.read(activeName == "alldelnotread")
+							RealmManager.shared.read(activeName == "alldelnotread")
 						}
 					), secondaryButton: .cancel())
 		}
@@ -268,7 +268,7 @@ extension ContentView{
 				manager.page = .message
 				switch name{
 				case "allread":
-					RealmProxy.shared.read()
+					RealmManager.shared.read()
 					Toast.shared.present(title: String(localized: "操作成功"), symbol: "questionmark.circle.dashed")
 				case "alldelread","alldelnotread":
 					self.activeName = name
@@ -295,9 +295,9 @@ extension ContentView{
 			break
 		}
 		
-		RealmProxy.shared.deleteExpired()
+		RealmManager.shared.deleteExpired()
 		UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-		RealmProxy.ChangeBadge()
+		RealmManager.ChangeBadge()
 	}
 
 }

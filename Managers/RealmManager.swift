@@ -9,9 +9,9 @@ import RealmSwift
 import Defaults
 import SwiftyJSON
 
-class RealmProxy{
+class RealmManager{
 	
-	static let shared = RealmProxy()
+	static let shared = RealmManager()
 	private init(){}
 	
 	
@@ -51,7 +51,7 @@ class RealmProxy{
 				proxy.delete(msg)
 			}
 			
-			RealmProxy.ChangeBadge()
+			RealmManager.ChangeBadge()
 		}
 		
 	}
@@ -72,7 +72,7 @@ class RealmProxy{
 				msg.read = true
 			}
 			
-			RealmProxy.ChangeBadge()
+			RealmManager.ChangeBadge()
 		}
 		
 		
@@ -84,7 +84,7 @@ class RealmProxy{
 			for msg in messages{
 				proxy.delete(msg)
 			}
-			RealmProxy.ChangeBadge()
+			RealmManager.ChangeBadge()
 		}
 	}
 	
@@ -96,7 +96,7 @@ class RealmProxy{
 			for msg in messages{
 				proxy.delete(msg)
 			}
-			RealmProxy.ChangeBadge()
+			RealmManager.ChangeBadge()
 		}
 		
 	}
@@ -113,7 +113,7 @@ class RealmProxy{
 			if let data = proxy.objects(Message.self).first(where: {$0 == message}){
 				data.read = true
 				completion?(String(localized: "修改成功"))
-				RealmProxy.ChangeBadge()
+				RealmManager.ChangeBadge()
 			}else{
 				completion?(String(localized: "没有数据"))
 			}

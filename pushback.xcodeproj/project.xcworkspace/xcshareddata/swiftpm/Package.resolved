@@ -1,0 +1,69 @@
+{
+  "originHash" : "bc88d8707383f5df313b3602cc376aafb66b4bfb1513ed08a29c895a8e8a7f18",
+  "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/Defaults.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ef1b2318fb549002bb533bec3a8ad98ae09f2cb6"
+      }
+    },
+    {
+      "identity" : "purchases-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RevenueCat/purchases-ios.git",
+      "state" : {
+        "revision" : "430ebbf47810b26e7cfbf219196d16f054612a35",
+        "version" : "5.13.0"
+      }
+    },
+    {
+      "identity" : "qrscanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/QRScanner.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "d51df93974f4775269d2ed0d0ee4a43de651525e"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "85eeca41654cc9070ad81a21a4b1d153ad467c33",
+        "version" : "14.13.1"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "5553cfd1c789efdb3d6daf7f0cc0733cfe601846"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/SwiftyJSON.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "c761b43aa03f15f00df64744e70399d78c3bee96"
+      }
+    }
+  ],
+  "version" : 3
+}

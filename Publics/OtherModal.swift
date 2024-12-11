@@ -39,36 +39,6 @@ struct ChangeKeyInfo:Codable{
 
 
 
-
-struct ServersForSync:Codable{
-	var key,url:String
-}
-
-// MARK: - other modal
-
-enum saveType:String{
-	case failUrl
-	case failSave
-	case failAuth
-	case success
-	case other
-	
-	var localized: String {
-		switch self {
-		case .failUrl:
-			return String(localized:"Url错误")
-		case .failSave:
-			return String(localized:"保存失败")
-		case .failAuth:
-			return String(localized: "没有权限")
-		case .success:
-			return String(localized: "保存成功")
-		case .other:
-			return String(localized:  "其他错误")
-		}
-	}
-}
-
 enum requestHeader :String {
 	case https = "https://"
 	case http = "http://"
@@ -378,12 +348,11 @@ struct exportJsonData:Identifiable{
 
 enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	case forever = -1
-	case no = 0
-	case oneDay = 1
-	case weekDay = 7
 	case month = 30
-	
-	
+	case weekDay = 7
+	case oneDay = 1
+	case no = 0
+
 	var days: Int{ self.rawValue }
 	
 	var title:String{

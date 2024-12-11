@@ -27,8 +27,7 @@ struct SettingsView: View {
 	@Default(.sound) var sound
 	@Default(.deviceToken) var deviceToken
 	@Default(.servers) var servers
-	@Default(.messageExpiration) var messageExpiration
-	@Default(.imageSaveDays) var imageSaveDays
+
 
 	@State private var webShow:Bool = false
 	@State private var webUrl:String = BaseConfig.helpWebUrl
@@ -37,8 +36,7 @@ struct SettingsView: View {
 	
 	@State private var showServerListView:Bool = false
 
-	@State private var showImport:Bool = false
-	
+
 	@State private var showPayWall:Bool = false
 
 	var serverTypeColor:Color{
@@ -79,63 +77,9 @@ struct SettingsView: View {
 					}
 					
 				}
-			
-				
-				Section {
-					
-					HStack{
-						ShareLink(item: MessageExportJson(data: Array(messages)), preview:
-									SharePreview(Text(String(format: String(localized: "导出%d条通知消息"), messages.count)), image: Image("json_png"), icon: "trash")) {
-							Label("导出", systemImage: "arrow.up.circle")
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-						}
-						
-						
-						Spacer()
-						Text(String(format: String(localized: "%d条消息"), messages.count) )
-							.foregroundStyle(Color.green)
-					}
-					
-					Button{
-						self.showImport.toggle()
-					}label: {
-						HStack{
-							
-							Label( "导入", systemImage: "arrow.down.circle")
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-							
-							Spacer()
-							
-						}
-					}
-					
-					
-					.fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
-						switch result {
-						case .success(let files):
-							Toast.shared.present(title: RealmManager.shared.importMessage(files), symbol: .info)
-						case .failure(let err):
-							Toast.shared.present(title: err.localizedDescription, symbol: .error)
-						}
-					})
-					
-					
-					
-				} header: {
-					Text( "导出消息列表")
-				} footer:{
-					Text("只能导入.exv结尾的JSON数据")
-				}
-						 
-						 
-						 
 				
 				
-				
-				
-				Section(footer:Text(  "苹果设备推送Token,不要外泄")) {
+				Section(header:Text(  "苹果设备推送Token,不要外泄")) {
 					Button{
 						if deviceToken != ""{
 							manager.copy(deviceToken)
@@ -169,87 +113,9 @@ struct SettingsView: View {
 						}
 					}
 				}
+
 				
-				Section {
-					
-					
-					Picker(selection: $messageExpiration) {
-						ForEach(ExpirationTime.allCases, id: \.self){ item in
-							Text(item.title)
-								.tag(item)
-						}
-					} label: {
-						Label {
-							Text( "默认保存时间")
-						} icon: {
-							Image(systemName: "externaldrive.badge.timemachine")
-								.scaleEffect(0.9)
-								.symbolRenderingMode(.palette)
-								.foregroundStyle((messageExpiration.days == 0 ? .red : (messageExpiration.days == -1 ? .green : .yellow)), Color.primary)
-							
-							
-							
-						}
-					}
-					
-					
-				}header:{
-					Text( "消息存档")
-				}footer:{
-					
-					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
-						.foregroundStyle(.gray)
-					
-				}
-				
-				
-				
-				
-				Section {
-					
-					NavigationLink {
-						ImageCacheView()
-							.toolbar(.hidden, for: .tabBar)
-							.navigationTitle("图片缓存")
-						
-					} label: {
-						Label("图片缓存", systemImage: "photo.on.rectangle")
-							.symbolRenderingMode(.palette)
-							.foregroundStyle( .tint, Color.primary)
-					}
-					
-					
-					Picker(selection: $imageSaveDays) {
-						ForEach(ExpirationTime.allCases, id: \.self){ item in
-							Text(item.title)
-								.tag(item)
-						}
-					} label: {
-						Label {
-							Text( "默认保存时间")
-						} icon: {
-							Image(systemName: "externaldrive.badge.timemachine")
-								.scaleEffect(0.9)
-								.symbolRenderingMode(.palette)
-								.foregroundStyle((imageSaveDays.days == 0 ? .red : (imageSaveDays.days == -1 ? .green : .yellow)), Color.primary)
-							
-						}
-					}
-					
-					
-				}header :{
-					Text(  "图片存档")
-						.foregroundStyle(.gray)
-					
-				}footer:{
-					Text("图片默认保存时间，本地化图片不受影响")
-				}
-				
-				
-				
-				
-				
-				Section(header: Text(  "配置")) {
+				Section(header: Text(  "显示和声音")) {
 					Button{
 						manager.sheetPage = .appIcon
 					}label: {
@@ -292,21 +158,7 @@ struct SettingsView: View {
 						RealmManager.ChangeBadge()
 					}
 
-					NavigationLink(destination:
-									CryptoConfigView()
-						.toolbar(.hidden, for: .tabBar)
-					) {
-						
-						
-						Label {
-							Text( "算法配置")
-						} icon: {
-							Image(systemName: "bolt.shield")
-								.scaleEffect(0.9)
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-						}
-					}
+					
 					
 					NavigationLink{
 						RingtongView()
@@ -331,10 +183,40 @@ struct SettingsView: View {
 					
 					
 				}
-				
-				
 				Section(header:Text( "系统" )) {
-					
+					NavigationLink{
+						DataStorageView()
+					}label: {
+
+						HStack{
+							Label {
+								Text( "数据与存储")
+							} icon: {
+								Image(systemName: "externaldrive")
+									.scaleEffect(0.9)
+									.symbolRenderingMode(.palette)
+									.foregroundStyle(.tint, Color.primary)
+							}
+							Spacer()
+						}
+					}
+					NavigationLink{
+						PrivacySecureView()
+					}label: {
+
+						HStack{
+							Label {
+								Text( "隐私与安全")
+							} icon: {
+								Image(systemName: "lock.square.stack")
+									.scaleEffect(0.9)
+									.symbolRenderingMode(.palette)
+									.foregroundStyle(.tint, Color.primary)
+							}
+							Spacer()
+						}
+					}
+
 					
 					Button{
 						manager.openSetting()
@@ -437,7 +319,7 @@ struct SettingsView: View {
 						
 						Text(buildVersion)
 						Spacer()
-					}.padding(.vertical)
+					}
 				}
 				
 				

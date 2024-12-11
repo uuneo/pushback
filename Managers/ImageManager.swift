@@ -52,7 +52,7 @@ class ImageManager {
 		let newPath = imagesDirectory.appendingPathComponent(newkey)
 		
 		if !FileManager.default.fileExists(atPath: oldPath.path) {
-			print("File not found at path: \(oldPath.absoluteString)")
+			print("File not found at path: \(oldPath.path)")
 			return false
 		}
 		
@@ -132,7 +132,7 @@ class ImageManager {
 			
 			Defaults[.images].removeAll(where: {$0.name == item.name})
 			
-			print("Image not found at path: \(imagePath.absoluteString)")
+			print("Image not found at path: \(imagePath.path)")
 			return false
 		}
 	}

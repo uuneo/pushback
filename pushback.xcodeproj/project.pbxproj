@@ -224,6 +224,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		19F60F4E2D0943C400812815 /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -302,6 +312,9 @@
 		19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		19F60EAB2D08645700812815 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		19F60F582D09454100812815 /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
+		19F60F6B2D09510800812815 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		19F60F6D2D09510800812815 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -589,6 +602,9 @@
 				1957022F2CE84C00009F55B0 /* StoreKit.framework */,
 				19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */,
 				19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */,
+				19F60F582D09454100812815 /* DeviceActivity.framework */,
+				19F60F6B2D09510800812815 /* ReplayKit.framework */,
+				19F60F6D2D09510800812815 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -606,6 +622,7 @@
 				19C13C992CCCD70F00A2F1A8 /* Embed Foundation Extensions */,
 				19C13EA92CCD00E000A2F1A8 /* Embed Frameworks */,
 				19214E172CF04185000D9463 /* Embed App Clips */,
+				19F60F4E2D0943C400812815 /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);

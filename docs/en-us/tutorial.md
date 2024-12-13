@@ -12,10 +12,11 @@ Difference from Bark: Parameter priority 【POST > GET > URL params】. POST par
 ## URL Format
 The URL consists of a push key, the `title` parameter, and the `body` parameter. There are two combination formats:
 
-
 ```
-/:key/:body 
-/:key/:title/:body 
+https://push.uuneo.com/:key/:body 
+https://push.uuneo.com/:key/:title/:body 
+https://push.uuneo.com/:key/:title/:subtitle/:body
+
 ```
 
 ## Request Methods
@@ -66,6 +67,7 @@ The list of supported parameters, the specific effects can be previewed in the a
 | Parameter | Bark | Pushback (Compatible with Bark) |
 | --------- | ---- | ----------------------------- |
 | title | Push Title | |
+| subtitle | Push Subtitle | |
 | body | Push Content | |
 | level | Push interruption level. <br> active: default value, the system will immediately turn on the screen to display the notification. <br> timeSensitive: time-sensitive notification, can be shown even in Do Not Disturb mode. <br> passive: only adds the notification to the notification list, without turning on the screen. <br> critical: important reminder, can remind in Do Not Disturb or silent mode. | The parameter can be replaced with numbers: level=1 <br> 0: passive <br> 1: timeSensitive <br> less than 0: active <br> greater than 1: critical. In this mode, the number will be used for volume level/10=0.1...1 (waiting for Apple's permission reply email... It is said to take two and a half years...) |
 | volume | Volume level in critical mode, range: 1...10 | No need for this parameter when a number is passed. |

@@ -13,8 +13,10 @@
 URL由推送key、参数 title、参数 body 组成。有下面两种组合方式
 
 ```
-/:key/:body 
-/:key/:title/:body 
+https://push.uuneo.com/:key/:body 
+https://push.uuneo.com/:key/:title/:body 
+https://push.uuneo.com/:key/:title/:subtitle/:body
+
 ```
 
 ## 请求方式
@@ -62,6 +64,7 @@ curl -X "POST" "https://push.twown.com/push" \
 | 参数 | bark |Pushback兼容bark|
 | ----- | ----------- | ----------- |
 | title | 推送标题 |
+| subtitle | 推送副标题 |
 | body | 推送内容 |
 | level | 推送中断级别。 <br>active：默认值，系统会立即亮屏显示通知    <br>timeSensitive：时效性通知，可在专注状态下显示通知。<br>passive：仅将通知添加到通知列表，不会亮屏提醒。<br>critical：重要提醒，可在专注模式或者静音模式下提醒  | 参数可以使用数字替代：level=1 <br>0：passive<br>1：timeSensitive<br>小于0：active<br>大于1： critical，此模式数字将用于音量 level/10=0.1...1 （等待水果公司的权限回复邮件... 听说要两年半...） |
 |volume| level=critical模式下音量 取值范围1...10|传入数字时不需要此参数|

@@ -59,10 +59,6 @@ class PushbackManager: NetworkManager, ObservableObject{
 	}
 
 
-
-
-
-
 	// MARK: - Remote Request
 
 
@@ -260,20 +256,13 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 			switch Defaults[.defaultBrowser] {
 				case .app:
-					PushbackManager.shared.fullPage = .web(url.path)
+					PushbackManager.shared.fullPage = .web(url.absoluteString)
 				case .safari:
 					UIApplication.shared.open(url, options: [:], completionHandler: nil)
 			}
 
 		} else {
-			UIApplication.shared.open(url, options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: true]) { success in
-				if !success {
-					// If the universal link cannot be opened, call the fallback closure
-					Toast.shared.present(title: String(localized: "打开失败"), symbol: .error)
-					unOpen?(url)
-
-				}
-			}
+			UIApplication.shared.open(url, options: [:], completionHandler: nil)
 		}
 	}
 

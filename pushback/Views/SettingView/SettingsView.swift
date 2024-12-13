@@ -79,7 +79,7 @@ struct SettingsView: View {
 				}
 				
 				
-				Section(header:Text(  "苹果设备推送Token,不要外泄")) {
+				Section(header:Text(  "设备推送令牌")) {
 					Button{
 						if deviceToken != ""{
 							manager.copy(deviceToken)
@@ -115,7 +115,7 @@ struct SettingsView: View {
 				}
 
 				
-				Section(header: Text(  "显示和声音")) {
+				Section(header: Text(  "App配置")) {
 					Button{
 						manager.sheetPage = .appIcon
 					}label: {
@@ -180,10 +180,8 @@ struct SettingsView: View {
 								.foregroundStyle(.gray)
 						}
 					}
-					
-					
-				}
-				Section(header:Text( "系统" )) {
+
+
 					NavigationLink{
 						DataStorageView()
 					}label: {
@@ -217,6 +215,11 @@ struct SettingsView: View {
 						}
 					}
 
+
+					
+				}
+				Section(header:Text( "设置与帮助" )) {
+
 					
 					Button{
 						manager.openSetting()
@@ -224,7 +227,7 @@ struct SettingsView: View {
 						HStack(alignment:.center){
 							
 							Label {
-								Text(  "打开设置")
+								Text(  "系统设置")
 									.foregroundStyle(.textBlack)
 							} icon: {
 								Image(systemName: "gear.circle")
@@ -242,9 +245,8 @@ struct SettingsView: View {
 					}
 					
 					Button{
-						manager.webUrl = BaseConfig.helpWebUrl
-						manager.fullPage = .web
-						
+						manager.fullPage = .web(BaseConfig.helpWebUrl)
+
 					}label: {
 						HStack(alignment:.center){
 							Label {

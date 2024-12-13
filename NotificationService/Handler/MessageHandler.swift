@@ -21,6 +21,7 @@ class MessageHandler: NotificationContentHandler{
 		let userInfo = bestAttemptContent.userInfo
 		let alert = (userInfo[Params.aps.name] as? [String: Any])?[Params.alert.name] as? [String: Any]
 		let title = alert?[Params.title.name] as? String
+		let subtitle = alert?[Params.subtitle.name] as? String
 		let body = alert?[Params.body.name] as? String
 		let url = userInfo[Params.url.name] as? String
 		
@@ -58,6 +59,7 @@ class MessageHandler: NotificationContentHandler{
 			try? realm.write {
 				let message = Message()
 				message.title = title
+				message.subtitle = subtitle
 				message.body = body
 				message.url = url
 				message.group = group

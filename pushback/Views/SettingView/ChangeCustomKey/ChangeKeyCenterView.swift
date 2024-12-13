@@ -19,7 +19,7 @@ struct ChnageKeyCenterView: View {
 	@State private var circleY:CGFloat = CGFloat.zero
 	
 	@Default(.servers) var servers
-	@State private var selectServer:PushServerModal
+	@State private var selectServer:PushServerModel
 	
 	@FocusState private var isPhoneFocused
 	

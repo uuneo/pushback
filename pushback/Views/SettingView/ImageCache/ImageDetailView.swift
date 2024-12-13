@@ -8,8 +8,8 @@ import SwiftUI
 import RealmSwift
 
 struct ImageDetailView:View {
-	var image: ImageCacheModal
-	@Binding var imageUrl:ImageCacheModal?
+	var image: ImageCacheModel
+	@Binding var imageUrl:ImageCacheModel?
 	@State var draggImage:String? = nil
 	@State private var localName:String = ""
 	@FocusState private var photoNamesShow

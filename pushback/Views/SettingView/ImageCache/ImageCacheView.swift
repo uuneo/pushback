@@ -16,7 +16,7 @@ struct ImageCacheView: View {
 	@Default(.photoName) var photoName
 	@Default(.images) var images
 	@State private var isSelect:Bool = false
-	@State private var selectImageArr:[ImageCacheModal] = []
+	@State private var selectImageArr:[ImageCacheModel] = []
 	@State private var showEditPhotoName:Bool = false
 	@State private var alart:AlertData?
 	
@@ -24,7 +24,7 @@ struct ImageCacheView: View {
 	
 	@State private var draggImage:String?
 	
-	@State private var imageDetail:ImageCacheModal?
+	@State private var imageDetail:ImageCacheModel?
 	
 	@State private var imagesData:[Image] = []
 	
@@ -216,7 +216,7 @@ struct ImageCacheView: View {
 	}
 	
 	
-	func saveImage(_ items:[ImageCacheModal]){
+	func saveImage(_ items:[ImageCacheModel]){
 		
 		Task.detached(priority: .background) {
 			for item in items{
@@ -242,7 +242,7 @@ struct ImageCacheView: View {
 	}
 	
 	
-	func loadSharkImages(images: [ImageCacheModal]){
+	func loadSharkImages(images: [ImageCacheModel]){
 		var results:[Image] = []
 		Task.detached(priority: .background) {
 			

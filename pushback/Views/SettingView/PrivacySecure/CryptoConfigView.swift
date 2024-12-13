@@ -9,8 +9,6 @@ import SwiftUI
 import Defaults
 
 struct CryptoConfigView: View {
-	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject private var manager:PushbackManager
 	@Default(.cryptoConfig) var cryptoConfig
 	@Default(.servers) var servers
 	
@@ -24,12 +22,9 @@ struct CryptoConfigView: View {
 	
 	var labelIcoc:String{
 		switch cryptoConfig.algorithm{
-		case .AES128:
-			"gauge.low"
-		case .AES192:
-			"gauge.medium"
-		case .AES256:
-			"gauge.high"
+		case .AES128: "gauge.low"
+		case .AES192: "gauge.medium"
+		case .AES256: "gauge.high"
 		}
 	}
 	
@@ -181,11 +176,11 @@ struct CryptoConfigView: View {
 
 				HStack{
 					Spacer()
+
 					Button {
-						cryptoConfig.iv = CryptoModal.generateRandomString()
-						cryptoConfig.key = CryptoModal.generateRandomString(cryptoConfig.algorithm.rawValue)
+						verifyCopyText(false)
 					} label: {
-						Label("随机生成密钥", systemImage: "dice")
+						Label("复制Python脚本", systemImage: "doc.on.doc")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(.white, Color.primary)
 							.padding(.horizontal)
@@ -212,14 +207,18 @@ struct CryptoConfigView: View {
 				}
 
 				ToolbarItem {
+
 					Button {
-						verifyCopyText(false)
+						cryptoConfig.iv = CryptoModel.generateRandomString()
+						cryptoConfig.key = CryptoModel.generateRandomString(cryptoConfig.algorithm.rawValue)
 					} label: {
-						Label("复制发送脚本", systemImage: "doc.on.doc")
+						Label("随机生成密钥", systemImage: "dice")
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(.green, Color.primary)
 							.padding(.horizontal)
+
 					}
+
 
 				}
 			}
@@ -256,16 +255,16 @@ struct CryptoConfigView: View {
 		
 		
 		if !verifyIv(showMsg) {
-			cryptoConfig.iv = CryptoModal.generateRandomString()
+			cryptoConfig.iv = CryptoModel.generateRandomString()
 		}
 		
 		if !verifyKey(showMsg){
-			cryptoConfig.key = CryptoModal.generateRandomString(cryptoConfig.algorithm.rawValue)
+			cryptoConfig.key = CryptoModel.generateRandomString(cryptoConfig.algorithm.rawValue)
 		}
 		
 		
 		if !showMsg{
-			manager.copy(cryptoExampleHandler())
+			PushbackManager.shared.copy(cryptoExampleHandler())
 			Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
 		}
 		

@@ -26,6 +26,10 @@ class CiphertextHandler:NotificationContentHandler{
 				bestAttemptContent.title = title
 				alert[Params.title.name] = title
 			}
+			if let subtitle = map[Params.subtitle.name] as? String {
+				bestAttemptContent.subtitle = subtitle
+				alert[Params.subtitle.name] = subtitle
+			}
 			if let body = map[Params.body.name] as? String {
 				bestAttemptContent.body = body
 				alert[Params.body.name] = body

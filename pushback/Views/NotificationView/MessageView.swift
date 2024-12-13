@@ -8,6 +8,7 @@
 import SwiftUI
 import RealmSwift
 
+
 struct MessageView: View {
 	
 	@EnvironmentObject private var manager:PushbackManager
@@ -30,18 +31,32 @@ struct MessageView: View {
 						HStack{
 							if let title = message.title{
 								highlightedText(searchText: searchText, text: title)
-									.font(.system(.headline))
+									.font(.headline)
+									.fontWeight(.bold)
 									.textSelection(.enabled)
 								
 								
 								Spacer()
 							}
 						}
-						
+
+						HStack{
+							if let subtitle = message.subtitle{
+								highlightedText(searchText: searchText, text: subtitle)
+									.font(.subheadline)
+									.fontWeight(.bold)
+									.foregroundStyle(.gray)
+									.textSelection(.enabled)
+
+
+								Spacer()
+							}
+						}
+
 						HStack{
 							if let body = message.body{
 								highlightedText(searchText: searchText, text: body)
-									.font(.subheadline)
+									.font(.body)
 									.textSelection(.enabled)
 							}
 							
@@ -55,7 +70,6 @@ struct MessageView: View {
 					
 				
 				}
-				
 				.padding(10)
 				.background(Color.whiteGary)
 				.clipShape(RoundedRectangle(cornerRadius: 10))

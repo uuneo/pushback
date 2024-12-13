@@ -53,8 +53,7 @@ struct RingtongView: View {
 					HStack{
 						Text( "请先将铃声")
 						Button{
-							PushbackManager.shared.webUrl = BaseConfig.musicUrl
-							PushbackManager.shared.fullPage = .web
+							PushbackManager.shared.fullPage = .web(BaseConfig.musicUrl)
 						}label: {
 							Text( "转换成 caf 格式")
 								.font(.footnote)

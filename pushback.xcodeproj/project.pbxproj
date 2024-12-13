@@ -122,14 +122,14 @@
 		19C13C312CCC8C0D00A2F1A8 /* MonitorsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2A2CCC8C0D00A2F1A8 /* MonitorsManager.swift */; };
 		19C13C322CCC8C0D00A2F1A8 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C292CCC8C0D00A2F1A8 /* RealmManager.swift */; };
 		19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */; };
-		19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
-		19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
+		19C13C3B2CCC8F5D00A2F1A8 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModel.swift */; };
+		19C13C3D2CCC907D00A2F1A8 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */; };
 		19C13C412CCC933700A2F1A8 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */; };
 		19C13C942CCCD70F00A2F1A8 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CBA2CCCD77600A2F1A8 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CB92CCCD77600A2F1A8 /* UserNotifications.framework */; };
 		19C13CBC2CCCD77600A2F1A8 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C13CBB2CCCD77600A2F1A8 /* UserNotificationsUI.framework */; };
 		19C13CC62CCCD77600A2F1A8 /* NotificationContent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		19C13CCB2CCCD8F800A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
+		19C13CCB2CCCD8F800A2F1A8 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */; };
 		19C13CCC2CCCD91500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CCE2CCCD97100A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCD2CCCD97100A2F1A8 /* Defaults */; };
 		19C13CD02CCCD97100A2F1A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CCF2CCCD97100A2F1A8 /* SwiftyJSON */; };
@@ -140,15 +140,15 @@
 		19C13CD82CCCD9F400A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13CD92CCCDA2700A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13CDA2CCCDA3E00A2F1A8 /* cryptoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */; };
-		19C13CDB2CCCDA5000A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
-		19C13CDD2CCCDA6100A2F1A8 /* MessageModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */; };
+		19C13CDB2CCCDA5000A2F1A8 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */; };
+		19C13CDD2CCCDA6100A2F1A8 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3A2CCC8F5B00A2F1A8 /* MessageModel.swift */; };
 		19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CE02CCCDA9500A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CDF2CCCDA9500A2F1A8 /* Defaults */; };
 		19C13CEF2CCCDADC00A2F1A8 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		19C13CF42CCCDB4100A2F1A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C172CCC8A1D00A2F1A8 /* ImageManager.swift */; };
 		19C13CF52CCCDB4100A2F1A8 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */; };
 		19C13CF62CCCDB4100A2F1A8 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
-		19C13CF72CCCDB4100A2F1A8 /* OtherModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */; };
+		19C13CF72CCCDB4100A2F1A8 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */; };
 		19C13CF92CCCDB4A00A2F1A8 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 19C13CF82CCCDB4A00A2F1A8 /* Defaults */; };
 		19C13CFA2CCCDBCA00A2F1A8 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13BFB2CCC852000A2F1A8 /* Extension+.swift */; };
 		19C13EA82CCD00E000A2F1A8 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 19C13C272CCC8BBA00A2F1A8 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -302,8 +302,8 @@
 		19C13C2B2CCC8C0D00A2F1A8 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		19C13C2D2CCC8C0D00A2F1A8 /* cryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cryptoManager.swift; sourceTree = "<group>"; };
 		19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushbackManager.swift; sourceTree = "<group>"; };
-		19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModal.swift; sourceTree = "<group>"; };
-		19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherModal.swift; sourceTree = "<group>"; };
+		19C13C3A2CCC8F5B00A2F1A8 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherModel.swift; sourceTree = "<group>"; };
 		19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
 		19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,10 +513,10 @@
 			isa = PBXGroup;
 			children = (
 				19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */,
-				19C13C3A2CCC8F5B00A2F1A8 /* MessageModal.swift */,
+				19C13C3A2CCC8F5B00A2F1A8 /* MessageModel.swift */,
 				19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */,
 				19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */,
-				19C13C3C2CCC907700A2F1A8 /* OtherModal.swift */,
+				19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */,
 			);
 			path = Publics;
 			sourceTree = "<group>";
@@ -915,9 +915,9 @@
 				19F60EAC2D08645D00812815 /* AudioManager.swift in Sources */,
 				198D3D492D0011140065FA3E /* NetworkManager.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
-				19C13C3D2CCC907D00A2F1A8 /* OtherModal.swift in Sources */,
+				19C13C3D2CCC907D00A2F1A8 /* OtherModel.swift in Sources */,
 				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
-				19C13C3B2CCC8F5D00A2F1A8 /* MessageModal.swift in Sources */,
+				19C13C3B2CCC8F5D00A2F1A8 /* MessageModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,8 +927,8 @@
 			files = (
 				19214DCB2CEE02EC000D9463 /* LocalKeys.swift in Sources */,
 				19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */,
-				19C13CDD2CCCDA6100A2F1A8 /* MessageModal.swift in Sources */,
-				19C13CDB2CCCDA5000A2F1A8 /* OtherModal.swift in Sources */,
+				19C13CDD2CCCDA6100A2F1A8 /* MessageModel.swift in Sources */,
+				19C13CDB2CCCDA5000A2F1A8 /* OtherModel.swift in Sources */,
 				19C13CDA2CCCDA3E00A2F1A8 /* cryptoManager.swift in Sources */,
 				19C13CD82CCCD9F400A2F1A8 /* Extension+.swift in Sources */,
 				19C13CD62CCCD9B700A2F1A8 /* BaseConfig.swift in Sources */,
@@ -944,7 +944,7 @@
 				19C13CD92CCCDA2700A2F1A8 /* Extension+.swift in Sources */,
 				19C13CD72CCCD9C900A2F1A8 /* BaseConfig.swift in Sources */,
 				19C13CCC2CCCD91500A2F1A8 /* ImageManager.swift in Sources */,
-				19C13CCB2CCCD8F800A2F1A8 /* OtherModal.swift in Sources */,
+				19C13CCB2CCCD8F800A2F1A8 /* OtherModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -957,7 +957,7 @@
 				19C13CF42CCCDB4100A2F1A8 /* ImageManager.swift in Sources */,
 				19C13CF52CCCDB4100A2F1A8 /* BaseConfig.swift in Sources */,
 				19C13CF62CCCDB4100A2F1A8 /* LocalKeys.swift in Sources */,
-				19C13CF72CCCDB4100A2F1A8 /* OtherModal.swift in Sources */,
+				19C13CF72CCCDB4100A2F1A8 /* OtherModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

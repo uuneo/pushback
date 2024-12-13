@@ -1,5 +1,5 @@
 //
-//  OtherModal.swift
+//  OtherModel.swift
 //  pushback
 //
 //  Created by He Cho on 2024/10/26.
@@ -51,16 +51,16 @@ struct Identifiers {
 	static let detailAction = "viewDetail"
 }
 
-// MARK: - Page modal
+// MARK: - Page model
 
 
-enum SubPage{
+enum SubPage: Equatable{
 	case login
 	case servers
 	case scan
 	case music
 	case appIcon
-	case web
+	case web(String)
 	case none
 }
 
@@ -70,7 +70,7 @@ enum TabPage :String{
 	case setting = "setting"
 }
 
-// MARK: - MessageAction modal
+// MARK: - MessageAction model
 
 enum MessageAction: String, CaseIterable, Equatable{
 	case markRead = "allMarkRead"
@@ -121,7 +121,7 @@ enum MessageAction: String, CaseIterable, Equatable{
 }
 
 
-// MARK: - QuickAction modal
+// MARK: - QuickAction model
 
 enum QuickAction{
 	static var selectAction:UIApplicationShortcutItem?
@@ -163,9 +163,9 @@ enum QuickAction{
 	]
 }
 
-// MARK: - PushServerModal
+// MARK: - PushServerModel
 
-struct PushServerModal: Codable, Identifiable,Equatable, Defaults.Serializable, Hashable{
+struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, Hashable{
 	var id:String = UUID().uuidString
 	var url:String
 	var key:String
@@ -236,14 +236,14 @@ enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable, Defaults.Seri
 	}
 }
 
-struct CryptoModal: Equatable{
+struct CryptoModel: Equatable{
 	
 	var algorithm: CryptoAlgorithm
 	var mode: CryptoMode
 	var key: String
 	var iv: String
 	
-	static let data = CryptoModal(algorithm: .AES256, mode: .GCM, key: generateRandomString(32), iv: generateRandomString())
+	static let data = CryptoModel(algorithm: .AES256, mode: .GCM, key: generateRandomString(32), iv: generateRandomString())
 	
 	
 	static func generateRandomString(_ length: Int = 16) -> String {
@@ -255,7 +255,7 @@ struct CryptoModal: Equatable{
 	
 }
 
-extension CryptoModal: Codable{
+extension CryptoModel: Codable{
 	enum CodingKeys: String, CodingKey{
 		case algorithm
 		case mode
@@ -283,7 +283,7 @@ extension CryptoModal: Codable{
 	
 }
 
-extension CryptoModal: RawRepresentable{
+extension CryptoModel: RawRepresentable{
 	public init?(rawValue: String) {
 		guard let data = rawValue.data(using: .utf8) ,
 			  let result = try? JSONDecoder().decode(
@@ -303,7 +303,7 @@ extension CryptoModal: RawRepresentable{
 	
 }
 
-extension CryptoModal: Defaults.Serializable {}
+extension CryptoModel: Defaults.Serializable {}
 
 
 // MARK: - AppIconMode
@@ -328,9 +328,9 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 	}
 }
 
-// MARK: - PushExampleModal
+// MARK: - PushExampleModel
 
-struct PushExampleModal:Identifiable {
+struct PushExampleModel:Identifiable {
 	var id = UUID().uuidString
 	var header,footer: AnyView
 	var title,params:String
@@ -373,9 +373,9 @@ enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	
 }
 
-// MARK: - ImageCacheModal
+// MARK: - ImageCacheModel
 
-struct ImageCacheModal: Codable, Identifiable, Defaults.Serializable,Equatable{
+struct ImageCacheModel: Codable, Identifiable, Defaults.Serializable,Equatable{
 	var id:String = UUID().uuidString
 	var url:String
 	var local:String?
@@ -405,3 +405,20 @@ struct SoundDefault: Codable, Defaults.Serializable{
 	static let def = SoundDefault(type: .local, name: "silence")
 }
 
+
+
+
+enum DefaultBrowserModel: String, CaseIterable, Defaults.Serializable {
+	case safari
+	case app
+
+	var title:String{
+		switch self {
+			case .safari:
+				"Safari"
+			case .app:
+				String(localized: "内部")
+		}
+	}
+
+}

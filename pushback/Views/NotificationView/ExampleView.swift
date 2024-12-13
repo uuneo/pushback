@@ -122,81 +122,81 @@ struct ExampleView: View {
 
 
 extension ExampleView{
-	func createExample(cryptoData:CryptoModal)-> [PushExampleModal]{
-		
+	func createExample(cryptoData:CryptoModel)-> [PushExampleModel]{
+
 		let data = CryptoManager(cryptoData).encrypt(BaseConfig.testData)
 		/// 加号害人啊！！！！！！！！！！！！！！
 		let ciphertext = data?.base64EncodedString().replacingOccurrences(of: "+", with: "%2B") ?? ""
 		
 		
 		return [
-			PushExampleModal(header: AnyView(Text("示例 1")),
+			PushExampleModel(header: AnyView(Text("示例 1")),
 							 footer: AnyView(Text( "点击右上角按钮可以复制测试URL、预览推送效果\nSafari有缓存，没收到推送时请刷新页面")),
 							 title: String(localized: "推送内容"),
 							 params: String(localized: "推送内容"),
 							 index: 1),
 			
-			PushExampleModal(header: AnyView(Text(  "示例 2")),
+			PushExampleModel(header: AnyView(Text(  "示例 2")),
 							 footer: AnyView(Text("推送标题的字号比推送内容粗一点")),
 							 title: String(localized: "标题 + 内容"),
 							 params: String(localized: "标题/内容"),
 							 index: 2),
 			
-			PushExampleModal(header: AnyView(Text( "右上角点击耳机查看所有铃声")),
+			PushExampleModel(header: AnyView(Text( "右上角点击耳机查看所有铃声")),
 							 footer: AnyView(Text( "可以为推送设置不同的铃声")),
 							 title: String(localized:  "推送铃声"),
 							 params: "\(String(localized: "推送内容"))?sound=tuola",
 							 index: 3),
 			
-			PushExampleModal(header: AnyView(Text( "自定义推送显示的logo")),
+			PushExampleModel(header: AnyView(Text( "自定义推送显示的logo")),
 							 footer: AnyView(Spacer()),
 							 title: String(localized:  "自定义icon"),
 							 params:  "\(String(localized: "推送内容"))?icon=\(BaseConfig.iconRemote)",
 							 index: 4),
 			
-			PushExampleModal(header: AnyView(Text( "下拉消息会显示图片")),
+			PushExampleModel(header: AnyView(Text( "下拉消息会显示图片")),
 							 footer: AnyView(Text( "携带一个image,会自动下载缓存")),
 							 title: String(localized:  "携带图片"),
 							 params:  "?title=\(String(localized: "标题" ))&body=\(String(localized: "内容" ))&image=\(BaseConfig.iconRemote)",
 							 index: 5),
 			
-			PushExampleModal(header: AnyView(Text( "只能在消息提醒查看,不自动缓存")),
+			PushExampleModel(header: AnyView(Text( "只能在消息提醒查看,不自动缓存")),
 							 footer: AnyView(Text( "携带一个video，点击自动播放")),
 							 title: String(localized: "携带视频"),
 							 params: "?title=\(String(localized: "标题"))&body=\(String(localized: "内容" ))&video=https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4",
 							 index: 6 ),
 			
-			PushExampleModal(header: AnyView(Spacer()),
+			PushExampleModel(header: AnyView(Spacer()),
 							 footer: AnyView(Text( "如果要使用这个参数，设置中的角标模式需要设置成自定义")),
 							 title: String(localized: "自定义角标"),
 							 params:  "\(String(localized:  "自定义角标"))?badge=1",
 							 index: 7),
 			
-			PushExampleModal(header: AnyView(Text("自动保存")),
+			PushExampleModel(header: AnyView(Text("自动保存")),
 							 footer: AnyView(Text( "消息默认保存，除非携带isArchive=0，信息不会在前台出现")),
 							 title: String(localized:  "不保存消息"),
 							 params: "\(String(localized:"推送内容" ))?isArchive=0",
 							 index: 8),
 			
-			PushExampleModal(header: AnyView(Text("URLScheme或者网址")),
+			PushExampleModel(header: AnyView(Text("URLScheme或者网址")),
 							 footer: AnyView(Text( "点击跳转app")),
 							 title: String(localized: "打开第三方App或者网站"),
 							 params:  "\(String(localized: "推送内容"))?url=weixin://",
 							 index: 9),
 			
-			PushExampleModal(header: AnyView(Text( "默认分组名：默认")),
+			PushExampleModel(header: AnyView(Text( "默认分组名：默认")),
 							 footer: AnyView(Text( "推送将按照group参数分组显示在通知中心和应用程序内")),
 							 title: String(localized: "推送消息分组"),
 							 params:  "\(String(localized: "推送消息分组"))?group=\(String(localized: "测试"))",
 							 index: 10),
 			
-			PushExampleModal(header: AnyView(Text( "持续响铃")),
+			PushExampleModel(header: AnyView(Text( "持续响铃")),
 							 footer: AnyView(Text("通知铃声将持续播放30s，同时收到多个将按顺序依次响铃")),
 							 title: String(localized:  "持续响铃"),
 							 params: "\(String(localized:  "持续响铃"))?call=1",
 							 index: 11),
 			
-			PushExampleModal(header: AnyView(Text("可对通知设置中断级别")),
+			PushExampleModel(header: AnyView(Text("可对通知设置中断级别")),
 							 footer: AnyView(Text( """
  \(String(localized: "可选参数值"))：
  level=active: \(String(localized: "默认值，系统会立即亮屏显示通知。" )) 
@@ -213,7 +213,7 @@ extension ExampleView{
 							 params: "\(String(localized:  "时效性通知"))?level=timeSensitive",
 							 index: 12),
 			
-			PushExampleModal(header: AnyView(
+			PushExampleModel(header: AnyView(
 				HStack{
 					Text( "需要在")
 					NavigationLink{ CryptoConfigView() }label: {

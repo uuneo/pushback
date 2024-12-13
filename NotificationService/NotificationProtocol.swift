@@ -1,5 +1,5 @@
 //
-//  NotificationModal.swift
+//  NotificationModel.swift
 //  pushback
 //
 //  Created by He Cho on 2024/11/23.

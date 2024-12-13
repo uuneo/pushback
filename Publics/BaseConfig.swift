@@ -31,13 +31,14 @@ class BaseConfig {
 	static let  realmName = "Meowrld.realm"
 	static let  kStopCallHandlerKey = "stopCallHandlerNotification"
 	static let  Sounds = "Sounds"
-	static let  realmModalVersion:UInt64 = 25
+	static let  realmModelVersion:UInt64 = 26
 	static let  defaultSound = "defaultSound"
 	static let  activeAppIcon = "setting_active_app_icon"
 	static let 	customPhotoName = "CustomPhotoName"
 	static let 	imagsList = "customImagesCache"
 	static let 	RingTongRecord = "RingTongRecord"
 	static let 	messageExpirtion = "messageExpirtionTime"
+	static let 	defaultBrowser = "defaultBrowserOpen"
 	static let  imageSaveDays = "imageSaveDays"
 	static let 	photoName = "pushback."
 	static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"

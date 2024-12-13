@@ -17,7 +17,6 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var page:TabPage = .message
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
-	@Published var webUrl:String = ""
 	@Published var scanUrl:String = ""
 	@Published var showServerListView:Bool = false
 	
@@ -49,7 +48,9 @@ class PushbackManager: NetworkManager, ObservableObject{
 		}
 		
 	}
-	
+
+
+
 	
 	private override init() {
 		/// get sound file list
@@ -66,7 +67,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 
 
-	func changeKey(server:PushServerModal, newKey:String) async -> Bool{
+	func changeKey(server:PushServerModel, newKey:String) async -> Bool{
 
 		do{
 
@@ -76,7 +77,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 			   let index = Defaults[.servers].firstIndex(where: {$0.id == server.id}){
 				if let data = response.data{
 					Defaults[.servers].remove(at: index)
-					Defaults[.servers].append(PushServerModal(url: server.url,key: data.newKey))
+					Defaults[.servers].append(PushServerModel(url: server.url,key: data.newKey))
 					Toast.shared.present(title: String(localized: "修改成功"), symbol: .success)
 					return true
 				}else{
@@ -147,7 +148,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	///  - Parameters:
 	///  server: 服务器数据
 	///  completion: 服务器数据，提示消息
-	func register(server: PushServerModal, completion: ((PushServerModal,String)-> Void)? = nil){
+	func register(server: PushServerModel, completion: ((PushServerModel,String)-> Void)? = nil){
 		Task.detached(priority: .high) {
 			let (server1,msg) = await self.register(server: server)
 			completion?(server1, msg)
@@ -158,13 +159,13 @@ class PushbackManager: NetworkManager, ObservableObject{
 	///  - Parameters:
 	///  server: 服务器数据
 	///  completion: 列表 ( 服务器数据，提示消息 )
-	func registers(completion: (([(PushServerModal,String)])-> Void)? = nil) async {
-		await withTaskGroup(of: (PushServerModal,String).self) { group in
+	func registers(completion: (([(PushServerModel,String)])-> Void)? = nil) async {
+		await withTaskGroup(of: (PushServerModel,String).self) { group in
 			for server in Defaults[.servers] {
 				group.addTask {await self.register(server: server)}
 			}
 
-			var results:[(PushServerModal,String)] = []
+			var results:[(PushServerModel,String)] = []
 			for await result in group{
 				results.append(result)
 			}
@@ -174,7 +175,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 
 	/// Register  Server async
-	func register(server: PushServerModal) async -> (PushServerModal,String){
+	func register(server: PushServerModel) async -> (PushServerModel,String){
 
 		do{
 			let deviceToken = Defaults[.deviceToken]
@@ -216,7 +217,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 
 	/// add server
-	func appendServer(server:PushServerModal, completion: @escaping (PushServerModal,String)-> Void ){
+	func appendServer(server:PushServerModel, completion: @escaping (PushServerModel,String)-> Void ){
 		Task.detached(priority: .background) {
 			let isServer = Defaults[.servers].contains(where: {$0.url == server.url})
 			let (_, success, msg) = await self.health(url: server.url)
@@ -256,17 +257,23 @@ class PushbackManager: NetworkManager, ObservableObject{
 	func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
 
 		if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
-			// Attempt to open the URL as a universal link
-			UIApplication.shared.open(url, options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: true]) { success in
-				if !success {
-					// If the universal link cannot be opened, call the fallback closure
-					unOpen?(url)
-				}
+
+			switch Defaults[.defaultBrowser] {
+				case .app:
+					PushbackManager.shared.fullPage = .web(url.path)
+				case .safari:
+					UIApplication.shared.open(url, options: [:], completionHandler: nil)
 			}
 
 		} else {
-			// Fallback to opening the URL normally if it's not a universal link or cannot be opened
-			UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			UIApplication.shared.open(url, options: [UIApplication.OpenExternalURLOptionsKey.universalLinksOnly: true]) { success in
+				if !success {
+					// If the universal link cannot be opened, call the fallback closure
+					Toast.shared.present(title: String(localized: "打开失败"), symbol: .error)
+					unOpen?(url)
+
+				}
+			}
 		}
 	}
 

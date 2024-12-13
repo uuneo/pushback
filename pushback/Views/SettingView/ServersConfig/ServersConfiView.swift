@@ -18,12 +18,12 @@ struct ServersConfigView: View {
 	@State private var serverName:String = ""
 	@State private var pickerSelect:requestHeader = .https
 	@State private var showAddView:Bool = false
-	@State private var cloudDatas:[PushServerModal] = []
+	@State private var cloudDatas:[PushServerModel] = []
 	@FocusState private var serverNameFocus
 
 
 	var showClose:Bool = false
-	var filteredCloudDatas:[PushServerModal]{
+	var filteredCloudDatas:[PushServerModel]{
 		self.cloudDatas.filter { item in
 			// 筛选不在本地服务器列表中的云服务器
 			!servers.contains(where: { $0.url == item.url && $0.key == item.key })
@@ -108,13 +108,6 @@ struct ServersConfigView: View {
 
 							ServerCardView(item: item,isCloud: true)
 								.padding(.vertical,5)
-								.swipeActions(edge: .leading, allowsFullSwipe: true) {
-									Button{
-										Defaults[.servers].insert(item, at: 0)
-									}label:{
-										Text("恢复")
-									}.tint(Color.green)
-								}
 								.swipeActions(edge: .trailing, allowsFullSwipe: true) {
 									Button{
 										PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
@@ -246,8 +239,7 @@ struct ServersConfigView: View {
 						.font(.caption2)
 						.foregroundStyle(Color.accentColor)
 						.onTapGesture {
-							manager.webUrl = BaseConfig.delpoydoc
-							manager.fullPage = .web
+							manager.fullPage = .web(BaseConfig.delpoydoc)
 						}
 
 
@@ -294,7 +286,7 @@ struct ServersConfigView: View {
 
 						if serverName.count > 3 && serverUrl.isValidURL() == .remote{
 
-							let item = PushServerModal(url: serverUrl)
+							let item = PushServerModel(url: serverUrl)
 							manager.appendServer(server: item){_,msg in
 								Toast.shared.present(title: msg, symbol: .info)
 								self.serverName = ""
@@ -319,7 +311,7 @@ struct ServersConfigView: View {
 
 
 	func updateCloudServers(){
-		PushServerCloudKit.shared.fetchPushServerModals { response in
+		PushServerCloudKit.shared.fetchPushServerModels { response in
 			switch response {
 				case .success(let results):
 					withAnimation(.easeInOut) {

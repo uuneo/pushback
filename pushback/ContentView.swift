@@ -61,7 +61,7 @@ struct ContentView: View {
 					}
 					
 					
-					PushServerCloudKit.shared.fetchPushServerModals { response in
+					PushServerCloudKit.shared.fetchPushServerModels { response in
 						switch response {
 						case .success(let results):
 							withAnimation(.easeInOut) {
@@ -73,7 +73,7 @@ struct ContentView: View {
 						case .failure(let failure):
 							debugPrint(failure)
 							Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
-							self.servers.append(PushServerModal(url: BaseConfig.defaultServer))
+							self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
 						}
 						
 						
@@ -179,13 +179,13 @@ struct ContentView: View {
 			RingtongView()
 		case .scan:
 			ScanView { code in
-				manager.appendServer(server: PushServerModal(url: code)) { server, msg in
+				manager.appendServer(server: PushServerModel(url: code)) { server, msg in
 					Toast.shared.present(title: msg, symbol: "document.viewfinder")
 				}
 				
 			}
-		case .web:
-			SFSafariView(url: manager.webUrl)
+		case .web(let url):
+			SFSafariView(url: url)
 				.ignoresSafeArea()
 		default:
 			EmptyView()
@@ -207,8 +207,8 @@ struct ContentView: View {
 				AppIconView()
 			}.presentationDetents([.height(300)])
 				
-		case .web:
-			SFSafariView(url: manager.webUrl)
+		case .web(let url):
+			SFSafariView(url: url)
 				.ignoresSafeArea()
 		default:
 			EmptyView()
@@ -245,8 +245,8 @@ extension ContentView{
 		}else if host == "add"{
 			if let url = params["url"]{
 				
-				servers.append(PushServerModal(url: url))
-				
+				servers.append(PushServerModel(url: url))
+
 				if !manager.showServerListView {
 					manager.fullPage = .none
 					manager.sheetPage = .none

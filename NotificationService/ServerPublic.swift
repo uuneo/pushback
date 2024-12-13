@@ -11,6 +11,7 @@ enum Params: String, CaseIterable{
 	case ciphertext
 	case isarchive
 	case title
+	case subtitle
 	case body
 	case icon
 	case image

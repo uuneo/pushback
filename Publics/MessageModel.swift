@@ -1,5 +1,5 @@
 //
-//  MessageModal.swift
+//  MessageModel.swift
 //  pushback
 //
 //  Created by He Cho on 2024/10/26.
@@ -17,6 +17,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted(indexed: true) var group:String
 	@Persisted(indexed: true) var createDate:Date
 	@Persisted var title:String?
+	@Persisted var subtitle:String?
 	@Persisted var body:String?
 	@Persisted var icon:String?
 	@Persisted var url:String?
@@ -32,6 +33,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	enum CodingKeys: CodingKey {
 		case id
 		case title
+		case subtitle
 		case body
 		case icon
 		case group
@@ -53,6 +55,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.group, forKey: .group)
 		try container.encode(self.createDate, forKey: .createDate)
 		try container.encode(self.title, forKey: .title)
+		try container.encode(self.subtitle, forKey: .subtitle)
 		try container.encode(self.body, forKey: .body)
 		try container.encode(self.icon, forKey: .icon)
 		try container.encode(self.image, forKey: .image)

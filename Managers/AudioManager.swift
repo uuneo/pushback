@@ -123,22 +123,34 @@ class AudioManager: ObservableObject{
 
 	func playAudio(url:URL? = nil){
 		AudioServicesDisposeSystemSoundID(self.soundID)
-		guard let audio = url else {
+
+		guard let audio = url ,playingAudio != url else {
+			self.playingAudio = nil
+			self.soundID = 0
 			return
 		}
-		DispatchQueue.main.async{
-			self.playingAudio = audio
-			AudioServicesCreateSystemSoundID(audio as CFURL, &self.soundID)
-			AudioServicesPlaySystemSoundWithCompletion(self.soundID) {
+		self.playingAudio = audio
+		AudioServicesCreateSystemSoundID(audio as CFURL, &self.soundID)
+		AudioServicesPlaySystemSoundWithCompletion(self.soundID) {
+			if self.playingAudio == url {
 				AudioServicesDisposeSystemSoundID(self.soundID)
 				DispatchQueue.main.async{
 					self.playingAudio = nil
+					self.soundID = 0
 				}
+
 			}
+
 		}
+
+
+		
 
 
 	}
 
 
 }
+
+
+

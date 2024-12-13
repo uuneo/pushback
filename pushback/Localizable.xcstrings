@@ -21,18 +21,22 @@
         }
       }
     },
-    "【%@】%@" : {
+    "%@ - " : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "【%1$@】%2$@"
+            "value" : "%@ - "
           }
-        },
-        "zh-Hans" : {
+        }
+      }
+    },
+    "%@；" : {
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "【%1$@】%2$@"
+            "state" : "translated",
+            "value" : "%@；"
           }
         }
       }
@@ -153,6 +157,16 @@
         }
       }
     },
+    "App配置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Configuration"
+          }
+        }
+      }
+    },
     "Close" : {
       "localizations" : {
         "en" : {
@@ -249,16 +263,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The URL property can open the URL scheme. Clicking the notification message will automatically redirect, and receiving the message in the foreground will also redirect automatically."
-          }
-        }
-      }
-    },
-    "Url错误" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Invalid URL"
           }
         }
       }
@@ -453,16 +457,6 @@
         }
       }
     },
-    "保存失败" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save failure"
-          }
-        }
-      }
-    },
     "保存成功" : {
       "localizations" : {
         "en" : {
@@ -553,22 +547,22 @@
         }
       }
     },
-    "其他错误" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Other error"
-          }
-        }
-      }
-    },
     "内容" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Content"
+          }
+        }
+      }
+    },
+    "内部" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App"
           }
         }
       }
@@ -843,12 +837,12 @@
         }
       }
     },
-    "复制发送脚本" : {
+    "复制Python脚本" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy send script"
+            "value" : "Copy Python script"
           }
         }
       }
@@ -1093,22 +1087,22 @@
         }
       }
     },
+    "打开失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open failure"
+          }
+        }
+      }
+    },
     "打开第三方App或者网站" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open a third-party app or website"
-          }
-        }
-      }
-    },
-    "打开设置" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open settings"
           }
         }
       }
@@ -1294,7 +1288,14 @@
       }
     },
     "数据与存储" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data&Storage"
+          }
+        }
+      }
     },
     "文件不存在" : {
       "localizations" : {
@@ -1386,9 +1387,6 @@
           }
         }
       }
-    },
-    "显示和声音" : {
-
     },
     "暂时不可用,等待苹果授权中..." : {
       "localizations" : {
@@ -1580,16 +1578,6 @@
         }
       }
     },
-    "没有权限" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No permission"
-          }
-        }
-      }
-    },
     "测试" : {
       "localizations" : {
         "en" : {
@@ -1761,6 +1749,16 @@
         }
       }
     },
+    "端到端加密" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E2EE"
+          }
+        }
+      }
+    },
     "算法" : {
       "localizations" : {
         "en" : {
@@ -1781,12 +1779,12 @@
         }
       }
     },
-    "系统" : {
+    "系统设置" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "System"
+            "value" : "System Setting"
           }
         }
       }
@@ -1901,16 +1899,6 @@
         }
       }
     },
-    "苹果设备推送Token,不要外泄" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apple device push token, do not disclose"
-          }
-        }
-      }
-    },
     "角标模式" : {
       "localizations" : {
         "en" : {
@@ -1931,12 +1919,32 @@
         }
       }
     },
+    "设备推送令牌" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The device pushes the token"
+          }
+        }
+      }
+    },
     "设置" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "设置与帮助" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setup Or help"
           }
         }
       }
@@ -2132,17 +2140,6 @@
         }
       }
     },
-    "配置" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Config"
-          }
-        }
-      }
-    },
     "重新扫码" : {
       "localizations" : {
         "en" : {
@@ -2204,7 +2201,14 @@
       }
     },
     "隐私与安全" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy&Security"
+          }
+        }
+      }
     },
     "随机生成密钥" : {
       "localizations" : {
@@ -2262,6 +2266,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Default group name: Default"
+          }
+        }
+      }
+    },
+    "默认浏览器" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default browser"
+          }
+        }
+      }
+    },
+    "默认浏览器设置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default browser Settings"
           }
         }
       }

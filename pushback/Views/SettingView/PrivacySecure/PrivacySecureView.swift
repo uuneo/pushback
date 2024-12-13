@@ -11,35 +11,47 @@
 	
 
 import SwiftUI
+import Defaults
 
 struct PrivacySecureView: View {
-	@State private var showCrypto:Bool = false
+	@Default(.defaultBrowser) var defaultBrowser
     var body: some View {
 		NavigationStack{
 			List{
-				Section{
-					Button{
-						self.showCrypto.toggle()
-					}label: {
-						HStack{
-							Label {
-								Text( "算法配置")
-							} icon: {
-								Image(systemName: "bolt.shield")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
+
+
+				Section(header: Text("默认浏览器设置")){
+					HStack{
+						Picker(selection: $defaultBrowser) {
+							ForEach(DefaultBrowserModel.allCases, id: \.self) { item in
+								Text(item.title)
+									.tag(item)
 							}
-							Spacer()
-							Image(systemName: "chevron.right")
-								.foregroundStyle(.gray)
-						}
+						}label:{
+							Text("默认浏览器")
+						}.pickerStyle(SegmentedPickerStyle())
 
 					}
 				}
-				.sheet(isPresented: $showCrypto) {
-					CryptoConfigView()
+
+				Section(header: Text("端到端加密")){
+					NavigationLink{
+						CryptoConfigView()
+					}label: {
+						Label {
+							Text( "算法配置")
+						} icon: {
+							Image(systemName: "bolt.shield")
+								.scaleEffect(0.9)
+								.symbolRenderingMode(.palette)
+								.foregroundStyle(.tint, Color.primary)
+						}
+					}
+
 				}
+
+
+
 			}
 			.navigationTitle("隐私与安全")
 		}

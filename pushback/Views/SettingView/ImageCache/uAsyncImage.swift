@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct uAsyncImage:View {
-	var imageCache:ImageCacheModal
+	var imageCache:ImageCacheModel
 	var size:CGSize
 	var mode: ContentMode = .fill
 	var isDragg:Bool = true

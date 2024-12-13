@@ -16,15 +16,15 @@ class PushServerCloudKit {
 	private let recordType = "PushServerModal"
 
 	// MARK: - 保存记录到私有数据库
-	func savePushServerModal(_ modal: PushServerModal, completion: @escaping (Result<CKRecord, Error>) -> Void) {
-		
-		if modal.key.count < 3 {
+	func savePushServerModel(_ model: PushServerModel, completion: @escaping (Result<CKRecord, Error>) -> Void) {
+
+		if model.key.count < 3 {
 			return
 		}
-		let recordID = CKRecord.ID(recordName: modal.id)
+		let recordID = CKRecord.ID(recordName: model.id)
 		let record = CKRecord(recordType: recordType, recordID: recordID)
-		record["url"] = modal.url as CKRecordValue
-		record["key"] = modal.key as CKRecordValue
+		record["url"] = model.url as CKRecordValue
+		record["key"] = model.key as CKRecordValue
 
 		database.save(record) { savedRecord, error in
 			DispatchQueue.main.async {
@@ -38,7 +38,7 @@ class PushServerCloudKit {
 	}
 
 	// MARK: - 从私有数据库获取记录
-	func fetchPushServerModals(completion: @escaping (Result<[PushServerModal], Error>) -> Void) {
+	func fetchPushServerModels(completion: @escaping (Result<[PushServerModel], Error>) -> Void) {
 		let query = CKQuery(recordType: recordType, predicate: NSPredicate(value: true))
 		
 		database.fetch(withQuery: query, inZoneWith: nil) { result in
@@ -46,17 +46,17 @@ class PushServerCloudKit {
 				switch result {
 				case .success(let (matchResults, _)): // 解包 matchResults 和 queryCursor
 					// 解析 matchResults，获取 CKRecord
-					let modals: [PushServerModal] = matchResults.compactMap { matchResult in
+					let models: [PushServerModel] = matchResults.compactMap { matchResult in
 						switch matchResult.1 {
 						case .success(let record):
-							return self.recordToPushServerModal(record)
+							return self.recordToPushServerModel(record)
 						case .failure(let error):
 							print("Error fetching record: \(error.localizedDescription)")
 							return nil
 						}
 					}
-					completion(.success(modals))
-					
+					completion(.success(models))
+
 				case .failure(let error):
 					completion(.failure(error))
 				}
@@ -64,21 +64,21 @@ class PushServerCloudKit {
 		}
 	}
 	
-	// MARK: - 将 CKRecord 转换为 PushServerModal
-	private func recordToPushServerModal(_ record: CKRecord) -> PushServerModal? {
+	// MARK: - 将 CKRecord 转换为 PushServerModel
+	private func recordToPushServerModel(_ record: CKRecord) -> PushServerModel? {
 		guard
 			let url = record["url"] as? String,
 			let key = record["key"] as? String
 		else {
 			return nil
 		}
-		return PushServerModal(id: record.recordID.recordName, url: url, key: key)
+		return PushServerModel(id: record.recordID.recordName, url: url, key: key)
 	}
 	
 	
-	func updatePushServers(items: [PushServerModal]) {
+	func updatePushServers(items: [PushServerModel]) {
 		// 获取云端现有数据
-		self.fetchPushServerModals { response in
+		self.fetchPushServerModels { response in
 			switch response {
 			case .success(let results):
 				// 创建 Set 集合来高效比较
@@ -90,7 +90,7 @@ class PushServerCloudKit {
 				// 保存这些未在云端的项
 				for item in itemsToUpload {
 					if item.key != ""{
-						self.savePushServerModal(item) { result in
+						self.savePushServerModel(item) { result in
 							switch result {
 							case .success:
 								print("保存成功: \(item)")
@@ -104,7 +104,7 @@ class PushServerCloudKit {
 			case .failure(let error):
 				debugPrint("获取云端数据失败: \(error.localizedDescription)")
 				for item in items {
-					self.savePushServerModal(item) { response in
+					self.savePushServerModel(item) { response in
 						switch response {
 						case .success:
 							print("保存成功: \(item)")

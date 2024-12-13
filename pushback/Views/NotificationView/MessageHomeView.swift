@@ -218,7 +218,7 @@ struct MessageHomeView: View {
 			VStack(alignment: .leading) {
 				HStack {
 					Text(message.group)
-						.font(.headline.weight(.bold))
+						.font(.headline.bold())
 						.foregroundStyle(.textBlack)
 					
 					Spacer()
@@ -227,17 +227,11 @@ struct MessageHomeView: View {
 						.foregroundStyle(message.createDate.colorForDate())
 						.font(.caption2)
 				}
-				
-				HStack {
-					if let title = message.title {
-						Text("【\(title)】\(message.body ?? "")")
-					} else {
-						Text(message.body ?? "")
-					}
-				}
-				.font(.footnote)
-				.lineLimit(2)
-				.foregroundStyle(.gray)
+
+				groupBody(message)
+					.font(.footnote)
+					.lineLimit(2)
+					.foregroundStyle(.gray)
 			}
 		}
 	}
@@ -246,7 +240,28 @@ struct MessageHomeView: View {
 	private func unRead(_ message: Message) -> Int{
 		messagesAll.filter {$0.group == message.group && !$0.read}.count
 	}
-	
+
+
+
+	private func groupBody(_ message: Message)-> some View{
+
+		if let title = message.title, let subtitle = message.subtitle{
+			return  Text("\(title) - ") + Text("\(subtitle)；") + Text(message.body ?? "")
+
+		}
+
+		if let title = message.title{
+			return  Text("\(title)；") + Text(message.body ?? "")
+		}
+
+		if let subtitle = message.subtitle{
+			return  Text("\(subtitle)；") + Text(message.body ?? "")
+		}
+
+		return Text(message.body ?? "")
+	}
+
+
 	
 }
 

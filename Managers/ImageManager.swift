@@ -11,7 +11,7 @@ import Defaults
 
 
 extension Defaults.Keys {
-	static let images = Key<[ImageCacheModal]>("imagesCache", default: [], suite: DEFAULTSTORE )
+	static let images = Key<[ImageCacheModel]>("imagesCache", default: [], suite: DEFAULTSTORE )
 	static let imageSaveDays = Key<ExpirationTime>(BaseConfig.imageSaveDays,default: .forever, suite: DEFAULTSTORE)
 }
 
@@ -20,7 +20,7 @@ extension Defaults.Keys {
 class ImageManager {
 	
 	// Public method to retrieve or download an image
-	class func fetchImage(from url: String) async -> ImageCacheModal? {
+	class func fetchImage(from url: String) async -> ImageCacheModel? {
 		// First, check if the image already exists in the local cache
 		if let cachedImage = await loadImageFromCache(for: url) {
 			return cachedImage
@@ -37,7 +37,7 @@ class ImageManager {
 	}
 	
 	// New method to rename an image file
-	class func renameImage(item: ImageCacheModal, newName: String) -> Bool {
+	class func renameImage(item: ImageCacheModel, newName: String) -> Bool {
 		
 		var newImage = item
 
@@ -75,7 +75,7 @@ class ImageManager {
 	}
 	
 	// Method to store the image in the local cache
-	class func storeImage(from url: String, at image: UIImage, local:Bool = false) async -> ImageCacheModal? {
+	class func storeImage(from url: String, at image: UIImage, local:Bool = false) async -> ImageCacheModel? {
 		
 		guard let imagesDirectory = BaseConfig.getImagesDirectory(),
 			  let imageData = image.pngData(),
@@ -86,7 +86,7 @@ class ImageManager {
 		
 		
 		
-		let imageCache = ImageCacheModal(url: url, local: (local ? url : nil), key: name)
+		let imageCache = ImageCacheModel(url: url, local: (local ? url : nil), key: name)
 		
 		// Construct the full image path
 		let imagePath = imagesDirectory.appendingPathComponent(name)
@@ -108,7 +108,7 @@ class ImageManager {
 	
 	
 	// Method to delete an image file
-	class func deleteImage(for item: ImageCacheModal) async -> Bool {
+	class func deleteImage(for item: ImageCacheModel) async -> Bool {
 		
 		// Construct the full image path
 		guard let imagePath = item.localPath  else {
@@ -138,7 +138,7 @@ class ImageManager {
 	}
 	
 	// Method to load image from local cache if it exists
-	fileprivate static func loadImageFromCache(for url: String) async -> ImageCacheModal? {
+	fileprivate static func loadImageFromCache(for url: String) async -> ImageCacheModel? {
 		
 		
 		guard let imageCache = Defaults[.images].filter({$0.name == url}).first else {

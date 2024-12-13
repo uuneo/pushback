@@ -6,40 +6,30 @@
 //
 
 import SwiftUI
-
+import Defaults
 
 struct ServerCardView:View {
 	@StateObject private var manager = PushbackManager.shared
-	var item: PushServerModal
+	var item: PushServerModel
 	var isCloud:Bool = false
 	
 	
 	var body: some View {
 		HStack(alignment: .center){
-			
+
 			if !isCloud {
-				VStack{
-					
-					if item.status{
-						Image(systemName: "antenna.radiowaves.left.and.right")
-							.scaleEffect(1.5)
-							.symbolRenderingMode(.palette)
-							.foregroundStyle( Color.primary, .green)
-						
-					}else{
-						Image(systemName: "antenna.radiowaves.left.and.right.slash")
-							.scaleEffect(1.5)
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(Color.primary, .red)
-							
-						
-					}
-					
-				}
-				.padding(.horizontal,5)
+				Image(systemName:  "antenna.radiowaves.left.and.\(item.status ?  "right" : "slash")")
+					.scaleEffect(1.5)
+					.symbolRenderingMode(.palette)
+					.foregroundStyle( Color.primary, item.status ? .green : .red)
+					.padding(.horizontal,5)
+			}else{
+				Image(systemName: "link.icloud")
+					.scaleEffect(1.5)
+					.symbolRenderingMode(.palette)
+					.foregroundStyle( Color.primary, .green)
 			}
-			
-			
+
 			VStack{
 				HStack(alignment: .bottom){
 					Text( String(localized: "服务器") + ":")
@@ -75,8 +65,14 @@ struct ServerCardView:View {
 						manager.copy( item.url + "/" + item.key)
 					}
 				
+			}else{
+				Button{
+					Defaults[.servers].insert(item, at: 0)
+				}label:{
+					Text("恢复")
+				}.tint(Color.green)
 			}
-			
+
 			
 		}
 	}

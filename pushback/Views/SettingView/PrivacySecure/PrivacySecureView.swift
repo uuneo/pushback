@@ -49,9 +49,7 @@ struct PrivacySecureView: View {
 					}
 
 				}
-
-
-
+				
 			}
 			.navigationTitle("隐私与安全")
 		}

@@ -18,9 +18,11 @@ struct DataStorageView: View {
 	@ObservedResults(Message.self) var messages
 	@Default(.messageExpiration) var messageExpiration
 	@Default(.imageSaveDays) var imageSaveDays
-
+	@Default(.cacheSize) var cacheSize
 	@State private var showImport:Bool = false
-	
+	@State private var select:Int = 0
+
+	@State private var showDeleteAlert:Bool = false
 
     var body: some View {
 		NavigationStack{
@@ -151,13 +153,128 @@ struct DataStorageView: View {
 					Text("图片默认保存时间，本地化图片不受影响")
 				}
 
+				Section(header: Text("缓存大小限制")){
+
+
+
+					SlideLineView(data: $cacheSize ){
+						ZStack{
+
+							if let data = CacheSizeLimit.allCases.first{
+								HStack{
+									Text(data.title)
+									Spacer(minLength: 0)
+								}.font(.caption)
+							}
+
+
+
+							HStack(spacing: 0){
+								Spacer()
+								ForEach(CacheSizeLimit.allCases, id: \.self){ item in
+									if item != CacheSizeLimit.allCases.first &&  item != CacheSizeLimit.allCases.last{
+										Text(item.title)
+										Spacer()
+									}
+								}
+							}
+							.font(.caption)
+
+
+
+							if let data = CacheSizeLimit.allCases.last{
+								HStack{
+									Spacer(minLength: 0)
+									Text(data.title)
+
+								}.font(.caption)
+							}
+						}
+
+					}
+					.frame(width: UIScreen.main.bounds.width - 80, height: 60)
+					.padding(.horizontal)
+
+				}
+
+				Section(header: Text("存储用量")){
+
+					HStack{
+						Label {
+							Text("存储使用")
+						} icon: {
+							Image(systemName: "chart.pie.fill")
+								.foregroundStyle(Color.primary)
+								.background(
+									RoundedRectangle(cornerRadius: 10)
+										.backgroundStyle(.orange)
+								)
+						}
+						Spacer()
+						Text("\(getUseSize())/\(cacheSize.title)")
+
+
+
+					}
+
+
+					HStack{
+						Button{
+							self.showDeleteAlert.toggle()
+						}label: {
+							HStack{
+								Spacer()
+								Text("清空缓存")
+									.fontWeight(.bold)
+									.padding(.vertical, 5)
+								Spacer()
+							}
+
+						}.buttonStyle(BorderedProminentButtonStyle())
+
+
+					}
+				}
+
+
+
+
 
 
 
 			}
 			.navigationTitle("数据与存储")
+			.alert(isPresented: $showDeleteAlert) {
+				Alert(title: Text("是否确定清空?"),  message: Text("删除后不能还原!!!"),
+					  primaryButton: .destructive(Text("清空"),
+												  action: {
+					if let imageDir = BaseConfig.getImagesDirectory(), CacheManager.clearFolder(at: imageDir){
+						Toast.shared.present(title: "清理成功", symbol: .success)
+
+					}
+				}),
+					  secondaryButton: .cancel())
+
+			}
 		}
-    }
+	}
+
+	func getUseSize()->String{
+		if let imageDir = BaseConfig.getImagesDirectory(){
+		let cacheManager = CacheManager(groupFolder: imageDir, maxSize: cacheSize.size)
+
+		let totalSize =  cacheManager.calculateCacheSize()
+
+			if totalSize > 1 << 30{
+				return "\(totalSize >> 30)GB"
+			}else{
+				return "\(totalSize >> 20)MB"
+			}
+
+		}
+
+		return "0"
+	}
 }
 
 #Preview {

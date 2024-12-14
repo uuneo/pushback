@@ -198,16 +198,16 @@ extension ExampleView{
 			
 			PushExampleModel(header: AnyView(Text("可对通知设置中断级别")),
 							 footer: AnyView(Text( """
- \(String(localized: "可选参数值"))：
- level=active: \(String(localized: "默认值，系统会立即亮屏显示通知。" )) 
- *  \(String(localized: "支持数字 level=-1 小于0 都代表 active" ))
- level=timeSensitive:  \(String(localized: "时效性通知,专注模式下可显示通知。" ))
- *  \(String(localized: "支持数字 level=0" ))
- level=passive：  \(String(localized: "仅添加到列表，不会亮屏提醒" ))
- *  \(String(localized: "支持数字 level=1" ))
- level=critical: \(String(localized: "暂时不可用,等待苹果授权中..." ))  
- *	\(String(localized: "重要提醒，静音或专注模式可正常提醒" ))
- *  \(String(localized: "支持数字(2-10) level=2 声音最小 level=10 声音最大 ," ))
+ 可选参数值：
+ level=active: 默认值，系统会立即亮屏显示通知。
+ *  支持数字 level=-1 小于0 都代表 active
+ level=timeSensitive:  时效性通知,专注模式下可显示通知。
+ *  支持数字 level=0
+ level=passive：仅添加到列表，不会亮屏提醒
+ *  支持数字 level=1
+ level=critical: 暂时不可用,等待苹果授权中..
+ *	重要提醒，静音或专注模式可正常提醒
+ *  支持数字(2-10) level=2 声音最小 level=10 声音最大 ,
  """)),
 							 title: String(localized:  "通知类型"),
 							 params: "\(String(localized:  "时效性通知"))?level=timeSensitive",

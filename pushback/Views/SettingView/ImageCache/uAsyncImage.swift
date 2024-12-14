@@ -51,25 +51,6 @@ struct uAsyncImage:View {
 									self.phase = .failure( StringError( "Not Image"))
 								}
 							}
-							
-							
-							
-							
-							if let localPath = imageCache.localPath,
-							   let uiimage = UIImage(contentsOfFile: localPath.path),
-							   let preview = uiimage.preparingThumbnail(of: .init(width: uiimage.size.width / 5, height: uiimage.size.height / 5))
-							{
-								await MainActor.run {
-								
-									self.phase = .success(Image(uiImage: preview))
-								}
-								return
-							}else{
-								debugPrint("error",imageCache.name)
-								await MainActor.run {
-									self.phase = .failure( StringError( "Not Image" ))
-								}
-							}
 						}
 					}
 				

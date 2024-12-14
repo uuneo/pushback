@@ -28,20 +28,29 @@ struct MessageView: View {
 					
 					
 					if !showRaw{
-						HStack{
-							if let title = message.title{
+
+						if let title = message.title{
+							HStack{
 								highlightedText(searchText: searchText, text: title)
 									.font(.headline)
 									.fontWeight(.bold)
 									.textSelection(.enabled)
-								
-								
+
 								Spacer()
 							}
 						}
 
-						HStack{
-							if let subtitle = message.subtitle{
+
+
+
+
+
+
+						if let subtitle = message.subtitle{
+
+
+							HStack{
+
 								highlightedText(searchText: searchText, text: subtitle)
 									.font(.subheadline)
 									.fontWeight(.bold)
@@ -51,7 +60,15 @@ struct MessageView: View {
 
 								Spacer()
 							}
+
+
 						}
+
+
+						Line()
+							.stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
+							.frame(height: 1)
+							.padding(.horizontal, 5)
 
 						HStack{
 							if let body = message.body{
@@ -188,4 +205,17 @@ struct MessageView: View {
     }.listStyle(GroupedListStyle())
     
     
+}
+
+
+struct Line: Shape{
+	func path(in rect: CGRect) -> Path {
+		return Path{path in
+
+			path.move(to: CGPoint(x: 0, y: 0))
+			path.addLine(to: CGPoint(x: rect.width, y: 0))
+
+		}
+	}
+
 }

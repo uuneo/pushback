@@ -41,18 +41,18 @@
         }
       }
     },
-    "%@：\nlevel=active: %@ \n*  %@\nlevel=timeSensitive:  %@\n*  %@\nlevel=passive：  %@\n*  %@\nlevel=critical: %@  \n*\t%@\n*  %@" : {
+    "%@/%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical: %8$@  \n*\t%9$@\n*  %10$@"
+            "value" : "%1$@/%2$@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$@：\nlevel=active: %2$@ \n*  %3$@\nlevel=timeSensitive:  %4$@\n*  %5$@\nlevel=passive：  %6$@\n*  %7$@\nlevel=critical: %8$@  \n*\t%9$@\n*  %10$@"
+            "value" : "%1$@/%2$@"
           }
         }
       }
@@ -367,16 +367,6 @@
         }
       }
     },
-    "仅添加到列表，不会亮屏提醒" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add to the list only, without waking the screen for notifications"
-          }
-        }
-      }
-    },
     "令牌" : {
       "localizations" : {
         "en" : {
@@ -637,6 +627,16 @@
         }
       }
     },
+    "删除后不能还原!!!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cannot be restored after deletion!!"
+          }
+        }
+      }
+    },
     "删除成功" : {
       "localizations" : {
         "en" : {
@@ -777,12 +777,12 @@
         }
       }
     },
-    "可选参数值" : {
+    "可选参数值：\nlevel=active: 默认值，系统会立即亮屏显示通知。\n*  支持数字 level=-1 小于0 都代表 active\nlevel=timeSensitive:  时效性通知,专注模式下可显示通知。\n*  支持数字 level=0\nlevel=passive：仅添加到列表，不会亮屏提醒\n*  支持数字 level=1\nlevel=critical: 暂时不可用,等待苹果授权中..\n*\t重要提醒，静音或专注模式可正常提醒\n*  支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optional params"
+            "value" : "Optional Parameter Values:  \n\nlevel=active: Default value, the system will immediately wake the screen to display the notification.  \n* Supports numeric values: level=-1 or any value less than 0 represents active.  \n\nlevel=timeSensitive: Time-sensitive notification, can be displayed even in Focus mode.  \n* Supports numeric value: level=0.  \n\nlevel=passive: Adds to the list only, without waking the screen for notification.  \n* Supports numeric value: level=1.  \n\nlevel=critical: Temporarily unavailable, awaiting Apple authorization.  \n* Important alerts can bypass silent or Focus mode.  \n* Supports numeric values: level=2 for the lowest sound level, up to level=10 for the highest sound level."
           }
         }
       }
@@ -893,6 +893,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not less than 3"
+          }
+        }
+      }
+    },
+    "存储使用" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storage usage"
+          }
+        }
+      }
+    },
+    "存储用量" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used Storage "
           }
         }
       }
@@ -1087,17 +1107,6 @@
         }
       }
     },
-    "打开失败" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open failure"
-          }
-        }
-      }
-    },
     "打开第三方App或者网站" : {
       "localizations" : {
         "en" : {
@@ -1248,46 +1257,6 @@
         }
       }
     },
-    "支持数字 level=-1 小于0 都代表 active" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support for digital level=-1 and below, all represent active."
-          }
-        }
-      }
-    },
-    "支持数字 level=0" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support for digital level=0"
-          }
-        }
-      }
-    },
-    "支持数字 level=1" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support for digital level=1"
-          }
-        }
-      }
-    },
-    "支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supported numbers (2-10) level=2 Minimum voice level=10 Maximum voice,"
-          }
-        }
-      }
-    },
     "数据与存储" : {
       "localizations" : {
         "en" : {
@@ -1359,12 +1328,12 @@
         }
       }
     },
-    "时效性通知,专注模式下可显示通知。" : {
+    "是否确定清空?" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Time-sensitive notifications can be shown in Do Not Disturb mode."
+            "value" : "Are you sure to empty?"
           }
         }
       }
@@ -1385,16 +1354,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Are you sure you want to delete all unread messages?"
-          }
-        }
-      }
-    },
-    "暂时不可用,等待苹果授权中..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "waiting for Apple authorization..."
           }
         }
       }
@@ -1640,12 +1599,32 @@
         }
       }
     },
+    "清空" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
+          }
+        }
+      }
+    },
     "清空所有" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clear all"
+          }
+        }
+      }
+    },
+    "清空缓存" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear cache"
           }
         }
       }
@@ -1796,6 +1775,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "continue"
+          }
+        }
+      }
+    },
+    "缓存大小限制" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cache Limit"
           }
         }
       }
@@ -2161,16 +2150,6 @@
         }
       }
     },
-    "重要提醒，静音或专注模式可正常提醒" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Important reminder: Mute or Do Not Disturb modes allow normal alerts."
-          }
-        }
-      }
-    },
     "铃声列表" : {
       "localizations" : {
         "en" : {
@@ -2247,16 +2226,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Default save time"
-          }
-        }
-      }
-    },
-    "默认值，系统会立即亮屏显示通知。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default value: The system will immediately wake the screen to display the notification."
           }
         }
       }

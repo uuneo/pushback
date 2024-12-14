@@ -18,7 +18,9 @@ extension Defaults.Keys {
 	static let photoName = Key<String>(BaseConfig.customPhotoName, default: BaseConfig.photoName, suite: DEFAULTSTORE)
 	static let messageExpiration = Key<ExpirationTime>(BaseConfig.messageExpirtion,default: .forever,suite: DEFAULTSTORE)
 	static let defaultBrowser = Key<DefaultBrowserModel>(BaseConfig.defaultBrowser,default: .safari, suite:DEFAULTSTORE)
-
+	static let cacheSize = Key<CacheSizeLimit>(BaseConfig.cacheSizeLimit, default: .five, suite: DEFAULTSTORE)
+	static let images = Key<[ImageCacheModel]>("imagesCache", default: [], suite: DEFAULTSTORE )
+	static let imageSaveDays = Key<ExpirationTime>(BaseConfig.imageSaveDays,default: .forever, suite: DEFAULTSTORE)
 }
 
 

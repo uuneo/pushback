@@ -42,7 +42,7 @@ class BaseConfig {
 	static let  imageSaveDays = "imageSaveDays"
 	static let 	photoName = "pushback."
 	static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
-	
+	static let 	cacheSizeLimit = "CacheSizeLimit"
 #if DEBUG
 	static let defaultServer = "https://dev.uuneo.com"
 #else

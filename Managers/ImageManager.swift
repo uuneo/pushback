@@ -7,13 +7,7 @@
 
 import SwiftUI
 import CryptoKit
-import Defaults
 
-
-extension Defaults.Keys {
-	static let images = Key<[ImageCacheModel]>("imagesCache", default: [], suite: DEFAULTSTORE )
-	static let imageSaveDays = Key<ExpirationTime>(BaseConfig.imageSaveDays,default: .forever, suite: DEFAULTSTORE)
-}
 
 
 
@@ -84,8 +78,8 @@ class ImageManager {
 			return nil
 		}
 		
-		
-		
+
+
 		let imageCache = ImageCacheModel(url: url, local: (local ? url : nil), key: name)
 		
 		// Construct the full image path
@@ -98,6 +92,9 @@ class ImageManager {
 				Defaults[.images].insert(imageCache, at: 0)
 			}
 			print("Image successfully saved at: \(imagePath)")
+			/// 清理缓存
+			let manager = CacheManager(groupFolder: imagesDirectory, maxSize: Defaults[.cacheSize].size)
+			manager.manageCache()
 			return imageCache
 		} catch {
 			print("Failed to save image: \(error.localizedDescription)")

@@ -176,7 +176,7 @@ struct ContentView: View {
 		case .servers:
 			ServersConfigView(showClose: true)
 		case .music:
-			RingtongView()
+			SoundView()
 		case .scan:
 			ScanView { code in
 				manager.appendServer(server: PushServerModel(url: code)) { server, msg in

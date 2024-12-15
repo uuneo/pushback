@@ -167,7 +167,11 @@
         }
       }
     },
+    "Back" : {
+
+    },
     "Close" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -238,6 +242,7 @@
       }
     },
     "Raw" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

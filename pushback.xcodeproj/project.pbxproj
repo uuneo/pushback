@@ -99,6 +99,7 @@
 		1969F9C02CE8692D00152167 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 1969F9BF2CE8692D00152167 /* RevenueCat */; };
 		1969F9C22CE8692D00152167 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1969F9C12CE8692D00152167 /* RevenueCatUI */; };
 		198D3D492D0011140065FA3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198D3D482D0011130065FA3E /* NetworkManager.swift */; };
+		19B958B12D102D8000AB9BEB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19B958B02D102D8000AB9BEB /* Kingfisher */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
 		19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
 		19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
@@ -434,6 +435,7 @@
 				19C13C222CCC8B3600A2F1A8 /* SwiftyJSON in Frameworks */,
 				1969F9C22CE8692D00152167 /* RevenueCatUI in Frameworks */,
 				1969F9C02CE8692D00152167 /* RevenueCat in Frameworks */,
+				19B958B12D102D8000AB9BEB /* Kingfisher in Frameworks */,
 				195702302CE84C00009F55B0 /* StoreKit.framework in Frameworks */,
 				19C13C252CCC8B4E00A2F1A8 /* QRScanner in Frameworks */,
 				19C13C1F2CCC8AF100A2F1A8 /* Defaults in Frameworks */,
@@ -657,6 +659,7 @@
 				19C13C272CCC8BBA00A2F1A8 /* RealmSwift */,
 				1969F9BF2CE8692D00152167 /* RevenueCat */,
 				1969F9C12CE8692D00152167 /* RevenueCatUI */,
+				19B958B02D102D8000AB9BEB /* Kingfisher */,
 			);
 			productName = pushback;
 			productReference = 19C13BA52CCBDF8B00A2F1A8 /* pushback.app */;
@@ -774,6 +777,7 @@
 				19C13C232CCC8B4E00A2F1A8 /* XCRemoteSwiftPackageReference "QRScanner" */,
 				19C13C262CCC8BBA00A2F1A8 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19C13BA62CCBDF8B00A2F1A8 /* Products */;
@@ -1439,6 +1443,14 @@
 				minimumVersion = 5.9.0;
 			};
 		};
+		19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.1.2;
+			};
+		};
 		19C13C1D2CCC8AF100A2F1A8 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/Defaults.git";
@@ -1483,6 +1495,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1969F9BE2CE8692C00152167 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCatUI;
+		};
+		19B958B02D102D8000AB9BEB /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		19C13C1E2CCC8AF100A2F1A8 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;

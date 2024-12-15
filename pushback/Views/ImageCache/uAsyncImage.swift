@@ -32,8 +32,8 @@ struct uAsyncImage:View {
 							if let localPath = imageCache.localPath,
 							   let uiimage = UIImage(contentsOfFile: localPath.path) {
 								if isThumbnail,
-								   let preview = uiimage.preparingThumbnail(of: .init(width: max(uiimage.size.width / 10, size.width), height: max(uiimage.size.height / 10, size.height))){
-									
+								   let preview = uiimage.preparingThumbnail(of: .init(width: max(uiimage.size.width / 5, size.width * 2), height: max(uiimage.size.height / 5, size.height * 2))){
+
 									await MainActor.run {
 										self.phase = .success(Image(uiImage: preview))
 									}

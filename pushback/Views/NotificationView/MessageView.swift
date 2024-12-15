@@ -16,60 +16,72 @@ struct MessageView: View {
     var searchText:String = ""
 	@State var showRaw:Bool = false
 	var showGroup:Bool =  false
+	var openImage:(()->Void)? = nil
     var body: some View {
 		Section {
-			
-			HStack(alignment: .top){
-				
-				headView()
-				
-				
 				VStack(alignment: .leading, spacing:5){
-					
+
+					HStack(alignment: .center){
+						AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
+							.frame(width: 30, height: 30, alignment: .center)
+							.clipShape(RoundedRectangle(cornerRadius: 10))
+
+
+						VStack{
+							if let title = message.title{
+								HStack{
+									highlightedText(searchText: searchText, text: title)
+										.font(.headline)
+										.fontWeight(.bold)
+										.textSelection(.enabled)
+
+									Spacer()
+
+								}.overlay(alignment: .topTrailing) {
+									if message.userInfo.count > 10{
+
+										Image(systemName: showRaw ? "ladybug" : "ladybug.fill")
+											.resizable()
+											.symbolRenderingMode(.palette)
+											.foregroundStyle(.tint, .primary)
+											.frame(width: 20, height: 20, alignment: .center)
+											.onTapGesture {
+												self.showRaw.toggle()
+											}
+
+									}
+								}
+							}
+
+
+							if let subtitle = message.subtitle{
+
+
+								HStack{
+
+									highlightedText(searchText: searchText, text: subtitle)
+										.font(.subheadline)
+										.fontWeight(.bold)
+										.foregroundStyle(.gray)
+										.textSelection(.enabled)
+
+
+									Spacer()
+								}
+
+
+							}
+						}
+
+					}
+
+					Line()
+						.stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
+						.frame(height: 1)
+						.padding(.horizontal, 5)
+
 					
 					if !showRaw{
-
-						if let title = message.title{
-							HStack{
-								highlightedText(searchText: searchText, text: title)
-									.font(.headline)
-									.fontWeight(.bold)
-									.textSelection(.enabled)
-
-								Spacer()
-							}
-						}
-
-
-
-
-
-
-
-						if let subtitle = message.subtitle{
-
-
-							HStack{
-
-								highlightedText(searchText: searchText, text: subtitle)
-									.font(.subheadline)
-									.fontWeight(.bold)
-									.foregroundStyle(.gray)
-									.textSelection(.enabled)
-
-
-								Spacer()
-							}
-
-
-						}
-
-
-						Line()
-							.stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
-							.frame(height: 1)
-							.padding(.horizontal, 5)
-
 						HStack{
 							if let body = message.body{
 								highlightedText(searchText: searchText, text: body)
@@ -90,29 +102,58 @@ struct MessageView: View {
 				.padding(10)
 				.background(Color.whiteGary)
 				.clipShape(RoundedRectangle(cornerRadius: 10))
-				
-				
-			
-				
-			}
-			
-			
+
 		}header: {
-			HStack{
+			HStack(alignment: .bottom){
+
+
+
 				Text(message.createDate.agoFormatString())
 					.font(.caption2)
 					.foregroundStyle(message.createDate.colorForDate())
+					.padding(.leading, 10)
 				Spacer()
-				
-				if message.userInfo.count > 10{
-					Text(showRaw ? "Close" : "Raw")
+
+				if let _ =  message.url {
+					Image(systemName: "link.circle")
+						.resizable()
+						.symbolRenderingMode(.palette)
+						.foregroundStyle(Color.primary, .green)
+						.frame(width: 20, height: 20, alignment: .center)
+						.padding(.horizontal, 10)
 						.onTapGesture {
-							self.showRaw.toggle()
+							if let url = message.url, let fileUrl = URL(string: url) {
+								manager.openUrl(url: fileUrl)
+							}
+
 						}
 				}
-				
+
+				Group{
+					if message.image.count == 1  {
+						Image(systemName: "photo.circle")
+							.resizable()
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(.tint, .primary)
+
+					}else if message.image.count > 1  {
+						Image(systemName: "photo.on.rectangle.angled")
+							.resizable()
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(.tint, .primary)
+					}
+				}
+				.frame(width: 20, height: 20, alignment: .center)
+				.padding(.horizontal, 10)
+				.onTapGesture {
+					self.openImage?()
+				}
+
+
+
+
 			}
-			
+
 		}footer: {
 			if showGroup{
 				HStack{
@@ -121,8 +162,8 @@ struct MessageView: View {
 					Spacer()
 				}
 			}
-		}
-        
+		}.listRowInsets(EdgeInsets())
+
     }
 	
 	func highlightedText(searchText: String, text: String) -> some View {
@@ -164,31 +205,7 @@ struct MessageView: View {
 		
 		return result
 	}
-	
-	
-	@ViewBuilder
-	func headView() -> some View{
-		AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
-			.frame(width: 35, height: 35, alignment: .center)
-			.clipShape(RoundedRectangle(cornerRadius: 10))
-			.overlay(alignment: .topLeading) {
-				if let _ =  message.url {
-					Image(systemName: "link.circle")
-						.symbolRenderingMode(.palette)
-						.foregroundStyle(Color.primary, .green)
-						.offset(x:-10 , y: -10)
-				}
-			}
-			.padding(.top,10)
-			
-			.onTapGesture {
-				if let url = message.url, let fileUrl = URL(string: url) {
-					manager.openUrl(url: fileUrl)
-				}
-				
-			}
-	}
-	
+
     
 }
 
@@ -197,7 +214,6 @@ struct MessageView: View {
     
     List {
 		MessageView(message: Message.messages.first!)
-            .frame(width: 300)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
 			.environmentObject(PushbackManager.shared)

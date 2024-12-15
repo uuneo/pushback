@@ -204,7 +204,7 @@ struct DataStorageView: View {
 							Text("存储使用")
 						} icon: {
 							Image(systemName: "chart.pie.fill")
-								.foregroundStyle(Color.primary)
+								.foregroundStyle(Color.darkLight)
 								.background(
 									RoundedRectangle(cornerRadius: 10)
 										.backgroundStyle(.orange)
@@ -249,6 +249,7 @@ struct DataStorageView: View {
 					  primaryButton: .destructive(Text("清空"),
 												  action: {
 					if let imageDir = BaseConfig.getImagesDirectory(), CacheManager.clearFolder(at: imageDir){
+						Defaults[.images] = []
 						Toast.shared.present(title: "清理成功", symbol: .success)
 
 					}

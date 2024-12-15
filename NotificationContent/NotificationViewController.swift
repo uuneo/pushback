@@ -25,9 +25,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.imageView.contentMode = .scaleAspectFit
-		// 启用拖放功能
-		imageView.isUserInteractionEnabled = true
-		imageView.addInteraction(UIDragInteraction(delegate: self))
 		// 添加点击手势识别器到视频播放视图
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerViewTapped))
 		self.videoPlayerView.addGestureRecognizer(tapGesture)
@@ -277,20 +274,4 @@ extension NotificationViewController{
 	}
 
 	
-}
-
-
-
-
-
-
-extension NotificationViewController: UIDragInteractionDelegate {
-	func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
-		guard let image = imageView.image else { return [] }
-
-		// 创建拖放项目
-		let provider = NSItemProvider(object: image)
-		let item = UIDragItem(itemProvider: provider)
-		return [item]
-	}
 }

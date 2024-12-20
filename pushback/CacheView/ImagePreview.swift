@@ -104,7 +104,7 @@ struct ImagePreview: View {
 					Image(systemName: "chevron.left")
 						.font(.title3)
 
-					Text("Back")
+					Text("关闭")
 				}
 			})
 
@@ -132,7 +132,7 @@ struct ImagePreview: View {
 				.resizable()
 				.aspectRatio(contentMode: .fit)
 				.frame(width: size.width, height: size.height)
-				.clipped()
+				.clipped() 
 				.contentShape(.rect)
 		}
 	}

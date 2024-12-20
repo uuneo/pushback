@@ -11,10 +11,14 @@
 	
 
 import SwiftUI
+import Defaults
 
 @available(iOS 17.0, *)
 struct ImageHomeView: View {
 	@Environment(\.dismiss) var dismiss
+	@State private var isSelect:Bool = false
+	@Default(.images) var images
+	@State private var selectImageArr:[ImageModel] = []
 	var coordinator: UICoordinator = .init()
 	var body: some View {
 		NavigationStack {
@@ -22,7 +26,6 @@ struct ImageHomeView: View {
 			ScrollViewReader { reader in
 				ScrollView(.vertical) {
 					LazyVStack(alignment: .leading, spacing: 0) {
-
 						LazyVGrid(columns: Array(repeating: GridItem(spacing: 3), count: 3), spacing: 3) {
 							ForEach($bindableCoordinator.items) { $item in
 								GridImageView(item)
@@ -58,9 +61,11 @@ struct ImageHomeView: View {
 				}
 			}
 			.toolbar(.hidden, for: .navigationBar, .tabBar)
+			
 		}
 		.overlay(alignment: .top, content: {
 			NavigationBar()
+
 		})
 		.overlay {
 			Rectangle()
@@ -85,6 +90,23 @@ struct ImageHomeView: View {
 					dAnchor: dAnchor
 				)
 				.environment(coordinator)
+			}
+		}
+		.task {
+
+			for await value in Defaults.updates(.servers){
+				var images: [imageItem] = []
+
+				for image in self.images {
+					if let imageUrl = await ImageManager.downloadImage(image.url),
+					   let uiimage = UIImage(contentsOfFile: imageUrl),
+					   let preview = uiimage.preparingThumbnail(of: .init(width: max(uiimage.size.width / 5, 300 * 2), height: max(uiimage.size.height / 5, 300 * 2))) {
+						images.append(.init(title: image.another ?? image.url, image: uiimage, previewImage: preview))
+					}
+				}
+
+
+				coordinator.items = images
 			}
 		}
 	}
@@ -123,29 +145,42 @@ struct ImageHomeView: View {
 					Image(systemName: "chevron.left")
 						.font(.title3)
 
-					Text("Back")
+					Text("设置")
 				}
 			})
 
-			Spacer(minLength: 0)
+			Spacer(minLength: 10)
+
+			Text("图片缓存")
+
+			Spacer(minLength: 10)
 
 			Button {
-
+				self.isSelect.toggle()
 			} label: {
-				Image(systemName: "ellipsis")
-					.padding(10)
-					.background(.bar, in: .circle)
+				Text( isSelect  ? String(localized: "取消") : String(localized: "选择"))
 			}
 		}
 		.padding([.top, .horizontal], 15)
 		.padding(.bottom, 10)
-//		.background(.ultraThinMaterial)
-//		.offset(y: -100 * coordinator.dragProgress)
-		.animation(.easeInOut(duration: 0.15), value: coordinator.showDetailView)
+		.background(.ultraThinMaterial)
+		.offset(y: coordinator.selectedItem != nil ? -120 : 0)
+		.animation(.easeInOut(duration: 0.15), value: coordinator.selectedItem)
 	}
 }
 
 @available(iOS 17.0, *)
 #Preview {
     ImageHomeView()
+}
+
+
+extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
+	override open func viewDidLoad() {
+		super.viewDidLoad()
+		interactivePopGestureRecognizer?.delegate = self
+	}
+	public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+		return viewControllers.count > 1
+	}
 }

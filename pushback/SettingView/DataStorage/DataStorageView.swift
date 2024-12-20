@@ -126,7 +126,6 @@ struct DataStorageView: View {
 								.navigationTitle("图片缓存")
 						}
 
-
 					} label: {
 						Label("图片缓存", systemImage: "photo.on.rectangle")
 							.symbolRenderingMode(.palette)
@@ -255,11 +254,12 @@ struct DataStorageView: View {
 				Alert(title: Text("是否确定清空?"),  message: Text("删除后不能还原!!!"),
 					  primaryButton: .destructive(Text("清空"),
 												  action: {
-					if let imageDir = BaseConfig.getImagesDirectory(), CacheManager.clearFolder(at: imageDir){
+					if let cache = ImageManager.defaultCache(){
+						cache.clearDiskCache()
 						Defaults[.images] = []
 						Toast.shared.present(title: "清理成功", symbol: .success)
-
 					}
+
 				}),
 					  secondaryButton: .cancel())
 
@@ -268,17 +268,14 @@ struct DataStorageView: View {
 	}
 
 	func getUseSize()->String{
-		if let imageDir = BaseConfig.getImagesDirectory(){
-		let cacheManager = CacheManager(groupFolder: imageDir, maxSize: cacheSize.size)
 
-		let totalSize =  cacheManager.calculateCacheSize()
+		if let totalSize = try? ImageManager.defaultCache()?.diskStorage.totalSize(){
 
 			if totalSize > 1 << 30{
 				return "\(totalSize >> 30)GB"
 			}else{
 				return "\(totalSize >> 20)MB"
 			}
-
 		}
 
 		return "0"

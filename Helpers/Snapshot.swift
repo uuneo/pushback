@@ -10,8 +10,7 @@ import SwiftUI
 extension View {
     @ViewBuilder
     func snapshot(trigger: Bool, onComplete: @escaping (UIImage) -> ()) -> some View {
-        self
-            .modifier(SnaphotModifier(trigger: trigger, onComplete: onComplete))
+        self.modifier(SnaphotModifier(trigger: trigger, onComplete: onComplete))
     }
 }
 
@@ -45,7 +44,6 @@ fileprivate struct SnaphotModifier: ViewModifier {
             let image = renderer.image { _ in
                 superView.drawHierarchy(in: superView.bounds, afterScreenUpdates: true)
             }
-            
             onComplete(image)
         }
     }
@@ -58,9 +56,7 @@ fileprivate struct ViewExtractor: UIViewRepresentable {
         return view
     }
     
-    func updateUIView(_ uiView: UIView, context: Context) {
-        
-    }
+    func updateUIView(_ uiView: UIView, context: Context) { }
 }
 
 #Preview {

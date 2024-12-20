@@ -125,40 +125,28 @@ enum MessageAction: String, CaseIterable, Equatable{
 
 enum QuickAction{
 	static var selectAction:UIApplicationShortcutItem?
-	
-	static var allReaduserInfo:[String: NSSecureCoding]{
-		["name":"allread" as NSSecureCoding]
-	}
-	
-	static var allDelReaduserInfo:[String: NSSecureCoding]{
-		["name":"alldelread" as NSSecureCoding]
-	}
-	
-	static var allDelNotReaduserInfo:[String: NSSecureCoding]{
-		["name":"alldelnotread" as NSSecureCoding]
-	}
-	
+
 	static var allShortcutItems = [
 		UIApplicationShortcutItem(
 			type: "allread",
 			localizedTitle: String(localized:  "已读全部") ,
 			localizedSubtitle: "",
 			icon: UIApplicationShortcutIcon(systemImageName: "bookmark"),
-			userInfo: allReaduserInfo
+			userInfo: ["name":"allread" as NSSecureCoding]
 		),
 		UIApplicationShortcutItem(
 			type: "alldelread",
 			localizedTitle: String(localized: "删除全部已读"),
 			localizedSubtitle: "",
 			icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-			userInfo: allDelReaduserInfo
+			userInfo: ["name":"alldelread" as NSSecureCoding]
 		),
 		UIApplicationShortcutItem(
 			type: "alldelnotread",
 			localizedTitle: String(localized:  "删除全部未读"),
 			localizedSubtitle: "",
 			icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-			userInfo: allDelNotReaduserInfo
+			userInfo: ["name":"alldelnotread" as NSSecureCoding]
 		)
 	]
 }
@@ -347,7 +335,7 @@ struct exportJsonData:Identifiable{
 // MARK: - ExpirationTime
 
 enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
-	case forever = -1
+	case forever = 999999
 	case month = 30
 	case weekDay = 7
 	case oneDay = 1
@@ -375,19 +363,13 @@ enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 
 // MARK: - ImageCacheModel
 
-struct ImageCacheModel: Codable, Identifiable, Defaults.Serializable,Equatable{
+
+
+struct ImageModel: Codable, Identifiable, Defaults.Serializable, Equatable{
 	var id:String = UUID().uuidString
-	var url:String
-	var local:String?
-	var key:String
 	var createDate:Date = Date()
-	
-	var name:String{
-		return local ?? url
-	}
-	var localPath:URL?{
-		BaseConfig.getImagesDirectory()?.appendingPathComponent(self.key)
-	}
+	var url:String
+	var another:String?
 }
 
 

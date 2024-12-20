@@ -167,9 +167,6 @@
         }
       }
     },
-    "Back" : {
-
-    },
     "Close" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -541,6 +538,9 @@
           }
         }
       }
+    },
+    "关闭" : {
+
     },
     "内容" : {
       "localizations" : {
@@ -1293,6 +1293,7 @@
       }
     },
     "文件重复" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

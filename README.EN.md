@@ -21,6 +21,9 @@ English | **[中文](README.md)**
 ## Documentation
 [View Documentation](https://uuneo.github.io/pushback)
 
+## Chrome Extension
+[Install](https://chromewebstore.google.com/detail/pushback/gadgoijjifgnbeehmcapjfipggiijeej)
+
 ## Third-Party Libraries Used in the Project
 - [Defaults](https://github.com/sindresorhus/Defaults)
 - [QRScanner](https://github.com/mercari/QRScanner)

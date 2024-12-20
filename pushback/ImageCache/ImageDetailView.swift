@@ -8,21 +8,22 @@ import SwiftUI
 import RealmSwift
 
 struct ImageDetailView:View {
-	var image: ImageCacheModel
-	@Binding var imageUrl:ImageCacheModel?
+	var image: ImageModel
+	@Binding var imageUrl:ImageModel?
 	@State var draggImage:String? = nil
 	@State private var localName:String = ""
 	@FocusState private var photoNamesShow
 	@State private var showSheet:Bool = false
 	@State private var showSlideView:Bool = true
+	let viewbounds = UIScreen.main.bounds
 	var body: some View {
 		
 		ZStack{
 			
 			ToolsSlideView(show: $showSlideView){
-				
-				uAsyncImage(imageCache: image, size: CGSize(width: UIScreen.main.bounds.width  - 20, height: UIScreen.main.bounds.height * 0.8), mode: .fit, isThumbnail: false)
 
+				uAsyncImage(imageUrl: image.url, size: CGSize(width: viewbounds.width  - 20, height: viewbounds.height * 0.8), mode: .fit, isThumbnail: false)
+				
 			}dismiss: {
 				self.imageUrl = nil
 			}leftButton: {
@@ -49,8 +50,7 @@ struct ImageDetailView:View {
 					.fontWeight(.heavy)
 					.padding(.top, 5)
 					.onAppear{
-						
-						self.localName = image.local ?? ""
+						self.localName = image.another ?? image.url
 					}
 				
 				Divider()
@@ -114,7 +114,12 @@ struct ImageDetailView:View {
 				
 				ToolbarItem(placement: .topBarTrailing) {
 					Button{
-						reanameImage()
+						if let index = Defaults[.images].firstIndex(of: image){
+							Defaults[.images][index].another = self.localName
+							Toast.shared.present(title: String(localized: "修改成功"), symbol: .success)
+						}else{
+							Toast.shared.present(title: String(localized: "修改失败"), symbol: .error)
+						}
 					}label: {
 						Text("完成")
 					}
@@ -137,49 +142,9 @@ struct ImageDetailView:View {
 		}
 		.presentationDetents([.height(360)])
 		.interactiveDismissDisabled()
-		
+		.toolbar(.hidden, for: .navigationBar)
+
 	}
-	
-	
-	func reanameImage(){
-		Task.detached(priority: .high) {
-			let success = await ImageManager.renameImage(item: image, newName: localName)
-			if success {
-				await MainActor.run {
-					self.showSheet = false
-					changeRealmImageNameName()
-					self.showSlideView.toggle()
-					DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-						NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": localName])
-					}
-				}
-			}else{
-				Toast.shared.present(title: String(localized: "文件重复"), symbol: .info)
-			}
-			
-		}
-	}
-	
-	func changeRealmImageNameName(){
-		do{
-			let realm = try Realm()
-			let datas = realm.objects(Message.self).where({$0.url == image.name || $0.icon == image.name})
-			
-			for data in datas{
-				try realm.write {
-					if data.url == image.name{
-						data.url = localName
-					}else if data.icon == image.name{
-						data.icon = localName
-					}
-					
-				}
-			}
-			
-		}catch{
-			debugPrint(error.localizedDescription)
-		}
-	}
-	
+
 	
 }

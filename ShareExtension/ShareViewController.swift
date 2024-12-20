@@ -21,11 +21,34 @@ class ShareViewController: UIViewController {
 			view.addSubview(hostingView.view)
 		}
 	}
+
+
+	private func open(url: URL) {
+		var responder: UIResponder? = self as UIResponder
+		let selector = #selector(openURL(_:))
+
+		while responder != nil {
+			if responder!.responds(to: selector) && responder != self {
+				responder!.perform(selector, with: url)
+
+				return
+			}
+
+			responder = responder?.next
+		}
+	}
+
+	@objc
+	private func openURL(_ url: URL) {
+		return
+	}
+
 }
 
 fileprivate struct ShareView: View {
 	var itemProviders: [NSItemProvider]
 	var extensionContext: NSExtensionContext?
+	var error:String?
 	/// View Properties
 	@State private var items: [Item] = []
 	var body: some View {
@@ -41,8 +64,12 @@ fileprivate struct ShareView: View {
 							.tint(.red)
 					}
 					.padding(.bottom, 10)
-		
-				
+				if items.filter({$0.name.count == 0}).count != 0{
+					Text( "必须输入图片key")
+						.foregroundStyle(.red)
+						.transition(.slide)
+				}
+
 				ScrollView(.horizontal) {
 					LazyHStack(spacing: 0) {
 						ForEach(items, id: \.id) { item in
@@ -53,11 +80,9 @@ fileprivate struct ShareView: View {
 									.padding(.horizontal, 15)
 									.frame(width: size.width)
 								
-								TextField( "输入图片Key", text: Binding(get: {
-									item.id
-								}, set: { value in
+								TextField( "输入图片Key", text: Binding(get: { item.name }, set: { value in
 									if let index = items.firstIndex(where: {$0.id == item.id}){
-										items[index].id = value
+										items[index].name = value
 									}
 								}))
 								.customField(icon: "square.and.pencil.circle")
@@ -73,11 +98,11 @@ fileprivate struct ShareView: View {
 				.padding(.horizontal, -15)
 				
 				/// Save Button
-				Button(action: {
-					saveItems()
-					extensionContext?.open(URL(string: "pushback://")!)
-					
-				}, label: {
+				Button{
+					if items.filter({$0.name.count == 0}).count == 0{
+						saveItems()
+					}
+				}label: {
 					Text( "保存")
 						.font(.title3)
 						.fontWeight(.semibold)
@@ -86,7 +111,7 @@ fileprivate struct ShareView: View {
 						.foregroundStyle(.white)
 						.background(.blue, in: .rect(cornerRadius: 10))
 						.contentShape(.rect)
-				})
+				}
 				
 				Spacer(minLength: 0)
 				
@@ -104,10 +129,12 @@ fileprivate struct ShareView: View {
 		DispatchQueue.global(qos: .userInteractive).async {
 			for provider in itemProviders {
 				let _ = provider.loadDataRepresentation(for: .image) { data, error in
-					if let data, let image = UIImage(data: data), let thumbnail = image.preparingThumbnail(of: .init(width: size.width, height: 300)) {
+					if let data,
+					   let image = UIImage(data: data),
+					   let thumbnail = image.preparingThumbnail(of: .init(width: size.width, height: 300)) {
 						/// UI Must Be Updated On Main Thread
 						DispatchQueue.main.async {
-							items.append(.init(imageData: data, previewImage: thumbnail))
+							items.append(.init(name: "", imageData: data, previewImage: thumbnail))
 						}
 					}
 				}
@@ -122,10 +149,12 @@ fileprivate struct ShareView: View {
 			
 			var idsToRemove: [String] = []
 			for item in items{
-				let path =  await ImageManager.storeImage(from: item.id, at: UIImage(data: item.imageData)!)
-				if path != nil{
-					idsToRemove.append(item.id)
+				await ImageManager.storeImage(data: item.imageData, key: item.name, expiration: .never) { success in
+					if success {
+						idsToRemove.append(item.id)
+					}
 				}
+
 			}
 			
 			items.removeAll { item in
@@ -134,15 +163,12 @@ fileprivate struct ShareView: View {
 			
 			if items.count  == 0 {
 				dismiss()
-			}else{
-				
 			}
-			
 		}
 		
 		
 	}
-	
+
 	/// Dismissing View
 	func dismiss() {
 		extensionContext?.completeRequest(returningItems: [])
@@ -150,7 +176,14 @@ fileprivate struct ShareView: View {
 	
 	private struct Item: Identifiable {
 		var id: String = UUID().uuidString
+		var name:String
 		var imageData: Data
 		var previewImage: UIImage
 	}
+
+
+
+
+
+
 }

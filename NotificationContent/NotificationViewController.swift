@@ -107,8 +107,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 		self.videoPlayerView.frame = .zero
 		self.loadingView?.startAnimating()
 		Task.detached(priority: .high) {
-			if let localPath = await ImageManager.fetchImage(from: imageUrl)?.localPath,
-			   let image = UIImage(contentsOfFile: localPath.path) {
+
+			if let localPath = await ImageManager.downloadImage(imageUrl, expiration: .days(Defaults[.imageSaveDays].rawValue)),
+			   let image = UIImage(contentsOfFile: localPath) {
 				
 				let size = await self.sizecalculation(size: image.size)
 				

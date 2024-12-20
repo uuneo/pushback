@@ -27,6 +27,9 @@ height="40">](https://apps.apple.com/us/app/pushback-push-to-phone/id6615073345)
 ## 文档
 [查看文档](https://uuneo.github.io/pushback)
 
+## Chrome扩展
+[安装扩展](https://chromewebstore.google.com/detail/pushback/gadgoijjifgnbeehmcapjfipggiijeej)
+
 ## 项目中使用的第三方库
 - [Defaults](https://github.com/sindresorhus/Defaults)
 - [QRScanner](https://github.com/mercari/QRScanner)

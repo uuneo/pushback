@@ -29,7 +29,7 @@ struct MessagesView: View {
 
 	}
 
-	@State private var imageDetail:ImageCacheModel?
+	@State private var imageDetail:ImageModel?
 
 	var body: some View {
 
@@ -40,8 +40,23 @@ struct MessagesView: View {
 
 					MessageView(message: message, searchText: searchText){
 
-						if let imageUrl = message.image.first, let imageModel = images.first(where: { $0.url == imageUrl}){
-							self.imageDetail = imageModel
+						if let imageUrl = message.image.first{
+							if let imageModel = images.first(where: { $0.url == imageUrl}){
+								self.imageDetail = imageModel
+							}else {
+								Task{
+									if let _ = await ImageManager.downloadImage(imageUrl),
+									   let imageModel = images.first(where: { $0.url == imageUrl}){
+										DispatchQueue.main.async{
+											self.imageDetail = imageModel
+										}
+
+									}
+
+								}
+							}
+
+
 						}else{
 							debugPrint("没有找到")
 						}
@@ -74,6 +89,7 @@ struct MessagesView: View {
 				ImageDetailView(image: imageDetail,imageUrl: $imageDetail )
 					.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
 					.transition(.slide)
+					.toolbar(.hidden, for: .navigationBar)
 			}
 
 		}

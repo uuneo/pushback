@@ -28,7 +28,6 @@ struct AvatarView: View {
 			
 			VStack{
 				
-				
 				if let icon = icon, success{
 					if let image = image {
 						// 如果已经加载了图片，则显示图片
@@ -76,13 +75,16 @@ struct AvatarView: View {
 	private func loadImage(icon:String ) {
 		self.success = true
 		Task.detached(priority: .background)  {
-			if let localPath = await ImageManager.fetchImage(from: icon)?.localPath {
+			debugPrint("1.开始获取图片")
+			if let localPath = await ImageManager.downloadImage(icon) {
 				await MainActor.run {
-					self.image = UIImage(contentsOfFile: localPath.path)
+					debugPrint("2.获取成功")
+					self.image = UIImage(contentsOfFile: localPath)
 				}
 			} else {
 				await MainActor.run {
 					self.success = false
+					debugPrint("3.开始失败")
 				}
 			}
 		}

@@ -11,14 +11,13 @@
 	
 
 import SwiftUI
+import Defaults
 
 
 @available(iOS 17.0, *)
 @Observable
 class UICoordinator {
-	var items: [imageItem] = sampleItems.compactMap({
-		imageItem(title: $0.title, image: $0.image, previewImage: $0.image)
-	})
+	var items: [imageItem] = []
 	/// Animation Properties
 	var selectedItem: imageItem?
 	var animateView: Bool = false

@@ -153,7 +153,7 @@ struct ContentView: View {
 				
 			
 		}
-		
+
 	}
 	
 	@ViewBuilder
@@ -285,9 +285,6 @@ extension ContentView{
 			
 		case .background:
 			UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
-			Task(priority: .background) {
-				await ImageManager.deleExpired()
-			}
 			HapticsManager.shared.stopEngine()
 			
 			

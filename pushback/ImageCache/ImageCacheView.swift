@@ -16,7 +16,7 @@ struct ImageCacheView: View {
 	@Default(.photoName) var photoName
 	@Default(.images) var images
 	@State private var isSelect:Bool = false
-	@State private var selectImageArr:[ImageCacheModel] = []
+	@State private var selectImageArr:[ImageModel] = []
 	@State private var showEditPhotoName:Bool = false
 	@State private var alart:AlertData?
 
@@ -24,14 +24,14 @@ struct ImageCacheView: View {
 
 	@State private var draggImage:String?
 
-	@State private var imageDetail:ImageCacheModel?
+	@State private var imageDetail:ImageModel?
 
 	@State private var imagesData:[Image] = []
 
 	@State private var dragSelectionRect = CGRect.zero
 
 	enum AlertType{
-		case delte
+		case delete
 		case save
 	}
 
@@ -67,7 +67,7 @@ struct ImageCacheView: View {
 
 					ForEach( images, id: \.id){ item  in
 
-						uAsyncImage(imageCache: item, size: imageSize) { draggImage = $0}
+						uAsyncImage(imageUrl: item.url, size: imageSize) { draggImage = $0}
 							.frame(width: imageSize.width,height: imageSize.height)
 							.overlay(alignment: .bottomTrailing) {
 								if selectImageArr.contains(item){
@@ -111,16 +111,28 @@ struct ImageCacheView: View {
 			.alert(item: $alart) { value in
 				Alert(title: Text(value.title), message: Text(value.message), primaryButton: .cancel(), secondaryButton: .destructive(Text(value.btn), action: {
 					switch value.mode{
-						case .delte:
+						case .delete:
 							Task.detached {
 
-								if await selectImageArr.count == 0{
-									await ImageManager.deleteFilesNotInList(all: true)
+								if await selectImageArr.count == 0,
+								   let cache = ImageManager.defaultCache()
+								{
+									await cache.clearDiskCache()
+									DispatchQueue.main.async{
+										images = []
+									}
+
+
+
 								}else{
 									for item in await selectImageArr{
-										_ = await ImageManager.deleteImage(for: item)
-										DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-											NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": item])
+										ImageManager.deleteImage(item.url){ success in
+											DispatchQueue.main.async{
+												images.removeAll(where: {$0.url == item.url})
+											}
+											DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+												NotificationCenter.default.post(name: .imageUpdate, object: nil, userInfo: ["name": item])
+											}
 										}
 									}
 								}
@@ -135,15 +147,19 @@ struct ImageCacheView: View {
 					self.isSelect.toggle()
 				}))
 			}
+
+		}.overlay {
+			if let imageDetail {
+				ImageDetailView(image: imageDetail,imageUrl: $imageDetail )
+					.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+					.background(.ultraThinMaterial)
+					.ignoresSafeArea()
+					.transition(.slide)
+					.toolbar(.hidden, for: .navigationBar)
+			}
+
 		}
-		.fullScreenCover(item: $imageDetail, content: { item in
-			ImageDetailView(image: item,imageUrl: $imageDetail )
-				.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-				.background(.ultraThinMaterial)
-				.ignoresSafeArea()
-				.transition(.slide)
-		})
-		
+
 	}
 
 
@@ -194,7 +210,7 @@ struct ImageCacheView: View {
 						.animation(.snappy, value: selectImageArr.count)
 					Spacer()
 					Button {
-						self.alart = .init(title: String(localized: "危险操作！"), message: selectImageArr.count == 0 ? String(localized: "清空所有") : String(format: String(localized: "删除%d张图片"), selectImageArr.count), btn: String(localized: "删除"), mode: .delte)
+						self.alart = .init(title: String(localized: "危险操作！"), message: selectImageArr.count == 0 ? String(localized: "清空所有") : String(format: String(localized: "删除%d张图片"), selectImageArr.count), btn: String(localized: "删除"), mode: .delete)
 					} label: {
 						Image(systemName: imagesData.count > 0 ? "trash" : "trash.slash")
 					}
@@ -219,13 +235,12 @@ struct ImageCacheView: View {
 	}
 
 
-	func saveImage(_ items:[ImageCacheModel]){
+	func saveImage(_ items:[ImageModel]){
 
 		Task.detached(priority: .background) {
 			for item in items{
-				if let fileUrl = item.localPath,
-				   let image = UIImage(contentsOfFile: fileUrl.path)
-				{
+				if let imageUrl = await ImageManager.downloadImage(item.url),
+				   let image = UIImage(contentsOfFile: imageUrl) {
 					await image.bat_save(intoAlbum: self.photoName) { success, status in
 						debugPrint(success,status)
 					}
@@ -245,16 +260,14 @@ struct ImageCacheView: View {
 	}
 
 
-	func loadSharkImages(images: [ImageCacheModel]){
+	func loadSharkImages(images: [ImageModel]){
 		var results:[Image] = []
 		Task.detached(priority: .background) {
 
 			for item in images{
-				if let fileUrl = item.localPath,
-				   let uiimage = UIImage(contentsOfFile: fileUrl.path)
-				{
+				if let imageUrl = await ImageManager.downloadImage(item.url),
+				   let uiimage = UIImage(contentsOfFile: imageUrl) {
 					results.append(Image(uiImage: uiimage))
-
 				}
 			}
 			await MainActor.run {

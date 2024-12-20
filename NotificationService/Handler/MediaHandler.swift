@@ -50,17 +50,16 @@ class MediaHandler:NotificationContentHandler{
 		
 		
 		if let imageUrl =  imageList.first {
-		
-			
-			guard let localPath = await ImageManager.fetchImage(from: imageUrl)?.localPath else {
+
+			guard let localPath = await ImageManager.downloadImage(imageUrl) else {
 				return bestAttemptContent
 			}
 			
 			
-			let copyDestUrl = URL(fileURLWithPath: localPath.path).appendingPathExtension(".tmp")
+			let copyDestUrl = URL(fileURLWithPath: localPath).appendingPathExtension(".tmp")
 			// 将图片缓存复制一份，推送使用完后会自动删除，但图片缓存需要留着以后在历史记录里查看
 			try? FileManager.default.copyItem(
-				at: URL(fileURLWithPath: localPath.path),
+				at: URL(fileURLWithPath: localPath),
 				to: copyDestUrl
 			)
 			

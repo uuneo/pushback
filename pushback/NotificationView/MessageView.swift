@@ -17,6 +17,7 @@ struct MessageView: View {
 	@State var showRaw:Bool = false
 	var showGroup:Bool =  false
 	var openImage:(()->Void)? = nil
+	@State private var showLoading:Bool = false
     var body: some View {
 		Section {
 				VStack(alignment: .leading, spacing:5){
@@ -115,17 +116,18 @@ struct MessageView: View {
 				Spacer()
 
 				if let _ =  message.url {
+
 					Image(systemName: "link.circle")
 						.resizable()
 						.symbolRenderingMode(.palette)
 						.foregroundStyle(Color.primary, .green)
 						.frame(width: 20, height: 20, alignment: .center)
 						.padding(.horizontal, 10)
+
 						.onTapGesture {
 							if let url = message.url, let fileUrl = URL(string: url) {
 								manager.openUrl(url: fileUrl)
 							}
-
 						}
 				}
 
@@ -136,6 +138,7 @@ struct MessageView: View {
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(.tint, .primary)
 
+
 					}else if message.image.count > 1  {
 						Image(systemName: "photo.on.rectangle.angled")
 							.resizable()
@@ -145,8 +148,18 @@ struct MessageView: View {
 				}
 				.frame(width: 20, height: 20, alignment: .center)
 				.padding(.horizontal, 10)
+				.overlay{
+					if showLoading{
+						ProgressView()
+							.progressViewStyle(CircularProgressViewStyle())
+							.transition(.opacity)
+							.background(.ultraThinMaterial)
+					}
+				}
 				.onTapGesture {
+					self.showLoading = true
 					self.openImage?()
+					self.showLoading = false
 				}
 
 

@@ -84,11 +84,7 @@
 		19214DE82CEF8FA1000D9463 /* ParticleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19214DE72CEF8F9E000D9463 /* ParticleEffect.swift */; };
 		19214E202CF04B51000D9463 /* TabStateScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19214E1E2CF04B51000D9463 /* TabStateScrollView.swift */; };
 		19214E3B2CF07F1F000D9463 /* DisintegrationEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19214E3A2CF07F1F000D9463 /* DisintegrationEffect.swift */; };
-		1943C24C2D0D7C9D00F5458F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943C24B2D0D7C9400F5458F /* CacheManager.swift */; };
 		1943C24D2D0D86F000F5458F /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */; };
-		1943C24E2D0D872B00F5458F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943C24B2D0D7C9400F5458F /* CacheManager.swift */; };
-		1943C24F2D0D873200F5458F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943C24B2D0D7C9400F5458F /* CacheManager.swift */; };
-		1943C2502D0D873900F5458F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943C24B2D0D7C9400F5458F /* CacheManager.swift */; };
 		1957022B2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
 		1957022C2CE7485E009F55B0 /* tuola.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1957022A2CE7485D009F55B0 /* tuola.caf */; };
 		1957022D2CE7485E009F55B0 /* car.caf in Resources */ = {isa = PBXBuildFile; fileRef = 195702292CE7485D009F55B0 /* car.caf */; };
@@ -100,6 +96,9 @@
 		1969F9C22CE8692D00152167 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1969F9C12CE8692D00152167 /* RevenueCatUI */; };
 		198D3D492D0011140065FA3E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198D3D482D0011130065FA3E /* NetworkManager.swift */; };
 		19B958B12D102D8000AB9BEB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19B958B02D102D8000AB9BEB /* Kingfisher */; };
+		19B95F9A2D12E3FA00AB9BEB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19B95F992D12E3FA00AB9BEB /* Kingfisher */; };
+		19B95F9C2D12E40100AB9BEB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19B95F9B2D12E40100AB9BEB /* Kingfisher */; };
+		19B95F9E2D12E40900AB9BEB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19B95F9D2D12E40900AB9BEB /* Kingfisher */; };
 		19C13BDB2CCC850400A2F1A8 /* mailsent.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BCA2CCC850400A2F1A8 /* mailsent.caf */; };
 		19C13BDE2CCC850400A2F1A8 /* horn.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BC82CCC850400A2F1A8 /* horn.caf */; };
 		19C13BE12CCC850400A2F1A8 /* spell.caf in Resources */ = {isa = PBXBuildFile; fileRef = 19C13BD42CCC850400A2F1A8 /* spell.caf */; };
@@ -278,7 +277,6 @@
 		19214DE72CEF8F9E000D9463 /* ParticleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffect.swift; sourceTree = "<group>"; };
 		19214E1E2CF04B51000D9463 /* TabStateScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStateScrollView.swift; sourceTree = "<group>"; };
 		19214E3A2CF07F1F000D9463 /* DisintegrationEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisintegrationEffect.swift; sourceTree = "<group>"; };
-		1943C24B2D0D7C9400F5458F /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		195702292CE7485D009F55B0 /* car.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = car.caf; sourceTree = "<group>"; };
 		1957022A2CE7485D009F55B0 /* tuola.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tuola.caf; sourceTree = "<group>"; };
 		1957022F2CE84C00009F55B0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -446,6 +444,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19B95F9E2D12E40900AB9BEB /* Kingfisher in Frameworks */,
 				19C13CD22CCCD97100A2F1A8 /* RealmSwift in Frameworks */,
 				19C13CD02CCCD97100A2F1A8 /* SwiftyJSON in Frameworks */,
 				19C13CCE2CCCD97100A2F1A8 /* Defaults in Frameworks */,
@@ -456,6 +455,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19B95F9C2D12E40100AB9BEB /* Kingfisher in Frameworks */,
 				19C13CE02CCCDA9500A2F1A8 /* Defaults in Frameworks */,
 				19C13CBC2CCCD77600A2F1A8 /* UserNotificationsUI.framework in Frameworks */,
 				19C13CBA2CCCD77600A2F1A8 /* UserNotifications.framework in Frameworks */,
@@ -466,6 +466,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19B95F9A2D12E3FA00AB9BEB /* Kingfisher in Frameworks */,
 				19C13CF92CCCDB4A00A2F1A8 /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,18 +490,19 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		1943C2512D0D887900F5458F /* DatabaseModel */ = {
+		1943C2512D0D887900F5458F /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				19C13C3A2CCC8F5B00A2F1A8 /* MessageModel.swift */,
+				19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */,
 			);
-			path = DatabaseModel;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		19C13B9C2CCBDF8B00A2F1A8 = {
 			isa = PBXGroup;
 			children = (
-				1943C2512D0D887900F5458F /* DatabaseModel */,
+				1943C2512D0D887900F5458F /* Model */,
 				19214E1F2CF04B51000D9463 /* Helpers */,
 				19C13BDA2CCC850400A2F1A8 /* Sounds */,
 				19C13BB92CCC84F300A2F1A8 /* Extensions */,
@@ -532,7 +534,6 @@
 				19C13C3E2CCC920D00A2F1A8 /* LocalKeys.swift */,
 				19C13BB72CCBE26D00A2F1A8 /* BaseConfig.swift */,
 				19C13C402CCC932E00A2F1A8 /* RealmConfig.swift */,
-				19C13C3C2CCC907700A2F1A8 /* OtherModel.swift */,
 			);
 			path = Publics;
 			sourceTree = "<group>";
@@ -599,7 +600,6 @@
 		19C13C162CCC8A0F00A2F1A8 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				1943C24B2D0D7C9400F5458F /* CacheManager.swift */,
 				1957E9062CD120A700CF05A0 /* PushServerCloudKit.swift */,
 				19F60EAB2D08645700812815 /* AudioManager.swift */,
 				19C13C332CCC8C8500A2F1A8 /* PushbackManager.swift */,
@@ -686,6 +686,7 @@
 				19C13CCD2CCCD97100A2F1A8 /* Defaults */,
 				19C13CCF2CCCD97100A2F1A8 /* SwiftyJSON */,
 				19C13CD12CCCD97100A2F1A8 /* RealmSwift */,
+				19B95F9D2D12E40900AB9BEB /* Kingfisher */,
 			);
 			productName = NotificationService;
 			productReference = 19C13C8D2CCCD70E00A2F1A8 /* NotificationService.appex */;
@@ -709,6 +710,7 @@
 			name = NotificationContent;
 			packageProductDependencies = (
 				19C13CDF2CCCDA9500A2F1A8 /* Defaults */,
+				19B95F9B2D12E40100AB9BEB /* Kingfisher */,
 			);
 			productName = NotificationContent;
 			productReference = 19C13CB72CCCD77600A2F1A8 /* NotificationContent.appex */;
@@ -732,6 +734,7 @@
 			name = ShareExtension;
 			packageProductDependencies = (
 				19C13CF82CCCDB4A00A2F1A8 /* Defaults */,
+				19B95F992D12E3FA00AB9BEB /* Kingfisher */,
 			);
 			productName = ShareExtension;
 			productReference = 19C13CE52CCCDADC00A2F1A8 /* ShareExtension.appex */;
@@ -934,7 +937,6 @@
 				19F60EAC2D08645D00812815 /* AudioManager.swift in Sources */,
 				198D3D492D0011140065FA3E /* NetworkManager.swift in Sources */,
 				19C13C1C2CCC8A4100A2F1A8 /* BaseConfig.swift in Sources */,
-				1943C24C2D0D7C9D00F5458F /* CacheManager.swift in Sources */,
 				19C13C3D2CCC907D00A2F1A8 /* OtherModel.swift in Sources */,
 				19C13C342CCC8C9900A2F1A8 /* PushbackManager.swift in Sources */,
 				19C13C3B2CCC8F5D00A2F1A8 /* MessageModel.swift in Sources */,
@@ -945,7 +947,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1943C24E2D0D872B00F5458F /* CacheManager.swift in Sources */,
 				19214DCB2CEE02EC000D9463 /* LocalKeys.swift in Sources */,
 				19C13CDE2CCCDA7500A2F1A8 /* ImageManager.swift in Sources */,
 				19C13CDD2CCCDA6100A2F1A8 /* MessageModel.swift in Sources */,
@@ -961,7 +962,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1943C24F2D0D873200F5458F /* CacheManager.swift in Sources */,
 				1943C24D2D0D86F000F5458F /* LocalKeys.swift in Sources */,
 				19214E202CF04B51000D9463 /* TabStateScrollView.swift in Sources */,
 				19C13CD92CCCDA2700A2F1A8 /* Extension+.swift in Sources */,
@@ -975,7 +975,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1943C2502D0D873900F5458F /* CacheManager.swift in Sources */,
 				1957EA322CD5290A00CF05A0 /* View+.swift in Sources */,
 				19C13CFA2CCCDBCA00A2F1A8 /* Extension+.swift in Sources */,
 				19C13CF42CCCDB4100A2F1A8 /* ImageManager.swift in Sources */,
@@ -1497,6 +1496,21 @@
 			productName = RevenueCatUI;
 		};
 		19B958B02D102D8000AB9BEB /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		19B95F992D12E3FA00AB9BEB /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		19B95F9B2D12E40100AB9BEB /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		19B95F9D2D12E40900AB9BEB /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19B958AF2D102D8000AB9BEB /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;

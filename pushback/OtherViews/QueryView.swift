@@ -78,3 +78,4 @@ struct QueryViewDataSection<Key: Hashable, Model: PersistentModel>: Identifiable
 	let id = UUID()
 	
 }
+

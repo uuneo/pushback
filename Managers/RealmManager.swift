@@ -33,9 +33,7 @@ class RealmManager{
 		
 		self.realm { proxy in
 			let messages = proxy.objects(Message.self).where({ $0.createDate < date })
-			for msg in messages{
-				proxy.delete(msg)
-			}
+			proxy.delete(messages)
 		}
 		
 	}
@@ -47,10 +45,8 @@ class RealmManager{
 				msg.read == read
 			})
 			
-			for msg in messages{
-				proxy.delete(msg)
-			}
-			
+			proxy.delete(messages)
+
 			RealmManager.ChangeBadge()
 		}
 		
@@ -59,19 +55,9 @@ class RealmManager{
 	func read(_ group: String? = nil){
 		
 		self.realm { proxy in
-			let messages = proxy.objects(Message.self).filter({
-				(msg) -> Bool in
-				if let group = group{
-					msg.group == group
-				}else{
-					true
-				}
-			})
-			
-			for msg in messages{
+			for msg in proxy.objects(Message.self).filter({$0.group == group && !$0.read}){
 				msg.read = true
 			}
-			
 			RealmManager.ChangeBadge()
 		}
 		
@@ -81,21 +67,16 @@ class RealmManager{
 	func deleteExpired() {
 		self.realm { proxy in
 			let messages =  proxy.objects(Message.self).filter({$0.isExpired()})
-			for msg in messages{
-				proxy.delete(msg)
-			}
+			proxy.delete(messages)
 			RealmManager.ChangeBadge()
 		}
 	}
 	
-	func delete(_ group: String){
+	func delete(group: String){
 		
 		self.realm { proxy in
 			let messages = proxy.objects(Message.self).filter( {$0.group == group} )
-			
-			for msg in messages{
-				proxy.delete(msg)
-			}
+			proxy.delete(messages)
 			RealmManager.ChangeBadge()
 		}
 		

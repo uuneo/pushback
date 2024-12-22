@@ -127,6 +127,16 @@
         }
       }
     },
+    "%lld/%lld" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
+    },
     "1周" : {
       "localizations" : {
         "en" : {
@@ -470,6 +480,7 @@
       }
     },
     "信息状态已更改" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1003,6 +1014,7 @@
       }
     },
     "已读" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1435,6 +1447,7 @@
       }
     },
     "未读" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -28,7 +28,12 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var saveDays:Int = -1
 	@Persisted var read:Bool = false
 	@Persisted var userInfo:String
-	
+
+
+	var firstLetter: String {
+		return group.first.map(String.init(_:)) ?? ""
+	}
+
 	
 	enum CodingKeys: CodingKey {
 		case id

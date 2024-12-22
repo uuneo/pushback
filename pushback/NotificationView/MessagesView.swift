@@ -22,21 +22,26 @@ struct MessagesView: View {
 	init(group: String? = nil) {
 		if let group = group {
 			self.group = group
-			self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
 		}else{
-			self._messages = ObservedResults(Message.self, sortDescriptor:  SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages = ObservedResults(Message.self, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
 		}
 
 	}
 
 	@State private var imageDetail:ImageModel?
 
+	// 分页相关状态
+	@State private var currentPage: Int = 1
+	@State private var itemsPerPage: Int = 50 // 每页加载10条数据
+	@State private var isLoading: Bool = false
+
 	var body: some View {
 
 		List {
 
 			if searchText.isEmpty{
-				ForEach(messages, id: \.id) { message in
+				ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
 
 					MessageView(message: message, searchText: searchText){
 
@@ -61,15 +66,11 @@ struct MessagesView: View {
 							debugPrint("没有找到")
 						}
 					}
-					.swipeActions(edge: .leading) {
-						Button {
-							RealmManager.shared.read(message)
-							Toast.shared.present(title: String(localized:  "信息状态已更改"), symbol: "highlighter")
-						} label: {
-							Label(message.read ? "已读" :  "未读", systemImage: message.read ? "envelope.open": "envelope")
-						}.tint(.blue)
+					.onAppear{
+						if messages.prefix(currentPage * itemsPerPage).last == message{
+							self.currentPage = min(messages.count, self.currentPage + 1)
+						}
 					}
-
 					.listRowBackground(Color.clear)
 					.listSectionSeparator(.visible)
 
@@ -79,8 +80,6 @@ struct MessagesView: View {
 			}else{
 				SearchMessageView(searchText: searchText, group: group ?? "")
 			}
-
-
 
 
 		}
@@ -96,16 +95,19 @@ struct MessagesView: View {
 		.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
 		.toolbar{
 			ToolbarItem {
-				Text("\(messages.count)")
+				Text("\(currentPage * itemsPerPage)/\(messages.count)")
 					.font(.caption)
 			}
 		}
-		.onAppear{
+		.task {
+			
 			if let group = group{
-				RealmManager.shared.read( group)
+				if let realm = try? Realm(), realm.objects(Message.self).where({$0.group == group && !$0.read}).count > 0 {
+					RealmManager.shared.read( group)
+				}
 			}
-
 		}
+
 
 	}
 

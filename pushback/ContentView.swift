@@ -15,8 +15,8 @@ struct ContentView: View {
 	@Environment(\.scenePhase) private var scenePhase
 	@EnvironmentObject private var manager:PushbackManager
 	@StateObject private var monitor = MonitorsManager()
-	@ObservedResults(Message.self) private var messages
-	
+	@ObservedResults(Message.self) var messages
+
 	@Default(.servers) private var servers
 	@Default(.firstStart) private var firstStart
 	@Default(.badgeMode) private var badgeMode
@@ -24,10 +24,7 @@ struct ContentView: View {
 	@State private  var showAlart:Bool = false
 	@State private  var activeName:String = ""
 	@State private var messagesPath: [String] = []
-	
-	var readCount:Int{
-		messages.where({!$0.read}).count
-	}
+
 	
 	var tabColor2:Color{
 		colorScheme == .dark ? Color.white : Color.black
@@ -116,8 +113,6 @@ struct ContentView: View {
 		}
 		
 		
-		
-		
 	}
 	
 	
@@ -131,7 +126,7 @@ struct ContentView: View {
 			
 			// MARK: 信息页面
 			MessageHomeView()
-				.badge(readCount)
+				.badge(messages.where({!$0.read}).count)
 				.tabItem {
 					Label( "消息", systemImage: "ellipsis.message")
 						.symbolRenderingMode(.palette)

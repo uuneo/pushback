@@ -75,16 +75,13 @@ struct AvatarView: View {
 	private func loadImage(icon:String ) {
 		self.success = true
 		Task.detached(priority: .background)  {
-			debugPrint("1.开始获取图片")
 			if let localPath = await ImageManager.downloadImage(icon) {
 				await MainActor.run {
-					debugPrint("2.获取成功")
 					self.image = UIImage(contentsOfFile: localPath)
 				}
 			} else {
 				await MainActor.run {
 					self.success = false
-					debugPrint("3.开始失败")
 				}
 			}
 		}

@@ -53,9 +53,7 @@ struct LauchFirstStartView: View {
 			.opacity(show ? 1 : 0.1)
         }
         .padding(15)
-        /// Manual Keyboard Push
         .offset(y: -keyboardHeight)
-        /// Disabling Native Keyboard Push
         .ignoresSafeArea(.keyboard, edges: .all)
         .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { output in
             if let info = output.userInfo, let height = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {

@@ -19,9 +19,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
 	@Published var showServerListView:Bool = false
-	
-	
-	@Published var premiumSubscriptionInfo: SubscriptionInfo?
+
 	
 	private let appGroupIdentifier = BaseConfig.groupName
 	private var customSoundsDirectoryMonitor: DispatchSourceFileSystemObject?

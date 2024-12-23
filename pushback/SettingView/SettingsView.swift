@@ -10,17 +10,16 @@ import SwiftUI
 import RealmSwift
 import Combine
 import Defaults
-import RevenueCat
-import RevenueCatUI
 
 
 
 
 
 struct SettingsView: View {
-	
-	
+
 	@EnvironmentObject private var manager:PushbackManager
+	@EnvironmentObject private var store:AppState
+
 	@ObservedResults(Message.self) var messages
 	@Default(.appIcon) var setting_active_app_icon
 	@Default(.badgeMode) var badgeMode
@@ -33,11 +32,12 @@ struct SettingsView: View {
 	@State private var webUrl:String = BaseConfig.helpWebUrl
 
 	@State private var showLoading:Bool = false
-	
+
 	@State private var showServerListView:Bool = false
 
 
-	@State private var showPayWall:Bool = false
+	@State private var showPaywall:Bool = false
+
 
 	var serverTypeColor:Color{
 
@@ -52,47 +52,58 @@ struct SettingsView: View {
 			return .orange
 		}
 	}
-	
+
 	// 定义一个 NumberFormatter
-	   private var numberFormatter: NumberFormatter {
-		   let formatter = NumberFormatter()
-		   formatter.numberStyle = .decimal
-		   formatter.minimumFractionDigits = 0
-		   formatter.maximumFractionDigits = 2
-		   return formatter
-	   }
-	
-	
+	private var numberFormatter: NumberFormatter {
+		let formatter = NumberFormatter()
+		formatter.numberStyle = .decimal
+		formatter.minimumFractionDigits = 0
+		formatter.maximumFractionDigits = 2
+		return formatter
+	}
+
+
+	var buildVersion:String{
+		// 版本号
+		let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+		// build号
+		let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+
+		return "\(appVersion)(\(buildVersion))"
+	}
+
+
+
 	var body: some View {
 		NavigationStack{
 			List{
-				
+
 				if ISPAD{
 					NavigationLink{
 						MessageHomeView()
 							.navigationTitle( "消息")
 					}label: {
 						Label( "消息", systemImage: "app.badge")
-							
+
 					}
-					
+
 				}
-				
-				
+
+
 				Section(header:Text(  "设备推送令牌")) {
 					Button{
 						if deviceToken != ""{
 							manager.copy(deviceToken)
-							
+
 							Toast.shared.present(title: String(localized: "复制成功"), symbol: "checkmark.arrow.trianglehead.counterclockwise")
-							
+
 						}else{
-							
+
 							Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
 						}
 					}label: {
 						HStack{
-							
+
 							Label {
 								Text( "令牌")
 									.lineLimit(1)
@@ -103,8 +114,8 @@ struct SettingsView: View {
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(Color.primary, .tint)
 							}
-							
-							
+
+
 							Spacer()
 							Text(maskString(deviceToken))
 								.foregroundStyle(.gray)
@@ -114,13 +125,13 @@ struct SettingsView: View {
 					}
 				}
 
-				
+
 				Section(header: Text(  "App配置")) {
 					Button{
 						manager.sheetPage = .appIcon
 					}label: {
-						
-						
+
+
 						HStack(alignment:.center){
 							Label {
 								Text("程序图标")
@@ -136,12 +147,12 @@ struct SettingsView: View {
 							Spacer()
 							Image(systemName: "chevron.right")
 								.foregroundStyle(.gray)
-								
+
 						}
-						
+
 					}
-					
-					
+
+
 					Picker(selection: $badgeMode) {
 						Text( "自动").tag(BadgeAutoMode.auto)
 						Text( "自定义").tag(BadgeAutoMode.custom)
@@ -158,13 +169,13 @@ struct SettingsView: View {
 						RealmManager.ChangeBadge()
 					}
 
-					
-					
+
+
 					NavigationLink{
 						SoundView()
 							.toolbar(.hidden, for: .tabBar)
 					}label: {
-						
+
 						HStack{
 							Label {
 								Text( "铃声列表")
@@ -216,16 +227,16 @@ struct SettingsView: View {
 					}
 
 
-					
+
 				}
 				Section(header:Text( "设置与帮助" )) {
 
-					
+
 					Button{
 						manager.openSetting()
 					}label: {
 						HStack(alignment:.center){
-							
+
 							Label {
 								Text(  "系统设置")
 									.foregroundStyle(.textBlack)
@@ -234,16 +245,16 @@ struct SettingsView: View {
 									.scaleEffect(0.9)
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
-								
+
 							}
-							
+
 							Spacer()
 							Image(systemName: "chevron.right")
 								.foregroundStyle(.gray)
 						}
-						
+
 					}
-					
+
 					Button{
 						manager.fullPage = .web(BaseConfig.helpWebUrl)
 
@@ -258,37 +269,44 @@ struct SettingsView: View {
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
 							}
-							
+
 							Spacer()
 							Image(systemName: "chevron.right")
 								.foregroundStyle(.gray)
 						}
-						
+
 					}
-					
+
 				}
-				
+
 				Section {
-					
-					if let premiumSubscriptionInfo = manager.premiumSubscriptionInfo,
-					   premiumSubscriptionInfo.canAccessContent
-					{
+
+					if store.subscriptionInfo.canAccessContent{
 						HStack{
 							Spacer()
-							Text(premiumSubscriptionInfo.subscriptionState.description)
+							Label {
+
+								Text(store.subscriptionInfo.subscriptionState.description)
+									.foregroundStyle(.textBlack)
+							} icon: {
+								Image(systemName: "bolt.shield")
+									.scaleEffect(0.9)
+									.symbolRenderingMode(.palette)
+									.foregroundStyle(.tint, Color.primary)
+							}
 							Spacer()
 						}
-						
 					}else{
 						Button{
-							
+							self.showPaywall.toggle()
 						}label:{
-							
+
+
 							HStack(alignment:.center){
-								
-								
+
+
 								Label {
-									
+
 									Text("开发者支持计划")
 										.foregroundStyle(.textBlack)
 								} icon: {
@@ -297,38 +315,52 @@ struct SettingsView: View {
 										.symbolRenderingMode(.palette)
 										.foregroundStyle(.tint, Color.primary)
 								}
-								
+
 								Spacer()
 								Image(systemName: "chevron.right")
 									.foregroundStyle(.gray)
 							}
-							
+
 						}
-						.showPayWell(false)
+
+
 					}
+
 				}footer:{
-					HStack{
-						Spacer()
-						Text("版本号: ")
-						var buildVersion:String{
-							// 版本号
-							let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
-							// build号
-							let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
-							
-							return "\(appVersion)(\(buildVersion))"
+					HStack(spacing: 15){
+						Spacer(minLength: 10)
+
+
+						Text("版本号:\(buildVersion)")
+
+						Button{
+							manager.fullPage = .web(BaseConfig.privacyURL)
+						}label: {
+							Text("隐私政策")
 						}
-						
-						Text(buildVersion)
-						Spacer()
+						Button{
+							manager.fullPage = .web(BaseConfig.userAgreement)
+						}label: {
+							Text("用户协议")
+						}
+						Button{
+							Task{
+								await store.restorePurchases()
+							}
+						}label: {
+							Text("恢复购买")
+						}
+
+						Spacer(minLength: 10)
 					}
+					.font(.caption)
+
 				}
-				
-				
-				
-				
-				
-				
+
+
+
+
+
 			}
 			.navigationTitle("设置")
 			.loading(showLoading)
@@ -336,9 +368,9 @@ struct SettingsView: View {
 				manager.openSetting()
 			})
 			.toolbar {
-				
+
 				ToolbarItem {
-					
+
 					Button {
 						showServerListView.toggle()
 					} label: {
@@ -346,10 +378,10 @@ struct SettingsView: View {
 							.symbolRenderingMode(.palette)
 							.foregroundStyle(serverTypeColor,Color.primary)
 					}
-					
+
 				}
-				
-				
+
+
 			}
 			.onAppear {
 				manager.healths()
@@ -358,26 +390,30 @@ struct SettingsView: View {
 				ServersConfigView()
 					.toolbar(.hidden, for: .tabBar)
 			}
-			
-			
-			
+
+
+
 		}
-		
+		.sheet(isPresented: $showPaywall) { PaywallView() }
+
+
+
 	}
-	
+
 	private func maskString(_ str: String) -> String {
 		guard str.count > 6 else {
 			return str
 		}
-		
+
 		let start = str.prefix(3)
 		let end = str.suffix(4)
 		let masked = String(repeating: "*", count: 5) // 固定为5个星号
-		
+
 		return start + masked + end
 	}
 
-	
+
+
 }
 
 
@@ -385,6 +421,7 @@ struct SettingsView: View {
 	NavigationStack{
 		SettingsView()
 			.environmentObject(PushbackManager.shared)
+			.environmentObject(AppState())
 	}
-	
+
 }

@@ -47,7 +47,7 @@ struct DataStorageView: View {
 								.foregroundStyle(Color.green)
 						}
 					}
-					.fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .json, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
+					.fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
 						switch result {
 							case .success(let success):
 								print(success)
@@ -296,6 +296,7 @@ struct DataStorageView: View {
 			}
 		}
 
+
 		return "0"
 	}
 }
@@ -306,10 +307,11 @@ struct DataStorageView: View {
 
 
 struct TextFileMessage: FileDocument {
-	static var readableContentTypes: [UTType] { [.json] } // 使用 JSON 文件类型
+
+	static var readableContentTypes: [UTType] { [.trnExportType] } // 使用 JSON 文件类型
 
 	var content: [Message]
-	
+
 	// 初始化器（设置默认内容）
 	init(content: Results<Message>) {
 		self.content = Array(content)

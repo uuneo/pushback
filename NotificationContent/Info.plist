@@ -6,6 +6,8 @@
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
+			<key>UNNotificationExtensionUserInteractionEnabled</key>
+			<true/>
 			<key>UNNotificationExtensionCategory</key>
 			<array>
 				<string>myNotificationCategory</string>
@@ -13,8 +15,6 @@
 			</array>
 			<key>UNNotificationExtensionInitialContentSizeRatio</key>
 			<real>0.01</real>
-			<key>UNNotificationExtensionUserInteractionEnabled</key>
-			<true/>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>

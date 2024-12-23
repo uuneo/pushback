@@ -55,7 +55,7 @@ struct Identifiers {
 
 
 enum SubPage: Equatable{
-	case login
+	case customKey
 	case servers
 	case scan
 	case music

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ChangeKeyView: View {
 	@EnvironmentObject private var manager:PushbackManager
+	
 	@State var appear = false
 	@State var appearBackground = false
 	@State var viewState = CGSize.zero

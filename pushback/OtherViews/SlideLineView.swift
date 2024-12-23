@@ -97,7 +97,7 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 						}
 					}
 					.frame(height: proxy.size.height / 2)
-
+					.animation(.bouncy,value: selectedIndex)
 					// Movable Circle
 					Circle()
 						.fill(Color("dark_light"))

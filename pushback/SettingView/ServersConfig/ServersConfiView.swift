@@ -45,7 +45,7 @@ struct ServersConfigView: View {
 							.swipeActions(edge: .leading, allowsFullSwipe: true) {
 
 								Button {
-									manager.fullPage = .login
+									manager.fullPage = .customKey
 									manager.sheetPage = .none
 								} label: {
 									Text(  "修改key")

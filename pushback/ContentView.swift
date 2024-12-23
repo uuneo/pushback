@@ -111,29 +111,6 @@ struct ContentView: View {
 			// 接收到通知时的处理
 			manager.page = .message
 		}
-//		.task {
-//
-//
-//				var messages:[Message] = []
-//				for _ in Array(1...10000){
-//					let msg = Message()
-//					msg.title = "你好啊"
-//					msg.group = "20000"
-//					msg.body = "测试数据"
-//					messages.append(msg)
-//
-//				}
-//				if let realm = try? Realm(){
-//					try? realm.write {
-//						realm.add(messages)
-//					}
-//				}
-//
-//
-//
-//
-//		}
-
 		
 		
 	}
@@ -189,7 +166,7 @@ struct ContentView: View {
 	func ContentFullViewPage() -> some View{
 		
 		switch manager.fullPage {
-		case .login:
+		case .customKey:
 			ChangeKeyView()
 		case .servers:
 			ServersConfigView(showClose: true)
@@ -254,8 +231,8 @@ extension ContentView{
 			if let url = params["url"]{
 				
 				manager.scanUrl = url
-				manager.fullPage = .login
-				
+				manager.fullPage = .customKey
+
 			}else{
 				Toast.shared.present(title: String(localized: "参数错误"), symbol: "questionmark.circle.dashed")
 			}

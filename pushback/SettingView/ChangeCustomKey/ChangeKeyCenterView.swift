@@ -11,7 +11,8 @@ import Defaults
 
 struct ChnageKeyCenterView: View {
 	@EnvironmentObject private var manager:PushbackManager
-	
+	@EnvironmentObject private var store:AppState
+
 	@State private var keyName:String = ""
 	
 	@State private var appear = [false, false, false]
@@ -72,18 +73,16 @@ struct ChnageKeyCenterView: View {
 			Divider()
 			
 			HStack{
-				Text( "如果设置太简单，会被其他人推送信息的风险！")
+				Text( "如果太简单，会有收到垃圾信息的风险！")
 					.font(.footnote)
 					.foregroundColor(.primary.opacity(0.7))
 					.accentColor(.primary.opacity(0.7))
-					.onTapGesture {
-						// MARK: - 打开web页面
-					}
+
 				Spacer()
 				
 	 
 			}
-			
+
 		}
 		.coordinateSpace(name: "stack")
 		.padding(20)
@@ -144,24 +143,28 @@ struct ChnageKeyCenterView: View {
 	private func CodeButton()-> some View{
 		VStack{
 			AngularButton(title: String(localized: "修改Key")) {
-				if keyName.count > 3{
-					
-					// TODO: - 修改key
-					Task.detached {
-						let success = await PushbackManager.shared.changeKey(server: selectServer, newKey: self.keyName)
-						
-						if success{
-							await MainActor.run {
-								manager.fullPage = .none
+				if BaseConfig.isInsideServer(selectServer) || store.subscriptionInfo.canAccessContent{
+					if keyName.count > 3{
+						// TODO: - 修改key
+						Task.detached {
+							let success = await PushbackManager.shared.changeKey(server: selectServer, newKey: self.keyName)
+
+							if success{
+								await MainActor.run {
+									manager.fullPage = .none
+								}
 							}
 						}
+					}else{
+						Toast.shared.present(title: String(localized: "字符数小于3"), symbol: .info)
 					}
 				}else{
-					Toast.shared.present(title: String(localized: "字符数小于3"), symbol: .info)
+					Toast.shared.present(title: String(localized: "没有权限,需自建服务器"), symbol: .info)
 				}
+
 				
 				
-			}.showPayWell()
+			}
 			
 
 		}.padding()

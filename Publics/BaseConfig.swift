@@ -58,7 +58,9 @@ class BaseConfig {
 	static let musicUrl = "https://convertio.co/mp3-caf/"
 	static let callback = defaultServer + "/callback"
 	static let iconRemote = "https://pushback.uuneo.com/_media/avatar.png"
-	
+	static let privacyURL = docServer + String(localized: "/#/policy")
+	static let userAgreement = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+
 	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"telegraph\"}"
 
 	
@@ -119,5 +121,11 @@ class BaseConfig {
 	static func stopCallNotificationHandler(mode: String = "app") {
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName(kStopCallHandlerKey as CFString), nil, ["viewType": mode ] as CFDictionary, true)
 	}
-	
+
+
+
+	static func isInsideServer(_ server: PushServerModel) -> Bool {
+		return server.url.contains("uuneo.com") || server.url.contains("vcvc.xyz")
+	}
+
 }

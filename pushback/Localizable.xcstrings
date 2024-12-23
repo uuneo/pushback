@@ -21,6 +21,16 @@
         }
       }
     },
+    "/#/policy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/en-us/policy"
+          }
+        }
+      }
+    },
     "%@ - " : {
       "localizations" : {
         "en" : {
@@ -129,6 +139,12 @@
     },
     "%lld/%lld" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld/%2$lld"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "new",
@@ -173,17 +189,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App Configuration"
-          }
-        }
-      }
-    },
-    "Close" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close"
           }
         }
       }
@@ -244,17 +249,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Padding:"
-          }
-        }
-      }
-    },
-    "Raw" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Raw"
           }
         }
       }
@@ -379,6 +373,16 @@
         }
       }
     },
+    "交易验证失败。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "verification failed."
+          }
+        }
+      }
+    },
     "令牌" : {
       "localizations" : {
         "en" : {
@@ -479,17 +483,6 @@
         }
       }
     },
-    "信息状态已更改" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Message status has been updated"
-          }
-        }
-      }
-    },
     "修改key" : {
       "localizations" : {
         "en" : {
@@ -551,7 +544,14 @@
       }
     },
     "关闭" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
     },
     "内容" : {
       "localizations" : {
@@ -569,6 +569,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App"
+          }
+        }
+      }
+    },
+    "出现了未知的购买结果。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown purchase result."
           }
         }
       }
@@ -883,22 +893,22 @@
         }
       }
     },
+    "如果太简单，会有收到垃圾信息的风险！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If it's too simple, there's a risk of getting spam!"
+          }
+        }
+      }
+    },
     "如果要使用这个参数，设置中的角标模式需要设置成自定义" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "If you want to use this parameter, the badge mode in settings must be set to custom"
-          }
-        }
-      }
-    },
-    "如果设置太简单，会被其他人推送信息的风险！" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "If the setting is too simple, it will be the risk of being pushed by others!"
           }
         }
       }
@@ -983,17 +993,6 @@
         }
       }
     },
-    "导出%d条通知消息" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export the %d notification message"
-          }
-        }
-      }
-    },
     "导出消息列表" : {
       "localizations" : {
         "en" : {
@@ -1010,17 +1009,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Converts the encrypted data to base64 encoding"
-          }
-        }
-      }
-    },
-    "已读" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Read"
           }
         }
       }
@@ -1051,6 +1039,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Developer support Plan"
+          }
+        }
+      }
+    },
+    "开启计划" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Join The Plan"
           }
         }
       }
@@ -1101,6 +1099,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "recover"
+          }
+        }
+      }
+    },
+    "恢复成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recovery success"
+          }
+        }
+      }
+    },
+    "恢复购买" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumption of purchase"
           }
         }
       }
@@ -1305,17 +1323,6 @@
         }
       }
     },
-    "文件重复" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File duplication"
-          }
-        }
-      }
-    },
     "新增服务器" : {
       "localizations" : {
         "en" : {
@@ -1447,13 +1454,12 @@
         }
       }
     },
-    "未读" : {
-      "extractionState" : "stale",
+    "来杯咖啡，支持一下!" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unread"
+            "value" : "A coffee, just to Support!"
           }
         }
       }
@@ -1554,6 +1560,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No data"
+          }
+        }
+      }
+    },
+    "没有权限,需自建服务器" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No permission, you need to create your own server"
           }
         }
       }
@@ -1699,12 +1715,32 @@
         }
       }
     },
-    "版本号: " : {
+    "版本号:%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Version:"
+            "value" : "Version:%@"
+          }
+        }
+      }
+    },
+    "用户协议" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms"
+          }
+        }
+      }
+    },
+    "用户取消了购买。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " canceled the purchase."
           }
         }
       }
@@ -1909,6 +1945,16 @@
         }
       }
     },
+    "获取开发者持续支持" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get developer support"
+          }
+        }
+      }
+    },
     "角标模式" : {
       "localizations" : {
         "en" : {
@@ -1919,7 +1965,7 @@
         }
       }
     },
-    "订阅至%@" : {
+    "订阅至 %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1959,7 +2005,7 @@
         }
       }
     },
-    "试用期至%@" : {
+    "试用期至 %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2005,6 +2051,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please enter a custom push key"
+          }
+        }
+      }
+    },
+    "购买成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Successful purchase"
+          }
+        }
+      }
+    },
+    "购买正在等待中。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The purchase is pending."
           }
         }
       }
@@ -2206,6 +2272,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacy&Security"
+          }
+        }
+      }
+    },
+    "隐私政策" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
           }
         }
       }

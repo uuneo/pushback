@@ -38,26 +38,36 @@ class PushbackSafariViewController: SFSafariViewController {
 }
 
 
-
 struct SFSafariView: UIViewControllerRepresentable {
 	let url: String
+	var onDismiss: (() -> Void)? // 闭包处理关闭事件
 
-	func makeUIViewController(context: UIViewControllerRepresentableContext<Self>) -> SFSafariViewController {
-		let requestUrl:URL = URL(string: url) ?? URL(string: BaseConfig.problemWebUrl)!
-		
-		
-		let sfVC =  SFSafariViewController(url: requestUrl)
-//        sfVC.preferredBarTintColor = .blue // set color to tint the background of the navigation bar and the toolbar.
-//        sfVC.preferredControlTintColor = .yellow // set the color to tint the control buttons on the navigation bar and the toolbar.
-		
+	func makeUIViewController(context: Context) -> SFSafariViewController {
+		let requestUrl: URL = URL(string: url) ?? URL(string: BaseConfig.problemWebUrl)!
+		let sfVC = PushbackSafariViewController(url: requestUrl)
+		sfVC.delegate = context.coordinator // 设置委托
+
 		return sfVC
 	}
 
-	func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SFSafariView>) {
-		return
+	func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
+		// 不需要更新
 	}
-	
-	
-	
 
+	func makeCoordinator() -> Coordinator {
+		return Coordinator(onDismiss: onDismiss)
+	}
+
+	class Coordinator: NSObject, SFSafariViewControllerDelegate {
+		var onDismiss: (() -> Void)?
+
+		init(onDismiss: (() -> Void)?) {
+			self.onDismiss = onDismiss
+		}
+
+		// Delegate method to handle dismissal
+		func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+			onDismiss?() // 调用闭包处理关闭
+		}
+	}
 }

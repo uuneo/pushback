@@ -42,9 +42,12 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 		guard index >= 0 && index < allCases.count else { return }
 		if data != allCases[index] {
 			data = allCases[index]
-			let generator = UIImpactFeedbackGenerator(style: .heavy)
-			generator.impactOccurred()
+			Task{
+				let generator = UIImpactFeedbackGenerator(style: .heavy)
+				generator.impactOccurred()
+			}
 		}
+
 	}
 
 	var body: some View {
@@ -61,6 +64,7 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 						Capsule()
 							.fill(Color.blue)
 							.frame(width: vline.width, height: vline.height)
+							.contentShape(Rectangle())
 							.onTapGesture {
 								setSelect(0)
 							}
@@ -69,6 +73,7 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 								Rectangle()
 									.fill(selectedIndex > index ? Color.blue : .gray)
 									.frame(height: vline.width)
+									.contentShape(Rectangle())
 									.onTapGesture {
 										setSelect(max(0, index))
 									}
@@ -76,6 +81,7 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 								Rectangle()
 									.fill(selectedIndex > index ? Color.blue : .gray)
 									.frame(height: vline.width)
+									.contentShape(Rectangle())
 									.onTapGesture {
 										setSelect(index + 1)
 									}
@@ -83,6 +89,7 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 								Capsule()
 									.fill(selectedIndex > index ? Color.blue : .gray)
 									.frame(width: vline.width, height: vline.height)
+									.contentShape(Rectangle())
 									.onTapGesture {
 										setSelect(index + 1)
 									}
@@ -98,12 +105,9 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 						.background(Circle().stroke(Color.blue, lineWidth: 8))
 						.offset(x: offset)
 						.gesture(DragGesture().onChanged { value in
-							if value.location.x > 0 && value.location.x <= width {
-								let newIndex = Int((value.location.x + viewWidth / 2) / viewWidth)
-								setSelect(min(lineNumber, newIndex))
-							}
+							let newIndex = Int((value.location.x + viewWidth / 2) / viewWidth)
+							setSelect(min(lineNumber, newIndex))
 						})
-						.animation(.bouncy, value: selectedIndex)
 				}
 			}
 

@@ -984,6 +984,7 @@
       }
     },
     "导出%d条通知消息" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

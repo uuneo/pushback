@@ -111,6 +111,29 @@ struct ContentView: View {
 			// 接收到通知时的处理
 			manager.page = .message
 		}
+//		.task {
+//
+//
+//				var messages:[Message] = []
+//				for _ in Array(1...10000){
+//					let msg = Message()
+//					msg.title = "你好啊"
+//					msg.group = "20000"
+//					msg.body = "测试数据"
+//					messages.append(msg)
+//
+//				}
+//				if let realm = try? Realm(){
+//					try? realm.write {
+//						realm.add(messages)
+//					}
+//				}
+//
+//
+//
+//
+//		}
+
 		
 		
 	}

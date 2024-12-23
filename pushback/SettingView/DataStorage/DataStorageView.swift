@@ -8,11 +8,12 @@
 
 //  History:
 //  Created by uuneo on 2024/12/11.
-	
+
 
 import SwiftUI
 import RealmSwift
 import Defaults
+import UniformTypeIdentifiers
 
 struct DataStorageView: View {
 	@ObservedResults(Message.self) var messages
@@ -23,24 +24,37 @@ struct DataStorageView: View {
 	@State private var select:Int = 0
 
 	@State private var showDeleteAlert:Bool = false
+	@State private var showexport:Bool = false
 
-    var body: some View {
+	var body: some View {
 		NavigationStack{
 			List{
 				Section {
 
-					HStack{
-						ShareLink(item: MessageExportJson(data: Array(messages)), preview:
-									SharePreview(Text(String(format: String(localized: "导出%d条通知消息"), messages.count)), image: Image("json_png"), icon: "trash")) {
+					Button{
+						self.showexport.toggle()
+					}label: {
+						HStack{
+
 							Label("导出", systemImage: "arrow.up.circle")
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint, Color.primary)
+
+
+
+							Spacer()
+							Text(String(format: String(localized: "%d条消息"), messages.count) )
+								.foregroundStyle(Color.green)
 						}
-
-
-						Spacer()
-						Text(String(format: String(localized: "%d条消息"), messages.count) )
-							.foregroundStyle(Color.green)
+					}
+					.fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .json, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
+						switch result {
+							case .success(let success):
+								print(success)
+							case .failure(let failure):
+								print(failure)
+						}
+						self.showexport = false
 					}
 
 					Button{
@@ -121,14 +135,14 @@ struct DataStorageView: View {
 							.toolbar(.hidden, for: .tabBar)
 							.navigationTitle("图片缓存")
 
-//						if #available(iOS 17.0, *){
-//							ImageHomeView()
-//
-//						}else{
-//							ImageCacheView()
-//								.toolbar(.hidden, for: .tabBar)
-//								.navigationTitle("图片缓存")
-//						}
+						//						if #available(iOS 17.0, *){
+						//							ImageHomeView()
+						//
+						//						}else{
+						//							ImageCacheView()
+						//								.toolbar(.hidden, for: .tabBar)
+						//								.navigationTitle("图片缓存")
+						//						}
 
 					} label: {
 						Label("图片缓存", systemImage: "photo.on.rectangle")
@@ -287,5 +301,34 @@ struct DataStorageView: View {
 }
 
 #Preview {
-    DataStorageView()
+	DataStorageView()
+}
+
+
+struct TextFileMessage: FileDocument {
+	static var readableContentTypes: [UTType] { [.json] } // 使用 JSON 文件类型
+
+	var content: [Message]
+	
+	// 初始化器（设置默认内容）
+	init(content: Results<Message>) {
+		self.content = Array(content)
+	}
+
+	// 从文件中读取内容
+	init(configuration: ReadConfiguration) throws {
+		guard let data = configuration.file.regularFileContents else {
+			throw CocoaError(.fileReadCorruptFile)
+		}
+		let decoder = JSONDecoder()
+		self.content = try decoder.decode([Message].self, from: data)
+	}
+
+	// 写入内容到文件
+	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+		let encoder = JSONEncoder()
+		encoder.outputFormatting = .prettyPrinted // 格式化输出
+		let data = try encoder.encode(content)
+		return FileWrapper(regularFileWithContents: data)
+	}
 }

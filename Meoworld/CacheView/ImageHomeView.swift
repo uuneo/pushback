@@ -276,3 +276,4 @@ extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
 		return viewControllers.count > 1
 	}
 }
+

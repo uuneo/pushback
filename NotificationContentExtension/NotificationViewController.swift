@@ -30,6 +30,12 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.imageView.contentMode = .scaleAspectFit
+		// 添加长按手势到图片视图
+		let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressOnImage(_:)))
+		self.imageView.isUserInteractionEnabled = true // 确保图片视图可以交互
+		self.imageView.addGestureRecognizer(longPressGesture)
+
+
 		// 添加点击手势识别器到视频播放视图
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerViewTapped))
 		self.videoPlayerView.addGestureRecognizer(tapGesture)
@@ -50,6 +56,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 
 		// 禁用自动调整子视图大小
 		loadingView.translatesAutoresizingMaskIntoConstraints = false
+
+
+		
 
 		// 设置 loadingView 的约束
 		NSLayoutConstraint.activate([
@@ -277,6 +286,52 @@ extension NotificationViewController{
 			return medias
 		}
 		return []
+	}
+
+
+	// 长按手势回调方法
+	@objc func handleLongPressOnImage(_ gesture: UILongPressGestureRecognizer) {
+		guard gesture.state == .began else { return }
+
+		guard let image = imageView.image else { return }
+
+		// 弹出保存选项
+		let alertController = UIAlertController(title: String(localized:"保存图片"), message:  String(localized:"是否将图片保存到相册？"), preferredStyle: .actionSheet)
+		alertController.addAction(UIAlertAction(title:  String(localized:"保存"), style: .default, handler: { _ in
+			UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
+		}))
+		alertController.addAction(UIAlertAction(title:  String(localized:"取消"), style: .cancel, handler: nil))
+
+		present(alertController, animated: true, completion: nil)
+	}
+
+	// 保存完成后的回调方法
+	@objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+		let alertController: UIAlertController
+
+		if let error = error {
+			// 保存失败提示
+			alertController = UIAlertController(
+				title:  String(localized:"保存失败"),
+				message:  String(localized:"保存图片时出现错误：\(error.localizedDescription)"),
+				preferredStyle: .alert
+			)
+		} else {
+			// 保存成功提示
+			alertController = UIAlertController(
+				title:  String(localized:"保存成功"),
+				message:  String(localized:"图片已成功保存到相册！"),
+				preferredStyle: .alert
+			)
+		}
+
+		// 添加确定按钮
+		alertController.addAction(UIAlertAction(title:  String(localized:"确定"), style: .default, handler: nil))
+
+		// 显示弹窗
+		DispatchQueue.main.async {
+			self.present(alertController, animated: true, completion: nil)
+		}
 	}
 
 

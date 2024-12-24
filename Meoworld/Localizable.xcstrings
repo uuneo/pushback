@@ -463,6 +463,26 @@
         }
       }
     },
+    "保存图片时出现错误：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error: %@"
+          }
+        }
+      }
+    },
+    "保存失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save failure"
+          }
+        }
+      }
+    },
     "保存成功" : {
       "localizations" : {
         "en" : {
@@ -579,6 +599,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown purchase result."
+          }
+        }
+      }
+    },
+    "切换成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switchover successful"
           }
         }
       }
@@ -823,6 +853,16 @@
         }
       }
     },
+    "啥都没有" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing at all"
+          }
+        }
+      }
+    },
     "图片" : {
       "localizations" : {
         "en" : {
@@ -839,6 +879,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Picture archive"
+          }
+        }
+      }
+    },
+    "图片已成功保存到相册！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picture saved to album successfully!"
           }
         }
       }
@@ -1093,6 +1143,16 @@
         }
       }
     },
+    "必须输入图片key" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You must enter the image key"
+          }
+        }
+      }
+    },
     "恢复" : {
       "localizations" : {
         "en" : {
@@ -1118,7 +1178,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resumption of purchase"
+            "value" : "Resume"
           }
         }
       }
@@ -1350,6 +1410,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Time-sensitive notification"
+          }
+        }
+      }
+    },
+    "是否将图片保存到相册？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you want to save pictures to an album?"
           }
         }
       }
@@ -1676,7 +1746,14 @@
       }
     },
     "清除缓存成功!" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear cache successfully!"
+          }
+        }
+      }
     },
     "点击右上角按钮可以复制测试URL、预览推送效果\nSafari有缓存，没收到推送时请刷新页面" : {
       "localizations" : {
@@ -1744,6 +1821,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : " canceled the purchase."
+          }
+        }
+      }
+    },
+    "确定" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }
@@ -1868,6 +1955,16 @@
         }
       }
     },
+    "自动保存到相册" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-save to album"
+          }
+        }
+      }
+    },
     "自动更正Iv参数" : {
       "localizations" : {
         "en" : {
@@ -1973,7 +2070,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Subscribe to %@"
+            "value" : "Subscribe to  %@"
           }
         }
       }
@@ -2284,7 +2381,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Privacy Policy"
+            "value" : "Privacy"
           }
         }
       }
@@ -2310,7 +2407,6 @@
       }
     },
     "默认" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

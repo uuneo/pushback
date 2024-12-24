@@ -46,7 +46,7 @@ struct AvatarView: View {
 					}
 				}else{
 					if mode == "1"{
-						Image(AppIconEnum.def.logo)
+						Image(AppIconEnum.pushback.logo)
 							.resizable()
 							.frame(width: size.width, height: size.height)
 					}else{

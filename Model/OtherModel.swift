@@ -297,21 +297,30 @@ extension CryptoModel: Defaults.Serializable {}
 // MARK: - AppIconMode
 
 enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
-	case def = "AppIcon"
-	case zero = "AppIcon0"
-	case one = "AppIcon1"
-	case two = "AppIcon2"
-	
+	case pushback
+	case callme
+	case bell
+	case bark
+
+	var name: String? {
+
+		if self == .pushback{
+			return nil
+		}
+
+		return self.rawValue
+	}
+
 	var logo: String{
 		switch self {
-		case .def:
-			return "logo"
-		case .zero:
-			return "logo0"
-		case .one:
-			return "logo1"
-		case .two:
-			return "logo2"
+			case .pushback:
+				return "logo"
+			case .callme:
+				return "logo0"
+			case .bell:
+				return "logo1"
+			case .bark:
+				return "logo2"
 		}
 	}
 }

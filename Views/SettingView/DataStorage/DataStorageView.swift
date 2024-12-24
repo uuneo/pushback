@@ -20,6 +20,7 @@ struct DataStorageView: View {
 	@Default(.messageExpiration) var messageExpiration
 	@Default(.imageSaveDays) var imageSaveDays
 	@Default(.cacheSize) var cacheSize
+	@Default(.autoSaveImageToAlbum) var autoSaveImageToAlbum
 	@State private var showImport:Bool = false
 	@State private var select:Int = 0
 
@@ -92,6 +93,7 @@ struct DataStorageView: View {
 
 
 
+
 				Section {
 
 
@@ -145,6 +147,18 @@ struct DataStorageView: View {
 							.symbolRenderingMode(.palette)
 							.foregroundStyle( .tint, Color.primary)
 					}
+
+
+					Section {
+						Toggle(isOn: $autoSaveImageToAlbum) {
+							Label("自动保存到相册", systemImage: "a.circle")
+								.symbolRenderingMode(.palette)
+								.foregroundStyle( .tint, Color.primary)
+						}
+					}
+
+
+
 
 
 					Picker(selection: $imageSaveDays) {

@@ -55,7 +55,12 @@ class MediaHandler:NotificationContentHandler{
 				
 				return bestAttemptContent
 			}
-			
+
+			/// 自动保存图片到相册
+			if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveImageToAlbum]{
+				UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
+			}
+
 			
 			let copyDestUrl = URL(fileURLWithPath: localPath).appendingPathExtension(".tmp")
 			// 将图片缓存复制一份，推送使用完后会自动删除，但图片缓存需要留着以后在历史记录里查看
@@ -77,8 +82,9 @@ class MediaHandler:NotificationContentHandler{
 			)
 			
 			bestAttemptContent.attachments = [attachment]
-			
-			
+
+
+
 			
 		}
 		

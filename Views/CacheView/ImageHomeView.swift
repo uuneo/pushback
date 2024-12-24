@@ -23,6 +23,7 @@ struct ImageHomeView: View {
 			ScrollViewReader { reader in
 				ScrollView(.vertical) {
 					LazyVStack(alignment: .leading, spacing: 0) {
+
 						LazyVGrid(columns: Array(repeating: GridItem(spacing: 3), count: 3), spacing: 3) {
 							ForEach(coordinator.items, id: \.id) { item in
 								GridImageView(item)
@@ -101,6 +102,13 @@ struct ImageHomeView: View {
 				}
 			}
 
+		}
+		.overlay(alignment: .center){
+			if Defaults[.images].count == 0{
+				Text("啥都没有")
+					.font(.title)
+					.foregroundStyle(.gray)
+			}
 		}
 		.overlay(alignment: .top, content: {
 			NavigationBar()
@@ -220,7 +228,7 @@ struct ImageHomeView: View {
 			}label: {
 				Text(coordinator.isEditMode ?  "取消" : "选择")
 					.padding(.horizontal)
-			}
+			}.disabled(Defaults[.images].count == 0)
 		}
 		.padding(.top)
 		.padding(.horizontal, 15)

@@ -32,8 +32,6 @@ struct ImageCacheView: View {
 
 
 
-
-
 	var columns:[GridItem]{
 		if ISPAD{
 			Array(repeating: GridItem(spacing: 2), count: 6)

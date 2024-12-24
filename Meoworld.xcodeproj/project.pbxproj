@@ -89,7 +89,6 @@
 		1922F6942D1A49BA0098B6A4 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1922F6932D1A49BA0098B6A4 /* SwiftyJSON */; };
 		1922F6A92D1A4C010098B6A4 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1922F6A82D1A4C010098B6A4 /* Kingfisher */; };
 		1922F6AB2D1A4C010098B6A4 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1922F6AA2D1A4C010098B6A4 /* RealmSwift */; };
-		1922F6AD2D1A4C010098B6A4 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1922F6AA2D1A4C010098B6A4 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1922F6AF2D1A4C010098B6A4 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 1922F6AE2D1A4C010098B6A4 /* Defaults */; };
 		1922F6B12D1A4C010098B6A4 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 1922F6B02D1A4C010098B6A4 /* SwiftyJSON */; };
 		1922F6B22D1A4C1E0098B6A4 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = 1922F5A42D1A486E0098B6A4 /* alarm.caf */; };
@@ -161,7 +160,7 @@
 		1922F7192D1A55140098B6A4 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5D02D1A486E0098B6A4 /* View+.swift */; };
 		1922F71A2D1A553B0098B6A4 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DE2D1A486E0098B6A4 /* LocalKeys.swift */; };
 		1922F71B2D1A553B0098B6A4 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DF2D1A486E0098B6A4 /* BaseConfig.swift */; };
-		1922F71F2D1A581C0098B6A4 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1922F68D2D1A492D0098B6A4 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		19C1D8FB2D1C5558004A914D /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1922F68D2D1A492D0098B6A4 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,7 +207,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1922F6AD2D1A4C010098B6A4 /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,7 +217,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				1922F71F2D1A581C0098B6A4 /* RealmSwift in Embed Frameworks */,
+				19C1D8FB2D1C5558004A914D /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +305,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1903CA402D1C1CCC00B0DF58 /* Exceptions for "Meoworld" folder in "ShareImageExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = 1922F5872D1A48560098B6A4 /* ShareImageExtension */;
+		};
 		1922F56B2D1A47FB0098B6A4 /* Exceptions for "NotificationServiceExtension" folder in "NotificationServiceExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -332,6 +337,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Localizable.xcstrings,
 			);
 			target = 1922F55F2D1A47FB0098B6A4 /* NotificationServiceExtension */;
 		};
@@ -339,8 +345,80 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Localizable.xcstrings,
 			);
 			target = 1922F5702D1A48230098B6A4 /* NotificationContentExtension */;
+		};
+		1922F8CB2D1BCB2E0098B6A4 /* Exceptions for "CacheView" folder in "Meoworld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ChangeKeyImageKey.swift,
+				ImageHeroKey.swift,
+				ImageHeroLayer.swift,
+				ImageHomeView.swift,
+				ImagePreview.swift,
+				ImageViewExtension.swift,
+				ImageViewModel.swift,
+				UICoordinator.swift,
+			);
+			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
+		};
+		1922F8CC2D1BCB2E0098B6A4 /* Exceptions for "ImageCache" folder in "Meoworld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ImageCacheView.swift,
+				ImageDetailView.swift,
+				PhotoPickerView.swift,
+				uAsyncImage.swift,
+			);
+			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
+		};
+		1922F8CD2D1BCB2E0098B6A4 /* Exceptions for "LauchFirstStart" folder in "Meoworld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LauchFirstStartView.swift,
+				PageIntro.swift,
+			);
+			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
+		};
+		1922F8CE2D1BCB2E0098B6A4 /* Exceptions for "OtherViews" folder in "Meoworld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AngularButton.swift,
+				AppIconView.swift,
+				BsyncImageView.swift,
+				QueryView.swift,
+				SFSafariView.swift,
+				ShareSheet.swift,
+				SlideLineView.swift,
+				ToastView.swift,
+				ToolsSlideView.swift,
+			);
+			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
+		};
+		1922F8CF2D1BCB2E0098B6A4 /* Exceptions for "SettingView" folder in "Meoworld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ChangeCustomKey/ChangeKeyCenterView.swift,
+				ChangeCustomKey/ChangeKeyView.swift,
+				DataStorage/DataStorageView.swift,
+				PaywallView/PaywallView.swift,
+				PrivacySecure/CryptoConfigView.swift,
+				PrivacySecure/PrivacySecureView.swift,
+				ServersConfig/ScanView.swift,
+				ServersConfig/ServerCardView.swift,
+				ServersConfig/ServersConfiView.swift,
+				SettingsView.swift,
+			);
+			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
+		};
+		1922F8D02D1BCB2E0098B6A4 /* Exceptions for "SoundView" folder in "Meoworld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SoundtemView.swift,
+				SoundView.swift,
+			);
+			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
 		};
 		19CC04BF2D1A469500041A2C /* Exceptions for "Meoworld" folder in "Meoworld" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -376,12 +454,66 @@
 			path = ShareImageExtension;
 			sourceTree = "<group>";
 		};
+		1922F8772D1BCB2E0098B6A4 /* CacheView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1922F8CB2D1BCB2E0098B6A4 /* Exceptions for "CacheView" folder in "Meoworld" target */,
+			);
+			path = CacheView;
+			sourceTree = "<group>";
+		};
+		1922F87C2D1BCB2E0098B6A4 /* ImageCache */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1922F8CC2D1BCB2E0098B6A4 /* Exceptions for "ImageCache" folder in "Meoworld" target */,
+			);
+			path = ImageCache;
+			sourceTree = "<group>";
+		};
+		1922F87F2D1BCB2E0098B6A4 /* LauchFirstStart */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1922F8CD2D1BCB2E0098B6A4 /* Exceptions for "LauchFirstStart" folder in "Meoworld" target */,
+			);
+			path = LauchFirstStart;
+			sourceTree = "<group>";
+		};
+		1922F8852D1BCB2E0098B6A4 /* NotificationView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NotificationView;
+			sourceTree = "<group>";
+		};
+		1922F88F2D1BCB2E0098B6A4 /* OtherViews */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1922F8CE2D1BCB2E0098B6A4 /* Exceptions for "OtherViews" folder in "Meoworld" target */,
+			);
+			path = OtherViews;
+			sourceTree = "<group>";
+		};
+		1922F89F2D1BCB2E0098B6A4 /* SettingView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1922F8CF2D1BCB2E0098B6A4 /* Exceptions for "SettingView" folder in "Meoworld" target */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
+		1922F8A22D1BCB2E0098B6A4 /* SoundView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1922F8D02D1BCB2E0098B6A4 /* Exceptions for "SoundView" folder in "Meoworld" target */,
+			);
+			path = SoundView;
+			sourceTree = "<group>";
+		};
 		19CC04AE2D1A44EC00041A2C /* Meoworld */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				19CC04BF2D1A469500041A2C /* Exceptions for "Meoworld" folder in "Meoworld" target */,
 				1922F6DD2D1A4C350098B6A4 /* Exceptions for "Meoworld" folder in "NotificationServiceExtension" target */,
 				1922F6FE2D1A4FF30098B6A4 /* Exceptions for "Meoworld" folder in "NotificationContentExtension" target */,
+				1903CA402D1C1CCC00B0DF58 /* Exceptions for "Meoworld" folder in "ShareImageExtension" target */,
 			);
 			path = Meoworld;
 			sourceTree = "<group>";
@@ -558,6 +690,20 @@
 			path = Publics;
 			sourceTree = "<group>";
 		};
+		1922F86E2D1BCB200098B6A4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1922F8772D1BCB2E0098B6A4 /* CacheView */,
+				1922F87C2D1BCB2E0098B6A4 /* ImageCache */,
+				1922F87F2D1BCB2E0098B6A4 /* LauchFirstStart */,
+				1922F8852D1BCB2E0098B6A4 /* NotificationView */,
+				1922F88F2D1BCB2E0098B6A4 /* OtherViews */,
+				1922F89F2D1BCB2E0098B6A4 /* SettingView */,
+				1922F8A22D1BCB2E0098B6A4 /* SoundView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		19CC04A32D1A44EC00041A2C = {
 			isa = PBXGroup;
 			children = (
@@ -567,6 +713,7 @@
 				1922F5D22D1A486E0098B6A4 /* Extensions */,
 				1922F5DD2D1A486E0098B6A4 /* Managers */,
 				1922F5E12D1A486E0098B6A4 /* Publics */,
+				1922F86E2D1BCB200098B6A4 /* Views */,
 				19CC04AE2D1A44EC00041A2C /* Meoworld */,
 				1922F5612D1A47FB0098B6A4 /* NotificationServiceExtension */,
 				1922F5762D1A48240098B6A4 /* NotificationContentExtension */,
@@ -683,6 +830,7 @@
 				1922F5912D1A48560098B6A4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				1922F8852D1BCB2E0098B6A4 /* NotificationView */,
 				19CC04AE2D1A44EC00041A2C /* Meoworld */,
 			);
 			name = Meoworld;
@@ -971,6 +1119,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
@@ -984,9 +1133,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -999,6 +1149,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
@@ -1012,9 +1163,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1027,6 +1179,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
@@ -1040,9 +1193,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1055,6 +1209,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
@@ -1068,9 +1223,10 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1095,7 +1251,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1122,7 +1278,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1256,11 +1412,12 @@
 		19CC04BB2D1A44EE00041A2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "bark bell callme pushback";
+				ASSETCATALOG_COMPILER_APPICON_NAME = pushback;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Meoworld/Meoworld.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Meoworld/Preview Content\"";
@@ -1269,11 +1426,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Meoworld/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = pushback;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Meoworld;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1281,9 +1439,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1293,11 +1452,12 @@
 		19CC04BC2D1A44EE00041A2C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "bark bell callme pushback";
+				ASSETCATALOG_COMPILER_APPICON_NAME = pushback;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Meoworld/Meoworld.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Meoworld/Preview Content\"";
@@ -1306,11 +1466,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Meoworld/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = pushback;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = Meoworld;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1318,9 +1479,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

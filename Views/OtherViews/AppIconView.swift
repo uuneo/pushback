@@ -34,42 +34,7 @@ struct AppIconView: View {
 						.padding()
 							.listRowBackground(Color.clear)
 							.onTapGesture {
-								setting_active_app_icon = item
-								let manager = UIApplication.shared
-
-
-
-								var iconName:String? = manager.alternateIconName ?? AppIconEnum.def.rawValue
-								
-								if setting_active_app_icon.rawValue == iconName{
-									return
-								}
-								
-								if setting_active_app_icon != .def{
-									iconName = setting_active_app_icon.rawValue
-								}
-
-								if UIApplication.shared.supportsAlternateIcons {
-									Task{
-										do {
-											try await manager.setAlternateIconName(iconName)
-											await MainActor.run {
-												dismiss()
-											}
-//											applicationIconImage
-										}catch{
-	#if DEBUG
-											print(error.localizedDescription)
-											Toast.shared.present(title: error.localizedDescription, symbol: .error)
-	#endif
-											
-										}
-
-									}
-								   
-								}else{
-									Toast.shared.present(title: String(localized: "暂时不能切换"), symbol: .question, tint: .red, timing: .short)
-								}
+								setSystemIcon(item)
 							}
 					
 				   
@@ -91,6 +56,26 @@ struct AppIconView: View {
 		}
         
     }
+
+	func setSystemIcon(_ icon: AppIconEnum){
+		let setting_active_app_icon_backup = setting_active_app_icon
+
+		setting_active_app_icon = icon
+
+		if UIApplication.shared.supportsAlternateIcons {
+			UIApplication.shared.setAlternateIconName(setting_active_app_icon.name) { err in
+				if let err{
+					debugPrint(err)
+					setting_active_app_icon = setting_active_app_icon_backup
+				}
+			}
+
+			Toast.shared.present(title: String(localized: "切换成功"), symbol: .success, tint: .green, timing: .long)
+			dismiss()
+		}else{
+			Toast.shared.present(title: String(localized: "暂时不能切换"), symbol: .question, tint: .red, timing: .short)
+		}
+	}
 }
 
 #Preview {

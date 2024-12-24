@@ -219,10 +219,15 @@ enum SubscriptionState {
 
 extension SubscriptionState: CustomStringConvertible {
 	public var description: String {
+
+		let formatter = DateFormatter()
+		formatter.dateFormat = "HH:mm  MM/dd/yyyy"
+
+
 		switch self {
-			case .notSubscribed: String(localized: "未订阅")
-			case let .inTrial(endDate): String(localized:"试用期至 \(endDate.formatted(date: .abbreviated, time: .shortened))")
-			case let .subscribed(endDate): String(localized:"订阅至 \(endDate.formatted(date: .abbreviated, time: .shortened))")
+			case .notSubscribed:return  String(localized: "未订阅")
+			case let .inTrial(endDate):return  String(localized:"试用期至 \(formatter.string(from: endDate))")
+			case let .subscribed(endDate): return String(localized:"订阅至 \(formatter.string(from: endDate))")
 		}
 	}
 }

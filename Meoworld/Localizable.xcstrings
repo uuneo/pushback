@@ -31,22 +31,12 @@
         }
       }
     },
-    "%@ - " : {
+    "%@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ - "
-          }
-        }
-      }
-    },
-    "%@；" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@；"
+            "value" : "%@"
           }
         }
       }
@@ -1791,16 +1781,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap to redirect to another app"
-          }
-        }
-      }
-    },
-    "版本号:%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version:%@"
           }
         }
       }

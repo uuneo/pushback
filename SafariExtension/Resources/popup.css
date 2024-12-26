@@ -1,0 +1,93 @@
+:root {
+    color-scheme: light dark;
+}
+
+body {
+    width: 350px;
+    padding: 10px;
+    font-family: system-ui;
+    text-align: center;
+
+}
+
+.title{
+	display: flex;
+	justify-content: space-between;
+	align-items:center;
+}
+
+.form-group {
+	display: flex;
+	margin-bottom: 15px;
+	align-items: center;
+	justify-content: left;
+
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 5px;
+	white-space: nowrap;
+	margin-right: 20px;
+}
+
+input,select {
+	padding: 8px;
+	font-size: 16px;
+	margin-bottom: 5px;
+	margin-right: 20px;
+}
+
+button {
+	background-color: none !important;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.key-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 10px;
+	background: #fff;
+	border-radius: 4px;
+	margin-bottom: 5px;
+}
+
+.key-item button {
+	color: white;
+	border: none !important;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.removeBtn {
+	background-color: none !important;
+	color: #e74c3c;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	margin-left: 10px;
+
+}
+
+.keyUl {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.keyUl li {
+	font-size: 20px;
+	margin-bottom: 10px;
+	padding:0 30px 0 0px;
+}
+
+.popup123{
+	display: none;
+	position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+	background: red;
+	padding: 10px;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+	border-radius: 20px;
+}

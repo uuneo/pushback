@@ -329,22 +329,27 @@ struct SettingsView: View {
 					}
 
 				}footer:{
-					HStack(spacing: 15){
+					HStack(spacing: 7){
 						Spacer(minLength: 10)
 
 
-						Text("版本号:\(buildVersion)")
-
+						Text("\(buildVersion)")
+						Circle()
+							.frame(width: 3,height: 3)
 						Button{
 							manager.fullPage = .web(BaseConfig.privacyURL)
 						}label: {
 							Text("隐私政策")
 						}
+						Circle()
+							.frame(width: 3,height: 3)
 						Button{
 							manager.fullPage = .web(BaseConfig.userAgreement)
 						}label: {
 							Text("用户协议")
 						}
+						Circle()
+							.frame(width: 3,height: 3)
 						Button{
 							Task{
 								await store.restorePurchases()

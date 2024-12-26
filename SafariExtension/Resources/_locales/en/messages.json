@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Safari+",
+        "description": "Pushback"
+    },
+    "extension_description": {
+        "message": "Push pictures and text to the phone",
+        "description": "This is an extension of pushback that allows you to send pictures and text to your phone"
+    }
+}

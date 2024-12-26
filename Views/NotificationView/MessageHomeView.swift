@@ -251,16 +251,16 @@ struct MessageHomeView: View {
 	private func groupBody(_ message: Message)-> some View{
 
 		if let title = message.title, let subtitle = message.subtitle{
-			return  Text("\(title) - ") + Text("\(subtitle)；") + Text(message.body ?? "")
+			return  Text("\(title)" + " - ") + Text("\(subtitle)" + "；") + Text(message.body ?? "")
 
 		}
 
 		if let title = message.title{
-			return  Text("\(title)；") + Text(message.body ?? "")
+			return  Text("\(title)" + "；") + Text(message.body ?? "")
 		}
 
 		if let subtitle = message.subtitle{
-			return  Text("\(subtitle)；") + Text(message.body ?? "")
+			return  Text("\(subtitle)" + "；") + Text(message.body ?? "")
 		}
 
 		return Text(message.body ?? "")

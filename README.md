@@ -17,7 +17,7 @@
 
 [<img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
 alt="Pushback App"
-height="40">](https://apps.apple.com/us/app/pushback-push-to-phone/id6615073345)
+height="40">](https://apps.apple.com/us/app/%E5%8F%8D%E6%8E%A8-%E7%BB%99%E4%BD%A0%E7%9A%84%E6%89%8B%E6%9C%BA%E5%8F%91%E6%8E%A8%E9%80%81/id6615073345)
 
 
 ## 问题反馈 Telegram 群
@@ -69,6 +69,11 @@ https://push.uuneo.com/yourkey/需要自定义图标的推送?icon=https://pushb
 // 指定推送消息图片，图片自动保存到相册
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
 ```
+|手动保存|自动保存|
+|-|-|
+|<img src="/docs/_media/shoudong.gif" width="350">|<img src="/docs/_media/auto.gif" width="350">|
+
+
 * video
 ```
 // 指定推送消息视频，下拉可以播放
@@ -101,10 +106,11 @@ https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive
 // passive：仅将通知添加到通知列表，不会亮屏提醒
 ```
 
-## Chrome扩展
+## Safari/Chrome扩展
+* safari扩展无需安装，App自带
 * 浏览器直接发送文字，图片，链接到手机上
 * 该扩展可直接将ins的图片网址发送到手机，手机上可以自动保存到图片到相册
-* [安装扩展](https://chromewebstore.google.com/detail/pushback/gadgoijjifgnbeehmcapjfipggiijeej)
+* [安装Chrome扩展](https://chromewebstore.google.com/detail/pushback/gadgoijjifgnbeehmcapjfipggiijeej)
 
 ## 项目中使用的第三方库
 - [Defaults](https://github.com/sindresorhus/Defaults)

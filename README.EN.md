@@ -17,6 +17,9 @@ English | **[中文](README.md)**
 # Pushback
 ![IOS](https://img.shields.io/badge/IPhone-16+-ff69b4.svg) ![IOS](https://img.shields.io/badge/IPad-16+-ff69b4.svg)
 ### An iOS application that allows you to push custom notifications to your Apple devices.
+[<img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+alt="Pushback App"
+height="40">](https://apps.apple.com/us/app/pushback-push-to-phone/id6615073345)
 
 ## Issue Feedback Telegram Group
 [Pushback Feedback Group](https://t.me/+pmCp6gWuAzFjYWQ1)
@@ -67,6 +70,10 @@ https://push.uuneo.com/yourkey/icon?icon=https://pushback.uuneo.com/_media/avata
 // Specify the push message image, Pictures are automatically saved to albums
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
 ```
+|手动保存|自动保存|
+|-|-|
+|<img src="/docs/_media/shoudong.gif" width="350">|<img src="/docs/_media/auto.gif" width="350">|
+
 * video
 ```
 // Specify the push message video and drop it down to play it
@@ -99,10 +106,11 @@ https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive
 // passive: Adds notification to the notification list without lighting up the screen.
 ```
 
-## Chrome Extension
+## Safari/Chrome Extension
+ * safari extension does not need to be installed, it comes with the app
  * The browser sends text, images, and links directly to the phone
  * The extension sends Instagram image URLs to the phone, which saves them to the album automatically.
- * [Install](https://chromewebstore.google.com/detail/pushback/gadgoijjifgnbeehmcapjfipggiijeej)
+ * [Install Chrome Extension](https://chromewebstore.google.com/detail/pushback/gadgoijjifgnbeehmcapjfipggiijeej)
 
 
 

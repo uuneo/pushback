@@ -173,6 +173,16 @@
         }
       }
     },
+    "App不会获取任何程序日志 如您需要帮助，复制日志发给我" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app will not get any program logs if you need help, copy the logs and send them to me"
+          }
+        }
+      }
+    },
     "App配置" : {
       "localizations" : {
         "en" : {
@@ -239,6 +249,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Padding:"
+          }
+        }
+      }
+    },
+    "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
           }
         }
       }
@@ -823,6 +843,16 @@
         }
       }
     },
+    "可能需要重启APP！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart App!"
+          }
+        }
+      }
+    },
     "可选参数值：\nlevel=active: 默认值，系统会立即亮屏显示通知。\n*  支持数字 level=-1 小于0 都代表 active\nlevel=timeSensitive:  时效性通知,专注模式下可显示通知。\n*  支持数字 level=0\nlevel=passive：仅添加到列表，不会亮屏提醒\n*  支持数字 level=1\nlevel=critical: 暂时不可用,等待苹果授权中..\n*\t重要提醒，静音或专注模式可正常提醒\n*  支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
       "localizations" : {
         "en" : {
@@ -919,6 +949,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Close after copying"
+          }
+        }
+      }
+    },
+    "复制崩溃日志" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy crash log"
           }
         }
       }
@@ -1049,6 +1089,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Converts the encrypted data to base64 encoding"
+          }
+        }
+      }
+    },
+    "崩溃报告" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crash Report"
           }
         }
       }
@@ -2292,6 +2342,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notification ringtone will play for 30s. If multiple are received, they will ring in sequence."
+          }
+        }
+      }
+    },
+    "邮箱" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
           }
         }
       }

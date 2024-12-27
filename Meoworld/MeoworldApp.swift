@@ -17,16 +17,20 @@ struct pushbackApp: SwiftUI.App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	@ObservedObject var manager = PushbackManager.shared
 	@StateObject private var appState = AppState()
+	
+
+
 
 	var body: some Scene {
 		WindowGroup {
 			RootView{
 				ContentView()
-
 			}
 			.environmentObject(PushbackManager.shared)
 			.environmentObject(appState)
+
 		}
 	}
+
 }
 

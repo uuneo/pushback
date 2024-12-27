@@ -19,8 +19,8 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
 	@Published var showServerListView:Bool = false
+	@Published var crashLog:String?
 
-	
 	private let appGroupIdentifier = BaseConfig.groupName
 	private var customSoundsDirectoryMonitor: DispatchSourceFileSystemObject?
 	private let manager = FileManager.default
@@ -44,9 +44,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 				self.sheetPage = .none
 			}
 		}
-		
 	}
-
 
 
 	

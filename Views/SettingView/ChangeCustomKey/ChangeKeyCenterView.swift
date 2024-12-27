@@ -143,7 +143,7 @@ struct ChnageKeyCenterView: View {
 	private func CodeButton()-> some View{
 		VStack{
 			AngularButton(title: String(localized: "修改Key")) {
-				if BaseConfig.isInsideServer(selectServer) || store.subscriptionInfo.canAccessContent{
+				if selectServer.url.isInsideServer() || store.subscriptionInfo.canAccessContent{
 					if keyName.count > 3{
 						// TODO: - 修改key
 						Task.detached {
@@ -162,8 +162,6 @@ struct ChnageKeyCenterView: View {
 					Toast.shared.present(title: String(localized: "没有权限,需自建服务器"), symbol: .info)
 				}
 
-				
-				
 			}
 			
 

@@ -113,21 +113,8 @@ class BaseConfig {
 		return imagesDirectory
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	static func stopCallNotificationHandler(mode: String = "app") {
 		CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFNotificationName(kStopCallHandlerKey as CFString), nil, ["viewType": mode ] as CFDictionary, true)
-	}
-
-
-
-	static func isInsideServer(_ server: PushServerModel) -> Bool {
-		return server.url.contains("uuneo.com") || server.url.contains("vcvc.xyz")
 	}
 
 }

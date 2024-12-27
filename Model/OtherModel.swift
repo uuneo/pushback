@@ -61,6 +61,7 @@ enum SubPage: Equatable{
 	case music
 	case appIcon
 	case web(String)
+	case crash(String)
 	case none
 }
 

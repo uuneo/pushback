@@ -30,7 +30,6 @@ struct ContentView: View {
 	@State private  var activeName:String = ""
 	@State private var messagesPath: [String] = []
 
-
 	var tabColor2:Color{
 		colorScheme == .dark ? Color.white : Color.black
 	}
@@ -116,8 +115,6 @@ struct ContentView: View {
 			// 接收到通知时的处理
 			manager.page = .message
 		}
-
-
 	}
 
 
@@ -187,6 +184,8 @@ struct ContentView: View {
 			case .web(let url):
 				SFSafariView(url: url)
 					.ignoresSafeArea()
+			case .crash(let crashlog):
+				CrashReportView(crashLog: crashlog)
 			default:
 				EmptyView()
 					.onAppear{
@@ -210,6 +209,9 @@ struct ContentView: View {
 			case .web(let url):
 				SFSafariView(url: url)
 					.ignoresSafeArea()
+
+			case .crash(let crashlog):
+				CrashReportView(crashLog: crashlog)
 			default:
 				EmptyView()
 					.onAppear{

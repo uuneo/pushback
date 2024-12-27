@@ -38,6 +38,8 @@ struct SettingsView: View {
 
 	@State private var showPaywall:Bool = false
 
+	@State private var buildDetail:Bool = false
+
 
 	var serverTypeColor:Color{
 
@@ -69,7 +71,15 @@ struct SettingsView: View {
 		// build号
 		let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
 
-		return "\(appVersion)(\(buildVersion))"
+
+		if buildDetail{
+			return "\(appVersion)(\(buildVersion))"
+		}else{
+			return appVersion
+		}
+
+
+
 	}
 
 
@@ -334,6 +344,9 @@ struct SettingsView: View {
 
 
 						Text("\(buildVersion)")
+							.onTapGesture {
+								buildDetail.toggle()
+							}
 						Circle()
 							.frame(width: 3,height: 3)
 						Button{

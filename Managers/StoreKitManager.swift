@@ -221,7 +221,7 @@ extension SubscriptionState: CustomStringConvertible {
 	public var description: String {
 
 		let formatter = DateFormatter()
-		formatter.dateFormat = "HH:mm  MM/dd/yyyy"
+		formatter.dateFormat = "MM-dd-yyyy HH:mm"
 
 
 		switch self {

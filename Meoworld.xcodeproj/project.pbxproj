@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1902F0C22D1E872D00485E12 /* CrashReporter in Frameworks */ = {isa = PBXBuildFile; productRef = 1902F0C12D1E872D00485E12 /* CrashReporter */; };
 		1922F55B2D1A476F0098B6A4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1922F55A2D1A476F0098B6A4 /* StoreKit.framework */; };
 		1922F5672D1A47FB0098B6A4 /* NotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1922F5602D1A47FB0098B6A4 /* NotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1922F5732D1A48230098B6A4 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1922F5722D1A48230098B6A4 /* UserNotifications.framework */; };
@@ -398,6 +399,7 @@
 				AngularButton.swift,
 				AppIconView.swift,
 				BsyncImageView.swift,
+				CrashReportView.swift,
 				QueryView.swift,
 				SFSafariView.swift,
 				ShareSheet.swift,
@@ -594,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1922F6942D1A49BA0098B6A4 /* SwiftyJSON in Frameworks */,
+				1902F0C22D1E872D00485E12 /* CrashReporter in Frameworks */,
 				1922F68E2D1A492D0098B6A4 /* RealmSwift in Frameworks */,
 				1922F6882D1A48FB0098B6A4 /* Kingfisher in Frameworks */,
 				1922F68B2D1A490D0098B6A4 /* QRScanner in Frameworks */,
@@ -903,6 +906,7 @@
 				1922F68D2D1A492D0098B6A4 /* RealmSwift */,
 				1922F6902D1A494B0098B6A4 /* Defaults */,
 				1922F6932D1A49BA0098B6A4 /* SwiftyJSON */,
+				1902F0C12D1E872D00485E12 /* CrashReporter */,
 			);
 			productName = Meoworld;
 			productReference = 19CC04AC2D1A44EC00041A2C /* Meoworld.app */;
@@ -951,6 +955,7 @@
 				1922F68C2D1A492D0098B6A4 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				1922F68F2D1A494B0098B6A4 /* XCRemoteSwiftPackageReference "Defaults" */,
 				1922F6922D1A49BA0098B6A4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				1902F0C02D1E872D00485E12 /* XCRemoteSwiftPackageReference "plcrashreporter" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19CC04AD2D1A44EC00041A2C /* Products */;
@@ -1697,6 +1702,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1902F0C02D1E872D00485E12 /* XCRemoteSwiftPackageReference "plcrashreporter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/microsoft/plcrashreporter.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.11.2;
+			};
+		};
 		1922F6862D1A48FB0098B6A4 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -1740,6 +1753,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1902F0C12D1E872D00485E12 /* CrashReporter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1902F0C02D1E872D00485E12 /* XCRemoteSwiftPackageReference "plcrashreporter" */;
+			productName = CrashReporter;
+		};
 		1922F6872D1A48FB0098B6A4 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1922F6862D1A48FB0098B6A4 /* XCRemoteSwiftPackageReference "Kingfisher" */;

@@ -17,9 +17,8 @@ English | **[中文](README.md)**
 # Pushback
 ![IOS](https://img.shields.io/badge/IPhone-16+-ff69b4.svg) ![IOS](https://img.shields.io/badge/IPad-16+-ff69b4.svg)
 ### An iOS application that allows you to push custom notifications to your Apple devices.
-[<img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-alt="Pushback App"
-height="40">](https://apps.apple.com/us/app/pushback-push-to-phone/id6615073345)
+[<img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fc/78/a0/fc78a0ee-dc6b-00d9-85be-e74c24b2bcb5/AppIcon-85-220-0-4-2x.png/512x0w.webp" alt="Pushback App" height="45"> ](https://testflight.apple.com/join/PMPaM6BR)
+[<img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Pushback App" height="40">](https://apps.apple.com/us/app/pushback-push-to-phone/id6615073345)
 
 ## Issue Feedback Telegram Group
 [Pushback Feedback Group](https://t.me/+pmCp6gWuAzFjYWQ1)

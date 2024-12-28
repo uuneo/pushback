@@ -24,7 +24,9 @@ struct ImageDetailView:View {
 				uAsyncImage(imageUrl: image.url, size: CGSize(width: viewbounds.width  - 20, height: viewbounds.height * 0.8), mode: .fit, isThumbnail: false)
 				
 			}dismiss: {
-				self.imageUrl = nil
+				withAnimation {
+					self.imageUrl = nil
+				}
 			}leftButton: {
 				self.showSheet.toggle()
 			}

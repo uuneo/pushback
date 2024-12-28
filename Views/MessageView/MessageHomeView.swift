@@ -159,6 +159,7 @@ struct MessageHomeView: View {
 
 
 			}
+		
 			.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
 			.actionSheet(isPresented: $showAction) {
 

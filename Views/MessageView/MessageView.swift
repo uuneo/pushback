@@ -9,6 +9,12 @@ import SwiftUI
 import RealmSwift
 
 
+enum messageCompleteMode{
+	case image
+	case text
+	case userInfo
+}
+
 struct MessageView: View {
 	
 	@EnvironmentObject private var manager:PushbackManager
@@ -16,7 +22,7 @@ struct MessageView: View {
     var searchText:String = ""
 	@State var showRaw:Bool = false
 	var showGroup:Bool =  false
-	var openImage:(()->Void)? = nil
+	var complete:((messageCompleteMode)->Void)? = nil
 	@State private var showLoading:Bool = false
     var body: some View {
 		Section {
@@ -26,6 +32,10 @@ struct MessageView: View {
 						AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
 							.frame(width: 30, height: 30, alignment: .center)
 							.clipShape(RoundedRectangle(cornerRadius: 10))
+							.saturation(showRaw ? 0 : 1)
+							.onTapGesture{
+								self.showRaw.toggle()
+							}
 
 
 						VStack{
@@ -38,19 +48,10 @@ struct MessageView: View {
 
 									Spacer()
 
-								}.overlay(alignment: .topTrailing) {
-									if message.userInfo.count > 10{
-
-										Image(systemName: showRaw ? "ladybug" : "ladybug.fill")
-											.resizable()
-											.symbolRenderingMode(.palette)
-											.foregroundStyle(.tint, .primary)
-											.frame(width: 20, height: 20, alignment: .center)
-											.onTapGesture {
-												self.showRaw.toggle()
-											}
-
-									}
+								}
+								.contentShape(Rectangle())
+								.onTapGesture(count: 2) {
+									self.complete?(.text)
 								}
 							}
 
@@ -65,9 +66,13 @@ struct MessageView: View {
 										.fontWeight(.bold)
 										.foregroundStyle(.gray)
 										.textSelection(.enabled)
-
+										
 
 									Spacer()
+								}
+								.contentShape(Rectangle())
+								.onTapGesture(count: 2) {
+									self.complete?(.text)
 								}
 
 
@@ -88,14 +93,26 @@ struct MessageView: View {
 								highlightedText(searchText: searchText, text: body)
 									.font(.body)
 									.textSelection(.enabled)
+									.transition(.opacity)
+
 							}
 							
 							Spacer()
 						}
-						
+						.contentShape(Rectangle())
+						.onTapGesture(count: 2) {
+							self.complete?(.text)
+						}
+
+
 					}else{
 						highlightedText(searchText: searchText, text: message.userInfo)
+							.transition(.opacity)
 							.font(.subheadline)
+							.onTapGesture(count: 2) {
+								self.complete?(.userInfo)
+							}
+
 					}
 					
 				
@@ -158,7 +175,7 @@ struct MessageView: View {
 				}
 				.onTapGesture {
 					self.showLoading = true
-					self.openImage?()
+					self.complete?(.image)
 					self.showLoading = false
 				}
 

@@ -361,30 +361,6 @@
 			);
 			target = 1922F5702D1A48230098B6A4 /* NotificationContentExtension */;
 		};
-		1922F8CB2D1BCB2E0098B6A4 /* Exceptions for "CacheView" folder in "Meoworld" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ChangeKeyImageKey.swift,
-				ImageHeroKey.swift,
-				ImageHeroLayer.swift,
-				ImageHomeView.swift,
-				ImagePreview.swift,
-				ImageViewExtension.swift,
-				ImageViewModel.swift,
-				UICoordinator.swift,
-			);
-			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
-		};
-		1922F8CC2D1BCB2E0098B6A4 /* Exceptions for "ImageCache" folder in "Meoworld" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ImageCacheView.swift,
-				ImageDetailView.swift,
-				PhotoPickerView.swift,
-				uAsyncImage.swift,
-			);
-			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
-		};
 		1922F8CD2D1BCB2E0098B6A4 /* Exceptions for "LauchFirstStart" folder in "Meoworld" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -412,9 +388,21 @@
 		1922F8CF2D1BCB2E0098B6A4 /* Exceptions for "SettingView" folder in "Meoworld" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CacheView/ChangeKeyImageKey.swift,
+				CacheView/ImageHeroKey.swift,
+				CacheView/ImageHeroLayer.swift,
+				CacheView/ImageHomeView.swift,
+				CacheView/ImagePreview.swift,
+				CacheView/ImageViewExtension.swift,
+				CacheView/ImageViewModel.swift,
+				CacheView/UICoordinator.swift,
 				ChangeCustomKey/ChangeKeyCenterView.swift,
 				ChangeCustomKey/ChangeKeyView.swift,
 				DataStorage/DataStorageView.swift,
+				ImageCache/ImageCacheView.swift,
+				ImageCache/ImageDetailView.swift,
+				ImageCache/PhotoPickerView.swift,
+				ImageCache/uAsyncImage.swift,
 				PaywallView/PaywallView.swift,
 				PrivacySecure/CryptoConfigView.swift,
 				PrivacySecure/PrivacySecureView.swift,
@@ -474,22 +462,6 @@
 			path = ShareImageExtension;
 			sourceTree = "<group>";
 		};
-		1922F8772D1BCB2E0098B6A4 /* CacheView */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1922F8CB2D1BCB2E0098B6A4 /* Exceptions for "CacheView" folder in "Meoworld" target */,
-			);
-			path = CacheView;
-			sourceTree = "<group>";
-		};
-		1922F87C2D1BCB2E0098B6A4 /* ImageCache */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1922F8CC2D1BCB2E0098B6A4 /* Exceptions for "ImageCache" folder in "Meoworld" target */,
-			);
-			path = ImageCache;
-			sourceTree = "<group>";
-		};
 		1922F87F2D1BCB2E0098B6A4 /* LauchFirstStart */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -498,9 +470,9 @@
 			path = LauchFirstStart;
 			sourceTree = "<group>";
 		};
-		1922F8852D1BCB2E0098B6A4 /* NotificationView */ = {
+		1922F8852D1BCB2E0098B6A4 /* MessageView */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = NotificationView;
+			path = MessageView;
 			sourceTree = "<group>";
 		};
 		1922F88F2D1BCB2E0098B6A4 /* OtherViews */ = {
@@ -733,10 +705,8 @@
 		1922F86E2D1BCB200098B6A4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1922F8772D1BCB2E0098B6A4 /* CacheView */,
-				1922F87C2D1BCB2E0098B6A4 /* ImageCache */,
 				1922F87F2D1BCB2E0098B6A4 /* LauchFirstStart */,
-				1922F8852D1BCB2E0098B6A4 /* NotificationView */,
+				1922F8852D1BCB2E0098B6A4 /* MessageView */,
 				1922F88F2D1BCB2E0098B6A4 /* OtherViews */,
 				1922F89F2D1BCB2E0098B6A4 /* SettingView */,
 				1922F8A22D1BCB2E0098B6A4 /* SoundView */,
@@ -896,7 +866,7 @@
 				19C1DA532D1C6FC1004A914D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				1922F8852D1BCB2E0098B6A4 /* NotificationView */,
+				1922F8852D1BCB2E0098B6A4 /* MessageView */,
 				19CC04AE2D1A44EC00041A2C /* Meoworld */,
 			);
 			name = Meoworld;
@@ -1224,7 +1194,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1254,7 +1224,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1284,7 +1254,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1314,7 +1284,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1342,7 +1312,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1369,7 +1339,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1396,7 +1366,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1427,7 +1397,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1592,7 +1562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1632,7 +1602,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

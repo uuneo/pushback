@@ -32,10 +32,7 @@ struct MessageView: View {
 						AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
 							.frame(width: 30, height: 30, alignment: .center)
 							.clipShape(RoundedRectangle(cornerRadius: 10))
-							.saturation(showRaw ? 0 : 1)
-							.onTapGesture{
-								self.showRaw.toggle()
-							}
+
 
 
 						VStack{
@@ -86,35 +83,42 @@ struct MessageView: View {
 						.frame(height: 1)
 						.padding(.horizontal, 5)
 
-					
-					if !showRaw{
-						HStack{
-							if let body = message.body{
-								highlightedText(searchText: searchText, text: body)
-									.font(.body)
-									.textSelection(.enabled)
-									.transition(.opacity)
 
+					ScrollView{
+						if !showRaw{
+							HStack{
+								if let body = message.body{
+									highlightedText(searchText: searchText, text: body)
+										.frame(maxHeight: 300)
+										.font(.body)
+										.textSelection(.enabled)
+										.transition(.opacity)
+
+								}
+
+								Spacer()
 							}
-							
-							Spacer()
-						}
-						.contentShape(Rectangle())
-						.onTapGesture(count: 2) {
-							self.complete?(.text)
-						}
-
-
-					}else{
-						highlightedText(searchText: searchText, text: message.userInfo)
-							.transition(.opacity)
-							.font(.subheadline)
+							.contentShape(Rectangle())
 							.onTapGesture(count: 2) {
-								self.complete?(.userInfo)
+								self.complete?(.text)
 							}
+
+
+						}else{
+
+							highlightedText(searchText: searchText, text: message.userInfo)
+
+								.transition(.opacity)
+								.font(.subheadline)
+								.onTapGesture(count: 2) {
+									self.complete?(.userInfo)
+								}
+
+						}
 
 					}
-					
+					.frame(maxHeight: 300)
+
 				
 				}
 				.padding(10)
@@ -124,12 +128,21 @@ struct MessageView: View {
 		}header: {
 			HStack(alignment: .bottom){
 
+				Image(systemName: showRaw ? "captions.bubble.fill" : "captions.bubble")
+					.symbolRenderingMode(.palette)
+					.foregroundStyle(.primary, .tint)
+					.padding(.leading, 10)
+					.onTapGesture{
+						if message.userInfo.count > 0{
+							self.showRaw.toggle()
+						}
+					}
 
 
 				Text(message.createDate.agoFormatString())
 					.font(.caption2)
 					.foregroundStyle(message.createDate.colorForDate())
-					.padding(.leading, 10)
+
 				Spacer()
 
 				if let _ =  message.url {

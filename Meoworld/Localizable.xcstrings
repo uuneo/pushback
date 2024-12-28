@@ -21,6 +21,16 @@
         }
       }
     },
+    "{这是一个示例,没有原始数据}" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{This is an example, no raw data}"
+          }
+        }
+      }
+    },
     "/#/policy" : {
       "localizations" : {
         "en" : {

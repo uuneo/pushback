@@ -82,7 +82,7 @@ struct ContentView: View {
 
 
 				}
-				.background(.white.gradient)
+				.background(.ultraThinMaterial)
 			}
 
 		}

@@ -94,12 +94,6 @@
             "state" : "translated",
             "value" : "%1$@/%2$@"
           }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@/%2$@"
-          }
         }
       }
     },
@@ -226,12 +220,6 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld/%2$lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "new",
             "value" : "%1$lld/%2$lld"
           }
         }
@@ -505,6 +493,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bir ay önce"
+          }
+        }
+      }
+    },
+    "一点使用提示" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A little use tips"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A little use tips"
           }
         }
       }
@@ -1357,6 +1361,22 @@
         }
       }
     },
+    "可以解锁更多使用方法,不一一列举" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can unlock more use methods, not a list"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can unlock more use methods, not a list"
+          }
+        }
+      }
+    },
     "可对通知设置中断级别" : {
       "localizations" : {
         "en" : {
@@ -1389,18 +1409,18 @@
         }
       }
     },
-    "可选参数值：\nlevel=active: 默认值，系统会立即亮屏显示通知。\n*  支持数字 level=-1 小于0 都代表 active\nlevel=timeSensitive:  时效性通知,专注模式下可显示通知。\n*  支持数字 level=0\nlevel=passive：仅添加到列表，不会亮屏提醒\n*  支持数字 level=1\nlevel=critical: 暂时不可用,等待苹果授权中..\n*\t重要提醒，静音或专注模式可正常提醒\n*  支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
+    "可选参数值：\nlevel=active: 默认值，系统会立即亮屏显示通知。\n*  支持数字 level=-1 小于0 都代表 active\nlevel=timeSensitive:  时效性通知,专注模式下可显示通知。\n*  支持数字 level=0\nlevel=passive：仅添加到列表，不会亮屏提醒\n*  支持数字 level=1\nlevel=critical:\n*\t重要提醒，静音或专注模式可正常提醒\n*  支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optional Parameter Values:  \n\nlevel=active: Default value, the system will immediately wake the screen to display the notification.  \n* Supports numeric values: level=-1 or any value less than 0 represents active.  \n\nlevel=timeSensitive: Time-sensitive notification, can be displayed even in Focus mode.  \n* Supports numeric value: level=0.  \n\nlevel=passive: Adds to the list only, without waking the screen for notification.  \n* Supports numeric value: level=1.  \n\nlevel=critical: Temporarily unavailable, awaiting Apple authorization.  \n* Important alerts can bypass silent or Focus mode.  \n* Supports numeric values: level=2 for the lowest sound level, up to level=10 for the highest sound level."
+            "value" : "Optional Parameter Values:  \n\nlevel=active: Default value, the system will immediately wake the screen to display the notification.  \n* Supports numeric values: level=-1 or any value less than 0 represents active.  \n\nlevel=timeSensitive: Time-sensitive notification, can be displayed even in Focus mode.  \n* Supports numeric value: level=0.  \n\nlevel=passive: Adds to the list only, without waking the screen for notification.  \n* Supports numeric value: level=1.  \n\nlevel=critical: \n* Important alerts can bypass silent or Focus mode.  \n* Supports numeric values: level=2 for the lowest sound level, up to level=10 for the highest sound level."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İsteğe bağlı parametre değeri:\nlevel=active:  Varsayılan değer, sistem hemen bildirimleri görüntüler.\n * Desteklenen sayı level=-1 0'dan küçük aktif anlamına gelir\nlevel=timeSensitive:   Zamanlık bildirimleri, odaklanma modunda bildirimler görüntülenebilir.\n * Destek sayısı level=0\nlevel=passive： Sadece listeye ekle, hatırlatıcı aydınlatmaz\n * Destek sayısı level=1\nlevel=critical:  Geçici olarak kullanılamaz, Apple lisansı bekliyor..\n * Önemli hatırlatma, sessiz veya odaklanma modu normal olarak hatırlatılabilir\n * Sayı desteklenir (2-10) seviye=2 minimum ses seviye=10 maksimum ses,"
+            "value" : "İsteğe bağlı parametre değeri:\nlevel=active:  Varsayılan değer, sistem hemen bildirimleri görüntüler.\n * Desteklenen sayı level=-1 0'dan küçük aktif anlamına gelir\nlevel=timeSensitive:   Zamanlık bildirimleri, odaklanma modunda bildirimler görüntülenebilir.\n * Destek sayısı level=0\nlevel=passive： Sadece listeye ekle, hatırlatıcı aydınlatmaz\n * Destek sayısı level=1\nlevel=critical: \n * Önemli hatırlatma, sessiz veya odaklanma modu normal olarak hatırlatılabilir\n * Sayı desteklenir (2-10) seviye=2 minimum ses seviye=10 maksimum ses,"
           }
         }
       }

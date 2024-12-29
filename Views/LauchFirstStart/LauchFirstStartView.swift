@@ -93,6 +93,7 @@ struct IntroView<ActionView: View>: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .padding(15)
+					.padding(.top, 50)
                     .frame(width: size.width, height: size.height)
             }
             /// Moving Up
@@ -162,7 +163,7 @@ struct IntroView<ActionView: View>: View {
                     Image(systemName: "chevron.left")
                         .font(.title2)
                         .fontWeight(.semibold)
-                        .foregroundColor(.black)
+						.foregroundColor(.primary)
                         .contentShape(Rectangle())
                 }
                 .padding(10)

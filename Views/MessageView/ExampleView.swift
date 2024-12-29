@@ -205,7 +205,7 @@ extension ExampleView{
  *  支持数字 level=0
  level=passive：仅添加到列表，不会亮屏提醒
  *  支持数字 level=1
- level=critical: 暂时不可用,等待苹果授权中..
+ level=critical:
  *	重要提醒，静音或专注模式可正常提醒
  *  支持数字(2-10) level=2 声音最小 level=10 声音最大 ,
  """)),

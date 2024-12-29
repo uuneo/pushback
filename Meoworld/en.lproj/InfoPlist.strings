@@ -9,6 +9,6 @@
 CFBundleDisplayName = "pushback";
 NSPhotoLibraryAddUsageDescription = "This app requires access to your photo library to save photos.";
 NSCameraUsageDescription = "Need to use your camera to identify the QR code";
-
+NSPhotoLibraryUsageDescription = "We need access to your photo album";
 
 

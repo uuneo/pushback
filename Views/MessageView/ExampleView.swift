@@ -172,10 +172,10 @@ extension ExampleView{
 							 params:  "\(String(localized:  "自定义角标"))?badge=1",
 							 index: 7),
 			
-			PushExampleModel(header: AnyView(Text("自动保存")),
-							 footer: AnyView(Text( "消息默认保存，除非携带isArchive=0，信息不会在前台出现")),
+			PushExampleModel(header: AnyView(Text("消息保存时间")),
+							 footer: AnyView(Text( "ttl=天数 0代表不保存，默认值需在app内设置")),
 							 title: String(localized:  "不保存消息"),
-							 params: "\(String(localized:"推送内容" ))?isArchive=0",
+							 params: "\(String(localized:"推送内容" ))?ttl=0",
 							 index: 8),
 			
 			PushExampleModel(header: AnyView(Text("URLScheme或者网址")),
@@ -198,16 +198,11 @@ extension ExampleView{
 			
 			PushExampleModel(header: AnyView(Text("可对通知设置中断级别")),
 							 footer: AnyView(Text( """
- 可选参数值：
- level=active: 默认值，系统会立即亮屏显示通知。
- *  支持数字 level=-1 小于0 都代表 active
- level=timeSensitive:  时效性通知,专注模式下可显示通知。
- *  支持数字 level=0
- level=passive：仅添加到列表，不会亮屏提醒
- *  支持数字 level=1
- level=critical:
- *	重要提醒，静音或专注模式可正常提醒
- *  支持数字(2-10) level=2 声音最小 level=10 声音最大 ,
+ 可选参数值：(level=0...10)可用数字代替 3-10 代表音量
+ level=passive(0)：仅添加到列表，不会亮屏提醒
+ level=active(1): 默认值，系统会立即亮屏显示通知。
+ level=timeSensitive(1):  时效性通知,专注模式下可显示通知。
+ level=critical(3-10): 重要提醒，静音或专注模式可正常提醒
  """)),
 							 title: String(localized:  "通知类型"),
 							 params: "\(String(localized:  "时效性通知"))?level=timeSensitive",

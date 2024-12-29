@@ -26,16 +26,15 @@ class MessageHandler: NotificationContentHandler{
 		let url = userInfo[Params.url.name] as? String
 		
 		let icon = userInfo[Params.icon.name] as? String
-		let isArchive = userInfo[Params.isarchive.name] as? String
+		let ttl = userInfo[Params.ttl.name] as? String
 		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
 		let call = userInfo[Params.call.name] as? String
-		let mode = (userInfo[Params.mode.name] as? String ?? call) ?? "999"
-		
+		let level = bestAttemptContent.getLevel()
+
 		var userInfoString:String{
 			
 			if let userInfoData = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
 			   let userInfo = String(data: userInfoData , encoding: .utf8){
-				debugPrint(userInfo)
 				return userInfo
 			}
 			return ""
@@ -47,8 +46,8 @@ class MessageHandler: NotificationContentHandler{
 		
 		//  获取保存时间
 		var saveDays:Int {
-			if let isArchive = isArchive,  let saveDays = Int(isArchive){
-				return saveDays == 1 ? -1 : saveDays
+			if let isArchive = ttl, let saveDaysTem = Int(isArchive){
+				return saveDaysTem
 			}else{
 				return Defaults[.messageExpiration].days
 			}
@@ -64,12 +63,11 @@ class MessageHandler: NotificationContentHandler{
 				message.url = url
 				message.group = group
 				message.icon = icon
-
+				message.level = level
 				message.image = mediaHandler(userInfo: userInfo, name: Params.image.name)
 				message.video = mediaHandler(userInfo: userInfo, name: Params.video.name)
 				message.createDate = Date()
-				message.saveDays = saveDays
-				message.mode = mode
+				message.ttl = saveDays
 				message.userInfo = userInfoString
 				realm.add(message)
 			}

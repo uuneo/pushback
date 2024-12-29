@@ -69,8 +69,8 @@ The list of supported parameters, the specific effects can be previewed in the a
 | title | Push Title | |
 | subtitle | Push Subtitle | |
 | body | Push Content | |
-| level | Push interruption level. <br> active: default value, the system will immediately turn on the screen to display the notification. <br> timeSensitive: time-sensitive notification, can be shown even in Do Not Disturb mode. <br> passive: only adds the notification to the notification list, without turning on the screen. <br> critical: important reminder, can remind in Do Not Disturb or silent mode. | The parameter can be replaced with numbers: level=1 <br> 0: passive <br> 1: timeSensitive <br> less than 0: active <br> greater than 2...10: critical. In this mode, the number will be used for volume level= 2...10 |
-| volume | Volume level in critical mode, range: 1...10 | No need for this parameter when a number is passed. |
+| level  | Notification interruption level. <br>active: Default value, the system will immediately light up the screen to display the notification. <br>timeSensitive: Time-sensitive notification, can be displayed during focus mode. <br>passive: Only adds the notification to the notification list without lighting up the screen. <br>critical: Important alert, can notify even during focus or silent mode. | Parameters can be replaced with numbers: level=1 <br>0: passive<br>1: active<br>2: timeSensitive<br>3...10: critical, where the number determines the volume level for critical notifications. |
+| volume | Volume level for critical notifications. Range: 1...10 | Not supported, a number must be provided. |
 | call | Long reminder, similar to WeChat call notifications | Supports mode=1 for the same effect. |
 | badge | Push badge, can be any number | Custom badge must be enabled in the app for it to take effect, otherwise, it will be calculated based on unread notifications. |
 | autoCopy | Auto-copy push content for iOS 14.5 and below, for iOS 14.5 and above, long press or swipe down on the notification to copy. | This app is for iOS 16+ |
@@ -80,5 +80,5 @@ The list of supported parameters, the specific effects can be previewed in the a
 | image | Provide an image URL, the phone will automatically download and cache the image upon receiving the message. | The image can be viewed in the notification dropdown or in the app. <br> After renaming locally, it can be used directly with <icon=local name>. |
 | video | <font color='red'>Not supported yet</font> | Provide a video URL, and the phone can pull down and watch the video after receiving the message. |
 | group | Group the messages, the push notifications will be displayed in the notification center according to the group. <br> You can also choose to view different groups in the historical message list. |
-| isArchive | Pass 1 to save the push notification, pass other values to not save the push, or leave it unspecified to decide based on app settings. |
+| isArchive | Pass 1 to save the push notification, pass other values to not save the push, or leave it unspecified to decide based on app settings. | Not supported. Use ttl=days, default to app settings if omitted.｜
 | url | The URL to redirect to when clicking the push notification. Supports URL Scheme and Universal Link. |

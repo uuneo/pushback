@@ -15,7 +15,6 @@ struct AvatarView: View {
 	
 	var id:String?
 	var icon:String?
-	var mode:String?
 	
 	@Default(.appIcon) var appicon
 	
@@ -45,15 +44,9 @@ struct AvatarView: View {
 						
 					}
 				}else{
-					if mode == "1"{
-						Image(AppIconEnum.pushback.logo)
-							.resizable()
-							.frame(width: size.width, height: size.height)
-					}else{
-						Image(appicon.logo)
-							.resizable()
-							.frame(width: size.width, height: size.height)
-					}
+					Image(appicon.logo)
+						.resizable()
+						.frame(width: size.width, height: size.height)
 				}
 				
 			}

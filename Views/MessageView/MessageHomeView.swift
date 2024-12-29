@@ -210,7 +210,7 @@ struct MessageHomeView: View {
 					.frame(width: 10, height: 10)
 			}
 
-			AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
+			AvatarView(id: message.id.uuidString, icon: message.icon)
 				.frame(width: 45, height: 45)
 				.clipped()
 				.clipShape(RoundedRectangle(cornerRadius: 10))

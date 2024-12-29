@@ -24,11 +24,10 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var image:List<String>
 	@Persisted var video:List<String>
 	@Persisted var from:String?
-	@Persisted var mode:String = "999"
-	@Persisted var saveDays:Int = -1
+	@Persisted var level:Int = 1
+	@Persisted var ttl:Int = 999999
 	@Persisted var read:Bool = false
 	@Persisted var userInfo:String
-
 	
 	enum CodingKeys: CodingKey {
 		case id
@@ -41,9 +40,9 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		case image
 		case video
 		case from
-		case mode
+		case level
 		case createDate
-		case saveDays
+		case ttl
 		case read
 		case userInfo
 	}
@@ -61,8 +60,8 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.video, forKey: .video)
 		try container.encode(self.url, forKey: .url)
 		try container.encode(self.from, forKey: .from)
-		try container.encode(self.mode, forKey: .mode)
-		try container.encode(self.saveDays, forKey: .saveDays)
+		try container.encode(self.level, forKey: .level)
+		try container.encode(self.ttl, forKey: .ttl)
 		try container.encode(self.read, forKey: .read)
 		try container.encode(self.userInfo, forKey: .userInfo)
 	}
@@ -72,12 +71,10 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 extension Message{
 	
 	static let messages = [
-		Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}")]),
+		Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]),
 
-		Message(value: ["group":  "App","title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}")])
+		Message(value: ["group":  "App","title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0])
 	]
-	
-	
 	
 }
 
@@ -133,7 +130,7 @@ extension Message{
 	}
 	
 	func isExpired() -> Bool{
-		self.createDate.isExpired(days: self.saveDays)
+		self.createDate.isExpired(days: self.ttl)
 	}
 	
 }

@@ -66,8 +66,8 @@ curl -X "POST" "https://push.twown.com/push" \
 | title | 推送标题 |
 | subtitle | 推送副标题 |
 | body | 推送内容 |
-| level | 推送中断级别。 <br>active：默认值，系统会立即亮屏显示通知    <br>timeSensitive：时效性通知，可在专注状态下显示通知。<br>passive：仅将通知添加到通知列表，不会亮屏提醒。<br>critical：重要提醒，可在专注模式或者静音模式下提醒  | 参数可以使用数字替代：level=1 <br>0：passive<br>1：timeSensitive<br>小于0：active<br>2...10： critical，此模式数字将用于音量 level=2...10  |
-|volume| level=critical模式下音量 取值范围1...10|传入数字时不需要此参数|
+| level | 推送中断级别。 <br>active：默认值，系统会立即亮屏显示通知    <br>timeSensitive：时效性通知，可在专注状态下显示通知。<br>passive：仅将通知添加到通知列表，不会亮屏提醒。<br>critical：重要提醒，可在专注模式或者静音模式下提醒  | 参数可以使用数字替代：level=1 <br>0：passive<br>1：active<br>2：timeSensitive<br>3...10： critical，此模式数字将用于音量 level=2...10  |
+|volume| level=critical模式下音量 取值范围1...10|不支持, 传入数字使用|
 |call|  长提醒，类微信电话通知|支持mode=1效果一致|
 | badge | 推送角标，可以是任意数字 | 应用内开启自定义角标才能生效，否则按照未读数计算|
 | autoCopy | iOS14.5以下自动复制推送内容，iOS14.5以上需手动长按推送或下拉推送 |本应用ios16+|
@@ -77,5 +77,5 @@ curl -X "POST" "https://push.twown.com/push" \
 | image | 传入图片地址，手机收到消息后自动下载缓存 |消息下拉或者app内可以查看图片<br>并且本地重命名后可直接<icon=本地名>使用|
 | video | <font color='red'>暂不支持</font> |传入视频地址，手机收到消息后可下拉观看|
 | group | 对消息进行分组，推送将按group分组显示在通知中心中。<br>也可在历史消息列表中选择查看不同的群组。 |
-| isArchive | 传 1 保存推送，传其他的不保存推送，不传按APP内设置来决定是否保存。 |
+| isArchive | 传 1 保存推送，传其他的不保存推送，不传按APP内设置来决定是否保存。 | 不支持, 用ttl=天数 不传以app内设置为准|
 | url | 点击推送时，跳转的URL ，支持URL Scheme 和 Universal Link |

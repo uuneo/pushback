@@ -209,6 +209,22 @@
         }
       }
     },
+    "%lld 天后过期" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld days"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld günde"
+          }
+        }
+      }
+    },
     "%lld/%lld" : {
       "localizations" : {
         "en" : {
@@ -397,6 +413,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
+          }
+        }
+      }
+    },
+    "ttl=天数 0代表不保存，默认值需在app内设置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ttl=days, 0 means not saved; the default value must be set in the app."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ttl = Gün sayısı, 0 kaydedilmez anlamına gelir; varsayılan değer uygulama içinde ayarlanmalıdır."
           }
         }
       }
@@ -1409,18 +1441,18 @@
         }
       }
     },
-    "可选参数值：\nlevel=active: 默认值，系统会立即亮屏显示通知。\n*  支持数字 level=-1 小于0 都代表 active\nlevel=timeSensitive:  时效性通知,专注模式下可显示通知。\n*  支持数字 level=0\nlevel=passive：仅添加到列表，不会亮屏提醒\n*  支持数字 level=1\nlevel=critical:\n*\t重要提醒，静音或专注模式可正常提醒\n*  支持数字(2-10) level=2 声音最小 level=10 声音最大 ," : {
+    "可选参数值：(level=0...10)可用数字代替 3-10 代表音量\nlevel=passive(0)：仅添加到列表，不会亮屏提醒\nlevel=active(1): 默认值，系统会立即亮屏显示通知。\nlevel=timeSensitive(1):  时效性通知,专注模式下可显示通知。\nlevel=critical(3-10): 重要提醒，静音或专注模式可正常提醒" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optional Parameter Values:  \n\nlevel=active: Default value, the system will immediately wake the screen to display the notification.  \n* Supports numeric values: level=-1 or any value less than 0 represents active.  \n\nlevel=timeSensitive: Time-sensitive notification, can be displayed even in Focus mode.  \n* Supports numeric value: level=0.  \n\nlevel=passive: Adds to the list only, without waking the screen for notification.  \n* Supports numeric value: level=1.  \n\nlevel=critical: \n* Important alerts can bypass silent or Focus mode.  \n* Supports numeric values: level=2 for the lowest sound level, up to level=10 for the highest sound level."
+            "value" : "Optional parameter values: (level=0...10) can be replaced with numbers. Levels 3-10 represent volume.\n- level=passive (0): Adds to the list only, without turning on the screen for notifications.\n- level=active (1): Default value; the system will immediately turn on the screen to display the notification.\n- level=timeSensitive (1): Time-sensitive notifications, which can be displayed even in Focus mode.\n- level=critical (3-10): Critical alerts that bypass Silent or Focus mode to notify normally."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İsteğe bağlı parametre değeri:\nlevel=active:  Varsayılan değer, sistem hemen bildirimleri görüntüler.\n * Desteklenen sayı level=-1 0'dan küçük aktif anlamına gelir\nlevel=timeSensitive:   Zamanlık bildirimleri, odaklanma modunda bildirimler görüntülenebilir.\n * Destek sayısı level=0\nlevel=passive： Sadece listeye ekle, hatırlatıcı aydınlatmaz\n * Destek sayısı level=1\nlevel=critical: \n * Önemli hatırlatma, sessiz veya odaklanma modu normal olarak hatırlatılabilir\n * Sayı desteklenir (2-10) seviye=2 minimum ses seviye=10 maksimum ses,"
+            "value" : "Opsiyonel parametre değerleri: (level=0...10) sayılarla değiştirilebilir. 3-10 seviyeleri ses seviyesini temsil eder.\n- level=passive (0): Yalnızca listeye ekler, ekranı açmaz ve bildirim gösterilmez.\n- level=active (1): Varsayılan değer; sistem, bildirimleri hemen ekranı açarak gösterir.\n- level=timeSensitive (1): Zaman duyarlı bildirimler, odak modu açık olsa bile gösterilebilir.\n- level=critical (3-10): Kritik uyarılar, sessiz veya odak modu etkin olsa bile normal şekilde bildirim gösterir."
           }
         }
       }
@@ -2802,6 +2834,22 @@
         }
       }
     },
+    "消息保存时间" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message save time"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesaj saklama süresi"
+          }
+        }
+      }
+    },
     "消息存档" : {
       "localizations" : {
         "en" : {
@@ -2814,22 +2862,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mesaj arşivi"
-          }
-        }
-      }
-    },
-    "消息默认保存，除非携带isArchive=0，信息不会在前台出现" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Messages are saved by default. Unless isArchive=0 is included, the message will not appear in the foreground."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mesajlar varsayılan olarak kaydedilir, isArchive=0 taşımadığı sürece bilgiler ön planda görünmez."
           }
         }
       }
@@ -3231,22 +3263,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Otomatik"
-          }
-        }
-      }
-    },
-    "自动保存" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Auto-save"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Otomatik kaydetme"
           }
         }
       }

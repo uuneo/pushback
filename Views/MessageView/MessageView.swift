@@ -24,15 +24,25 @@ struct MessageView: View {
 	var showGroup:Bool =  false
 	var complete:((messageCompleteMode)->Void)? = nil
 	@State private var showLoading:Bool = false
+	@State private var showTTL:Bool = false
     var body: some View {
 		Section {
 				VStack(alignment: .leading, spacing:5){
 
 					HStack(alignment: .center){
-						AvatarView(id: message.id.uuidString, icon: message.icon, mode: message.mode)
+						AvatarView(id: message.id.uuidString, icon: message.icon)
 							.frame(width: 30, height: 30, alignment: .center)
 							.clipShape(RoundedRectangle(cornerRadius: 10))
-
+							.overlay(alignment: .bottomTrailing) {
+								if message.ttl == 3{
+									Image(systemName: "exclamationmark.triangle.fill")
+										.resizable()
+										.scaledToFit()
+										.frame(width: 15)
+										.symbolRenderingMode(.palette)
+										.foregroundStyle(.primary, .red)
+								}
+							}
 
 
 						VStack{
@@ -138,10 +148,26 @@ struct MessageView: View {
 						}
 					}
 
+				if showTTL{
+					Text("\(message.ttl) 天后过期")
+						.font(.caption2)
+						.foregroundStyle(message.ttl < 7 ? .red : .gray)
+						.onTapGesture {
+							withAnimation {
+								self.showTTL = false
+							}
+						}
+				}else{
+					Text(message.createDate.agoFormatString())
+						.font(.caption2)
+						.foregroundStyle(message.createDate.colorForDate())
+						.onTapGesture {
+							withAnimation {
+								self.showTTL = true
+							}
+						}
+				}
 
-				Text(message.createDate.agoFormatString())
-					.font(.caption2)
-					.foregroundStyle(message.createDate.colorForDate())
 
 				Spacer()
 
@@ -161,40 +187,27 @@ struct MessageView: View {
 						}
 				}
 
-				Group{
-					if message.image.count == 1  {
-						Image(systemName: "photo.circle")
-							.resizable()
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(.tint, .primary)
-
-
-					}else if message.image.count > 1  {
-						Image(systemName: "photo.on.rectangle.angled")
-							.resizable()
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(.tint, .primary)
-					}
+				if message.image.count > 0{
+					Image(systemName: message.image.count == 1 ?  "photo.circle" : "photo.on.rectangle.angled" )
+						.resizable()
+						.symbolRenderingMode(.palette)
+						.foregroundStyle(.tint, .primary)
+						.frame(width: 20, height: 20, alignment: .center)
+						.padding(.horizontal, 10)
+						.overlay{
+							if showLoading{
+								ProgressView()
+									.progressViewStyle(CircularProgressViewStyle())
+									.transition(.opacity)
+									.background(.ultraThinMaterial)
+							}
+						}
+						.onTapGesture {
+							self.showLoading = true
+							self.complete?(.image)
+							self.showLoading = false
+						}
 				}
-				.frame(width: 20, height: 20, alignment: .center)
-				.padding(.horizontal, 10)
-				.overlay{
-					if showLoading{
-						ProgressView()
-							.progressViewStyle(CircularProgressViewStyle())
-							.transition(.opacity)
-							.background(.ultraThinMaterial)
-					}
-				}
-				.onTapGesture {
-					self.showLoading = true
-					self.complete?(.image)
-					self.showLoading = false
-				}
-
-
-
-
 			}
 
 		}footer: {

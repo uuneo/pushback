@@ -55,6 +55,11 @@ post 请求 参数名也是上面这些
 // 点击推送将跳转到url的地址（发送时，URL参数需要编码）
 https://push.uuneo.com/yourkey/百度网址?url=https://www.baidu.com 
 ```
+* ttl
+```
+// ttl = 天数 传入0不保存,不传按照app内部设置
+https://push.uuneo.com/yourkey/消息保存时间?ttl=0
+```
 * group
 ```
 // 指定推送消息分组，可在历史记录中按分组查看推送。
@@ -101,10 +106,11 @@ https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 // 设置时效性通知
 https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive
 
-// 可选参数值
-// active：不设置时的默认值，系统会立即亮屏显示通知。
-// timeSensitive：时效性通知，可在专注状态下显示通知。
-// passive：仅将通知添加到通知列表，不会亮屏提醒
+// 可选参数值 也可使用 level = 1...10 
+// passive(0)：仅将通知添加到通知列表，不会亮屏提醒
+// active(1)：不设置时的默认值，系统会立即亮屏显示通知。
+// timeSensitive(2)：时效性通知，可在专注状态下显示通知。
+// critical(3-10)：重要提醒 (也代表音量 0.3-1)
 ```
 
 ## Safari/Chrome扩展

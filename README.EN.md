@@ -54,6 +54,11 @@ For POST requests, the parameter names are the same as above
 // Click on the push notification to jump to the specified URL
 https://push.uuneo.com/yourkey/url?url=https://www.google.com 
 ```
+* ttl
+```
+// ttl = Days, pass 0 to not save; if not passed, it follows the app's internal settings
+https://push.uuneo.com/yourkey/message-saveduration?ttl=0
+```
 * group
 ```
 // Specify the push message group to view pushes by group.
@@ -99,10 +104,11 @@ https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 // Set time-sensitive notifications
 https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive
 
-// Optional values 
-// active: Default value when not set, the system will immediately display the notification by lighting up the screen. 
-// timeSensitive: Time-sensitive notification, can be displayed during focus mode. 
-// passive: Adds notification to the notification list without lighting up the screen.
+// Optional parameter values can also use level = 1...10
+// passive(0): Adds the notification to the notification list without lighting up the screen.
+// active(1): Default value when not set, the system will immediately light up the screen to display the notification.
+// timeSensitive(2): Time-sensitive notification, can be displayed during focus mode.
+// critical(3-10): Important alert (also represents volume from 0.3 to 1).
 ```
 
 ## Safari/Chrome Extension

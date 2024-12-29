@@ -12,7 +12,7 @@
 
 enum Params: String, CaseIterable{
 	case ciphertext
-	case isarchive
+	case ttl
 	case title
 	case subtitle
 	case body

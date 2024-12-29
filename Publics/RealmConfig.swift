@@ -16,7 +16,7 @@ let kRealmDefaultConfiguration = {
 	
 	let config = Realm.Configuration(
 		fileURL: fileUrl,
-		schemaVersion: BaseConfig.realmModelVersion,
+		schemaVersion: 27,
 		migrationBlock: { _, oldSchemaVersion in
 			// We haven’t migrated anything yet, so oldSchemaVersion == 0
 			if oldSchemaVersion < 1 {

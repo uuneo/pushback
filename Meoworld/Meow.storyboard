@@ -19,10 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Customize notifications for iphone" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="obG-Y5-kRd">
-                                <rect key="frame" x="36" y="213" width="253" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="n61-bu-txJ"/>
-                                </constraints>
+                                <rect key="frame" x="36.000000000000014" y="213" width="250.33333333333337" height="36.666666666666657"/>
                                 <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="30"/>
                                 <color key="textColor" name="textBlack"/>
                                 <color key="highlightedColor" systemColor="systemYellowColor"/>
@@ -36,7 +33,7 @@
                                 <color key="shadowColor" systemColor="systemMintColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meoworld" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="veT-Rg-dY6">
-                                <rect key="frame" x="41" y="684" width="313" height="170"/>
+                                <rect key="frame" x="40" y="684" width="313" height="170"/>
                                 <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="50"/>
                                 <color key="textColor" systemColor="opaqueSeparatorColor"/>
                                 <color key="highlightedColor" systemColor="systemOrangeColor"/>
@@ -46,13 +43,12 @@
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" name="dark_light"/>
                         <constraints>
-                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="178" id="Dm1-Nv-FxO"/>
-                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="36" id="Geg-eQ-TDB"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="obG-Y5-kRd" secondAttribute="trailing" constant="104" id="LXu-T8-S8m"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="veT-Rg-dY6" secondAttribute="bottom" constant="-36" id="Qth-SL-d6h"/>
-                            <constraint firstItem="veT-Rg-dY6" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="41" id="big-ek-UV5"/>
-                            <constraint firstItem="obG-Y5-kRd" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="154" id="fWK-02-rBb"/>
-                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="GJd-Yh-RWb" secondAttribute="leading" id="xUh-iV-FFX"/>
+                            <constraint firstItem="veT-Rg-dY6" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="Gcw-Jw-1px"/>
+                            <constraint firstAttribute="bottom" secondItem="veT-Rg-dY6" secondAttribute="bottom" constant="-2" id="jgo-xy-awP"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="154" id="ln4-K5-VXG"/>
+                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="178" id="mvI-Wu-QRH"/>
+                            <constraint firstItem="obG-Y5-kRd" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="36" id="nq1-Ib-DbS"/>
+                            <constraint firstItem="GJd-Yh-RWb" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="36" id="xqY-Jt-Z0F"/>
                         </constraints>
                     </view>
                 </viewController>

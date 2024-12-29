@@ -8,6 +8,12 @@
             "state" : "translated",
             "value" : "Successfully deleted"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silme başarılı"
+          }
         }
       }
     },
@@ -17,6 +23,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : ", less 30s."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ",30 saniyeden kısa."
           }
         }
       }
@@ -28,6 +40,12 @@
             "state" : "translated",
             "value" : "{This is an example, no raw data}"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Bu bir örnektir, orijinal veri yok.}"
+          }
         }
       }
     },
@@ -37,6 +55,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "/#/en-us/policy"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/policy"
           }
         }
       }
@@ -48,12 +72,24 @@
             "state" : "translated",
             "value" : "%@"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
         }
       }
     },
     "%@/%@" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@/%2$@"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@/%2$@"
@@ -74,6 +110,12 @@
             "state" : "translated",
             "value" : "%@s"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@s"
+          }
         }
       }
     },
@@ -83,6 +125,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d m ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d dakika önce."
           }
         }
       }
@@ -94,6 +142,12 @@
             "state" : "translated",
             "value" : "%1$d h %2$d m ago"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d saat %2$d dakika önce."
+          }
         }
       }
     },
@@ -103,6 +157,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d h ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d saat önce."
           }
         }
       }
@@ -114,6 +174,12 @@
             "state" : "translated",
             "value" : "%d photos"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d resim."
+          }
         }
       }
     },
@@ -123,6 +189,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d message"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d mesaj."
           }
         }
       }
@@ -134,12 +206,24 @@
             "state" : "translated",
             "value" : "%lld"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
         }
       }
     },
     "%lld/%lld" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld/%2$lld"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld/%2$lld"
@@ -160,6 +244,12 @@
             "state" : "translated",
             "value" : "1 Week"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hafta"
+          }
         }
       }
     },
@@ -169,6 +259,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "1 Day"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1gün"
           }
         }
       }
@@ -180,6 +276,12 @@
             "state" : "translated",
             "value" : "1 Month"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir ay"
+          }
         }
       }
     },
@@ -189,6 +291,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The app will not get any program logs if you need help, copy the logs and send them to me"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama, herhangi bir program günlüğü almaz. Yardıma ihtiyacınız varsa, günlüğü kopyalayın ve bana gönderin."
           }
         }
       }
@@ -200,12 +308,24 @@
             "state" : "translated",
             "value" : "App Configuration"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama yapılandırması"
+          }
         }
       }
     },
     "Iv：" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iv："
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Iv："
@@ -220,6 +340,12 @@
             "state" : "translated",
             "value" : "IV can be randomly generated, but if it is random, it must be passed in the iv parameter."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IV rastgele oluşturulabilir, ancak rastgele ise iv parametresinde iletilmesi gerekir."
+          }
         }
       }
     },
@@ -230,25 +356,27 @@
             "state" : "translated",
             "value" : "JSON Data"
           }
-        }
-      }
-    },
-    "Key：" : {
-      "localizations" : {
-        "en" : {
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Key："
+            "value" : "JSON verisi"
           }
         }
       }
     },
-    "KEY:" : {
+    "Key:" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "KEY:"
+            "value" : "Key:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Key:"
           }
         }
       }
@@ -256,6 +384,12 @@
     "Padding:" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padding:"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Padding:"
@@ -270,6 +404,12 @@
             "state" : "translated",
             "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
+          }
         }
       }
     },
@@ -279,6 +419,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "URLScheme Or website"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URLScheme veya web adresi"
           }
         }
       }
@@ -290,6 +436,12 @@
             "state" : "translated",
             "value" : "The URL property can open the URL scheme. Clicking the notification message will automatically redirect, and receiving the message in the foreground will also redirect automatically."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL özelliği, URL Şeması'nı açabilir, bildirim mesajına tıklandığında otomatik olarak yönlendirebilir, ön planda mesaj alındığında otomatik olarak yönlendirebilir."
+          }
         }
       }
     },
@@ -299,6 +451,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "week ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir hafta önce"
           }
         }
       }
@@ -310,6 +468,12 @@
             "state" : "translated",
             "value" : "day ago"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir gün önce"
+          }
         }
       }
     },
@@ -319,6 +483,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "hour age"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir saat önce"
           }
         }
       }
@@ -330,6 +500,12 @@
             "state" : "translated",
             "value" : " month ago"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir ay önce"
+          }
         }
       }
     },
@@ -339,6 +515,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Upload ringtone"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zil sesi yükle"
           }
         }
       }
@@ -350,6 +532,12 @@
             "state" : "translated",
             "value" : "The drop down message displays the picture"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aşağıya doğru kaydırıldığında mesajda resim gösterilecektir."
+          }
         }
       }
     },
@@ -359,6 +547,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Don't save"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydetme."
           }
         }
       }
@@ -370,6 +564,12 @@
             "state" : "translated",
             "value" : "Do not save messages"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesajı kaydetme."
+          }
         }
       }
     },
@@ -379,6 +579,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Invalid address"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yanlış adres."
           }
         }
       }
@@ -390,6 +596,12 @@
             "state" : "translated",
             "value" : "No setup is required\nout-of-the-box"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhangi bir ayar gerekmez.\n Aç ve kullan."
+          }
         }
       }
     },
@@ -399,6 +611,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Configure "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapılandırma yapmak için"
           }
         }
       }
@@ -410,12 +628,24 @@
             "state" : "translated",
             "value" : "verification failed."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem doğrulaması başarısız"
+          }
         }
       }
     },
     "令牌" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Token"
@@ -430,6 +660,12 @@
             "state" : "translated",
             "value" : "From any browser, scripting languages can send content to your phone and use it as soon as you're online."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Herhangi bir tarayıcı ve betik dili, içeriği telefonunuza gönderebilir. İnternete bağlandığınızda kullanabilirsiniz."
+          }
         }
       }
     },
@@ -439,6 +675,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encrypt data using aes and send it to the server"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AES şifreleme ile veriyi şifreleyin ve sunucuya gönderin."
           }
         }
       }
@@ -450,6 +692,12 @@
             "state" : "translated",
             "value" : "Server in use"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanılan Sunucu"
+          }
         }
       }
     },
@@ -459,6 +707,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Help guide"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanım Yardımı"
           }
         }
       }
@@ -470,6 +724,12 @@
             "state" : "translated",
             "value" : "Usage example"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanım Örneği"
+          }
         }
       }
     },
@@ -479,6 +739,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydet"
           }
         }
       }
@@ -490,6 +756,12 @@
             "state" : "translated",
             "value" : "Save %1$d photos to the %2$@ album"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d resmi %2$@ albümüne kaydet."
+          }
         }
       }
     },
@@ -499,6 +771,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save image"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resmi kaydet"
           }
         }
       }
@@ -510,6 +788,12 @@
             "state" : "translated",
             "value" : "Error: %@"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim kaydedilirken hata oluştu: %@"
+          }
         }
       }
     },
@@ -519,6 +803,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save failure"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydetme başarısız oldu."
           }
         }
       }
@@ -530,6 +820,12 @@
             "state" : "translated",
             "value" : "Saved successfully"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başarıyla kaydedildi."
+          }
         }
       }
     },
@@ -540,15 +836,11 @@
             "state" : "translated",
             "value" : "Message"
           }
-        }
-      }
-    },
-    "修改key" : {
-      "localizations" : {
-        "en" : {
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Update key"
+            "value" : "Bilgi"
           }
         }
       }
@@ -560,6 +852,12 @@
             "state" : "translated",
             "value" : "Change Key"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtarı değiştir"
+          }
         }
       }
     },
@@ -569,6 +867,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modification failure"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Değişiklik başarısız oldu"
           }
         }
       }
@@ -580,6 +884,12 @@
             "state" : "translated",
             "value" : "Successfully updated"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başarıyla değiştirildi"
+          }
         }
       }
     },
@@ -589,6 +899,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Allow the necessary permissions"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerekli izinlere izin ver"
           }
         }
       }
@@ -600,6 +916,12 @@
             "state" : "translated",
             "value" : "Select all"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü seç"
+          }
         }
       }
     },
@@ -609,6 +931,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mark all as read"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hepsi okunmuş"
           }
         }
       }
@@ -620,6 +948,12 @@
             "state" : "translated",
             "value" : "Close"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapat"
+          }
         }
       }
     },
@@ -629,6 +963,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Content"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçerik"
           }
         }
       }
@@ -640,6 +980,12 @@
             "state" : "translated",
             "value" : "App"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dahili"
+          }
         }
       }
     },
@@ -649,6 +995,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown purchase result."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmeyen bir satın alma sonucu oluştu."
           }
         }
       }
@@ -660,6 +1012,12 @@
             "state" : "translated",
             "value" : "Switchover successful"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başarıyla geçiş yapıldı"
+          }
         }
       }
     },
@@ -669,6 +1027,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Switch server"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu değiştir"
           }
         }
       }
@@ -680,6 +1044,12 @@
             "state" : "translated",
             "value" : "Just now"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "az önce"
+          }
         }
       }
     },
@@ -689,6 +1059,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sil"
           }
         }
       }
@@ -700,6 +1076,12 @@
             "state" : "translated",
             "value" : "Delete %d images"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d resmi sil"
+          }
         }
       }
     },
@@ -709,6 +1091,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete the following time information!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aşağıdaki tarihe ait bilgileri sil!"
           }
         }
       }
@@ -720,6 +1108,12 @@
             "state" : "translated",
             "value" : "Delete all read"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm okunmuşları sil"
+          }
         }
       }
     },
@@ -729,6 +1123,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delete all unread"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm okunmamışları sil"
           }
         }
       }
@@ -740,6 +1140,12 @@
             "state" : "translated",
             "value" : "Cannot be restored after deletion!!"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silindikten sonra geri alınamaz!!!"
+          }
         }
       }
     },
@@ -749,6 +1155,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deleted successful."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silme başarılı"
           }
         }
       }
@@ -760,6 +1172,12 @@
             "state" : "translated",
             "value" : "encipher"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrele"
+          }
         }
       }
     },
@@ -769,6 +1187,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encrypted data (base64 encoded"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrelenmiş veri (Base64 kodlaması"
           }
         }
       }
@@ -780,6 +1204,12 @@
             "state" : "translated",
             "value" : "Special characters should be handled in encrypted requests"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrelenmiş isteklerde özel karakterlerin işlenmesine dikkat edilmelidir."
+          }
         }
       }
     },
@@ -789,6 +1219,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Danger!!!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tehlikeli işlem!"
           }
         }
       }
@@ -800,6 +1236,12 @@
             "state" : "translated",
             "value" : "Historical server"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş sunucu"
+          }
         }
       }
     },
@@ -809,6 +1251,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Original address:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orijinal adres:"
           }
         }
       }
@@ -820,6 +1268,12 @@
             "state" : "translated",
             "value" : "Parameter error"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parametre hatası."
+          }
         }
       }
     },
@@ -829,6 +1283,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancel"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İptal et"
           }
         }
       }
@@ -840,6 +1300,12 @@
             "state" : "translated",
             "value" : "Deselect all"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tümünü seçmeyi iptal et"
+          }
         }
       }
     },
@@ -849,6 +1315,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Can only be viewed in message notifications, not cached automatically."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca bildirimde görüntülenebilir, otomatik olarak önbelleğe alınmaz"
           }
         }
       }
@@ -860,6 +1332,12 @@
             "state" : "translated",
             "value" : "Only j s o n data ending in.exv can be imported"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca .exv uzantılı JSON verisi içe aktarılabilir"
+          }
         }
       }
     },
@@ -869,6 +1347,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Different ringtones can be set for push notifications"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimler için farklı zil sesleri ayarlanabilir"
           }
         }
       }
@@ -880,6 +1364,12 @@
             "state" : "translated",
             "value" : "Notification interruption level can be set"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim ayarlarında kesilme seviyesini belirleyebilirsiniz"
+          }
         }
       }
     },
@@ -889,6 +1379,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Restart App!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamanın yeniden başlatılması gerekebilir!"
           }
         }
       }
@@ -900,6 +1396,12 @@
             "state" : "translated",
             "value" : "Optional Parameter Values:  \n\nlevel=active: Default value, the system will immediately wake the screen to display the notification.  \n* Supports numeric values: level=-1 or any value less than 0 represents active.  \n\nlevel=timeSensitive: Time-sensitive notification, can be displayed even in Focus mode.  \n* Supports numeric value: level=0.  \n\nlevel=passive: Adds to the list only, without waking the screen for notification.  \n* Supports numeric value: level=1.  \n\nlevel=critical: Temporarily unavailable, awaiting Apple authorization.  \n* Important alerts can bypass silent or Focus mode.  \n* Supports numeric values: level=2 for the lowest sound level, up to level=10 for the highest sound level."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İsteğe bağlı parametre değeri:\nlevel=active:  Varsayılan değer, sistem hemen bildirimleri görüntüler.\n * Desteklenen sayı level=-1 0'dan küçük aktif anlamına gelir\nlevel=timeSensitive:   Zamanlık bildirimleri, odaklanma modunda bildirimler görüntülenebilir.\n * Destek sayısı level=0\nlevel=passive： Sadece listeye ekle, hatırlatıcı aydınlatmaz\n * Destek sayısı level=1\nlevel=critical:  Geçici olarak kullanılamaz, Apple lisansı bekliyor..\n * Önemli hatırlatma, sessiz veya odaklanma modu normal olarak hatırlatılabilir\n * Sayı desteklenir (2-10) seviye=2 minimum ses seviye=10 maksimum ses,"
+          }
         }
       }
     },
@@ -909,6 +1411,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap the headphone icon in the top right corner to view all ringtones."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm zil seslerini görmek için sağ üst köşedeki kulaklığa tıklayın."
           }
         }
       }
@@ -920,6 +1428,12 @@
             "state" : "translated",
             "value" : "Nothing at all"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hiçbir şey yok"
+          }
         }
       }
     },
@@ -929,6 +1443,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Image"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim"
           }
         }
       }
@@ -940,6 +1460,12 @@
             "state" : "translated",
             "value" : "Picture archive"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim Arşivi"
+          }
         }
       }
     },
@@ -949,6 +1475,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Picture saved to album successfully!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim başarıyla galeriye kaydedildi!"
           }
         }
       }
@@ -960,6 +1492,12 @@
             "state" : "translated",
             "value" : "Picture cache"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim önbelleği"
+          }
         }
       }
     },
@@ -969,6 +1507,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The default image storage time is not affected for localized images"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim varsayılan kaydetme süresi, yerel resimler etkilenmez."
           }
         }
       }
@@ -980,6 +1524,12 @@
             "state" : "translated",
             "value" : "Copy Python script"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Python betiğini kopyala"
+          }
         }
       }
     },
@@ -989,6 +1539,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Close after copying"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyalandıktan sonra kapat."
           }
         }
       }
@@ -1000,6 +1556,12 @@
             "state" : "translated",
             "value" : "Copy crash log"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çökme günlüğünü kopyala"
+          }
         }
       }
     },
@@ -1009,6 +1571,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copy successfuly"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başarıyla kopyalandı."
           }
         }
       }
@@ -1020,6 +1588,12 @@
             "state" : "translated",
             "value" : "If it's too simple, there's a risk of getting spam!"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eğer çok basitse, spam mesajlar alma riski olabilir!"
+          }
         }
       }
     },
@@ -1029,6 +1603,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "If you want to use this parameter, the badge mode in settings must be set to custom"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu parametreyi kullanmak istiyorsanız, ayarlardaki indeks modunu özel olarak ayarlamanız gerekmektedir."
           }
         }
       }
@@ -1040,6 +1620,12 @@
             "state" : "translated",
             "value" : "Not less than 3"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karakter sayısı 3'ten küçük"
+          }
         }
       }
     },
@@ -1049,6 +1635,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Storage usage"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depolama kullanımı"
           }
         }
       }
@@ -1060,6 +1652,12 @@
             "state" : "translated",
             "value" : "Used Storage "
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depolama alanı kullanımı"
+          }
         }
       }
     },
@@ -1069,6 +1667,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Complete"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamlandı"
           }
         }
       }
@@ -1080,6 +1684,12 @@
             "state" : "translated",
             "value" : "Import"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İçe aktar"
+          }
         }
       }
     },
@@ -1089,6 +1699,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Import successfully"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başarıyla içe aktarıldı."
           }
         }
       }
@@ -1100,6 +1716,12 @@
             "state" : "translated",
             "value" : "Import data"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri içe aktar"
+          }
         }
       }
     },
@@ -1109,6 +1731,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exports"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktar"
           }
         }
       }
@@ -1120,6 +1748,12 @@
             "state" : "translated",
             "value" : "Export message list"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesaj listesini dışa aktar"
+          }
         }
       }
     },
@@ -1129,6 +1763,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Converts the encrypted data to base64 encoding"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şifrelenmiş veriyi Base64 kodlamasına dönüştür"
           }
         }
       }
@@ -1140,6 +1780,12 @@
             "state" : "translated",
             "value" : "Crash Report"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çökme raporu"
+          }
         }
       }
     },
@@ -1149,6 +1795,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mark all as read"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hepsini okundu olarak işaretle"
           }
         }
       }
@@ -1160,6 +1812,12 @@
             "state" : "translated",
             "value" : "%d images selected"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d resim seçildi"
+          }
         }
       }
     },
@@ -1169,6 +1827,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Developer support Plan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştirici destek planı"
           }
         }
       }
@@ -1180,6 +1844,12 @@
             "state" : "translated",
             "value" : "Join The Plan"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planı başlat"
+          }
         }
       }
     },
@@ -1189,6 +1859,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Getting Started"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanmaya başla"
           }
         }
       }
@@ -1200,6 +1876,12 @@
             "state" : "translated",
             "value" : "When the isArchive parameter is not specified in the push request URL, this setting will determine whether to save the notification message."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Push isteği URL'si isArchive parametresini belirtmediğinde, bu ayar, bildirim mesajının kaydedilip kaydedilmeyeceğine karar vermek için kullanılacaktır."
+          }
         }
       }
     },
@@ -1209,6 +1891,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Must be %d digits"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d karakter gerekli."
           }
         }
       }
@@ -1220,6 +1908,12 @@
             "state" : "translated",
             "value" : "Greater than 1"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir hizmeti korumak zorunludur."
+          }
         }
       }
     },
@@ -1229,6 +1923,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You must enter the image key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim anahtarı girilmelidir."
           }
         }
       }
@@ -1240,6 +1940,12 @@
             "state" : "translated",
             "value" : "recover"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri yükle"
+          }
         }
       }
     },
@@ -1249,6 +1955,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recovery success"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri yükleme başarılı"
           }
         }
       }
@@ -1260,6 +1972,12 @@
             "state" : "translated",
             "value" : "Resume"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satın almayı geri yükle"
+          }
         }
       }
     },
@@ -1269,6 +1987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All the time"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm zamanlar"
           }
         }
       }
@@ -1280,6 +2004,12 @@
             "state" : "translated",
             "value" : "All ringtones"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm zil sesleri"
+          }
         }
       }
     },
@@ -1289,6 +2019,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open a third-party app or website"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üçüncü taraf uygulama veya siteyi aç."
           }
         }
       }
@@ -1300,6 +2036,12 @@
             "state" : "translated",
             "value" : "Found %1$d data"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d veri bulundu"
+          }
         }
       }
     },
@@ -1309,6 +2051,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuous ringing"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sürekli zil sesi."
           }
         }
       }
@@ -1320,6 +2068,12 @@
             "state" : "translated",
             "value" : "Push  content"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim içeriği"
+          }
         }
       }
     },
@@ -1329,6 +2083,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Push encryption"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim şifrelemesi"
           }
         }
       }
@@ -1340,6 +2100,12 @@
             "state" : "translated",
             "value" : "Push notifications will be grouped in the notification center and within the app based on the group parameter."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimler, group parametresine göre bildirim merkezi ve uygulama içinde gruplanarak gösterilecektir."
+          }
         }
       }
     },
@@ -1349,6 +2115,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The font size of the push title is slightly bolder than that of the push content."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim başlığının yazı tipi boyutu, bildirim içeriğinden biraz daha büyük olacak."
           }
         }
       }
@@ -1360,6 +2132,12 @@
             "state" : "translated",
             "value" : "Message Group"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim mesajı gruplaması"
+          }
         }
       }
     },
@@ -1369,6 +2147,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Push ringtone"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim zil sesi"
           }
         }
       }
@@ -1380,6 +2164,12 @@
             "state" : "translated",
             "value" : "Carrying an image will automatically download the cache"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir resim taşıdığında, otomatik olarak indirilecek ve önbelleğe alınacaktır."
+          }
         }
       }
     },
@@ -1389,6 +2179,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Include a video, auto-play on click"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir video taşıdığında, tıklandığında otomatik olarak oynatılacaktır."
           }
         }
       }
@@ -1400,6 +2196,12 @@
             "state" : "translated",
             "value" : "Include image"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim taşıma"
+          }
         }
       }
     },
@@ -1409,6 +2211,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Include video"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video taşıma"
           }
         }
       }
@@ -1420,6 +2228,12 @@
             "state" : "translated",
             "value" : "This action cannot be undone!"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem geri alınamaz!"
+          }
         }
       }
     },
@@ -1429,6 +2243,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Operation successful"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem başarılı."
           }
         }
       }
@@ -1440,6 +2260,12 @@
             "state" : "translated",
             "value" : "Data&Storage"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri ve Depolama"
+          }
         }
       }
     },
@@ -1449,6 +2275,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "File does not exist"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya mevcut değil"
           }
         }
       }
@@ -1460,6 +2292,12 @@
             "state" : "translated",
             "value" : "File format error"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dosya formatı hatalı"
+          }
         }
       }
     },
@@ -1470,6 +2308,12 @@
             "state" : "translated",
             "value" : "Text, pictures, videos\nEasily push to your phone"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin, resim, video\nKolayca telefona bildirilebilir."
+          }
         }
       }
     },
@@ -1479,6 +2323,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add a server"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni sunucu ekle"
           }
         }
       }
@@ -1491,6 +2341,12 @@
             "state" : "translated",
             "value" : "No Group"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grup yok"
+          }
         }
       }
     },
@@ -1500,6 +2356,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Time-sensitive notification"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamanında Bildirim"
           }
         }
       }
@@ -1511,6 +2373,12 @@
             "state" : "translated",
             "value" : "Do you want to save pictures to an album?"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resmi galerine kaydetmek ister misin?"
+          }
         }
       }
     },
@@ -1520,6 +2388,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Are you sure to empty?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizlemek istediğinizden emin misiniz?"
           }
         }
       }
@@ -1531,6 +2405,12 @@
             "state" : "translated",
             "value" : "Are you sure you want to delete all read messages"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm okunmuş mesajları silmek istediğinizden emin misiniz?"
+          }
         }
       }
     },
@@ -1540,6 +2420,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Are you sure you want to delete all unread messages?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm okunmamış mesajları silmek istediğinizden emin misiniz?"
           }
         }
       }
@@ -1551,6 +2437,12 @@
             "state" : "translated",
             "value" : "Cannot switch at the moment"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçici olarak geçiş yapılamaz"
+          }
         }
       }
     },
@@ -1560,6 +2452,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Change server"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu değiştir"
           }
         }
       }
@@ -1571,6 +2469,12 @@
             "state" : "translated",
             "value" : "Server"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu"
+          }
         }
       }
     },
@@ -1580,6 +2484,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Servers"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu listesi"
           }
         }
       }
@@ -1591,6 +2501,12 @@
             "state" : "translated",
             "value" : "Server already exists"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu zaten mevcut."
+          }
         }
       }
     },
@@ -1600,6 +2516,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown time"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmeyen zaman"
           }
         }
       }
@@ -1611,6 +2533,12 @@
             "state" : "translated",
             "value" : "Not subscribed"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abone olunmadı"
+          }
         }
       }
     },
@@ -1620,6 +2548,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A coffee, just to Support!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir kahve al, destek ol!"
           }
         }
       }
@@ -1631,6 +2565,12 @@
             "state" : "translated",
             "value" : "View server deployment tutorial"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu dağıtım kılavuzunu görüntüle."
+          }
         }
       }
     },
@@ -1640,6 +2580,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "View details"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detayları görüntüle."
           }
         }
       }
@@ -1651,6 +2597,12 @@
             "state" : "translated",
             "value" : "Markers"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiket"
+          }
         }
       }
     },
@@ -1660,6 +2612,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık"
           }
         }
       }
@@ -1671,6 +2629,12 @@
             "state" : "translated",
             "value" : "Title + Body"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık + İçerik"
+          }
         }
       }
     },
@@ -1680,6 +2644,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title/Body"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlık/İçerik"
           }
         }
       }
@@ -1691,6 +2661,12 @@
             "state" : "translated",
             "value" : "Formatting error"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Format hatası"
+          }
         }
       }
     },
@@ -1700,6 +2676,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mode"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mod"
           }
         }
       }
@@ -1711,6 +2693,12 @@
             "state" : "translated",
             "value" : "You need to open the app once a month to update the device push key."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her ay bir kez uygulamayı açarak cihazın bildirim anahtarını güncellemeniz gerekiyor."
+          }
         }
       }
     },
@@ -1720,6 +2708,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No iCloud Servers"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş sunucu bulunamadı"
           }
         }
       }
@@ -1731,6 +2725,12 @@
             "state" : "translated",
             "value" : "No data"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri yok"
+          }
         }
       }
     },
@@ -1741,12 +2741,24 @@
             "state" : "translated",
             "value" : "No permission, you need to create your own server"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yetkiniz yok, kendi sunucunuzu kurmanız gerekiyor"
+          }
         }
       }
     },
     "测试" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test"
@@ -1761,6 +2773,12 @@
             "state" : "translated",
             "value" : "Message"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesaj"
+          }
         }
       }
     },
@@ -1770,6 +2788,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Message archive"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesaj arşivi"
           }
         }
       }
@@ -1781,6 +2805,12 @@
             "state" : "translated",
             "value" : "Messages are saved by default. Unless isArchive=0 is included, the message will not appear in the foreground."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesajlar varsayılan olarak kaydedilir, isArchive=0 taşımadığı sürece bilgiler ön planda görünmez."
+          }
         }
       }
     },
@@ -1790,6 +2820,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "append"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekle"
           }
         }
       }
@@ -1802,6 +2838,12 @@
             "state" : "translated",
             "value" : "Add To App"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamaya ekle"
+          }
         }
       }
     },
@@ -1811,6 +2853,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clear"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boşalt"
           }
         }
       }
@@ -1822,6 +2870,12 @@
             "state" : "translated",
             "value" : "Clear all"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her şeyi boşalt"
+          }
         }
       }
     },
@@ -1831,6 +2885,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clear cache"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önbelleği boşalt"
           }
         }
       }
@@ -1842,6 +2902,12 @@
             "state" : "translated",
             "value" : "Clear"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizle"
+          }
         }
       }
     },
@@ -1851,6 +2917,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clear cache successfully!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önbellek başarıyla temizlendi!"
           }
         }
       }
@@ -1862,6 +2934,12 @@
             "state" : "translated",
             "value" : "Tap the button in the top right corner to copy the test URL and preview the push notification. Safari has caching, so please refresh the page if you don't receive the notification."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sağ üst köşedeki düğmeye tıklayarak test URL'sini kopyalayabilir ve push bildiriminin önizlemesini görüntüleyebilirsiniz. Safari'nin önbelleği olduğu için push bildirimi almadığınızda sayfayı yenileyin."
+          }
         }
       }
     },
@@ -1871,6 +2949,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap or swipe to change message status"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgi durumunu değiştirmek için tıklayın veya kaydırın."
           }
         }
       }
@@ -1882,15 +2966,11 @@
             "state" : "translated",
             "value" : "Tap to redirect to app"
           }
-        }
-      }
-    },
-    "点击跳转其他app" : {
-      "localizations" : {
-        "en" : {
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tap to redirect to another app"
+            "value" : "Uygulamaya yönlendirmek için tıklayın."
           }
         }
       }
@@ -1902,6 +2982,12 @@
             "state" : "translated",
             "value" : "Terms"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokol"
+          }
         }
       }
     },
@@ -1911,6 +2997,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : " canceled the purchase."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı satın almayı iptal etti."
           }
         }
       }
@@ -1922,6 +3014,12 @@
             "state" : "translated",
             "value" : "OK"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onayla"
+          }
         }
       }
     },
@@ -1931,6 +3029,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Example"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örnek"
           }
         }
       }
@@ -1942,6 +3046,12 @@
             "state" : "translated",
             "value" : "Example 1"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örnek 1"
+          }
         }
       }
     },
@@ -1951,6 +3061,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Example 2"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örnek 2"
           }
         }
       }
@@ -1962,6 +3078,12 @@
             "state" : "translated",
             "value" : "AppIcon"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama simgesi"
+          }
         }
       }
     },
@@ -1971,6 +3093,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "E2EE"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uçtan uca şifreleme"
           }
         }
       }
@@ -1982,6 +3110,12 @@
             "state" : "translated",
             "value" : "Algorithm"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algoritma"
+          }
         }
       }
     },
@@ -1991,6 +3125,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Algorithm setup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algoritma Yapılandırması"
           }
         }
       }
@@ -2002,6 +3142,12 @@
             "state" : "translated",
             "value" : "System Setting"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem ayarları"
+          }
         }
       }
     },
@@ -2011,6 +3157,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "continue"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devam et"
           }
         }
       }
@@ -2022,6 +3174,12 @@
             "state" : "translated",
             "value" : "Cache Limit"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önbellek boyutu sınırı"
+          }
         }
       }
     },
@@ -2031,6 +3189,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Network permissions are used to get the Apple delivery key and notification permissions are used to receive notifications."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ağ izinleri, Apple'ın gönderim anahtarını almak için ve bildirim izinleri, bildirimleri almak için kullanılır."
           }
         }
       }
@@ -2042,6 +3206,12 @@
             "state" : "translated",
             "value" : "Auto"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik"
+          }
         }
       }
     },
@@ -2051,6 +3221,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auto-save"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik kaydetme"
           }
         }
       }
@@ -2062,6 +3238,12 @@
             "state" : "translated",
             "value" : "Auto-save to album"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iv parametresini otomatik olarak düzeltme"
+          }
         }
       }
     },
@@ -2071,6 +3253,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autocorrect iv"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iv parametresini otomatik olarak düzelt"
           }
         }
       }
@@ -2082,6 +3270,12 @@
             "state" : "translated",
             "value" : "Autocorrect key"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar parametresini otomatik olarak düzelt"
+          }
         }
       }
     },
@@ -2091,6 +3285,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Custom"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özelleştirme"
           }
         }
       }
@@ -2102,6 +3302,12 @@
             "state" : "translated",
             "value" : "Custom icon"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özelleştirilmiş simge"
+          }
         }
       }
     },
@@ -2111,6 +3317,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Custom Push Logo"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimde görüntülenen logo özelleştirme"
           }
         }
       }
@@ -2122,6 +3334,12 @@
             "state" : "translated",
             "value" : "Custom badge"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özelleştirilmiş rozet"
+          }
         }
       }
     },
@@ -2131,6 +3349,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Custom ringtone"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Özelleştirilmiş zil sesi"
           }
         }
       }
@@ -2142,6 +3366,12 @@
             "state" : "translated",
             "value" : "Built-in ringtone"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan zil sesi"
+          }
         }
       }
     },
@@ -2151,6 +3381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Get developer support"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geliştiriciden sürekli destek al"
           }
         }
       }
@@ -2162,6 +3398,12 @@
             "state" : "translated",
             "value" : "Badge mode"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndeks mod"
+          }
         }
       }
     },
@@ -2171,6 +3413,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subscribe to  %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@'ya abone ol"
           }
         }
       }
@@ -2182,6 +3430,12 @@
             "state" : "translated",
             "value" : "The device pushes the token"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cihaz bildirim tokeni"
+          }
         }
       }
     },
@@ -2191,6 +3445,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar"
           }
         }
       }
@@ -2202,6 +3462,12 @@
             "state" : "translated",
             "value" : "Setup Or help"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar ve Yardım"
+          }
         }
       }
     },
@@ -2211,6 +3477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trial period to %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deneme süresi bitiş tarihi: %@"
           }
         }
       }
@@ -2222,6 +3494,12 @@
             "state" : "translated",
             "value" : " set ringtone first"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen önce zil sesini"
+          }
         }
       }
     },
@@ -2231,6 +3509,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Register first"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen önce kaydolun"
           }
         }
       }
@@ -2242,6 +3526,12 @@
             "state" : "translated",
             "value" : "Please enter a 16-digit IV"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen 16 haneli IV girin"
+          }
         }
       }
     },
@@ -2251,6 +3541,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please enter a custom push key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen özel bildirim anahtarını girin"
           }
         }
       }
@@ -2262,6 +3558,12 @@
             "state" : "translated",
             "value" : "Successful purchase"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satın alma başarılı"
+          }
         }
       }
     },
@@ -2271,6 +3573,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The purchase is pending."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satın alma beklemede"
           }
         }
       }
@@ -2282,6 +3590,12 @@
             "state" : "translated",
             "value" : " CAF format"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CAF formatına dönüştürme"
+          }
         }
       }
     },
@@ -2292,6 +3606,12 @@
             "state" : "translated",
             "value" : "Enter a %d-digit ke"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d haneli anahtar girin."
+          }
         }
       }
     },
@@ -2301,6 +3621,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter a string remote can be used directly:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir dize girin, uzaktan doğrudan kullanılabilir:"
           }
         }
       }
@@ -2313,6 +3639,12 @@
             "state" : "translated",
             "value" : "Input Image Key"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim Anahtarını girin."
+          }
         }
       }
     },
@@ -2322,6 +3654,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter server address"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu adresini girin."
           }
         }
       }
@@ -2333,6 +3671,12 @@
             "state" : "translated",
             "value" : "Enter local address"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerel adresi girin."
+          }
         }
       }
     },
@@ -2342,6 +3686,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "example of encryption"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu bir şifreleme örneğidir"
           }
         }
       }
@@ -2353,6 +3703,12 @@
             "state" : "translated",
             "value" : "This is the encrypted body part"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, şifrelenmiş ana metin kısmıdır"
+          }
         }
       }
     },
@@ -2362,6 +3718,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remote localization"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uzaktan yerelleştirme"
           }
         }
       }
@@ -2373,6 +3735,12 @@
             "state" : "translated",
             "value" : "Select"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçin"
+          }
         }
       }
     },
@@ -2382,6 +3750,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select and automatically save configuration"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçtikten sonra yapılandırma otomatik olarak kaydedilecektir."
           }
         }
       }
@@ -2393,6 +3767,12 @@
             "state" : "translated",
             "value" : "Select Image"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim seçin"
+          }
         }
       }
     },
@@ -2402,6 +3782,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notification Level"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim türü"
           }
         }
       }
@@ -2413,6 +3799,12 @@
             "state" : "translated",
             "value" : "Notification ringtone will play for 30s. If multiple are received, they will ring in sequence."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim zil sesi 30 saniye boyunca çalmaya devam edecek ve birden fazla bildirim alındığında sırayla çalacaktır."
+          }
         }
       }
     },
@@ -2422,6 +3814,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Email"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-posta kutusu"
           }
         }
       }
@@ -2433,6 +3831,12 @@
             "state" : "translated",
             "value" : "Scan the code again"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekrar QR kodunu tara"
+          }
         }
       }
     },
@@ -2442,6 +3846,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reset Key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtarı sıfırlama"
           }
         }
       }
@@ -2453,6 +3863,12 @@
             "state" : "translated",
             "value" : "Ringtone list"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zil sesi listesi"
+          }
         }
       }
     },
@@ -2462,6 +3878,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "less 30s"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uzunluk 30 saniyeyi geçemez"
           }
         }
       }
@@ -2473,6 +3895,12 @@
             "state" : "translated",
             "value" : "Forever"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uzun vadeli"
+          }
         }
       }
     },
@@ -2482,6 +3910,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacy&Security"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik ve güvenlik"
           }
         }
       }
@@ -2493,6 +3927,12 @@
             "state" : "translated",
             "value" : "Privacy"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizlilik"
+          }
         }
       }
     },
@@ -2502,6 +3942,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Randomly  key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rastgele anahtar oluştur"
           }
         }
       }
@@ -2513,6 +3959,12 @@
             "state" : "translated",
             "value" : "Require in"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerekli olan yer"
+          }
         }
       }
     },
@@ -2522,6 +3974,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Default"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan"
           }
         }
       }
@@ -2533,6 +3991,12 @@
             "state" : "translated",
             "value" : "Default save time"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan kaydetme süresi"
+          }
         }
       }
     },
@@ -2542,6 +4006,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Default group name: Default"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan grup adı: Varsayılan"
           }
         }
       }
@@ -2553,6 +4023,12 @@
             "state" : "translated",
             "value" : "Default browser"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan tarayıcı"
+          }
         }
       }
     },
@@ -2562,6 +4038,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Default browser Settings"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsayılan tarayıcı ayarları"
           }
         }
       }

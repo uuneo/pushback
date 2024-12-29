@@ -48,7 +48,7 @@ struct ServersConfigView: View {
 									manager.fullPage = .customKey
 									manager.sheetPage = .none
 								} label: {
-									Text(  "修改key")
+									Text(  "修改Key")
 								}.tint(.blue)
 							}
 							.listRowSeparator(.hidden)

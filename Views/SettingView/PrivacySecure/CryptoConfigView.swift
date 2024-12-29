@@ -105,7 +105,7 @@ struct CryptoConfigView: View {
 
 					HStack{
 						Label {
-							Text("Key：")
+							Text("Key:")
 						} icon: {
 							Image(systemName: "key")
 								.symbolRenderingMode(.palette)

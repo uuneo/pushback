@@ -43,7 +43,7 @@ struct ServerCardView:View {
 				}
 				
 				HStack(alignment: .bottom){
-					Text("KEY:")
+					Text("Key:")
 						.frame(width:40)
 					Text(item.key)
 						.lineLimit(1)

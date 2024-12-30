@@ -163,7 +163,6 @@
 		1922F71B2D1A553B0098B6A4 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DF2D1A486E0098B6A4 /* BaseConfig.swift */; };
 		195CF9052D22D30400B83663 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 195CF9042D22D30400B83663 /* MarkdownUI */; };
 		19C1D8FB2D1C5558004A914D /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1922F68D2D1A492D0098B6A4 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		19C1DA542D1C6FC1004A914D /* SafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 19C1DA3C2D1C6FC1004A914D /* SafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,13 +187,6 @@
 			remoteGlobalIDString = 1922F5872D1A48560098B6A4;
 			remoteInfo = ShareImageExtension;
 		};
-		19C1DA522D1C6FC1004A914D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 19CC04A42D1A44EC00041A2C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 19C1DA3B2D1C6FC1004A914D;
-			remoteInfo = SafariExtension;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -204,7 +196,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				19C1DA542D1C6FC1004A914D /* SafariExtension.appex in Embed Foundation Extensions */,
 				1922F5922D1A48560098B6A4 /* ShareImageExtension.appex in Embed Foundation Extensions */,
 				1922F5672D1A47FB0098B6A4 /* NotificationServiceExtension.appex in Embed Foundation Extensions */,
 				1922F57F2D1A48240098B6A4 /* NotificationContentExtension.appex in Embed Foundation Extensions */,
@@ -236,7 +227,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1902F0BA2D1E5DDC00485E12 /* Meoworld copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Meoworld copy-Info.plist"; path = "/Users/chohe/XcodeProject/Meoworld/Meoworld copy-Info.plist"; sourceTree = "<absolute>"; };
 		1922F55A2D1A476F0098B6A4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1922F5602D1A47FB0098B6A4 /* NotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1922F5712D1A48230098B6A4 /* NotificationContentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -313,7 +303,6 @@
 		1922F5DF2D1A486E0098B6A4 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
 		1922F5E02D1A486E0098B6A4 /* RealmConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		1922F7112D1A52080098B6A4 /* NotificationParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationParams.swift; sourceTree = "<group>"; };
-		19C1DA3C2D1C6FC1004A914D /* SafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CC04AC2D1A44EC00041A2C /* Meoworld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meoworld.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -424,13 +413,6 @@
 			);
 			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
 		};
-		19C1DA582D1C6FC1004A914D /* Exceptions for "SafariExtension" folder in "SafariExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 19C1DA3B2D1C6FC1004A914D /* SafariExtension */;
-		};
 		19CC04BF2D1A469500041A2C /* Exceptions for "Meoworld" folder in "Meoworld" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -502,18 +484,6 @@
 			path = SoundView;
 			sourceTree = "<group>";
 		};
-		19C1DA3D2D1C6FC1004A914D /* SafariExtension */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				19C1DA582D1C6FC1004A914D /* Exceptions for "SafariExtension" folder in "SafariExtension" target */,
-			);
-			explicitFolders = (
-				Resources/_locales,
-				Resources/images,
-			);
-			path = SafariExtension;
-			sourceTree = "<group>";
-		};
 		19CC04AE2D1A44EC00041A2C /* Meoworld */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -556,13 +526,6 @@
 			files = (
 				1922F7022D1A50110098B6A4 /* Defaults in Frameworks */,
 				1922F7002D1A50110098B6A4 /* Kingfisher in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19C1DA392D1C6FC1004A914D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,9 +695,7 @@
 				1922F5612D1A47FB0098B6A4 /* NotificationServiceExtension */,
 				1922F5762D1A48240098B6A4 /* NotificationContentExtension */,
 				1922F5892D1A48560098B6A4 /* ShareImageExtension */,
-				19C1DA3D2D1C6FC1004A914D /* SafariExtension */,
 				1922F5592D1A476F0098B6A4 /* Frameworks */,
-				1902F0BA2D1E5DDC00485E12 /* Meoworld copy-Info.plist */,
 				19CC04AD2D1A44EC00041A2C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -746,7 +707,6 @@
 				1922F5602D1A47FB0098B6A4 /* NotificationServiceExtension.appex */,
 				1922F5712D1A48230098B6A4 /* NotificationContentExtension.appex */,
 				1922F5882D1A48560098B6A4 /* ShareImageExtension.appex */,
-				19C1DA3C2D1C6FC1004A914D /* SafariExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -829,28 +789,6 @@
 			productReference = 1922F5882D1A48560098B6A4 /* ShareImageExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		19C1DA3B2D1C6FC1004A914D /* SafariExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19C1DA572D1C6FC1004A914D /* Build configuration list for PBXNativeTarget "SafariExtension" */;
-			buildPhases = (
-				19C1DA382D1C6FC1004A914D /* Sources */,
-				19C1DA392D1C6FC1004A914D /* Frameworks */,
-				19C1DA3A2D1C6FC1004A914D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				19C1DA3D2D1C6FC1004A914D /* SafariExtension */,
-			);
-			name = SafariExtension;
-			packageProductDependencies = (
-			);
-			productName = SafariExtension;
-			productReference = 19C1DA3C2D1C6FC1004A914D /* SafariExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		19CC04AB2D1A44EC00041A2C /* Meoworld */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 19CC04BA2D1A44EE00041A2C /* Build configuration list for PBXNativeTarget "Meoworld" */;
@@ -867,7 +805,6 @@
 				1922F5662D1A47FB0098B6A4 /* PBXTargetDependency */,
 				1922F57E2D1A48240098B6A4 /* PBXTargetDependency */,
 				1922F5912D1A48560098B6A4 /* PBXTargetDependency */,
-				19C1DA532D1C6FC1004A914D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				1922F8852D1BCB2E0098B6A4 /* MessageView */,
@@ -906,9 +843,6 @@
 					1922F5872D1A48560098B6A4 = {
 						CreatedOnToolsVersion = 16.2;
 					};
-					19C1DA3B2D1C6FC1004A914D = {
-						CreatedOnToolsVersion = 16.2;
-					};
 					19CC04AB2D1A44EC00041A2C = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -943,7 +877,6 @@
 				1922F55F2D1A47FB0098B6A4 /* NotificationServiceExtension */,
 				1922F5702D1A48230098B6A4 /* NotificationContentExtension */,
 				1922F5872D1A48560098B6A4 /* ShareImageExtension */,
-				19C1DA3B2D1C6FC1004A914D /* SafariExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1006,13 +939,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1922F5862D1A48560098B6A4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19C1DA3A2D1C6FC1004A914D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1114,13 +1040,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		19C1DA382D1C6FC1004A914D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CC04A82D1A44EC00041A2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1174,11 +1093,6 @@
 			target = 1922F5872D1A48560098B6A4 /* ShareImageExtension */;
 			targetProxy = 1922F5902D1A48560098B6A4 /* PBXContainerItemProxy */;
 		};
-		19C1DA532D1C6FC1004A914D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 19C1DA3B2D1C6FC1004A914D /* SafariExtension */;
-			targetProxy = 19C1DA522D1C6FC1004A914D /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1202,7 +1116,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1233,7 +1147,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1264,7 +1178,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1295,7 +1209,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1352,68 +1266,6 @@
 				);
 				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		19C1DA552D1C6FC1004A914D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FUWV6U942Q;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SafariExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Safari+";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 2.0.5;
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.SafariExtension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		19C1DA562D1C6FC1004A914D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FUWV6U942Q;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SafariExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Safari+";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 2.0.5;
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.SafariExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1574,7 +1426,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1615,7 +1467,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.5;
+				MARKETING_VERSION = 2.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1651,15 +1503,6 @@
 			buildConfigurations = (
 				1922F5942D1A48560098B6A4 /* Debug */,
 				1922F5952D1A48560098B6A4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		19C1DA572D1C6FC1004A914D /* Build configuration list for PBXNativeTarget "SafariExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19C1DA552D1C6FC1004A914D /* Debug */,
-				19C1DA562D1C6FC1004A914D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

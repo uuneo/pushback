@@ -11,6 +11,7 @@
 
 import SwiftUI
 import RealmSwift
+import MarkdownUI
 
 struct MessagesView: View {
 	@Environment(\.dismiss) private var dismiss
@@ -37,7 +38,12 @@ struct MessagesView: View {
 	@State private var isLoading: Bool = false
 	@State private var selectMessage:Message?
 	@State private var selectUserInfo:Message?
+	@State private var selectMarkdown:Message?
 	@State private var showAllTTL:Bool = false
+
+	var navHi:Bool{
+		selectMessage != nil || selectUserInfo != nil || imageDetail != nil || selectMarkdown != nil
+	}
 
 	var body: some View {
 
@@ -78,6 +84,10 @@ struct MessagesView: View {
 								withAnimation(.easeInOut) {
 									self.selectUserInfo = message
 								}
+							case .markdown:
+								withAnimation(.easeInOut) {
+									self.selectMarkdown = message
+								}
 						}
 
 					}
@@ -96,95 +106,11 @@ struct MessagesView: View {
 				SearchMessageView(searchText: searchText, group: group ?? "")
 			}
 		}
-		.navigationBarHidden((selectMessage != nil || selectUserInfo != nil || imageDetail != nil))
-		.overlay {
-			if let imageDetail {
-				ImageDetailView(image: imageDetail,imageUrl: $imageDetail )
-					.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-					.transition(.opacity)
-
-			}
-
-		}
-		.overlay{
-			if let message =  selectMessage{
-				ScrollView{
-
-					ZStack{
-
-						VStack{
-							HStack{
-								Spacer(minLength: 0)
-								Text(message.title ?? "")
-									.font(.title3.bold())
-									.textSelection(.enabled)
-								Spacer(minLength: 0)
-							}
-
-							HStack{
-								Spacer(minLength: 0)
-								Text(message.subtitle ?? "")
-									.font(.headline.bold())
-									.textSelection(.enabled)
-								Spacer(minLength: 0)
-							}
-
-							Line()
-								.stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
-								.frame(height: 1)
-								.padding(.horizontal, 5)
-
-							HStack{
-
-								Text(message.body ?? "")
-									.textSelection(.enabled)
-								Spacer(minLength: 0)
-							}
-						}
-						.frame(width: UIScreen.main.bounds.width - 50)
-					}
-					.frame(width: UIScreen.main.bounds.width)
-					.frame(minHeight: UIScreen.main.bounds.height)
-
-
-				}
-				
-				.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-				.background(.ultraThinMaterial)
-				.containerShape(RoundedRectangle(cornerRadius: 0))
-				.onTapGesture {
-					withAnimation(.easeInOut) {
-						self.selectMessage = nil
-					}
-				}
-
-				.transition(.opacity)
-			}
-		}
-		.overlay{
-			if let message = selectUserInfo{
-				ScrollView{
-					ZStack{
-						Text(message.userInfo)
-							.textSelection(.enabled)
-							.padding()
-					}
-
-					.frame(width: UIScreen.main.bounds.width)
-					.frame(minHeight: UIScreen.main.bounds.height)
-
-				}
-				.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-				.background(.ultraThinMaterial)
-				.containerShape(RoundedRectangle(cornerRadius: 0))
-				.onTapGesture {
-					withAnimation(.easeInOut)  {
-						self.selectUserInfo = nil
-					}
-				}
-				.transition(.opacity)
-			}
-		}
+		.navigationBarHidden(navHi)
+		.overlay { showImageDetail() }
+		.overlay{ showSelectMessage() }
+		.overlay{ showSelectUserInfo() }
+		.overlay{ showSelectMarkdown() }
 		.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
 		.toolbar{
 			ToolbarItem {
@@ -211,5 +137,138 @@ struct MessagesView: View {
 
 	}
 
+	@ViewBuilder
+	func showImageDetail()-> some View{
+		if let imageDetail {
+			ImageDetailView(image: imageDetail,imageUrl: $imageDetail )
+				.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
+				.transition(.opacity)
+		}
 
+	}
+
+	@ViewBuilder
+	func showSelectMessage()-> some View{
+		if let message =  selectMessage{
+			ScrollView{
+
+				ZStack{
+
+					VStack{
+						HStack{
+							Spacer(minLength: 0)
+							Text(message.title ?? "")
+								.font(.title3.bold())
+								.textSelection(.enabled)
+							Spacer(minLength: 0)
+						}
+
+						HStack{
+							Spacer(minLength: 0)
+							Text(message.subtitle ?? "")
+								.font(.headline.bold())
+								.textSelection(.enabled)
+							Spacer(minLength: 0)
+						}
+
+						Line()
+							.stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
+							.frame(height: 1)
+							.padding(.horizontal, 5)
+
+						HStack{
+
+							Text(message.body ?? "")
+								.textSelection(.enabled)
+							Spacer(minLength: 0)
+						}
+					}
+					.frame(width: UIScreen.main.bounds.width - 50)
+				}
+				.frame(width: UIScreen.main.bounds.width)
+				.frame(minHeight: UIScreen.main.bounds.height)
+
+
+			}
+
+			.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+			.background(.ultraThinMaterial)
+			.containerShape(RoundedRectangle(cornerRadius: 0))
+			.onTapGesture {
+				withAnimation(.easeInOut) {
+					self.selectMessage = nil
+				}
+			}
+
+			.transition(.opacity)
+		}else{
+			Spacer()
+				.onAppear{
+					self.selectMessage = nil
+				}
+		}
+
+	}
+
+	@ViewBuilder
+	func showSelectUserInfo()-> some View{
+		if let message = selectUserInfo{
+			ScrollView{
+				ZStack{
+					Text(message.userInfo)
+						.textSelection(.enabled)
+						.padding()
+				}
+
+				.frame(width: UIScreen.main.bounds.width)
+				.frame(minHeight: UIScreen.main.bounds.height)
+
+			}
+			.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
+			.background(.ultraThinMaterial)
+			.containerShape(RoundedRectangle(cornerRadius: 0))
+			.onTapGesture {
+				withAnimation(.easeInOut)  {
+					self.selectUserInfo = nil
+				}
+			}
+			.transition(.opacity)
+		}else{
+			Spacer()
+				.onAppear{
+					self.selectUserInfo = nil
+				}
+		}
+	}
+
+	@ViewBuilder
+	func showSelectMarkdown()-> some View{
+		if let message = selectMarkdown {
+			ScrollView{
+				VStack{
+					if let markdownText = message.markdown{
+						Markdown{
+							markdownText
+						}
+						
+					} else {
+						Text("Failed to render Markdown")
+							.foregroundColor(.red)
+					}
+				}
+				.padding(.vertical, 60)
+				.padding(.horizontal)
+
+			}
+			.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
+			.background(.ultraThinMaterial)
+			.contentShape(Rectangle())
+			.onTapGesture {
+				withAnimation(.easeInOut)  {
+					self.selectMarkdown = nil
+				}
+			}
+			.transition(.opacity)
+		}
+	}
 }

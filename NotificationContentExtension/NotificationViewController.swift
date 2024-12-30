@@ -35,7 +35,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 		self.imageView.isUserInteractionEnabled = true // 确保图片视图可以交互
 		self.imageView.addGestureRecognizer(longPressGesture)
 
-
 		// 添加点击手势识别器到视频播放视图
 		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoPlayerViewTapped))
 		self.videoPlayerView.addGestureRecognizer(tapGesture)
@@ -56,9 +55,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 
 		// 禁用自动调整子视图大小
 		loadingView.translatesAutoresizingMaskIntoConstraints = false
-
-
-		
 
 		// 设置 loadingView 的约束
 		NSLayoutConstraint.activate([

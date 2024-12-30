@@ -26,6 +26,7 @@ enum Params: String, CaseIterable{
 	case call
 	case mode
 	case url
+	case markdown
 
 	case iv
 	case aps

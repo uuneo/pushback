@@ -21,6 +21,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var body:String?
 	@Persisted var icon:String?
 	@Persisted var url:String?
+	@Persisted var markdown:String?
 	@Persisted var image:List<String>
 	@Persisted var video:List<String>
 	@Persisted var from:String?
@@ -28,7 +29,8 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var ttl:Int = ExpirationTime.forever.rawValue
 	@Persisted var read:Bool = false
 	@Persisted var userInfo:String
-	
+
+
 	enum CodingKeys: CodingKey {
 		case id
 		case title
@@ -37,6 +39,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		case icon
 		case group
 		case url
+		case markdown
 		case image
 		case video
 		case from
@@ -59,6 +62,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.image, forKey: .image)
 		try container.encode(self.video, forKey: .video)
 		try container.encode(self.url, forKey: .url)
+		try container.encode(self.markdown, forKey: .markdown)
 		try container.encode(self.from, forKey: .from)
 		try container.encode(self.level, forKey: .level)
 		try container.encode(self.ttl, forKey: .ttl)

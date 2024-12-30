@@ -132,7 +132,6 @@ extension Message{
 	func isExpired() -> Bool{
 		/// 兼容老版本的使用
 		guard self.ttl != .zero , self.ttl != ExpirationTime.forever.rawValue else { return false }
-
 		return self.createDate.isExpired(days: self.ttl)
 	}
 

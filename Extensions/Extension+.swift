@@ -21,7 +21,8 @@ struct FontAnimation: Animatable, ViewModifier{
 	}
 	
 	func body(content: Content) -> some View {
-		content.font(.system(size: size,weight: weight,design: design))
+		content
+			.font(.system(size: size,weight: weight,design: design))
 	}
 	
 }
@@ -204,6 +205,19 @@ extension Date {
 		}
 		// 超过一周，显示深灰色
 		return Color(UIColor.darkGray)
+	}
+
+
+	/// 计算给定天数减去（当前日期 - 自身日期）的天数
+	/// - Parameter days: 给定的天数
+	/// - Returns: 剩余的天数
+	func daysRemaining(afterSubtractingFrom days: Int) -> Int {
+		// 计算当前日期和目标日期之间的天数差
+		guard let daysBetween = Calendar.current.dateComponents([.day], from: Date(), to: self).day else {
+			return -1
+		}
+		// 返回给定天数减去天数差
+		return days - daysBetween
 	}
 }
 

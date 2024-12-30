@@ -148,27 +148,14 @@ struct MessageView: View {
 						}
 					}
 
-				if showTTL{
-					Text("\(message.ttl) 天后过期")
-						.font(.caption2)
-						.foregroundStyle(message.ttl < 7 ? .red : .gray)
-						.onTapGesture {
-							withAnimation {
-								self.showTTL = false
-							}
+				Text(showTTL ? message.expiredTime() : message.createDate.agoFormatString())
+					.font(.caption2)
+					.foregroundStyle( showTTL ? (message.ttl < 7 ? .red : .green) : message.createDate.colorForDate())
+					.onTapGesture {
+						withAnimation {
+							self.showTTL.toggle()
 						}
-				}else{
-					Text(message.createDate.agoFormatString())
-						.font(.caption2)
-						.foregroundStyle(message.createDate.colorForDate())
-						.onTapGesture {
-							withAnimation {
-								self.showTTL = true
-							}
-						}
-				}
-
-
+					}
 				Spacer()
 
 				if let _ =  message.url {

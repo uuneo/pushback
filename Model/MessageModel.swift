@@ -25,7 +25,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var video:List<String>
 	@Persisted var from:String?
 	@Persisted var level:Int = 1
-	@Persisted var ttl:Int = 999999
+	@Persisted var ttl:Int = ExpirationTime.forever.rawValue
 	@Persisted var read:Bool = false
 	@Persisted var userInfo:String
 	
@@ -130,9 +130,39 @@ extension Message{
 	}
 	
 	func isExpired() -> Bool{
-		self.createDate.isExpired(days: self.ttl)
+		if self.ttl == ExpirationTime.forever.rawValue{
+			return false
+		}
+		return self.createDate.isExpired(days: self.ttl)
 	}
-	
+
+	func expiredTime() -> String {
+
+		if self.ttl == ExpirationTime.forever.rawValue{
+			return "∞ ∞ ∞"
+		}
+
+		let days = self.createDate.daysRemaining(afterSubtractingFrom: self.ttl)
+		if days <= 0 {
+			return String(localized: "已过期")
+		}
+
+		let calendar = Calendar.current
+		let now = Date()
+		let targetDate = calendar.date(byAdding: .day, value: days, to: now)!
+
+		let components = calendar.dateComponents([.year, .month, .day], from: now, to: targetDate)
+
+		if let years = components.year, years > 0 {
+			return String(localized: "\(years)年")
+		} else if let months = components.month, months > 0 {
+			return String(localized: "\(months)个月")
+		} else if let days = components.day {
+			return String(localized: "\(days)天")
+		}
+
+		return String(localized:"即将过期")
+	}
 }
 
 

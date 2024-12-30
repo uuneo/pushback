@@ -90,7 +90,6 @@ struct MessagesView: View {
 
 
 				}.onDelete(perform: $messages.remove)
-					.opacity((selectMessage != nil || selectUserInfo != nil || imageDetail != nil) ? 0.01 : 1)
 			}else{
 				SearchMessageView(searchText: searchText, group: group ?? "")
 			}

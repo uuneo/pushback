@@ -28,7 +28,6 @@ class MessageHandler: NotificationContentHandler{
 		let icon = userInfo[Params.icon.name] as? String
 		let ttl = userInfo[Params.ttl.name] as? String
 		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
-		let call = userInfo[Params.call.name] as? String
 		let level = bestAttemptContent.getLevel()
 
 		var userInfoString:String{

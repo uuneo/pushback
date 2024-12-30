@@ -38,7 +38,9 @@ enum NotificationContentHandlerItem: CaseIterable {
 	case level
 	case action
 	case call
+
 	
+
 	var handler: NotificationContentHandler {
 		switch self {
 		case .ciphertext:

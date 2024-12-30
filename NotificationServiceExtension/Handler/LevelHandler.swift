@@ -14,26 +14,17 @@ class LevelHandler: NotificationContentHandler {
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		
 		let levelNumber = bestAttemptContent.getLevel()
-
-
-		
-		// MARK: - 增加调用的便捷性，level如果传入的是数字，按照数字逻辑处理通知级别和音量大小
-
-
 		if levelNumber >= 3{
-			// 重要警告 默认音量
-			let audioVolume = max(0.0, min(1, Float(levelNumber) / 10.0))
+			let audioVolume = bestAttemptContent.getVolume(levelNumber: levelNumber)
 
+			// 设置重要警告 sound
 			if let sound = bestAttemptContent.soundName {
 				bestAttemptContent.sound = UNNotificationSound.criticalSoundNamed(UNNotificationSoundName(rawValue: sound), withAudioVolume: audioVolume)
 			} else {
 				bestAttemptContent.sound = UNNotificationSound.defaultCriticalSound(withAudioVolume: audioVolume)
 			}
 		}
-
-		
 		bestAttemptContent.interruptionLevel = self.getInterruptionLevel(from: levelNumber)
-
 		return bestAttemptContent
 	}
 
@@ -46,7 +37,7 @@ class LevelHandler: NotificationContentHandler {
 				return .active
 			case 2:
 				return .timeSensitive
-			case 3...10:
+			case 3...:
 				return .critical
 			default:
 				return .active
@@ -55,16 +46,10 @@ class LevelHandler: NotificationContentHandler {
 }
 
 extension UNMutableNotificationContent {
-	/// 是否是重要警告
-	var isCritical: Bool {
-		self.userInfo["level"] as? String == "critical"
-	}
-
 	/// 声音名称
 	var soundName: String? {
 		(self.userInfo["aps"] as? [AnyHashable: Any])?["sound"] as? String
 	}
-
 
 	func getLevel() -> Int {
 		// 获取用户信息中的 level 值
@@ -89,6 +74,21 @@ extension UNMutableNotificationContent {
 			}
 		}
 		return 1 // 如果没有 level 信息，则返回默认值 1
+	}
+
+
+	func getVolume(levelNumber: Int) -> Float{
+
+		if let volume = self.userInfo["volume"] as? String, let volume = Float(volume) {
+			return max(0.0, min(1, volume / 10.0))
+		}
+		/// 兼容 bark
+		if let level = self.userInfo["level"] as? String, level == "critical"{
+			return 0.5
+		}
+		
+		return max(0.0, min(1, Float(levelNumber) / 10.0))
+
 	}
 
 

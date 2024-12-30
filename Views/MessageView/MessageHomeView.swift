@@ -214,6 +214,16 @@ struct MessageHomeView: View {
 				.frame(width: 45, height: 45)
 				.clipped()
 				.clipShape(RoundedRectangle(cornerRadius: 10))
+				.overlay(alignment: .bottomTrailing) {
+					if message.level > 2{
+						Image(systemName: "exclamationmark.triangle.fill")
+							.resizable()
+							.scaledToFit()
+							.frame(width: 15)
+							.symbolRenderingMode(.palette)
+							.foregroundStyle(.white, .red)
+					}
+				}
 
 
 			VStack(alignment: .leading) {

@@ -54,12 +54,12 @@ class ActionHandler: NotificationContentHandler{
 				}
 			}
 		}
-		
+
 		// MARK: - 处理 Ringtone
-		if let  sound = (userInfo["aps"] as? [String: Any])?["sound"] as? String , sound == ""{
+		if bestAttemptContent.soundName == "" && bestAttemptContent.getLevel() < 3{
 			bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
 		}
-		
+
 		// MARK: - 删除过期消息
 		if let realm = realm{
 			let messages = realm.objects(Message.self).filter({$0.isExpired()})

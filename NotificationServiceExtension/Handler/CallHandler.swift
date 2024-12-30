@@ -44,7 +44,7 @@ class CallHandler: NotificationContentHandler {
 		guard let content = content.mutableCopy() as? UNMutableNotificationContent else {
 			return
 		}
-		if !content.isCritical { // 重要警告的声音可以无视静音模式，所以别把这特性给弄没了
+		if content.getLevel() > 2 { // 重要警告的声音可以无视静音模式，所以别把这特性给弄没了
 			content.sound = nil
 		}
 		let request = UNNotificationRequest(identifier: identifier, content: content, trigger: nil)

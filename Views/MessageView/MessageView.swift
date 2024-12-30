@@ -34,13 +34,13 @@ struct MessageView: View {
 							.frame(width: 30, height: 30, alignment: .center)
 							.clipShape(RoundedRectangle(cornerRadius: 10))
 							.overlay(alignment: .bottomTrailing) {
-								if message.ttl == 3{
+								if message.level > 2{
 									Image(systemName: "exclamationmark.triangle.fill")
 										.resizable()
 										.scaledToFit()
 										.frame(width: 15)
 										.symbolRenderingMode(.palette)
-										.foregroundStyle(.primary, .red)
+										.foregroundStyle(.white, .red)
 								}
 							}
 

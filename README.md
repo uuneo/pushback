@@ -104,9 +104,9 @@ https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 * 时效性通知
 ```
 // 设置时效性通知
-https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive
+https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive&volume=10
 
-// 可选参数值 也可使用 level = 1...10 
+// 可选参数值 也可使用 level = 1...10  volume 声音优先级大于 level
 // passive(0)：仅将通知添加到通知列表，不会亮屏提醒
 // active(1)：不设置时的默认值，系统会立即亮屏显示通知。
 // timeSensitive(2)：时效性通知，可在专注状态下显示通知。

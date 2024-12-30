@@ -74,7 +74,7 @@ https://push.uuneo.com/yourkey/icon?icon=https://pushback.uuneo.com/_media/avata
 // Specify the push message image, Pictures are automatically saved to albums
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
 ```
-|手动保存|自动保存|
+| manually save | automatically save |
 |-|-|
 |<img src="/docs/_media/shoudong.gif" width="350">|<img src="/docs/_media/auto.gif" width="350">|
 
@@ -102,9 +102,9 @@ https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 * Time-sensitive notifications
 ```
 // Set time-sensitive notifications
-https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive
+https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 
-// Optional parameter values can also use level = 1...10
+// Optional parameter values can also use level = 1...10，volume The voice priority is greater than the level
 // passive(0): Adds the notification to the notification list without lighting up the screen.
 // active(1): Default value when not set, the system will immediately light up the screen to display the notification.
 // timeSensitive(2): Time-sensitive notification, can be displayed during focus mode.

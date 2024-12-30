@@ -18,7 +18,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
-	@Published var showServerListView:Bool = false
+	
 	@Published var crashLog:String?
 
 	private let appGroupIdentifier = BaseConfig.groupName
@@ -191,8 +191,6 @@ class PushbackManager: NetworkManager, ObservableObject{
 						Defaults[.servers][index].status = false
 					}
 				}
-
-
 			}
 
 		}catch{
@@ -218,9 +216,13 @@ class PushbackManager: NetworkManager, ObservableObject{
 					Defaults[.servers].insert(server, at: 0)
 				}
 				let (serverresult,msg) = await self.register(server: server)
-				completion(serverresult,msg)
+				DispatchQueue.main.async{
+					completion(serverresult,msg)
+				}
 			}else{
-				completion(server , isServer ? String(localized: "服务器已存在") : (msg ?? ""))
+				DispatchQueue.main.async{
+					completion(server , isServer ? String(localized: "服务器已存在") : (msg ?? ""))
+				}
 			}
 		}
 	}

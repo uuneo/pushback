@@ -28,7 +28,6 @@ struct pushbackApp: SwiftUI.App {
 			}
 			.environmentObject(PushbackManager.shared)
 			.environmentObject(appState)
-
 		}
 	}
 

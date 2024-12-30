@@ -232,28 +232,12 @@ extension ContentView{
 #if DEBUG
 		debugPrint(scheme, host, params)
 #endif
+		if host == "add"{
+			if let url = params["url"], let _ = URL(string: url) {
+				manager.appendServer(server: PushServerModel(url: url)) { result, msg in
+					manager.fullPage = .servers
 
-
-		if host == "login"{
-			if let url = params["url"]{
-
-				manager.scanUrl = url
-				manager.fullPage = .customKey
-
-			}else{
-				Toast.shared.present(title: String(localized: "参数错误"), symbol: "questionmark.circle.dashed")
-			}
-
-		}else if host == "add"{
-			if let url = params["url"]{
-
-				servers.append(PushServerModel(url: url))
-
-				if !manager.showServerListView {
-					manager.fullPage = .none
-					manager.sheetPage = .none
-					manager.page = .setting
-					manager.showServerListView = true
+					Toast.shared.present(title: msg, symbol: "document.viewfinder")
 				}
 			}else{
 				Toast.shared.present(title: String(localized: "参数错误"), symbol: "questionmark.circle.dashed")

@@ -30,16 +30,10 @@ struct SettingsView: View {
 
 	@State private var webShow:Bool = false
 	@State private var webUrl:String = BaseConfig.helpWebUrl
-
 	@State private var showLoading:Bool = false
-
-	@State private var showServerListView:Bool = false
-
-
 	@State private var showPaywall:Bool = false
-
 	@State private var buildDetail:Bool = false
-
+	@State private var showServerListView:Bool = false
 
 	var serverTypeColor:Color{
 

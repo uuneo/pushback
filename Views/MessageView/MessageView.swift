@@ -20,11 +20,13 @@ struct MessageView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	@ObservedRealmObject var message:Message
     var searchText:String = ""
-	@State var showRaw:Bool = false
 	var showGroup:Bool =  false
+	var showAllTTL:Bool = false
 	var complete:((messageCompleteMode)->Void)? = nil
+	@State var showRaw:Bool = false
 	@State private var showLoading:Bool = false
 	@State private var showTTL:Bool = false
+
     var body: some View {
 		Section {
 				VStack(alignment: .leading, spacing:5){
@@ -136,67 +138,7 @@ struct MessageView: View {
 				.clipShape(RoundedRectangle(cornerRadius: 10))
 
 		}header: {
-			HStack(alignment: .bottom){
-
-				Image(systemName: showRaw ? "captions.bubble.fill" : "captions.bubble")
-					.symbolRenderingMode(.palette)
-					.foregroundStyle(.primary, .tint)
-					.padding(.leading, 10)
-					.onTapGesture{
-						if message.userInfo.count > 0{
-							self.showRaw.toggle()
-						}
-					}
-
-				Text(showTTL ? message.expiredTime() : message.createDate.agoFormatString())
-					.font(.caption2)
-					.foregroundStyle( showTTL ? (message.ttl < 7 ? .red : .green) : message.createDate.colorForDate())
-					.onTapGesture {
-						withAnimation {
-							self.showTTL.toggle()
-						}
-					}
-				Spacer()
-
-				if let _ =  message.url {
-
-					Image(systemName: "link.circle")
-						.resizable()
-						.symbolRenderingMode(.palette)
-						.foregroundStyle(Color.primary, .green)
-						.frame(width: 20, height: 20, alignment: .center)
-						.padding(.horizontal, 10)
-
-						.onTapGesture {
-							if let url = message.url, let fileUrl = URL(string: url) {
-								manager.openUrl(url: fileUrl)
-							}
-						}
-				}
-
-				if message.image.count > 0{
-					Image(systemName: message.image.count == 1 ?  "photo.circle" : "photo.on.rectangle.angled" )
-						.resizable()
-						.symbolRenderingMode(.palette)
-						.foregroundStyle(.tint, .primary)
-						.frame(width: 20, height: 20, alignment: .center)
-						.padding(.horizontal, 10)
-						.overlay{
-							if showLoading{
-								ProgressView()
-									.progressViewStyle(CircularProgressViewStyle())
-									.transition(.opacity)
-									.background(.ultraThinMaterial)
-							}
-						}
-						.onTapGesture {
-							self.showLoading = true
-							self.complete?(.image)
-							self.showLoading = false
-						}
-				}
-			}
-
+			MessageViewHeader()
 		}footer: {
 			if showGroup{
 				HStack{
@@ -208,7 +150,72 @@ struct MessageView: View {
 		}.listRowInsets(EdgeInsets())
 
     }
-	
+	@ViewBuilder
+	func MessageViewHeader()-> some View{
+		HStack(alignment: .bottom){
+
+			Image(systemName: showRaw ? "captions.bubble.fill" : "captions.bubble")
+				.symbolRenderingMode(.palette)
+				.foregroundStyle(.primary, .tint)
+				.padding(.leading, 10)
+				.onTapGesture{
+					if message.userInfo.count > 0{
+						self.showRaw.toggle()
+					}
+				}
+
+			Text((showTTL || showAllTTL) ? message.expiredTime() : message.createDate.agoFormatString())
+				.font(.caption2)
+				.foregroundStyle( (showTTL || showAllTTL) ? (message.ttl < 7 ? .red : .green) : message.createDate.colorForDate())
+				.onTapGesture {
+					withAnimation {
+						self.showTTL.toggle()
+					}
+				}
+			Spacer()
+
+			if let _ =  message.url {
+
+				Image(systemName: "link.circle")
+					.resizable()
+					.symbolRenderingMode(.palette)
+					.foregroundStyle(Color.primary, .green)
+					.frame(width: 20, height: 20, alignment: .center)
+					.padding(.horizontal, 10)
+
+					.onTapGesture {
+						if let url = message.url, let fileUrl = URL(string: url) {
+							manager.openUrl(url: fileUrl)
+						}
+					}
+			}
+
+			if message.image.count > 0{
+				Image(systemName: message.image.count == 1 ?  "photo.circle" : "photo.on.rectangle.angled" )
+					.resizable()
+					.symbolRenderingMode(.palette)
+					.foregroundStyle(.tint, .primary)
+					.frame(width: 20, height: 20, alignment: .center)
+					.padding(.horizontal, 10)
+					.overlay{
+						if showLoading{
+							ProgressView()
+								.progressViewStyle(CircularProgressViewStyle())
+								.transition(.opacity)
+								.background(.ultraThinMaterial)
+						}
+					}
+					.onTapGesture {
+						self.showLoading = true
+						self.complete?(.image)
+						self.showLoading = false
+					}
+			}
+		}
+	}
+
+
+
 	func highlightedText(searchText: String, text: String) -> some View {
 		// 将搜索文本和目标文本都转换为小写
 		let lowercasedSearchText = searchText.lowercased()

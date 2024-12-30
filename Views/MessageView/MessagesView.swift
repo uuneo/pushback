@@ -37,13 +37,15 @@ struct MessagesView: View {
 	@State private var isLoading: Bool = false
 	@State private var selectMessage:Message?
 	@State private var selectUserInfo:Message?
+	@State private var showAllTTL:Bool = false
+
 	var body: some View {
 
 		List {
 			if searchText.isEmpty{
 				ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
 
-					MessageView(message: message, searchText: searchText){ mode in
+					MessageView(message: message, searchText: searchText,showAllTTL: showAllTTL){ mode in
 
 						switch mode{
 							case .image:
@@ -186,8 +188,15 @@ struct MessagesView: View {
 		.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
 		.toolbar{
 			ToolbarItem {
-				Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
-					.font(.caption)
+				Button{
+					withAnimation {
+						self.showAllTTL.toggle()
+					}
+
+				}label: {
+					Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
+						.font(.caption)
+				}
 			}
 		}
 		.task {

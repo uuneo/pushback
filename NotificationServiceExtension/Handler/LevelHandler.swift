@@ -45,6 +45,7 @@ class LevelHandler: NotificationContentHandler {
 	}
 }
 
+
 extension UNMutableNotificationContent {
 	/// 声音名称
 	var soundName: String? {
@@ -86,7 +87,7 @@ extension UNMutableNotificationContent {
 		if let level = self.userInfo["level"] as? String, level == "critical"{
 			return 0.5
 		}
-		
+
 		return max(0.0, min(1, Float(levelNumber) / 10.0))
 
 	}

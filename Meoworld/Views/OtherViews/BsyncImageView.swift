@@ -33,7 +33,7 @@ struct AvatarView: View {
 						Image(uiImage: image)
 							.resizable()
 							.frame(width: size.width, height: size.height)
-					
+
 					} else {
 						// 如果图片尚未加载，则显示加载中的视图
 						ProgressView()
@@ -58,7 +58,11 @@ struct AvatarView: View {
 					
 				}
 			}
-			
+			.onChange(of: icon) { value in
+				self.image = nil
+			}
+
+
 			
 		}
 		
@@ -67,6 +71,7 @@ struct AvatarView: View {
 	
 	private func loadImage(icon:String ) {
 		self.success = true
+		debugPrint("开始获取图像： message raw")
 		Task.detached(priority: .background)  {
 			if let localPath = await ImageManager.downloadImage(icon) {
 				await MainActor.run {

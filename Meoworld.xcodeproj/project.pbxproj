@@ -353,66 +353,6 @@
 			);
 			target = 1922F5702D1A48230098B6A4 /* NotificationContentExtension */;
 		};
-		1922F8CD2D1BCB2E0098B6A4 /* Exceptions for "LauchFirstStart" folder in "Meoworld" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				LauchFirstStartView.swift,
-				PageIntro.swift,
-			);
-			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
-		};
-		1922F8CE2D1BCB2E0098B6A4 /* Exceptions for "OtherViews" folder in "Meoworld" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AngularButton.swift,
-				AppIconView.swift,
-				BsyncImageView.swift,
-				CrashReportView.swift,
-				QueryView.swift,
-				SFSafariView.swift,
-				ShareSheet.swift,
-				SlideLineView.swift,
-				ToastView.swift,
-				ToolsSlideView.swift,
-			);
-			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
-		};
-		1922F8CF2D1BCB2E0098B6A4 /* Exceptions for "SettingView" folder in "Meoworld" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CacheView/ChangeKeyImageKey.swift,
-				CacheView/ImageHeroKey.swift,
-				CacheView/ImageHeroLayer.swift,
-				CacheView/ImageHomeView.swift,
-				CacheView/ImagePreview.swift,
-				CacheView/ImageViewExtension.swift,
-				CacheView/ImageViewModel.swift,
-				CacheView/UICoordinator.swift,
-				ChangeCustomKey/ChangeKeyCenterView.swift,
-				ChangeCustomKey/ChangeKeyView.swift,
-				DataStorage/DataStorageView.swift,
-				ImageCache/ImageCacheView.swift,
-				ImageCache/ImageDetailView.swift,
-				ImageCache/PhotoPickerView.swift,
-				ImageCache/uAsyncImage.swift,
-				PaywallView/PaywallView.swift,
-				PrivacySecure/CryptoConfigView.swift,
-				PrivacySecure/PrivacySecureView.swift,
-				ServersConfig/ScanView.swift,
-				ServersConfig/ServerCardView.swift,
-				ServersConfig/ServersConfiView.swift,
-				SettingsView.swift,
-			);
-			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
-		};
-		1922F8D02D1BCB2E0098B6A4 /* Exceptions for "SoundView" folder in "Meoworld" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				SoundtemView.swift,
-				SoundView.swift,
-			);
-			target = 19CC04AB2D1A44EC00041A2C /* Meoworld */;
-		};
 		19CC04BF2D1A469500041A2C /* Exceptions for "Meoworld" folder in "Meoworld" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -445,43 +385,6 @@
 				1922F5962D1A48560098B6A4 /* Exceptions for "ShareImageExtension" folder in "ShareImageExtension" target */,
 			);
 			path = ShareImageExtension;
-			sourceTree = "<group>";
-		};
-		1922F87F2D1BCB2E0098B6A4 /* LauchFirstStart */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1922F8CD2D1BCB2E0098B6A4 /* Exceptions for "LauchFirstStart" folder in "Meoworld" target */,
-			);
-			path = LauchFirstStart;
-			sourceTree = "<group>";
-		};
-		1922F8852D1BCB2E0098B6A4 /* MessageView */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MessageView;
-			sourceTree = "<group>";
-		};
-		1922F88F2D1BCB2E0098B6A4 /* OtherViews */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1922F8CE2D1BCB2E0098B6A4 /* Exceptions for "OtherViews" folder in "Meoworld" target */,
-			);
-			path = OtherViews;
-			sourceTree = "<group>";
-		};
-		1922F89F2D1BCB2E0098B6A4 /* SettingView */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1922F8CF2D1BCB2E0098B6A4 /* Exceptions for "SettingView" folder in "Meoworld" target */,
-			);
-			path = SettingView;
-			sourceTree = "<group>";
-		};
-		1922F8A22D1BCB2E0098B6A4 /* SoundView */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				1922F8D02D1BCB2E0098B6A4 /* Exceptions for "SoundView" folder in "Meoworld" target */,
-			);
-			path = SoundView;
 			sourceTree = "<group>";
 		};
 		19CC04AE2D1A44EC00041A2C /* Meoworld */ = {
@@ -669,18 +572,6 @@
 			path = Publics;
 			sourceTree = "<group>";
 		};
-		1922F86E2D1BCB200098B6A4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				1922F87F2D1BCB2E0098B6A4 /* LauchFirstStart */,
-				1922F8852D1BCB2E0098B6A4 /* MessageView */,
-				1922F88F2D1BCB2E0098B6A4 /* OtherViews */,
-				1922F89F2D1BCB2E0098B6A4 /* SettingView */,
-				1922F8A22D1BCB2E0098B6A4 /* SoundView */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		19CC04A32D1A44EC00041A2C = {
 			isa = PBXGroup;
 			children = (
@@ -690,7 +581,6 @@
 				1922F5D22D1A486E0098B6A4 /* Extensions */,
 				1922F5DD2D1A486E0098B6A4 /* Managers */,
 				1922F5E12D1A486E0098B6A4 /* Publics */,
-				1922F86E2D1BCB200098B6A4 /* Views */,
 				19CC04AE2D1A44EC00041A2C /* Meoworld */,
 				1922F5612D1A47FB0098B6A4 /* NotificationServiceExtension */,
 				1922F5762D1A48240098B6A4 /* NotificationContentExtension */,
@@ -807,7 +697,6 @@
 				1922F5912D1A48560098B6A4 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				1922F8852D1BCB2E0098B6A4 /* MessageView */,
 				19CC04AE2D1A44EC00041A2C /* Meoworld */,
 			);
 			name = Meoworld;
@@ -1116,11 +1005,14 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1147,11 +1039,14 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1178,11 +1073,14 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1209,11 +1107,14 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1241,6 +1142,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1268,6 +1172,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareImageExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1426,10 +1333,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1467,10 +1377,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.3;
+				MARKETING_VERSION = 2.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

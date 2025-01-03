@@ -335,14 +335,11 @@ struct PushExampleModel:Identifiable {
 	var index:Int
 }
 
-// MARK: - exportJsonData
 
-struct exportJsonData:Identifiable{
-	var id:UUID = UUID()
-	var url:URL
-}
 
 // MARK: - ExpirationTime
+
+
 
 enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	case forever = 999999

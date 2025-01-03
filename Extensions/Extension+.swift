@@ -412,3 +412,51 @@ extension Encodable {
 }
 
 
+// MARK: -  UserDefaults, AppStorage
+
+
+extension UserDefaults{
+	enum Key:String{
+		case defaultToken
+	}
+}
+
+extension AppStorage{
+	init(wrapperValue:Value, key: UserDefaults.Key, store:UserDefaults? = nil) where Value == String {
+		self.init(wrappedValue: wrapperValue, key.rawValue, store: store ?? DEFAULTSTORE)
+	}
+}
+
+protocol RawRepresentableCustom: Codable, RawRepresentable {}
+
+
+extension RawRepresentableCustom{
+	public var rawValue: String{
+		if let data = try? JSONEncoder().encode(self), let value = String(data: data, encoding: .utf8){
+			return value
+		}
+		return ""
+	}
+
+	public init?(rawValue: String) {
+		guard  let data = rawValue.data(using: .utf8),
+			   let model = try? JSONDecoder().decode(Self.self, from: data) else { return nil }
+		self = model
+	}
+}
+
+
+extension Array: @retroactive RawRepresentable where Element:Codable {
+	public var rawValue: String{
+		if let data = try? JSONEncoder().encode(self), let value = String(data: data, encoding: .utf8){
+			return value
+		}
+		return ""
+	}
+
+	public init?(rawValue: String) {
+		guard  let data = rawValue.data(using: .utf8),
+			   let model = try? JSONDecoder().decode(Self.self, from: data) else { return nil }
+		self = model
+	}
+}

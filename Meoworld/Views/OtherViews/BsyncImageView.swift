@@ -71,7 +71,6 @@ struct AvatarView: View {
 	
 	private func loadImage(icon:String ) {
 		self.success = true
-		debugPrint("开始获取图像： message raw")
 		Task.detached(priority: .background)  {
 			if let localPath = await ImageManager.downloadImage(icon) {
 				await MainActor.run {

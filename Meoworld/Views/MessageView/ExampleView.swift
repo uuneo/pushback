@@ -8,6 +8,7 @@
 import SwiftUI
 import Defaults
 
+
 struct ExampleView: View {
 	@State private var username:String = ""
 	@State private var title:String = ""
@@ -15,6 +16,7 @@ struct ExampleView: View {
 	@State private var showAlart = false
 	@Default(.servers) var servers
 	@Default(.cryptoConfig) var cryptoConfig
+	@AppStorage("abc") var name:String = ""
 	var body: some View {
 		NavigationStack{
 			

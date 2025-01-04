@@ -13,7 +13,6 @@ enum messageCompleteMode{
 	case image
 	case text
 	case userInfo
-	case markdown
 }
 
 struct MessageView: View {
@@ -210,17 +209,6 @@ struct MessageView: View {
 						self.showLoading = true
 						self.complete?(.image)
 						self.showLoading = false
-					}
-			}
-
-			if let _ =  message.markdown{
-				Image("markdown")
-					.resizable()
-					.scaledToFit()
-					.frame(width: 20)
-					.padding(.horizontal, 10)
-					.onTapGesture {
-						complete?(.markdown)
 					}
 			}
 

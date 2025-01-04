@@ -161,7 +161,6 @@
 		1922F7192D1A55140098B6A4 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5D02D1A486E0098B6A4 /* View+.swift */; };
 		1922F71A2D1A553B0098B6A4 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DE2D1A486E0098B6A4 /* LocalKeys.swift */; };
 		1922F71B2D1A553B0098B6A4 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DF2D1A486E0098B6A4 /* BaseConfig.swift */; };
-		195CF9052D22D30400B83663 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 195CF9042D22D30400B83663 /* MarkdownUI */; };
 		19C1D8FB2D1C5558004A914D /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1922F68D2D1A492D0098B6A4 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -439,7 +438,6 @@
 				1922F6942D1A49BA0098B6A4 /* SwiftyJSON in Frameworks */,
 				1902F0C22D1E872D00485E12 /* CrashReporter in Frameworks */,
 				1922F68E2D1A492D0098B6A4 /* RealmSwift in Frameworks */,
-				195CF9052D22D30400B83663 /* MarkdownUI in Frameworks */,
 				1922F6882D1A48FB0098B6A4 /* Kingfisher in Frameworks */,
 				1922F68B2D1A490D0098B6A4 /* QRScanner in Frameworks */,
 				1922F55B2D1A476F0098B6A4 /* StoreKit.framework in Frameworks */,
@@ -707,7 +705,6 @@
 				1922F6902D1A494B0098B6A4 /* Defaults */,
 				1922F6932D1A49BA0098B6A4 /* SwiftyJSON */,
 				1902F0C12D1E872D00485E12 /* CrashReporter */,
-				195CF9042D22D30400B83663 /* MarkdownUI */,
 			);
 			productName = Meoworld;
 			productReference = 19CC04AC2D1A44EC00041A2C /* Meoworld.app */;
@@ -755,7 +752,6 @@
 				1922F68F2D1A494B0098B6A4 /* XCRemoteSwiftPackageReference "Defaults" */,
 				1922F6922D1A49BA0098B6A4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				1902F0C02D1E872D00485E12 /* XCRemoteSwiftPackageReference "plcrashreporter" */,
-				195CF9032D22D30400B83663 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 19CC04AD2D1A44EC00041A2C /* Products */;
@@ -1489,14 +1485,6 @@
 				kind = branch;
 			};
 		};
-		195CF9032D22D30400B83663 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1569,11 +1557,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1922F68F2D1A494B0098B6A4 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
-		};
-		195CF9042D22D30400B83663 /* MarkdownUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 195CF9032D22D30400B83663 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
-			productName = MarkdownUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

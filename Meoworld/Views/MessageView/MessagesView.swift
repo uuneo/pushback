@@ -11,7 +11,6 @@
 
 import SwiftUI
 import RealmSwift
-import MarkdownUI
 
 struct MessagesView: View {
 	@Environment(\.dismiss) private var dismiss
@@ -84,10 +83,6 @@ struct MessagesView: View {
 								withAnimation(.easeInOut) {
 									self.selectUserInfo = message
 								}
-							case .markdown:
-								withAnimation(.easeInOut) {
-									self.selectMarkdown = message
-								}
 						}
 
 					}
@@ -110,7 +105,6 @@ struct MessagesView: View {
 		.overlay { showImageDetail() }
 		.overlay{ showSelectMessage() }
 		.overlay{ showSelectUserInfo() }
-		.overlay{ showSelectMarkdown() }
 		.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
 		.toolbar{
 			ToolbarItem {
@@ -238,37 +232,6 @@ struct MessagesView: View {
 				.onAppear{
 					self.selectUserInfo = nil
 				}
-		}
-	}
-
-	@ViewBuilder
-	func showSelectMarkdown()-> some View{
-		if let message = selectMarkdown {
-			ScrollView{
-				VStack{
-					if let markdownText = message.markdown{
-						Markdown{
-							markdownText
-						}
-						
-					} else {
-						Text("Failed to render Markdown")
-							.foregroundColor(.red)
-					}
-				}
-				.padding(.vertical, 60)
-				.padding(.horizontal)
-
-			}
-			.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-			.background(.ultraThinMaterial)
-			.contentShape(Rectangle())
-			.onTapGesture {
-				withAnimation(.easeInOut)  {
-					self.selectMarkdown = nil
-				}
-			}
-			.transition(.opacity)
 		}
 	}
 }

@@ -119,7 +119,7 @@ extension String{
 		return emailTest.evaluate(with: self)
 	}
 
-	func isInsideServer()-> Bool{ self.contains("uuneo.com") || self.contains("vcvc.xyz") }
+	func isInsideServer()-> Bool{ self.contains("uuneo.com") && self.contains("vcvc.xyz") }
 }
 
 

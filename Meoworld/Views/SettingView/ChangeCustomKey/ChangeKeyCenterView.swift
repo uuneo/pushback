@@ -143,7 +143,7 @@ struct ChnageKeyCenterView: View {
 	private func CodeButton()-> some View{
 		VStack{
 			AngularButton(title: String(localized: "修改Key")) {
-				if selectServer.url.isInsideServer() || store.subscriptionInfo.canAccessContent{
+				if !selectServer.url.isInsideServer() || store.subscriptionInfo.canAccessContent{
 					if keyName.count > 3{
 						// TODO: - 修改key
 						Task.detached {

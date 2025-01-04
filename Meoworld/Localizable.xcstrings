@@ -625,22 +625,6 @@
         }
       }
     },
-    "不保存消息" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Do not save messages"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mesajı kaydetme."
-          }
-        }
-      }
-    },
     "不正确的地址" : {
       "localizations" : {
         "en" : {
@@ -829,6 +813,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d resmi %2$@ albümüne kaydet."
+          }
+        }
+      }
+    },
+    "保存1天示例" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Example: Save for 1 day"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örnek: 1 gün boyunca kaydet"
           }
         }
       }
@@ -1053,6 +1053,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dahili"
+          }
+        }
+      }
+    },
+    "最基本用法示例" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basic Usage Example"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temel Kullanım Örneği"
           }
         }
       }
@@ -1489,18 +1505,34 @@
         }
       }
     },
-    "可选参数值：(level=0...10)可用数字代替 3-10 代表音量\nlevel=passive(0)：仅添加到列表，不会亮屏提醒\nlevel=active(1): 默认值，系统会立即亮屏显示通知。\nlevel=timeSensitive(1):  时效性通知,专注模式下可显示通知。\nlevel=critical(3-10): 重要提醒，静音或专注模式可正常提醒" : {
+    "可选参数值:\n* passive 或 0：仅添加到列表，不会亮屏提醒\n* active 或 1： 默认值，系统会立即亮屏显示通知。\n* timeSensitive 或 2:  时效性通知,专注模式下可显示通知。" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optional parameter values: (level=0...10) can be replaced with numbers. Levels 3-10 represent volume.\n- level=passive (0): Adds to the list only, without turning on the screen for notifications.\n- level=active (1): Default value; the system will immediately turn on the screen to display the notification.\n- level=timeSensitive (1): Time-sensitive notifications, which can be displayed even in Focus mode.\n- level=critical (3-10): Critical alerts that bypass Silent or Focus mode to notify normally."
+            "value" : "Optional Parameter Values:\n* passive or 0: Only added to the list, no screen wake-up alert.\n* active or 1: Default value, the system will immediately wake the screen to display the notification.\n* timeSensitive or 2: Time-sensitive notification, can be displayed in focus mode."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opsiyonel parametre değerleri: (level=0...10) sayılarla değiştirilebilir. 3-10 seviyeleri ses seviyesini temsil eder.\n- level=passive (0): Yalnızca listeye ekler, ekranı açmaz ve bildirim gösterilmez.\n- level=active (1): Varsayılan değer; sistem, bildirimleri hemen ekranı açarak gösterir.\n- level=timeSensitive (1): Zaman duyarlı bildirimler, odak modu açık olsa bile gösterilebilir.\n- level=critical (3-10): Kritik uyarılar, sessiz veya odak modu etkin olsa bile normal şekilde bildirim gösterir."
+            "value" : "Seçenekli Parametre Değerleri:\n* passive veya 0: Sadece listeye eklenir, ekran uyanma bildirimi olmaz.\n* active veya 1: Varsayılan değer, sistem bildirimi göstermek için ekranı hemen uyandırır.\n* timeSensitive veya 2: Zaman duyarlı bildirim, odak modunda görüntülenebilir."
+          }
+        }
+      }
+    },
+    "可选参数值: 3～10代表音量30～100% " : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional Parameter Values: 3–10 represent volume levels from 30% to 100%."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seçenekli Parametre Değerleri: 3–10, %30 ile %100 arasındaki ses seviyelerini temsil eder."
           }
         }
       }
@@ -2221,6 +2253,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bildirimler, group parametresine göre bildirim merkezi ve uygulama içinde gruplanarak gösterilecektir."
+          }
+        }
+      }
+    },
+    "推送标题加内容" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Push Title and Content"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirim Başlığı ve İçeriği"
           }
         }
       }
@@ -3155,38 +3203,6 @@
         }
       }
     },
-    "示例 1" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Example 1"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Örnek 1"
-          }
-        }
-      }
-    },
-    "示例 2" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Example 2"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Örnek 2"
-          }
-        }
-      }
-    },
     "程序图标" : {
       "localizations" : {
         "en" : {
@@ -3956,6 +3972,38 @@
         }
       }
     },
+    "重要提醒" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Critical alarm"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Critical alarm"
+          }
+        }
+      }
+    },
+    "重要提醒通知,70%音量" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Important Reminder Notification, 70% Volume"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önemli Hatırlatma Bildirimi, %70 Ses Seviyesi"
+          }
+        }
+      }
+    },
     "铃声列表" : {
       "localizations" : {
         "en" : {
@@ -4064,6 +4112,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gerekli olan yer"
+          }
+        }
+      }
+    },
+    "静音或专注模式可正常提醒" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silent or Focus Mode can notify normally."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessiz veya Odak Modu normal şekilde bildirim yapabilir."
           }
         }
       }

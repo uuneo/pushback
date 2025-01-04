@@ -11,7 +11,7 @@ import Foundation
 
 
 // MARK: - Remote Response
-struct baseResponse<T:Codable>: Codable{
+struct baseResponse<T>: Codable where T: Codable{
 	var code:Int
 	var message:String
 	var data:T?
@@ -330,8 +330,8 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 
 struct PushExampleModel:Identifiable {
 	var id = UUID().uuidString
-	var header,footer: AnyView
-	var title,params:String
+	var header,footer,title: AnyView
+	var params:String
 	var index:Int
 }
 
@@ -390,7 +390,7 @@ enum RingTongType: Codable{
 struct SoundDefault: Codable, Defaults.Serializable{
 	var type:RingTongType
 	var name:String
-	static let def = SoundDefault(type: .local, name: "silence")
+	static let def = SoundDefault(type: .local, name: "gold")
 }
 
 

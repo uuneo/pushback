@@ -61,6 +61,7 @@ class BaseConfig {
 	static let iconRemote = "https://pushback.uuneo.com/_media/avatar.png"
 	static let privacyURL = docServer + String(localized: "/#/policy")
 	static let userAgreement = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+	static let defaultVideo = "https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4"
 
 	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"telegraph\"}"
 

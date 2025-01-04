@@ -21,7 +21,7 @@ extension Defaults.Keys {
 	static let cacheSize = Key<CacheSizeLimit>(BaseConfig.cacheSizeLimit, default: .five, suite: DEFAULTSTORE)
 	static let images = Key<[ImageModel]>(BaseConfig.imagesLocalMap, default: [], suite: DEFAULTSTORE )
 	static let imageSaveDays = Key<ExpirationTime>(BaseConfig.imageSaveDays,default: .forever, suite: DEFAULTSTORE)
-	static let autoSaveImageToAlbum = Key<Bool>(BaseConfig.autoSaveImageAlbum, default: true, suite: DEFAULTSTORE)
+	static let autoSaveImageToAlbum = Key<Bool>(BaseConfig.autoSaveImageAlbum, default: false, suite: DEFAULTSTORE)
 
 }
 

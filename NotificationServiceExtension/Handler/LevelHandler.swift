@@ -66,7 +66,7 @@ extension UNMutableNotificationContent {
 					return 0
 				case "active":
 					return 1
-				case "timeSensitive":
+				case "timeSensitive","timesensitive":
 					return 2
 				case "critical":
 					return 3

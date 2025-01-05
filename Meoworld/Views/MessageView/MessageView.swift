@@ -101,7 +101,7 @@ struct MessageView: View {
 							HStack{
 								if let body = message.body{
 									highlightedText(searchText: searchText, text: body)
-										.frame(maxHeight: 300)
+										.frame(maxHeight: 260)
 										.font(.body)
 										.textSelection(.enabled)
 										.transition(.opacity)
@@ -129,7 +129,7 @@ struct MessageView: View {
 						}
 
 					}
-					.frame(maxHeight: 300)
+					.frame(maxHeight: 260)
 
 				
 				}

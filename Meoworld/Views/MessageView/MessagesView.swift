@@ -180,8 +180,8 @@ struct MessagesView: View {
 					.frame(width: UIScreen.main.bounds.width - 50)
 				}
 				.frame(width: UIScreen.main.bounds.width)
-				.frame(minHeight: UIScreen.main.bounds.height)
-
+				.padding(.vertical, 50)
+				.frame(minHeight: UIScreen.main.bounds.height - 100)
 
 			}
 
@@ -215,7 +215,9 @@ struct MessagesView: View {
 				}
 
 				.frame(width: UIScreen.main.bounds.width)
-				.frame(minHeight: UIScreen.main.bounds.height)
+				.padding(.vertical, 50)
+				.frame(minHeight: UIScreen.main.bounds.height - 100)
+
 
 			}
 			.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)

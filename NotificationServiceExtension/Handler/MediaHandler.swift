@@ -51,13 +51,15 @@ class MediaHandler:NotificationContentHandler{
 		
 		if let imageUrl =  imageList.first {
 
+			let cacheTag = Defaults[.images].filter({$0.url == imageUrl}).count == 0
+
 			guard let localPath = await ImageManager.downloadImage(imageUrl) else {
 				
 				return bestAttemptContent
 			}
 
-			/// 自动保存图片到相册
-			if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveImageToAlbum]{
+			/// 自动保存图片到相册 前提 打开了自动存储，并且缓存内没有的图片
+			if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveImageToAlbum], cacheTag{
 				UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
 			}
 

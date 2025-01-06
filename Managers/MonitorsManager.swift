@@ -90,7 +90,7 @@ class MonitorsManager: ObservableObject {
             }
             else {
 #if DEBUG
-                debugPrint("没有打开推送")
+                Log.debug("没有打开推送")
 #endif
             }
         })

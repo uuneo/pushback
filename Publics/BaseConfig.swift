@@ -12,38 +12,14 @@ let DEFAULTSTORE = UserDefaults(suiteName: BaseConfig.groupName)!
 let ISPAD = UIDevice.current.userInterfaceIdiom == .pad
 
 class BaseConfig {
+	
 	static let  groupName = "group.pushback"
 	static let 	icloudName = "iCloud.pushback"
-	static let  settingName = "cryptoSettingFields"
-	static let  deviceToken = "deviceToken"
-	static let  imageCache = "pushback"
-	static let  badgemode = "Meowbadgemode"
-	static let  server = "serverArrayStroage"
-	static let  defaultPage = "defaultPageViewShow"
-	static let  messageFirstShow = "messageFirstShow"
-	static let  messageShowMode = "messageShowMode"
-	static let  syncServerUrl = "syncServerUrl"
-	static let  syncServerParams = "syncServerParams"
-	static let  emailConfig = "emailStmpConfig"
-	static let  firstStartApp = "firstStartApp"
-	static let  CryptoSettingFields = "CryptoSettingFields"
-	static let  recordType = "NotificationMessage"
 	static let  realmName = "Meowrld.realm"
 	static let  kStopCallHandlerKey = "stopCallHandlerNotification"
-	static let  Sounds = "Sounds"
-	static let  defaultSound = "defaultSound"
-	static let  activeAppIcon = "setting_active_app_icon"
-	static let 	customPhotoName = "CustomPhotoName"
-	static let 	imagsList = "customImagesCache"
-	static let 	RingTongRecord = "RingTongRecord"
-	static let 	messageExpirtion = "messageExpirtionTime"
-	static let 	defaultBrowser = "defaultBrowserOpen"
-	static let  imageSaveDays = "imageSaveDays"
-	static let 	photoName = "pushback."
+	static let  sounds = "Sounds"
 	static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
 	static let 	cacheSizeLimit = "CacheSizeLimit"
-	static let  imagesLocalMap = "imagesLocalMap"
-	static let 	autoSaveImageAlbum = "autoSaveImageToPhotoAlbum"
 #if DEBUG
 	static let defaultServer = "https://dev.uuneo.com"
 #else
@@ -56,20 +32,20 @@ class BaseConfig {
 	static let delpoydoc = docServer + "/#/?id=pushback"
 	static let emailHelpUrl = docServer + "/#/email"
 	static let helpRegisterWebUrl = docServer + "/#/registerUser"
-	static let musicUrl = "https://convertio.co/mp3-caf/"
 	static let callback = defaultServer + "/callback"
-	static let iconRemote = "https://pushback.uuneo.com/_media/avatar.png"
+	static let iconRemote = docServer + "/_media/avatar.png"
 	static let privacyURL = docServer + String(localized: "/#/policy")
-	static let userAgreement = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-	static let defaultVideo = "https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4"
 
+	static let userAgreement = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+	static let musicUrl = "https://convertio.co/mp3-caf/"
+	static let defaultVideo = "https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4"
 	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"telegraph\"}"
 
 	
 	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
 	static func getSoundsGroupDirectory() -> URL? {
 		let manager = FileManager.default
-		if let directoryUrl = manager.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.Sounds) {
+		if let directoryUrl = manager.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.sounds) {
 			if !manager.fileExists(atPath: directoryUrl.path) {
 				try? manager.createDirectory(at: directoryUrl, withIntermediateDirectories: true, attributes: nil)
 			}
@@ -84,8 +60,8 @@ class BaseConfig {
 		let manager = FileManager.default
 		guard let libraryDirectory = manager.urls(for: .libraryDirectory, in: .userDomainMask).first else { return nil }
 		
-		let soundsDirectoryUrl = libraryDirectory.appendingPathComponent(BaseConfig.Sounds)
-		
+		let soundsDirectoryUrl = libraryDirectory.appendingPathComponent(BaseConfig.sounds)
+
 		if !manager.fileExists(atPath:soundsDirectoryUrl.path){
 			try? manager.createDirectory(atPath: soundsDirectoryUrl.path, withIntermediateDirectories: true, attributes: nil)
 

@@ -16,7 +16,7 @@ class CiphertextHandler:NotificationContentHandler{
 		}
 		var userInfo = bestAttemptContent.userInfo
 
-		// 如果是加密推送，则使用密文配置 bestAttemptContent
+		// 解密推送信息
 		do {
 			let map = try self.decrypt(ciphertext: ciphertext, iv: userInfo[Params.iv.name] as? String)
 			
@@ -74,30 +74,14 @@ class CiphertextHandler:NotificationContentHandler{
 		
 		var fields = Defaults[.cryptoConfig]
 		
-		
-		if let iv = iv {
-			// Support using specified IV parameter for decryption
-			fields.iv = iv
-		}
-		
-		debugPrint(ciphertext)
-		
-		let aes = CryptoManager(fields)
+		if let iv = iv { fields.iv = iv }
+
 		guard let textData = Data(base64Encoded: ciphertext),
-			  let json = aes.decrypt(textData),
+			  let json = CryptoManager(fields).decrypt(textData),
 			  let data = json.data(using: .utf8),
-			  let map = JSON(data).dictionaryObject
-		else {
-		
-			throw  StringError( "JSON parsing failed" )
-		}
-		
-		var result: [AnyHashable: Any] = [:]
-		for (key, val) in map {
-			// 将key重写为小写
-			result[key.lowercased()] = val
-		}
-		return result
+			  let map = JSON(data).dictionaryObject else { throw  StringError( "JSON parsing failed" ) }
+
+		return map.reduce(into: [AnyHashable: Any]()) { $0[$1.key.lowercased()] = $1.value }
 	}
 	
 }

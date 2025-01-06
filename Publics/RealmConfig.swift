@@ -10,21 +10,17 @@ import Foundation
 
 let kRealmDefaultConfiguration = {
 	let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
-	
-	let fileUrl = groupUrl?.appendingPathComponent(BaseConfig.realmName)
-	
-	
+
+#if DEBUG
+	Logger.shared.level = .info
+#endif
 	let config = Realm.Configuration(
-		fileURL: fileUrl,
-		schemaVersion: 28,
+		fileURL: groupUrl?.appendingPathComponent(BaseConfig.realmName),
+		schemaVersion: 30,
 		migrationBlock: { _, oldSchemaVersion in
-			// We haven’t migrated anything yet, so oldSchemaVersion == 0
-			if oldSchemaVersion < 1 {
-				// Nothing to do!
-				// Realm will automatically detect new properties and removed properties
-				// And will update the schema on disk automatically
-			}
+			if oldSchemaVersion < 1 { }
 		}
+
 	)
 	return config
 }()

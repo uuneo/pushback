@@ -10,6 +10,7 @@ import SwiftyJSON
 import Defaults
 
 
+
 class MessageHandler: NotificationContentHandler{
 	private lazy var realm: Realm? = {
 		Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
@@ -24,9 +25,10 @@ class MessageHandler: NotificationContentHandler{
 		let subtitle = alert?[Params.subtitle.name] as? String
 		let body = alert?[Params.body.name] as? String
 		let url = userInfo[Params.url.name] as? String
-		let markdown = userInfo[Params.markdown.name] as? String
 		let icon = userInfo[Params.icon.name] as? String
 		let ttl = userInfo[Params.ttl.name] as? String
+		let image = userInfo[Params.image.name] as? String
+		let video = userInfo[Params.video.name] as? String
 		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
 		let level = bestAttemptContent.getLevel()
 
@@ -38,7 +40,6 @@ class MessageHandler: NotificationContentHandler{
 			}
 			return ""
 		}
-
 
 		bestAttemptContent.threadIdentifier = group
 
@@ -60,12 +61,11 @@ class MessageHandler: NotificationContentHandler{
 				message.subtitle = subtitle
 				message.body = body
 				message.url = url
-				message.markdown = decodeBase64(markdown)
 				message.group = group
 				message.icon = icon
 				message.level = level
-				message.image = mediaHandler(userInfo: userInfo, name: Params.image.name)
-				message.video = mediaHandler(userInfo: userInfo, name: Params.video.name)
+				message.image = image
+				message.video = video
 				message.createDate = Date()
 				message.ttl = saveDays
 				message.userInfo = userInfoString
@@ -76,19 +76,4 @@ class MessageHandler: NotificationContentHandler{
 		return bestAttemptContent
 	}
 
-
-
-	func decodeBase64(_ base64String: String?)-> String?{
-		guard let base64String = base64String else { return nil }
-		if let decodedData = Data(base64Encoded: base64String),
-		   let decodedString = String(data: decodedData, encoding: .utf8) {
-			print("解码后的字符串: \(decodedString)")
-			return decodedString
-		}
-
-		return nil
-	}
-
-
-	
 }

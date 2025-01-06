@@ -23,21 +23,26 @@ class ImageManager {
 	}
 
 
-	class func storeImage(data: Data, key: String, expiration: StorageExpiration)  async -> Bool {
+	class func storeImage(data: Data, key: String,localKey:String? = nil, expiration: StorageExpiration = .never,complete: ((Bool)->Void)? = nil){
 		guard let cache = ImageManager.defaultCache(),
 			  Defaults[.images].filter({$0.url == key}).count == 0 else {
-			return false
+			complete?(false)
+			return
+		}
+		let sha256 = self.sha256(file: data)
+
+		guard Defaults[.images].filter({$0.sha256 == sha256}).count == 0 else {
+			complete?(false)
+			return
 		}
 
-		return await withCheckedContinuation { continuation in
-			cache.storeToDisk(data, forKey: key, expiration: expiration) { result in
-				switch result.diskCacheResult{
-					case .failure(_):
-						continuation.resume(returning: false)
-					default:
-						Defaults[.images].append(ImageModel(url: key))
-						continuation.resume(returning: true)
-				}
+		cache.storeToDisk(data, forKey: key, expiration: expiration) { result in
+			switch result.diskCacheResult{
+				case .failure(_):
+					complete?(false)
+				default:
+					Defaults[.images].insert(ImageModel(url: key,another: localKey,sha256: sha256), at: 0)
+					complete?(true)
 			}
 		}
 	}
@@ -67,7 +72,7 @@ class ImageManager {
 		/// 检查是否已存在相同的 URL，防止重复写入
 		lockQueue.sync {
 			if !Defaults[.images].contains(where: { $0.url == imageUrl }) {
-				Defaults[.images].append(ImageModel(url: imageUrl))
+				Defaults[.images].insert(ImageModel(url: imageUrl,sha256: sha256(file: result.originalData)),at: 0)
 			}
 		}
 
@@ -122,6 +127,16 @@ class ImageManager {
 		Defaults[.images][index].another = key
 		return true
 	}
+
+	class func sha256(file: Data) -> String {
+		// 计算 SHA-256 哈希值
+		let hash = SHA256.hash(data: file)
+		// 将哈希值转换为十六进制字符串
+		let hashString = hash.compactMap { String(format: "%02x", $0) }.joined()
+
+		return hashString
+	}
+
 
 }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 import Defaults
 import Foundation
+import Kingfisher
 
 
 // MARK: - Remote Response
@@ -37,8 +38,6 @@ struct ChangeKeyInfo:Codable{
 
 
 
-
-
 enum requestHeader :String {
 	case https = "https://"
 	case http = "http://"
@@ -60,6 +59,7 @@ enum SubPage: Equatable{
 	case scan
 	case music
 	case appIcon
+	case imageCache
 	case web(String)
 	case crash(String)
 	case none
@@ -84,38 +84,24 @@ enum MessageAction: String, CaseIterable, Equatable{
 	
 	var localized:String{
 		switch self {
-		case .markRead:
-			String(localized: "全部已读")
-		case .lastHour:
-			String(localized: "一小时前")
-		case .lastDay:
-			String(localized: "一天前")
-		case .lastWeek:
-			String(localized: "一周前")
-		case .lastMonth:
-			String(localized: "一月前")
-		case .allTime:
-			String(localized: "所有时间")
-		case .cancel:
-			String(localized: "取消")
+		case .markRead: String(localized: "全部已读")
+		case .lastHour: String(localized: "一小时前")
+		case .lastDay: String(localized: "一天前")
+		case .lastWeek: String(localized: "一周前")
+		case .lastMonth: String(localized: "一月前")
+		case .allTime: String(localized: "所有时间")
+		case .cancel: String(localized: "取消")
 		}
 	}
 	
 	var date:Date{
-
 		switch self {
-		case .lastHour:
-			Date().someHourBefore(1)
-		case .lastDay:
-			Date().someDayBefore(0)
-		case .lastWeek:
-			Date().someDayBefore(7)
-		case .lastMonth:
-			Date().someDayBefore(30)
-		case .allTime:
-			Date()
-		default:
-			Date().s1970
+		case .lastHour: Date().someHourBefore(1)
+		case .lastDay: Date().someDayBefore(0)
+		case .lastWeek: Date().someDayBefore(7)
+		case .lastMonth: Date().someDayBefore(30)
+		case .allTime: Date()
+		default: Date().s1970
 		}
 	}
 	
@@ -157,9 +143,11 @@ enum QuickAction{
 struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, Hashable{
 	var id:String = UUID().uuidString
 	var url:String
-	var key:String
+	var key:String = ""
 	var status:Bool = false
-	
+	var createDate:Date = .now
+	var updateDate:Date = .now
+
 	var name:String{
 		var name = url
 		if let range = url.range(of: "://") {
@@ -168,32 +156,8 @@ struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, 
 		return name
 	}
 	
-	var color: Color{
-		status ? .green : .orange
-	}
-	
-	enum CodingKeys: CodingKey {
-		case id
-		case url
-		case key
-		case status
-	}
-	
-	init(from decoder: Decoder) throws {
-		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.id = try container.decode(String.self, forKey: .id)
-		self.url = try container.decode(String.self, forKey: .url)
-		self.key = try container.decode(String.self, forKey: .key)
-		self.status = try container.decode(Bool.self, forKey: .status)
-	}
-	
-	init(id:String = UUID().uuidString, url:String, key: String = "", statues:Bool = false){
-		self.id = id
-		self.url = url
-		self.key = key
-		self.status = statues
-	}
-  
+	var color: Color{ status ? .green : .orange }
+
 }
 
 // MARK: - BadgeAutoMode
@@ -225,16 +189,15 @@ enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable, Defaults.Seri
 	}
 }
 
-struct CryptoModel: Equatable{
-	
+struct CryptoModel: Equatable, Codable, Defaults.Serializable{
+
 	var algorithm: CryptoAlgorithm
 	var mode: CryptoMode
 	var key: String
 	var iv: String
-	
-	static let data = CryptoModel(algorithm: .AES256, mode: .GCM, key: generateRandomString(32), iv: generateRandomString())
-	
-	
+
+	static let data = CryptoModel(algorithm: .AES256, mode: .GCM, key: "KXkwFRs2ttGJi7mJdJk9AsjAF4jbr135", iv: "xBCSyAxsjkdrjFCa")
+
 	static func generateRandomString(_ length: Int = 16) -> String {
 		// 创建可用字符集（大写、小写字母和数字）
 		let charactersArray = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
@@ -244,55 +207,6 @@ struct CryptoModel: Equatable{
 	
 }
 
-extension CryptoModel: Codable{
-	enum CodingKeys: String, CodingKey{
-		case algorithm
-		case mode
-		case key
-		case iv
-	}
-	
-	
-	func encode(to encoder: any Encoder) throws {
-		var container = encoder.container(keyedBy: CodingKeys.self)
-		try container.encodeIfPresent(algorithm, forKey: .algorithm)
-		try container.encodeIfPresent(mode, forKey: .mode)
-		try container.encodeIfPresent(key, forKey: .key)
-		try container.encodeIfPresent(iv, forKey: .iv)
-	}
-
-	
-	init(from decoder: any Decoder) throws {
-		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.algorithm = try container.decode(CryptoAlgorithm.self, forKey: .algorithm)
-		self.mode = try container.decode(CryptoMode.self, forKey: .mode)
-		self.key = try container.decode(String.self, forKey: .key)
-		self.iv = try container.decode(String.self, forKey: .iv)
-	}
-	
-}
-
-extension CryptoModel: RawRepresentable{
-	public init?(rawValue: String) {
-		guard let data = rawValue.data(using: .utf8) ,
-			  let result = try? JSONDecoder().decode(
-				Self.self,from: data) else{
-			return nil
-		}
-		self = result
-	}
-
-	public var rawValue: String {
-		guard let result = try? JSONEncoder().encode(self),
-			  let string = String(data: result, encoding: .utf8) else{
-			return ""
-		}
-		return string
-	}
-	
-}
-
-extension CryptoModel: Defaults.Serializable {}
 
 
 // MARK: - AppIconMode
@@ -303,14 +217,7 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 	case bell
 	case bark
 
-	var name: String? {
-
-		if self == .pushback{
-			return nil
-		}
-
-		return self.rawValue
-	}
+	var name: String? { self == .pushback ? nil : self.rawValue }
 
 	var logo: String{
 		switch self {
@@ -368,6 +275,7 @@ enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	
 }
 
+
 // MARK: - ImageCacheModel
 
 struct ImageModel: Codable, Identifiable, Defaults.Serializable, Equatable, Hashable{
@@ -376,21 +284,21 @@ struct ImageModel: Codable, Identifiable, Defaults.Serializable, Equatable, Hash
 	var createDate:Date = Date()
 	var url:String
 	var another:String?
+	var sha256:String
+
 }
 
+// MARK: - SoundType
 
-// MARK: - RingTongType
-
-enum RingTongType: Codable{
-	case local
-	case custom
-	case cloud
-}
-
-struct SoundDefault: Codable, Defaults.Serializable{
-	var type:RingTongType
+struct SoundModel: Codable, Defaults.Serializable{
+	enum sType: Codable{
+		case local
+		case custom
+		case cloud
+	}
+	var type:sType
 	var name:String
-	static let def = SoundDefault(type: .local, name: "gold")
+	static let def = SoundModel(type: .local, name: "gold")
 }
 
 
@@ -436,3 +344,38 @@ enum CacheSizeLimit: Int, CaseIterable, Defaults.Serializable {
 	}
 }
 
+// MARK: - 所有推送参数的enum
+
+enum Params: String, CaseIterable{
+	case ciphertext
+	case ttl
+	case title
+	case subtitle
+	case body
+	case icon
+	case image
+	case from
+	case video
+	case group
+	case sound
+	case badge
+	case call
+	case mode
+	case url
+	case iv
+	case aps
+	case alert
+	case caf
+	case autocopy
+	case copy
+
+	var name:String{ self.rawValue }
+}
+
+
+
+struct DebugLogs:Defaults.Serializable,Codable{
+	var id:String = UUID().uuidString
+	var createDate:Date = .now
+	var log:String
+}

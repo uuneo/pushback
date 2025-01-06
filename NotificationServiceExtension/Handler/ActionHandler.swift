@@ -10,6 +10,7 @@ import Intents
 import Defaults
 import SwiftUI
 
+
 class ActionHandler: NotificationContentHandler{
 	
 	private lazy var realm: Realm? = {

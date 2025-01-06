@@ -54,9 +54,8 @@ class CryptoManager {
 			return String(data: decryptedData, encoding: .utf8)
 		}
 	}
-	
-	// MARK: - Private Methods
 
+	// MARK: - Private Methods
 	// CommonCrypto (CBC/ECB) Encryption/Decryption
 	private func commonCryptoEncrypt(data: Data, operation: CCOperation) -> Data? {
 		let algorithm = CCAlgorithm(kCCAlgorithmAES) // AES algorithm

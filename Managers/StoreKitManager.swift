@@ -14,13 +14,14 @@ import StoreKit
 
 @MainActor
 final class AppState: ObservableObject {
+	static let shared = AppState()
 	@Published private(set) var products: [Product] = []
 	@Published private(set) var activeTransactions: Set<StoreKit.Transaction> = []
 	@Published var subscriptionInfo: SubscriptionInfo = .stubNoAccess // Default to no access
 
 	private var updatesTask: Task<Void, Never>? // Task for listening to transaction updates
 
-	init() {
+	private init() {
 		Task {
 			await fetchProducts()
 			await loadActiveTransactions()
@@ -140,7 +141,7 @@ final class AppState: ObservableObject {
 							subscriptionState: subscriptionState
 						)
 
-						debugPrint(subscriptionInfo)
+						Log.debug(subscriptionInfo)
 						return
 					}
 				default:

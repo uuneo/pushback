@@ -6,25 +6,58 @@
 //
 
 @_exported import Defaults
+import Foundation
 
-extension Defaults.Keys {
-	static let deviceToken = Key<String>(BaseConfig.deviceToken, default: "", suite: DEFAULTSTORE)
-	static let servers = Key<[PushServerModel]>(BaseConfig.server, default: [], suite: DEFAULTSTORE)
-	static let appIcon = Key<AppIconEnum>(BaseConfig.activeAppIcon, default: .pushback, suite: DEFAULTSTORE)
-	static let cryptoConfig = Key<CryptoModel>(BaseConfig.CryptoSettingFields, default: CryptoModel.data, suite: DEFAULTSTORE)
-	static let badgeMode = Key<BadgeAutoMode>(BaseConfig.badgemode, default: .auto, suite: DEFAULTSTORE)
-	static let sound = Key<SoundDefault>(BaseConfig.defaultSound, default: SoundDefault.def, suite: DEFAULTSTORE)
-	static let firstStart = Key<Bool>(BaseConfig.firstStartApp,default: true, suite: DEFAULTSTORE)
-	static let photoName = Key<String>(BaseConfig.customPhotoName, default: BaseConfig.photoName, suite: DEFAULTSTORE)
-	static let messageExpiration = Key<ExpirationTime>(BaseConfig.messageExpirtion,default: .forever,suite: DEFAULTSTORE)
-	static let defaultBrowser = Key<DefaultBrowserModel>(BaseConfig.defaultBrowser,default: .safari, suite:DEFAULTSTORE)
-	static let cacheSize = Key<CacheSizeLimit>(BaseConfig.cacheSizeLimit, default: .infinity, suite: DEFAULTSTORE)
-	static let images = Key<[ImageModel]>(BaseConfig.imagesLocalMap, default: [], suite: DEFAULTSTORE )
-	static let imageSaveDays = Key<ExpirationTime>(BaseConfig.imageSaveDays,default: .forever, suite: DEFAULTSTORE)
-	static let autoSaveImageToAlbum = Key<Bool>(BaseConfig.autoSaveImageAlbum, default: false, suite: DEFAULTSTORE)
+extension Defaults.Key{
+	convenience init(_ name: String, _ defaultValue: Value, iCloud: Bool = false){
+		self.init(name, default: defaultValue, suite: DEFAULTSTORE, iCloud: iCloud)
+	}
 }
 
+extension Defaults.Keys {
+	static let deviceToken = Key<String>("deviceToken", "")
+	static let firstStart = Key<Bool>("firstStartApp", true)
+	static let photoName = Key<String>("CustomPhotoName", "pushback.")
+	static let autoSaveToAlbum = Key<Bool>("autoSaveImageToPhotoAlbum", false)
+	static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
+	static let images = Key<[ImageModel]>("imagesLocalMap",  [])
+	static let cryptoConfig = Key<CryptoModel>("CryptoSettingFields", CryptoModel.data)
+	static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
+	static let sound = Key<SoundModel>("defaultSound", SoundModel.def)
+	static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
+	static let messageExpiration = Key<ExpirationTime>("messageExpirtionTime", .forever)
+	static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)
+	static let cacheSize = Key<CacheSizeLimit>("CacheSizeLimit", .infinity)
+	static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
+	static let updateDeleteDatabase = Key<Bool>("updateDeleteDatabase", false)
+}
 
+public class Log {
+	/// 打印日志
+	/// - Parameters:
+	///   - mode: 类型
+	///   - message: 日志消息
+	///   - file: 调用日志的文件名（自动捕获）
+	///   - function: 调用日志的函数名（自动捕获）
+	///   - line: 调用日志的行号（自动捕获）
+	class func base(mode: String, file:String, function: String, line: Int, _ message: Any...) {
+		let fileName = (file as NSString).lastPathComponent // 提取文件名
 
+		let logMessage = "[\(mode)] \(fileName):\(line) \(function) ->\n    \(message.compactMap({"\($0)"}).joined(separator: ","))"
 
+		// 控制台打印日志
+		print(logMessage)
+	}
 
+	class func debug(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+		self.base(mode: "DEBUG", file: file, function: function, line: line, message)
+	}
+
+	class func info(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+		self.base(mode: "INFO", file: file, function: function, line: line, message)
+	}
+
+	class func error( file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+		self.base(mode: "ERROR", file: file, function: function, line: line, message)
+	}
+}

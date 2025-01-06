@@ -21,12 +21,11 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var body:String?
 	@Persisted var icon:String?
 	@Persisted var url:String?
-	@Persisted var markdown:String?
-	@Persisted var image:List<String>
-	@Persisted var video:List<String>
+	@Persisted var image:String?
+	@Persisted var video:String?
 	@Persisted var from:String?
 	@Persisted var level:Int = 1
-	@Persisted var ttl:Int = ExpirationTime.forever.rawValue
+	@Persisted var ttl:Int = ExpirationTime.forever.days
 	@Persisted var read:Bool = false
 	@Persisted var userInfo:String
 
@@ -39,7 +38,6 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		case icon
 		case group
 		case url
-		case markdown
 		case image
 		case video
 		case from
@@ -62,14 +60,14 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.image, forKey: .image)
 		try container.encode(self.video, forKey: .video)
 		try container.encode(self.url, forKey: .url)
-		try container.encode(self.markdown, forKey: .markdown)
 		try container.encode(self.from, forKey: .from)
 		try container.encode(self.level, forKey: .level)
 		try container.encode(self.ttl, forKey: .ttl)
 		try container.encode(self.read, forKey: .read)
 		try container.encode(self.userInfo, forKey: .userInfo)
 	}
-	
+
+
 }
 
 extension Message{
@@ -188,10 +186,7 @@ extension Object {
 			if property.isArray {
 				// 处理 List 类型
 				if let listValue = self[property.name] as? List<String> {
-					var images:[String] = []
-					for item in listValue {
-						images.append(item)
-					}
+					let images:[String] = listValue.compactMap({ $0 })
 					dicProps[property.name] = images as AnyObject
 				} else {
 					var arr: [[String: AnyObject]] = []
@@ -202,7 +197,7 @@ extension Object {
 				}
 			}else if let value = self[property.name] as? UUID{
 				dicProps[property.name] = value.uuidString as AnyObject
-			}else if let value = self[property.name] as? Object {
+			} else if let value = self[property.name] as? Object {
 				dicProps[property.name] = value.toDictionary() as AnyObject
 			} else if let value = self[property.name] as? Date {
 				dicProps[property.name] = Int64(value.timeIntervalSince1970) as AnyObject
@@ -217,24 +212,6 @@ extension Object {
 	}
 	
 	
-}
-
-
-
-struct MessageExportJson:Transferable, Identifiable {
-	static var transferRepresentation: some TransferRepresentation {
-		DataRepresentation(exportedContentType: .trnExportType, exporting: \.data)
-			.suggestedFileName("pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))")
-		
-	}
-	
-	public var id:UUID = UUID()
-	public var data: Data
-	
-	init(data: [Message]) {
-		let data = try! JSON(data.compactMap({ $0.toDictionary() })).rawData(options: JSONSerialization.WritingOptions.prettyPrinted)
-		self.data = data
-	}
 }
 
 

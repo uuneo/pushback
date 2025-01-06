@@ -18,8 +18,8 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
-	
 	@Published var crashLog:String?
+	@Published var disabled:Bool = false
 
 	private let appGroupIdentifier = BaseConfig.groupName
 	private var customSoundsDirectoryMonitor: DispatchSourceFileSystemObject?
@@ -81,7 +81,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 
 		}catch{
-			debugPrint(error.localizedDescription)
+			Log.debug(error.localizedDescription)
 			Toast.shared.present(title: error.localizedDescription, symbol: .error)
 			return false
 		}
@@ -227,22 +227,12 @@ class PushbackManager: NetworkManager, ObservableObject{
 		}
 	}
 
-
-	// MARK: - Tools Function
-
-	/// Copy information to clipboard
-	func copy(_ text:String){
-		UIPasteboard.general.string = text
-	}
-
-
 	/// open app settings
 	func openSetting(){
 		guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
 			return
 		}
-
-		UIApplication.shared.open(settingsURL)
+		self.openUrl(url: settingsURL)
 	}
 	/// Open a URL or handle a fallback if the URL cannot be opened
 	/// - Parameters:
@@ -271,6 +261,8 @@ class PushbackManager: NetworkManager, ObservableObject{
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 
+
+	
 
 }
 

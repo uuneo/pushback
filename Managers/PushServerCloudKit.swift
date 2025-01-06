@@ -18,9 +18,7 @@ class PushServerCloudKit {
 	// MARK: - 保存记录到私有数据库
 	func savePushServerModel(_ model: PushServerModel, completion: @escaping (Result<CKRecord, Error>) -> Void) {
 
-		if model.key.count < 3 {
-			return
-		}
+		if model.key.count < 3 { return }
 		let recordID = CKRecord.ID(recordName: model.id)
 		let record = CKRecord(recordType: recordType, recordID: recordID)
 		record["url"] = model.url as CKRecordValue
@@ -102,7 +100,8 @@ class PushServerCloudKit {
 				}
 				
 			case .failure(let error):
-				debugPrint("获取云端数据失败: \(error.localizedDescription)")
+
+				Log.debug("获取云端数据失败: \(error.localizedDescription)")
 				for item in items {
 					self.savePushServerModel(item) { response in
 						switch response {
@@ -120,18 +119,10 @@ class PushServerCloudKit {
 	
 	// 删除指定的 RingtoneCloudData
 	func deleteCloudServer(_ serverID: String, completion: @escaping (Error?) -> Void) {
-		// 创建 CKRecord.ID 对象
-		let recordID = CKRecord.ID(recordName: serverID)
-		
 		// 调用数据库的 delete 方法删除记录
-		database.delete(withRecordID: recordID) { (deletedRecordID, error) in
-			if let error = error {
-				// 删除失败时，调用 completion 回调并传递错误信息
-				completion(error)
-			} else {
-				// 删除成功时，调用 completion 回调
-				completion(nil)
-			}
+		database.delete(withRecordID: CKRecord.ID(recordName: serverID)) { (deletedRecordID, error) in
+			Log.debug(deletedRecordID ?? "")
+			completion(error)
 		}
 	}
 	

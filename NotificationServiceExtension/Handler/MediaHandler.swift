@@ -14,13 +14,11 @@ import AVFoundation
 class MediaHandler:NotificationContentHandler{
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		let userInfo = bestAttemptContent.userInfo
-		
-		
-		let videoList = mediaHandler(userInfo: userInfo, name: Params.video.name)
-		let imageList = mediaHandler(userInfo: userInfo, name: Params.image.name)
+
 		
 		// 处理视频的情况
-		if let videoUrlString = videoList.first, let videoUrl = URL(string: videoUrlString) {
+		if let videoUrlString = userInfo[Params.video.name] as? String,
+		   let videoUrl = URL(string: videoUrlString) {
 			// 获取视频的第一帧
 			guard let uiImage = await getFirstFrameFromVideo(url: videoUrl) else {
 				return bestAttemptContent
@@ -49,7 +47,7 @@ class MediaHandler:NotificationContentHandler{
 		
 		
 		
-		if let imageUrl =  imageList.first {
+		if let imageUrl =  userInfo[Params.image.name] as? String{
 
 			let cacheTag = Defaults[.images].filter({$0.url == imageUrl}).count == 0
 
@@ -59,7 +57,7 @@ class MediaHandler:NotificationContentHandler{
 			}
 
 			/// 自动保存图片到相册 前提 打开了自动存储，并且缓存内没有的图片
-			if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveImageToAlbum], cacheTag{
+			if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveToAlbum], cacheTag{
 				UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
 			}
 

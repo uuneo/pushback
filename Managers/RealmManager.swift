@@ -9,6 +9,7 @@ import RealmSwift
 import Defaults
 import SwiftyJSON
 
+@MainActor
 class RealmManager{
 	
 	static let shared = RealmManager()
@@ -29,19 +30,11 @@ class RealmManager{
 		}
 	}
 	
-	func delete(_ date: Date){
-		
-		self.realm { proxy in
-			let messages = proxy.objects(Message.self).where({ $0.createDate < date })
-			proxy.delete(messages)
-		}
-		
-	}
+
 	
 	func read(_ read: Bool){
 		self.realm { proxy in
-			let messages = proxy.objects(Message.self).filter({
-				(msg) -> Bool in
+			let messages = proxy.objects(Message.self).filter({ (msg) -> Bool in
 				msg.read == read
 			})
 			
@@ -63,27 +56,32 @@ class RealmManager{
 		
 		
 	}
-	
+
+	func delete(_ date: Date){
+		self.realm { proxy in
+			proxy.delete(proxy.objects(Message.self).where({ $0.createDate < date }))
+			proxy.deleteAll()
+		}
+	}
+	func deleteAll(){
+		self.realm { proxy in proxy.deleteAll() }
+	}
+
 	func deleteExpired() {
 		self.realm { proxy in
-			let messages =  proxy.objects(Message.self).filter({$0.isExpired()})
-			proxy.delete(messages)
+			proxy.delete(proxy.objects(Message.self).filter({$0.isExpired()}))
 			RealmManager.ChangeBadge()
 		}
 	}
 	
 	func delete(group: String){
-		
 		self.realm { proxy in
-			let messages = proxy.objects(Message.self).filter( {$0.group == group} )
-			proxy.delete(messages)
+			proxy.delete(proxy.objects(Message.self).filter( {$0.group == group} ))
 			RealmManager.ChangeBadge()
 		}
-		
 	}
 	
 	func update(_ message:Message ,completion: @escaping (Message?) -> Void){
-		
 		self.realm { proxy in
 			completion(proxy.objects(Message.self).first(where: {$0 == message}))
 		}
@@ -132,60 +130,54 @@ class RealmManager{
 		
 	}
 
-	func importMessage(_ data: [URL]) -> String {
+	func importMessage(_ fileUrls: [URL]) -> String {
 		do{
-			
-			guard let url = data.first else { return String(localized: "文件不存在")}
-			
-			if url.startAccessingSecurityScopedResource(){
-				let data = try Data(contentsOf: url)
-				let json = try JSON(data: data)
-				
-				guard let arr = json.array else {
-					return String(localized: "文件格式错误")
-				}
-				
-				self.realm { proxy in
-					for message in arr {
-						guard let id = message["id"].string else {
-							continue
-						}
-						guard let createDate = message["createDate"].int64 else {
-							continue
-						}
+			for url in fileUrls{
 
-						let title = message["title"].string
-						let body = message["body"].string
-						let url = message["url"].string
-						let read = message["read"].boolValue
-						let group = message["group"].string
-				
+				if url.startAccessingSecurityScopedResource(){
 
-						let messageObject = Message()
-						
-						if let idString = UUID(uuidString: id){
-							messageObject.id = idString
+					let data = try Data(contentsOf: url)
+
+					guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
+
+					self.realm { proxy in
+						for message in arr {
+
+							guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
+
+							let messageObject = Message()
+							if let idString = UUID(uuidString: id){ messageObject.id = idString }
+
+							messageObject.title = message["title"].string
+							messageObject.body = message["body"].string
+							messageObject.url = message["url"].string
+							messageObject.group = message["group"].string ?? String(localized: "导入数据")
+							messageObject.read = true
+							messageObject.level = message["level"].int ?? 1
+							messageObject.image = message["image"].string
+							messageObject.video = message["video"].string
+							messageObject.ttl = ExpirationTime.forever.days
+							messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
+							messageObject.userInfo = message["userInfo"].string ?? ""
+
+							proxy.add(messageObject, update: .modified)
 						}
-						messageObject.title = title
-						messageObject.body = body
-						messageObject.url = url
-						messageObject.group = group ?? String(localized: "导入数据")
-						messageObject.read = read
-						messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
-						proxy.add(messageObject, update: .modified)
 					}
+
 				}
-				
+
+
+
 			}
-			
-			
+
 			return String(localized: "导入成功")
-			
+
 		}catch{
-			debugPrint(error)
+			Log.debug(error)
 			return error.localizedDescription
 		}
 	}
-	
-	
+
+
+
 }

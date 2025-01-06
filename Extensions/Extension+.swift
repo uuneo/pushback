@@ -120,6 +120,9 @@ extension String{
 	}
 
 	func isInsideServer()-> Bool{ self.contains("uuneo.com") && self.contains("vcvc.xyz") }
+
+
+	func copy(){ UIPasteboard.general.string = self }
 }
 
 
@@ -390,7 +393,6 @@ extension Color {
 // Step 1: 定义通知名称
 extension Notification.Name {
 	static let messagePreview = Notification.Name("messagePreview")
-	static let imageFileCount = Notification.Name("imageFileCount")
 	static let imageUpdate = Notification.Name("imageUpdate")
 }
 
@@ -399,64 +401,10 @@ extension Notification.Name {
 extension Encodable {
 	func toEncodableDictionary() -> [String: Any]? {
 		// 1. 使用 JSONEncoder 将结构体编码为 JSON 数据
-		let encoder = JSONEncoder()
-		guard let data = try? encoder.encode(self) else { return nil }
-		
+		guard let data = try? JSONEncoder().encode(self) else { return nil }
 		// 2. 使用 JSONSerialization 将 JSON 数据转换为字典
-		guard let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-			return nil
-		}
-		
+		guard let dictionary = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else { return nil }
 		return dictionary
 	}
 }
 
-
-// MARK: -  UserDefaults, AppStorage
-
-
-extension UserDefaults{
-	enum Key:String{
-		case defaultToken
-	}
-}
-
-extension AppStorage{
-	init(wrapperValue:Value, key: UserDefaults.Key, store:UserDefaults? = nil) where Value == String {
-		self.init(wrappedValue: wrapperValue, key.rawValue, store: store ?? DEFAULTSTORE)
-	}
-}
-
-protocol RawRepresentableCustom: Codable, RawRepresentable {}
-
-
-extension RawRepresentableCustom{
-	public var rawValue: String{
-		if let data = try? JSONEncoder().encode(self), let value = String(data: data, encoding: .utf8){
-			return value
-		}
-		return ""
-	}
-
-	public init?(rawValue: String) {
-		guard  let data = rawValue.data(using: .utf8),
-			   let model = try? JSONDecoder().decode(Self.self, from: data) else { return nil }
-		self = model
-	}
-}
-
-
-extension Array: @retroactive RawRepresentable where Element:Codable {
-	public var rawValue: String{
-		if let data = try? JSONEncoder().encode(self), let value = String(data: data, encoding: .utf8){
-			return value
-		}
-		return ""
-	}
-
-	public init?(rawValue: String) {
-		guard  let data = rawValue.data(using: .utf8),
-			   let model = try? JSONDecoder().decode(Self.self, from: data) else { return nil }
-		self = model
-	}
-}

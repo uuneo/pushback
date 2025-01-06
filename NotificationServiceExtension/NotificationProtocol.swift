@@ -66,18 +66,3 @@ enum NotificationContentHandlerError: Swift.Error {
 	case error(content: UNMutableNotificationContent)
 	case call
 }
-
-
-func mediaHandler(userInfo:[AnyHashable:Any], name:String) -> List<String>{
-	let mediaList = List<String>()
-	
-	if let media = userInfo[name] as? String{
-		mediaList.append(media)
-	}else if let medias = userInfo[name] as? [String]{
-		for media in medias{
-			mediaList.append(media)
-		}
-	}
-	return mediaList
-	
-}

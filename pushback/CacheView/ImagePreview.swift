@@ -14,7 +14,7 @@ import SwiftUI
 
 @available(iOS 17.0, *)
 struct ImagePreview: View {
-	@Environment(UICoordinator.self) private var coordinator
+	@EnvironmentObject private var coordinator:UICoordinator
 	var body: some View {
 		VStack(spacing: 0) {
 			NavigationBar()

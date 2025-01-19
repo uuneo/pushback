@@ -19,7 +19,7 @@ struct MessageHomeView: View {
 	@Environment(\.isSearching) var isSearching
 
 	@ObservedSectionedResults(Message.self,
-							  sectionKeyPath: \.firstLetter,
+							  sectionKeyPath: \.group,
 							  sortDescriptors: [SortDescriptor(keyPath: \Message.createDate, ascending: false)]) var messages
 
 

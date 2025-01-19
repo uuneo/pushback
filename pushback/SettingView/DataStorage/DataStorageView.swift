@@ -130,19 +130,19 @@ struct DataStorageView: View {
 				Section {
 
 					NavigationLink {
+//
+//						ImageCacheView()
+//							.toolbar(.hidden, for: .tabBar)
+//							.navigationTitle("图片缓存")
 
-						ImageCacheView()
-							.toolbar(.hidden, for: .tabBar)
-							.navigationTitle("图片缓存")
+						if #available(iOS 17.0, *){
+							ImageHomeView()
 
-						//						if #available(iOS 17.0, *){
-						//							ImageHomeView()
-						//
-						//						}else{
-						//							ImageCacheView()
-						//								.toolbar(.hidden, for: .tabBar)
-						//								.navigationTitle("图片缓存")
-						//						}
+						}else{
+							ImageCacheView()
+								.toolbar(.hidden, for: .tabBar)
+								.navigationTitle("图片缓存")
+						}
 
 					} label: {
 						Label("图片缓存", systemImage: "photo.on.rectangle")

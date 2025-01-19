@@ -15,19 +15,15 @@ import Defaults
 
 
 @available(iOS 17.0, *)
-@Observable
-class UICoordinator {
-	var items: [imageItem] = []
-	/// Animation Properties
-	var selectedItem: imageItem?
-	var animateView: Bool = false
-	var showDetailView: Bool = false
-	/// Scroll Positions
-	var detailScrollPosition: String?
-	var detailIndicatorPosition: String?
-	/// Gesture Properties
-	var offset: CGSize = .zero
-	var dragProgress: CGFloat = 0
+class UICoordinator: ObservableObject  {
+	@Published var items: [imageItem] = []
+	@Published var selectedItem: imageItem?
+	@Published var animateView: Bool = false
+	@Published var showDetailView: Bool = false
+	@Published var detailScrollPosition: String?
+	@Published var detailIndicatorPosition: String?
+	@Published var offset: CGSize = .zero
+	@Published var dragProgress: CGFloat = 0
 
 	func didDetailPageChanged() {
 		if let updatedItem = items.first(where: { $0.id == detailScrollPosition }) {

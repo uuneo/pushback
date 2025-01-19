@@ -36,7 +36,9 @@ struct AppIconView: View {
 							.onTapGesture {
 								setting_active_app_icon = item
 								let manager = UIApplication.shared
-								
+
+
+
 								var iconName:String? = manager.alternateIconName ?? AppIconEnum.def.rawValue
 								
 								if setting_active_app_icon.rawValue == iconName{
@@ -45,23 +47,24 @@ struct AppIconView: View {
 								
 								if setting_active_app_icon != .def{
 									iconName = setting_active_app_icon.rawValue
-								}else{
-									iconName = nil
 								}
+
 								if UIApplication.shared.supportsAlternateIcons {
 									Task{
 										do {
 											try await manager.setAlternateIconName(iconName)
-//											applicationIconImage										
+											await MainActor.run {
+												dismiss()
+											}
+//											applicationIconImage
 										}catch{
 	#if DEBUG
 											print(error.localizedDescription)
+											Toast.shared.present(title: error.localizedDescription, symbol: .error)
 	#endif
 											
 										}
-										await MainActor.run {
-											dismiss()
-										}
+
 									}
 								   
 								}else{

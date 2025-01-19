@@ -17,17 +17,15 @@ import Defaults
 struct ImageHomeView: View {
 	@Environment(\.dismiss) var dismiss
 	@State private var isSelect:Bool = false
-	@Default(.images) var images
 	@State private var selectImageArr:[ImageModel] = []
-	var coordinator: UICoordinator = .init()
+	@StateObject var coordinator: UICoordinator = .init()
 	var body: some View {
 		NavigationStack {
-			@Bindable var bindableCoordinator = coordinator
 			ScrollViewReader { reader in
 				ScrollView(.vertical) {
 					LazyVStack(alignment: .leading, spacing: 0) {
 						LazyVGrid(columns: Array(repeating: GridItem(spacing: 3), count: 3), spacing: 3) {
-							ForEach($bindableCoordinator.items) { $item in
+							ForEach($coordinator.items) { $item in
 								GridImageView(item)
 									.id(item.id)
 									.didFrameChange { frame, bounds in
@@ -61,11 +59,32 @@ struct ImageHomeView: View {
 				}
 			}
 			.toolbar(.hidden, for: .navigationBar, .tabBar)
-			
+			.task {
+
+				for await imagesArr in Defaults.updates(.images) {
+					var items:[imageItem] = []
+					for image in imagesArr {
+						if let imageUrl = await ImageManager.downloadImage(image.url),
+						   let uiimage = UIImage(contentsOfFile: imageUrl),
+						   let preview = uiimage.preparingThumbnail(
+							of: .init(
+								width: max(uiimage.size.width / 5, 500),
+								height: max(uiimage.size.height / 5, 500)
+							)
+						   ) {
+
+							items.append(.init(title: image.another ?? image.url, image: uiimage, previewImage: preview))
+
+						}
+					}
+					coordinator.items = items
+				}
+			}
+
+
 		}
 		.overlay(alignment: .top, content: {
 			NavigationBar()
-
 		})
 		.overlay {
 			Rectangle()
@@ -76,7 +95,7 @@ struct ImageHomeView: View {
 		.overlay {
 			if coordinator.selectedItem != nil {
 				ImagePreview()
-					.environment(coordinator)
+					.environmentObject(coordinator)
 					.allowsHitTesting(coordinator.showDetailView)
 			}
 		}
@@ -89,24 +108,7 @@ struct ImageHomeView: View {
 					sAnchor: sAnchor,
 					dAnchor: dAnchor
 				)
-				.environment(coordinator)
-			}
-		}
-		.task {
-
-			for await value in Defaults.updates(.servers){
-				var images: [imageItem] = []
-
-				for image in self.images {
-					if let imageUrl = await ImageManager.downloadImage(image.url),
-					   let uiimage = UIImage(contentsOfFile: imageUrl),
-					   let preview = uiimage.preparingThumbnail(of: .init(width: max(uiimage.size.width / 5, 300 * 2), height: max(uiimage.size.height / 5, 300 * 2))) {
-						images.append(.init(title: image.another ?? image.url, image: uiimage, previewImage: preview))
-					}
-				}
-
-
-				coordinator.items = images
+				.environmentObject(coordinator)
 			}
 		}
 	}

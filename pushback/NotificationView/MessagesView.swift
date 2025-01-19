@@ -33,7 +33,7 @@ struct MessagesView: View {
 
 	// 分页相关状态
 	@State private var currentPage: Int = 1
-	@State private var itemsPerPage: Int = 50 // 每页加载10条数据
+	@State private var itemsPerPage: Int = 50 // 每页加载50条数据
 	@State private var isLoading: Bool = false
 
 	var body: some View {
@@ -68,7 +68,8 @@ struct MessagesView: View {
 					}
 					.onAppear{
 						if messages.prefix(currentPage * itemsPerPage).last == message{
-							self.currentPage = min(messages.count, self.currentPage + 1)
+
+							currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
 						}
 					}
 					.listRowBackground(Color.clear)
@@ -95,7 +96,7 @@ struct MessagesView: View {
 		.searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
 		.toolbar{
 			ToolbarItem {
-				Text("\(currentPage * itemsPerPage)/\(messages.count)")
+				Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
 					.font(.caption)
 			}
 		}

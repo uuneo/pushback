@@ -14,7 +14,7 @@ import SwiftUI
 
 @available(iOS 17.0, *)
 struct ImageHeroLayer: View {
-	@Environment(UICoordinator.self) private var coordinator
+	@EnvironmentObject private var coordinator:UICoordinator
 	var item: imageItem
 	var sAnchor: Anchor<CGRect>
 	var dAnchor: Anchor<CGRect>

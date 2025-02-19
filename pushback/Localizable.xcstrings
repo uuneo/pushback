@@ -353,40 +353,6 @@
         }
       }
     },
-    "Debug" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debug"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debug"
-          }
-        }
-      }
-    },
-    "debug模式，将记录日志" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "debug mode: Logs are generated"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hata ayıklama modu, günlükler kaydedilecek."
-          }
-        }
-      }
-    },
     "Iv：" : {
       "localizations" : {
         "en" : {
@@ -931,22 +897,6 @@
         }
       }
     },
-    "信息" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Message"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bilgi"
-          }
-        }
-      }
-    },
     "修改Key" : {
       "localizations" : {
         "en" : {
@@ -1423,23 +1373,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Parametre hatası."
-          }
-        }
-      }
-    },
-    "发布" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Publish"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yayınla"
           }
         }
       }
@@ -2773,23 +2706,6 @@
         }
       }
     },
-    "查看保存后的图片" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View the saved image"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kaydedilen resmi görüntüle"
-          }
-        }
-      }
-    },
     "查看服务器部署教程" : {
       "localizations" : {
         "en" : {
@@ -3075,6 +2991,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uygulamaya ekle"
+          }
+        }
+      }
+    },
+    "清理成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clean up successfully!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temizleme başarılı"
           }
         }
       }
@@ -3735,23 +3667,6 @@
         }
       }
     },
-    "调试日志" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debug log"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Debug log"
-          }
-        }
-      }
-    },
     "购买成功" : {
       "localizations" : {
         "en" : {
@@ -3861,23 +3776,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu adresini girin."
-          }
-        }
-      }
-    },
-    "输入本地图片名字" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter the local image name"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerel resim adını girin"
           }
         }
       }

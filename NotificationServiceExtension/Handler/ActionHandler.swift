@@ -27,9 +27,9 @@ class ActionHandler: NotificationContentHandler{
 		
 		
 		//  处理 自动复制 兼容bark用法
-		if userInfo["autocopy"] as? String == "1" || userInfo["automaticallycopy"] as? String == "1"
+		if userInfo[Params.autocopy.name] as? String == "1" || userInfo["automaticallycopy"] as? String == "1"
 		{
-			if let copy = userInfo["copy"] as? String {
+			if let copy = userInfo[Params.copy.name] as? String {
 				UIPasteboard.general.string = copy
 			} else {
 				UIPasteboard.general.string = bestAttemptContent.body
@@ -47,7 +47,7 @@ class ActionHandler: NotificationContentHandler{
 			
 		case .custom:
 			// MARK: 通知角标 .custom
-			if let badgeStr = userInfo["badge"] as? String, let badge = Int(badgeStr) {
+				if let badgeStr = userInfo[Params.badge.name] as? String, let badge = Int(badgeStr) {
 				bestAttemptContent.badge = NSNumber(value: badge)
 				// 清除通知中心的通知
 				if badge == -1 {

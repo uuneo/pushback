@@ -1,41 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "pushbackLogo 2.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "pushbackLogo dark 2.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
       "filename" : "pushbackLogo 1.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "pushbackLogo dark 1.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "pushbackLogo.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     },
     {
       "appearances" : [
@@ -45,8 +12,7 @@
         }
       ],
       "filename" : "pushbackLogo dark.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

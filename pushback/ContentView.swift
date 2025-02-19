@@ -125,7 +125,7 @@ struct ContentView: View {
 		})) {
 
 			// MARK: 信息页面
-			MessageHomeView()
+            MessagePage()
 				.badge(messages.where({!$0.read}).count)
 				.tabItem {
 					Label( "消息", systemImage: "ellipsis.message")
@@ -137,7 +137,7 @@ struct ContentView: View {
 
 			// MARK: 设置页面
 
-			SettingsView()
+            SettingsPage()
 				.tabItem {
 					Label( "设置", systemImage: "gear.badge.questionmark")
 						.symbolRenderingMode(.palette)
@@ -154,9 +154,9 @@ struct ContentView: View {
 	@ViewBuilder
 	func IpadHomeView() -> some View{
 		NavigationSplitView(columnVisibility: $noShow) {
-			SettingsView()
+            SettingsPage()
 		} detail: {
-			MessageHomeView()
+            MessagePage()
 		}
 
 	}

@@ -30,6 +30,7 @@ extension Defaults.Keys {
 	static let cacheSize = Key<CacheSizeLimit>("CacheSizeLimit", .infinity)
 	static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
 	static let updateDeleteDatabase = Key<Bool>("updateDeleteDatabase", false)
+    static let showGroup = Key<Bool>("showGroupMessage", false)
 }
 
 public class Log {

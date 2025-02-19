@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "bark 2.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "bark 1.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "bark.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "logojing.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

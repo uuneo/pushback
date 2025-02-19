@@ -45,15 +45,25 @@ class RealmManager{
 		
 	}
 	
-	func read(_ group: String? = nil){
-		
-		self.realm { proxy in
-			for msg in proxy.objects(Message.self).filter({$0.group == group && !$0.read}){
-				msg.read = true
-			}
-			RealmManager.ChangeBadge()
-		}
-		
+    func read(_ group: String? = nil){
+        self.realm { proxy in
+            if let group{
+                
+                for msg in proxy.objects(Message.self).filter({$0.group == group && !$0.read}){
+                    msg.read = true
+                }
+                
+            }else{
+                for msg in proxy.objects(Message.self).filter({ !$0.read}){
+                    msg.read = true
+                }
+            }
+            
+            RealmManager.ChangeBadge()
+        }
+        
+        
+        
 		
 	}
 

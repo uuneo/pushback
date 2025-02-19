@@ -38,26 +38,27 @@ enum NotificationContentHandlerItem: CaseIterable {
 	case level
 	case action
 	case call
-
 	
-
+	
+	
 	var handler: NotificationContentHandler {
 		switch self {
-		case .ciphertext:
-			return CiphertextHandler()
-		case .message:
-			return MessageHandler()
-		case .level:
-			return LevelHandler()
-		case .action:
-			return ActionHandler()
-		case .icon:
-			return IconHandler()
-		case .media:
-			return MediaHandler()
-		case .call:
-			return CallHandler()
-			
+			case .ciphertext:
+				return CiphertextHandler()
+			case .message:
+				return MessageHandler()
+			case .level:
+				return LevelHandler()
+			case .action:
+				return ActionHandler()
+			case .icon:
+				return IconHandler()
+			case .media:
+				return MediaHandler()
+			case .call:
+				return CallHandler()
+				
+				
 		}
 	}
 }

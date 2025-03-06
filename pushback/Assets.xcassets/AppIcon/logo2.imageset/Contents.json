@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logojing.png",
+      "filename" : "logo1.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "pushbackDark.png",
       "idiom" : "universal"
     }
   ],

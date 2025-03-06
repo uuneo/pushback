@@ -158,6 +158,23 @@
 		19D8E26E2D2FFA3200AD36D2 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DF2D1A486E0098B6A4 /* BaseConfig.swift */; };
 		19D8E26F2D2FFA6100AD36D2 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5DB2D1A486E0098B6A4 /* ImageManager.swift */; };
 		19D8E3182D30218D00AD36D2 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5E02D1A486E0098B6A4 /* RealmConfig.swift */; };
+		B50B21AE2D76C9EF00737F7C /* OpenChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B21AD2D76C97B00737F7C /* OpenChatManager.swift */; };
+		B526F4692D746FC000AFBF0C /* PopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B526F4682D746FB900AFBF0C /* PopView.swift */; };
+		B5D4B0232D69AA16004CCF88 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B0222D69AA16004CCF88 /* MarkdownUI */; };
+		B5D4B0282D6C39E9004CCF88 /* AnimatedSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B0272D6C39E9004CCF88 /* AnimatedSideBar.swift */; };
+		B5D4B02B2D6C5EC8004CCF88 /* SplashMarkdown in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B02A2D6C5EC8004CCF88 /* SplashMarkdown */; };
+		B5D4B02D2D6D61A2004CCF88 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B02C2D6D61A2004CCF88 /* Splash */; };
+		B5D4B02F2D6D61A2004CCF88 /* SplashHTMLGen in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B02E2D6D61A2004CCF88 /* SplashHTMLGen */; };
+		B5D4B0312D6D61A2004CCF88 /* SplashImageGen in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B0302D6D61A2004CCF88 /* SplashImageGen */; };
+		B5D4B0332D6D61A2004CCF88 /* SplashTokenizer in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B0322D6D61A2004CCF88 /* SplashTokenizer */; };
+		B5D4B03C2D6D6370004CCF88 /* SplashSyntaxHighlighter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B03B2D6D6370004CCF88 /* SplashSyntaxHighlighter+Extension.swift */; };
+		B5D4B0412D6D66F9004CCF88 /* ChatMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B03F2D6D66EE004CCF88 /* ChatMessageModel.swift */; };
+		B5D4B04D2D6D6B41004CCF88 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B04C2D6D6B41004CCF88 /* View+Extension.swift */; };
+		B5D4B04F2D6D6B90004CCF88 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B04E2D6D6B90004CCF88 /* Clipboard.swift */; };
+		B5D4B0502D6D6B90004CCF88 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B04E2D6D6B90004CCF88 /* Clipboard.swift */; };
+		B5D4B0512D6D6B90004CCF88 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B04E2D6D6B90004CCF88 /* Clipboard.swift */; };
+		B5D4B0522D6D6B90004CCF88 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B04E2D6D6B90004CCF88 /* Clipboard.swift */; };
+		B5D4B05E2D6F46EB004CCF88 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B05D2D6F46EB004CCF88 /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +315,13 @@
 		19C87E012D2AAD8400FCFD38 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		19CC04AC2D1A44EC00041A2C /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19D8E2542D2FF9FE00AD36D2 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B50B21AD2D76C97B00737F7C /* OpenChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatManager.swift; sourceTree = "<group>"; };
+		B526F4682D746FB900AFBF0C /* PopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopView.swift; sourceTree = "<group>"; };
+		B5D4B0272D6C39E9004CCF88 /* AnimatedSideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedSideBar.swift; sourceTree = "<group>"; };
+		B5D4B03B2D6D6370004CCF88 /* SplashSyntaxHighlighter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SplashSyntaxHighlighter+Extension.swift"; sourceTree = "<group>"; };
+		B5D4B03F2D6D66EE004CCF88 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
+		B5D4B04C2D6D6B41004CCF88 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		B5D4B04E2D6D6B90004CCF88 /* Clipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -393,10 +417,17 @@
 				1922F6942D1A49BA0098B6A4 /* SwiftyJSON in Frameworks */,
 				1902F0C22D1E872D00485E12 /* CrashReporter in Frameworks */,
 				1922F68E2D1A492D0098B6A4 /* RealmSwift in Frameworks */,
+				B5D4B0232D69AA16004CCF88 /* MarkdownUI in Frameworks */,
+				B5D4B05E2D6F46EB004CCF88 /* OpenAI in Frameworks */,
+				B5D4B02B2D6C5EC8004CCF88 /* SplashMarkdown in Frameworks */,
+				B5D4B02D2D6D61A2004CCF88 /* Splash in Frameworks */,
+				B5D4B0312D6D61A2004CCF88 /* SplashImageGen in Frameworks */,
 				1922F6882D1A48FB0098B6A4 /* Kingfisher in Frameworks */,
 				1922F68B2D1A490D0098B6A4 /* QRScanner in Frameworks */,
 				1922F55B2D1A476F0098B6A4 /* StoreKit.framework in Frameworks */,
 				1922F6912D1A494B0098B6A4 /* Defaults in Frameworks */,
+				B5D4B0332D6D61A2004CCF88 /* SplashTokenizer in Frameworks */,
+				B5D4B02F2D6D61A2004CCF88 /* SplashHTMLGen in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +458,7 @@
 		1922F5992D1A486E0098B6A4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B5D4B03F2D6D66EE004CCF88 /* ChatMessageModel.swift */,
 				1922F5972D1A486E0098B6A4 /* MessageModel.swift */,
 				1922F5982D1A486E0098B6A4 /* OtherModel.swift */,
 			);
@@ -436,6 +468,7 @@
 		1922F5A32D1A486E0098B6A4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B526F4682D746FB900AFBF0C /* PopView.swift */,
 				1922F59A2D1A486E0098B6A4 /* DisintegrationEffect.swift */,
 				1922F59B2D1A486E0098B6A4 /* HeroEffect.swift */,
 				1922F59C2D1A486E0098B6A4 /* FullSwipeNavigationStack.swift */,
@@ -445,6 +478,7 @@
 				1922F5A02D1A486E0098B6A4 /* Snapshot.swift */,
 				1922F5A12D1A486E0098B6A4 /* ParticleEffect.swift */,
 				1922F5A22D1A486E0098B6A4 /* HackerTextView.swift */,
+				B5D4B0272D6C39E9004CCF88 /* AnimatedSideBar.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -501,6 +535,8 @@
 		1922F5D22D1A486E0098B6A4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B5D4B04C2D6D6B41004CCF88 /* View+Extension.swift */,
+				B5D4B03B2D6D6370004CCF88 /* SplashSyntaxHighlighter+Extension.swift */,
 				1922F5CF2D1A486E0098B6A4 /* Extension+.swift */,
 				1922F5D02D1A486E0098B6A4 /* View+.swift */,
 				1922F5D12D1A486E0098B6A4 /* image+.swift */,
@@ -511,6 +547,7 @@
 		1922F5DD2D1A486E0098B6A4 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B50B21AD2D76C97B00737F7C /* OpenChatManager.swift */,
 				1922F5D32D1A486E0098B6A4 /* StoreKitManager.swift */,
 				1922F5D42D1A486E0098B6A4 /* PushServerCloudKit.swift */,
 				1922F5D52D1A486E0098B6A4 /* AudioManager.swift */,
@@ -527,6 +564,7 @@
 		1922F5E12D1A486E0098B6A4 /* Publics */ = {
 			isa = PBXGroup;
 			children = (
+				B5D4B04E2D6D6B90004CCF88 /* Clipboard.swift */,
 				1922F5DE2D1A486E0098B6A4 /* LocalKeys.swift */,
 				1922F5DF2D1A486E0098B6A4 /* BaseConfig.swift */,
 				1922F5E02D1A486E0098B6A4 /* RealmConfig.swift */,
@@ -645,6 +683,13 @@
 				1922F6902D1A494B0098B6A4 /* Defaults */,
 				1922F6932D1A49BA0098B6A4 /* SwiftyJSON */,
 				1902F0C12D1E872D00485E12 /* CrashReporter */,
+				B5D4B0222D69AA16004CCF88 /* MarkdownUI */,
+				B5D4B02A2D6C5EC8004CCF88 /* SplashMarkdown */,
+				B5D4B02C2D6D61A2004CCF88 /* Splash */,
+				B5D4B02E2D6D61A2004CCF88 /* SplashHTMLGen */,
+				B5D4B0302D6D61A2004CCF88 /* SplashImageGen */,
+				B5D4B0322D6D61A2004CCF88 /* SplashTokenizer */,
+				B5D4B05D2D6F46EB004CCF88 /* OpenAI */,
 			);
 			productName = Meoworld;
 			productReference = 19CC04AC2D1A44EC00041A2C /* pushback.app */;
@@ -717,6 +762,9 @@
 				1922F68F2D1A494B0098B6A4 /* XCRemoteSwiftPackageReference "Defaults" */,
 				1922F6922D1A49BA0098B6A4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				1902F0C02D1E872D00485E12 /* XCRemoteSwiftPackageReference "plcrashreporter" */,
+				B5D4B0212D69AA16004CCF88 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */,
+				B5D4B05C2D6F46EB004CCF88 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			preferredProjectObjectVersion = 60;
 			productRefGroup = 19CC04AD2D1A44EC00041A2C /* Products */;
@@ -851,6 +899,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5D4B0502D6D6B90004CCF88 /* Clipboard.swift in Sources */,
 				19D8E3182D30218D00AD36D2 /* RealmConfig.swift in Sources */,
 				1922F70A2D1A512A0098B6A4 /* Extension+.swift in Sources */,
 				1922F7092D1A50E50098B6A4 /* cryptoManager.swift in Sources */,
@@ -868,6 +917,7 @@
 			files = (
 				1922F7152D1A54A50098B6A4 /* ImageManager.swift in Sources */,
 				1922F7102D1A518F0098B6A4 /* OtherModel.swift in Sources */,
+				B5D4B04F2D6D6B90004CCF88 /* Clipboard.swift in Sources */,
 				1922F70C2D1A517F0098B6A4 /* Extension+.swift in Sources */,
 				1922F70D2D1A517F0098B6A4 /* LocalKeys.swift in Sources */,
 				1922F70E2D1A517F0098B6A4 /* BaseConfig.swift in Sources */,
@@ -880,7 +930,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1922F60C2D1A486E0098B6A4 /* RealmConfig.swift in Sources */,
+				B50B21AE2D76C9EF00737F7C /* OpenChatManager.swift in Sources */,
 				1922F60D2D1A486E0098B6A4 /* LocalKeys.swift in Sources */,
+				B526F4692D746FC000AFBF0C /* PopView.swift in Sources */,
 				1922F60E2D1A486E0098B6A4 /* FullSwipeNavigationStack.swift in Sources */,
 				1922F60F2D1A486E0098B6A4 /* DisintegrationEffect.swift in Sources */,
 				1922F6102D1A486E0098B6A4 /* StoreKitManager.swift in Sources */,
@@ -892,9 +944,14 @@
 				1922F6162D1A486E0098B6A4 /* Extension+.swift in Sources */,
 				1922F6182D1A486E0098B6A4 /* PushbackManager.swift in Sources */,
 				1922F6192D1A486E0098B6A4 /* BaseConfig.swift in Sources */,
+				B5D4B0282D6C39E9004CCF88 /* AnimatedSideBar.swift in Sources */,
 				1922F61A2D1A486E0098B6A4 /* AudioManager.swift in Sources */,
 				1922F61B2D1A486E0098B6A4 /* PushServerCloudKit.swift in Sources */,
 				1922F61C2D1A486E0098B6A4 /* ParticleEffect.swift in Sources */,
+				B5D4B04D2D6D6B41004CCF88 /* View+Extension.swift in Sources */,
+				B5D4B0412D6D66F9004CCF88 /* ChatMessageModel.swift in Sources */,
+				B5D4B03C2D6D6370004CCF88 /* SplashSyntaxHighlighter+Extension.swift in Sources */,
+				B5D4B0512D6D6B90004CCF88 /* Clipboard.swift in Sources */,
 				1922F61D2D1A486E0098B6A4 /* HeroEffect.swift in Sources */,
 				1922F61E2D1A486E0098B6A4 /* RealmManager.swift in Sources */,
 				1922F61F2D1A486E0098B6A4 /* cryptoManager.swift in Sources */,
@@ -915,6 +972,7 @@
 				19D8E26F2D2FFA6100AD36D2 /* ImageManager.swift in Sources */,
 				19D8E26B2D2FFA3200AD36D2 /* OtherModel.swift in Sources */,
 				19D8E26C2D2FFA3200AD36D2 /* Extension+.swift in Sources */,
+				B5D4B0522D6D6B90004CCF88 /* Clipboard.swift in Sources */,
 				19D8E26D2D2FFA3200AD36D2 /* LocalKeys.swift in Sources */,
 				19D8E26E2D2FFA3200AD36D2 /* BaseConfig.swift in Sources */,
 			);
@@ -1441,6 +1499,30 @@
 				kind = branch;
 			};
 		};
+		B5D4B0212D69AA16004CCF88 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
+		B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AugustDev/Splash";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		B5D4B05C2D6F46EB004CCF88 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1518,6 +1600,41 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1922F6922D1A49BA0098B6A4 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		B5D4B0222D69AA16004CCF88 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B0212D69AA16004CCF88 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		B5D4B02A2D6C5EC8004CCF88 /* SplashMarkdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = SplashMarkdown;
+		};
+		B5D4B02C2D6D61A2004CCF88 /* Splash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = Splash;
+		};
+		B5D4B02E2D6D61A2004CCF88 /* SplashHTMLGen */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = SplashHTMLGen;
+		};
+		B5D4B0302D6D61A2004CCF88 /* SplashImageGen */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = SplashImageGen;
+		};
+		B5D4B0322D6D61A2004CCF88 /* SplashTokenizer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B0292D6C5EC8004CCF88 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = SplashTokenizer;
+		};
+		B5D4B05D2D6F46EB004CCF88 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D4B05C2D6F46EB004CCF88 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

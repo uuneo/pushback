@@ -36,6 +36,7 @@ struct ImageDetailView:View {
 		}
 		.sheet(isPresented: $showSheet){
 			ChangeKeyImageKey(image: image)
+                .customPresentationCornerRadius(20)
 		}
 		
 	}

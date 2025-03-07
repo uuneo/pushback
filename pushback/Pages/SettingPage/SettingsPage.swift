@@ -19,6 +19,8 @@ struct SettingsPage: View {
 
 	@EnvironmentObject private var manager:PushbackManager
 	@EnvironmentObject private var store:AppState
+    
+    @StateObject var monitor = MonitorsManager.shared
 
 	@ObservedResults(Message.self) var messages
 	@Default(.appIcon) var setting_active_app_icon
@@ -93,7 +95,6 @@ struct SettingsPage: View {
 					}
 
 				}
-
 
 				Section(header:Text(  "设备推送令牌")) {
 					Button{
@@ -376,7 +377,7 @@ struct SettingsPage: View {
 			}
 			.navigationTitle("设置")
 			.loading(showLoading)
-			.tipsToolbar(wifi: MonitorsManager.shared.isConnected, notification: MonitorsManager.shared.isAuthorized, callback: {
+			.tipsToolbar(wifi: monitor.isConnected, notification: monitor.isAuthorized, callback: {
 				manager.openSetting()
 			})
 			.toolbar {
@@ -404,6 +405,7 @@ struct SettingsPage: View {
 		.sheet(isPresented: $showPaywall) {
 			// MARK: - 此处mac 报错找不到 AppState 故加上environmentObject
 			PaywallView().environmentObject(AppState.shared)
+                .customPresentationCornerRadius(20)
 		}
 		.alert(isPresented: $resetAppShow) {
 			Alert(title: Text("危险操作!!! 恢复初始化."),

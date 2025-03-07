@@ -5,12 +5,16 @@
 //  Created by Harlans on 2024/12/2.
 //
 
+
 import SwiftUI
+import Combine
 
 struct StreamingLoadingView: View {
+    let isAwait:Bool
     @State private var dots = ""
-    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
-    
+    @State private var timer: Timer.TimerPublisher = Timer.publish(every: 0.3, on: .main, in: .common)
+    @State private var timerCancellable: Cancellable?
+
     var body: some View {
         HStack(spacing: 4) {
             // AI头像或图标
@@ -19,22 +23,26 @@ struct StreamingLoadingView: View {
                 .imageScale(.medium)
             
             // 思考中的动画点
-            Text("思考中\(dots)")
+            Text((isAwait ?  "思考中" : "正在输入") + "\(dots)")
                 .foregroundColor(.secondary)
                 .font(.system(.subheadline))
-                .onReceive(timer) { _ in
-                    if dots.count >= 3 {
-                        dots = ""
-                    } else {
-                        dots += "."
-                    }
-                }
+                .animation(.bouncy, value: dots)
         }
-        .padding(12)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemGray6))
-        )
+        .onAppear {
+            self.timerCancellable = self.timer.connect()
+        }
+        .onDisappear {
+            self.timerCancellable?.cancel()
+        }
+        .onReceive(timer) { _ in
+            withAnimation {
+                if dots.count >= 3 {
+                    dots = ""
+                } else {
+                    dots += "."
+                }
+            }
+        }
     }
 }
 /*

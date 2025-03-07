@@ -7,12 +7,17 @@
 
 import SwiftUI
 import Defaults
+import RealmSwift
 
 struct MessagePage: View {
     @EnvironmentObject private var manager:PushbackManager
     @Default(.showGroup) private var showGroup
     @State private var showExample:Bool = false
     @State private var showAction = false
+    
+    @StateObject var monitor = MonitorsManager.shared
+    
+   
     
     var body: some View {
         NavigationStack{
@@ -34,11 +39,12 @@ struct MessagePage: View {
                     self.showExample = false
                 }
             
-                .tipsToolbar(wifi: MonitorsManager.shared.isConnected, notification: MonitorsManager.shared.isAuthorized, callback: {
+                .tipsToolbar(wifi: monitor.isConnected, notification: monitor.isAuthorized, callback: {
                     manager.openSetting()
                 })
                 .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
+                    
+                    ToolbarItem( placement: .topBarLeading) {
                         Button{
                             self.showGroup.toggle()
                         }label:{
@@ -49,6 +55,7 @@ struct MessagePage: View {
                                 .animation(.easeInOut, value: showGroup)
                         }
                     }
+                   
                     
                     ToolbarItem{
                         

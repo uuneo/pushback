@@ -11,17 +11,15 @@ struct PromptDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
     
-    let prompt: Prompt?
-    let onSave: (Prompt) -> Void
+    let prompt: ChatPrompt?
     
     @State private var title: String
     @State private var content: String
     @State private var showDeleteConfirmation = false
     @State private var isEditing = false
     
-    init(prompt: Prompt?, onSave: @escaping (Prompt) -> Void) {
+    init(prompt: ChatPrompt?) {
         self.prompt = prompt
-        self.onSave = onSave
         _title = State(initialValue: prompt?.title ?? "")
         _content = State(initialValue: prompt?.content ?? "")
         _isEditing = State(initialValue: prompt == nil)
@@ -49,7 +47,7 @@ struct PromptDetailView: View {
     
     // MARK: - View Components
     private var titleSection: some View {
-        SectionView(title: "标题") {
+        SectionView(title: String(localized: "标题")) {
             if isEditing {
                 TextField("请输入提示词标题", text: $title)
                     .textFieldStyle(.roundedBorder)
@@ -60,7 +58,7 @@ struct PromptDetailView: View {
     }
     
     private var contentSection: some View {
-        SectionView(title: "内容") {
+        SectionView(title: String(localized: "内容")) {
             if isEditing {
                 TextEditor(text: $content)
                     .frame(minHeight: 200)
@@ -82,14 +80,14 @@ struct PromptDetailView: View {
                     if prompt.isBuiltIn {
                         InfoBanner(
                             icon: "info.circle",
-                            title: "内置提示词",
-                            message: "这是一个内置提示词，你可以基于它创建一个新的自定义提示词"
+                            title: String(localized: "内置提示词"),
+                            message:  String(localized: "这是一个内置提示词，你可以基于它创建一个新的自定义提示词")
                         )
                     } else {
                         InfoBanner(
                             icon: "calendar",
-                            title: "创建时间",
-                            message: prompt.createdAt.formatted(
+                            title: String(localized:"创建时间"),
+                            message: prompt.timestamp.formatted(
                                 .dateTime
                                     .year().month().day()
                                     .hour().minute()
@@ -109,7 +107,7 @@ struct PromptDetailView: View {
                     Button {
                         handleUsePrompt()
                     } label: {
-                        Text("使用此提示词")
+                        Text("使用此提示词创建新提示词")
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -143,31 +141,37 @@ struct PromptDetailView: View {
     // MARK: - Private Methods
     private func getNavigationTitle() -> String {
         if prompt == nil {
-            return "新建提示词"
+            return String(localized: "新建提示词")
         } else if isEditing {
-            return "编辑提示词"
+            return String(localized: "编辑提示词")
         } else {
-            return "提示词详情"
+            return String(localized: "提示词详情")
         }
     }
     
     private func handleUsePrompt() {
-        let promptToUse = Prompt(
-            title: title,
-            content: content,
-            isBuiltIn: false
-        )
-        onSave(promptToUse)
-        dismiss()
+        if prompt != nil{
+            RealmManager.shared.realm { realm in
+                let chatprompt = ChatPrompt()
+                chatprompt.title = title
+                chatprompt.content = content
+                chatprompt.isBuiltIn = false
+                realm.add(chatprompt)
+            }
+            dismiss()
+        }
+       
     }
     
     private func handleSavePrompt() {
-        let newPrompt = Prompt(
-            title: title,
-            content: content,
-            isBuiltIn: false
-        )
-        onSave(newPrompt)
+        if let prompt = prompt{
+            RealmManager.shared.realm { realm in
+                if  let item = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
+                    item.title = title
+                    item.content = content
+                }
+            }
+        }
         if prompt == nil {
             dismiss()
         } else {
@@ -228,10 +232,6 @@ private struct InfoBanner: View {
 
 #Preview("提示词详情") {
     PromptDetailView(
-        prompt: Prompt(
-            title: "AI助手",
-            content: "你是一个智能助手",
-            isBuiltIn: true
-        )
-    ) { _ in }
+        prompt: ChatPrompt()
+    )
 }

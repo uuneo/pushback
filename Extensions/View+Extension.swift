@@ -7,17 +7,9 @@
 
 import SwiftUI
 
-// MARK: - HideKeyboard View
-extension View {
-    func withHideKeyboard() -> some View {
-        environment(\.hideKeyboard) {
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                            to: nil,
-                                            from: nil,
-                                            for: nil)
-        }
-    }
-}
+
+
+
 
 // MARK: - Conditional View
 extension View {
@@ -130,17 +122,112 @@ extension View {
     /// - Parameters:
     ///   - key: Key equivalents consist of a letter, punctuation, or function key that can be combined with an optional set of modifier keys to specify a keyboard shortcut.
     ///   - modifiers: A set of key modifiers that you can add to a gesture.
-    ///   - perform: Action to perform when the shortcut is pressed
-    public func onKeyboardShortcut(key: KeyEquivalent, modifiers: EventModifiers = .command, perform: @escaping () -> ()) -> some View {
-        ZStack {
-            Button("") {
-                perform()
+    ///   - action: Action to perform when the shortcut is pressed
+    public func onKeyboardShortcut(
+        _ key: KeyEquivalent,
+        modifiers: EventModifiers = .command,
+        perform action: @escaping () -> Void
+    ) -> some View {
+        self.background(
+            Button(action: action) {
+                EmptyView()
             }
-            .hidden()
             .keyboardShortcut(key, modifiers: modifiers)
-            
-            self
-        }
+            .hidden()
+        )
     }
 }
 
+
+// 扩展 CornerRadius 以支持特定角
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+// 自定义 RoundedCorner 形状
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+
+struct CancelButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(isEnabled ? .white : .gray)
+            .font(.system(size: 18, weight: .bold, design: .rounded))
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity)
+            .background(
+                isEnabled ?
+                    (configuration.isPressed ?
+                        LinearGradient(gradient: Gradient(colors: [Color.red.opacity(0.8), Color.orange.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
+                        LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .leading, endPoint: .trailing)) :
+                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.5)]), startPoint: .leading, endPoint: .trailing)
+            )
+            .cornerRadius(8)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut, value: configuration.isPressed)
+            .opacity(isEnabled ? 1.0 : 0.7)
+            .shadow(color: Color.red.opacity(0.3), radius: 10, x: 0, y: 5)
+    }
+}
+
+
+struct SuccessButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(isEnabled ? .white : .gray)
+            .font(.system(size: 18, weight: .bold, design: .rounded))
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity)
+            .background(
+                isEnabled ?
+                    (configuration.isPressed ?
+                        LinearGradient(gradient: Gradient(colors: [Color.green.opacity(0.8), Color.teal.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
+                        LinearGradient(gradient: Gradient(colors: [Color.green, Color.teal]), startPoint: .leading, endPoint: .trailing)) :
+                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.5)]), startPoint: .leading, endPoint: .trailing)
+            )
+            .cornerRadius(8)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut, value: configuration.isPressed)
+            .opacity(isEnabled ? 1.0 : 0.7)
+            .shadow(color: Color.green.opacity(0.3), radius: 10, x: 0, y: 5)
+    }
+}
+
+
+struct ActionButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(isEnabled ? .white : .gray)
+            .font(.system(size: 18, weight: .bold, design: .rounded))
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity)
+            .background(
+                isEnabled ?
+                    (configuration.isPressed ?
+                        LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.purple.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
+                        LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing)) :
+                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.5)]), startPoint: .leading, endPoint: .trailing)
+            )
+            .cornerRadius(8)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.easeInOut, value: configuration.isPressed)
+            .opacity(isEnabled ? 1.0 : 0.7)
+            .shadow(color: Color.blue.opacity(0.3), radius: 10, x: 0, y: 5)
+    }
+}

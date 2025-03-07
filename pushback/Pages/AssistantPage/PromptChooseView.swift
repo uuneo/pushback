@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Foundation
+import RealmSwift
 
 // MARK: - Views
 /// 提示词选择视图
@@ -14,27 +15,21 @@ struct PromptChooseView: View {
     // MARK: - Properties
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
-
-    private let promptManager = PromptManager.shared
+    @ObservedResults(ChatPrompt.self) var prompts
+    
+    @State private var isAddingPrompt = false
     @State private var searchText = ""
-    @State private var selectedPrompt: Prompt?
+    @State private var selectedPrompt: ChatPrompt? = nil
 
-    let onPromptSelected: (Prompt) -> Void
 
-    // MARK: - Computed Properties
-    private var currentPrompt: Prompt? {
-        promptManager.getCurrentPrompt()
+    private var filteredBuiltInPrompts: [ChatPrompt] {
+        guard !searchText.isEmpty else { return prompts.filter{$0.isBuiltIn} }
+        return prompts.filter{$0.isBuiltIn}.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
     }
 
-    private var filteredBuiltInPrompts: [Prompt] {
-        let prompts = promptManager.builtInPrompts()
-        guard !searchText.isEmpty else { return prompts }
-        return prompts.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
-    }
-
-    private var filteredCustomPrompts: [Prompt] {
-        guard !searchText.isEmpty else { return promptManager.customPrompts }
-        return promptManager.customPrompts.filter {
+    private var filteredCustomPrompts: [ChatPrompt] {
+        guard !searchText.isEmpty else { return prompts.filter({!$0.isBuiltIn}) }
+        return prompts.filter({!$0.isBuiltIn}).filter {
             $0.title.localizedCaseInsensitiveContains(searchText)
         }
     }
@@ -56,6 +51,7 @@ struct PromptChooseView: View {
                 )
                 .toolbar {
                     toolbarContent
+                    addPromptButton
                 }
         }
     }
@@ -64,10 +60,38 @@ struct PromptChooseView: View {
     private var promptListView: some View {
         List {
             if hasSearchResults {
-                ContentUnavailableView("没有找到相关提示词", systemImage: "magnifyingglass")
+                if #available(iOS 17.0, *){
+                    ContentUnavailableView("没有找到相关提示词", systemImage: "magnifyingglass")
+                }else{
+                    VStack{
+                        HStack{
+                            Spacer()
+                            Image("magnifyingglass")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .padding()
+                            Spacer()
+                        }
+                        Spacer()
+                        HStack{
+                            Spacer()
+                            Text("没有找到相关提示词")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .padding()
+                            Spacer()
+                        }
+                    }.frame(height: 300)
+                }
+
             } else {
                 promptSections
             }
+        }
+        .sheet(isPresented: $isAddingPrompt) {
+            AddPromptView()
+                .customPresentationCornerRadius(20)
         }
     }
 
@@ -100,11 +124,32 @@ struct PromptChooseView: View {
             }
         }
     }
+    
+    private var addPromptButton: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                isAddingPrompt = true
+            } label: {
+                Image(systemName: "plus")
+            }
+        }
+    }
+    
+    
 
     // MARK: - Methods
-    private func handlePromptTap(_ prompt: Prompt) {
-        promptManager.setCurrentPrompt(prompt)
-        onPromptSelected(prompt)
+    private func handlePromptTap(_ prompt: ChatPrompt) {
+        RealmManager.shared.realm { realm in
+            if let data = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
+                data.isSelected = true
+            }
+            
+           let datas = realm.objects(ChatPrompt.self).where({$0.id != prompt.id})
+            for item in datas{
+                item.isSelected = false
+            }
+            
+        }
         dismiss()
     }
 }
@@ -112,20 +157,16 @@ struct PromptChooseView: View {
 // MARK: - PromptSection
 private struct PromptSection: View {
     let title: String
-    let prompts: [Prompt]
-    let onPromptTap: (Prompt) -> Void
-    private let promptManager = PromptManager.shared
+    let prompts: [ChatPrompt]
+    let onPromptTap: (ChatPrompt) -> Void
+    
     @State private var showDeleteAlert = false
-    @State private var promptToDelete: Prompt?
-
-    private var currentPrompt: Prompt? {
-        promptManager.getCurrentPrompt()
-    }
+    @State private var promptToDelete: ChatPrompt?
 
     var body: some View {
         Section(title) {
             ForEach(prompts) { prompt in
-                PromptRowView(prompt: prompt, isSelected: prompt.id == currentPrompt?.id)
+                PromptRowView(prompt: prompt)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         onPromptTap(prompt)
@@ -133,15 +174,23 @@ private struct PromptSection: View {
                     .modifier(PromptSwipeActions(
                         prompt: prompt,
                         showDeleteAlert: $showDeleteAlert,
-                        promptToDelete: $promptToDelete,
-                        promptManager: promptManager
+                        promptToDelete: $promptToDelete
                     ))
             }
         }
         .alert("确认删除", isPresented: $showDeleteAlert, presenting: promptToDelete) { prompt in
             Button("取消", role: .cancel) {}
             Button("删除", role: .destructive) {
-                promptManager.deleteCustomPrompt(prompt)
+                if let prompt = promptToDelete{
+                
+                    RealmManager.shared.realm { realm in
+                        if let prompt1 = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
+                            realm.delete(prompt1)
+                        }
+                      
+                    }
+                }
+               
             }
         } message: { prompt in
             Text("确定要删除\"\(prompt.title)\"提示词吗？此操作无法撤销。")
@@ -151,19 +200,18 @@ private struct PromptSection: View {
 
 // MARK: - PromptRowView
 private struct PromptRowView: View {
-    let prompt: Prompt
-    let isSelected: Bool
+    let prompt: ChatPrompt
 
     var body: some View {
         HStack(spacing: 12) {
             // 选中状态指示器
             Circle()
-                .fill(isSelected ? Color.blue : Color.clear)
+                .fill(prompt.isSelected ? Color.blue : Color.clear)
                 .frame(width: 8, height: 8)
                 .overlay(
                     Circle()
                         .strokeBorder(
-                            isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
+                            prompt.isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
                 )
 
             // 提示词内容
@@ -199,42 +247,31 @@ private struct PromptRowView: View {
 
 // MARK: - PromptSwipeActions
 private struct PromptSwipeActions: ViewModifier {
-    let prompt: Prompt
+    let prompt:  ChatPrompt
     @Binding var showDeleteAlert: Bool
-    @Binding var promptToDelete: Prompt?
-    let promptManager: PromptManager
+    @Binding var promptToDelete:  ChatPrompt?
+
 
     func body(content: Content) -> some View {
         content
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                // 删除按钮（仅对自定义提示词显示）
-                if !prompt.isBuiltIn {
+                if !prompt.isBuiltIn{
                     Button(role: .destructive) {
                         promptToDelete = prompt
                         showDeleteAlert = true
                     } label: {
                         Label("删除", systemImage: "trash")
                     }
-                    
-                    // 编辑按钮
-                    NavigationLink {
-                        PromptDetailView(
-                            prompt: prompt,
-                            onSave: { updatedPrompt in
-                                if prompt.isBuiltIn {
-                                    // 如果是内置提示词，创建新的自定义提示词
-                                    promptManager.addCustomPrompt(updatedPrompt)
-                                } else {
-                                    // 如果是自定义提示词，更新现有提示词
-                                    promptManager.updateCustomPrompt(updatedPrompt)
-                                }
-                            }
-                        )
-                    } label: {
-                        Label("查看", systemImage: "eye")
-                    }
-                    .tint(.blue)
                 }
+              
+                
+                // 编辑按钮
+                NavigationLink {
+                    PromptDetailView(prompt: prompt)
+                } label: {
+                    Label("查看", systemImage: "eye")
+                }
+                .tint(.blue)
             }
     }
 }
@@ -242,54 +279,68 @@ private struct PromptSwipeActions: ViewModifier {
 // MARK: - PromptButtonView
 struct PromptButtonView: View {
     // MARK: - Properties
-    @Binding var currentPrompt: String
     @State private var showPromptChooseView = false
     @State private var selectedPromptIndex: Int?
-
-    // MARK: - Computed Properties
-    private var buttonImage: some View {
-        Group {
-            if let index = selectedPromptIndex {
-                Text("\(index + 1)")
-                    .font(.system(size: 12, weight: .medium))
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(.white)
-                    .background(Color.blue)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "text.bubble")
-                    .foregroundColor(.blue)
-            }
-        }
-    }
-
+    
+    
     // MARK: - Body
     var body: some View {
         Button {
             showPromptChooseView = true
         } label: {
-            buttonImage
+            Image(systemName: "text.bubble")
+                .foregroundColor(.blue)
                 .padding(.trailing, 8)
         }
         .sheet(isPresented: $showPromptChooseView) {
-            PromptChooseView { prompt in
-                currentPrompt = prompt.title
-                selectedPromptIndex = PromptManager.shared.builtInPrompts().firstIndex {
-                    $0.id == prompt.id
+            PromptChooseView()
+                .customPresentationCornerRadius(20)
+        }
+    }
+}
+
+
+// MARK: - 添加Prompt视图
+struct AddPromptView: View {
+    // MARK: - Properties
+    @Environment(\.dismiss) private var dismiss
+    @State private var title = ""
+    @State private var content = ""
+
+    
+    // MARK: - View
+    var body: some View {
+        NavigationStack {
+            Form {
+                TextField("标题", text: $title)
+                TextEditor(text: $content)
+                    .frame(height: 200)
+            }
+            .navigationTitle("添加 Prompt")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("取消") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("保存") {
+                        //        let prompt = Prompt(title: title, content: content, isBuiltIn: false)
+                        //        promptManager.addCustomPrompt(prompt)
+                        dismiss()
+                    }
+                    .disabled(!(!title.isEmpty && !content.isEmpty))
                 }
             }
         }
     }
+    
 }
+
+
 
 // MARK: - Preview
 #Preview("提示词选择") {
-    PromptChooseView { prompt in
-        print("Selected prompt: \(prompt.title)")
-    }
-}
-
-#Preview("提示词按钮") {
-    PromptButtonView(currentPrompt: .constant("AI助手"))
-        .padding()
+    PromptChooseView()
 }

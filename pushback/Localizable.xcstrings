@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
+    },
     " 删除成功" : {
       "localizations" : {
         "en" : {
@@ -321,6 +337,86 @@
         }
       }
     },
+    "1月前" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "month ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir ay önce"
+          }
+        }
+      }
+    },
+    "2天前" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 days ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İki gün önce"
+          }
+        }
+      }
+    },
+    "3月前" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3  months ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Üç ay önce"
+          }
+        }
+      }
+    },
+    "AI 助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI Assistant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI Asistanı"
+          }
+        }
+      }
+    },
+    "API Key" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API Key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API Key"
+          }
+        }
+      }
+    },
     "App不会获取任何程序日志 如您需要帮助，复制日志发给我" : {
       "localizations" : {
         "en" : {
@@ -349,6 +445,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uygulama yapılandırması"
+          }
+        }
+      }
+    },
+    "BasePath" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BasePath"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BasePath"
+          }
+        }
+      }
+    },
+    "Host" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Host"
           }
         }
       }
@@ -413,6 +541,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Key:"
+          }
+        }
+      }
+    },
+    "Model" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         }
       }
@@ -657,6 +817,22 @@
         }
       }
     },
+    "两周前" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 weeks ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İki hafta önce"
+          }
+        }
+      }
+    },
     "中进行配置" : {
       "localizations" : {
         "en" : {
@@ -689,6 +865,54 @@
         }
       }
     },
+    "产品经理" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Product Manager"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ürün Yöneticisi"
+          }
+        }
+      }
+    },
+    "今天" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "today"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bugün"
+          }
+        }
+      }
+    },
+    "代码助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code Assistant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kod Asistanı"
+          }
+        }
+      }
+    },
     "令牌" : {
       "localizations" : {
         "en" : {
@@ -717,6 +941,102 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Herhangi bir tarayıcı ve betik dili, içeriği telefonunuza gönderebilir. İnternete bağlandığınızda kullanabilirsiniz."
+          }
+        }
+      }
+    },
+    "作为一名专业写作助手，你擅长各类文体的写作和润色。你的任务包括：\n1. 改进文章结构和逻辑。\n2. 优化用词和表达方式。\n3. 确保文章连贯性和流畅性。\n4. 突出重点内容和核心信息。\n5. 使文章符合目标读者的阅读习惯。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As a professional writing assistant, you excel at writing and polishing various types of texts. Your tasks include:\n1. Improving the structure and logic of the article.\n2. Optimizing word choice and expression.\n3. Ensuring coherence and smoothness of the text.\n4. Highlighting key content and core information.\n5. Making the article suitable for the target audience's reading habits."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profesyonel bir yazım asistanı olarak, çeşitli metin türlerinde yazma ve düzeltme konusunda başarılısınız. Görevleriniz şunları içerir:\n1. Makalenin yapısını ve mantığını geliştirmek.\n2. Kelime seçimi ve ifadeyi optimize etmek.\n3. Metnin tutarlılığını ve akıcılığını sağlamak.\n4. Anahtar içeriği ve temel bilgileri vurgulamak.\n5. Makaleyi hedef okuyucunun okuma alışkanlıklarına uygun hale getirmek."
+          }
+        }
+      }
+    },
+    "作为一名专业翻译，你精通多国语言，擅长准确传达原文的含义和风格。你的职责包括：\n1. 保持原文的语气和风格。\n2. 考虑文化差异和语言习惯。\n3. 在必要时提供注释或说明。\n4. 对专业术语进行解释和澄清。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As a professional translator, you are proficient in multiple languages and excel at accurately conveying the meaning and style of the original text. Your responsibilities include:\n1. Maintaining the tone and style of the original text.\n2. Considering cultural differences and language habits.\n3. Providing annotations or explanations when necessary.\n4. Explaining and clarifying technical terms."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profesyonel bir çevirmen olarak, birden fazla dili iyi bilirsiniz ve orijinal metnin anlamını ve stilini doğru bir şekilde iletme konusunda başarılısınız. Sorumluluklarınız şunları içerir:\n1. Orijinal metnin tonunu ve stilini korumak.\n2. Kültürel farkları ve dil alışkanlıklarını göz önünde bulundurmak.\n3. Gerekli olduğunda dipnotlar veya açıklamalar sağlamak.\n4. Teknik terimleri açıklamak ve netleştirmek."
+          }
+        }
+      }
+    },
+    "作为一名智能助手，你的职责包括：\n1. 以简洁清晰的方式回答用户问题。\n2. 提供准确且有价值的信息。\n3. 在必要时主动寻求澄清，确保理解用户需求。\n4. 保持友好且专业的态度。\n5. 严格遵循用户的具体指示。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As an intelligent assistant, your responsibilities include:  \n1. Answering user questions in a concise and clear manner.  \n2. Providing accurate and valuable information.  \n3. Proactively seeking clarification when necessary to ensure understanding of user needs.  \n4. Maintaining a friendly and professional attitude.  \n5. Strictly following the user's specific instructions.  "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı bir asistan olarak, görevleriniz şunları içerir:  \n1. Kullanıcı sorularına kısa ve net bir şekilde yanıt vermek.  \n2. Doğru ve değerli bilgiler sağlamak.  \n3. Kullanıcı ihtiyaçlarını doğru anlamak için gerektiğinde açıklama istemek.  \n4. Dostane ve profesyonel bir tutum sergilemek.  \n5. Kullanıcının belirli talimatlarına sıkı sıkıya uymak.  "
+          }
+        }
+      }
+    },
+    "作为一名经验丰富的程序员，你擅长编写清晰、简洁且易于维护的代码。在回答问题时：\n1. 提供详细的代码示例。\n2. 解释代码的关键部分。\n3. 指出潜在的优化空间。\n4. 考虑代码的性能和安全性。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As an experienced programmer, you excel at writing clear, concise, and maintainable code. When answering questions:\n1. Provide detailed code examples.\n2. Explain the key parts of the code.\n3. Point out potential areas for optimization.\n4. Consider the performance and security of the code."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deneyimli bir programcı olarak, açık, öz ve sürdürülebilir kod yazma konusunda uzmansınız. Sorulara cevap verirken:\n1. Detaylı kod örnekleri sağlayın.\n2. Kodun ana bölümlerini açıklayın.\n3. Potansiyel optimizasyon alanlarını belirleyin.\n4. Kodun performansını ve güvenliğini göz önünde bulundurun."
+          }
+        }
+      }
+    },
+    "作为一名耐心的学习导师，你擅长将复杂的概念简化解释。在回答问题时：\n1. 使用简单易懂的语言。\n2. 提供具体的例子和类比。\n3. 循序渐进地解释知识点。\n4. 鼓励用户思考和提问。\n5. 通过反馈确认用户的理解程度。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As a patient learning mentor, you are good at simplifying complex concepts. When answering questions:\n1. Use simple and understandable language.\n2. Provide specific examples and analogies.\n3. Explain knowledge points step by step.\n4. Encourage the user to think and ask questions.\n5. Confirm the user's understanding through feedback."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabırlı bir öğrenme rehberi olarak, karmaşık kavramları basitleştirmede iyisiniz. Sorulara cevap verirken:\n1. Basit ve anlaşılır bir dil kullanın.\n2. Spesifik örnekler ve benzetmeler sağlayın.\n3. Bilgi noktalarını adım adım açıklayın.\n4. Kullanıcının düşünmesini ve soru sormasını teşvik edin.\n5. Kullanıcının anlayışını geri bildirimle doğrulayın."
+          }
+        }
+      }
+    },
+    "作为一名资深产品经理，你擅长产品规划和用户体验设计。你的任务包括：\n1. 分析用户需求和痛点。\n2. 设计产品功能和流程。\n3. 制定产品路线图和时间表。\n4. 评估市场机会和竞争环境。\n5. 提出可行且创新的解决方案。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As a senior product manager, you excel at product planning and user experience design. Your tasks include:\n1. Analyzing user needs and pain points.\n2. Designing product features and workflows.\n3. Developing product roadmaps and timelines.\n4. Evaluating market opportunities and competitive environments.\n5. Proposing feasible and innovative solutions."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kıdemli bir ürün yöneticisi olarak, ürün planlaması ve kullanıcı deneyimi tasarımında başarılısınız. Görevleriniz şunları içerir:\n1. Kullanıcı ihtiyaçlarını ve zorluklarını analiz etmek.\n2. Ürün özellikleri ve iş akışlarını tasarlamak.\n3. Ürün yol haritaları ve zaman çizelgeleri oluşturmak.\n4. Pazar fırsatlarını ve rekabet ortamlarını değerlendirmek.\n5. Uygulanabilir ve yenilikçi çözümler önermek."
           }
         }
       }
@@ -765,6 +1085,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kullanım Yardımı"
+          }
+        }
+      }
+    },
+    "使用此提示词创建新提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a new prompt using this prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu istemi kullanarak yeni bir istem oluşturun"
           }
         }
       }
@@ -913,6 +1249,22 @@
         }
       }
     },
+    "修改分组名称" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modify group name"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grup adını değiştirin"
+          }
+        }
+      }
+    },
     "修改失败" : {
       "localizations" : {
         "en" : {
@@ -941,6 +1293,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Başarıyla değiştirildi"
+          }
+        }
+      }
+    },
+    "修改资料" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modify information"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgileri değiştirin"
           }
         }
       }
@@ -1025,6 +1393,38 @@
         }
       }
     },
+    "内置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Built-in"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dahili"
+          }
+        }
+      }
+    },
+    "内置提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Built-in Prompts"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yerleşik İstemler"
+          }
+        }
+      }
+    },
     "内部" : {
       "localizations" : {
         "en" : {
@@ -1053,6 +1453,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temel Kullanım Örneği"
+          }
+        }
+      }
+    },
+    "最近使用" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recently used"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son kullanılan"
+          }
+        }
+      }
+    },
+    "写作助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Writing Assistant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazma Asistanı"
           }
         }
       }
@@ -1117,6 +1549,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "az önce"
+          }
+        }
+      }
+    },
+    "创建时间" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creation Time"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oluşturulma Zamanı"
           }
         }
       }
@@ -1233,6 +1681,22 @@
         }
       }
     },
+    "前天" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " day before yesterday"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dün önceki gün / Evvelsi gün"
+          }
+        }
+      }
+    },
     "加密" : {
       "localizations" : {
         "en" : {
@@ -1277,6 +1741,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şifrelenmiş isteklerde özel karakterlerin işlenmesine dikkat edilmelidir."
+          }
+        }
+      }
+    },
+    "半年前" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Half a year ago"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altı ay önce"
           }
         }
       }
@@ -1345,6 +1825,38 @@
         }
       }
     },
+    "历史消息数量" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number of historical messages"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş mesaj sayısı"
+          }
+        }
+      }
+    },
+    "历史记录" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçmiş"
+          }
+        }
+      }
+    },
     "原始地址:" : {
       "localizations" : {
         "en" : {
@@ -1361,6 +1873,22 @@
         }
       }
     },
+    "参数不能为空" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parameter cannot be empty."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parametre boş bırakılamaz."
+          }
+        }
+      }
+    },
     "参数错误" : {
       "localizations" : {
         "en" : {
@@ -1373,6 +1901,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Parametre hatası."
+          }
+        }
+      }
+    },
+    "发生错误%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An error occurred: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir hata oluştu: %@"
           }
         }
       }
@@ -1569,6 +2113,38 @@
         }
       }
     },
+    "嗨! 我是智能助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi! I am the intelligent assistant."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merhaba! Ben akıllı asistanım."
+          }
+        }
+      }
+    },
+    "嗨! 我是智能助手,我可以帮你搜索，答疑，写作，请把你的任务交给我吧！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi! I am an intelligent assistant. I can help you with searching, answering questions, and writing. Just give me your task!  "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merhaba! Ben akıllı bir asistanım. Arama yapabilir, sorularınızı yanıtlayabilir ve yazı yazmada yardımcı olabilirim. Bana görevinizi verin! "
+          }
+        }
+      }
+    },
     "图片" : {
       "localizations" : {
         "en" : {
@@ -1645,6 +2221,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resim varsayılan kaydetme süresi, yerel resimler etkilenmez."
+          }
+        }
+      }
+    },
+    "增加新账户" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add new account"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni hesap ekleyin"
+          }
+        }
+      }
+    },
+    "增加新资料" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add new information"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bilgi ekleyin"
+          }
+        }
+      }
+    },
+    "复制" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala"
           }
         }
       }
@@ -1793,6 +2417,22 @@
         }
       }
     },
+    "学习导师" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learning Mentor"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öğrenim Rehberi"
+          }
+        }
+      }
+    },
     "完成" : {
       "localizations" : {
         "en" : {
@@ -1805,6 +2445,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tamamlandı"
+          }
+        }
+      }
+    },
+    "对话列表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversation list"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sohbet listesi"
           }
         }
       }
@@ -1937,6 +2593,22 @@
         }
       }
     },
+    "已加载全部数据" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All data loaded"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm veriler yüklendi"
+          }
+        }
+      }
+    },
     "已读全部" : {
       "localizations" : {
         "en" : {
@@ -2033,6 +2705,38 @@
         }
       }
     },
+    "开始新聊天" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start a new chat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir sohbet başlat"
+          }
+        }
+      }
+    },
+    "当您与智能助手对话时，您的对话将显示在此处" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you converse with the intelligent assistant, your dialogue will be displayed here."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı asistanla sohbet ettiğinizde, diyaloğunuz burada görüntülenecektir."
+          }
+        }
+      }
+    },
     "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息" : {
       "localizations" : {
         "en" : {
@@ -2081,6 +2785,23 @@
         }
       }
     },
+    "思考中%@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thinking...%@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Düşünüyor...%@"
+          }
+        }
+      }
+    },
     "恢复" : {
       "localizations" : {
         "en" : {
@@ -2125,6 +2846,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satın almayı geri yükle"
+          }
+        }
+      }
+    },
+    "我可以帮你搜索，答疑，写作，请把你的任务交给我吧！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " I can help you with searching, answering questions, and writing. Please leave your tasks to me!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arama yapma, soru yanıtlama ve yazı yazma konusunda size yardımcı olabilirim. Lütfen görevlerinizi bana bırakın!"
           }
         }
       }
@@ -2321,6 +3058,38 @@
         }
       }
     },
+    "提示词详情" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prompt Details"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstem Detayları"
+          }
+        }
+      }
+    },
+    "搜索提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstem arayın"
+          }
+        }
+      }
+    },
     "携带一个image,会自动下载缓存" : {
       "localizations" : {
         "en" : {
@@ -2433,6 +3202,22 @@
         }
       }
     },
+    "数据管理" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data Management"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri Yönetimi"
+          }
+        }
+      }
+    },
     "文件格式错误" : {
       "localizations" : {
         "en" : {
@@ -2481,6 +3266,38 @@
         }
       }
     },
+    "新对话" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New conversation"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni sohbet"
+          }
+        }
+      }
+    },
+    "新建提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create New Prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni İstem Oluştur"
+          }
+        }
+      }
+    },
     "无分组" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2498,6 +3315,22 @@
         }
       }
     },
+    "无聊天" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No chat"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sohbet yok"
+          }
+        }
+      }
+    },
     "时效性通知" : {
       "localizations" : {
         "en" : {
@@ -2510,6 +3343,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zamanında Bildirim"
+          }
+        }
+      }
+    },
+    "昨天" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "yesterday"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dün"
           }
         }
       }
@@ -2574,6 +3423,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm okunmamış mesajları silmek istediğinizden emin misiniz?"
+          }
+        }
+      }
+    },
+    "智能助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intelligent Assistant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı Asistan"
           }
         }
       }
@@ -2706,6 +3571,22 @@
         }
       }
     },
+    "查看" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görüntüle"
+          }
+        }
+      }
+    },
     "查看服务器部署教程" : {
       "localizations" : {
         "en" : {
@@ -2818,6 +3699,22 @@
         }
       }
     },
+    "模型名称: (deepseek-chat)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model Name: (deepseek-chat)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model Adı: (deepseek-chat)"
+          }
+        }
+      }
+    },
     "模式" : {
       "localizations" : {
         "en" : {
@@ -2830,6 +3727,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mod"
+          }
+        }
+      }
+    },
+    "此名称用来查找历史分组使用" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This name is used to find historical groups."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ad, geçmiş grupları bulmak için kullanılır."
+          }
+        }
+      }
+    },
+    "此操作将删除所有聊天记录和设置数据，且无法恢复。确定要继续吗？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This operation will delete all chat history and settings data, and it cannot be recovered. Are you sure you want to continue?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu işlem tüm sohbet geçmişini ve ayar verilerini silecek ve kurtarılamaz. Devam etmek istediğinizden emin misiniz?"
           }
         }
       }
@@ -2862,6 +3791,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geçmiş sunucu bulunamadı"
+          }
+        }
+      }
+    },
+    "没有找到相关提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No relevant keywords found"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İlgili anahtar kelimeler bulunamadı"
           }
         }
       }
@@ -2910,6 +3855,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Test"
+          }
+        }
+      }
+    },
+    "测试中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testing in progress..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test sürüyor..."
+          }
+        }
+      }
+    },
+    "测试连接" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test connection"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantıyı test et"
           }
         }
       }
@@ -2978,6 +3955,22 @@
         }
       }
     },
+    "添加 Prompt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Add Prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstem Ekle"
+          }
+        }
+      }
+    },
     "添加到APP" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2991,6 +3984,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uygulamaya ekle"
+          }
+        }
+      }
+    },
+    "添加成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added successfully"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Başarıyla eklendi"
           }
         }
       }
@@ -3075,6 +4084,22 @@
         }
       }
     },
+    "清除所有数据" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear all data"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tüm verileri temizle"
+          }
+        }
+      }
+    },
     "清除缓存成功!" : {
       "localizations" : {
         "en" : {
@@ -3119,6 +4144,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bilgi durumunu değiştirmek için tıklayın veya kaydırın."
+          }
+        }
+      }
+    },
+    "点击查看更多" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Click to view more"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha fazlasını görmek için tıklayın"
           }
         }
       }
@@ -3183,6 +4224,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Onayla"
+          }
+        }
+      }
+    },
+    "确定要删除\"%@\"提示词吗？此操作无法撤销。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete \"%@\" prompt? This action cannot be undone."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"%@\" istemini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+          }
+        }
+      }
+    },
+    "确认" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onayla"
+          }
+        }
+      }
+    },
+    "确认删除" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Deletion"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silmeyi Onayla"
           }
         }
       }
@@ -3283,6 +4372,22 @@
         }
       }
     },
+    "给智能助手发消息" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send a message to the intelligent assistant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı asistanla mesajlaş"
+          }
+        }
+      }
+    },
     "继续" : {
       "localizations" : {
         "en" : {
@@ -3315,6 +4420,38 @@
         }
       }
     },
+    "编辑" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editor"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editör"
+          }
+        }
+      }
+    },
+    "编辑提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstemi Düzenle"
+          }
+        }
+      }
+    },
     "网络权限用来获取苹果提送密钥和通知权限用来接收通知." : {
       "localizations" : {
         "en" : {
@@ -3327,6 +4464,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ağ izinleri, Apple'ın gönderim anahtarını almak için ve bildirim izinleri, bildirimleri almak için kullanılır."
+          }
+        }
+      }
+    },
+    "翻译助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translation Assistant"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çeviri Asistanı"
           }
         }
       }
@@ -3587,6 +4740,22 @@
         }
       }
     },
+    "设置每次对话时包含的历史消息数量，数量越多上下文越完整，但会增加 Token 消耗" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set the number of historical messages included in each conversation. The more messages, the more complete the context, but it will increase token consumption"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her konuşmada dahil edilecek geçmiş mesaj sayısını ayarlayın. Mesaj sayısı ne kadar fazla olursa bağlam o kadar eksiksiz olur, ancak token tüketimi artar."
+          }
+        }
+      }
+    },
     "试用期至 %@" : {
       "localizations" : {
         "en" : {
@@ -3635,6 +4804,54 @@
         }
       }
     },
+    "请求地址(api.deepseek.com)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request address (api.deepseek.com)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstek adresi (api.deepseek.com)"
+          }
+        }
+      }
+    },
+    "请求密钥" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request Key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " İstek Anahtarı"
+          }
+        }
+      }
+    },
+    "请求路径: /v1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request Path: /v1"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstek Yolu: /v1"
+          }
+        }
+      }
+    },
     "请输入16位Iv" : {
       "localizations" : {
         "en" : {
@@ -3651,6 +4868,22 @@
         }
       }
     },
+    "请输入提示词标题" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter the prompt title"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen istem başlığını girin"
+          }
+        }
+      }
+    },
     "请输入自定义推送Key" : {
       "localizations" : {
         "en" : {
@@ -3663,6 +4896,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lütfen özel bildirim anahtarını girin"
+          }
+        }
+      }
+    },
+    "账户列表" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account list"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesap listesi"
           }
         }
       }
@@ -3747,6 +4996,38 @@
         }
       }
     },
+    "输入分组名称" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter group name"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grup adını girin"
+          }
+        }
+      }
+    },
+    "输入别名" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter alias"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takma ad girin"
+          }
+        }
+      }
+    },
     "输入图片Key" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3813,6 +5094,22 @@
         }
       }
     },
+    "这是一个内置提示词，你可以基于它创建一个新的自定义提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a built-in prompt. You can create a new custom prompt based on it."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu, yerleşik bir istemdir. Buna dayanarak yeni bir özel istem oluşturabilirsiniz."
+          }
+        }
+      }
+    },
     "这是一个加密示例" : {
       "localizations" : {
         "en" : {
@@ -3857,6 +5154,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uzaktan yerelleştirme"
+          }
+        }
+      }
+    },
+    "连接失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection failed"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantı başarısız"
+          }
+        }
+      }
+    },
+    "连接成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connection successful"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantı başarılı"
+          }
+        }
+      }
+    },
+    "连续对话" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuous dialogue"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sürekli diyalog"
           }
         }
       }
@@ -3909,6 +5254,38 @@
         }
       }
     },
+    "选择提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstem seçin"
+          }
+        }
+      }
+    },
+    "选择文本" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select text"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin seçin"
+          }
+        }
+      }
+    },
     "通知类型" : {
       "localizations" : {
         "en" : {
@@ -3953,6 +5330,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "E-posta kutusu"
+          }
+        }
+      }
+    },
+    "重命名" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeniden adlandırma"
+          }
+        }
+      }
+    },
+    "重复数据" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicate data"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yedek veri"
           }
         }
       }

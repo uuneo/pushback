@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logo2 2.png",
+      "filename" : "tint.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "black.png",
       "idiom" : "universal"
     }
   ],

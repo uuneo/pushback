@@ -16,7 +16,7 @@ let kRealmDefaultConfiguration = {
 #endif
 	let config = Realm.Configuration(
 		fileURL: groupUrl?.appendingPathComponent(BaseConfig.realmName),
-		schemaVersion: 30,
+		schemaVersion: 32,
 		migrationBlock: { _, oldSchemaVersion in
 			if oldSchemaVersion < 1 { }
 		}

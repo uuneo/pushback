@@ -97,6 +97,7 @@ struct ImagePreview: View {
 		.sheet(isPresented: $showLocalView) {
 			if let imageItem = coordinator.selectedItem, let image = Defaults[.images].first(where: {$0.url == imageItem.url}) {
 				ChangeKeyImageKey(image: image)
+                    .customPresentationCornerRadius(20)
 			}else{
 				Spacer()
 					.onAppear{

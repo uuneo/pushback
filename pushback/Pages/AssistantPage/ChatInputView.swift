@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import Combine
+import Defaults
+import RealmSwift
 
 struct ChatInputView: View {
     @Binding var text: String
@@ -15,49 +18,88 @@ struct ChatInputView: View {
     let onPause: () -> Void
     let onSelectedPicture: () -> Void
     let onSelectedFile: () -> Void
-    var onCapturePhoto: () -> Void
+    let onCapturePhoto: () -> Void
+    let newMessageGroup:() -> Void
+    var showHistoryGroup:()-> Void
     
     @State private var showPromptChooseView = false
-    @State private var currentPromptSelected: String = ""
     @FocusState private var isFocusedInput: Bool
     
-    // MARK: - Computed Properties
-    private var shouldShowPromptLabel: Bool {
-        !currentPromptSelected.isEmpty && currentPromptSelected != "AI助手"
-    }
+    @Default(.historyMessageBool) var isHistoryMessage
+     // MARK: - Computed Properties
+    @ObservedResults(ChatPrompt.self, where: (\.isSelected)) var prompts
     
     var body: some View {
         VStack {
             HStack() {
-                if shouldShowPromptLabel {
-                    PromptLabelView(prompt: currentPromptSelected)
+                if let prompt = prompts.first {
+                    PromptLabelView(prompt: prompt)
                 }
-            }
+            }.padding(.top, 5)
             HStack(spacing: 10) {
                 inputField
                     .disabled(isLoading)
                 rightActionButton
             }
             .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(Color(.systemBackground))
+            .padding(.top, 5)
+//            .background(Color(.systemBackground))
             .animation(.default, value: text)
+            
+            
+            HStack(spacing: 10){
+                
+                Label("对话列表", systemImage: "chevron.up")
+                    .foregroundStyle(Color.primary)
+                    .font(.system(size: 12))
+                    .fontWeight(.bold)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(.ultraThinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 10)
+                    .onTapGesture {
+                        PushbackManager.vibration(style: .heavy)
+                        showHistoryGroup()
+                    }
+                    
+                Label("连续对话", systemImage:  isHistoryMessage ? "lamp.desk.fill" : "lamp.desk")
+                    .foregroundStyle(isHistoryMessage ? Color.accentColor : Color.primary)
+                    .font(.system(size: 12))
+                    .fontWeight(isHistoryMessage ? .bold : .light)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(.ultraThinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .onTapGesture {
+                        PushbackManager.vibration(style: .heavy)
+                        self.isHistoryMessage.toggle()
+                    }
+                
+                Spacer()
+            }
+            .padding(.leading, 20)
+            .padding(.vertical, 8)
+            
+            
         }
+        .background(.background)
+        .cornerRadius(30, corners: [.topLeft, .topRight])
+        .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: -5)
     }
     
     // MARK: - Subviews
     private var inputField: some View {
         HStack {
-            TextField("Message", text: $text, axis: .vertical)
+            TextField("给智能助手发消息", text: $text, axis: .vertical)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 10)
                 .focused($isFocusedInput)
                 .frame(minHeight: 40)
                 .font(.system(size: 14))
-                .submitLabel(.send)
-                .onSubmit { onSend(text) }
             
-            PromptButtonView(currentPrompt: $currentPromptSelected)
+        
+            PromptButtonView()
         }
         .background(
             RoundedRectangle(cornerRadius: 20)
@@ -67,17 +109,12 @@ struct ChatInputView: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.blue.opacity(0.3), lineWidth: 1)
         )
-        .onChange(of: isFocusedInput, { oldValue, newValue in
-            withAnimation {
-                isFocusedInput = newValue
-            }
-        })
     }
     
     @ViewBuilder
     private var rightActionButton: some View {
         if isResponding {
-                // 暂停按钮
+            // 暂停按钮
             Button(action: onPause) {
                 Image(systemName: "stop.circle.fill")
                     .resizable()
@@ -91,8 +128,11 @@ struct ChatInputView: View {
             }
             .transition(.scale)
         } else if !text.isEmpty {
-                // 发送按钮
-            Button(action: { onSend(text) }) {
+            // 发送按钮
+            Button(action: {
+                onSend(text)
+                isFocusedInput = false
+            }) {
                 Image(systemName: "arrow.up.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -105,54 +145,77 @@ struct ChatInputView: View {
             }
             .transition(.scale)
         } else {
-                // 附件菜单
+            
+            // 附件菜单
             AttachmentMenuView(
                 onSelectedPicture: onSelectedPicture,
                 onSelectedFile: onSelectedFile,
-                onCapturePhoto: onCapturePhoto
+                onCapturePhoto: onCapturePhoto,
+                newMessageGroup: newMessageGroup
             )
             .transition(.scale)
+            
         }
     }
 }
 
 // MARK: - PromptLabelView
 private struct PromptLabelView: View {
-    let prompt: String
     
+    let prompt: ChatPrompt
     var body: some View {
         HStack {
-            Text(prompt)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.white)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.blue.opacity(0.8))
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color.blue.opacity(0.3), lineWidth: 1)
-                )
-                .shadow(color: .blue.opacity(0.2), radius: 3, x: 0, y: 2)
+            Menu{
+                Button(role: .destructive){
+                    RealmManager.shared.realm { realm in
+                        let datas = realm.objects(ChatPrompt.self)
+                        for data in datas{
+                            data.isSelected = false
+                        }
+                    }
+                }label: {
+                    Label("清除", systemImage: "eraser")
+                }
+            }label: {
+                Text(prompt.title)
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.blue.opacity(0.8))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                    )
+                    .shadow(color: .blue.opacity(0.2), radius: 3, x: 0, y: 2)
+            }
+           
             
             Spacer()
         }
         .padding(.horizontal)
     }
+    
 }
+
 
 private struct AttachmentMenuView: View {
     var onSelectedPicture: () -> Void
     var onSelectedFile: () -> Void
     var onCapturePhoto: () -> Void
-    
+    var newMessageGroup: ()-> Void
     var body: some View {
         Menu {
             AttachmentMenuItem(title: "图片", icon: "photo", action: onSelectedPicture)
+                .disabled(true)
             AttachmentMenuItem(title: "文件", icon: "doc", action: onSelectedFile)
+                .disabled(true)
             AttachmentMenuItem(title: "拍照", icon: "camera", action: onCapturePhoto)
+                .disabled(true)
+            AttachmentMenuItem(title: "新对话", icon: "rectangle.3.group.bubble", action: newMessageGroup)
             
         } label: {
             attachmentMenuButton
@@ -186,28 +249,7 @@ private struct AttachmentMenuItem: View {
     }
 }
 
-#Preview {
-    ChatInputView(
-        text: .constant("这是一条测试消息"),
-        isLoading: false,
-        isResponding: true,
-        onSend: { message in
-            print("发送消息: \(message)")
-        },
-        onPause: {
-            print("暂停")
-        },
-        onSelectedPicture: {
-            print("选择图片")
-        },
-        onSelectedFile: {
-            print("选择文件")
-        },
-        onCapturePhoto: {
-            print("选择拍照")
-        }
-    )
-}
+
 
 #Preview {
     ChatInputView(
@@ -231,6 +273,9 @@ private struct AttachmentMenuItem: View {
         },
         onCapturePhoto: {
             print("选择拍照")
-        }
-    )
+        },newMessageGroup:{
+            
+        }, showHistoryGroup: {
+            
+        })
 }

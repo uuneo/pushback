@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 // MARK: -  FontAnimation+.swift
 
@@ -129,7 +130,7 @@ extension String{
 // MARK: -  Date+.swift
 
 extension Date {
-	func formatString(format: String) -> String {
+	func formatString(format: String = "yyyy-MM-dd HH:mm:ss") -> String {
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = format
 		return dateFormatter.string(from: self)
@@ -408,3 +409,39 @@ extension Encodable {
 	}
 }
 
+
+
+struct GrowingButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 1.2 : 1)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+}
+
+
+
+
+class KeyboardHeightHelper: ObservableObject {
+    // 使用 @Published 属性来发布键盘高度的变化
+    @Published var keyboardHeight: CGFloat = 0
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    init() {
+        // 监听键盘将要显示的通知
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .compactMap { notification in
+                notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+            }
+            .map { $0.height }
+            .assign(to: \.keyboardHeight, on: self)
+            .store(in: &cancellables)
+        
+        // 监听键盘将要隐藏的通知
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .map { _ in CGFloat(0) }
+            .assign(to: \.keyboardHeight, on: self)
+            .store(in: &cancellables)
+    }
+}

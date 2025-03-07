@@ -38,9 +38,9 @@ extension View{
 
 
 
-// MARK: - BackgroundColor 视图
+// MARK: - BackgroundColor2 视图
 
-struct BackgroundColor: ViewModifier {
+struct BackgroundColor2: ViewModifier {
 	var opacity: Double = 0.6
 	var cornerRadius: CGFloat = 20
 	@Environment(\.colorScheme) var colorScheme
@@ -59,7 +59,7 @@ struct BackgroundColor: ViewModifier {
 
 extension View {
 	func backgroundColor(opacity: Double = 0.6) -> some View {
-		self.modifier(BackgroundColor(opacity: opacity))
+		self.modifier(BackgroundColor2(opacity: opacity))
 	}
 }
 // MARK: - SlideFadeIn 视图
@@ -223,7 +223,7 @@ struct TextFieldModifier: ViewModifier {
 				HStack {
 					Image(systemName: icon)
 						.frame(width: 36, height: 36)
-						.background(.thinMaterial)
+						.background(.ultraThinMaterial)
 						.cornerRadius(14)
 						.modifier(OutlineOverlay(cornerRadius: 14))
 						.offset(x: -46)
@@ -239,7 +239,7 @@ struct TextFieldModifier: ViewModifier {
 			.foregroundStyle(.primary)
 			.padding(10)
 			.padding(.leading, 43)
-			.background(.thinMaterial)
+            .background(.ultraThinMaterial)
 			.cornerRadius(20)
 			.modifier(OutlineOverlay(cornerRadius: 20))
 	}
@@ -320,6 +320,18 @@ fileprivate struct ViewExtractHelper: UIViewRepresentable {
 	func updateUIView(_ uiView: UIViewType, context: Context) {
 		
 	}
+}
+
+extension View{
+    @ViewBuilder
+    func customPresentationCornerRadius(_ radius:CGFloat)-> some View{
+        if #available(iOS 16.4, *){
+            self
+                .presentationCornerRadius(radius)
+        }else {
+            self
+        }
+    }
 }
 
 

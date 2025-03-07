@@ -171,11 +171,12 @@ struct MessageCard: View {
                         self.showTTL.toggle()
                     }
                 }
+                
             Spacer()
 
             if let _ =  message.url {
 
-                Image(systemName: "link.circle")
+                Image(systemName: "airplane.departure")
                     .resizable()
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(Color.primary, .green)
@@ -187,6 +188,7 @@ struct MessageCard: View {
                             manager.openUrl(url: fileUrl)
                         }
                     }
+           
             }
 
             if let _ = message.image{

@@ -24,12 +24,27 @@ struct SingleMessagesView: View {
     @State private var searchText:String = ""
     @State private var showAllTTL:Bool = false
     
-
+    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
+    
+    var chatHomeMessage:Message{
+        return ChatMessage.getAssistant(chat: chatMessages.last)
+    }
     
     var body: some View {
         List{
 
             if searchText.isEmpty{
+                
+                NavigationLink{
+                    AssistantPageView()
+                        .navigationBarBackButtonHidden()
+                        .toolbar(.hidden, for: .tabBar)
+                    
+                }label: {
+                    MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
+                }
+                
+                
                 ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
                     
                     MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL){ mode in

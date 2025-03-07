@@ -60,6 +60,7 @@ enum SubPage: Equatable{
 	case music
 	case appIcon
 	case imageCache
+    case assistant
 	case web(String)
 	case crash(String)
 	case none
@@ -385,4 +386,20 @@ struct DebugLogs:Defaults.Serializable,Codable{
 	var id:String = UUID().uuidString
 	var createDate:Date = .now
 	var log:String
+}
+
+
+struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
+    var id:String = UUID().uuidString
+    var current:Bool = false
+    var timestamp:Date = .now
+    var name:String = "DeepSeek"
+    var host:String
+    var basePath:String
+    var key:String
+    var model:String
+    
+    static var samples:[AssistantAccount] = [
+        .init(current:true, name:"DeepSeek", host:"ark.cn-beijing.volces.com" ,basePath: "/api/v3/bots", key: "", model: "bot-20250301210828-z22zx")
+    ]
 }

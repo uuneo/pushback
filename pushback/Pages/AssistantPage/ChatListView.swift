@@ -6,80 +6,149 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct ChatMessageListView: View {
+    
     // MARK: - Properties
-    let messages: [ChatMessage]
+    let chatgroup:ChatGroup?
+    let currentRequest:String
+    let currentContent:String
     let isLoading: Bool
     let onEditMessage: (String) -> Void
-
+    @ObservedResults(ChatMessage.self,where: {$0.chat == ""}) var messages
+    
+    
+    init(chatGroup:ChatGroup?, currentRequest: String, currentContent: String, isLoading: Bool, onEditMessage: @escaping (String) -> Void) {
+        self.chatgroup = chatGroup
+        self.currentRequest = currentRequest
+        self.currentContent = currentContent
+        self.isLoading = isLoading
+        self.onEditMessage = onEditMessage
+        if let chatGroup = chatGroup{
+            self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == chatGroup.id})
+        }
+        
+    }
+    
     @State private var selectedMessage: ChatMessage?
-    @StateObject private var speechSynthesizer = SpeechSynthesizer.shared
-    @Environment(\.hideKeyboard) private var hideKeyboard
+    @StateObject private var keyboardHelper = KeyboardHeightHelper()
+    
+    
+    @State private var showHistory:Bool = false
+    
+    let messageTem = ChatMessage()
+    
+    var currentMessage:ChatMessage{
+        messageTem.request = currentRequest
+        messageTem.content = currentContent
+        return messageTem
+    }
+    
     
     // MARK: - Body
     var body: some View {
         ZStack(alignment: .top) {
             messageList
-            readingAloudOverlay
+            
         }
         .sheet(item: $selectedMessage) { message in
             messageDetailSheet(message)
+                .customPresentationCornerRadius(20)
         }
     }
+    
+    @State private var messageCount:Int = 10
     
     // MARK: - Private Views
     private var messageList: some View {
         ScrollViewReader { scrollViewProxy in
+            
             ScrollView {
-                ForEach(messages) { message in
+                if messages.count >= 10{
+                    Section{
+                        Button{
+                            self.showHistory.toggle()
+                        }label: {
+                            HStack{
+                                Text("\(min(messageCount,messages.count))/\(messages.count)")
+                                Text("点击查看更多")
+                            }
+                            .font(.caption)
+                            .foregroundStyle(.gray)
+                            .padding(.vertical)
+                            
+                                
+                        }
+                    }
+                }
+                
+                
+                ForEach(messages.suffix(messageCount),id: \.id) { message in
                     messageRow(message)
                 }
+                
+                if !currentRequest.isEmpty{
+                    messageRow(currentMessage)
+                }
+                Section{
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(height: 30)
+                        .id("messageBottom")
+                }
+                
+                
+                
             }
-            .onAppear { scrollToBottom(proxy: scrollViewProxy) }
-            .onChange(of: messages) { _, _ in scrollToBottom(proxy: scrollViewProxy) }
-            .onChange(of: messages.last?.content) { _, _ in scrollToBottom(proxy: scrollViewProxy) }
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 10)
-                    .onChanged { _ in
-                        hideKeyboard()
-                    }
-            )
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                    scrollToBottom(proxy: scrollViewProxy)
+                }
+            }
+            .onChange(of: messages.count) {  _ in scrollToBottom(proxy: scrollViewProxy) }
+            .onChange(of: currentMessage.content) { newvalue in
+                scrollToBottom(proxy: scrollViewProxy)
+                PushbackManager.vibration(style: .soft)
+            }
+            .onChange(of: chatgroup){ value in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                    scrollToBottom(proxy: scrollViewProxy)
+                }
+            }
+            .onChange(of: keyboardHelper.keyboardHeight) { newValue in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                    scrollToBottom(proxy: scrollViewProxy)
+                }
+            }
+            .sheet(isPresented: $showHistory) {
+                if let chatgroup = chatgroup{
+                    HistoryMessage(showHistory: $showHistory, group: chatgroup.id)
+                        .customPresentationCornerRadius(20)
+                }else{
+                    Spacer()
+                        .onAppear{
+                            self.showHistory.toggle()
+                        }
+                }
+               
+            }
         }
     }
     
     private func messageRow(_ message: ChatMessage) -> some View {
         ChatMessageView(message: message)
             .id(message.id)
-            .overlay(
-                ChatMessageLoadingView(
-                    message: message,
-                    messages: messages,
-                    isLoading: isLoading
-                )
-            )
             .contextMenu {
                 MessageContextMenu(
                     message: message,
                     onCopy: copyMessage,
                     onSelect: { selectedMessage = message },
-                    onReadAloud: onReadAloud,
                     onEdit: { onEditMessage(message.content) }
                 )
             }
     }
     
-    private var readingAloudOverlay: some View {
-        ReadingAloudView(onStopTap: stopReadingAloud)
-            .frame(maxWidth: 400)
-            .showIf(speechSynthesizer.isSpeaking)
-            .transition(
-                .asymmetric(
-                    insertion: .opacity.combined(with: .scale(scale: 0.7, anchor: .top)),
-                    removal: .opacity.combined(with: .scale(scale: 0.7, anchor: .top))
-                )
-            )
-    }
     
     private func messageDetailSheet(_ message: ChatMessage) -> some View {
         NavigationStack {
@@ -94,61 +163,26 @@ struct ChatMessageListView: View {
     }
     
     // MARK: - Helper Methods
-    private func scrollToBottom(proxy: ScrollViewProxy) {
-        if let lastMessage = messages.last {
-            proxy.scrollTo(lastMessage.id, anchor: .bottom)
+    private func scrollToBottom(proxy: ScrollViewProxy, id:String = "messageBottom") {
+        withAnimation(.smooth) {
+            proxy.scrollTo(id, anchor: .bottom)
         }
+        
     }
     
     private func copyMessage(_ message: String) {
         Clipboard.shared.setString(message)
     }
     
-    private func onReadAloud(_ message: String) {
-        Task {
-            await speechSynthesizer.speak(text: message)
-        }
-    }
-    
-    private func stopReadingAloud() {
-        Task {
-            await speechSynthesizer.stopSpeaking()
-        }
-    }
 }
 
-// MARK: - Supporting Views
-private struct ChatMessageLoadingView: View {
-    let message: ChatMessage
-    let messages: [ChatMessage]
-    let isLoading: Bool
-    
-    var body: some View {
-        Group {
-            if shouldShowLoading {
-                HStack {
-                    StreamingLoadingView()
-                        .transition(.opacity)
-                    Spacer()
-                }
-                .padding(.top, 8)
-                .padding(.leading)
-            }
-        }
-    }
-    
-    private var shouldShowLoading: Bool {
-        message.id == messages.last?.id && message.role == .assistant && isLoading
-            && message.content.isEmpty
-    }
-}
+
 
 private struct MessageContextMenu: View {
     let message: ChatMessage
     
     let onCopy: (String) -> Void
     let onSelect: () -> Void
-    let onReadAloud: (String) -> Void
     let onEdit: () -> Void
     
     var onAppear: (() -> Void)? = nil
@@ -163,18 +197,59 @@ private struct MessageContextMenu: View {
             Button(action: onSelect) {
                 Label("选择文本", systemImage: "selection.pin.in.out")
             }
-            
-            Button(action: { onReadAloud(message.content) }) {
-                Label("朗读", systemImage: "speaker.wave.3.fill")
-            }
-            
-            if message.role == .user {
-                Button(action: onEdit) {
-                    Label("编辑", systemImage: "pencil")
-                }
-            }
         }
         .onAppear { onAppear?() }
         .onDisappear { onDisappear?() }
+    }
+}
+
+
+struct HistoryMessage:View {
+    @Binding var showHistory:Bool
+    @ObservedResults(ChatMessage.self,sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false)) var messages
+    
+    init(showHistory: Binding<Bool>, group:String) {
+        self._showHistory = showHistory
+        self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == group},sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false))
+    }
+    
+    var body: some View {
+        NavigationStack{
+            ScrollView{
+                LazyVStack{
+                    ForEach(messages, id:\.id) { message in
+                        
+                        ChatMessageView(message: message)
+                            .id(message.id)
+                            .contextMenu {
+                                
+                            }
+                    }
+                    
+                    Text("已加载全部数据")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                }
+                
+            }
+            
+            .navigationTitle("历史记录")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        self.showHistory = false
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("\(messages.count)")
+                        .font(.caption2)
+                        .foregroundStyle(Color.gray)
+                }
+            }
+        }
     }
 }

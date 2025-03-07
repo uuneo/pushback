@@ -17,24 +17,22 @@ class MonitorsManager: ObservableObject {
     private let queue = DispatchQueue.global(qos: .background)
     
     // wifi
-    @Published var isConnected: Bool = true
+    @Published var isConnected: Bool = false
     
     // notification
-    @Published var isAuthorized: Bool = true
+    @Published var isAuthorized: Bool = false
     
-    init() {
-      
+    private init() {
         monitor = NWPathMonitor()
         monitor.pathUpdateHandler = { [weak self] path in
-			guard let self else { return }
-			
-			DispatchQueue.main.async{
-				self.isConnected = path.status == .satisfied
-				if(self.isConnected ){
-					self.checkNetworkConnect()
-				}
-			}
-			
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.isConnected = path.status == .satisfied
+                if self.isConnected {
+                    self.checkNetworkConnect()
+                }
+            }
         }
         monitor.start(queue: queue)
         

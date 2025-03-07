@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Defaults
-
+import UIKit
 
 class PushbackManager: NetworkManager, ObservableObject{
 	static let shared = PushbackManager()
@@ -261,9 +261,22 @@ class PushbackManager: NetworkManager, ObservableObject{
 		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
 	}
 
-
-	
-
+    
+    class func vibration(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: style)
+        generator.prepare()
+        generator.impactOccurred()
+    }
+    
+    
+    class func hideKeyboard(){
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                        to: nil,
+                                        from: nil,
+                                        for: nil)
+    }
+    
+    
 }
 
 

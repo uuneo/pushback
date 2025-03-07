@@ -194,6 +194,7 @@ struct ServersConfigView: View {
 			.navigationTitle( "服务器列表")
 			.sheet(isPresented: $showAddView) {
 				addServerView()
+                    .customPresentationCornerRadius(20)
 			}
 			.onAppear{ updateCloudServers() }
 

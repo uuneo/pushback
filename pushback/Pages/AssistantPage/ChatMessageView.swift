@@ -24,24 +24,50 @@ struct ChatMessageView: View {
     }
     
     var body: some View {
-        HStack {
-            if message.role == .user {
+        
+        VStack{
+            
+            HStack{
                 Spacer()
-                userMessageView
-            } else {
-                assistantMessageView
-                Spacer()
+                Text("\(message.timestamp.formatString())" + "\n")
+                    .font(.caption2)
+                    .foregroundStyle(.gray)
+                    .padding(.horizontal)
+                
             }
+            .padding(.horizontal)
+            .padding(.vertical, 4)
+            
+          
+                HStack {
+                    
+                    Spacer()
+                    userMessageView
+                }
+                
+                .padding(.horizontal)
+                .padding(.vertical, 4)
+            
+            if  !message.content.isEmpty {
+                HStack{
+                    assistantMessageView
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 4)
+            }
+            
         }
-        .padding(.horizontal)
         .padding(.vertical, 4)
     }
+    
+    
     
     // MARK: - View Components
     
     /// 用户消息视图
     private var userMessageView: some View {
-        Text(message.content)
+        Text(message.request)
             .font(.system(size: 14))
             .padding()
             .background(
@@ -56,27 +82,32 @@ struct ChatMessageView: View {
         Markdown(message.content)
             .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
             .markdownTheme(MarkdownColours.enchantedTheme)
+        
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.gray.opacity(0.1))
             )
             .foregroundColor(.primary)
+        
     }
 }
 
 #Preview {
     VStack {
         // 用户消息示例
-        ChatMessageView(message: ChatMessage(
-            role: .user,
-            content: "你好,我想了解一下 SwiftUI 的基础知识"
-        ))
         
-        // AI助手回复示例
-        ChatMessageView(message: ChatMessage(
-            role: .assistant,
-            content: """
+        var content1:ChatMessage{
+            let content = ChatMessage()
+            content.request = "你好,我想了解一下 SwiftUI 的基础知识"
+            return content
+        }
+        
+        ChatMessageView(message: content1)
+        
+        var content2:ChatMessage{
+            let content = ChatMessage()
+            content.request = """
             我很乐意为您介绍 SwiftUI 的基础知识!
             
             SwiftUI 是苹果推出的声明式UI框架,主要特点包括:
@@ -100,6 +131,10 @@ struct ChatMessageView: View {
             
             您想从哪个方面开始了解呢?
             """
-        ))
+            return content
+        }
+        
+        // AI助手回复示例
+        ChatMessageView(message: content2)
     }
 }

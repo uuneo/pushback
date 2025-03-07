@@ -1,7 +1,31 @@
 {
   "images" : [
     {
-      "filename" : "logo2.png",
+      "filename" : "tint.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "black.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "filename" : "white.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

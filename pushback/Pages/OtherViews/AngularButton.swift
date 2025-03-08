@@ -2,7 +2,7 @@
 //  AngularButton.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/13.
+//  Created by uuneo 2024/10/13.
 //
 
 import SwiftUI

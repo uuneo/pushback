@@ -2,11 +2,12 @@
 //  MessageDetailPage.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/13.
+//  Created by uuneo on 2025/2/13.
 //
 
 import SwiftUI
 import RealmSwift
+import Defaults
 
 struct MessageDetailPage: View {
     @Environment(\.dismiss) private var dismiss
@@ -16,6 +17,7 @@ struct MessageDetailPage: View {
     var group:String?
 
     init(group: String? = nil) {
+       
         if let group = group {
             self.group = group
             self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
@@ -42,14 +44,14 @@ struct MessageDetailPage: View {
     
 
     var body: some View {
-
-        List {
-            if searchText.isEmpty{
-                ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
-
-                    MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL){ mode in
-
-                        switch mode{
+        
+            List {
+                if searchText.isEmpty{
+                    ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
+                        
+                        MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL){ mode in
+                            
+                            switch mode{
                             case .image:
                                 if let imageUrl = message.image{
                                     Task{
@@ -60,9 +62,9 @@ struct MessageDetailPage: View {
                                                     self.imageDetail = imageModel
                                                 }
                                             }
-
+                                            
                                         }
-
+                                        
                                     }
                                 }
                             case .text:
@@ -73,52 +75,52 @@ struct MessageDetailPage: View {
                                 withAnimation(.easeInOut) {
                                     self.selectUserInfo = message
                                 }
+                            }
                         }
-
-                    }
-                    .onAppear{
-                        if messages.prefix(currentPage * itemsPerPage).last == message{
-
-                            currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
+                        
+                        .onAppear{
+                            if messages.prefix(currentPage * itemsPerPage).last == message{
+                                
+                                currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
+                            }
                         }
-                    }
-                    .listRowBackground(Color.clear)
-                    .listSectionSeparator(.visible)
-
-
-                }.onDelete(perform: $messages.remove)
-            }else{
-                SearchMessageView(searchText: searchText, group: group ?? "")
-            }
-        }
-        .navigationBarHidden(navHi)
-        .overlay { showImageDetail() }
-        .overlay{ showSelectMessage() }
-        .overlay{ showSelectUserInfo() }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
-        .toolbar{
-            ToolbarItem {
-                Button{
-                    withAnimation {
-                        self.showAllTTL.toggle()
-                    }
-
-                }label: {
-                    Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
-                        .font(.caption)
+                        .listRowBackground(Color.clear)
+                        .listSectionSeparator(.visible)
+                        
+                        
+                    }.onDelete(perform: $messages.remove)
+                }else{
+                    SearchMessageView(searchText: searchText, group: group ?? "")
                 }
             }
-        }
-        .task {
+            .navigationBarHidden(navHi)
+            .overlay { showImageDetail() }
+            .overlay{ showSelectMessage() }
+            .overlay{ showSelectUserInfo() }
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+            .toolbar{
+                ToolbarItem {
+                    Button{
+                        withAnimation {
+                            self.showAllTTL.toggle()
+                        }
+                        
+                    }label: {
+                        Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
+                            .font(.caption)
+                    }
+                }
+            }
+            .task {
+                
+                if let group = group{
+                    if let realm = try? Realm(), realm.objects(Message.self).where({$0.group == group && !$0.read}).count > 0 {
+                        RealmManager.shared.read( group)
+                    }
+                }
+            }
             
-            if let group = group{
-                if let realm = try? Realm(), realm.objects(Message.self).where({$0.group == group && !$0.read}).count > 0 {
-                    RealmManager.shared.read( group)
-                }
-            }
-        }
-
-
+        
     }
 
     @ViewBuilder

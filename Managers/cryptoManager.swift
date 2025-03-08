@@ -2,7 +2,7 @@
 //  cryptoManager.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/8.
+//  Created by uuneo 2024/10/8.
 //
 
 import Foundation

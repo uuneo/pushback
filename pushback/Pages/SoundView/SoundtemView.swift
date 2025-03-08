@@ -2,7 +2,7 @@
 //  SoundItemView.swift
 //  Meow
 //
-//  Created by He Cho on 2024/8/9.
+//  Created by uuneo 2024/8/9.
 //
 
 import SwiftUI

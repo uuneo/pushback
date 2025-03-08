@@ -2,7 +2,7 @@
 //  ImageHandler.swift
 //  NotificationServiceExtension
 //
-//  Created by He Cho on 2024/8/8.
+//  Created by uuneo 2024/8/8.
 //
 
 import Foundation

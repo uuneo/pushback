@@ -2,7 +2,7 @@
 //  SingleMessagesView.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/13.
+//  Created by uuneo on 2025/2/13.
 //
 
 import SwiftUI
@@ -12,7 +12,9 @@ import Defaults
 struct SingleMessagesView: View {
     
     @ObservedResults(Message.self,sortDescriptor: SortDescriptor(keyPath: \Message.createDate, ascending: false)) var messages
+    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
     @Default(.images) var images
+    
     @State private var imageDetail:ImageModel?
     @State private var currentPage: Int = 1
     @State private var itemsPerPage: Int = 50 // 每页加载50条数据
@@ -24,11 +26,12 @@ struct SingleMessagesView: View {
     @State private var searchText:String = ""
     @State private var showAllTTL:Bool = false
     
-    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
+   
     
     var chatHomeMessage:Message{
         return ChatMessage.getAssistant(chat: chatMessages.last)
     }
+
     
     var body: some View {
         List{
@@ -72,7 +75,7 @@ struct SingleMessagesView: View {
                         case .userInfo:
                             withAnimation(.easeInOut) {
                                 self.selectUserInfo = message
-                            }
+                            } 
                         }
                         
                     }
@@ -84,7 +87,7 @@ struct SingleMessagesView: View {
                     }
                     .listRowBackground(Color.clear)
                     .listSectionSeparator(.visible)
-                    
+                   
                     
                 }.onDelete(perform: $messages.remove)
             }else{

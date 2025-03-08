@@ -1,9 +1,4 @@
-//
-//  SplashSyntaxHighlighter+Extension.swift
-//  DeepSeek
-//
-//  Created by Harlans on 2024/12/3.
-//
+
 
 import MarkdownUI
 import SwiftUI

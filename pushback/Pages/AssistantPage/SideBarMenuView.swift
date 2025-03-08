@@ -2,7 +2,7 @@
 //  SideBarMenuView.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/25.
+//  Created by uuneo on 2025/2/25.
 //
 
 import SwiftUI
@@ -87,7 +87,7 @@ struct SideBarMenuView: View {
                         }label: {
                             
                             HStack{
-                                Label(chatgroup.name, systemImage: "rectangle.3.group.bubble")
+                                Label(chatgroup.name, systemImage: getleftIconName(group: chatgroup.id))
                                     .fontWeight(.medium)
                                     .lineLimit(1) // 限制为单行
                                     .truncationMode(.tail) // 超出部分用省略号
@@ -95,6 +95,7 @@ struct SideBarMenuView: View {
                                     .padding(.leading, 10)
                                     .foregroundColor(chatgroup.current ? .green : .primary)
                                 Spacer()
+                                
                                 Image(systemName: "chevron.right")
                                     .imageScale(.large)
                                     .foregroundColor(chatgroup.current ? .green : .gray)
@@ -121,9 +122,9 @@ struct SideBarMenuView: View {
                             RealmManager.shared.realm { realm in
                                 if let group = realm.objects(ChatGroup.self).first(where: {$0.id == chatgroup.id}){
                                     
-                                    if let msg  =  realm.objects(ChatMessage.self).first(where: {$0.chat == group.id}){
-                                        realm.delete(msg)
-                                    }
+                                    let msgs = realm.objects(ChatMessage.self).filter({$0.chat == group.id})
+                                    
+                                    realm.delete(msgs)
                                     realm.delete(group)
                                 }
                             }
@@ -199,6 +200,13 @@ struct SideBarMenuView: View {
                 Spacer()
             }
         }.padding()
+    }
+    
+    private func getleftIconName(group:String)-> String{
+        if let realm = try? Realm(){
+           return  realm.objects(ChatMessage.self).filter({$0.messageId == group}).count == 0 ? "rectangle.3.group.bubble" :"message.badge.circle"
+        }
+        return "rectangle.3.group.bubble"
     }
 }
 

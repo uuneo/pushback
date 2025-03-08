@@ -2,7 +2,7 @@
 //  MessageCardView.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/13.
+//  Created by uuneo on 2025/2/13.
 //
 
 import SwiftUI
@@ -30,19 +30,31 @@ struct MessageCard: View {
                 VStack(alignment: .leading, spacing:5){
 
                     HStack(alignment: .center){
-                        AvatarView(id: message.id.uuidString, icon: message.icon)
-                            .frame(width: 30, height: 30, alignment: .center)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .overlay(alignment: .bottomTrailing) {
-                                if message.level > 2{
-                                    Image(systemName: "exclamationmark.triangle.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 15)
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.white, .red)
-                                }
+                        
+                        Menu {
+                            Button{
+                                PushbackManager.shared.sheetPage = .chatgpt(message.id.uuidString)
+                            }label: {
+                                Label("问智能助手", image: "chatgpt")
                             }
+                        } label: {
+                            AvatarView(id: message.id.uuidString, icon: message.icon)
+                                .frame(width: 30, height: 30, alignment: .center)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(alignment: .bottomTrailing) {
+                                    if message.level > 2{
+                                        Image(systemName: "exclamationmark.triangle.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 15)
+                                            .symbolRenderingMode(.palette)
+                                            .foregroundStyle(.white, .red)
+                                    }
+                                }
+                        }
+
+                        
+                       
 
 
                         VStack{
@@ -173,6 +185,7 @@ struct MessageCard: View {
                 }
                 
             Spacer()
+        
 
             if let _ =  message.url {
 

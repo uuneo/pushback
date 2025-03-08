@@ -1,12 +1,8 @@
-//
-//  ChatListView.swift
-//  DeepSeek
-//
-//  Created by Harlans on 2024/12/5.
-//
+
 
 import SwiftUI
 import RealmSwift
+import Defaults
 
 struct ChatMessageListView: View {
     
@@ -14,17 +10,20 @@ struct ChatMessageListView: View {
     let chatgroup:ChatGroup?
     let currentRequest:String
     let currentContent:String
+    let messageId:String?
     let isLoading: Bool
     let onEditMessage: (String) -> Void
     @ObservedResults(ChatMessage.self,where: {$0.chat == ""}) var messages
     
+    @Default(.historyMessageBool) var historyMessageBool
     
-    init(chatGroup:ChatGroup?, currentRequest: String, currentContent: String, isLoading: Bool, onEditMessage: @escaping (String) -> Void) {
+    init(chatGroup:ChatGroup?, currentRequest: String, currentContent: String, isLoading: Bool, messageId:String? = nil, onEditMessage: @escaping (String) -> Void) {
         self.chatgroup = chatGroup
         self.currentRequest = currentRequest
         self.currentContent = currentContent
         self.isLoading = isLoading
         self.onEditMessage = onEditMessage
+        self.messageId = messageId
         if let chatGroup = chatGroup{
             self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == chatGroup.id})
         }
@@ -37,13 +36,19 @@ struct ChatMessageListView: View {
     
     @State private var showHistory:Bool = false
     
+    @State private var messageCount:Int = 10
+    
+   
+    
     let messageTem = ChatMessage()
     
     var currentMessage:ChatMessage{
         messageTem.request = currentRequest
         messageTem.content = currentContent
+        messageTem.messageId = messageId
         return messageTem
     }
+    
     
     
     // MARK: - Body
@@ -58,7 +63,7 @@ struct ChatMessageListView: View {
         }
     }
     
-    @State private var messageCount:Int = 10
+    
     
     // MARK: - Private Views
     private var messageList: some View {
@@ -85,11 +90,15 @@ struct ChatMessageListView: View {
                 
                 
                 ForEach(messages.suffix(messageCount),id: \.id) { message in
-                    messageRow(message)
+                    messageRow(message, showQuote: true)
                 }
                 
-                if !currentRequest.isEmpty{
-                    messageRow(currentMessage)
+                if !currentRequest.isEmpty || messageId != nil{
+                    var showQuote:Bool{
+                        historyMessageBool ?
+                        messages.suffix(messageCount).filter({$0.chat == messageId}).count == 0 : true
+                    }
+                    messageRow(currentMessage,showQuote: showQuote)
                 }
                 Section{
                     Rectangle()
@@ -136,8 +145,8 @@ struct ChatMessageListView: View {
         }
     }
     
-    private func messageRow(_ message: ChatMessage) -> some View {
-        ChatMessageView(message: message)
+    private func messageRow(_ message: ChatMessage, showQuote:Bool = false) -> some View {
+        ChatMessageView(message: message,showQuote: showQuote)
             .id(message.id)
             .contextMenu {
                 MessageContextMenu(
@@ -219,7 +228,7 @@ struct HistoryMessage:View {
                 LazyVStack{
                     ForEach(messages, id:\.id) { message in
                         
-                        ChatMessageView(message: message)
+                        ChatMessageView(message: message,showQuote: true)
                             .id(message.id)
                             .contextMenu {
                                 

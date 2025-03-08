@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "tint.png",
+      "filename" : "white 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "white.png",
+      "filename" : "tint.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

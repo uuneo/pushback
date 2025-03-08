@@ -2,7 +2,7 @@
 //  RealmProxy.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/9.
+//  Created by uuneo 2024/10/9.
 //
 import SwiftUI
 import RealmSwift

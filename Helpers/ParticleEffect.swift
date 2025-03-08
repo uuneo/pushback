@@ -2,7 +2,7 @@
 //  ParticleEffect.swift
 //  pushback
 //
-//  Created by He Cho on 2024/11/21.
+//  Created by uuneo 2024/11/21.
 //
 import SwiftUI
 

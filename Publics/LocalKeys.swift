@@ -2,7 +2,7 @@
 //  LocalKeys.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/26.
+//  Created by uuneo 2024/10/26.
 //
 
 @_exported import Defaults
@@ -24,13 +24,13 @@ extension Defaults.Keys {
 	static let cryptoConfig = Key<CryptoModel>("CryptoSettingFields", CryptoModel.data)
 	static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
 	static let sound = Key<SoundModel>("defaultSound", SoundModel.def)
-    static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .Whale)
+    static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
 	static let messageExpiration = Key<ExpirationTime>("messageExpirtionTime", .forever)
 	static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)
 	static let cacheSize = Key<CacheSizeLimit>("CacheSizeLimit", .infinity)
 	static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
 	static let updateDeleteDatabase = Key<Bool>("updateDeleteDatabase", false)
-    static let showGroup = Key<Bool>("showGroupMessage", false)
+    static let showGroup = Key<Bool>("showGroupMessage", true)
     
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[])
     static let historyMessageCount = Key<Int>("historyMessageCount", 10)

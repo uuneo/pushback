@@ -2,7 +2,7 @@
 //  ChatMessageModel.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/25.
+//  Created by uuneo on 2025/2/25.
 //
 
 
@@ -50,8 +50,7 @@ final class ChatMessage: Object, ObjectKeyIdentifiable {
     @Persisted var request:String
     @Persisted var content: String
     @Persisted var timestamp: Date
-    
-    
+    @Persisted var messageId:String?
     
 }
 

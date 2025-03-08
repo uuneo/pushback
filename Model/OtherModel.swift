@@ -2,7 +2,7 @@
 //  OtherModel.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/26.
+//  Created by uuneo 2024/10/26.
 //
 
 import SwiftUI
@@ -63,7 +63,9 @@ enum SubPage: Equatable{
     case assistant
 	case web(String)
 	case crash(String)
+    case chatgpt(String)
 	case none
+    
 }
 
 
@@ -213,10 +215,11 @@ struct CryptoModel: Equatable, Codable, Defaults.Serializable{
 // MARK: - AppIconMode
 
 enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
-    case Whale
 	case pushback
 	case callme
+    case Whale
 	case bell
+    
 	
 
     var name: String? { self == .Whale ? nil : self.rawValue }
@@ -393,13 +396,9 @@ struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
     var id:String = UUID().uuidString
     var current:Bool = false
     var timestamp:Date = .now
-    var name:String = "DeepSeek"
+    var name:String = String(localized: "智能助手")
     var host:String
     var basePath:String
     var key:String
     var model:String
-    
-    static var samples:[AssistantAccount] = [
-        .init(current:true, name:"DeepSeek", host:"ark.cn-beijing.volces.com" ,basePath: "/api/v3/bots", key: "", model: "bot-20250301210828-z22zx")
-    ]
 }

@@ -1,9 +1,4 @@
-//
-//  ChatInputView.swift
-//  DeepSeek
-//
-//  Created by Harlans on 2024/12/1.
-//
+
 
 import SwiftUI
 import Combine
@@ -19,8 +14,6 @@ struct ChatInputView: View {
     let onSelectedPicture: () -> Void
     let onSelectedFile: () -> Void
     let onCapturePhoto: () -> Void
-    let newMessageGroup:() -> Void
-    var showHistoryGroup:()-> Void
     
     @State private var showPromptChooseView = false
     @FocusState private var isFocusedInput: Bool
@@ -49,19 +42,7 @@ struct ChatInputView: View {
             
             HStack(spacing: 10){
                 
-                Label("对话列表", systemImage: "chevron.up")
-                    .foregroundStyle(Color.primary)
-                    .font(.system(size: 12))
-                    .fontWeight(.bold)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(.ultraThinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .padding(.horizontal, 10)
-                    .onTapGesture {
-                        PushbackManager.vibration(style: .heavy)
-                        showHistoryGroup()
-                    }
+                
                     
                 Label("连续对话", systemImage:  isHistoryMessage ? "lamp.desk.fill" : "lamp.desk")
                     .foregroundStyle(isHistoryMessage ? Color.accentColor : Color.primary)
@@ -77,14 +58,19 @@ struct ChatInputView: View {
                     }
                 
                 Spacer()
+            
+                
             }
-            .padding(.leading, 20)
+            .padding(.horizontal, 20)
             .padding(.vertical, 8)
             
             
         }
         .background(.background)
         .cornerRadius(30, corners: [.topLeft, .topRight])
+        .onTapGesture {
+            self.isFocusedInput = true
+        }
         .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: -5)
     }
     
@@ -97,8 +83,6 @@ struct ChatInputView: View {
                 .focused($isFocusedInput)
                 .frame(minHeight: 40)
                 .font(.system(size: 14))
-            
-        
             PromptButtonView()
         }
         .background(
@@ -130,8 +114,16 @@ struct ChatInputView: View {
         } else if !text.isEmpty {
             // 发送按钮
             Button(action: {
-                onSend(text)
-                isFocusedInput = false
+                
+                self.text = text.trimmingCharacters(in: .whitespaces)
+                if text.count > 1{
+                    onSend(text)
+                    isFocusedInput = false
+                }else {
+                    Toast.shared.present(title: String(localized: "至少2个字符"), symbol: .error)
+                }
+               
+               
             }) {
                 Image(systemName: "arrow.up.circle.fill")
                     .resizable()
@@ -150,8 +142,7 @@ struct ChatInputView: View {
             AttachmentMenuView(
                 onSelectedPicture: onSelectedPicture,
                 onSelectedFile: onSelectedFile,
-                onCapturePhoto: onCapturePhoto,
-                newMessageGroup: newMessageGroup
+                onCapturePhoto: onCapturePhoto
             )
             .transition(.scale)
             
@@ -206,16 +197,16 @@ private struct AttachmentMenuView: View {
     var onSelectedPicture: () -> Void
     var onSelectedFile: () -> Void
     var onCapturePhoto: () -> Void
-    var newMessageGroup: ()-> Void
-    var body: some View {
+     var body: some View {
         Menu {
-            AttachmentMenuItem(title: "图片", icon: "photo", action: onSelectedPicture)
+            AttachmentMenuItem(title: String(localized: "图片"), icon: "photo", action: onSelectedPicture)
                 .disabled(true)
-            AttachmentMenuItem(title: "文件", icon: "doc", action: onSelectedFile)
+            AttachmentMenuItem(title: String(localized: "文件"), icon: "doc", action: onSelectedFile)
                 .disabled(true)
-            AttachmentMenuItem(title: "拍照", icon: "camera", action: onCapturePhoto)
+            AttachmentMenuItem(title: String(localized: "拍照"), icon: "camera", action: onCapturePhoto)
                 .disabled(true)
-            AttachmentMenuItem(title: "新对话", icon: "rectangle.3.group.bubble", action: newMessageGroup)
+            
+           
             
         } label: {
             attachmentMenuButton
@@ -254,8 +245,7 @@ private struct AttachmentMenuItem: View {
 #Preview {
     ChatInputView(
         text: .constant("""
-今天，DeepSeek 全新研发的推理模型 DeepSeek-R1-Lite 预览版正式上线。所有用户均可登录官方网页（chat.deepseek.com），一键开启与 R1-Lite 预览版模型的超强推理对话体验。DeepSeek R1 系列模型使用强化学习训练，推理过程包含大量反思和验证，思维链长度可达数万字。
-
+ test
 """),
         isLoading: false,
         isResponding: false,
@@ -273,9 +263,5 @@ private struct AttachmentMenuItem: View {
         },
         onCapturePhoto: {
             print("选择拍照")
-        },newMessageGroup:{
-            
-        }, showHistoryGroup: {
-            
         })
 }

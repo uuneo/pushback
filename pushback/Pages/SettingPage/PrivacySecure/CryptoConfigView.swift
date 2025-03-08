@@ -2,7 +2,7 @@
 //  CryptoConfigView.swift
 //  Meow
 //
-//  Created by He Cho on 2024/8/10.
+//  Created by uuneo 2024/8/10.
 //
 
 import SwiftUI

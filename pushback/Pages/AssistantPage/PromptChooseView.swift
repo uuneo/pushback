@@ -1,9 +1,4 @@
-//
-//  PromptChooseView.swift
-//  DeepSeek
-//
-//  Created by Harlans on 2024/12/3.
-//
+
 
 import SwiftUI
 import Foundation

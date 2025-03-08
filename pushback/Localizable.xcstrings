@@ -2785,23 +2785,6 @@
         }
       }
     },
-    "思考中%@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Thinking...%@"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " Düşünüyor...%@"
-          }
-        }
-      }
-    },
     "恢复" : {
       "localizations" : {
         "en" : {
@@ -2926,6 +2909,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$d veri bulundu"
+          }
+        }
+      }
+    },
+    "拍照" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "photograph"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fotoğraf çekmek"
           }
         }
       }
@@ -3214,6 +3213,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Veri Yönetimi"
+          }
+        }
+      }
+    },
+    "文件" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "file"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dosya"
           }
         }
       }
@@ -3699,18 +3714,18 @@
         }
       }
     },
-    "模型名称: (deepseek-chat)" : {
+    "模型名称: (gpt-4o-mini)" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model Name: (deepseek-chat)"
+            "value" : "Model Name: (gpt-4o-mini)"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model Adı: (deepseek-chat)"
+            "value" : "Model Adı: (gpt-4o-mini)"
           }
         }
       }
@@ -4644,6 +4659,22 @@
         }
       }
     },
+    "至少2个字符" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min 2 chars"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min 2 karakter"
+          }
+        }
+      }
+    },
     "获取开发者持续支持" : {
       "localizations" : {
         "en" : {
@@ -4804,18 +4835,18 @@
         }
       }
     },
-    "请求地址(api.deepseek.com)" : {
+    "请求地址(api.openai.com)" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Request address (api.deepseek.com)"
+            "value" : "Request address (api.openai.com)"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İstek adresi (api.deepseek.com)"
+            "value" : "İstek adresi (api.openai.com)"
           }
         }
       }
@@ -5474,6 +5505,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uzun vadeli"
+          }
+        }
+      }
+    },
+    "问智能助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask AI"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapay zekaya sor"
           }
         }
       }

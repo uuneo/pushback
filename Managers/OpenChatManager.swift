@@ -2,7 +2,7 @@
 //  OpenChatManager.swift
 //  pushback
 //
-//  Created by lynn on 2025/3/4.
+//  Created by uuneo on 2025/3/4.
 //
 
 import Foundation
@@ -59,7 +59,8 @@ final class openChatManager {
         }completion: { _ in}
     }
     
-    func getHistoryParams(text: String)-> ChatQuery?{
+    func getHistoryParams(text: String, messageId:String? = nil)-> ChatQuery?{
+        
         
         guard  let account =  Defaults[.assistantAccouns].first(where: {$0.current}) else {
             return nil
@@ -69,36 +70,72 @@ final class openChatManager {
         do{
             let realm = try Realm()
             
-            @ObservedResults(ChatPrompt.self, where: (\.isSelected)) var prompts
-            
             ///  增加system的前置参数
             if let promt = realm.objects(ChatPrompt.self).first(where: (\.isSelected)){
                 params.append(.system(.init(content: promt.content, name: promt.title)))
             }
+            
+            var inputText:String{
+                if let message = realm.objects(Message.self).first(where: {$0.id.uuidString == messageId}){
+                    return message.userInfo + "\n" + text
+                }
+                return text
+            }
+            
+           
             /// 连续对话，获取前多少条的对话
             guard let group = realm.objects(ChatGroup.self).first(where: {$0.current}) else {
-                return ChatQuery(messages: [.user(.init(content: .string(text)))], model: account.model)
+                return ChatQuery(messages: [.user(.init(content: .string(inputText)))], model: account.model)
             }
+            
+            
+            let messageRaw = realm.objects(ChatMessage.self).filter({$0.chat == group.id}).sorted(by: {$0.timestamp > $1.timestamp}).suffix( Defaults[.historyMessageCount])
            
-            if  Defaults[.historyMessageBool]{
-                let messageRaw = realm.objects(ChatMessage.self).filter({$0.chat == group.id}).sorted(by: {$0.timestamp > $1.timestamp}).suffix( Defaults[.historyMessageCount])
+            /// 判断是否携带，如果连续对话，则继续判断，如果不是连续对话，必须携带，如果不是连续对话，判断历史记录里是否有
+            if Defaults[.historyMessageBool]{
+                
+                var isInHistory:Bool = false
                 
                 for message in messageRaw{
-                    params.append(.user(.init(content: .string(message.request))))
+                    // 携带引用信息
+                    if let messageId = message.messageId{
+                        if let msg = realm.objects(Message.self).first(where: {$0.id.uuidString == messageId}){
+                            params.append(.user(.init(content: .string(msg.userInfo + "\n" + message.request))))
+                        }
+                        isInHistory = true
+                    }else {
+                        params.append(.user(.init(content: .string(message.request))))
+                    }
+                   
                     params.append(.assistant(.init(content: message.content)))
+                    
                 }
+                if isInHistory{
+                    params.append(.user(.init(content: .string(text))))
+                }else{
+                    params.append(.user(.init(content: .string(inputText))))
+                }
+                
+            }else{
+                params.append(.user(.init(content: .string(inputText))))
             }
             
             
-            params.append(.user(.init(content: .string(text))))
+           
             
             return ChatQuery(messages: params, model: account.model)
             
         }catch{
             Log.error(error)
             Toast.shared.present(title: "\(error.localizedDescription)", symbol: .error)
+          
+            return ChatQuery(messages: [.user(.init(content: .string(text)))], model: account.model)
         }
-        return ChatQuery(messages: params, model: account.model)
+        
+        
+        
+        
+        
     }
     
     func getReady(account:AssistantAccount? = nil) -> OpenAI?{
@@ -119,8 +156,8 @@ final class openChatManager {
     }
     
     
-    func chatsStream(text:String, account:AssistantAccount? = nil,onResult: @escaping (Result<ChatStreamResult, Error>) -> Void, completion: ((Error?) -> Void)?)  {
-        guard let openchat = self.getReady(), let query = self.getHistoryParams(text: text) else {
+    func chatsStream(text:String, messageId:String? = nil,account:AssistantAccount? = nil,onResult: @escaping (Result<ChatStreamResult, Error>) -> Void, completion: ((Error?) -> Void)?)  {
+        guard let openchat = self.getReady(), let query = self.getHistoryParams(text: text,messageId: messageId) else {
             completion?(chatError.noConfig)
             return
         }

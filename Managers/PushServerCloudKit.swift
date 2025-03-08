@@ -2,7 +2,7 @@
 //  PushServerCloudKit.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/29.
+//  Created by uuneo 2024/10/29.
 //
 import Foundation
 import CloudKit

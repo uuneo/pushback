@@ -1,8 +1,8 @@
 //
-//  Snapshot.swift
-//  ViewSnapshot
+// 
+//  pushback
 //
-//  Created by  on 30/10/24.
+//  Created by uuneo 2024/10/26.
 //
 
 import SwiftUI

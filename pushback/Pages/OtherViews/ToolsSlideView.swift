@@ -2,7 +2,7 @@
 //  ToolsSlideView.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/16.
+//  Created by uuneo 2024/10/16.
 //
 
 import SwiftUI

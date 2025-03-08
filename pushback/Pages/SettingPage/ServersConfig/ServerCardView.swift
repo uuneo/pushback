@@ -2,7 +2,7 @@
 //  ServerCardView.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/30.
+//  Created by uuneo 2024/10/30.
 //
 
 import SwiftUI

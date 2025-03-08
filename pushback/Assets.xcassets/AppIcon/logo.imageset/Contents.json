@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pushbackLogo 1.png",
+      "filename" : "white.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "pushbackLogo dark.png",
+      "filename" : "black.png",
       "idiom" : "universal"
     }
   ],

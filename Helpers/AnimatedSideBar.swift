@@ -2,7 +2,7 @@
 //  AnimatedSideBar.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/24.
+//  Created by uuneo on 2025/2/24.
 //
 
 import SwiftUI

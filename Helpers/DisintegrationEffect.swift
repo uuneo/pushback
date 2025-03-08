@@ -1,8 +1,8 @@
 //
-//  DisintegrationEffect.swift
-//  SnapEffect
 //
-//  Created by Balaji Venkatesh on 21/11/24.
+//  pushback
+//
+//  Created by uuneo 2024/10/26.
 //
 
 import SwiftUI

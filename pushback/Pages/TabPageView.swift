@@ -2,7 +2,7 @@
 //  TabPageView.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/22.
+//  Created by uuneo on 2025/2/22.
 //
 
 import SwiftUI
@@ -192,6 +192,7 @@ struct TabPageView: View {
                     .toolbar(.hidden, for: .tabBar)
                     .navigationTitle("图片缓存")
             }
+       
         default:
             EmptyView()
                 .onAppear{
@@ -218,6 +219,24 @@ struct TabPageView: View {
             
         case .crash(let crashlog):
             CrashReportView(crashLog: crashlog)
+            
+        case .chatgpt(let id):
+            AssistantPageView(messageId: id)
+                .onAppear{
+                    RealmManager.shared.realm { realm in
+                        let groups = realm.objects(ChatGroup.self)
+                        
+                        for group in groups{
+                            if group.id == id{
+                                group.current = true
+                            }else {
+                                group.current = false
+                            }
+                            
+                        }
+                        
+                    }
+                }
        
         default:
             EmptyView()

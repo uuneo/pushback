@@ -3,6 +3,16 @@
     {
       "filename" : "start.png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "startdark.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

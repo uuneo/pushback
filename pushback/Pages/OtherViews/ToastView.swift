@@ -2,7 +2,7 @@
 //  ToastView.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/10.
+//  Created by uuneo 2024/10/10.
 //
 ///
 ///  Button("Present Toast") {

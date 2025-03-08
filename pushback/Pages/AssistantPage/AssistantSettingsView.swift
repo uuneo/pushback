@@ -2,7 +2,7 @@
 //  AssistantSettingsView.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/26.
+//  Created by uuneo on 2025/2/26.
 //
 
 import SwiftUI
@@ -26,7 +26,7 @@ struct AssistantSettingsView: View {
                 Section{
                     
                     Button{
-                        self.selectAccount =  AssistantAccount(host: "api.deepseek.com", basePath: "/v1", key: "", model: "deepseek-chat")
+                        self.selectAccount =  AssistantAccount(host: "api.openai.com", basePath: "/v1", key: "", model: "gpt-4o-mini")
                     }label: {
                         HStack{
                             Label("增加新账户", systemImage: "person.badge.plus")
@@ -122,7 +122,7 @@ struct AssistantSettingsView: View {
                         
                     }
                     .onMove { indexSet, index in
-                        AssistantAccount.samples.move(fromOffsets: indexSet, toOffset: index)
+                        assistantAccouns.move(fromOffsets: indexSet, toOffset: index)
                     }
                     
                 }header: {
@@ -235,7 +235,7 @@ struct ChangeChatAccount:View {
                 .listRowInsets(EdgeInsets())
                 .listRowSpacing(0)
                 
-                Section("请求地址(api.deepseek.com)") {
+                Section("请求地址(api.openai.com)") {
                     baseHostField
                 }
                 .textCase(.none)
@@ -250,7 +250,7 @@ struct ChangeChatAccount:View {
                 .listRowInsets(EdgeInsets())
                 .listRowSpacing(0)
                 
-                Section("模型名称: (deepseek-chat)") {
+                Section("模型名称: (gpt-4o-mini)") {
                     baseModelField
                 }
                 .textCase(.none)

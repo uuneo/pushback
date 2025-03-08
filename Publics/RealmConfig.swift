@@ -2,7 +2,7 @@
 //  RealmConfig.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/26.
+//  Created by uuneo 2024/10/26.
 //
 
 @_exported import RealmSwift
@@ -16,7 +16,7 @@ let kRealmDefaultConfiguration = {
 #endif
 	let config = Realm.Configuration(
 		fileURL: groupUrl?.appendingPathComponent(BaseConfig.realmName),
-		schemaVersion: 32,
+		schemaVersion: 33,
 		migrationBlock: { _, oldSchemaVersion in
 			if oldSchemaVersion < 1 { }
 		}

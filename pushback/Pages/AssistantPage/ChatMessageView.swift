@@ -1,18 +1,15 @@
-//
-//  ChatMessageView.swift
-//  DeepSeek
-//
-//  Created by Harlans on 2024/12/2.
-//
+
 
 import SwiftUI
 import MarkdownUI
 import Splash
+import RealmSwift
 
 struct ChatMessageView: View {
     @Environment(\.colorScheme) var colorScheme
     
     let message: ChatMessage
+    let showQuote:Bool
     
     private var codeHighlightColorScheme: Splash.Theme {
         switch colorScheme {
@@ -22,6 +19,16 @@ struct ChatMessageView: View {
             return .sunset(withFont: .init(size: 16))
         }
     }
+    
+    var quote:Message?{
+        
+        if let realm = try? Realm(){
+            return realm.objects(Message.self).first(where: {$0.id.uuidString == message.messageId})
+        }
+        return nil
+    }
+    
+    
     
     var body: some View {
         
@@ -38,15 +45,28 @@ struct ChatMessageView: View {
             .padding(.horizontal)
             .padding(.vertical, 4)
             
-          
-                HStack {
-                    
-                    Spacer()
-                    userMessageView
+           
+            if message.request.count > 0 || (quote != nil &&  showQuote) {
+                VStack{
+                    if let quote = quote, showQuote{
+                        HStack{
+                            Spacer()
+                            quoteView(quote: "\(quote.title ?? "")\(quote.body ?? "")")
+                            Spacer()
+                        }
+                        .padding(.bottom, 5)
+                    }
+                    if message.request.count > 0{
+                        HStack {
+                            Spacer()
+                            userMessageView
+                        }
+                    }
                 }
-                
                 .padding(.horizontal)
                 .padding(.vertical, 4)
+            }
+           
             
             if  !message.content.isEmpty {
                 HStack{
@@ -56,6 +76,8 @@ struct ChatMessageView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 4)
             }
+            
+            
             
         }
         .padding(.vertical, 4)
@@ -81,7 +103,7 @@ struct ChatMessageView: View {
     private var assistantMessageView: some View {
         Markdown(message.content)
             .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
-            .markdownTheme(MarkdownColours.enchantedTheme)
+            .markdownTheme(MarkdownTheme.enchantedTheme)
         
             .padding()
             .background(
@@ -90,6 +112,26 @@ struct ChatMessageView: View {
             )
             .foregroundColor(.primary)
         
+    }
+    
+    @ViewBuilder
+    func quoteView(quote:String)-> some View{
+        HStack(spacing: 5) {
+          
+            
+            Text("\(quote)")
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .font(.caption2)
+            
+            Image(systemName: "quote.bubble")
+                .foregroundColor(.gray)
+                .padding(.leading, 10)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 
@@ -103,7 +145,7 @@ struct ChatMessageView: View {
             return content
         }
         
-        ChatMessageView(message: content1)
+        ChatMessageView(message: content1,showQuote: true)
         
         var content2:ChatMessage{
             let content = ChatMessage()
@@ -135,6 +177,6 @@ struct ChatMessageView: View {
         }
         
         // AI助手回复示例
-        ChatMessageView(message: content2)
+        ChatMessageView(message: content2,showQuote:true)
     }
 }

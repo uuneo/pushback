@@ -2,7 +2,7 @@
 //  GroupMessagesView.swift
 //  pushback
 //
-//  Created by lynn on 2025/2/13.
+//  Created by uuneo on 2025/2/13.
 //
 
 import SwiftUI
@@ -21,11 +21,13 @@ struct GroupMessagesView: View {
         return ChatMessage.getAssistant(chat: chatMessages.last)
     }
     
+
     
     var body: some View {
         List{
             
             if searchText.isEmpty{
+                
                 NavigationLink{
                     AssistantPageView()
                         .navigationBarBackButtonHidden()
@@ -35,31 +37,31 @@ struct GroupMessagesView: View {
                     MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
                 }
             }
-           
+            
             ForEach(messages,id: \.id){ groupMessage in
                 if let message = groupMessage.first{
                     NavigationLink {
-
-                        MessageDetailPage(group: message.group)
-                            .toolbar(.hidden, for: .tabBar)
-                            .navigationTitle(message.group)
-
-
-
+                        
+                       
+                            MessageDetailPage(group: message.group)
+                                .toolbar(.hidden, for: .tabBar)
+                                .navigationTitle(message.group)
+                
+                        
                     } label: {
                         MessageRow(message: message, unreadCount: unRead(message))
-
+                        
                             .swipeActions(edge: .leading) {
                                 Button {
-
+                                    
                                     Task{ RealmManager.shared.read(message.group) }
-
+                                    
                                 } label: {
-
+                                    
                                     Label( "标记", systemImage: unRead(message) == 0 ?  "envelope.open" : "envelope")
                                         .symbolRenderingMode(.palette)
                                         .foregroundStyle(.white, Color.primary)
-
+                                    
                                 }.tint(.blue)
                             }
                             .swipeActions(edge: .trailing) {
@@ -67,23 +69,23 @@ struct GroupMessagesView: View {
                                     Task{
                                         RealmManager.shared.delete(group: message.group)
                                     }
-
+                                    
                                 } label: {
-
+                                    
                                     Label( "删除", systemImage: "trash")
                                         .symbolRenderingMode(.palette)
                                         .foregroundStyle(.white, Color.primary)
-
+                                    
                                 }.tint(.red)
                             }
-
-
+                        
+                        
                     }
-
+                    
                 }
-
-
-
+                
+                
+                
             }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))

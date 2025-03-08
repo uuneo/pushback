@@ -1,9 +1,4 @@
-//
-//  PromptDetailView.swift
-//  DeepSeek
-//
-//  Created by Harlans on 2024/12/4.
-//
+
 
 import SwiftUI
 

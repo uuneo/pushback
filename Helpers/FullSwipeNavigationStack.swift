@@ -2,7 +2,7 @@
 //  FullSwipeNavigationStack.swift
 //  Meow
 //
-//  Created by He Cho on 2024/10/6.
+//  Created by uuneo 2024/10/6.
 /// Example Views
 ///import SwiftUI
 ///

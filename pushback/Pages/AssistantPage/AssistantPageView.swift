@@ -2,16 +2,20 @@
 //  AssistantPageView.swift
 //  pushback
 //
-//  Created by lynn on 2025/3/5.
+//  Created by uuneo on 2025/3/5.
 //
 
 import SwiftUI
 import RealmSwift
 import Defaults
+import Combine
 
 struct AssistantPageView:View {
     @Environment(\.dismiss) var dismiss
     @Default(.assistantAccouns) var assistantAccouns
+    
+    @State var messageId:String? = nil
+    
     @State private var currentRequestText: String = ""
     @State private var currentContent:String = ""
     @State private var inputText:String = ""
@@ -31,17 +35,17 @@ struct AssistantPageView:View {
     @State private var showSettings:Bool = false
     
     
-    
     var body: some View {
         NavigationStack {
             VStack {
-                if  chatgroups.count != 0 || !currentRequestText.isEmpty{
+                if  chatgroups.count != 0 || !currentRequestText.isEmpty || messageId != nil{
                     
                     ChatMessageListView(
                         chatGroup: chatgroups.first,
                         currentRequest: currentRequestText,
                         currentContent: currentContent,
                         isLoading: isLoading,
+                        messageId: messageId,
                         onEditMessage: { _ in}
                     )
                     .onTapGesture {
@@ -53,7 +57,7 @@ struct AssistantPageView:View {
                         Spacer()
                         
                         VStack{
-                            Image("startapp")
+                            Image("chatgpt")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 100)
@@ -64,7 +68,7 @@ struct AssistantPageView:View {
                                 .multilineTextAlignment(.center)
                                 .padding(.vertical, 10)
                             
-                           
+                            
                             
                             Text("我可以帮你搜索，答疑，写作，请把你的任务交给我吧！")
                                 .multilineTextAlignment(.center)
@@ -81,7 +85,7 @@ struct AssistantPageView:View {
                         PushbackManager.hideKeyboard()
                     }
                 }
-                   
+                
                 
                 
                 
@@ -95,23 +99,11 @@ struct AssistantPageView:View {
                     onPause: handlePause,
                     onSelectedPicture: handleSelectedPicture,
                     onSelectedFile: handleSelectedFile,
-                    onCapturePhoto: {},
-                    newMessageGroup: {
-                        openChatManager.shared.cancellableRequest?.cancelRequest()
-                        
-                        RealmManager.shared.realm { realm in
-                            let groups = realm.objects(ChatGroup.self)
-                            for group in groups{
-                                group.current = false
-                            }
-                        }
-                    },
-                    showHistoryGroup: {
-                        self.showMenu.toggle()
-                    }
+                    onCapturePhoto: {}
                 )
+                
             }
-           
+            
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
             }content: {
@@ -146,43 +138,78 @@ struct AssistantPageView:View {
                                 self.showSettings.toggle()
                             }
                         }label: {
-                            
-                            Image(systemName: "gearshape.circle")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, .primary)
+                            Text( "设置")
+                               
                         }
                         
                     }
                     
                 }
-            
+                
                 ToolbarItem(placement: .navigation) {
                     if isLoading{
                         StreamingLoadingView(isAwait: currentContent.isEmpty)
                             .transition(.scale)
                     }else{
                         
-                        
-                        if let chatgroup = chatgroups.first{
+                        Menu {
                             
+                           
                             
-                            Menu {
+                            if chatgroups.count > 0{
                                 
+                                Section{
+                                    Button(role: .destructive){
+                                        self.showChangeGroupName.toggle()
+                                    }label: {
+                                        Label("重命名", systemImage: "eraser.line.dashed")
+                                    }
+                                }
+                            }
+                            Button {
+                                PushbackManager.vibration(style: .heavy)
+                                self.showMenu.toggle()
+                            }label: {
+                                Label("对话列表", systemImage: "chevron.up")
+                                    .foregroundStyle(Color.primary)
+                                    .font(.system(size: 12))
+                                    .fontWeight(.bold)
+                            }
+                            
+                            if chatgroups.count != 0{
+                                Button{
+                                    openChatManager.shared.cancellableRequest?.cancelRequest()
+                                    
+                                    RealmManager.shared.realm { realm in
+                                        let groups = realm.objects(ChatGroup.self)
+                                        for group in groups{
+                                            group.current = false
+                                        }
+                                    }
+                                }label: {
+                                   
+                                    Label("新对话", systemImage:  "rectangle.3.group.bubble")
+                                        .foregroundStyle(Color.primary)
+                                        .font(.system(size: 12))
+                                        .fontWeight(.bold)
+                                }
+                            }
+                            
+                            
+                            
+                            Section{
                                 Button(role: .destructive){
-                                    self.dismiss()
+                                   dismiss()
                                 }label: {
                                     Label("关闭", systemImage: "x.circle")
                                 }
-                                
-                                
-                                Button{
-                                    self.showChangeGroupName.toggle()
-                                }label: {
-                                    Label("重命名", systemImage: "eraser.line.dashed")
-                                }
-                
-                                
-                            } label: {
+                            }
+                            
+                            
+                        } label: {
+                            
+                            
+                            if let chatgroup = chatgroups.first{
                                 HStack{
                                     
                                     Image(systemName: "chevron.left")
@@ -192,29 +219,35 @@ struct AssistantPageView:View {
                                     Text(chatgroup.name)
                                         .lineLimit(1)
                                         .truncationMode(.tail)
-                                        .frame(maxWidth: 150)
+                                        
+                                    Spacer()
                                     
-                                }.foregroundStyle(.foreground)
+                                }
+                                .frame(maxWidth: 150)
+                                .foregroundStyle(.foreground)
                                     .transition(.scale)
-                            }
-                        }else {
-                            HStack{
+                            }else {
                                 
-                                Image(systemName: "chevron.left")
-                                    .imageScale(.large)
-                                    .foregroundStyle(.gray)
-                                    .padding(.trailing, 10)
-                                Text("新对话")
-                                    .lineLimit(1)
-                                    .truncationMode(.tail)
-                                    .frame(maxWidth: 150)
+                                HStack{
+                                    
+                                    Image(systemName: "chevron.left")
+                                        .imageScale(.large)
+                                        .foregroundStyle(.gray)
+                                        .padding(.trailing, 10)
+                                    Text("新对话")
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        
+                                    Spacer()
+                                    
+                                }
+                                .frame(maxWidth: 150)
+                                .foregroundStyle(.foreground)
+                                .transition(.scale)
                                 
                             }
-                            .foregroundStyle(.foreground)
-                            .transition(.scale)
-                            .onTapGesture {
-                                self.dismiss()
-                            }
+                            
+                            
                         }
                         
                     }
@@ -256,7 +289,7 @@ struct AssistantPageView:View {
                 self.inputText = ""
             }
             
-            openChatManager.shared.chatsStream(text: text) { partialResult in
+            openChatManager.shared.chatsStream(text: text, messageId: messageId) { partialResult in
                 switch partialResult {
                 case .success(let result):
                     
@@ -296,6 +329,9 @@ struct AssistantPageView:View {
                         guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
                             group2.current = true
                             group2.name = currentRequestText
+                            if let messageId{
+                                group2.id = messageId
+                            }
                             return group2
                         }
                         return group
@@ -305,6 +341,7 @@ struct AssistantPageView:View {
                     responseMessage.request = currentRequestText
                     responseMessage.content = currentContent
                     responseMessage.chat = group.id
+                    responseMessage.messageId = messageId
                     
                     if realm.objects(ChatGroup.self).where( {$0.current} ).count == 0{
                         realm.add(group)
@@ -313,7 +350,10 @@ struct AssistantPageView:View {
                     
                     self.currentRequestText = ""
                     self.currentContent = ""
-                }
+                    /// 如果是连续对话就清空id
+                    if Defaults[.historyMessageBool]{
+                        self.messageId = nil
+                    }                }
             }
             
         }
@@ -426,3 +466,43 @@ struct CustomAlertWithTextField: View {
         }
     }
 }
+
+
+
+struct StreamingLoadingView: View {
+    let isAwait:Bool
+    @State private var dots = ""
+    @State private var timer: Timer.TimerPublisher = Timer.publish(every: 0.3, on: .main, in: .common)
+    @State private var timerCancellable: Cancellable?
+
+    var body: some View {
+        HStack(spacing: 4) {
+            // AI头像或图标
+            Image(systemName: "brain")
+                .foregroundColor(.blue)
+                .imageScale(.medium)
+            
+            // 思考中的动画点
+            Text((isAwait ?  "思考中" : "正在输入") + "\(dots)")
+                .foregroundColor(.secondary)
+                .font(.system(.subheadline))
+                .animation(.bouncy, value: dots)
+        }
+        .onAppear {
+            self.timerCancellable = self.timer.connect()
+        }
+        .onDisappear {
+            self.timerCancellable?.cancel()
+        }
+        .onReceive(timer) { _ in
+            withAnimation {
+                if dots.count >= 3 {
+                    dots = ""
+                } else {
+                    dots += "."
+                }
+            }
+        }
+    }
+}
+

@@ -2,7 +2,7 @@
 //  PushbackManager.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/26.
+//  Created by uuneo 2024/10/26.
 //
 
 import SwiftUI

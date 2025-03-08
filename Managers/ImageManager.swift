@@ -2,7 +2,7 @@
 //  ImageManager.swift
 //  pushback
 //
-//  Created by He Cho on 2024/10/14.
+//  Created by uuneo 2024/10/14.
 //
 
 import SwiftUI

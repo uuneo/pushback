@@ -35,19 +35,23 @@ struct ServerCardView:View {
 					Text( String(localized: "服务器") + ":")
 						.font(.system(size: 10))
 						.frame(width: 40)
+                        .foregroundStyle(.foreground)
 					Text(item.name)
 						.font(.headline)
 						.lineLimit(1)
 						.minimumScaleFactor(0.5)
+                        .foregroundStyle(.foreground)
 					Spacer()
 				}
 				
 				HStack(alignment: .bottom){
 					Text("Key:")
 						.frame(width:40)
+                        .foregroundStyle(.foreground)
 					Text(item.key)
 						.lineLimit(1)
 						.minimumScaleFactor(0.5)
+                        .foregroundStyle(.foreground)
 					Spacer()
 				} .font(.system(size: 10))
 				
@@ -56,22 +60,9 @@ struct ServerCardView:View {
 			
 			
 			
-			if !isCloud{
-				Image(systemName: "doc.on.doc")
-					.symbolRenderingMode(.palette)
-					.foregroundStyle( .tint, Color.primary)
-					.onTapGesture{
-						Toast.shared.present(title: String(localized: "复制成功"), symbol: .copy)
-						( item.url + "/" + item.key).copy()
-					}
-				
-			}else{
-				Button{
-					Defaults[.servers].insert(item, at: 0)
-				}label:{
-					Text("恢复")
-				}.tint(Color.green)
-			}
+            Image(systemName: "cursorarrow.click.2")
+                .symbolRenderingMode(.palette)
+                .foregroundStyle( .tint, Color.primary)
 
 			
 		}

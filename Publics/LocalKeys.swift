@@ -35,34 +35,56 @@ extension Defaults.Keys {
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[])
     static let historyMessageCount = Key<Int>("historyMessageCount", 10)
     static let historyMessageBool = Key<Bool>("historyMessageBool", true)
+    static let showCodeViewColor = Key<Bool>("showCodeViewColor", true)
 }
 
 public class Log {
-	/// 打印日志
-	/// - Parameters:
-	///   - mode: 类型
-	///   - message: 日志消息
-	///   - file: 调用日志的文件名（自动捕获）
-	///   - function: 调用日志的函数名（自动捕获）
-	///   - line: 调用日志的行号（自动捕获）
-	class func base(mode: String, file:String, function: String, line: Int, _ message: Any...) {
-		let fileName = (file as NSString).lastPathComponent // 提取文件名
 
-		let logMessage = "[\(mode)] \(fileName):\(line) \(function) ->\n    \(message.compactMap({"\($0)"}).joined(separator: ","))"
+    /// 日志级别
+    enum Level: String {
+        case debug = "DEBUG"
+        case info = "INFO"
+        case error = "ERROR"
+    }
 
-		// 控制台打印日志
-		print(logMessage)
-	}
+    /// 日志输出函数类型
+    typealias LogOutput = (String) -> Void
 
-	class func debug(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-		self.base(mode: "DEBUG", file: file, function: function, line: line, message)
-	}
+    /// 默认日志输出函数（打印到控制台）
+    private static var logOutput: LogOutput = { message in
+        print(message)
+    }
 
-	class func info(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-		self.base(mode: "INFO", file: file, function: function, line: line, message)
-	}
+    /// 设置自定义日志输出函数
+    static func setLogOutput(_ output: @escaping LogOutput) {
+        logOutput = output
+    }
 
-	class func error( file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-		self.base(mode: "ERROR", file: file, function: function, line: line, message)
-	}
+    /// 基础日志方法
+    /// - Parameters:
+    ///   - level: 日志级别
+    ///   - message: 日志消息
+    ///   - file: 调用日志的文件名（自动捕获）
+    ///   - function: 调用日志的函数名（自动捕获）
+    ///   - line: 调用日志的行号（自动捕获）
+    private class func base(level: Level, file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+        let fileName = (file as NSString).lastPathComponent // 提取文件名
+        let logMessage = "[\(level.rawValue)] \(fileName):\(line) \(function) -> \(message.compactMap { "\($0)" }.joined(separator: ", "))"
+        logOutput(logMessage) // 使用配置的日志输出函数
+    }
+
+    /// 打印调试日志
+    class func debug(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+        base(level: .debug, file: file, function: function, line: line, message)
+    }
+
+    /// 打印信息日志
+    class func info(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+        base(level: .info, file: file, function: function, line: line, message)
+    }
+
+    /// 打印错误日志
+    class func error(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
+        base(level: .error, file: file, function: function, line: line, message)
+    }
 }

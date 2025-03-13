@@ -8,14 +8,14 @@ struct ChatMessageListView: View {
     
     // MARK: - Properties
     let chatgroup:ChatGroup?
-    let currentRequest:String
-    let currentContent:String
+    var currentRequest:String
+    var currentContent:String
     let messageId:String?
     let isLoading: Bool
     let onEditMessage: (String) -> Void
     @ObservedResults(ChatMessage.self,where: {$0.chat == ""}) var messages
     
-    @Default(.historyMessageBool) var historyMessageBool
+    
     
     init(chatGroup:ChatGroup?, currentRequest: String, currentContent: String, isLoading: Bool, messageId:String? = nil, onEditMessage: @escaping (String) -> Void) {
         self.chatgroup = chatGroup
@@ -31,42 +31,18 @@ struct ChatMessageListView: View {
     }
     
     @State private var selectedMessage: ChatMessage?
-    @StateObject private var keyboardHelper = KeyboardHeightHelper()
+   
+    
+    @EnvironmentObject var keyboardHelper:KeyboardHeightHelper
     
     
     @State private var showHistory:Bool = false
     
     @State private var messageCount:Int = 10
     
-   
-    
-    let messageTem = ChatMessage()
-    
-    var currentMessage:ChatMessage{
-        messageTem.request = currentRequest
-        messageTem.content = currentContent
-        messageTem.messageId = messageId
-        return messageTem
-    }
-    
-    
-    
+
     // MARK: - Body
     var body: some View {
-        ZStack(alignment: .top) {
-            messageList
-            
-        }
-        .sheet(item: $selectedMessage) { message in
-            messageDetailSheet(message)
-                .customPresentationCornerRadius(20)
-        }
-    }
-    
-    
-    
-    // MARK: - Private Views
-    private var messageList: some View {
         ScrollViewReader { scrollViewProxy in
             
             ScrollView {
@@ -89,46 +65,32 @@ struct ChatMessageListView: View {
                 }
                 
                 
-                ForEach(messages.suffix(messageCount),id: \.id) { message in
-                    messageRow(message, showQuote: true)
-                }
-                
-                if !currentRequest.isEmpty || messageId != nil{
-                    var showQuote:Bool{
-                        historyMessageBool ?
-                        messages.suffix(messageCount).filter({$0.chat == messageId}).count == 0 : true
+                LazyVStack{
+                    ForEach(messages.suffix(messageCount),id: \.id) { message in
+                        ChatMessageView(message: message,isLoading: false)
+                            .id(message.id)
                     }
-                    messageRow(currentMessage,showQuote: showQuote)
-                }
-                Section{
-                    Rectangle()
-                        .fill(Color.clear)
-                        .frame(height: 30)
-                        .id("messageBottom")
                 }
                 
-                
-                
+                Rectangle()
+                    .fill(Color.clear)
+                    .frame(height: 30)
             }
+            
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                    scrollToBottom(proxy: scrollViewProxy)
-                }
+                scrollToBottom(proxy: scrollViewProxy,animation: false)
             }
-            .onChange(of: messages.count) {  _ in scrollToBottom(proxy: scrollViewProxy) }
-            .onChange(of: currentMessage.content) { newvalue in
+            .onChange(of: currentContent) { newvalue in
                 scrollToBottom(proxy: scrollViewProxy)
                 PushbackManager.vibration(style: .soft)
-            }
-            .onChange(of: chatgroup){ value in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                    scrollToBottom(proxy: scrollViewProxy)
-                }
             }
             .onChange(of: keyboardHelper.keyboardHeight) { newValue in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                     scrollToBottom(proxy: scrollViewProxy)
                 }
+            }
+            .onChange(of: chatgroup?.id) { _ in
+                scrollToBottom(proxy: scrollViewProxy)
             }
             .sheet(isPresented: $showHistory) {
                 if let chatgroup = chatgroup{
@@ -142,74 +104,29 @@ struct ChatMessageListView: View {
                 }
                
             }
+           
         }
-    }
-    
-    private func messageRow(_ message: ChatMessage, showQuote:Bool = false) -> some View {
-        ChatMessageView(message: message,showQuote: showQuote)
-            .id(message.id)
-            .contextMenu {
-                MessageContextMenu(
-                    message: message,
-                    onCopy: copyMessage,
-                    onSelect: { selectedMessage = message },
-                    onEdit: { onEditMessage(message.content) }
-                )
-            }
-    }
-    
-    
-    private func messageDetailSheet(_ message: ChatMessage) -> some View {
-        NavigationStack {
-            ScrollView {
-                Text(message.content)
-                    .padding()
-                    .textSelection(.enabled)
-            }
-            .navigationTitle("选择文本")
-            .navigationBarTitleDisplayMode(.inline)
-        }
+        .animation(.default, value: currentRequest)
     }
     
     // MARK: - Helper Methods
-    private func scrollToBottom(proxy: ScrollViewProxy, id:String = "messageBottom") {
-        withAnimation(.smooth) {
-            proxy.scrollTo(id, anchor: .bottom)
+    private func scrollToBottom(proxy: ScrollViewProxy, animation:Bool = true) {
+        
+        
+        if let message = messages.last{
+            if animation{
+                withAnimation(.linear) {
+                    proxy.scrollTo(message.id, anchor: .bottom)
+                }
+            }else{
+                proxy.scrollTo(message.id, anchor: .bottom)
+            }
+           
         }
+       
         
     }
     
-    private func copyMessage(_ message: String) {
-        Clipboard.shared.setString(message)
-    }
-    
-}
-
-
-
-private struct MessageContextMenu: View {
-    let message: ChatMessage
-    
-    let onCopy: (String) -> Void
-    let onSelect: () -> Void
-    let onEdit: () -> Void
-    
-    var onAppear: (() -> Void)? = nil
-    var onDisappear: (() -> Void)? = nil
-    
-    var body: some View {
-        Group {
-            Button(action: { onCopy(message.content) }) {
-                Label("复制", systemImage: "doc.on.doc")
-            }
-            
-            Button(action: onSelect) {
-                Label("选择文本", systemImage: "selection.pin.in.out")
-            }
-        }
-        .onAppear { onAppear?() }
-        .onDisappear { onDisappear?() }
-    }
 }
 
 
@@ -228,11 +145,8 @@ struct HistoryMessage:View {
                 LazyVStack{
                     ForEach(messages, id:\.id) { message in
                         
-                        ChatMessageView(message: message,showQuote: true)
+                        ChatMessageView(message: message,isLoading: false)
                             .id(message.id)
-                            .contextMenu {
-                                
-                            }
                     }
                     
                     Text("已加载全部数据")

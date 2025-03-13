@@ -41,6 +41,7 @@ fileprivate struct ParticleModifier: ViewModifier {
 							.opacity(status ? 1 : 0)
 							/// Making Base Visibility With Zero Animation
 							.animation(.none, value: status)
+                            
 					}
 				}
 				.onAppear {

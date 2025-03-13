@@ -26,7 +26,7 @@ struct SettingsPage: View {
 	@Default(.appIcon) var setting_active_app_icon
 	@Default(.badgeMode) var badgeMode
 	@Default(.sound) var sound
-	@Default(.deviceToken) var deviceToken
+	
 	@Default(.servers) var servers
 
 
@@ -96,38 +96,40 @@ struct SettingsPage: View {
 
 				}
 
-				Section(header:Text(  "设备推送令牌")) {
-					Button{
-						if deviceToken != ""{
-							deviceToken.copy()
-							Toast.shared.present(title: String(localized: "复制成功"), symbol: "checkmark.arrow.trianglehead.counterclockwise")
-
-						}else{
-
-							Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
-						}
-					}label: {
-						HStack{
-
-							Label {
-								Text( "令牌")
-									.lineLimit(1)
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(systemName: "key")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(Color.primary, .tint)
-							}
-
-
-							Spacer()
-							Text(maskString(deviceToken))
-								.foregroundStyle(.gray)
-							Image(systemName: "doc.on.doc")
-								.scaleEffect(0.9)
-						}
-					}
+				Section(header:Text( "基础配置")) {
+                    NavigationLink{
+                        ServersConfigView()
+                            .toolbar(.hidden, for: .tabBar)
+                    }label:{
+                        
+                        Label {
+                            Text("令牌与服务器")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "externaldrive.badge.wifi")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(serverTypeColor,Color.primary)
+                                .if(serverTypeColor == .red){view in
+                                    view
+                                        .symbolEffect(delay: 0.5)
+                                }
+                        }
+                    }
+                    
+                    NavigationLink{
+                        AssistantSettingsView(showClose: false)
+                    }label:{
+                        
+                        Label {
+                            Text("智能助手")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "message.badge.waveform")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.green,Color.primary)
+                                .symbolEffect(.variableColor)
+                        }
+                    }
 				}
 
 
@@ -236,7 +238,7 @@ struct SettingsPage: View {
 
 
 				}
-				Section(header:Text( "设置与帮助" )) {
+				Section {
 
 
 					Button{
@@ -245,13 +247,14 @@ struct SettingsPage: View {
 						HStack(alignment:.center){
 
 							Label {
-								Text(  "系统设置")
+								Text( "系统设置")
 									.foregroundStyle(.textBlack)
 							} icon: {
 								Image(systemName: "gear.circle")
 									.scaleEffect(0.9)
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
+                                    .symbolEffect(.rotate)
 
 							}
 
@@ -283,97 +286,96 @@ struct SettingsPage: View {
 						}
 
 					}
+                    
+                    if store.subscriptionInfo.canAccessContent{
+                        HStack{
+                            Spacer()
+                            Label {
 
-				}
-
-				Section {
-
-					if store.subscriptionInfo.canAccessContent{
-						HStack{
-							Spacer()
-							Label {
-
-								Text(store.subscriptionInfo.subscriptionState.description)
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(systemName: "bolt.shield")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-							}
-							Spacer()
-						}
-					}else{
-						Button{
-							self.showPaywall.toggle()
-						}label:{
+                                Text(store.subscriptionInfo.subscriptionState.description)
+                                    .foregroundStyle(.textBlack)
+                            } icon: {
+                                Image(systemName: "bolt.shield")
+                                    .scaleEffect(0.9)
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.tint, Color.primary)
+                            }
+                            Spacer()
+                        }
+                    }else{
+                        Button{
+                            self.showPaywall.toggle()
+                        }label:{
 
 
-							HStack(alignment:.center){
+                            HStack(alignment:.center){
 
 
-								Label {
+                                Label {
 
-									Text("开发者支持计划")
-										.foregroundStyle(.textBlack)
-								} icon: {
-									Image(systemName: "creditcard.circle")
-										.scaleEffect(0.9)
-										.symbolRenderingMode(.palette)
-										.foregroundStyle(.tint, Color.primary)
-								}
+                                    Text("开发者支持计划")
+                                        .foregroundStyle(.textBlack)
+                                } icon: {
+                                    Image(systemName: "creditcard.circle")
+                                        .scaleEffect(0.9)
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.tint, Color.primary)
+                                        .symbolEffect(delay: 0)
+                                }
 
-								Spacer()
-								Image(systemName: "chevron.right")
-									.foregroundStyle(.gray)
-							}
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundStyle(.gray)
+                            }
 
-						}
-
-
-					}
-
-				}footer:{
-					HStack(spacing: 7){
-						Spacer(minLength: 10)
+                        }
 
 
-						Text("\(buildVersion)")
-							.onTapGesture {
-								buildDetail.toggle()
-							}
-							.onTapGesture(count: 7) {
-								self.resetAppShow.toggle()
-							}
-						Circle()
-							.frame(width: 3,height: 3)
-						Button{
-							manager.fullPage = .web(BaseConfig.privacyURL)
-						}label: {
-							Text("隐私政策")
-						}
-						Circle()
-							.frame(width: 3,height: 3)
-						Button{
-							manager.fullPage = .web(BaseConfig.userAgreement)
-						}label: {
-							Text("用户协议")
-						}
-						Circle()
-							.frame(width: 3,height: 3)
-						Button{
-							Task{
-								await store.restorePurchases()
-							}
-						}label: {
-							Text("恢复购买")
-						}
+                    }
 
-						Spacer(minLength: 10)
-					}
-					.font(.caption)
+                }header:{
+                    Text( "设置与帮助" )
+                }footer:{
+                    HStack(spacing: 7){
+                        Spacer(minLength: 10)
 
-				}
+
+                        Text("\(buildVersion)")
+                            .onTapGesture {
+                                buildDetail.toggle()
+                            }
+                            .onTapGesture(count: 7) {
+                                self.resetAppShow.toggle()
+                            }
+                        Circle()
+                            .frame(width: 3,height: 3)
+                        Button{
+                            manager.fullPage = .web(BaseConfig.privacyURL)
+                        }label: {
+                            Text("隐私政策")
+                        }
+                        Circle()
+                            .frame(width: 3,height: 3)
+                        Button{
+                            manager.fullPage = .web(BaseConfig.userAgreement)
+                        }label: {
+                            Text("用户协议")
+                        }
+                        Circle()
+                            .frame(width: 3,height: 3)
+                        Button{
+                            Task{
+                                await store.restorePurchases()
+                            }
+                        }label: {
+                            Text("恢复购买")
+                        }
+
+                        Spacer(minLength: 10)
+                    }
+                    .font(.caption)
+                }
+
 			}
 			.navigationTitle("设置")
 			.loading(showLoading)
@@ -381,18 +383,17 @@ struct SettingsPage: View {
 				manager.openSetting()
 			})
 			.toolbar {
-
-				ToolbarItem {
-
-					Button {
-						showServerListView.toggle()
-					} label: {
-						Image(systemName: "externaldrive.badge.wifi")
-							.symbolRenderingMode(.palette)
-							.foregroundStyle(serverTypeColor,Color.primary)
-					}
-
-				}
+                
+                ToolbarItem {
+                    Button {
+                        manager.fullPage = .scan
+                    } label: {
+                        Image(systemName: "qrcode.viewfinder")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.tint, Color.primary)
+                            .symbolEffect(delay: 0)
+                    }
+                }
 			}
 			.onAppear {
 				manager.healths()
@@ -417,10 +418,7 @@ struct SettingsPage: View {
 
 	}
 
-	fileprivate func maskString(_ str: String) -> String {
-		guard str.count > 6 else { return str }
-		return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(4)
-	}
+	
 
 	fileprivate func resetApp(){
 		DEFAULTSTORE.removeAll()

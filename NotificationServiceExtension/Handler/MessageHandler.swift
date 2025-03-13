@@ -19,7 +19,7 @@ class MessageHandler: NotificationContentHandler{
 
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 
-		let userInfo = bestAttemptContent.userInfo
+        let userInfo = bestAttemptContent.userInfo
 		let alert = (userInfo[Params.aps.name] as? [String: Any])?[Params.alert.name] as? [String: Any]
 		let title = alert?[Params.title.name] as? String
 		let subtitle = alert?[Params.subtitle.name] as? String

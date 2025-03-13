@@ -30,9 +30,9 @@ class ActionHandler: NotificationContentHandler{
 		if userInfo[Params.autocopy.name] as? String == "1" || userInfo["automaticallycopy"] as? String == "1"
 		{
 			if let copy = userInfo[Params.copy.name] as? String {
-				UIPasteboard.general.string = copy
+                Clipboard.shared.setString(copy)
 			} else {
-				UIPasteboard.general.string = bestAttemptContent.body
+                Clipboard.shared.setString(bestAttemptContent.body)
 			}
 		}
 		
@@ -49,10 +49,6 @@ class ActionHandler: NotificationContentHandler{
 			// MARK: 通知角标 .custom
 				if let badgeStr = userInfo[Params.badge.name] as? String, let badge = Int(badgeStr) {
 				bestAttemptContent.badge = NSNumber(value: badge)
-				// 清除通知中心的通知
-				if badge == -1 {
-					UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-				}
 			}
 		}
 

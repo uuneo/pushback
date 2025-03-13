@@ -8,11 +8,17 @@
 import SwiftUI
 import RealmSwift
 
+struct ChatMessageSection {
+    var id:String = UUID().uuidString
+    var title: String // 分组名称，例如 "[今天]"
+    var messages: [ChatGroup]
+}
+
 struct SideBarMenuView: View {
     @ObservedResults(ChatGroup.self, sortDescriptor: SortDescriptor(keyPath: \ChatGroup.timestamp, ascending: false)) var chatGroups
     
-    var chatGroupSection:[RealmManager.ChatMessageSection]{
-        RealmManager.shared.getGroupedMessages(allMessages: chatGroups)
+    var chatGroupSection:[ChatMessageSection]{
+        getGroupedMessages(allMessages: chatGroups)
     }
     @Binding var showMenu:Bool
     @State private var text:String = ""
@@ -62,12 +68,23 @@ struct SideBarMenuView: View {
                         }
                 }
             }
+            .toolbar {
+                Button{
+                    withAnimation {
+                        self.showMenu.toggle()
+                        self.showSettings.toggle()
+                    }
+                }label: {
+                    Text( "设置")
+                    
+                }
+            }
             
         }
     }
     
     @ViewBuilder
-    private func chatView(section: RealmManager.ChatMessageSection) -> some View{
+    private func chatView(section: ChatMessageSection) -> some View{
         Section{
             LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
                 ForEach(section.messages, id: \.id){ chatgroup in
@@ -207,6 +224,37 @@ struct SideBarMenuView: View {
            return  realm.objects(ChatMessage.self).filter({$0.messageId == group}).count == 0 ? "rectangle.3.group.bubble" :"message.badge.circle"
         }
         return "rectangle.3.group.bubble"
+    }
+    
+    
+    private func getGroupedMessages(allMessages: Results<ChatGroup>) -> [ChatMessageSection] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        
+        // 定义时间分组规则
+        let timeIntervals: [(title: String, start: Date, end: Date)] = [
+            (String(localized: "今天"), today, calendar.date(byAdding: .day, value: 1, to: today)!),
+            (String(localized: "昨天"), calendar.date(byAdding: .day, value: -1, to: today)!, today),
+            (String(localized: "前天"), calendar.date(byAdding: .day, value: -2, to: today)!, calendar.date(byAdding: .day, value: -1, to: today)!),
+            (String(localized: "2天前"), calendar.date(byAdding: .day, value: -3, to: today)!, calendar.date(byAdding: .day, value: -2, to: today)!),
+            (String(localized: "一周前"), calendar.date(byAdding: .day, value: -7, to: today)!, calendar.date(byAdding: .day, value: -3, to: today)!),
+            (String(localized: "两周前"), calendar.date(byAdding: .day, value: -14, to: today)!, calendar.date(byAdding: .day, value: -7, to: today)!),
+            (String(localized: "1月前"), calendar.date(byAdding: .month, value: -1, to: today)!, calendar.date(byAdding: .day, value: -14, to: today)!),
+            (String(localized: "3月前"), calendar.date(byAdding: .month, value: -3, to: today)!, calendar.date(byAdding: .month, value: -1, to: today)!),
+            (String(localized: "半年前"), calendar.date(byAdding: .month, value: -6, to: today)!, calendar.date(byAdding: .month, value: -3, to: today)!)
+        ]
+        
+        // 按时间分组
+        var groupedMessages: [ChatMessageSection] = []
+        
+        for interval in timeIntervals {
+            let messages = allMessages.filter { $0.timestamp >= interval.start && $0.timestamp < interval.end }
+            if !messages.isEmpty {
+                groupedMessages.append(ChatMessageSection(title: interval.title, messages: Array(messages)))
+            }
+        }
+        
+        return groupedMessages
     }
 }
 

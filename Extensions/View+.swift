@@ -200,6 +200,7 @@ struct TipsToolBarItemsModifier: ViewModifier {
 		Image(systemName: errorAnimate ? icon1 : icon2)
 			.symbolRenderingMode(.palette)
 			.foregroundStyle(.red, .foreground)
+        
 	}
 	
 	
@@ -396,6 +397,14 @@ extension View {
             self
         }
     }
+    
+    @ViewBuilder func if18 <Content: View>( transform: (Self) -> Content) -> some View {
+        if #available(iOS 18.0, *){
+            transform(self)
+        }else{
+            self
+        }
+    }
 }
 
 struct GradientForegroundStyle: ViewModifier {
@@ -558,5 +567,62 @@ struct ActionButtonStyle: ButtonStyle {
 
 
 
+enum sybolEffectType{
+   
+    /// 跳动
+    case pulse
+    /// 弹跳
+    case bounce
+    /// 旋转
+    case rotate
+    /// 呼吸
+    case breathe
+    /// 缩放
+    case scale
+    /// 可变颜色
+    case variableColor
+}
 
+enum RepeatBehaviorType{
+    case continuous
+    case delay
+}
 
+extension View{
+    @ViewBuilder func symbolEffect(_ type:sybolEffectType = .bounce, delay: Double? = nil) -> some View {
+        
+        
+        if #available(iOS 18.0, *) {
+           
+            
+            var repeatBehavior1:SymbolEffectOptions.RepeatBehavior{
+                if delay == nil{
+                    return .continuous
+                }else {
+                    return .periodic(delay: delay == 0 ? Double(Int.random(in: 1...10)) : delay)
+                }
+            }
+            
+            Group{
+                switch type {
+                case .pulse:
+                    self.symbolEffect(.pulse.byLayer, options: .repeat(repeatBehavior1))
+                case .bounce:
+                    self.symbolEffect(.bounce.down.byLayer, options: .repeat(repeatBehavior1))
+                case .rotate:
+                    self.symbolEffect(.rotate.clockwise.byLayer, options: .repeat(repeatBehavior1))
+                case .breathe:
+                    self.symbolEffect(.breathe.pulse.byLayer, options: .repeat(repeatBehavior1))
+                case .scale:
+                    self.symbolEffect(.scale.up.byLayer, options: .repeat(repeatBehavior1))
+                case .variableColor:
+                    self.symbolEffect(.variableColor.cumulative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
+                }
+            }.contentTransition(.symbolEffect(.replace))
+            
+        } else {
+            self
+        }
+        
+    }
+}

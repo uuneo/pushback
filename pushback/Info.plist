@@ -35,6 +35,7 @@
 	<true/>
 	<key>NSUserActivityTypes</key>
 	<array>
+		<string>DeleteMessageDataIntent</string>
 		<string>INSendMessageIntent</string>
 		<string>INStartCallIntent</string>
 	</array>

@@ -45,7 +45,7 @@ struct ChangeKeyImageKey: View{
 				}
 				.padding(.vertical, 5)
 				.customField(icon: "doc.on.doc"){
-					(image.another ?? image.url).copy()
+                    Clipboard.shared.setString(image.another ?? image.url)
 					Toast.shared.present(title: String(localized: "复制成功"), symbol: "doc.on.doc")
 				}
 

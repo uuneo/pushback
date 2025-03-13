@@ -14,6 +14,7 @@ import SwiftUI
 import RealmSwift
 import Defaults
 import UniformTypeIdentifiers
+import SwiftyJSON
 
 struct DataStorageView: View {
 	@ObservedResults(Message.self) var messages
@@ -77,7 +78,7 @@ struct DataStorageView: View {
 					.fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
 						switch result {
 							case .success(let files):
-								let msg = RealmManager.shared.importMessage(files)
+								let msg = importMessage(files)
 								Toast.shared.present(title: msg, symbol: .info)
 							case .failure(let err):
 								Toast.shared.present(title: err.localizedDescription, symbol: .error)
@@ -311,6 +312,54 @@ struct DataStorageView: View {
 
 		return "0"
 	}
+    
+    private func importMessage(_ fileUrls: [URL]) -> String {
+        do{
+            for url in fileUrls{
+                
+                if url.startAccessingSecurityScopedResource(){
+                    
+                    let data = try Data(contentsOf: url)
+                    
+                    guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
+                    
+                    RealmManager.shared.realm { proxy in
+                        for message in arr {
+                            
+                            guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
+                            
+                            let messageObject = Message()
+                            if let idString = UUID(uuidString: id){ messageObject.id = idString }
+                            
+                            messageObject.title = message["title"].string
+                            messageObject.body = message["body"].string
+                            messageObject.url = message["url"].string
+                            messageObject.group = message["group"].string ?? String(localized: "导入数据")
+                            messageObject.read = true
+                            messageObject.level = message["level"].int ?? 1
+                            messageObject.image = message["image"].string
+                            messageObject.video = message["video"].string
+                            messageObject.ttl = ExpirationTime.forever.days
+                            messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
+                            messageObject.userInfo = message["userInfo"].string ?? ""
+                            
+                            proxy.add(messageObject, update: .modified)
+                        }
+                    }
+                    
+                }
+                
+                
+                
+            }
+            
+            return String(localized: "导入成功")
+            
+        }catch{
+            Log.debug(error)
+            return error.localizedDescription
+        }
+    }
 }
 
 #Preview {

@@ -41,46 +41,7 @@ struct TabPageView: View {
             
             
             if firstStart{
-                LauchFirstStartView(){
-                    withAnimation {
-                        self.firstStart.toggle()
-                    }
-                    
-                    if let realm = try? Realm(){
-                        
-                        try? realm.write {
-                            for msg in Message.messages{
-                                realm.add(msg)
-                            }
-                            for item in ChatPrompt.prompts{
-                                realm.add(item)
-                            }
-                        }
-                        
-                    }
-                    
-                    
-                    PushServerCloudKit.shared.fetchPushServerModels { response in
-                        switch response {
-                        case .success(let results):
-                            withAnimation(.easeInOut) {
-                                if let result = results.first{
-                                    self.servers.append(result)
-                                    return
-                                }
-                            }
-                        case .failure(let failure):
-                            Log.debug(failure)
-                            Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
-                            self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
-                        }
-                        
-                        
-                    }
-                    
-                    
-                }
-                .background(.ultraThinMaterial)
+                firstStartLauchFirstStartView()
             }
             
         }
@@ -118,36 +79,37 @@ struct TabPageView: View {
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
-        TabView(selection: Binding(get: {
-            manager.page
-        }, set: { value in
-            manager.page = value
-        })) {
-            
-           
-            // MARK: 信息页面
-            MessagePage()
-                .badge(messages.where({!$0.read}).count)
-                .tabItem {
-                    Label( "消息", systemImage: "ellipsis.message")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle( .green, tabColor2)
-                }
-                .tag(TabPage.message)
-            
-            
-            // MARK: 设置页面
-            SettingsPage()
-                .tabItem {
-                    Label( "设置", systemImage: "gear.badge.questionmark")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle( .green, tabColor2)
-                    
-                }
-                .tag(TabPage.setting)
-            
-            
-        }
+            TabView(selection: Binding(get: {
+                manager.page
+            }, set: { value in
+                manager.page = value
+            })) {
+                
+               
+                // MARK: 信息页面
+                MessagePage()
+                    .badge(messages.where({!$0.read}).count)
+                    .tabItem {
+                        Label( "消息", systemImage: "ellipsis.message")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle( .green, tabColor2)
+                            
+                    }
+                    .tag(TabPage.message)
+                
+                // MARK: 设置页面
+                SettingsPage()
+                    .tabItem {
+                        Label( "设置", systemImage: "gear.badge.questionmark")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle( .green, tabColor2)
+                           
+                    }
+                    .tag(TabPage.setting)
+                
+            }
+               
+             
         
     }
     
@@ -244,6 +206,50 @@ struct TabPageView: View {
                     manager.sheetPage = .none
                 }
         }
+    }
+    
+    @ViewBuilder
+    func firstStartLauchFirstStartView()-> some View{
+        LauchFirstStartView(){
+            withAnimation {
+                self.firstStart.toggle()
+            }
+            
+            if let realm = try? Realm(){
+                
+                try? realm.write {
+                    for msg in Message.messages{
+                        realm.add(msg)
+                    }
+                    for item in ChatPrompt.prompts{
+                        realm.add(item)
+                    }
+                }
+                
+            }
+            
+            
+            PushServerCloudKit.shared.fetchPushServerModels { response in
+                switch response {
+                case .success(let results):
+                    withAnimation(.easeInOut) {
+                        if let result = results.first{
+                            self.servers.append(result)
+                            return
+                        }
+                    }
+                case .failure(let failure):
+                    Log.debug(failure)
+                    Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
+                    self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
+                }
+                
+                
+            }
+            
+            
+        }
+        .background(.ultraThinMaterial)
     }
 }
 

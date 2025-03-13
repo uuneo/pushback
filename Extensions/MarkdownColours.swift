@@ -9,16 +9,35 @@ import SwiftUI
 import MarkdownUI
 
 struct MarkdownColors {
-    static let text = Color(light: Color(rgba: 0x0606_06ff), dark: Color(rgba: 0xfbfb_fcff))
-    static let secondaryText = Color(light: Color(rgba: 0x6b6e_7bff), dark: Color(rgba: 0x9294_a0ff))
-    static let tertiaryText = Color(light: Color(rgba: 0x6b6e_7bff), dark: Color(rgba: 0x6d70_7dff))
-    static let background = Color(light: .white, dark: Color(rgba: 0x1819_1dff))
-    static let secondaryBackground = Color(light: Color(rgba: 0xf7f7_f9ff), dark: Color(rgba: 0x2526_2aff))
-    static let link = Color(light: Color(rgba: 0x2c65_cfff), dark: Color(rgba: 0x4c8e_f8ff))
-    static let border = Color(light: Color(rgba: 0xe4e4_e8ff), dark: Color(rgba: 0x4244_4eff))
-    static let divider = Color(light: Color(rgba: 0xd0d0_d3ff), dark: Color(rgba: 0x3334_38ff))
-    static let checkbox = Color(rgba: 0xb9b9_bbff)
-    static let checkboxBackground = Color(rgba: 0xeeee_efff)
+    // 主文本颜色
+    static let text = Color(light: Color(rgba: 0x1A1A1AFF), dark: Color(rgba: 0xE0E0E0FF))
+    
+    // 次要文本颜色
+    static let secondaryText = Color(light: Color(rgba: 0x4A4A4AFF), dark: Color(rgba: 0xA0A0A0FF))
+    
+    // 第三级文本颜色
+    static let tertiaryText = Color(light: Color(rgba: 0x6B6B6BFF), dark: Color(rgba: 0x808080FF))
+    
+    // 背景颜色
+    static let background = Color(light: .white, dark: Color(rgba: 0x121212FF))
+    
+    // 次要背景颜色
+    static let secondaryBackground = Color(light: Color(rgba: 0xF5F5F5FF), dark: Color(rgba: 0x1E1E1EFF))
+    
+    // 链接颜色
+    static let link = Color(light: Color(rgba: 0x1A73E8FF), dark: Color(rgba: 0x8AB4F8FF))
+    
+    // 边框颜色
+    static let border = Color(light: Color(rgba: 0xDDDDDDFF), dark: Color(rgba: 0x3A3A3AFF))
+    
+    // 分割线颜色
+    static let divider = Color(light: Color(rgba: 0xCCCCCCFF), dark: Color(rgba: 0x2D2D2DFF))
+    
+    // 复选框颜色
+    static let checkbox = Color(rgba: 0x757575FF)
+    
+    // 复选框背景颜色
+    static let checkboxBackground = Color(rgba: 0xEEEEEEFF)
 }
 
 extension View {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealmSwift
+import Defaults
 
 struct GroupMessagesView: View {
     @ObservedSectionedResults(Message.self,
@@ -21,14 +22,16 @@ struct GroupMessagesView: View {
         return ChatMessage.getAssistant(chat: chatMessages.last)
     }
     
+    @State private var showMenu123:Bool = false
 
     
     var body: some View {
         List{
             
             if searchText.isEmpty{
-                
+    
                 NavigationLink{
+                    
                     AssistantPageView()
                         .navigationBarBackButtonHidden()
                         .toolbar(.hidden, for: .tabBar)
@@ -88,6 +91,7 @@ struct GroupMessagesView: View {
                 
             }
         }
+        .hideNavBarOnSwipe(true)
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
     }
     

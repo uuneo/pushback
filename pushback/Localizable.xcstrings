@@ -929,6 +929,22 @@
         }
       }
     },
+    "令牌与服务器" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token and Server"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeton ve Sunucu"
+          }
+        }
+      }
+    },
     "任意浏览器，脚本语言都可以把内容发送到您的手机上,会上网就会使用." : {
       "localizations" : {
         "en" : {
@@ -1245,6 +1261,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anahtarı değiştir"
+          }
+        }
+      }
+    },
+    "修改KEY" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modify Key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtarı Değiştir"
           }
         }
       }
@@ -2225,6 +2257,22 @@
         }
       }
     },
+    "基础配置" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basic Setup"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temel Ayar"
+          }
+        }
+      }
+    },
     "增加新账户" : {
       "localizations" : {
         "en" : {
@@ -2273,6 +2321,22 @@
         }
       }
     },
+    "复制KEY" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy KEY"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala KEY"
+          }
+        }
+      }
+    },
     "复制Python脚本" : {
       "localizations" : {
         "en" : {
@@ -2285,6 +2349,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Python betiğini kopyala"
+          }
+        }
+      }
+    },
+    "复制URL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy URL"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala URL"
+          }
+        }
+      }
+    },
+    "复制URL和KEY" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy URL & KEY"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopyala URL&KEY"
           }
         }
       }
@@ -2749,6 +2845,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Push isteği URL'si isArchive parametresini belirtmediğinde, bu ayar, bildirim mesajının kaydedilip kaydedilmeyeceğine karar vermek için kullanılacaktır."
+          }
+        }
+      }
+    },
+    "彩色代码" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color Code"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renk Kodu"
           }
         }
       }
@@ -3502,22 +3614,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu"
-          }
-        }
-      }
-    },
-    "服务器列表" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Servers"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sunucu listesi"
           }
         }
       }
@@ -5413,18 +5509,18 @@
         }
       }
     },
-    "重置Key" : {
+    "重置KEY" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset Key"
+            "value" : "Reset KEY"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anahtarı sıfırlama"
+            "value" : "Sıfırla KEY"
           }
         }
       }
@@ -5553,6 +5649,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gizlilik"
+          }
+        }
+      }
+    },
+    "隐藏" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hidden"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gizle"
           }
         }
       }

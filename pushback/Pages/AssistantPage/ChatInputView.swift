@@ -7,8 +7,10 @@ import RealmSwift
 
 struct ChatInputView: View {
     @Binding var text: String
+    @Binding var messageId:String?
     let isLoading: Bool
     let isResponding: Bool
+    
     let onSend: (String) -> Void
     let onPause: () -> Void
     let onSelectedPicture: () -> Void
@@ -22,17 +24,19 @@ struct ChatInputView: View {
      // MARK: - Computed Properties
     @ObservedResults(ChatPrompt.self, where: (\.isSelected)) var prompts
     
+   
+   
     var body: some View {
         VStack {
+           
             HStack() {
-                if let prompt = prompts.first {
-                    PromptLabelView(prompt: prompt)
-                }
+                PromptLabelView(prompt: prompts.first, messageId: _messageId)
             }.padding(.top, 5)
             HStack(spacing: 10) {
                 inputField
                     .disabled(isLoading)
                 rightActionButton
+                    .disabled(isLoading)
             }
             .padding(.horizontal)
             .padding(.top, 5)
@@ -53,8 +57,11 @@ struct ChatInputView: View {
                     .background(.ultraThinMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .onTapGesture {
-                        PushbackManager.vibration(style: .heavy)
-                        self.isHistoryMessage.toggle()
+                        if !isLoading{
+                            PushbackManager.vibration(style: .heavy)
+                            self.isHistoryMessage.toggle()
+                        }
+                       
                     }
                 
                 Spacer()
@@ -69,7 +76,7 @@ struct ChatInputView: View {
         .background(.background)
         .cornerRadius(30, corners: [.topLeft, .topRight])
         .onTapGesture {
-            self.isFocusedInput = true
+            self.isFocusedInput = !isLoading
         }
         .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: -5)
     }
@@ -83,6 +90,7 @@ struct ChatInputView: View {
                 .focused($isFocusedInput)
                 .frame(minHeight: 40)
                 .font(.system(size: 14))
+               
             PromptButtonView()
         }
         .background(
@@ -93,6 +101,7 @@ struct ChatInputView: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.blue.opacity(0.3), lineWidth: 1)
         )
+        
     }
     
     @ViewBuilder
@@ -148,46 +157,93 @@ struct ChatInputView: View {
             
         }
     }
+    
+   
 }
 
 // MARK: - PromptLabelView
 private struct PromptLabelView: View {
+    let prompt: ChatPrompt?
+    @Binding var messageId:String?
     
-    let prompt: ChatPrompt
+    
+    private var quote:Message?{
+        guard let realm = try? Realm() else { return nil }
+        return realm.objects(Message.self).first(where: {$0.id.uuidString == messageId})
+    }
+    
     var body: some View {
         HStack {
-            Menu{
-                Button(role: .destructive){
-                    RealmManager.shared.realm { realm in
-                        let datas = realm.objects(ChatPrompt.self)
-                        for data in datas{
-                            data.isSelected = false
+            if let prompt {
+                Menu{
+                    Button(role: .destructive){
+                        RealmManager.shared.realm { realm in
+                            let datas = realm.objects(ChatPrompt.self)
+                            for data in datas{
+                                data.isSelected = false
+                            }
                         }
+                    }label: {
+                        Label("清除", systemImage: "eraser")
                     }
                 }label: {
-                    Label("清除", systemImage: "eraser")
+                    
+                    Text(prompt.title)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color.blue.opacity(0.8))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(Color.blue.opacity(0.3), lineWidth: 1)
+                        )
+                        .shadow(color: .blue.opacity(0.2), radius: 3, x: 0, y: 2)
                 }
-            }label: {
-                Text(prompt.title)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(
-                        RoundedRectangle(cornerRadius: 15)
-                            .fill(Color.blue.opacity(0.8))
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.blue.opacity(0.3), lineWidth: 1)
-                    )
-                    .shadow(color: .blue.opacity(0.2), radius: 3, x: 0, y: 2)
             }
            
             
             Spacer()
+            
+           
+            
+            if let quote = quote{
+                Menu{
+                    Button(role: .destructive){
+                        self.messageId = nil
+                    }label: {
+                        Label("清除", systemImage: "eraser")
+                    }
+                }label: {
+                    
+                    quoteView(quote: "\(quote.title ?? "")\(quote.body ?? "")")
+                }
+            }
         }
         .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    func quoteView(quote:String)-> some View{
+        HStack(spacing: 5) {
+            
+            
+            Text("\(quote)")
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .font(.caption2)
+            
+            Image(systemName: "quote.bubble")
+                .foregroundColor(.gray)
+                .padding(.leading, 10)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
     
 }
@@ -209,23 +265,20 @@ private struct AttachmentMenuView: View {
            
             
         } label: {
-            attachmentMenuButton
+            Image(systemName: "plus.circle.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 35, height: 35)
+                .foregroundColor(.blue)
+                .opacity(0.7)
+                .background(Color.white)
+                .clipShape(Circle())
+                .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
+                .padding(.trailing, 8)
+                .transition(.scale)
         }
     }
     
-    private var attachmentMenuButton: some View {
-        Image(systemName: "plus.circle.fill")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 35, height: 35)
-            .foregroundColor(.blue)
-            .opacity(0.7)
-            .background(Color.white)
-            .clipShape(Circle())
-            .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
-            .padding(.trailing, 8)
-            .transition(.scale)
-    }
 }
 
 private struct AttachmentMenuItem: View {
@@ -242,26 +295,3 @@ private struct AttachmentMenuItem: View {
 
 
 
-#Preview {
-    ChatInputView(
-        text: .constant("""
- test
-"""),
-        isLoading: false,
-        isResponding: false,
-        onSend: { message in
-            print("发送消息: \(message)")
-        },
-        onPause: {
-            print("暂停")
-        },
-        onSelectedPicture: {
-            print("选择图片")
-        },
-        onSelectedFile: {
-            print("选择文件")
-        },
-        onCapturePhoto: {
-            print("选择拍照")
-        })
-}

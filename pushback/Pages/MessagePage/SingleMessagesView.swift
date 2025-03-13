@@ -13,7 +13,6 @@ struct SingleMessagesView: View {
     
     @ObservedResults(Message.self,sortDescriptor: SortDescriptor(keyPath: \Message.createDate, ascending: false)) var messages
     @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
-    @Default(.images) var images
     
     @State private var imageDetail:ImageModel?
     @State private var currentPage: Int = 1
@@ -29,9 +28,18 @@ struct SingleMessagesView: View {
    
     
     var chatHomeMessage:Message{
-        return ChatMessage.getAssistant(chat: chatMessages.last)
+       var chatGroup:ChatMessage? = nil
+        
+        if let realm = try? Realm(),
+           let chat = realm.objects(ChatMessage.self).sorted(byKeyPath: "timestamp").last {
+            chatGroup = chat
+            
+        }
+        
+        return ChatMessage.getAssistant(chat: chatGroup)
+        
+      
     }
-
     
     var body: some View {
         List{
@@ -45,6 +53,7 @@ struct SingleMessagesView: View {
                     
                 }label: {
                     MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
+                       
                 }
                 
                 
@@ -57,7 +66,8 @@ struct SingleMessagesView: View {
                             if let imageUrl = message.image{
                                 Task{
                                     if let _ = await ImageManager.downloadImage(imageUrl),
-                                       let imageModel = images.first(where: { $0.url == imageUrl}){
+                                      
+                                       let imageModel =  Defaults[.images].first(where: { $0.url == imageUrl}){
                                         DispatchQueue.main.async{
                                             withAnimation(.easeInOut) {
                                                 self.imageDetail = imageModel

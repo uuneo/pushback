@@ -28,7 +28,9 @@ struct MessagePage: View {
                     SingleMessagesView()
                 }
                 
-            }.listRowSpacing(10)
+            }
+            
+            .listRowSpacing(10)
                 .navigationTitle( "消息")
                 .navigationDestination(isPresented: $showExample){
                     ExampleView()
@@ -53,6 +55,7 @@ struct MessagePage: View {
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.green, Color.primary)
                                 .animation(.easeInOut, value: showGroup)
+                                .symbolEffect(delay: 0)
                         }
                     }
                    
@@ -65,6 +68,8 @@ struct MessagePage: View {
                             Image(systemName: "questionmark.circle")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.green, Color.primary)
+                                .symbolEffect(delay: 0)
+                               
                         }
                         
                     }
@@ -100,6 +105,7 @@ struct MessagePage: View {
                                 Image(systemName: "trash.circle")
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.green, Color.primary)
+                                    .symbolEffect(delay: 0)
                                 
                             }
                             
@@ -148,7 +154,7 @@ struct MessagePage: View {
             RealmManager.shared.delete(mode.date)
         }
         
-        Toast.shared.present(title: String(localized: "删除成功"), symbol: .success)
+        Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
         
     }
     

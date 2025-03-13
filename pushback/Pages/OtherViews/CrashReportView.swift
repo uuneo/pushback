@@ -50,7 +50,7 @@ struct CrashReportView: View {
 				HStack{
 					Spacer()
 					Button{
-						crashLog.copy()
+                        Clipboard.shared.setString(crashLog)
 						Toast.shared.present(title: String(localized: "复制成功"), symbol: .success)
 						self.dismiss()
 					}label: {

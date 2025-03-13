@@ -14,7 +14,7 @@ import SwiftyJSON
 
 
 
-class CryptoManager {
+final class CryptoManager {
 	
 	private let algorithm: CryptoAlgorithm
 	private let mode: CryptoMode

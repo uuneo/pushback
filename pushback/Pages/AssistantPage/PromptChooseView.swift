@@ -249,17 +249,8 @@ private struct PromptSwipeActions: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                if !prompt.isBuiltIn{
-                    Button(role: .destructive) {
-                        promptToDelete = prompt
-                        showDeleteAlert = true
-                    } label: {
-                        Label("删除", systemImage: "trash")
-                    }
-                }
-              
-                
+            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+               
                 // 编辑按钮
                 NavigationLink {
                     PromptDetailView(prompt: prompt)
@@ -268,6 +259,19 @@ private struct PromptSwipeActions: ViewModifier {
                 }
                 .tint(.blue)
             }
+            .if(!prompt.isBuiltIn) { view in
+                view
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            promptToDelete = prompt
+                            showDeleteAlert = true
+                        } label: {
+                            Label("删除", systemImage: "trash")
+                        }
+                    }
+            }
+        
+        
     }
 }
 
@@ -321,9 +325,15 @@ struct AddPromptView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("保存") {
-                        //        let prompt = Prompt(title: title, content: content, isBuiltIn: false)
-                        //        promptManager.addCustomPrompt(prompt)
-                        dismiss()
+                        RealmManager.shared.realm { realm in
+                            let chatprompt = ChatPrompt()
+                            chatprompt.title = title
+                            chatprompt.content = content
+                            chatprompt.isBuiltIn = false
+                            realm.add(chatprompt)
+                            self.dismiss()
+                        }
+                      
                     }
                     .disabled(!(!title.isEmpty && !content.isEmpty))
                 }

@@ -23,12 +23,20 @@ class NotificationService: UNNotificationServiceExtension {
 
 
 	override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        
+       
+        
 		Task {
-			guard var bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent) else {
-				contentHandler(request.content)
-				return
-			}
+            guard var bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent) else {
+                contentHandler(request.content)
+                return
+            }
+            
+            
+            
 			self.currentContentHandler = contentHandler
+            
+           
 
 			// 各个 handler 依次对推送进行处理
 			for handler in NotificationContentHandlerItem.allCases.map({ $0.handler }) {
@@ -40,6 +48,7 @@ class NotificationService: UNNotificationServiceExtension {
 					return
 				}
 			}
+            
 
 			contentHandler(bestAttemptContent)
 		}
@@ -53,6 +62,3 @@ class NotificationService: UNNotificationServiceExtension {
 	}
 
 }
-
-
-

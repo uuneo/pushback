@@ -31,7 +31,7 @@ extension ChatGroup{
                 complete?(nil)
             }
         }catch{
-            debugPrint(error.localizedDescription)
+            Log.error(error.localizedDescription)
             complete?(error)
         }
         

@@ -1,5 +1,5 @@
 //
-//  BsyncView.swift
+// AvatarView.swift
 //  pushback
 //
 //  Created by uuneo 2024/10/8.

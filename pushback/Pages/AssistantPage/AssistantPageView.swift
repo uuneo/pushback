@@ -31,9 +31,13 @@ struct AssistantPageView:View {
     @State private var showChangeGroupName:Bool = false
     
     @ObservedResults(ChatGroup.self, where: (\.current)) var chatgroups
-    
+    @Default(.historyMessageBool) var historyMessageBool
     @State private var showSettings:Bool = false
     
+    @State private var offsetX: CGFloat = 0
+    @State private var offsetHistory:CGFloat = 0
+    
+    @StateObject private var keyboardHelper = KeyboardHeightHelper()
     
     var body: some View {
         NavigationStack {
@@ -48,9 +52,11 @@ struct AssistantPageView:View {
                         messageId: messageId,
                         onEditMessage: { _ in}
                     )
+                    .opacity(currentRequestText.isEmpty ? 1 : 0.5)
                     .onTapGesture {
                         PushbackManager.hideKeyboard()
                     }
+                    .overlay {  currentChatMessage() }
                     
                 }else{
                     VStack{
@@ -93,6 +99,7 @@ struct AssistantPageView:View {
                 // 底部输入框
                 ChatInputView(
                     text: $inputText,
+                    messageId: $messageId,
                     isLoading: isLoading,
                     isResponding: false,
                     onSend: sendMessage,
@@ -101,8 +108,22 @@ struct AssistantPageView:View {
                     onSelectedFile: handleSelectedFile,
                     onCapturePhoto: {}
                 )
+                .simultaneousGesture(
+                    DragGesture()
+                        .onEnded({ value in
+                            debugPrint(value.translation, value.startLocation)
+                            if -value.translation.height > 200{
+                                PushbackManager.vibration(style: .heavy)
+                                self.showMenu.toggle()
+                            }else if value.translation.height > 100 {
+                                PushbackManager.shared.hideKeyboard()
+                            }
+                            
+                        })
+                )
                 
             }
+            .environmentObject(keyboardHelper)
             
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
@@ -124,135 +145,26 @@ struct AssistantPageView:View {
                 }
             }
             .sheet(isPresented: $showSettings) {
-                AssistantSettingsView()
+                AssistantSettingsView(showClose: true)
                     .customPresentationCornerRadius(20)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 
-                ToolbarItem {
-                    HStack{
-                        
+                if !currentRequestText.isEmpty{ hideToolbarContent }else{
+                    ToolbarItem {
                         Button{
-                            withAnimation {
-                                self.showSettings.toggle()
-                            }
+                            
                         }label: {
-                            Text( "设置")
-                               
+                            Image(systemName: "plus.message")
+                                .symbolEffect()
                         }
-                        
                     }
-                    
                 }
                 
-                ToolbarItem(placement: .navigation) {
-                    if isLoading{
-                        StreamingLoadingView(isAwait: currentContent.isEmpty)
-                            .transition(.scale)
-                    }else{
-                        
-                        Menu {
-                            
-                           
-                            
-                            if chatgroups.count > 0{
-                                
-                                Section{
-                                    Button(role: .destructive){
-                                        self.showChangeGroupName.toggle()
-                                    }label: {
-                                        Label("重命名", systemImage: "eraser.line.dashed")
-                                    }
-                                }
-                            }
-                            Button {
-                                PushbackManager.vibration(style: .heavy)
-                                self.showMenu.toggle()
-                            }label: {
-                                Label("对话列表", systemImage: "chevron.up")
-                                    .foregroundStyle(Color.primary)
-                                    .font(.system(size: 12))
-                                    .fontWeight(.bold)
-                            }
-                            
-                            if chatgroups.count != 0{
-                                Button{
-                                    openChatManager.shared.cancellableRequest?.cancelRequest()
-                                    
-                                    RealmManager.shared.realm { realm in
-                                        let groups = realm.objects(ChatGroup.self)
-                                        for group in groups{
-                                            group.current = false
-                                        }
-                                    }
-                                }label: {
-                                   
-                                    Label("新对话", systemImage:  "rectangle.3.group.bubble")
-                                        .foregroundStyle(Color.primary)
-                                        .font(.system(size: 12))
-                                        .fontWeight(.bold)
-                                }
-                            }
-                            
-                            
-                            
-                            Section{
-                                Button(role: .destructive){
-                                   dismiss()
-                                }label: {
-                                    Label("关闭", systemImage: "x.circle")
-                                }
-                            }
-                            
-                            
-                        } label: {
-                            
-                            
-                            if let chatgroup = chatgroups.first{
-                                HStack{
-                                    
-                                    Image(systemName: "chevron.left")
-                                        .imageScale(.large)
-                                        .foregroundStyle(.gray)
-                                        .padding(.trailing, 10)
-                                    Text(chatgroup.name)
-                                        .lineLimit(1)
-                                        .truncationMode(.tail)
-                                        
-                                    Spacer()
-                                    
-                                }
-                                .frame(maxWidth: 150)
-                                .foregroundStyle(.foreground)
-                                    .transition(.scale)
-                            }else {
-                                
-                                HStack{
-                                    
-                                    Image(systemName: "chevron.left")
-                                        .imageScale(.large)
-                                        .foregroundStyle(.gray)
-                                        .padding(.trailing, 10)
-                                    Text("新对话")
-                                        .lineLimit(1)
-                                        .truncationMode(.tail)
-                                        
-                                    Spacer()
-                                    
-                                }
-                                .frame(maxWidth: 150)
-                                .foregroundStyle(.foreground)
-                                .transition(.scale)
-                                
-                            }
-                            
-                            
-                        }
-                        
-                    }
-                    
-                }
+                navigationToolbarContent
+                
+                principalToolbarContent
                 
             }
             .sheet(isPresented: $showMenu) {
@@ -269,6 +181,224 @@ struct AssistantPageView:View {
         }
     }
     
+    @ViewBuilder
+    private func currentChatMessage()-> some View{
+        if !currentRequestText.isEmpty {
+            ScrollViewReader { scrollViewProxy in
+                ScrollView {
+                    
+                    ChatMessageView(message: ChatMessage(value: ["request":currentRequestText,"content":currentContent,"messageId":messageId]), isLoading: isLoading)
+                        .id("currentContent")
+                    
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.001))
+                        .frame(width: UIScreen.main.bounds.width,height: 30)
+                        .id("currentContent")
+                }
+                .background(.ultraThinMaterial)
+                .offset(x: offsetX)
+                .simultaneousGesture(
+                    DragGesture()
+                        .onChanged { value in
+                            // 计算水平和垂直的位移
+                            let horizontalTranslation = value.translation.width
+                            let verticalTranslation = value.translation.height
+                            
+                            // 只在水平移动大于垂直移动时生效，避免误触
+                            guard abs(horizontalTranslation) > abs(verticalTranslation),
+                                  value.startLocation.x > 20 else { return }
+                            
+                            // 忽略向右滑动
+                            if  horizontalTranslation > 0 {
+                                return
+                            }
+                            
+                            let translationX = horizontalTranslation
+                            offsetX = translationX
+                            
+                        }
+                        .onEnded { _ in
+                            
+                            if offsetX < -150 && !isLoading{
+                                withAnimation {
+                                    self.currentRequestText = ""
+                                    self.currentContent = ""
+                                }
+                                
+                            }
+                            offsetX = .zero
+                        }
+                    
+                )
+                .onChange(of: currentContent) { newValue in
+                    if !newValue.isEmpty{
+                        withAnimation {
+                            scrollViewProxy.scrollTo("currentContent", anchor: .bottom)
+                        }
+                    }
+                }
+                .onChange(of: keyboardHelper.keyboardHeight) { value in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                        withAnimation {
+                            scrollViewProxy.scrollTo("currentContent", anchor: .bottom)
+                        }
+                        
+                    }
+                }
+                
+                
+                
+            }
+            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .leading)))
+            
+        }
+    }
+    
+    private var principalToolbarContent: some ToolbarContent {
+        
+        ToolbarItem(placement: .principal) {
+            if isLoading{
+                StreamingLoadingView(isAwait: currentContent.isEmpty)
+                    .transition(.scale)
+            }else{
+                
+                
+                if let chatGroup = chatgroups.first{
+                    Menu {
+                        
+                        
+                        
+                        
+                        Button {
+                            PushbackManager.vibration(style: .heavy)
+                            self.showMenu.toggle()
+                        }label: {
+                            Label("对话列表", systemImage: "chevron.up")
+                                .foregroundStyle(Color.primary)
+                                .font(.system(size: 12))
+                                .fontWeight(.bold)
+                        }
+                        
+                        
+                        Button{
+                            openChatManager.shared.cancellableRequest?.cancelRequest()
+                            
+                            RealmManager.shared.realm { realm in
+                                let groups = realm.objects(ChatGroup.self)
+                                for group in groups{
+                                    group.current = false
+                                }
+                            }
+                        }label: {
+                            
+                            Label("新对话", systemImage:  "rectangle.3.group.bubble")
+                                .foregroundStyle(Color.primary)
+                                .font(.system(size: 12))
+                                .fontWeight(.bold)
+                        }
+                        
+                        Section{
+                            Button(role: .destructive){
+                                self.showChangeGroupName.toggle()
+                            }label: {
+                                Label("重命名", systemImage: "eraser.line.dashed")
+                            }
+                        }
+                        
+                        
+                    } label: {
+                        
+                        HStack{
+                            
+                            Text(chatGroup.name)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                                .padding(.trailing, 3)
+                            
+                            Image(systemName: "chevron.down")
+                                .imageScale(.large)
+                                .foregroundStyle(.gray.opacity(0.5))
+                                .imageScale(.small)
+                            
+                            Spacer()
+                            
+                        }
+                        .frame(maxWidth: 150)
+                        .foregroundStyle(.foreground)
+                        .transition(.scale)
+                        
+                        
+                        
+                    }
+                    
+                }else {
+                    HStack{
+                        
+                        
+                        Text( "新对话")
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .padding(.trailing, 3)
+                        
+                        Image(systemName: "chevron.down")
+                            .imageScale(.large)
+                            .foregroundStyle(.gray.opacity(0.5))
+                            .imageScale(.small)
+                        
+                        
+                        
+                    }
+                    .frame(maxWidth: 150)
+                    .foregroundStyle(.foreground)
+                    .transition(.scale)
+                    .onTapGesture {
+                        self.showMenu = true
+                        PushbackManager.vibration(style: .heavy)
+                    }
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    private var navigationToolbarContent: some ToolbarContent{
+        ToolbarItem(placement: .navigation) {
+            Button{
+                dismiss()
+                PushbackManager.vibration(style: .heavy)
+            }label: {
+                Image(systemName: "arrow.left")
+                
+            } .tint(.gray)
+        }
+        
+        
+    }
+    
+    private var hideToolbarContent: some ToolbarContent{
+        ToolbarItem {
+            HStack{
+                
+                Button{
+                    withAnimation {
+                        if !isLoading{
+                            self.currentRequestText = ""
+                            self.currentContent = ""
+                            
+                        }
+                        
+                    }
+                }label: {
+                    Text( "隐藏")
+                    
+                }
+                
+            }
+            
+        }
+    }
     
     
     // 发送消息
@@ -282,11 +412,14 @@ struct AssistantPageView:View {
         if !text.isEmpty {
             
             DispatchQueue.main.async{
-                self.currentRequestText = text
+                
                 withAnimation {
+                    self.currentRequestText = text
                     self.isLoading = true
+                    self.inputText = ""
+                    self.currentContent = ""
                 }
-                self.inputText = ""
+                
             }
             
             openChatManager.shared.chatsStream(text: text, messageId: messageId) { partialResult in
@@ -299,7 +432,7 @@ struct AssistantPageView:View {
                     
                 case .failure(let error):
                     //Handle chunk error here
-                    debugPrint(error)
+                    Log.error(error)
                     Toast.shared.present(title: String(localized:"发生错误\(error.localizedDescription)"), symbol: .info)
                 }
             } completion: {  error in
@@ -307,7 +440,7 @@ struct AssistantPageView:View {
                 //Handle streaming error here
                 if let error{
                     Toast.shared.present(title: String(localized:"发生错误\(error.localizedDescription)"), symbol: .info)
-                    debugPrint(error)
+                    Log.error(error)
                     withAnimation {
                         self.isLoading = false
                     }
@@ -316,10 +449,6 @@ struct AssistantPageView:View {
                     return
                 }
                 
-                DispatchQueue.main.async{
-                    self.isLoading = false
-                    PushbackManager.hideKeyboard()
-                }
                 
                 
                 let group2 = ChatGroup()
@@ -348,12 +477,11 @@ struct AssistantPageView:View {
                     }
                     realm.add(responseMessage)
                     
-                    self.currentRequestText = ""
-                    self.currentContent = ""
-                    /// 如果是连续对话就清空id
-                    if Defaults[.historyMessageBool]{
-                        self.messageId = nil
-                    }                }
+                    DispatchQueue.main.async{
+                        self.isLoading = false
+                        PushbackManager.hideKeyboard()
+                    }
+                }
             }
             
         }
@@ -474,7 +602,7 @@ struct StreamingLoadingView: View {
     @State private var dots = ""
     @State private var timer: Timer.TimerPublisher = Timer.publish(every: 0.3, on: .main, in: .common)
     @State private var timerCancellable: Cancellable?
-
+    
     var body: some View {
         HStack(spacing: 4) {
             // AI头像或图标

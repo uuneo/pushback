@@ -13,11 +13,13 @@ struct AssistantSettingsView: View {
     @Environment(\.dismiss) var dismiss
     @Default(.assistantAccouns) var assistantAccouns
     @Default(.historyMessageCount) var historyMessageCount
+    @Default(.showCodeViewColor) var showCodeViewColor
     @State private var showDeleteOk:Bool = false
     @State private var isSecured = true
     @State private var isTestingAPI = false
     @State private var selectAccount:AssistantAccount? = nil
     
+    var showClose:Bool
     
     
     var body: some View {
@@ -131,6 +133,16 @@ struct AssistantSettingsView: View {
                 
                 
                 Section("AI 助手") {
+                    
+                    HStack{
+                        
+                        Toggle(isOn: $showCodeViewColor) {
+                            Label("彩色代码", systemImage: "theatermask.and.paintbrush")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.primary, showCodeViewColor ? .red : .gray)
+                        }
+                    }
+                    
                     Stepper(
                         value: $historyMessageCount,
                         in: 1...50,
@@ -160,20 +172,23 @@ struct AssistantSettingsView: View {
                 }
                 
             }
-            .navigationTitle("设置")
+            .navigationTitle(showClose ? "设置" : "智能助手")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button{
-                        withAnimation {
-                            self.dismiss()
+                if showClose{
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button{
+                            withAnimation {
+                                self.dismiss()
+                            }
+                        }label: {
+                            Image(systemName: "xmark")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.green, .primary)
                         }
-                    }label: {
-                        Image(systemName: "xmark")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(.green, .primary)
                     }
                 }
+               
             }
             .alert("确认删除", isPresented: $showDeleteOk) {
                 Button("取消", role: .cancel) { }
@@ -432,5 +447,5 @@ struct ChangeChatAccount:View {
 
 
 #Preview {
-    AssistantSettingsView()
+    AssistantSettingsView(showClose: false)
 }

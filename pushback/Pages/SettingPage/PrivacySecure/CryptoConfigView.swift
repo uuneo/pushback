@@ -264,7 +264,7 @@ struct CryptoConfigView: View {
 		
 		
 		if !showMsg{
-			cryptoExampleHandler().copy()
+            Clipboard.shared.setString( cryptoExampleHandler() )
 			Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
 		}
 		

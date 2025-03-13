@@ -24,7 +24,7 @@ final class openChatManager {
         var isSuccess = false
         
         if account.host.isEmpty || account.key.isEmpty || account.basePath.isEmpty || account.model.isEmpty{
-            debugPrint(account)
+            Log.debug(account)
             success(false)
             return
         }
@@ -49,7 +49,7 @@ final class openChatManager {
                     isSuccess = true
                 }
             case .failure(let error):
-                debugPrint(error)
+                Log.error(error)
                 if !isSuccess{
                     success(false)
                     isSuccess = true
@@ -91,37 +91,18 @@ final class openChatManager {
             
             let messageRaw = realm.objects(ChatMessage.self).filter({$0.chat == group.id}).sorted(by: {$0.timestamp > $1.timestamp}).suffix( Defaults[.historyMessageCount])
            
-            /// 判断是否携带，如果连续对话，则继续判断，如果不是连续对话，必须携带，如果不是连续对话，判断历史记录里是否有
+            ///判断是否携带，如果连续对话，则继续判断，如果不是连续对话，必须携带，如果不是连续对话，判断历史记录里是否有
             if Defaults[.historyMessageBool]{
                 
-                var isInHistory:Bool = false
-                
                 for message in messageRaw{
-                    // 携带引用信息
-                    if let messageId = message.messageId{
-                        if let msg = realm.objects(Message.self).first(where: {$0.id.uuidString == messageId}){
-                            params.append(.user(.init(content: .string(msg.userInfo + "\n" + message.request))))
-                        }
-                        isInHistory = true
-                    }else {
-                        params.append(.user(.init(content: .string(message.request))))
-                    }
-                   
+                    params.append(.user(.init(content: .string(message.request))))
                     params.append(.assistant(.init(content: message.content)))
-                    
+            
                 }
-                if isInHistory{
-                    params.append(.user(.init(content: .string(text))))
-                }else{
-                    params.append(.user(.init(content: .string(inputText))))
-                }
-                
-            }else{
-                params.append(.user(.init(content: .string(inputText))))
+               
             }
+            params.append(.user(.init(content: .string(inputText))))
             
-            
-           
             
             return ChatQuery(messages: params, model: account.model)
             

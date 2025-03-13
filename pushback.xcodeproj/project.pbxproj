@@ -159,6 +159,8 @@
 		19D8E3182D30218D00AD36D2 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1922F5E02D1A486E0098B6A4 /* RealmConfig.swift */; };
 		B50B21AE2D76C9EF00737F7C /* OpenChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B21AD2D76C97B00737F7C /* OpenChatManager.swift */; };
 		B526F4692D746FC000AFBF0C /* PopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B526F4682D746FB900AFBF0C /* PopView.swift */; };
+		B56BC3BA2D79B766008E0879 /* MarkdownColours.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BC3632D79B766008E0879 /* MarkdownColours.swift */; };
+		B56BC4312D7E82C8008E0879 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BC4302D7E82C8008E0879 /* Navigation+Extension.swift */; };
 		B5D4B0232D69AA16004CCF88 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B0222D69AA16004CCF88 /* MarkdownUI */; };
 		B5D4B0282D6C39E9004CCF88 /* AnimatedSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D4B0272D6C39E9004CCF88 /* AnimatedSideBar.swift */; };
 		B5D4B02B2D6C5EC8004CCF88 /* SplashMarkdown in Frameworks */ = {isa = PBXBuildFile; productRef = B5D4B02A2D6C5EC8004CCF88 /* SplashMarkdown */; };
@@ -314,6 +316,10 @@
 		19D8E2542D2FF9FE00AD36D2 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50B21AD2D76C97B00737F7C /* OpenChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatManager.swift; sourceTree = "<group>"; };
 		B526F4682D746FB900AFBF0C /* PopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopView.swift; sourceTree = "<group>"; };
+		B56BC3632D79B766008E0879 /* MarkdownColours.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownColours.swift; sourceTree = "<group>"; };
+		B56BC4302D7E82C8008E0879 /* Navigation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
+		B5AA6E652D809BBE00760EB6 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		B5AA6E702D809BBF00760EB6 /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		B5D4B0272D6C39E9004CCF88 /* AnimatedSideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedSideBar.swift; sourceTree = "<group>"; };
 		B5D4B03B2D6D6370004CCF88 /* Splash+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Splash+.swift"; sourceTree = "<group>"; };
 		B5D4B03F2D6D66EE004CCF88 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
@@ -447,6 +453,8 @@
 				1922F5722D1A48230098B6A4 /* UserNotifications.framework */,
 				1922F5742D1A48230098B6A4 /* UserNotificationsUI.framework */,
 				19C87E012D2AAD8400FCFD38 /* UniformTypeIdentifiers.framework */,
+				B5AA6E652D809BBE00760EB6 /* Intents.framework */,
+				B5AA6E702D809BBF00760EB6 /* IntentsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -530,10 +538,12 @@
 		1922F5D22D1A486E0098B6A4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B56BC4302D7E82C8008E0879 /* Navigation+Extension.swift */,
 				B5D4B03B2D6D6370004CCF88 /* Splash+.swift */,
 				1922F5CF2D1A486E0098B6A4 /* Extension+.swift */,
 				1922F5D02D1A486E0098B6A4 /* View+.swift */,
 				1922F5D12D1A486E0098B6A4 /* image+.swift */,
+				B56BC3632D79B766008E0879 /* MarkdownColours.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -925,6 +935,8 @@
 			files = (
 				1922F60C2D1A486E0098B6A4 /* RealmConfig.swift in Sources */,
 				B50B21AE2D76C9EF00737F7C /* OpenChatManager.swift in Sources */,
+				B56BC3BA2D79B766008E0879 /* MarkdownColours.swift in Sources */,
+				B56BC4312D7E82C8008E0879 /* Navigation+Extension.swift in Sources */,
 				1922F60D2D1A486E0098B6A4 /* LocalKeys.swift in Sources */,
 				B526F4692D746FC000AFBF0C /* PopView.swift in Sources */,
 				1922F60E2D1A486E0098B6A4 /* FullSwipeNavigationStack.swift in Sources */,
@@ -998,7 +1010,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1032,7 +1044,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1066,7 +1078,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1100,7 +1112,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1258,7 +1270,7 @@
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_ASSET_PATHS = "\"pushback/Preview Content\"";
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
@@ -1269,6 +1281,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo album";
+				INFOPLIST_KEY_NSSiriUsageDescription = "此应用需要使用 Siri 来删除消息";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Meow;
@@ -1302,7 +1315,7 @@
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_ASSET_PATHS = "\"pushback/Preview Content\"";
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
@@ -1313,6 +1326,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo album";
+				INFOPLIST_KEY_NSSiriUsageDescription = "此应用需要使用 Siri 来删除消息";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = Meow;
@@ -1342,7 +1356,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
@@ -1370,7 +1384,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 213;
+				CURRENT_PROJECT_VERSION = 218;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;

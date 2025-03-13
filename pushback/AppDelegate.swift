@@ -12,6 +12,10 @@ import SwiftyJSON
 import Defaults
 import SwiftUI
 import CrashReporter
+import AppIntents
+
+
+
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate{
 
@@ -88,7 +92,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 #endif
 		/// 配置数据库
 		setupRealm()
-
+        
 
 		UNUserNotificationCenter.current().delegate = self
 
@@ -123,11 +127,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 
 		let userInfo = response.notification.request.content.userInfo
+        
+        
 
 		notificatonHandler(userInfo: userInfo)
 		// MARK: 点击信息 跳转到信息页面
 		NotificationCenter.default.post(name: .messagePreview, object: nil)
-
+        
+        // 清除通知中心的显示
+        center.removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
 
 
 		completionHandler()
@@ -199,4 +207,3 @@ class QuickActionSceneDelegate:UIResponder,UIWindowSceneDelegate{
 		QuickAction.selectAction = shortcutItem
 	}
 }
-

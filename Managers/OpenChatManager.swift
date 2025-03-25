@@ -11,10 +11,23 @@ import Defaults
 import RealmSwift
 
 
-final class openChatManager {
+final class openChatManager: ObservableObject {
     
     static let shared = openChatManager()
+    
+    @Published var currentRequest:String = ""
+    @Published var currentContent:String = ""
+    @Published var isLoading:Bool = false
+    
+    @Published var currentMessageId:String = UUID().uuidString
 
+    @Published var messageId:String?
+    
+    
+    var currentChatMessage:ChatMessage{
+        ChatMessage(value: ["id": currentMessageId, "request":currentRequest,"content": currentContent,"messageId": messageId])
+    }
+    
     
     private init(){}
     
@@ -50,10 +63,8 @@ final class openChatManager {
                 }
             case .failure(let error):
                 Log.error(error)
-                if !isSuccess{
-                    success(false)
-                    isSuccess = true
-                }
+                success(false)
+                isSuccess = true
             }
             self.cancellableRequest?.cancelRequest()
         }completion: { _ in}
@@ -137,8 +148,8 @@ final class openChatManager {
     }
     
     
-    func chatsStream(text:String, messageId:String? = nil,account:AssistantAccount? = nil,onResult: @escaping (Result<ChatStreamResult, Error>) -> Void, completion: ((Error?) -> Void)?)  {
-        guard let openchat = self.getReady(), let query = self.getHistoryParams(text: text,messageId: messageId) else {
+    func chatsStream(text:String, account:AssistantAccount? = nil,onResult: @escaping (Result<ChatStreamResult, Error>) -> Void, completion: ((Error?) -> Void)?)  {
+        guard let openchat = self.getReady(), let query = self.getHistoryParams(text: text,messageId: self.messageId) else {
             completion?(chatError.noConfig)
             return
         }

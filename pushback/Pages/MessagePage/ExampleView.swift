@@ -10,6 +10,7 @@ import Defaults
 
 
 struct ExampleView: View {
+    @EnvironmentObject private var manager:PushbackManager
 	@State private var username:String = ""
 	@State private var title:String = ""
 	@State private var pickerSelection:Int = 0
@@ -17,48 +18,57 @@ struct ExampleView: View {
 	@Default(.servers) var servers
 	@Default(.cryptoConfig) var cryptoConfig
 	var body: some View {
-		NavigationStack{
+        List{
 
-			List{
+            HStack{
+                Spacer()
+                Picker(selection: $pickerSelection, label: Text("切换服务器")) {
+                    ForEach(servers.indices, id: \.self){index in
+                        let server = servers[index]
+                        Text(server.name).tag(server.id)
+                    }
+                }.pickerStyle(MenuPickerStyle())
 
-				HStack{
-					Spacer()
-					Picker(selection: $pickerSelection, label: Text("切换服务器")) {
-						ForEach(servers.indices, id: \.self){index in
-							let server = servers[index]
-							Text(server.name).tag(server.id)
-						}
-					}.pickerStyle(MenuPickerStyle())
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
 
-				}
-				.listRowSeparator(.hidden)
-				.listRowBackground(Color.clear)
-
-				customHelpItemView()
+            customHelpItemView()
 
 
-			}.listStyle(GroupedListStyle())
+        }.listStyle(GroupedListStyle())
+            .toolbar{
+                ToolbarItem {
 
-				.toolbar{
-					ToolbarItem {
+                    Image(systemName: "headphones.circle")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.tint, Color.primary)
+                        .pressEvents(onRelease: { value in
+                            manager.messagePath.append(.sound)
+                        })
+                }
+                
+                ToolbarItem{
+                    Button{
+                        PushbackManager.shared.sheetPage = .cloudIcon
+                    }label:{
+                        
+                        ZStack{
+                            Image(systemName: "icloud")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(Color.primary)
+                            Image(systemName: "photo")
+                                .scaleEffect(0.4)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint)
+                                .offset(y: 2)
+                        }
+                    }
+                }
 
-						NavigationLink {
-							SoundView()
-								.toolbar(.hidden, for: .tabBar)
-						} label: {
-							Image(systemName: "headphones.circle")
-								.scaleEffect(0.9)
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
 
-						}
-					}
-
-
-				}
-				.navigationTitle( "使用示例")
-
-		}
+            }
+            .navigationTitle( "使用示例")
 	}
 
 
@@ -82,11 +92,8 @@ struct ExampleView: View {
 						.foregroundStyle(.tint, Color.primary)
 						.padding(.horizontal)
 						.onTapGesture {
-
-
-
+                            
 							UIPasteboard.general.string = resultUrl
-
 
 							Toast.shared.present(title: String(localized:  "复制成功"), symbol: "document.on.document")
 						}

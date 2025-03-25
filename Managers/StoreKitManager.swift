@@ -44,7 +44,7 @@ final class AppState: ObservableObject {
 				]
 			)
 		} catch {
-			print("Failed to fetch products: \(error.localizedDescription)")
+            Log.error("Failed to fetch products: \(error.localizedDescription)")
 			products = []
 		}
 	}
@@ -59,17 +59,17 @@ final class AppState: ObservableObject {
 					await addTransaction(transaction) // 处理该交易
 					Toast.shared.present(title: String(localized: "购买成功"), symbol: .error)
 				} else {
-					print("交易验证失败。")
+                    Log.debug("交易验证失败。")
 					Toast.shared.present(title: String(localized: "交易验证失败。"), symbol: .error)
 				}
 			case .userCancelled:
-				print("用户取消了购买。")
+            Log.debug("用户取消了购买。")
 				Toast.shared.present(title: String(localized: "用户取消了购买。"), symbol: .question)
 			case .pending:
-				print("购买正在等待中。")
+            Log.debug("购买正在等待中。")
 				Toast.shared.present(title: String(localized: "购买正在等待中。"), symbol: .info)
 			@unknown default:
-				print("出现了未知的购买结果。")
+            Log.debug("出现了未知的购买结果。")
 				Toast.shared.present(title: String(localized: "出现了未知的购买结果。"), symbol: .error)
 		}
 	}
@@ -83,7 +83,7 @@ final class AppState: ObservableObject {
 			if let transaction = try? entitlement.payloadValue {
 				activeTransactions.insert(transaction)
 			} else {
-				print("交易验证失败。")
+                Log.debug("交易验证失败。")
 			}
 		}
 
@@ -109,7 +109,7 @@ final class AppState: ObservableObject {
 				if let transaction = try? update.payloadValue {
 					await addTransaction(transaction)
 				} else {
-					print("Transaction update verification failed.")
+                    Log.debug("Transaction update verification failed.")
 				}
 			}
 		}
@@ -168,7 +168,7 @@ final class AppState: ObservableObject {
 				restoredTransactions.append(transaction)
 				Toast.shared.present(title: String(localized: "恢复成功"), symbol: .success)
 			} else {
-				print("交易验证失败。")
+                Log.debug("交易验证失败。")
 				Toast.shared.present(title: String(localized: "交易验证失败。"), symbol: .error)
 			}
 		}

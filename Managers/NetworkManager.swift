@@ -54,6 +54,8 @@ class NetworkManager {
 		if method == .post  && !params.isEmpty {
 			request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
 		}
+        
+        Log.debug(request)
 
 		// 发送请求并解析响应
 		let data = try await session.data(for: request,timeout: 30)

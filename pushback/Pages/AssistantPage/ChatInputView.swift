@@ -6,13 +6,10 @@ import Defaults
 import RealmSwift
 
 struct ChatInputView: View {
+    @EnvironmentObject private var chatManager:openChatManager
     @Binding var text: String
-    @Binding var messageId:String?
-    let isLoading: Bool
-    let isResponding: Bool
     
     let onSend: (String) -> Void
-    let onPause: () -> Void
     let onSelectedPicture: () -> Void
     let onSelectedFile: () -> Void
     let onCapturePhoto: () -> Void
@@ -30,13 +27,13 @@ struct ChatInputView: View {
         VStack {
            
             HStack() {
-                PromptLabelView(prompt: prompts.first, messageId: _messageId)
+                PromptLabelView(prompt: prompts.first)
             }.padding(.top, 5)
             HStack(spacing: 10) {
                 inputField
-                    .disabled(isLoading)
+                    .disabled(chatManager.isLoading)
                 rightActionButton
-                    .disabled(isLoading)
+                    .disabled(chatManager.isLoading)
             }
             .padding(.horizontal)
             .padding(.top, 5)
@@ -57,7 +54,7 @@ struct ChatInputView: View {
                     .background(.ultraThinMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .onTapGesture {
-                        if !isLoading{
+                        if !chatManager.isLoading{
                             PushbackManager.vibration(style: .heavy)
                             self.isHistoryMessage.toggle()
                         }
@@ -76,7 +73,7 @@ struct ChatInputView: View {
         .background(.background)
         .cornerRadius(30, corners: [.topLeft, .topRight])
         .onTapGesture {
-            self.isFocusedInput = !isLoading
+            self.isFocusedInput = !chatManager.isLoading
         }
         .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: -5)
     }
@@ -106,21 +103,8 @@ struct ChatInputView: View {
     
     @ViewBuilder
     private var rightActionButton: some View {
-        if isResponding {
-            // 暂停按钮
-            Button(action: onPause) {
-                Image(systemName: "stop.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 35, height: 35)
-                    .foregroundColor(.red)
-                    .opacity(0.7)
-                    .background(Color.white)
-                    .clipShape(Circle())
-                    .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
-            }
-            .transition(.scale)
-        } else if !text.isEmpty {
+        
+        if !text.isEmpty {
             // 发送按钮
             Button(action: {
                 
@@ -164,12 +148,12 @@ struct ChatInputView: View {
 // MARK: - PromptLabelView
 private struct PromptLabelView: View {
     let prompt: ChatPrompt?
-    @Binding var messageId:String?
-    
+
+    @EnvironmentObject private var chatManager:openChatManager
     
     private var quote:Message?{
         guard let realm = try? Realm() else { return nil }
-        return realm.objects(Message.self).first(where: {$0.id.uuidString == messageId})
+        return realm.objects(Message.self).first(where: {$0.id.uuidString == chatManager.messageId})
     }
     
     var body: some View {
@@ -213,7 +197,7 @@ private struct PromptLabelView: View {
             if let quote = quote{
                 Menu{
                     Button(role: .destructive){
-                        self.messageId = nil
+                        chatManager.messageId = nil
                     }label: {
                         Label("清除", systemImage: "eraser")
                     }

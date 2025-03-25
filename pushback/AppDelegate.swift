@@ -97,15 +97,21 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 		UNUserNotificationCenter.current().delegate = self
 
 
-		let copyAction =  UNNotificationAction(identifier:Identifiers.copyAction, title: String(localized: "复制后关闭"), options: [.destructive],icon: .init(systemImageName: "doc.on.doc"))
+        let copyAction =  UNNotificationAction(identifier: Identifiers.copyAction,
+                                               title: String(localized: "复制"),
+                                               options: [.foreground],
+                                               icon: .init(systemImageName: "doc.on.doc"))
 
-
-		let detailActionAction =  UNNotificationAction(identifier:Identifiers.detailAction, title: String(localized: "查看详情"), options: [.foreground, ],icon: .init(systemImageName: "ellipsis.circle"))
+        
+        let muteAction =  UNNotificationAction(identifier: Identifiers.muteAction,
+                                               title: String(localized: "静音分组1小时"),
+                                               options: [.foreground ],
+                                               icon: .init(systemImageName: "speaker.slash"))
 
 		// 创建 category
 		UNUserNotificationCenter.current().setNotificationCategories([
 			UNNotificationCategory(identifier: Identifiers.reminderCategory,
-								   actions: [copyAction, detailActionAction],
+                                   actions: [copyAction, muteAction],
 								   intentIdentifiers: [],
 								   options: [.hiddenPreviewsShowTitle])
 		])
@@ -126,16 +132,19 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 
-		let userInfo = response.notification.request.content.userInfo
+		let content = response.notification.request.content
+        Log.debug(content)
         
+        PushbackManager.shared.page = .message
+        PushbackManager.shared.messagePath = []
+        PushbackManager.shared.selectId = content.userInfo[Params.messageId.name] as? String
+        PushbackManager.shared.selectGroup = content.threadIdentifier
         
-
-		notificatonHandler(userInfo: userInfo)
-		// MARK: 点击信息 跳转到信息页面
-		NotificationCenter.default.post(name: .messagePreview, object: nil)
+        notificatonHandler(userInfo: content.userInfo)
+        
         
         // 清除通知中心的显示
-        center.removeDeliveredNotifications(withIdentifiers: [response.notification.request.identifier])
+        center.removeDeliveredNotifications(withIdentifiers: [content.threadIdentifier])
 
 
 		completionHandler()
@@ -160,15 +169,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 	}
 
 	func notificatonHandler(userInfo: [AnyHashable : Any]){
-
-		if userInfo["call"] as? String == "1"{
-			BaseConfig.stopCallNotificationHandler(mode: "click")
-		}
-
-		if let urlStr = userInfo["url"] as? String,
-		   let url = URL(string: urlStr)
-		{
-			PushbackManager.shared.openUrl(url: url)
+		if let urlStr = userInfo["url"] as? String, let url = URL(string: urlStr) {
+			PushbackManager.openUrl(url: url)
 		}
 	}
 

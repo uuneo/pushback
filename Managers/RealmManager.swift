@@ -127,7 +127,7 @@ class RealmManager{
             let realm  = try Realm()
             return realm.objects(Message.self).filter({ !$0.read }).count
         }catch{
-            print(error.localizedDescription)
+            Log.error(error.localizedDescription)
             return 0
         }
     }

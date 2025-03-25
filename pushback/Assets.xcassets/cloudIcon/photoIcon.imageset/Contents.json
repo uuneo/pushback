@@ -1,0 +1,26 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "zh-Hans"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "en"
+    },
+    {
+      "idiom" : "universal",
+      "locale" : "tr"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
+  }
+}

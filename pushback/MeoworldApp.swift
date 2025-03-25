@@ -15,15 +15,18 @@ import SwiftUI
 @main
 struct pushbackApp: SwiftUI.App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var manager = PushbackManager.shared
+    @StateObject private var appstate = AppState.shared
 
 	var body: some Scene {
 		WindowGroup {
 			RootView{
 				ContentView()
-					.disabled(PushbackManager.shared.disabled)
+					.disabled(manager.disabled)
 			}
-			.environmentObject(PushbackManager.shared)
-			.environmentObject(AppState.shared)
+			.environmentObject(manager)
+			.environmentObject(appstate)
+      
 		}
 	}
 

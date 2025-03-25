@@ -30,6 +30,7 @@ class MessageHandler: NotificationContentHandler{
 		let image = userInfo[Params.image.name] as? String
 		let video = userInfo[Params.video.name] as? String
 		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
+        let messageId = userInfo[Params.messageId.name] as? String
 		let level = bestAttemptContent.getLevel()
 
 		var userInfoString:String{
@@ -43,7 +44,6 @@ class MessageHandler: NotificationContentHandler{
 
 		bestAttemptContent.threadIdentifier = group
 
-
 		//  获取保存时间
 		var saveDays:Int {
 			if let isArchive = ttl, let saveDaysTem = Int(isArchive){
@@ -52,11 +52,17 @@ class MessageHandler: NotificationContentHandler{
 				return Defaults[.messageExpiration].days
 			}
 		}
+        
+        var id:UUID{
+            guard let messageId, let id = UUID(uuidString: messageId) else {  return  UUID() }
+            return id
+        }
 		//  保存数据到数据库
 		if  saveDays != 0 , let realm{
 
 			try? realm.write {
-				let message = Message()
+                let message = Message()
+                message.id = id
 				message.title = title
 				message.subtitle = subtitle
 				message.body = body
@@ -72,6 +78,7 @@ class MessageHandler: NotificationContentHandler{
 				realm.add(message)
 			}
 		}
+        
 
 		return bestAttemptContent
 	}

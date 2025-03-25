@@ -21,39 +21,30 @@ struct GroupMessagesView: View {
     var chatHomeMessage:Message{
         return ChatMessage.getAssistant(chat: chatMessages.last)
     }
-    
-    @State private var showMenu123:Bool = false
-
+    @EnvironmentObject private var manager:PushbackManager
     
     var body: some View {
-        List{
-            
-            if searchText.isEmpty{
-    
-                NavigationLink{
-                    
-                    AssistantPageView()
-                        .navigationBarBackButtonHidden()
-                        .toolbar(.hidden, for: .tabBar)
-                    
-                }label: {
-                    MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
-                }
-            }
-            
-            ForEach(messages,id: \.id){ groupMessage in
-                if let message = groupMessage.first{
-                    NavigationLink {
-                        
-                       
-                            MessageDetailPage(group: message.group)
-                                .toolbar(.hidden, for: .tabBar)
-                                .navigationTitle(message.group)
+        ScrollViewReader { proxy in
+            List{
                 
-                        
-                    } label: {
+                if searchText.isEmpty{
+                    
+                    MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
+                    
+                        .pressEvents(onRelease: { value in
+                            manager.messagePath = [.assistant]
+                        })
+                }
+                
+                ForEach(messages,id: \.id){ groupMessage in
+                    if let message = groupMessage.first{
+                       
                         MessageRow(message: message, unreadCount: unRead(message))
-                        
+                            .id(message.group)
+                            .pressEvents(onRelease: { value in
+                                manager.messagePath = [.messageDetail(message.group)]
+                            })
+                            
                             .swipeActions(edge: .leading) {
                                 Button {
                                     
@@ -81,18 +72,32 @@ struct GroupMessagesView: View {
                                     
                                 }.tint(.red)
                             }
-                        
-                        
+                           
                     }
                     
+                    
+                    
                 }
-                
-                
-                
+            }
+            .onAppear{  proxyTo(proxy: proxy, selectGroup: manager.selectGroup) }
+            .onChange(of: manager.selectGroup){value in  proxyTo(proxy: proxy, selectGroup: value)}
+        }
+        .animation(.snappy(), value: messages.count)
+        .hideNavBarOnSwipe(false)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+        
+        
+    }
+    
+    private func proxyTo(proxy: ScrollViewProxy, selectGroup:String?){
+        if let value = selectGroup{
+            withAnimation {
+                proxy.scrollTo(value,anchor: .center)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                manager.messagePath = [.messageDetail(value)]
             }
         }
-        .hideNavBarOnSwipe(true)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
     }
     
 
@@ -118,49 +123,51 @@ struct MessageRow: View {
     var customIcon:String = ""
     var body: some View {
         
-        VStack{
-            HStack {
-                if unreadCount > 0 {
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(width: 10, height: 10)
-                }
-                
-                AvatarView(id: message.id.uuidString, icon: message.icon, customIcon: customIcon)
-                    .frame(width: 45, height: 45)
-                    .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay(alignment: .bottomTrailing) {
-                        if message.level > 2{
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 15)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.white, .red)
-                        }
-                    }
-                
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text(message.group)
-                            .font(.headline.bold())
-                            .foregroundStyle(.textBlack)
-                        
-                        Spacer()
-                        
-                        Text(message.createDate.agoFormatString())
-                            .foregroundStyle(message.createDate.colorForDate())
-                            .font(.caption2)
-                    }
-                    
-                    groupBody(message)
-                        .font(.footnote)
-                        .lineLimit(2)
-                        .foregroundStyle(.gray)
-                }
+        HStack {
+            if unreadCount > 0 {
+                Circle()
+                    .fill(Color.blue)
+                    .frame(width: 10, height: 10)
             }
+            
+            AvatarView(id: message.id.uuidString, icon: message.icon, customIcon: customIcon)
+                .frame(width: 45, height: 45)
+                .clipped()
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(alignment: .bottomTrailing) {
+                    if message.level > 2{
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 15)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.white, .red)
+                    }
+                }
+            
+            
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(message.group)
+                        .font(.headline.bold())
+                        .foregroundStyle(.textBlack)
+                    
+                    Spacer()
+                    
+                    Text(message.createDate.agoFormatString())
+                        .foregroundStyle(message.createDate.colorForDate())
+                        .font(.caption2)
+                }
+                
+                groupBody(message)
+                    .font(.footnote)
+                    .lineLimit(2)
+                    .foregroundStyle(.gray)
+            }
+            
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.gray)
+                .imageScale(.small)
         }
     }
     

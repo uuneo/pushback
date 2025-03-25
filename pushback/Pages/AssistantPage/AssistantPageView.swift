@@ -10,14 +10,14 @@ import RealmSwift
 import Defaults
 import Combine
 
+
 struct AssistantPageView:View {
     @Environment(\.dismiss) var dismiss
     @Default(.assistantAccouns) var assistantAccouns
     
-    @State var messageId:String? = nil
     
-    @State private var currentRequestText: String = ""
-    @State private var currentContent:String = ""
+    @StateObject private var chatManager = openChatManager.shared
+    
     @State private var inputText:String = ""
     
     @FocusState private var isInputActive: Bool
@@ -26,7 +26,6 @@ struct AssistantPageView:View {
     @State private var rotateWhenExpands: Bool = false
     @State private var disablesInteractions: Bool = true
     @State private var disableCorners: Bool = true
-    @State private var isLoading:Bool = false
     
     @State private var showChangeGroupName:Bool = false
     
@@ -40,23 +39,14 @@ struct AssistantPageView:View {
     @StateObject private var keyboardHelper = KeyboardHeightHelper()
     
     var body: some View {
-        NavigationStack {
+
             VStack {
-                if  chatgroups.count != 0 || !currentRequestText.isEmpty || messageId != nil{
+                if  chatgroups.count != 0 || chatManager.isLoading {
                     
-                    ChatMessageListView(
-                        chatGroup: chatgroups.first,
-                        currentRequest: currentRequestText,
-                        currentContent: currentContent,
-                        isLoading: isLoading,
-                        messageId: messageId,
-                        onEditMessage: { _ in}
-                    )
-                    .opacity(currentRequestText.isEmpty ? 1 : 0.5)
+                    ChatMessageListView( chatGroup: chatgroups.first)
                     .onTapGesture {
                         PushbackManager.hideKeyboard()
                     }
-                    .overlay {  currentChatMessage() }
                     
                 }else{
                     VStack{
@@ -99,11 +89,7 @@ struct AssistantPageView:View {
                 // 底部输入框
                 ChatInputView(
                     text: $inputText,
-                    messageId: $messageId,
-                    isLoading: isLoading,
-                    isResponding: false,
                     onSend: sendMessage,
-                    onPause: handlePause,
                     onSelectedPicture: handleSelectedPicture,
                     onSelectedFile: handleSelectedFile,
                     onCapturePhoto: {}
@@ -111,12 +97,12 @@ struct AssistantPageView:View {
                 .simultaneousGesture(
                     DragGesture()
                         .onEnded({ value in
-                            debugPrint(value.translation, value.startLocation)
+                            Log.debug(value.translation, value.startLocation)
                             if -value.translation.height > 200{
                                 PushbackManager.vibration(style: .heavy)
                                 self.showMenu.toggle()
                             }else if value.translation.height > 100 {
-                                PushbackManager.shared.hideKeyboard()
+                                PushbackManager.hideKeyboard()
                             }
                             
                         })
@@ -124,7 +110,6 @@ struct AssistantPageView:View {
                 
             }
             .environmentObject(keyboardHelper)
-            
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
             }content: {
@@ -146,19 +131,19 @@ struct AssistantPageView:View {
             }
             .sheet(isPresented: $showSettings) {
                 AssistantSettingsView(showClose: true)
-                    .customPresentationCornerRadius(20)
+                    .customPresentationCornerRadius(20) 
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 
-                if !currentRequestText.isEmpty{ hideToolbarContent }else{
-                    ToolbarItem {
-                        Button{
-                            
-                        }label: {
-                            Image(systemName: "plus.message")
-                                .symbolEffect()
+                ToolbarItem {
+                    Button{
+                        withAnimation {
+                            self.showMenu = false
+                            self.showSettings.toggle()
                         }
+                    }label: {
+                        Text( "设置")
                     }
                 }
                 
@@ -175,99 +160,27 @@ struct AssistantPageView:View {
                         }
                     }
                     .customPresentationCornerRadius(20)
-                
             }
+            .onAppear{
+                PushbackManager.vibration(style: .heavy,custom: true)
+            }
+            .environmentObject(chatManager)
             
-        }
+
     }
     
-    @ViewBuilder
-    private func currentChatMessage()-> some View{
-        if !currentRequestText.isEmpty {
-            ScrollViewReader { scrollViewProxy in
-                ScrollView {
-                    
-                    ChatMessageView(message: ChatMessage(value: ["request":currentRequestText,"content":currentContent,"messageId":messageId]), isLoading: isLoading)
-                        .id("currentContent")
-                    
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.001))
-                        .frame(width: UIScreen.main.bounds.width,height: 30)
-                        .id("currentContent")
-                }
-                .background(.ultraThinMaterial)
-                .offset(x: offsetX)
-                .simultaneousGesture(
-                    DragGesture()
-                        .onChanged { value in
-                            // 计算水平和垂直的位移
-                            let horizontalTranslation = value.translation.width
-                            let verticalTranslation = value.translation.height
-                            
-                            // 只在水平移动大于垂直移动时生效，避免误触
-                            guard abs(horizontalTranslation) > abs(verticalTranslation),
-                                  value.startLocation.x > 20 else { return }
-                            
-                            // 忽略向右滑动
-                            if  horizontalTranslation > 0 {
-                                return
-                            }
-                            
-                            let translationX = horizontalTranslation
-                            offsetX = translationX
-                            
-                        }
-                        .onEnded { _ in
-                            
-                            if offsetX < -150 && !isLoading{
-                                withAnimation {
-                                    self.currentRequestText = ""
-                                    self.currentContent = ""
-                                }
-                                
-                            }
-                            offsetX = .zero
-                        }
-                    
-                )
-                .onChange(of: currentContent) { newValue in
-                    if !newValue.isEmpty{
-                        withAnimation {
-                            scrollViewProxy.scrollTo("currentContent", anchor: .bottom)
-                        }
-                    }
-                }
-                .onChange(of: keyboardHelper.keyboardHeight) { value in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                        withAnimation {
-                            scrollViewProxy.scrollTo("currentContent", anchor: .bottom)
-                        }
-                        
-                    }
-                }
-                
-                
-                
-            }
-            .transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .leading)))
-            
-        }
-    }
     
     private var principalToolbarContent: some ToolbarContent {
         
         ToolbarItem(placement: .principal) {
-            if isLoading{
-                StreamingLoadingView(isAwait: currentContent.isEmpty)
+            if  chatManager.isLoading{
+                StreamingLoadingView()
                     .transition(.scale)
             }else{
                 
                 
                 if let chatGroup = chatgroups.first{
                     Menu {
-                        
-                        
-                        
                         
                         Button {
                             PushbackManager.vibration(style: .heavy)
@@ -281,7 +194,7 @@ struct AssistantPageView:View {
                         
                         
                         Button{
-                            openChatManager.shared.cancellableRequest?.cancelRequest()
+                            chatManager.cancellableRequest?.cancelRequest()
                             
                             RealmManager.shared.realm { realm in
                                 let groups = realm.objects(ChatGroup.self)
@@ -383,10 +296,9 @@ struct AssistantPageView:View {
                 
                 Button{
                     withAnimation {
-                        if !isLoading{
-                            self.currentRequestText = ""
-                            self.currentContent = ""
-                            
+                        if !chatManager.isLoading{
+                            chatManager.currentRequest = ""
+                            chatManager.currentContent = ""
                         }
                         
                     }
@@ -413,21 +325,35 @@ struct AssistantPageView:View {
             
             DispatchQueue.main.async{
                 
-                withAnimation {
-                    self.currentRequestText = text
-                    self.isLoading = true
+                
+                withAnimation(.snappy(duration: 0.1)){
+                    
+                    chatManager.currentMessageId = UUID().uuidString
+                    chatManager.isLoading = true
+                    chatManager.currentRequest = text
+                    
                     self.inputText = ""
-                    self.currentContent = ""
+                    chatManager.currentContent = ""
                 }
                 
             }
             
-            openChatManager.shared.chatsStream(text: text, messageId: messageId) { partialResult in
+            chatManager.chatsStream(text: text) { partialResult in
                 switch partialResult {
                 case .success(let result):
-                    
+                   
                     if let res = result.choices.first?.delta.content {
-                        currentContent = currentContent + res
+                        
+                        DispatchQueue.main.async{
+
+                            chatManager.currentContent = chatManager.currentContent + res
+                        }
+          
+                       
+                       
+                        Task{
+                            PushbackManager.vibration(style: .light)
+                        }
                     }
                     
                 case .failure(let error):
@@ -437,15 +363,21 @@ struct AssistantPageView:View {
                 }
             } completion: {  error in
                 
+                PushbackManager.vibration(style: .heavy,custom: true)
+                
+                
                 //Handle streaming error here
                 if let error{
                     Toast.shared.present(title: String(localized:"发生错误\(error.localizedDescription)"), symbol: .info)
                     Log.error(error)
-                    withAnimation {
-                        self.isLoading = false
+                    DispatchQueue.main.async{
+                        withAnimation(.snappy(duration: 0.1)){
+                            chatManager.isLoading = false
+                            chatManager.currentRequest = ""
+                            chatManager.currentContent = ""
+                        }
+                       
                     }
-                    currentRequestText = ""
-                    currentContent = ""
                     return
                 }
                 
@@ -457,8 +389,8 @@ struct AssistantPageView:View {
                     var group:ChatGroup{
                         guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
                             group2.current = true
-                            group2.name = currentRequestText
-                            if let messageId{
+                            group2.name = chatManager.currentRequest
+                            if let messageId = chatManager.messageId{
                                 group2.id = messageId
                             }
                             return group2
@@ -466,19 +398,21 @@ struct AssistantPageView:View {
                         return group
                     }
                     
-                    let responseMessage = ChatMessage()
-                    responseMessage.request = currentRequestText
-                    responseMessage.content = currentContent
+                    let responseMessage = chatManager.currentChatMessage
                     responseMessage.chat = group.id
-                    responseMessage.messageId = messageId
                     
                     if realm.objects(ChatGroup.self).where( {$0.current} ).count == 0{
                         realm.add(group)
                     }
                     realm.add(responseMessage)
                     
+                    
+                    
                     DispatchQueue.main.async{
-                        self.isLoading = false
+                        withAnimation(.snappy(duration: 0.1)){
+                            chatManager.currentRequest = ""
+                            chatManager.isLoading = false
+                        }
                         PushbackManager.hideKeyboard()
                     }
                 }
@@ -491,15 +425,15 @@ struct AssistantPageView:View {
     
     
     func handlePause() {
-        print("handlePause")
+        Log.debug("handlePause")
     }
     
     func handleSelectedPicture() {
-        print("selectedPicture")
+        Log.debug("selectedPicture")
     }
     
     func handleSelectedFile() {
-        print("selectedFile")
+        Log.debug("selectedFile")
     }
     
 }
@@ -598,7 +532,7 @@ struct CustomAlertWithTextField: View {
 
 
 struct StreamingLoadingView: View {
-    let isAwait:Bool
+    @EnvironmentObject private var chatManager:openChatManager
     @State private var dots = ""
     @State private var timer: Timer.TimerPublisher = Timer.publish(every: 0.3, on: .main, in: .common)
     @State private var timerCancellable: Cancellable?
@@ -611,7 +545,7 @@ struct StreamingLoadingView: View {
                 .imageScale(.medium)
             
             // 思考中的动画点
-            Text((isAwait ?  "思考中" : "正在输入") + "\(dots)")
+            Text((chatManager.currentContent.isEmpty ?  "思考中" : "正在输入") + "\(dots)")
                 .foregroundColor(.secondary)
                 .font(.system(.subheadline))
                 .animation(.bouncy, value: dots)

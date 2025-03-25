@@ -49,6 +49,22 @@
         }
       }
     },
+    "[%@]分组静音成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[%@] Muted"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[%@] Sessiz"
+          }
+        }
+      }
+    },
     "{这是一个示例,没有原始数据}" : {
       "localizations" : {
         "en" : {
@@ -177,22 +193,6 @@
         }
       }
     },
-    "%d张图片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d photos"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d resim."
-          }
-        }
-      }
-    },
     "%d条消息" : {
       "localizations" : {
         "en" : {
@@ -285,6 +285,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld yıl"
+          }
+        }
+      }
+    },
+    "+%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+%lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+%lld"
           }
         }
       }
@@ -481,6 +497,102 @@
         }
       }
     },
+    "iCloud 云图标" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud Icon"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud Icon"
+          }
+        }
+      }
+    },
+    "iCloud 服务暂时不可用，请稍后再试" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud service temporarily unavailable, please try again later"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud hizmeti geçici olarak kullanılamıyor, lütfen daha sonra tekrar deneyin"
+          }
+        }
+      }
+    },
+    "iCloud 访问受限，可能由家长控制或 MDM 设备管理策略导致" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud access restricted, possibly due to parental controls or MDM device management policy"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud erişimi kısıtlandı, muhtemelen ebeveyn denetimleri veya MDM cihaz yönetim politikası nedeniyle"
+          }
+        }
+      }
+    },
+    "iCloud 账户可用" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud account available"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud hesabı kullanılabilir"
+          }
+        }
+      }
+    },
+    "iCloud状态检查" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud status check"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud durumu kontrolü"
+          }
+        }
+      }
+    },
+    "iCloud状态检查中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud status checking..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud durumu kontrol ediliyor..."
+          }
+        }
+      }
+    },
     "Iv：" : {
       "localizations" : {
         "en" : {
@@ -577,6 +689,22 @@
         }
       }
     },
+    "ok" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ok"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ok"
+          }
+        }
+      }
+    },
     "Padding:" : {
       "localizations" : {
         "en" : {
@@ -605,6 +733,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
+          }
+        }
+      }
+    },
+    "tips:" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tips:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tips:"
           }
         }
       }
@@ -737,6 +881,22 @@
         }
       }
     },
+    "上传到云端" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upload to cloud"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buluta yükle"
+          }
+        }
+      }
+    },
     "上传铃声" : {
       "localizations" : {
         "en" : {
@@ -845,6 +1005,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yapılandırma yapmak için"
+          }
+        }
+      }
+    },
+    "云图标" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud icon"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cloud icon"
           }
         }
       }
@@ -1153,22 +1329,6 @@
         }
       }
     },
-    "保存%1$d张图片到 %2$@ 相册" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save %1$d photos to the %2$@ album"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$d resmi %2$@ albümüne kaydet."
-          }
-        }
-      }
-    },
     "保存1天示例" : {
       "localizations" : {
         "en" : {
@@ -1233,6 +1393,22 @@
         }
       }
     },
+    "保存失败：%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save failed: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydetme başarısız oldu: %@"
+          }
+        }
+      }
+    },
     "保存成功" : {
       "localizations" : {
         "en" : {
@@ -1249,38 +1425,6 @@
         }
       }
     },
-    "修改Key" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change Key"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anahtarı değiştir"
-          }
-        }
-      }
-    },
-    "修改KEY" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modify Key"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anahtarı Değiştir"
-          }
-        }
-      }
-    },
     "修改分组名称" : {
       "localizations" : {
         "en" : {
@@ -1293,22 +1437,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grup adını değiştirin"
-          }
-        }
-      }
-    },
-    "修改失败" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modification failure"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Değişiklik başarısız oldu"
           }
         }
       }
@@ -1361,22 +1489,6 @@
         }
       }
     },
-    "全选" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select all"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tümünü seç"
-          }
-        }
-      }
-    },
     "全部已读" : {
       "localizations" : {
         "en" : {
@@ -1389,22 +1501,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hepsi okunmuş"
-          }
-        }
-      }
-    },
-    "关闭" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kapat"
           }
         }
       }
@@ -1617,18 +1713,18 @@
         }
       }
     },
-    "删除%d张图片" : {
+    "删除云图标" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete %d images"
+            "value" : "Remove cloud icon"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d resmi sil"
+            "value" : "Bulut simgesini kaldır"
           }
         }
       }
@@ -1729,6 +1825,22 @@
         }
       }
     },
+    "剩余空间不足" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not enough space remaining"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalan alan yeterli değil"
+          }
+        }
+      }
+    },
     "加密" : {
       "localizations" : {
         "en" : {
@@ -1777,6 +1889,22 @@
         }
       }
     },
+    "加载中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Loading..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükleniyor..."
+          }
+        }
+      }
+    },
     "半年前" : {
       "localizations" : {
         "en" : {
@@ -1789,22 +1917,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Altı ay önce"
-          }
-        }
-      }
-    },
-    "危险操作！" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Danger!!!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tehlikeli işlem!"
           }
         }
       }
@@ -1889,18 +2001,18 @@
         }
       }
     },
-    "原始地址:" : {
+    "参数不全" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Original address:"
+            "value" : " Missing parameters"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Orijinal adres:"
+            "value" : "Eksik parametreler"
           }
         }
       }
@@ -1965,22 +2077,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "İptal et"
-          }
-        }
-      }
-    },
-    "取消全选" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Deselect all"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tümünü seçmeyi iptal et"
           }
         }
       }
@@ -2129,34 +2225,18 @@
         }
       }
     },
-    "啥都没有" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nothing at all"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hiçbir şey yok"
-          }
-        }
-      }
-    },
     "嗨! 我是智能助手" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi! I am the intelligent assistant."
+            "value" : "Hi! I'm an assistant"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Merhaba! Ben akıllı asistanım."
+            "value" : "Merhaba! Ben bir asistanken"
           }
         }
       }
@@ -2166,13 +2246,29 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi! I am an intelligent assistant. I can help you with searching, answering questions, and writing. Just give me your task!  "
+            "value" : "Hi! I'm an assistant. I can help with searching, answering, and writing. Just give me a task!"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Merhaba! Ben akıllı bir asistanım. Arama yapabilir, sorularınızı yanıtlayabilir ve yazı yazmada yardımcı olabilirim. Bana görevinizi verin! "
+          }
+        }
+      }
+    },
+    "图标额度剩余" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remaining icon quota"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalan simge kotası"
           }
         }
       }
@@ -2189,6 +2285,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resim"
+          }
+        }
+      }
+    },
+    "图片Key" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image Key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim Anahtarı"
+          }
+        }
+      }
+    },
+    "图片key重复" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duplicate image key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aynı resim anahtarı"
+          }
+        }
+      }
+    },
+    "图片删除成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image deleted successfully"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim başarıyla silindi"
+          }
+        }
+      }
+    },
+    "图片加载失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image failed to load"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim yüklenemedi"
           }
         }
       }
@@ -2225,18 +2385,18 @@
         }
       }
     },
-    "图片缓存" : {
+    "图片数据已存在，可以直接复制使用！" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Picture cache"
+            "value" : " Image data exists, you can copy it directly!"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resim önbelleği"
+            "value" : "Resim verisi mevcut, doğrudan kopyalayabilirsiniz!"
           }
         }
       }
@@ -2321,18 +2481,18 @@
         }
       }
     },
-    "复制KEY" : {
+    "复制key" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copy KEY"
+            "value" : "Copy Key"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopyala KEY"
+            "value" : "Anahtarı kopyala"
           }
         }
       }
@@ -2353,22 +2513,6 @@
         }
       }
     },
-    "复制URL" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy URL"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopyala URL"
-          }
-        }
-      }
-    },
     "复制URL和KEY" : {
       "localizations" : {
         "en" : {
@@ -2385,18 +2529,18 @@
         }
       }
     },
-    "复制后关闭" : {
+    "复制图片KEY" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close after copying"
+            "value" : "Copy image key"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kopyalandıktan sonra kapat."
+            "value" : "Resim anahtarını kopyala"
           }
         }
       }
@@ -2429,22 +2573,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Başarıyla kopyalandı."
-          }
-        }
-      }
-    },
-    "如果太简单，会有收到垃圾信息的风险！" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "If it's too simple, there's a risk of getting spam!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eğer çok basitse, spam mesajlar alma riski olabilir!"
           }
         }
       }
@@ -2737,22 +2865,6 @@
         }
       }
     },
-    "已选择%d张图片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d images selected"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d resim seçildi"
-          }
-        }
-      }
-    },
     "开发者支持计划" : {
       "localizations" : {
         "en" : {
@@ -2813,6 +2925,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yeni bir sohbet başlat"
+          }
+        }
+      }
+    },
+    "张" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " "
           }
         }
       }
@@ -2913,6 +3041,22 @@
         }
       }
     },
+    "恢复KEY" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtarı geri yükle"
+          }
+        }
+      }
+    },
     "恢复成功" : {
       "localizations" : {
         "en" : {
@@ -2989,6 +3133,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm zil sesleri"
+          }
+        }
+      }
+    },
+    "打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the gallery\nClick on the picture > Share > Pushback\nUpload to the cloud"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Galeriyi aç\nResme tıkla > Paylaş > Pushback\nBuluta yükle"
           }
         }
       }
@@ -3169,6 +3329,22 @@
         }
       }
     },
+    "提示" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prompt"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " İpucu"
+          }
+        }
+      }
+    },
     "提示词详情" : {
       "localizations" : {
         "en" : {
@@ -3281,6 +3457,22 @@
         }
       }
     },
+    "操作失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Operation failed"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşlem başarısız"
+          }
+        }
+      }
+    },
     "操作成功" : {
       "localizations" : {
         "en" : {
@@ -3293,22 +3485,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "İşlem başarılı."
-          }
-        }
-      }
-    },
-    "数据与存储" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Data&Storage"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veri ve Depolama"
           }
         }
       }
@@ -3438,6 +3614,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grup yok"
+          }
+        }
+      }
+    },
+    "无法确定 iCloud 账户状态，可能是网络问题" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to determine iCloud account status, possibly a network issue"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud hesap durumu belirlenemedi, muhtemelen bir ağ sorunu"
           }
         }
       }
@@ -3586,6 +3778,22 @@
         }
       }
     },
+    "更多操作" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " More actions"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha fazla işlem"
+          }
+        }
+      }
+    },
     "更改服务器" : {
       "localizations" : {
         "en" : {
@@ -3630,6 +3838,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu zaten mevcut."
+          }
+        }
+      }
+    },
+    "未登录 iCloud，请登录 iCloud 账户" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not signed in to iCloud, please sign in to your iCloud account"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud'a giriş yapılmamış, lütfen iCloud hesabınıza giriş yapın"
+          }
+        }
+      }
+    },
+    "未知 iCloud 状态" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown iCloud status"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmeyen iCloud durumu"
           }
         }
       }
@@ -3698,6 +3938,22 @@
         }
       }
     },
+    "查看图标" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View icon"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simgeyi görüntüle"
+          }
+        }
+      }
+    },
     "查看服务器部署教程" : {
       "localizations" : {
         "en" : {
@@ -3710,22 +3966,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu dağıtım kılavuzunu görüntüle."
-          }
-        }
-      }
-    },
-    "查看详情" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View details"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detayları görüntüle."
           }
         }
       }
@@ -3810,6 +4050,22 @@
         }
       }
     },
+    "检查 iCloud 账户状态出错: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error checking iCloud account status: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " iCloud hesap durumu kontrolü hatası: %@"
+          }
+        }
+      }
+    },
     "模型名称: (gpt-4o-mini)" : {
       "localizations" : {
         "en" : {
@@ -3838,6 +4094,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mod"
+          }
+        }
+      }
+    },
+    "正在处理中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşleniyor..."
           }
         }
       }
@@ -3890,6 +4162,22 @@
         }
       }
     },
+    "没有图片" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No image"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim yok"
+          }
+        }
+      }
+    },
     "没有找到历史服务器" : {
       "localizations" : {
         "en" : {
@@ -3938,18 +4226,50 @@
         }
       }
     },
-    "没有权限,需自建服务器" : {
+    "没有文件" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No permission, you need to create your own server"
+            "value" : "No files"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yetkiniz yok, kendi sunucunuzu kurmanız gerekiyor"
+            "value" : "Dosya yok"
+          }
+        }
+      }
+    },
+    "注册失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registration Failed"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıt Başarısız"
+          }
+        }
+      }
+    },
+    "注册成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registration Successful"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kayıt Başarılı"
           }
         }
       }
@@ -4147,22 +4467,6 @@
         }
       }
     },
-    "清空所有" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clear all"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Her şeyi boşalt"
-          }
-        }
-      }
-    },
     "清空缓存" : {
       "localizations" : {
         "en" : {
@@ -4211,22 +4515,6 @@
         }
       }
     },
-    "清除缓存成功!" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clear cache successfully!"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Önbellek başarıyla temizlendi!"
-          }
-        }
-      }
-    },
     "点击右上角按钮可以复制测试URL、预览推送效果\nSafari有缓存，没收到推送时请刷新页面" : {
       "localizations" : {
         "en" : {
@@ -4260,6 +4548,7 @@
       }
     },
     "点击查看更多" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4319,6 +4608,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kullanıcı satın almayı iptal etti."
+          }
+        }
+      }
+    },
+    "用户尚未做出选择" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User has not made a choice yet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı henüz bir seçim yapmadı"
+          }
+        }
+      }
+    },
+    "用户已授权访问照片库" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User has granted access to the photo library"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı fotoğraf kütüphanesine erişim izni verdi"
+          }
+        }
+      }
+    },
+    "用户拒绝了访问权限" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User denied access permission"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı erişim iznini reddetti"
+          }
+        }
+      }
+    },
+    "用户授予了有限的访问权限" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User granted limited access permission"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı sınırlı erişim izni verdi"
           }
         }
       }
@@ -4883,6 +5236,22 @@
         }
       }
     },
+    "访问受限（可能是家长控制）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Access restricted (parental controls)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erişim kısıtlı (ebeveyn denetimleri)"
+          }
+        }
+      }
+    },
     "试用期至 %@" : {
       "localizations" : {
         "en" : {
@@ -5011,18 +5380,18 @@
         }
       }
     },
-    "请输入自定义推送Key" : {
+    "请输入旧的KEY" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Please enter a custom push key"
+            "value" : "Enter old key"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lütfen özel bildirim anahtarını girin"
+            "value" : "Eski anahtarı girin"
           }
         }
       }
@@ -5107,18 +5476,18 @@
         }
       }
     },
-    "输入一个字符串 远程可以直接使用：" : {
+    "输入使用过的key,可以恢复key" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter a string remote can be used directly:"
+            "value" : "Enter used key to restore"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir dize girin, uzaktan doğrudan kullanılabilir:"
+            "value" : "Anahtarı geri yüklemek için kullanılan anahtarı girin"
           }
         }
       }
@@ -5172,6 +5541,22 @@
         }
       }
     },
+    "输入图片名称" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter image name"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resim adı girin"
+          }
+        }
+      }
+    },
     "输入服务器地址" : {
       "localizations" : {
         "en" : {
@@ -5184,22 +5569,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu adresini girin."
-          }
-        }
-      }
-    },
-    "输入本地地址" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter local address"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yerel adresi girin."
           }
         }
       }
@@ -5269,22 +5638,6 @@
         }
       }
     },
-    "远程本地化" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remote localization"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uzaktan yerelleştirme"
-          }
-        }
-      }
-    },
     "连接失败" : {
       "localizations" : {
         "en" : {
@@ -5333,22 +5686,6 @@
         }
       }
     },
-    "选择" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seçin"
-          }
-        }
-      }
-    },
     "选择后配置自动保存" : {
       "localizations" : {
         "en" : {
@@ -5361,22 +5698,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seçtikten sonra yapılandırma otomatik olarak kaydedilecektir."
-          }
-        }
-      }
-    },
-    "选择图片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select Image"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resim seçin"
           }
         }
       }
@@ -5621,22 +5942,6 @@
         }
       }
     },
-    "隐私与安全" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacy&Security"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gizlilik ve güvenlik"
-          }
-        }
-      }
-    },
     "隐私政策" : {
       "localizations" : {
         "en" : {
@@ -5697,6 +6002,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gerekli olan yer"
+          }
+        }
+      }
+    },
+    "静音分组1小时" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mute group for 1 hour​"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "​Grubu 1 saatliğine sessize al​"
           }
         }
       }

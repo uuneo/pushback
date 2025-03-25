@@ -132,28 +132,45 @@ extension View {
 // MARK: - buttons 视图
 
 struct ButtonPress: ViewModifier{
-	
-	var onPress:()->Void
-	var onRelease:()->Void
-	
+    var maxX:Double = 10
+	var onPress:((DragGesture.Value)->Void)? = nil
+	var onRelease:((DragGesture.Value)->Void)? = nil
+    
+    @State private var ispress = false
+    
 	func body(content: Content) -> some View {
 		content
+            .contentShape(Rectangle())
+            .scaleEffect(ispress ? 0.99 : 1)
+            .opacity(ispress ? 0.6 : 1)
+            .animation(.easeInOut(duration: 0.1), value: ispress)
 			.simultaneousGesture(
 				DragGesture(minimumDistance: 0)
-					.onChanged({ _ in
-						onPress()
+					.onChanged({ result in
+                        self.ispress = true
+						onPress?(result)
 					})
-					.onEnded({ _ in
-						onRelease()
+					.onEnded({ result in
+                        self.ispress = false
+                        if abs(result.translation.width) <= maxX {
+                            vibration()
+                            onRelease?(result)
+                        }
 					})
 			)
 	}
+    
+    func vibration(){
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
+    }
 }
 
 
 extension View{
-	func pressEvents(onPress: @escaping(()->Void), onRelease: @escaping(()->Void))-> some View{
-		modifier(ButtonPress(onPress: { onPress() }, onRelease: { onRelease() }))
+    func pressEvents(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onRelease: ((DragGesture.Value)->Void)? = nil)-> some View{
+        modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onRelease))
 	}
 }
 
@@ -177,11 +194,11 @@ struct TipsToolBarItemsModifier: ViewModifier {
 					} label: {
 						HStack{
 							if !isConnected {
-								signSymbol(icon1: "network", icon2: "network.slash")
+								signSymbol(errorAnimate,icon1: "network", icon2: "network.slash")
 							}
 							
 							if !isAuthorized {
-								signSymbol(icon1: "bell", icon2: "bell.slash")
+								signSymbol(errorAnimate,icon1: "bell", icon2: "bell.slash")
 							}
 						}
 						.onReceive(timer){ _ in
@@ -196,10 +213,11 @@ struct TipsToolBarItemsModifier: ViewModifier {
 	}
 	
 	@ViewBuilder
-	private func signSymbol(icon1: String, icon2: String) -> some View{
+    private func signSymbol(_ errorAnimate:Bool, icon1: String, icon2: String) -> some View{
 		Image(systemName: errorAnimate ? icon1 : icon2)
 			.symbolRenderingMode(.palette)
 			.foregroundStyle(.red, .foreground)
+            .symbolEffect(.replace, delay: 1)
         
 	}
 	
@@ -211,6 +229,32 @@ extension View{
 		self.modifier(TipsToolBarItemsModifier(isConnected: wifi, isAuthorized: notification, onAppearAction: callback))
 	}
 }
+
+struct replaceSymbol: ViewModifier{
+    var icon1:String
+    var icon2:String
+    var delay:Double = 1
+    private let timer = Timer.publish(every: 1.0, on: .current, in: .common).autoconnect()
+    @State private var errorAnimate: Bool = true
+    
+    func body(content: Content) -> some View {
+        Image(systemName: errorAnimate ? icon1 : icon2)
+            .symbolEffect(.replace, delay: delay)
+            .onReceive(timer){ _ in
+                withAnimation(Animation.bouncy(duration: 0.5)) {
+                    errorAnimate.toggle()
+                }
+            }
+        
+    }
+    
+}
+
+
+
+
+
+
 
 // MARK: - TextFieldModifier
 
@@ -581,6 +625,9 @@ enum sybolEffectType{
     case scale
     /// 可变颜色
     case variableColor
+    /// 替换
+    case replace
+        
 }
 
 enum RepeatBehaviorType{
@@ -617,8 +664,10 @@ extension View{
                     self.symbolEffect(.scale.up.byLayer, options: .repeat(repeatBehavior1))
                 case .variableColor:
                     self.symbolEffect(.variableColor.cumulative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
+                case .replace:
+                    self.contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .repeat(repeatBehavior1)))
                 }
-            }.contentTransition(.symbolEffect(.replace))
+            }
             
         } else {
             self
@@ -626,3 +675,4 @@ extension View{
         
     }
 }
+

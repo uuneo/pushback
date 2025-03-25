@@ -30,12 +30,10 @@ struct DeviceInfo: Codable {
 	}
 }
 
-struct ChangeKeyInfo:Codable{
-	var oldKey:String
-	var newKey:String
-	var deviceToken:String
+struct recoverKeyInfo: Codable{
+    var oldKey:String
+    var deviceToken:String
 }
-
 
 
 enum requestHeader :String {
@@ -43,11 +41,10 @@ enum requestHeader :String {
 	case http = "http://"
 }
 
-struct Identifiers {
+enum Identifiers {
 	static let reminderCategory = "myNotificationCategory"
-	static let cancelAction = "cancel"
 	static let copyAction = "copy"
-	static let detailAction = "viewDetail"
+    static let muteAction = "mute"
 }
 
 // MARK: - Page model
@@ -64,9 +61,20 @@ enum SubPage: Equatable{
 	case web(String)
 	case crash(String)
     case chatgpt(String)
+    case cloudIcon
 	case none
     
 }
+
+enum MessageStatckPage: Hashable {
+    case example
+    case messageDetail(String)
+    case assistant
+    case sound
+}
+
+
+
 
 
 enum TabPage :String{
@@ -216,26 +224,23 @@ struct CryptoModel: Equatable, Codable, Defaults.Serializable{
 
 enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 	case pushback
-	case callme
     case Whale
-	case bell
+    case bell
     
 	
 
-    var name: String? { self == .Whale ? nil : self.rawValue }
-
-	var logo: String{
-		switch self {
-			case .pushback:
-				return "logo"
-			case .callme:
-				return "logo0"
-			case .bell:
-				return "logo1"
-			case .Whale:
-				return "logo2"
-		}
-	}
+    var name: String? { self == .pushback ? nil : self.rawValue }
+    
+    var logo: String{
+        switch self {
+        case .pushback:
+            return "logo"
+        case .bell:
+            return "logo1"
+        case .Whale:
+            return "logo2"
+        }
+    }
 }
 
 // MARK: - PushExampleModel
@@ -281,17 +286,6 @@ enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 }
 
 
-// MARK: - ImageCacheModel
-
-struct ImageModel: Codable, Identifiable, Defaults.Serializable, Equatable, Hashable{
-	var id:String = UUID().uuidString
-	var title:String?
-	var createDate:Date = Date()
-	var url:String
-	var another:String?
-	var sha256:String
-
-}
 
 // MARK: - SoundType
 
@@ -378,7 +372,7 @@ enum Params: String, CaseIterable{
 	case caltitle
 	case calcolor
 	case calminutes
-
+    case messageId
 
 	var name:String{ self.rawValue }
 }
@@ -401,4 +395,20 @@ struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
     var basePath:String
     var key:String
     var model:String
+}
+
+
+extension AssistantAccount{
+    mutating func trimAssistantAccountParameters() {
+        name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        host = host.trimmingCharacters(in: .whitespacesAndNewlines)
+        host = host.removeHTTPPrefix()
+        basePath = basePath.trimmingCharacters(in: .whitespacesAndNewlines)
+        if basePath.count == 0{
+            basePath = "/v1"
+        }
+        key = key.trimmingCharacters(in: .whitespacesAndNewlines)
+        model = model.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
 }

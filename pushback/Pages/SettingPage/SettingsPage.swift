@@ -7,12 +7,7 @@
 
 
 import SwiftUI
-import RealmSwift
-import Combine
 import Defaults
-import EventKit
-
-
 
 
 struct SettingsPage: View {
@@ -21,10 +16,8 @@ struct SettingsPage: View {
 	@EnvironmentObject private var store:AppState
     
     @StateObject var monitor = MonitorsManager.shared
-
-	@ObservedResults(Message.self) var messages
+	
 	@Default(.appIcon) var setting_active_app_icon
-	@Default(.badgeMode) var badgeMode
 	@Default(.sound) var sound
 	
 	@Default(.servers) var servers
@@ -37,6 +30,7 @@ struct SettingsPage: View {
 	@State private var buildDetail:Bool = false
 	@State private var showServerListView:Bool = false
 	@State private var resetAppShow:Bool = false
+
 
 	var serverTypeColor:Color{
 
@@ -95,6 +89,8 @@ struct SettingsPage: View {
 					}
 
 				}
+                
+               
 
 				Section(header:Text( "基础配置")) {
                     NavigationLink{
@@ -111,7 +107,7 @@ struct SettingsPage: View {
                                 .foregroundStyle(serverTypeColor,Color.primary)
                                 .if(serverTypeColor == .red){view in
                                     view
-                                        .symbolEffect(delay: 0.5)
+                                        .symbolEffect(.variableColor, delay: 0.5)
                                 }
                         }
                     }
@@ -160,21 +156,7 @@ struct SettingsPage: View {
 					}
 
 
-					Picker(selection: $badgeMode) {
-						Text( "自动").tag(BadgeAutoMode.auto)
-						Text( "自定义").tag(BadgeAutoMode.custom)
-					} label: {
-						Label {
-							Text( "角标模式")
-						} icon: {
-							Image(systemName: "app.badge")
-								.scaleEffect(0.9)
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-						}
-					}.onChange(of: badgeMode) { newValue in
-						RealmManager.ChangeBadge()
-					}
+					
 
 
 
@@ -198,51 +180,59 @@ struct SettingsPage: View {
 								.foregroundStyle(.gray)
 						}
 					}
+                    
+                    
+                    Button{
+                        manager.sheetPage = .cloudIcon
+                    }label: {
+                        HStack{
+                            Label {
+                                Text( "云图标")
+                                    .foregroundStyle(.textBlack)
+                            } icon: {
+                                ZStack{
+                                    Image(systemName: "icloud")
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(Color.primary)
+                                    Image(systemName: "photo")
+                                        .scaleEffect(0.4)
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.tint)
+                                        .offset(y: 2)
+                                } .scaleEffect(0.9)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.gray)
+                        }
+                    }
 
 
 					NavigationLink{
-						DataStorageView()
+                        MoreOperationsView()
 							.toolbar(.hidden, for: .tabBar)
 					}label: {
 
 						HStack{
 							Label {
-								Text( "数据与存储")
+								Text( "更多操作")
 							} icon: {
-								Image(systemName: "externaldrive")
+								Image(systemName: "gearshape.arrow.triangle.2.circlepath")
 									.scaleEffect(0.9)
 									.symbolRenderingMode(.palette)
 									.foregroundStyle(.tint, Color.primary)
+                                    .symbolEffect(.rotate, delay: 2)
 							}
 							Spacer()
 						}
 					}
-					NavigationLink{
-						PrivacySecureView()
-							.toolbar(.hidden, for: .tabBar)
-					}label: {
-
-						HStack{
-							Label {
-								Text( "隐私与安全")
-							} icon: {
-								Image(systemName: "lock.square.stack")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-							}
-							Spacer()
-						}
-					}
-
-
 
 				}
 				Section {
 
 
 					Button{
-						manager.openSetting()
+                        PushbackManager.openSetting()
 					}label: {
 						HStack(alignment:.center){
 
@@ -286,6 +276,7 @@ struct SettingsPage: View {
 						}
 
 					}
+                    
                     
                     if store.subscriptionInfo.canAccessContent{
                         HStack{
@@ -380,7 +371,7 @@ struct SettingsPage: View {
 			.navigationTitle("设置")
 			.loading(showLoading)
 			.tipsToolbar(wifi: monitor.isConnected, notification: monitor.isAuthorized, callback: {
-				manager.openSetting()
+                PushbackManager.openSetting()
 			})
 			.toolbar {
                 
@@ -408,6 +399,7 @@ struct SettingsPage: View {
 			PaywallView().environmentObject(AppState.shared)
                 .customPresentationCornerRadius(20)
 		}
+
 		.alert(isPresented: $resetAppShow) {
 			Alert(title: Text("危险操作!!! 恢复初始化."),
 				  message:  Text("将丢失所有数据"),

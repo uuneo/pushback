@@ -31,11 +31,14 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>photos-redirect</string>
+	</array>
 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
 	<true/>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>DeleteMessageDataIntent</string>
 		<string>INSendMessageIntent</string>
 		<string>INStartCallIntent</string>
 	</array>

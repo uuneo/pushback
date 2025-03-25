@@ -8,6 +8,7 @@
 import SwiftUI
 import Defaults
 import UIKit
+import Foundation
 
 class PushbackManager: NetworkManager, ObservableObject{
 	static let shared = PushbackManager()
@@ -20,76 +21,25 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var scanUrl:String = ""
 	@Published var crashLog:String?
 	@Published var disabled:Bool = false
-
-	private let appGroupIdentifier = BaseConfig.groupName
-	private var customSoundsDirectoryMonitor: DispatchSourceFileSystemObject?
-	private let manager = FileManager.default
+    
+    
+    @Published var selectId:String? = nil
+    @Published var selectGroup:String? = nil
+    
+    
+    @Published var messagePath:[MessageStatckPage] = []
+    
+    private static var lastFeedbackTime: TimeInterval = 0
+    private static let cooldown: TimeInterval = 0.1
 	
-	var fullShow:Binding<Bool>{
-		
-		Binding {
-			self.fullPage != .none
-		} set: { value in
-			if !value {
-				self.fullPage = .none
-			}
-		}
-	}
+    var fullShow:Binding<Bool>{  Binding { self.fullPage != .none } set: { _ in self.fullPage = .none } }
 	
-	var sheetShow:Binding<Bool>{
-		Binding {
-			self.sheetPage != .none
-		} set: { value in
-			if !value {
-				self.sheetPage = .none
-			}
-		}
-	}
+	var sheetShow:Binding<Bool>{ Binding { self.sheetPage != .none } set: { _ in self.sheetPage = .none } }
 
 
 	
-	private override init() {
-		/// get sound file list
-		super.init()
-		
-	}
+	private override init() { super.init() }
 
-
-	// MARK: - Remote Request
-
-
-
-	func changeKey(server:PushServerModel, newKey:String) async -> Bool{
-
-		do{
-
-			let params = ChangeKeyInfo(oldKey: server.key, newKey: newKey, deviceToken: Defaults[.deviceToken]).toEncodableDictionary() ?? [:]
-
-			if let response:baseResponse<ChangeKeyInfo> = try await self.fetch(url: "\(server.url)/change",method: .post, params: params),
-			   let index = Defaults[.servers].firstIndex(where: {$0.id == server.id}){
-				if let data = response.data{
-					Defaults[.servers].remove(at: index)
-					Defaults[.servers].append(PushServerModel(url: server.url,key: data.newKey))
-					Toast.shared.present(title: String(localized: "修改成功"), symbol: .success)
-					return true
-				}else{
-					Toast.shared.present(title: response.message, symbol: .error)
-					return false
-				}
-
-			}
-
-
-		}catch{
-			Log.debug(error.localizedDescription)
-			Toast.shared.present(title: error.localizedDescription, symbol: .error)
-			return false
-		}
-
-		Toast.shared.present(title: String(localized: "修改失败"), symbol: .error)
-
-		return false
-	}
 
 	/// Update Server Status
 	///  - Parameters:
@@ -101,17 +51,20 @@ class PushbackManager: NetworkManager, ObservableObject{
 			let success = response == "ok"
 			await MainActor.run {
 				if 	let index = Defaults[.servers].firstIndex(where: {$0.url  == url}){
-					Defaults[.servers][index].status = success
+                    withAnimation{
+                        Defaults[.servers][index].status = success
+                    }
 				}
 			}
 			return (url,success, "")
 		}catch{
 			await MainActor.run {
 				if 	let index = Defaults[.servers].firstIndex(where: {$0.url  == url}){
-					Defaults[.servers][index].status = false
+                    withAnimation{
+                        Defaults[.servers][index].status = false
+                    }
 				}
 			}
-
 			return (url,false, error.localizedDescription)
 		}
 	}
@@ -135,15 +88,37 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 		}
 	}
+    
+    
+    func restore(address:String, deviceKey:String, complete:((Bool)->Void)? = nil) {
+        Task{
+            do{
+            
+                let response:baseResponse<String>? = try await self.fetch(url: address + "/register/\(deviceKey)",method: .get)
+                if let msg = response?.message, let code = response?.code,code == 200, msg == "success"{
+                    
+                    self.appendServer(server: PushServerModel(url: address,key: deviceKey)) { success, msg in
+                        complete?(success)
+                    }
+                }
+                
+            }catch{
+                Log.error(error.localizedDescription)
+              
+            }
+            complete?(false)
+        }
+        
+    }
 
 	/// Register  Server
 	///  - Parameters:
 	///  server: 服务器数据
 	///  completion: 服务器数据，提示消息
-	func register(server: PushServerModel, completion: ((PushServerModel,String)-> Void)? = nil){
+    func register(server: PushServerModel, reset:Bool = false, completion: ((Bool,String)-> Void)? = nil){
 		Task.detached(priority: .high) {
-			let (server1,msg) = await self.register(server: server)
-			completion?(server1, msg)
+            let (success,msg) = await self.register(server: server,reset: reset)
+			completion?(success, msg)
 		}
 	}
 
@@ -151,94 +126,98 @@ class PushbackManager: NetworkManager, ObservableObject{
 	///  - Parameters:
 	///  server: 服务器数据
 	///  completion: 列表 ( 服务器数据，提示消息 )
-	func registers(completion: (([(PushServerModel,String)])-> Void)? = nil) async {
-		await withTaskGroup(of: (PushServerModel,String).self) { group in
+    func registers(completion: (([(Bool,String)])-> Void)? = nil) async {
+        await withTaskGroup(of: (Bool,String).self) { group in
 			for server in Defaults[.servers] {
 				group.addTask {await self.register(server: server)}
 			}
 
-			var results:[(PushServerModel,String)] = []
+            var results:[(Bool,String)] = []
 			for await result in group{
 				results.append(result)
 			}
 			completion?(results)
 		}
 	}
-
-
+    
 	/// Register  Server async
-	func register(server: PushServerModel) async -> (PushServerModel,String){
+    func register(server: PushServerModel, reset:Bool = false) async -> (Bool,String){
 
 		do{
-			let deviceToken = Defaults[.deviceToken]
+            let deviceToken = reset ? UUID().uuidString : Defaults[.deviceToken]
+            
 			if let index = Defaults[.servers].firstIndex(of: server){
 
 				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary() ?? [:]
 
-
 				let response:baseResponse<DeviceInfo>? = try await self.fetch(url: server.url + "/register",method: .post, params: params)
 
-				if let response = response,
-				   let data = response.data
-				{
-					DispatchQueue.main.async{
-						Defaults[.servers][index].key = data.deviceKey
-						Defaults[.servers][index].status = true
-					}
-					return (server,"注册成功")
+				if let response = response,  let data = response.data {
+                    if !reset{
+                        DispatchQueue.main.async{
+                            Defaults[.servers][index].key = data.deviceKey
+                            withAnimation{
+                                Defaults[.servers][index].status = true
+                            }
+                        }
+                    }
+                    return (true,String(localized: "注册成功"))
 				}else{
-					DispatchQueue.main.async{
-						Defaults[.servers][index].status = false
-					}
+                    if !reset{
+                        DispatchQueue.main.async{
+                            withAnimation{
+                                Defaults[.servers][index].status = false
+                            }
+                        }
+                    }
 				}
 			}
 
 		}catch{
 			if let index = Defaults[.servers].firstIndex(of: server){
-				Defaults[.servers][index].status = false
+                withAnimation{
+                    Defaults[.servers][index].status = false
+                }
 			}
-			print(error.localizedDescription)
-			return (server,error.localizedDescription)
+            Log.error(error.localizedDescription)
+			return (false,error.localizedDescription)
 		}
 
-		return (server,"注册失败")
+		return (true,String(localized: "注册失败"))
 	}
 
 
 
 	/// add server
-	func appendServer(server:PushServerModel, completion: @escaping (PushServerModel,String)-> Void ){
+    func appendServer(server:PushServerModel, completion: @escaping (Bool,String)-> Void ){
 		Task.detached(priority: .background) {
-			let isServer = Defaults[.servers].contains(where: {$0.url == server.url})
+            let isServer = Defaults[.servers].contains(where: {$0.key == server.key})
 			let (_, success, msg) = await self.health(url: server.url)
 			if !isServer, success {
 				await MainActor.run {
 					Defaults[.servers].insert(server, at: 0)
 				}
-				let (serverresult,msg) = await self.register(server: server)
+				let (success,msg) = await self.register(server: server)
 				DispatchQueue.main.async{
-					completion(serverresult,msg)
+					completion(success, msg)
 				}
 			}else{
 				DispatchQueue.main.async{
-					completion(server , isServer ? String(localized: "服务器已存在") : (msg ?? ""))
+					completion(false , isServer ? String(localized: "服务器已存在") : (msg ?? ""))
 				}
 			}
 		}
 	}
 
 	/// open app settings
-	func openSetting(){
-		guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
-			return
-		}
-		self.openUrl(url: settingsURL)
+	class func openSetting(){
+        PushbackManager.openUrl(url: URL(string: UIApplication.openSettingsURLString)!)
 	}
 	/// Open a URL or handle a fallback if the URL cannot be opened
 	/// - Parameters:
 	///   - url: The URL to open
 	///   - unOpen: A closure called when the URL cannot be opened, passing the URL as an argument
-	func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
+	class func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
 
 		if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
 
@@ -254,15 +233,14 @@ class PushbackManager: NetworkManager, ObservableObject{
 		}
 	}
 
-
-
-
-	func hideKeyboard() {
-		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-	}
-
     
-    class func vibration(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+    class func vibration(style: UIImpactFeedbackGenerator.FeedbackStyle, custom:Bool = false) {
+        if !custom {
+            let now = Date().timeIntervalSince1970
+            guard now - lastFeedbackTime > cooldown else { return } // 限制频率
+            lastFeedbackTime = now
+        }
+       
         let generator = UIImpactFeedbackGenerator(style: style)
         generator.prepare()
         generator.impactOccurred()
@@ -270,12 +248,8 @@ class PushbackManager: NetworkManager, ObservableObject{
     
     
     class func hideKeyboard(){
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                        to: nil,
-                                        from: nil,
-                                        for: nil)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),to: nil,from: nil,for: nil)
     }
-    
     
 }
 

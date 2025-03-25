@@ -10,6 +10,8 @@ import UniformTypeIdentifiers
 import MobileCoreServices
 import SwiftUI
 import AVFoundation
+import Defaults
+import UIKit
 
 class MediaHandler:NotificationContentHandler{
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
@@ -47,19 +49,18 @@ class MediaHandler:NotificationContentHandler{
 		
 		
 		
-		if let imageUrl =  userInfo[Params.image.name] as? String{
+        if let imageUrl =  userInfo[Params.image.name] as? String{
+            
+            guard let localPath = await ImageManager.downloadImage(imageUrl,mode: .image, expiration: .days(Defaults[.imageSaveDays].days)) else { return bestAttemptContent }
 
-			let cacheTag = Defaults[.images].filter({$0.url == imageUrl}).count == 0
-
-			guard let localPath = await ImageManager.downloadImage(imageUrl) else {
-				
-				return bestAttemptContent
-			}
-
-			/// 自动保存图片到相册 前提 打开了自动存储，并且缓存内没有的图片
-			if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveToAlbum], cacheTag{
-				UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
-			}
+            /// 自动保存图片到相册 前提 打开了自动存储，并且缓存内没有的图片
+            /// 每个图片只保存一遍
+            if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveToAlbum], let sha256 = uiimage.pngData()?.sha256(){
+                if Defaults[.imageSaves].first(where: {$0 == sha256}) == nil{
+                    Defaults[.imageSaves].append(sha256)
+                    UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
+                }
+            }
 
 			
 			let copyDestUrl = URL(fileURLWithPath: localPath).appendingPathExtension(".tmp")
@@ -106,7 +107,7 @@ class MediaHandler:NotificationContentHandler{
 			   let cgImage = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
 			   return UIImage(cgImage: cgImage)
 		   } catch {
-			   print("Error generating video frame: \(error)")
+               Log.error("Error generating video frame: \(error)")
 			   return nil
 		   }
 	   }

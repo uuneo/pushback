@@ -18,11 +18,20 @@ struct ServerCardView:View {
 		HStack(alignment: .center){
 
 			if !isCloud {
-				Image(systemName:  "antenna.radiowaves.left.and.\(item.status ?  "right" : "slash")")
+                Image(systemName:  item.status ? "antenna.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
 					.scaleEffect(1.5)
 					.symbolRenderingMode(.palette)
 					.foregroundStyle( Color.primary, item.status ? .green : .red)
 					.padding(.horizontal,5)
+                    .if(item.status, transform: { view in
+                        view
+                            .symbolEffect(.variableColor, delay: 1)
+                    })
+                    .symbolEffect(.replace, delay: 1)
+                    
+                    
+                    
+                   
 			}else{
 				Image(systemName: "link.icloud")
 					.scaleEffect(1.5)

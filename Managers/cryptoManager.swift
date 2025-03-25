@@ -97,7 +97,7 @@ final class CryptoManager {
 			let sealedBox = try AES.GCM.seal(data, using: symmetricKey, nonce: nonce)
 			return nonce + sealedBox.ciphertext + sealedBox.tag // Nonce + Ciphertext + Tag
 		} catch {
-			print("GCM Encryption error: \(error)")
+            Log.error("GCM Encryption error: \(error)")
 			return nil
 		}
 	}
@@ -118,7 +118,7 @@ final class CryptoManager {
 			let sealedBox = try AES.GCM.SealedBox(nonce: nonce!, ciphertext: ciphertext, tag: tag)
 			return try AES.GCM.open(sealedBox, using: symmetricKey)
 		} catch {
-			print("GCM Decryption error: \(error)")
+            Log.error("GCM Decryption error: \(error)")
 			return nil
 		}
 	}

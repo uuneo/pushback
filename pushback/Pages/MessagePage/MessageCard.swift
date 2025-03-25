@@ -7,15 +7,15 @@
 
 import SwiftUI
 import RealmSwift
+import Defaults
 
 enum messageCompleteMode{
-    case image
     case text
     case userInfo
 }
 
 struct MessageCard: View {
-    @EnvironmentObject private var manager:PushbackManager
+    
     @ObservedRealmObject var message:Message
     var searchText:String = ""
     var showGroup:Bool =  false
@@ -24,6 +24,18 @@ struct MessageCard: View {
     @State var showRaw:Bool = false
     @State private var showLoading:Bool = false
     @State private var showTTL:Bool = false
+    
+    @EnvironmentObject private var manager:PushbackManager
+    
+    var linColor:Color{
+        
+        if let selectId = manager.selectId {
+            let right = selectId.uppercased() == message.id.uuidString
+            return right ?  .red : .clear
+        }
+        return .clear
+       
+    }
 
     var body: some View {
         Section {
@@ -130,7 +142,7 @@ struct MessageCard: View {
                         }else{
 
                             highlightedText(searchText: searchText, text: message.userInfo)
-
+                                .frame(maxWidth: .infinity)
                                 .transition(.opacity)
                                 .font(.subheadline)
                                 .onTapGesture(count: 2) {
@@ -138,9 +150,11 @@ struct MessageCard: View {
                                 }
 
                         }
-
                     }
                     .frame(maxHeight: 260)
+                    
+                    
+                   
 
                 
                 }
@@ -150,6 +164,9 @@ struct MessageCard: View {
 
         }header: {
             MessageViewHeader()
+                .padding(5)
+                .background(linColor)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
         }footer: {
             if showGroup{
                 HStack{
@@ -198,32 +215,10 @@ struct MessageCard: View {
 
                     .onTapGesture {
                         if let url = message.url, let fileUrl = URL(string: url) {
-                            manager.openUrl(url: fileUrl)
+                            PushbackManager.openUrl(url: fileUrl)
                         }
                     }
            
-            }
-
-            if let _ = message.image{
-                Image(systemName: "photo.circle"  )
-                    .resizable()
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.tint, .primary)
-                    .frame(width: 20, height: 20, alignment: .center)
-                    .padding(.horizontal, 10)
-                    .overlay{
-                        if showLoading{
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .transition(.opacity)
-                                .background(.ultraThinMaterial)
-                        }
-                    }
-                    .onTapGesture {
-                        self.showLoading = true
-                        self.complete?(.image)
-                        self.showLoading = false
-                    }
             }
 
         }

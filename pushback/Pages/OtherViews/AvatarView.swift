@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Defaults
-
+import Kingfisher
 
 
 struct AvatarView: View {
@@ -20,7 +20,7 @@ struct AvatarView: View {
 	@Default(.appIcon) var appicon
 	
 	@State private var success:Bool = true
-	@State private var image: UIImage?
+    @State private var image: URL?
 	
 	var body: some View {
 		GeometryReader {
@@ -32,9 +32,11 @@ struct AvatarView: View {
                 if let icon = icon, success, customIcon.isEmpty{
                     if let image = image {
                         // 如果已经加载了图片，则显示图片
-                        Image(uiImage: image)
+                        KFImage(image)
                             .resizable()
+                            .aspectRatio(contentMode: .fill)
                             .frame(width: size.width, height: size.height)
+                            
 
                     } else {
                         // 如果图片尚未加载，则显示加载中的视图
@@ -61,13 +63,6 @@ struct AvatarView: View {
 				
 			}
 			.aspectRatio(contentMode: .fill )
-			.onReceive(NotificationCenter.default.publisher(for: .imageUpdate)) { result in
-				if let name = result.userInfo?["name"] as? String, name == icon {
-					Log.debug("收到头像更新",name , icon ?? "")
-					self.loadImage(icon: name)
-					
-				}
-			}
 			.onChange(of: icon) { value in
 				self.image = nil
 			}
@@ -81,11 +76,12 @@ struct AvatarView: View {
 	
 	private func loadImage(icon:String ) {
 		self.success = true
-        
+        Log.debug(icon)
 		Task.detached(priority: .background)  {
 			if let localPath = await ImageManager.downloadImage(icon) {
+                Log.debug(localPath )
 				await MainActor.run {
-					self.image = UIImage(contentsOfFile: localPath)
+                    self.image = URL(fileURLWithPath: localPath)
 				}
 			} else {
 				await MainActor.run {

@@ -222,6 +222,7 @@ struct AssistantSettingsView: View {
 
 struct ChangeChatAccount:View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var chatManager:openChatManager
     @State private var data: AssistantAccount
     @Default(.assistantAccouns) var assistantAccouns
     @State private var isSecured:Bool = true
@@ -315,6 +316,8 @@ struct ChangeChatAccount:View {
     }
     
     private func saveOrChangeData(){
+        data.trimAssistantAccountParameters()
+       
         if data.host.isEmpty || data.key.isEmpty || data.model.isEmpty {
             Toast.shared.present(title: String(localized:"参数不能为空"), symbol: .info)
             return
@@ -428,8 +431,10 @@ struct ChangeChatAccount:View {
     
     private func testAPIConnection() {
         self.isTestingAPI = true
+        
+        data.trimAssistantAccountParameters()
       
-        openChatManager.shared.test(account: data) { success in
+        chatManager.test(account: data) { success in
             if success{
                 Toast.shared.present(title: String(localized: "连接成功"), symbol: .success)
             }else {

@@ -202,6 +202,12 @@ struct SideBarMenuView: View {
             HStack{
                 Spacer()
                 Button{
+                    RealmManager.shared.realm { realm in
+                        let datas = realm.objects(ChatGroup.self)
+                        for data in datas {
+                            data.current = false
+                        }
+                    }
                     self.showMenu.toggle()
                 }label: {
                     Text("开始新聊天")

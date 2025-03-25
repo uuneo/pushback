@@ -31,35 +31,34 @@ extension NotificationContentHandler {
 // ciphertext 需要放在最前面，有可能所有的推送数据都在密文里
 // call 需要放在最后面，因为这个 handler 不会主动退出， 会一直等到 ServiceExtension 被终止
 enum NotificationContentHandlerItem: CaseIterable {
+
 	case ciphertext
 	case message
 	case icon
 	case media
 	case level
-	case action
+    case action
 	case call
 	
 	
 	
-	var handler: NotificationContentHandler {
-		switch self {
-			case .ciphertext:
-				return CiphertextHandler()
-			case .message:
-				return MessageHandler()
-			case .level:
-				return LevelHandler()
-			case .action:
-				return ActionHandler()
-			case .icon:
-				return IconHandler()
-			case .media:
-				return MediaHandler()
-			case .call:
-				return CallHandler()
-				
-				
-		}
+    var handler: NotificationContentHandler {
+        switch self {
+        case .ciphertext:
+            return CiphertextHandler()
+        case .message:
+            return MessageHandler()
+        case .level:
+            return LevelHandler()
+        case .icon:
+            return IconHandler()
+        case .media:
+            return MediaHandler()
+        case .action:
+            return ActionHandler()
+        case .call:
+            return CallHandler()
+        }
 	}
 }
 

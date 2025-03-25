@@ -207,19 +207,19 @@ fileprivate struct ToastView: View {
 				
 		)
 		.contentShape(.capsule)
-		.gesture(
-			DragGesture(minimumDistance: 0)
-				.onEnded({ value in
-					guard item.isUserInteractionEnabled else { return }
-					let endX = value.translation.width
-					let velocityX = value.velocity.width
-					
-					if (abs(endX) + velocityX) > 50 {
-						/// Removing Toast
-						removeToast()
-					}
-				})
-		)
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onEnded({ value in
+                    guard item.isUserInteractionEnabled else { return }
+                    let endX = value.translation.width
+                    
+                    
+                    if abs(endX) > 30 {
+                        /// Removing Toast
+                        removeToast()
+                    }
+                })
+        )
 		.onAppear {
 			guard delayTask == nil else { return }
 			delayTask = .init(block: {

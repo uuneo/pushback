@@ -63,7 +63,7 @@ struct ChatMessageView: View {
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 10)
                 .padding(.vertical, 4)
             }
             
@@ -84,7 +84,7 @@ struct ChatMessageView: View {
                         }
                     Spacer()
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 10)
                 .padding(.vertical, 4)
             }
             
@@ -120,10 +120,11 @@ struct ChatMessageView: View {
             .font(.system(size: 14))
             .padding()
             .foregroundColor(.primary)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.blue.opacity(0.1))
-            )
+            .background(.ultraThinMaterial)
+            .overlay {
+                Color.blue.opacity(0.2)
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 20))
         
     }
     
@@ -136,13 +137,10 @@ struct ChatMessageView: View {
                     .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
             }
             .markdownTheme(MarkdownTheme.enchantedTheme)
-        
             .padding()
             .foregroundColor(.primary)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.1))
-            )
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
         
     }
     

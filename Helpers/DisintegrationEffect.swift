@@ -64,7 +64,7 @@ fileprivate struct DisintegrationEffectModifier: ViewModifier {
             columns = Int(width) / gridSize
         }
         
-        print("Grid Created:", rows * columns)
+        Log.debug("Grid Created:", rows * columns)
         
         for row in 0...rows {
             for column in 0...columns {

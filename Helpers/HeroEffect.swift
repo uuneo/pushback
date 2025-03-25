@@ -72,7 +72,7 @@ struct HeroWrapper<Content: View>: View {
 		}
 		
 		if overlayWindow == nil {
-			print("NO WINDOW SCENE FOUND")
+            Log.debug("NO WINDOW SCENE FOUND")
 		}
 	}
 }

@@ -12,6 +12,8 @@
 
 import Foundation
 import AudioToolbox
+import AVFAudio
+import AVFoundation
 
 
 class AudioManager: ObservableObject{
@@ -43,7 +45,7 @@ class AudioManager: ObservableObject{
 		}()
 
 		let customSounds: [URL] = {
-			guard let soundsDirectoryUrl = BaseConfig.getSoundslibraryDirectory() else { return []}
+            guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return []}
 
 			var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
 			urlemp.sort { u1, u2 -> Bool in
@@ -66,7 +68,7 @@ class AudioManager: ObservableObject{
 		do {
 			let files = try manager.contentsOfDirectory(atPath: directory)
 			return files.compactMap { file -> URL? in
-				if file.hasSuffix(suffix) {
+                if file.hasSuffix(suffix), !file.hasPrefix(BaseConfig.longSoundPrefix) {
 					return URL(fileURLWithPath: directory).appendingPathComponent(file)
 				}
 				return nil
@@ -79,28 +81,18 @@ class AudioManager: ObservableObject{
 
 	/// 通用文件保存方法
 	func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
-		guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory(),
-			  let libraryDirectoryUrl = BaseConfig.getSoundslibraryDirectory()
-		else  {
-			return
-		}
+		guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else  { return }
 
 
 		let  groupDestinationUrl = groupDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
-
-		let  libraryDestinationUrl = libraryDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
 
 
 		if manager.fileExists(atPath: groupDestinationUrl.path) {
 			try? manager.removeItem(at: groupDestinationUrl)
 		}
-		if manager.fileExists(atPath: libraryDestinationUrl.path) {
-			try? manager.removeItem(at: libraryDestinationUrl)
-		}
-
+        
 		do{
 			try manager.copyItem(at: sourceUrl, to: groupDestinationUrl)
-			try manager.copyItem(at: sourceUrl, to: libraryDestinationUrl)
 			Toast.shared.present(title: String(localized: "保存成功"), symbol: .success)
 		}catch{
 			Toast.shared.present(title: error.localizedDescription, symbol: .error)
@@ -111,12 +103,14 @@ class AudioManager: ObservableObject{
 	}
 
 	func deleteSound(url: URL) {
+        guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return }
+        
 		// 删除sounds目录铃声文件
 		try? manager.removeItem(at: url)
 		// 删除共享目录中的文件
-		if let groupSoundUrl = BaseConfig.getSoundsGroupDirectory()?.appendingPathComponent(url.lastPathComponent) {
-			try? manager.removeItem(at: groupSoundUrl)
-		}
+        let groupSoundUrl = soundsDirectoryUrl.appendingPathComponent("\(BaseConfig.longSoundPrefix).\(url.lastPathComponent)")
+        try? manager.removeItem(at: groupSoundUrl)
+        
 		getFileList()
 	}
 
@@ -143,13 +137,51 @@ class AudioManager: ObservableObject{
 
 		}
 
-
-		
-
-
 	}
-
-
+    
+    func convertAudioToCAF(inputURL: URL, outputURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+        
+        do {
+            if FileManager.default.fileExists(atPath: outputURL.path) {
+                try FileManager.default.removeItem(at: outputURL)
+            }
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        
+        // 创建 AVAsset
+        let asset = AVAsset(url: inputURL)
+        
+        // 创建导出会话
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
+            completion(.failure(NSError(domain: "AudioConversion", code: 0, userInfo: [NSLocalizedDescriptionKey: "无法创建导出会话"])))
+            return
+        }
+        
+        // 设置输出文件类型为 CAF
+        exportSession.outputFileType = .caf
+        exportSession.outputURL = outputURL
+        
+        // 执行导出
+        exportSession.exportAsynchronously {
+            switch exportSession.status {
+            case .completed:
+                completion(.success(outputURL))
+            case .failed:
+                if let error = exportSession.error {
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(NSError(domain: "AudioConversion", code: 1, userInfo: [NSLocalizedDescriptionKey: "导出失败，原因未知"])))
+                }
+            case .cancelled:
+                completion(.failure(NSError(domain: "AudioConversion", code: 2, userInfo: [NSLocalizedDescriptionKey: "导出被取消"])))
+            default:
+                break
+            }
+        }
+    }
 }
 
 

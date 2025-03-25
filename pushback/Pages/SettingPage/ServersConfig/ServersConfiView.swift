@@ -80,23 +80,6 @@ struct ServersConfigView: View {
                             Section{
                                 
                                 Button{
-                                    Clipboard.shared.setString(item.url)
-                                    Toast.shared.present(title: String(localized: "复制成功"), symbol: .copy)
-                                }label:{
-                                    Label("复制URL", systemImage: "doc.on.doc")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.green, Color.textBlack)
-                                }
-                                
-                                Button{
-                                    Clipboard.shared.setString( item.key)
-                                    Toast.shared.present(title: String(localized: "复制成功"), symbol: .copy)
-                                }label:{
-                                    Label("复制KEY", systemImage: "doc.on.doc")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.green, Color.textBlack)
-                                }
-                                Button{
                                     Clipboard.shared.setString(item.url + "/" + item.key)
                                     Toast.shared.present(title: String(localized: "复制成功"), symbol: .copy)
                                 }label:{
@@ -109,7 +92,7 @@ struct ServersConfigView: View {
                                     manager.fullPage = .customKey
                                     manager.sheetPage = .none
                                 }label:{
-                                    Label("修改KEY", systemImage: "rectangle.and.pencil.and.ellipsis")
+                                    Label("恢复KEY", systemImage: "arrow.triangle.2.circlepath.doc.on.clipboard")
                                         .symbolRenderingMode(.palette)
                                         .foregroundStyle(.green, Color.textBlack)
                                 }
@@ -117,19 +100,22 @@ struct ServersConfigView: View {
                             
                             Section{
                                 
-                               
-                                
-                                
                                 Button(role: .destructive){
-                                    if let index = servers.firstIndex(where: {$0.id == item.id}){
-                                        
-                                        servers[index].key = ""
-                                        servers[index].id = UUID().uuidString
-                                        manager.register(server: servers[index] ){ _, msg in
-                                            Toast.shared.present(title: msg, symbol: "questionmark.bubble")
+                                    manager.appendServer(server: PushServerModel(url: item.url )) { success, msg in
+                                        if success{
+                                            manager.register(server: item, reset: true)
+                                            if let index = servers.firstIndex(where: {$0.id == item.id}){
+                                                servers.remove(at: index)
+                                                if  !cloudDatas.contains(where: { $0.id == item.id}){
+                                                    cloudDatas.insert(item, at: 0)
+                                                }
+                                            }
+                                            Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
+                                            
+                                        }else {
+                                            Toast.shared.present(title: String(localized: "操作失败"), symbol: .info)
                                         }
-                                    }else{
-                                        Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
+                                        
                                     }
                                     
                                 }label:{
@@ -138,8 +124,6 @@ struct ServersConfigView: View {
                                         .foregroundStyle(.green, Color.textBlack)
                                 }
                                 
-                                
-                               
                             }
                             
                             Section{
@@ -188,7 +172,8 @@ struct ServersConfigView: View {
                                 
                                 Section{
                                     Button{
-                                        Defaults[.servers].insert(item, at: 0)
+                                        manager.appendServer(server: item) { _, _ in }
+                                       
                                     }label:{
                                         Label("恢复", systemImage: "checkmark.shield")
                                             .symbolRenderingMode(.palette)
@@ -202,7 +187,10 @@ struct ServersConfigView: View {
                                             if let err{
                                                 Log.debug(err.localizedDescription)
                                             }else{
-                                                updateCloudServers()
+                                                if let index = cloudDatas.firstIndex(where: {$0.id == item.id}){
+                                                    cloudDatas.remove(at: index)
+                                                }
+                                               
                                             }
                                             
                                         }
@@ -321,7 +309,7 @@ struct ServersConfigView: View {
 					.padding()
 					.background(.background)
 					.clipShape(RoundedRectangle(cornerRadius: 10))
-					.shadow(radius: 10)
+					.shadow(radius: 5)
 
 				HStack{
 					Spacer()
@@ -355,7 +343,7 @@ struct ServersConfigView: View {
 					}
 					Spacer()
 					Button("完成") {
-						PushbackManager.shared.hideKeyboard()
+						PushbackManager.hideKeyboard()
 					}
 				}
 
@@ -377,9 +365,12 @@ struct ServersConfigView: View {
 						if serverName.count > 3 && serverUrl.isValidURL() == .remote{
 
 							let item = PushServerModel(url: serverUrl)
-							manager.appendServer(server: item){_,msg in
+							manager.appendServer(server: item){success,msg in
 								Toast.shared.present(title: msg, symbol: .info)
 								self.serverName = ""
+                                if success{
+                                    self.showAddView = false
+                                }
 							}
 
 						}else {

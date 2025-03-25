@@ -30,9 +30,12 @@ class PushServerCloudKit {
 					completion(.failure(error))
 				} else if let savedRecord = savedRecord {
 					completion(.success(savedRecord))
+                    self.removeDuplicates()
 				}
 			}
+           
 		}
+        
 	}
 
 	// MARK: - 从私有数据库获取记录
@@ -49,7 +52,7 @@ class PushServerCloudKit {
 						case .success(let record):
 							return self.recordToPushServerModel(record)
 						case .failure(let error):
-							print("Error fetching record: \(error.localizedDescription)")
+                            Log.error("Error fetching record: \(error.localizedDescription)")
 							return nil
 						}
 					}
@@ -91,9 +94,9 @@ class PushServerCloudKit {
 						self.savePushServerModel(item) { result in
 							switch result {
 							case .success:
-								print("保存成功: \(item)")
+                                Log.debug("保存成功: \(item)")
 							case .failure(let error):
-								print("保存失败: \(error.localizedDescription)")
+                                Log.error("保存失败: \(error.localizedDescription)")
 							}
 						}
 					}
@@ -106,9 +109,9 @@ class PushServerCloudKit {
 					self.savePushServerModel(item) { response in
 						switch response {
 						case .success:
-							print("保存成功: \(item)")
+                            Log.debug("保存成功: \(item)")
 						case .failure(let error):
-							print("保存失败: \(error.localizedDescription)")
+                            Log.error("保存失败: \(error.localizedDescription)")
 						}
 					}
 				}
@@ -125,6 +128,41 @@ class PushServerCloudKit {
 			completion(error)
 		}
 	}
+    
+    
+    // 检查重复项并删除
+    func removeDuplicates() {
+        fetchPushServerModels { response in
+            switch response {
+            case .success(let models):
+                var uniqueSet = Set<String>() // 存储唯一标识（key + url）
+                var duplicates = [String]() // 存储重复项 ID
+                
+                for model in models {
+                    let identifier = "\(model.key)-\(model.url)"
+                    if uniqueSet.contains(identifier) {
+                        duplicates.append(model.id)
+                    } else {
+                        uniqueSet.insert(identifier)
+                    }
+                }
+                
+                // 批量删除重复项
+                for duplicateID in duplicates {
+                    self.deleteCloudServer(duplicateID) { error in
+                        if let error = error {
+                            Log.error("删除重复项失败: \(error.localizedDescription)")
+                        } else {
+                            Log.debug("成功删除重复项: \(duplicateID)")
+                        }
+                    }
+                }
+                
+            case .failure(let error):
+                Log.error("获取数据失败，无法检查重复: \(error.localizedDescription)")
+            }
+        }
+    }
 	
 	
 	

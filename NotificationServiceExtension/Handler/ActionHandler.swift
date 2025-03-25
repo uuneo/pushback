@@ -26,16 +26,6 @@ class ActionHandler: NotificationContentHandler{
 		let userInfo = bestAttemptContent.userInfo
 		
 		
-		//  处理 自动复制 兼容bark用法
-		if userInfo[Params.autocopy.name] as? String == "1" || userInfo["automaticallycopy"] as? String == "1"
-		{
-			if let copy = userInfo[Params.copy.name] as? String {
-                Clipboard.shared.setString(copy)
-			} else {
-                Clipboard.shared.setString(bestAttemptContent.body)
-			}
-		}
-		
 		
 		// MARK: - 处理 badge
 		switch Defaults[.badgeMode] {
@@ -52,10 +42,10 @@ class ActionHandler: NotificationContentHandler{
 			}
 		}
 
-		// MARK: - 处理 Ringtone
-		if bestAttemptContent.soundName == "" && bestAttemptContent.getLevel() < 3{
-			bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
-		}
+        // MARK: - 处理 Ringtone
+        if bestAttemptContent.soundName == "" && bestAttemptContent.getLevel() < 3{
+            bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
+        }
 
 		// MARK: - 删除过期消息
 		if let realm = realm{
@@ -66,10 +56,27 @@ class ActionHandler: NotificationContentHandler{
 				}
 			}
 		}
-		return bestAttemptContent
+        
+        // 静音分组
+        
+        for setting in Defaults[.muteSetting] {
+            if setting.value < Date() {
+                Defaults[.muteSetting].removeValue(forKey: setting.key)
+            }
+        }
+
+        if let date = Defaults[.muteSetting][bestAttemptContent.threadIdentifier], date > Date(){
+            bestAttemptContent.interruptionLevel = .passive
+        }
+        
+        
+        return bestAttemptContent
+        
+    
 	}
 	
-	
+    
+   
 
 }
 

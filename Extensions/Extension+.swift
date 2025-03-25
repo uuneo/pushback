@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import CryptoKit
 
 
 // MARK: - FontAnimation Modifier
@@ -94,7 +95,7 @@ extension Error {
 
 extension String{
     
-    enum ImageType{
+    enum urlType{
         case remote, local, none
     }
     
@@ -104,7 +105,7 @@ extension String{
     }
     
     /// 判断字符串是否为有效的 URL，并返回图片类型
-    func isValidURL() -> ImageType {
+    func isValidURL() -> urlType {
         guard let url = URL(string: self) else { return .none }
         
         if let scheme = url.scheme?.lowercased(), ["http", "https"].contains(scheme) {
@@ -406,14 +407,6 @@ extension Color {
 }
 
 
-// MARK: -  Notification.Name
-
-// Step 1: 定义通知名称
-extension Notification.Name {
-    static let messagePreview = Notification.Name("messagePreview")
-    static let imageUpdate = Notification.Name("imageUpdate")
-}
-
 
 
 extension Encodable {
@@ -461,4 +454,33 @@ class KeyboardHeightHelper: ObservableObject {
             .assign(to: \.keyboardHeight, on: self)
             .store(in: &cancellables)
     }
+}
+
+
+extension Data{
+    func sha256() -> String{
+        // 计算 SHA-256 哈希值
+        let hash = SHA256.hash(data: self)
+        // 将哈希值转换为十六进制字符串
+        let hashString = hash.compactMap { String(format: "%02x", $0) }.joined()
+
+        return hashString
+    }
+    
+    
+    func toThumbnail(max:Int = 300)-> UIImage?{
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceThumbnailMaxPixelSize: max
+        ]
+        
+        if let source = CGImageSourceCreateWithData(self as CFData, nil),
+           let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) {
+            
+            return  UIImage(cgImage: cgImage)
+        }
+        return nil
+    }
+    
 }

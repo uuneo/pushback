@@ -11,6 +11,7 @@ import Defaults
 struct AppIconView: View {
     @Environment(\.dismiss) var dismiss
 	@Default(.appIcon) var setting_active_app_icon
+    
     var body: some View {
 		
 		ScrollView(.horizontal) {
@@ -55,15 +56,18 @@ struct AppIconView: View {
 			}
 		}
         
+        
     }
 
 	func setSystemIcon(_ icon: AppIconEnum){
 		let setting_active_app_icon_backup = setting_active_app_icon
 
 		setting_active_app_icon = icon
+        
+        let application = UIApplication.shared
 
-		if UIApplication.shared.supportsAlternateIcons {
-			UIApplication.shared.setAlternateIconName(setting_active_app_icon.name) { err in
+		if application.supportsAlternateIcons {
+            application.setAlternateIconName(setting_active_app_icon.name) { err in
 				if let err{
 					Log.debug(err)
 					setting_active_app_icon = setting_active_app_icon_backup

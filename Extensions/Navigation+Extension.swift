@@ -48,7 +48,7 @@ private struct NavigationControllerExtractor: UIViewRepresentable {
                         parentController.navigationController?.hidesBarsOnSwipe = isHidden
                     }
                 } else {
-                    print("No Navigation Controller Found")
+                    Log.debug("No Navigation Controller Found")
                 }
             }
         }

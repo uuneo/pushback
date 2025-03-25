@@ -122,6 +122,6 @@ struct SlideLineView<T: CaseIterable, M: View>: View where T: Hashable {
 
 
 #Preview {
-	DataStorageView()
+    MoreOperationsView()
 	
 }

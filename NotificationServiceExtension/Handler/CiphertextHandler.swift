@@ -22,10 +22,13 @@ class CiphertextHandler:NotificationContentHandler{
 			
 			var alert = [String: Any]()
 			var soundName: String? = nil
+            
 			if let title = map[Params.title.name] as? String {
-				bestAttemptContent.title = title
-				alert[Params.title.name] = title
+                bestAttemptContent.title = title
+                alert[Params.title.name] = title
 			}
+            
+            
 			if let subtitle = map[Params.subtitle.name] as? String {
 				bestAttemptContent.subtitle = subtitle
 				alert[Params.subtitle.name] = subtitle
@@ -37,6 +40,8 @@ class CiphertextHandler:NotificationContentHandler{
 			if let group = map[Params.group.name] as? String {
 				bestAttemptContent.threadIdentifier = group
 			}
+            
+            
 			if var sound = map[Params.sound.name] as? String {
 				if !sound.hasSuffix(Params.caf.name) {
 					sound = "\(sound).\(Params.caf.name)"
@@ -68,7 +73,7 @@ class CiphertextHandler:NotificationContentHandler{
 		return bestAttemptContent
 	}
 	
-	
+    
 	// MARK: 解密
 	func decrypt(ciphertext: String, iv: String? = nil) throws -> [AnyHashable: Any] {
 		

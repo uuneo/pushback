@@ -7,15 +7,22 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>NSExtensionActivationRule</key>
-			<dict>
-				<key>NSExtensionActivationSupportsImageWithMaxCount</key>
-				<integer>1</integer>
-			</dict>
+			<string>
+                SUBQUERY (
+                    extensionItems,
+                    $extensionItem,
+                    SUBQUERY (
+                        $extensionItem.attachments,
+                        $attachment,
+                        ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.image"
+                    ).@count == 1
+                ).@count == 1
+            </string>
 		</dict>
-		<key>NSExtensionMainStoryboard</key>
-		<string>MainInterface</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>ShareExtension.ShareViewController</string>
 	</dict>
 </dict>
 </plist>

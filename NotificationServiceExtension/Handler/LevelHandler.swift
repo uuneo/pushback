@@ -15,14 +15,7 @@ class LevelHandler: NotificationContentHandler {
 		
 		let levelNumber = bestAttemptContent.getLevel()
 		if levelNumber >= 3{
-			let audioVolume = bestAttemptContent.getVolume(levelNumber: levelNumber)
-
-			// 设置重要警告 sound
-			if let sound = bestAttemptContent.soundName {
-				bestAttemptContent.sound = UNNotificationSound.criticalSoundNamed(UNNotificationSoundName(rawValue: sound), withAudioVolume: audioVolume)
-			} else {
-				bestAttemptContent.sound = UNNotificationSound.defaultCriticalSound(withAudioVolume: audioVolume)
-			}
+            LevelHandler.setCriticalSound(content: bestAttemptContent)
 		}
 		bestAttemptContent.interruptionLevel = self.getInterruptionLevel(from: levelNumber)
 		return bestAttemptContent
@@ -47,6 +40,10 @@ class LevelHandler: NotificationContentHandler {
 
 
 extension UNMutableNotificationContent {
+    /// 是否是重要警告
+    var isCritical: Bool {
+        (self.userInfo["level"] as? String)?.lowercased() == "critical"
+    }
 	/// 声音名称
 	var soundName: String? {
 		(self.userInfo["aps"] as? [AnyHashable: Any])?["sound"] as? String
@@ -66,7 +63,7 @@ extension UNMutableNotificationContent {
 					return 0
 				case "active":
 					return 1
-				case "timeSensitive","timesensitive":
+				case "timesensitive":
 					return 2
 				case "critical":
 					return 3
@@ -83,14 +80,28 @@ extension UNMutableNotificationContent {
 		if let volume = self.userInfo["volume"] as? String, let volume = Float(volume) {
 			return max(0.0, min(1, volume / 10.0))
 		}
-		/// 兼容 bark
-		if let level = self.userInfo["level"] as? String, level == "critical"{
-			return 0.5
-		}
-
+        
 		return max(0.0, min(1, Float(levelNumber) / 10.0))
 
 	}
 
 
+}
+
+
+extension LevelHandler{
+    class func setCriticalSound(content bestAttemptContent: UNMutableNotificationContent, soundName: String? = nil) {
+        guard bestAttemptContent.isCritical else {
+            return
+        }
+        // 默认音量
+        let audioVolume: Float = bestAttemptContent.getVolume(levelNumber: bestAttemptContent.getLevel())
+        // 设置重要警告 sound
+        let sound = soundName ?? bestAttemptContent.soundName
+        if let sound {
+            bestAttemptContent.sound = UNNotificationSound.criticalSoundNamed(UNNotificationSoundName(rawValue: sound), withAudioVolume: audioVolume)
+        } else {
+            bestAttemptContent.sound = UNNotificationSound.defaultCriticalSound(withAudioVolume: audioVolume)
+        }
+    }
 }

@@ -9,6 +9,7 @@
 import SwiftUI
 import Defaults
 
+
 struct ChnageKeyCenterView: View {
 	@EnvironmentObject private var manager:PushbackManager
 	@EnvironmentObject private var store:AppState
@@ -23,15 +24,17 @@ struct ChnageKeyCenterView: View {
 	@State private var selectServer:PushServerModel
 	
 	@FocusState private var isPhoneFocused
+    
 	
 	init(){
 		self.selectServer = Defaults[.servers].first!
 	}
+    
 	
 	var body: some View {
 		VStack(alignment: .leading, spacing: 20) {
 			HStack{
-				Text( "修改Key")
+				Text( "恢复KEY")
 					.font(.largeTitle).bold()
 					.blendMode(.overlay)
 					.slideFadeIn(show: appear[0], offset: 30)
@@ -73,7 +76,7 @@ struct ChnageKeyCenterView: View {
 			Divider()
 			
 			HStack{
-				Text( "如果太简单，会有收到垃圾信息的风险！")
+				Text( "输入使用过的key,可以恢复key")
 					.font(.footnote)
 					.foregroundColor(.primary.opacity(0.7))
 					.accentColor(.primary.opacity(0.7))
@@ -106,7 +109,7 @@ struct ChnageKeyCenterView: View {
 	
 	@ViewBuilder
 	func InputKey()-> some View{
-		TextField("请输入自定义推送Key", text: $keyName)
+		TextField("请输入旧的KEY", text: $keyName)
 			.textContentType(.flightNumber)
 			.keyboardType(.emailAddress)
 			.autocapitalization(.none)
@@ -142,32 +145,42 @@ struct ChnageKeyCenterView: View {
 	@ViewBuilder
 	private func CodeButton()-> some View{
 		VStack{
-			AngularButton(title: String(localized: "修改Key")) {
-				if !selectServer.url.isInsideServer() || store.subscriptionInfo.canAccessContent{
-					if keyName.count > 3{
-						// TODO: - 修改key
-						Task.detached {
-							let success = await PushbackManager.shared.changeKey(server: selectServer, newKey: self.keyName)
-
-							if success{
-								await MainActor.run {
-									manager.fullPage = .none
-								}
-							}
-						}
-					}else{
-						Toast.shared.present(title: String(localized: "字符数小于3"), symbol: .info)
-					}
-				}else{
-					Toast.shared.present(title: String(localized: "没有权限,需自建服务器"), symbol: .info)
-				}
-
-			}
-			
-
-		}.padding()
-		
-	}
+            
+            
+            AnimatedButton(normal:
+                    .init(title: "恢复key", foregroundColor: .white, background: .blue,symbolImage: "pencil.circle"), success:
+                    .init(title: "恢复成功", foregroundColor: .white, background: .green,symbolImage: "checkmark.circle"), fail:
+                    .init(title: "恢复失败", foregroundColor: .white, background: .red,symbolImage: "xmark.circle"), loadings: [
+                        .init(title: "正在恢复中", foregroundColor: .black, background: .cyan)
+                    ]) { view in
+                        
+                        
+                        await view.next(.loading(1))
+                        
+                       
+                        
+                        if keyName.count > 3{
+                            PushbackManager.shared.restore(address: selectServer.url, deviceKey: self.keyName){ success in
+                                Task{
+                                    if success{
+                                        await view.next(.success){
+                                            manager.fullPage = .none
+                                        }
+                                    }else {
+                                        await view.next(.fail)
+                                    }
+                                }
+                            }
+                            
+                        }else{
+                            await view.next(.fail)
+                            Toast.shared.present(title: String(localized: "字符数小于3"), symbol: .info)
+                        }
+                    }
+            
+        }.padding()
+        
+    }
 	
 	
 	

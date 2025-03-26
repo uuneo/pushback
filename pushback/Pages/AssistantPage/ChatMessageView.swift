@@ -1,25 +1,20 @@
 
 
 import SwiftUI
-import MarkdownUI
-import Splash
 import RealmSwift
 import Defaults
 
 struct ChatMessageView: View {
-    @Environment(\.colorScheme) var colorScheme
     
     let message: ChatMessage
     let isLoading:Bool
     
-    private var codeHighlightColorScheme: Splash.Theme {
-        colorScheme == .dark ? .wwdc17(withFont: .init(size: 16)) : .sunset(withFont: .init(size: 16))
-    }
     
     private var quote:Message?{
         guard let messageId = message.messageId, let realm = try? Realm() else { return nil }
         return realm.objects(Message.self).first(where: {$0.id.uuidString == messageId})
     }
+    
     @Default(.showCodeViewColor) var showCodeViewColor
     
     
@@ -59,7 +54,7 @@ struct ChatMessageView: View {
                                         Label("选择文本", systemImage: "selection.pin.in.out")
                                     }
                                 }
-                          
+                            
                         }
                     }
                 }
@@ -76,11 +71,6 @@ struct ChatMessageView: View {
                                 Label("复制", systemImage: "doc.on.doc")
                             }
                             
-                            Button{
-                                
-                            }label: {
-                                Label("选择文本", systemImage: "selection.pin.in.out")
-                            }
                         }
                     Spacer()
                 }
@@ -115,9 +105,7 @@ struct ChatMessageView: View {
     
     /// 用户消息视图
     private var userMessageView: some View {
-        
-        Text(message.request)
-            .font(.system(size: 14))
+        MarkdownCustomView(content: message.request)
             .padding()
             .foregroundColor(.primary)
             .background(.ultraThinMaterial)
@@ -130,13 +118,7 @@ struct ChatMessageView: View {
     
     /// AI助手消息视图
     private var assistantMessageView: some View {
-        
-        Markdown(message.content)
-            .if(showCodeViewColor){view in
-                view
-                    .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
-            }
-            .markdownTheme(MarkdownTheme.enchantedTheme)
+        MarkdownCustomView(content: message.content,showCodeViewColor: showCodeViewColor)
             .padding()
             .foregroundColor(.primary)
             .background(.ultraThinMaterial)
@@ -168,3 +150,6 @@ struct ChatMessageView: View {
 #Preview {
     ChatMessageView(message: ChatMessage(value: ["request" : "你好,我想了解一下 SwiftUI 的基础知识"]),isLoading: true)
 }
+
+
+

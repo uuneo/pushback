@@ -13,6 +13,8 @@ struct SingleMessagesView: View {
     
     @ObservedResults(Message.self,sortDescriptor: SortDescriptor(keyPath: \Message.createDate, ascending: false)) var messages
     @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
+    @Default(.showMessageAvatar) var showMessageAvatar
+    @Default(.showAssistant) var showAssistant
     
     @State private var currentPage: Int = 1
     @State private var itemsPerPage: Int = 50 // 每页加载50条数据
@@ -46,17 +48,16 @@ struct SingleMessagesView: View {
             if searchText.isEmpty{
                 ScrollViewReader { proxy in
                     List{
-                        
+                        if showAssistant{
+                            MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
+                                .pressEvents(onRelease: { value in
+                                    manager.messagePath = [.assistant]
+                                })
+                        }
                     
-                        MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
-                            .pressEvents(onRelease: { value in
-                                manager.messagePath = [.assistant]
-                            })
-                        
-                        
                         ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL){ mode in
+                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar,showAssistant:showAssistant){ mode in
                                 
                                 switch mode{
                                 case .text:
@@ -81,8 +82,16 @@ struct SingleMessagesView: View {
                             .id(message.id)
                             
                         }.onDelete(perform: $messages.remove)
-                            .onAppear{ proxyTo(proxy: proxy, selectId: manager.selectId )  }
-                            .onChange(of: manager.selectId){ value in  proxyTo(proxy: proxy, selectId: value )}
+                            .onAppear{
+                                DispatchQueue.main.async{
+                                    proxyTo(proxy: proxy, selectId: manager.selectId )
+                                }
+                            }
+                            .onChange(of: manager.selectId){ value in
+                                DispatchQueue.main.async{
+                                    proxyTo(proxy: proxy, selectId: value )
+                                }
+                            }
                     }
                 }
             }else{
@@ -146,8 +155,7 @@ struct SingleMessagesView: View {
                             .padding(.horizontal, 5)
                         
                         HStack{
-                            
-                            Text(message.body ?? "")
+                            MarkdownCustomView(content: message.body ?? "", searchText: "", showCodeViewColor: false)
                                 .textSelection(.enabled)
                             Spacer(minLength: 0)
                         }

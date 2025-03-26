@@ -40,7 +40,7 @@ struct ServersConfigView: View {
                     Button{
                         if deviceToken != ""{
                             Clipboard.shared.setString(deviceToken)
-                            Toast.shared.present(title: String(localized: "复制成功"), symbol: "checkmark.arrow.trianglehead.counterclockwise")
+                            Toast.copy(title: String(localized: "复制成功"))
                             
                         }else{
                             
@@ -81,7 +81,7 @@ struct ServersConfigView: View {
                                 
                                 Button{
                                     Clipboard.shared.setString(item.url + "/" + item.key)
-                                    Toast.shared.present(title: String(localized: "复制成功"), symbol: .copy)
+                                    Toast.copy(title: String(localized: "复制成功"))
                                 }label:{
                                     Label("复制URL和KEY", systemImage: "doc.on.doc")
                                         .symbolRenderingMode(.palette)
@@ -110,10 +110,10 @@ struct ServersConfigView: View {
                                                     cloudDatas.insert(item, at: 0)
                                                 }
                                             }
-                                            Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
+                                            Toast.success(title: String(localized: "操作成功"))
                                             
                                         }else {
-                                            Toast.shared.present(title: String(localized: "操作失败"), symbol: .info)
+                                            Toast.info(title: String(localized: "操作失败"))
                                         }
                                         
                                     }
@@ -133,7 +133,7 @@ struct ServersConfigView: View {
                                             servers.remove(at: index)
                                         }
                                     }else{
-                                        Toast.shared.present(title:String(localized: "必须保留一个服务"), symbol: .info, tint: .red)
+                                        Toast.error(title:String(localized: "必须保留一个服务"))
                                     }
                                 }label:{
                                     Label("删除", systemImage: "trash")
@@ -230,7 +230,7 @@ struct ServersConfigView: View {
 			.refreshable {
 				// MARK: - 刷新策略
 				await manager.registers(){ result in
-					Toast.shared.present(title: String(localized: "操作成功"), symbol: .info)
+					Toast.info(title: String(localized: "操作成功"))
 
 				}
 
@@ -366,7 +366,7 @@ struct ServersConfigView: View {
 
 							let item = PushServerModel(url: serverUrl)
 							manager.appendServer(server: item){success,msg in
-								Toast.shared.present(title: msg, symbol: .info)
+								Toast.info(title: msg)
 								self.serverName = ""
                                 if success{
                                     self.showAddView = false
@@ -374,7 +374,7 @@ struct ServersConfigView: View {
 							}
 
 						}else {
-							Toast.shared.present(title: String(localized: "格式错误"), symbol: .error)
+							Toast.error(title: String(localized: "格式错误"))
 						}
 					} label:{
 						Text( "添加")

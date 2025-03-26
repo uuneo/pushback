@@ -51,7 +51,7 @@ struct CrashReportView: View {
 					Spacer()
 					Button{
                         Clipboard.shared.setString(crashLog)
-						Toast.shared.present(title: String(localized: "复制成功"), symbol: .success)
+						Toast.copy(title: String(localized: "复制成功"))
 						self.dismiss()
 					}label: {
 						Text("复制崩溃日志")

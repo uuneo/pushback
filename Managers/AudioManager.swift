@@ -93,9 +93,9 @@ class AudioManager: ObservableObject{
         
 		do{
 			try manager.copyItem(at: sourceUrl, to: groupDestinationUrl)
-			Toast.shared.present(title: String(localized: "保存成功"), symbol: .success)
+			Toast.success(title: String(localized: "保存成功"))
 		}catch{
-			Toast.shared.present(title: error.localizedDescription, symbol: .error)
+			Toast.error(title: error.localizedDescription)
 		}
 
 

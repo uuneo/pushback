@@ -42,7 +42,7 @@ struct CloudIcon: View {
                                                 }
                                                
                                             }else {
-                                                Toast.shared.present(title: String(localized: "图片加载失败"), symbol: .error)
+                                                Toast.error(title: String(localized: "图片加载失败"))
                                             }
                                             
                                         }label:{
@@ -52,7 +52,7 @@ struct CloudIcon: View {
                                         
                                         Button {
                                             Clipboard.shared.setString(name)
-                                            Toast.shared.present(title: String(localized:"复制成功"), symbol: .error)
+                                            Toast.copy(title: String(localized:"复制成功"))
                                         }label:{
                                     
                                             Label("复制key", systemImage: "doc.on.doc")
@@ -63,9 +63,9 @@ struct CloudIcon: View {
                                                
                                                 PushIconCloudManager.shared.deleteCloudIcon( icon.recordID.recordName) { error in
                                                     if let error{
-                                                        Toast.shared.present(title: "\(error.localizedDescription)", symbol: .error)
+                                                        Toast.error(title: "\(error.localizedDescription)")
                                                     }else{
-                                                        Toast.shared.present(title: String(localized:"图片删除成功"), symbol: .error)
+                                                        Toast.error(title: String(localized:"图片删除成功"))
                                                         if let index = icons.firstIndex(where: {$0.recordID.recordName == icon.recordID.recordName}){
                                                             icons.remove(at: index)
                                                         }

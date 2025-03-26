@@ -27,6 +27,7 @@ struct FontAnimation: AnimatableModifier {
     
     // MARK: - ViewModifier Protocol
     func body(content: Content) -> some View {
+        
         content
             .font(.system(size: size, weight: weight, design: design))
     }

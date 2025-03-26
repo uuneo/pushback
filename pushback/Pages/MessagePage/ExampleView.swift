@@ -95,7 +95,7 @@ struct ExampleView: View {
                             
 							UIPasteboard.general.string = resultUrl
 
-							Toast.shared.present(title: String(localized:  "复制成功"), symbol: "document.on.document")
+							Toast.copy(title: String(localized:  "复制成功"))
 						}
 					Image(systemName: "safari")
 						.scaleEffect(1.3)

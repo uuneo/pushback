@@ -37,6 +37,8 @@ extension Defaults.Keys {
     static let freeCloudImageCount = Key<Int>("freeCloudImageCount", 30)
     static let muteSetting = Key<[String: Date]>("muteSetting",[:])
     static let imageSaves = Key<[String]>("muteSetting", [])
+    static let showMessageAvatar = Key<Bool>("showMessageAvatar",true)
+    static let showAssistant = Key<Bool>("showAssistant",true)
 }
 
 

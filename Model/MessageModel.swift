@@ -67,6 +67,34 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.userInfo, forKey: .userInfo)
 	}
 
+    
+    func allString() -> String{
+        var text = ""
+        if let title = self.title {
+            text = "\(title);"
+        }
+        
+        if let subtitle = self.subtitle{
+            text += "\(subtitle);"
+        }
+        
+        if let body = self.body{
+            text += "\(body);"
+        }
+        
+        text += "\(group);"
+        
+        if let url = self.url{
+            text += "\(url);"
+        }
+        
+        if let image = self.image{
+            text += "\(image);"
+        }
+        
+        
+        return text
+    }
 
 }
 

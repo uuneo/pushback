@@ -74,10 +74,10 @@ struct AppIconView: View {
 				}
 			}
 
-			Toast.shared.present(title: String(localized: "切换成功"), symbol: .success, tint: .green, timing: .long)
+			Toast.success(title: String(localized: "切换成功"), timing: .long)
 			dismiss()
 		}else{
-			Toast.shared.present(title: String(localized: "暂时不能切换"), symbol: .question, tint: .red, timing: .short)
+			Toast.question(title: String(localized: "暂时不能切换"), timing: .short)
 		}
 	}
 }

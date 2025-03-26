@@ -36,8 +36,6 @@ struct AssistantPageView:View {
     @State private var offsetX: CGFloat = 0
     @State private var offsetHistory:CGFloat = 0
     
-    @StateObject private var keyboardHelper = KeyboardHeightHelper()
-    
     var body: some View {
 
             VStack {
@@ -109,7 +107,6 @@ struct AssistantPageView:View {
                 )
                 
             }
-            .environmentObject(keyboardHelper)
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
             }content: {
@@ -258,8 +255,6 @@ struct AssistantPageView:View {
                             .foregroundStyle(.gray.opacity(0.5))
                             .imageScale(.small)
                         
-                        
-                        
                     }
                     .frame(maxWidth: 150)
                     .foregroundStyle(.foreground)
@@ -324,18 +319,12 @@ struct AssistantPageView:View {
         if !text.isEmpty {
             
             DispatchQueue.main.async{
+                chatManager.currentMessageId = UUID().uuidString
+                chatManager.isLoading = true
+                chatManager.currentRequest = text
                 
-                
-                withAnimation(.snappy(duration: 0.1)){
-                    
-                    chatManager.currentMessageId = UUID().uuidString
-                    chatManager.isLoading = true
-                    chatManager.currentRequest = text
-                    
-                    self.inputText = ""
-                    chatManager.currentContent = ""
-                }
-                
+                self.inputText = ""
+                chatManager.currentContent = ""
             }
             
             chatManager.chatsStream(text: text) { partialResult in
@@ -345,12 +334,9 @@ struct AssistantPageView:View {
                     if let res = result.choices.first?.delta.content {
                         
                         DispatchQueue.main.async{
-
                             chatManager.currentContent = chatManager.currentContent + res
                         }
           
-                       
-                       
                         Task{
                             PushbackManager.vibration(style: .light)
                         }
@@ -359,7 +345,7 @@ struct AssistantPageView:View {
                 case .failure(let error):
                     //Handle chunk error here
                     Log.error(error)
-                    Toast.shared.present(title: String(localized:"发生错误\(error.localizedDescription)"), symbol: .info)
+                    Toast.error(title: String(localized:"发生错误\(error.localizedDescription)"))
                 }
             } completion: {  error in
                 
@@ -368,15 +354,12 @@ struct AssistantPageView:View {
                 
                 //Handle streaming error here
                 if let error{
-                    Toast.shared.present(title: String(localized:"发生错误\(error.localizedDescription)"), symbol: .info)
+                    Toast.error(title: String(localized:"发生错误\(error.localizedDescription)"))
                     Log.error(error)
                     DispatchQueue.main.async{
-                        withAnimation(.snappy(duration: 0.1)){
                             chatManager.isLoading = false
                             chatManager.currentRequest = ""
                             chatManager.currentContent = ""
-                        }
-                       
                     }
                     return
                 }
@@ -409,10 +392,8 @@ struct AssistantPageView:View {
                     
                     
                     DispatchQueue.main.async{
-                        withAnimation(.snappy(duration: 0.1)){
-                            chatManager.currentRequest = ""
-                            chatManager.isLoading = false
-                        }
+                        chatManager.currentRequest = ""
+                        chatManager.isLoading = false
                         PushbackManager.hideKeyboard()
                     }
                 }

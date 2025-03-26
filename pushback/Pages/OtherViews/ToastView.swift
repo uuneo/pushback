@@ -107,6 +107,23 @@ class Toast: ObservableObject {
 		
 	
 	}
+    
+    
+    class func success(title: String, isUserInteractionEnabled:Bool = true ,timing: ToastTime = .medium) {
+        Toast.shared.present(title: title, symbol: .success, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing)
+    }
+    class func info(title: String, isUserInteractionEnabled:Bool = true ,timing: ToastTime = .medium) {
+        Toast.shared.present(title: title, symbol: .info, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing)
+    }
+    class  func question(title: String, isUserInteractionEnabled:Bool = true ,timing: ToastTime = .medium) {
+        Toast.shared.present(title: title, symbol: .question, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing)
+    }
+    class func error(title: String, isUserInteractionEnabled:Bool = true ,timing: ToastTime = .medium) {
+        Toast.shared.present(title: title, symbol: .error, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing)
+    }
+    class func copy(title: String, isUserInteractionEnabled:Bool = true ,timing: ToastTime = .medium) {
+        Toast.shared.present(title: title, symbol: .copy, isUserInteractionEnabled: isUserInteractionEnabled, timing: timing)
+    }
 }
 
 fileprivate struct ToastItem: Identifiable {

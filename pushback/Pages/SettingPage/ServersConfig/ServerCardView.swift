@@ -27,7 +27,7 @@ struct ServerCardView:View {
                         view
                             .symbolEffect(.variableColor, delay: 1)
                     })
-                    .symbolEffect(.replace, delay: 1)
+                    .symbolEffect(.replace, delay: 2)
                     
                     
                     
@@ -72,6 +72,7 @@ struct ServerCardView:View {
             Image(systemName: "cursorarrow.click.2")
                 .symbolRenderingMode(.palette)
                 .foregroundStyle( .tint, Color.primary)
+                .symbolEffect(.bounce,delay: 1)
 
 			
 		}

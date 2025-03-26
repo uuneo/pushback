@@ -75,7 +75,7 @@ struct SoundItemView: View {
 							.foregroundStyle( .tint, Color.primary)
 							.onTapGesture {
 								UIPasteboard.general.string = self.name
-								Toast.shared.present(title: String(localized:  "复制成功"), symbol: "document.on.document")
+								Toast.copy(title: String(localized:  "复制成功"))
 							}
 					}else{
 						Text("长度不能超过30秒")

@@ -23,6 +23,8 @@ final class openChatManager: ObservableObject {
 
     @Published var messageId:String?
     
+    @Published var isFocusedInput:Bool = false
+    
     
     var currentChatMessage:ChatMessage{
         ChatMessage(value: ["id": currentMessageId, "request":currentRequest,"content": currentContent,"messageId": messageId])
@@ -119,7 +121,7 @@ final class openChatManager: ObservableObject {
             
         }catch{
             Log.error(error)
-            Toast.shared.present(title: "\(error.localizedDescription)", symbol: .error)
+            Toast.error(title: "\(error.localizedDescription)")
           
             return ChatQuery(messages: [.user(.init(content: .string(text)))], model: account.model)
         }

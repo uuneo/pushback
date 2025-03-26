@@ -87,6 +87,10 @@ struct ChatInputView: View {
                 .focused($isFocusedInput)
                 .frame(minHeight: 40)
                 .font(.system(size: 14))
+                .onChange(of: isFocusedInput){value in
+                    
+                    chatManager.isFocusedInput = value
+                }
                
             PromptButtonView()
         }
@@ -113,7 +117,7 @@ struct ChatInputView: View {
                     onSend(text)
                     isFocusedInput = false
                 }else {
-                    Toast.shared.present(title: String(localized: "至少2个字符"), symbol: .error)
+                    Toast.error(title: String(localized: "至少2个字符"))
                 }
                
                

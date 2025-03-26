@@ -247,7 +247,7 @@ struct ContentView: View {
                     }
                 case .failure(let failure):
                     Log.debug(failure)
-                    Toast.shared.present(title: String(localized: "没有找到历史服务器"), symbol: .error)
+                    Toast.error(title: String(localized: "没有找到历史服务器"))
                     self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
                 }
                 
@@ -275,7 +275,7 @@ struct ContentView: View {
                     Toast.shared.present(title: msg, symbol: "document.viewfinder")
                 }
             }else{
-                Toast.shared.present(title: String(localized: "参数错误"), symbol: "questionmark.circle.dashed")
+                Toast.info(title: String(localized: "参数错误"))
             }
         }else if host == "fromLocalImage",let _ = params["key"]{
             manager.fullPage = .imageCache
@@ -285,14 +285,27 @@ struct ContentView: View {
     func backgroundModeHandler(newValue: ScenePhase){
         switch newValue{
         case .active:
-
+            
+            if manager.isWarmStart {
+                Log.debug("🔥 热启动")
+            } else {
+                Log.debug("❄️ 冷启动")
+                manager.isWarmStart  = true // 进入前台后，标记为热启动
+                if let realm = try? Realm(),
+                   let group = realm.objects(ChatGroup.self).first(where: {$0.current}) {
+                    try? realm.write {
+                        group.current = false
+                    }
+                }
+            }
+            
             if let name = QuickAction.selectAction?.userInfo?["name"] as? String{
                 QuickAction.selectAction = nil
                 manager.page = .message
                 switch name{
                 case "allread":
                     RealmManager.shared.read()
-                    Toast.shared.present(title: String(localized: "操作成功"), symbol: "questionmark.circle.dashed")
+                    Toast.success(title: String(localized: "操作成功"))
                 case "alldelread","alldelnotread":
                     self.activeName = name
                     self.showAlart.toggle()

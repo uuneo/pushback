@@ -22,12 +22,13 @@ struct GroupMessagesView: View {
         return ChatMessage.getAssistant(chat: chatMessages.last)
     }
     @EnvironmentObject private var manager:PushbackManager
+    @Default(.showAssistant) var showAssistant
     
     var body: some View {
         ScrollViewReader { proxy in
             List{
                 
-                if searchText.isEmpty{
+                if searchText.isEmpty && showAssistant{
                     
                     MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
                     
@@ -172,21 +173,21 @@ struct MessageRow: View {
     }
     
     private func groupBody(_ message: Message) -> some View {
-        var text = ""
+        var text = Text("")
         
         if let title = message.title {
-            text = text + "\(title); "
+            text = Text("\(title); ").foregroundColor(.blue)
         }
         
         if let subtitle = message.subtitle {
-            text = text + "\(subtitle); "
+            text = text + Text("\(subtitle); ").foregroundColor(.gray)
         }
         
         if let body = message.body {
-            text = text + body
+            text = text + Text("\(body); ").foregroundColor(.primary)
         }
         
-        return Text(text)
+        return text
     }
 }
 

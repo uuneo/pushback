@@ -161,7 +161,7 @@ struct MessagePage: View {
             RealmManager.shared.delete(mode.date)
         }
         
-        Toast.shared.present(title: String(localized: "操作成功"), symbol: .success)
+        Toast.success(title: String(localized: "操作成功"))
         
     }
     

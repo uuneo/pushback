@@ -174,7 +174,7 @@ struct ChnageKeyCenterView: View {
                             
                         }else{
                             await view.next(.fail)
-                            Toast.shared.present(title: String(localized: "字符数小于3"), symbol: .info)
+                            Toast.info(title: String(localized: "字符数小于3"))
                         }
                     }
             

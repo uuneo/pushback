@@ -5,6 +5,14 @@ import RealmSwift
 import Defaults
 import Combine
 
+
+struct OffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 struct ChatMessageListView: View {
     
     // MARK: - Properties
@@ -19,7 +27,6 @@ struct ChatMessageListView: View {
         
     }
     
-    @EnvironmentObject var keyboardHelper:KeyboardHeightHelper
     @EnvironmentObject private var chatManager:openChatManager
     
     @State private var showHistory:Bool = false
@@ -32,47 +39,60 @@ struct ChatMessageListView: View {
     
     @State private var offsetY: CGFloat = 0
     
+    var suffixCount:Int{
+        min(messages.count, 10)
+    }
+    
     // MARK: - Body
     var body: some View {
         ScrollViewReader { scrollViewProxy in
             
             ScrollView {
                 
-                LazyVStack{
-                    ForEach(messages,id: \.id) { message in
-                        ChatMessageView(message: message,isLoading: false)
-                            .id(message.id)
+                
+                Button{
+                    self.showHistory.toggle()
+                }label: {
+                    HStack{
+                        Spacer()
+                        Text("\(suffixCount)/\(messages.count)")
+                            .padding(.trailing, 10)
+                        Text("点击查看更多")
+                       
+                        Spacer()
                     }
-                    
-                    VStack{
-                        if chatManager.isLoading{
-                            
-                            ChatMessageView(message:   ChatMessage(value: ["id": chatLastMessageId, "request":chatManager.currentRequest,"content":chatManager.currentContent,"messageId": chatManager.messageId]),isLoading: false)
-                        }
-                        
-                        RoundedRectangle(cornerRadius: 0)
-                            .fill(Color.clear)
-                            .opacity(0.001)
-                            .frame(height: 50)
-                            .overlay(
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .onAppear {
-                                            let frame = proxy.frame(in: .global)
-                                            offsetY = frame.maxY
-                                        }
-                                        .onChange(of: proxy.frame(in: .global).maxY) { newOffset in
-                                            offsetY = newOffset
-                                          
-                                        }
-                                }
-                            )
-                    }
-                    .id(chatLastMessageId)
+                    .padding(.vertical)
+                    .contentShape(Rectangle())
+                    .font(.footnote)
+                    .foregroundStyle(.gray)
+                }
+            
+                
+                ForEach(messages.suffix(suffixCount),id: \.id) { message in
+                    ChatMessageView(message: message,isLoading: chatManager.isLoading)
+                        .id(message.id)
                 }
                 
-                
-                
+                VStack{
+                    if chatManager.isLoading{
+                        
+                        ChatMessageView(message:   chatManager.currentChatMessage,isLoading: chatManager.isLoading)
+                    }
+                    
+                    RoundedRectangle(cornerRadius: 0)
+                        .fill(Color.clear)
+                        .opacity(0.001)
+                        .frame(height: 50)
+                        .background(
+                            GeometryReader { proxy in
+                                Color.clear
+                                    .preference(key: OffsetKey.self, value: proxy.frame(in: .global).maxY)
+                            }
+                        )
+                        .onPreferenceChange(OffsetKey.self) { newValue in
+                            offsetY = newValue
+                        }
+                }.id(chatLastMessageId)
                 
             }
             .onAppear {
@@ -83,14 +103,14 @@ struct ChatMessageListView: View {
                 }
                 PushbackManager.vibration(style: .soft)
             }
-            .onChange(of: keyboardHelper.keyboardHeight) { newValue in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            .onChange(of: chatManager.isFocusedInput) { newValue in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                     scrollViewProxy.scrollTo(chatLastMessageId)
                 }
             }
             .onChange(of: chatManager.currentContent){ value in
                 throttler.throttle {
-                    if offsetY < 830{
+                    if offsetY < 800{
                         withAnimation(.snappy(duration: 0.1)){
                             scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
                         }
@@ -99,8 +119,10 @@ struct ChatMessageListView: View {
                 }
             }
             .onChange(of: chatManager.isLoading){ value in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-                    scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
+                if offsetY < 800{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                        scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
+                    }
                 }
             }
             .sheet(isPresented: $showHistory) {

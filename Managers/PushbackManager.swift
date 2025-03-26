@@ -29,6 +29,8 @@ class PushbackManager: NetworkManager, ObservableObject{
     
     @Published var messagePath:[MessageStatckPage] = []
     
+    @Published var isWarmStart:Bool = false
+    
     private static var lastFeedbackTime: TimeInterval = 0
     private static let cooldown: TimeInterval = 0.1
 	
@@ -203,7 +205,13 @@ class PushbackManager: NetworkManager, ObservableObject{
 				}
 			}else{
 				DispatchQueue.main.async{
-					completion(false , isServer ? String(localized: "服务器已存在") : (msg ?? ""))
+                    
+                    let msg = isServer ? String(localized: "服务器已存在") : (msg ?? "")
+                   
+					completion(false , msg)
+                    
+                    
+                    
 				}
 			}
 		}

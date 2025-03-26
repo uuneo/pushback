@@ -57,20 +57,20 @@ final class AppState: ObservableObject {
 				// 安全地提取 Transaction
 				if let transaction = try? verificationResult.payloadValue {
 					await addTransaction(transaction) // 处理该交易
-					Toast.shared.present(title: String(localized: "购买成功"), symbol: .error)
+					Toast.error(title: String(localized: "购买成功"))
 				} else {
                     Log.debug("交易验证失败。")
-					Toast.shared.present(title: String(localized: "交易验证失败。"), symbol: .error)
+					Toast.error(title: String(localized: "交易验证失败。"))
 				}
 			case .userCancelled:
             Log.debug("用户取消了购买。")
-				Toast.shared.present(title: String(localized: "用户取消了购买。"), symbol: .question)
+				Toast.question(title: String(localized: "用户取消了购买。"))
 			case .pending:
             Log.debug("购买正在等待中。")
-				Toast.shared.present(title: String(localized: "购买正在等待中。"), symbol: .info)
+				Toast.info(title: String(localized: "购买正在等待中。"))
 			@unknown default:
             Log.debug("出现了未知的购买结果。")
-				Toast.shared.present(title: String(localized: "出现了未知的购买结果。"), symbol: .error)
+				Toast.error(title: String(localized: "出现了未知的购买结果。"))
 		}
 	}
 	// 获取当前的有效交易（包括之前完成的交易）
@@ -166,10 +166,10 @@ final class AppState: ObservableObject {
 			// 提取并验证 transaction
 			if let transaction = try? entitlement.payloadValue {
 				restoredTransactions.append(transaction)
-				Toast.shared.present(title: String(localized: "恢复成功"), symbol: .success)
+				Toast.success(title: String(localized: "恢复成功"))
 			} else {
                 Log.debug("交易验证失败。")
-				Toast.shared.present(title: String(localized: "交易验证失败。"), symbol: .error)
+				Toast.error(title: String(localized: "交易验证失败。"))
 			}
 		}
 

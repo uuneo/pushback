@@ -627,6 +627,8 @@ enum sybolEffectType{
     case variableColor
     /// 替换
     case replace
+    
+    case wiggle
         
 }
 
@@ -664,9 +666,13 @@ extension View{
                     self.symbolEffect(.scale.up.byLayer, options: .repeat(repeatBehavior1))
                 case .variableColor:
                     self.symbolEffect(.variableColor.cumulative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
+                case .wiggle:
+                    self.symbolEffect(.wiggle.clockwise.byLayer, options: .repeat(repeatBehavior1))
                 case .replace:
                     self.contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .repeat(repeatBehavior1)))
+                
                 }
+            
             }
             
         } else {
@@ -676,3 +682,30 @@ extension View{
     }
 }
 
+extension String{
+    func stripMarkdown() -> Self {
+        let patterns: [(pattern: String, replacement: String)] = [
+            ("\\*\\*(.*?)\\*\\*", "$1"),   // **加粗**
+            ("\\*(.*?)\\*", "$1"),         // *斜体*
+            ("\\_(.*?)\\_", "$1"),         // _斜体_
+            ("\\~\\~(.*?)\\~\\~", "$1"),   // ~~删除线~~
+            ("\\`(.*?)\\`", "$1"),         // `代码`
+            ("!\\[(.*?)\\]\\((.*?)\\)", "$1"), // ![图片](图片链接) -> 只保留文本
+            ("\\[(.*?)\\]\\((.*?)\\)", "$1"), // [链接文本](链接地址) -> 只保留文本
+            ("^#{1,6}\\s+", ""),           // # 标题（去掉 # 但保留内容）
+            ("^[>|\\-\\+*]\\s+", ""),      // > 引用、- 无序列表、+ 无序列表、* 无序列表（去掉前缀）
+            ("\\d+\\.\\s+", ""),           // 有序列表 1.（去掉前缀）
+            ("\\[\\s?[x]?\\s?\\]", ""),    // 任务列表 [ ] 和 [x]
+            ("`[^`]+`", ""),               // `行内代码`
+            ("```[\\s\\S]*?```", ""),      // ``` 代码块 ```
+            ("---", ""),                   // --- 分割线
+        ]
+        
+        var strippedText = self
+        for pattern in patterns {
+            strippedText = strippedText.replacingOccurrences(of: pattern.pattern, with: pattern.replacement, options: .regularExpression)
+        }
+        
+        return strippedText
+    }
+}

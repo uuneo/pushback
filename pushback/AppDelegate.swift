@@ -119,6 +119,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
 		return true
 	}
+    
 
 	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
 		if let selectAction = options.shortcutItem{
@@ -137,8 +138,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         PushbackManager.shared.page = .message
         PushbackManager.shared.messagePath = []
-        PushbackManager.shared.selectId = content.userInfo[Params.messageId.name] as? String
-        PushbackManager.shared.selectGroup = content.threadIdentifier
+        DispatchQueue.main.async{
+            PushbackManager.shared.selectId = content.userInfo[Params.messageId.name] as? String
+            PushbackManager.shared.selectGroup = content.threadIdentifier
+        }
+        
         
         notificatonHandler(userInfo: content.userInfo)
         

@@ -17,7 +17,7 @@ struct pushbackApp: SwiftUI.App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var manager = PushbackManager.shared
     @StateObject private var appstate = AppState.shared
-
+    
 	var body: some Scene {
 		WindowGroup {
 			RootView{

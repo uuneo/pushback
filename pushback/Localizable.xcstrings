@@ -113,6 +113,22 @@
         }
       }
     },
+    "%@; " : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@; "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@; "
+          }
+        }
+      }
+    },
     "%@/%@" : {
       "localizations" : {
         "en" : {
@@ -1425,6 +1441,22 @@
         }
       }
     },
+    "信息页面" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information page."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgi sayfası."
+          }
+        }
+      }
+    },
     "修改分组名称" : {
       "localizations" : {
         "en" : {
@@ -2529,6 +2561,22 @@
         }
       }
     },
+    "复制全部" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy all."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " Hepsini kopyala."
+          }
+        }
+      }
+    },
     "复制图片KEY" : {
       "localizations" : {
         "en" : {
@@ -2881,6 +2929,22 @@
         }
       }
     },
+    "开启智能助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activate the smart assistant."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akıllı asistanı etkinleştir."
+          }
+        }
+      }
+    },
     "开启计划" : {
       "localizations" : {
         "en" : {
@@ -3165,6 +3229,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Üçüncü taraf uygulama veya siteyi aç."
+          }
+        }
+      }
+    },
+    "打开链接" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the link."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantıyı aç."
           }
         }
       }
@@ -3742,6 +3822,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tüm okunmamış mesajları silmek istediğinizden emin misiniz?"
+          }
+        }
+      }
+    },
+    "显示原始数据" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Raw"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ham veriyi göster."
+          }
+        }
+      }
+    },
+    "显示图标" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display the icon."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simgeyi göster."
           }
         }
       }
@@ -4548,7 +4660,6 @@
       }
     },
     "点击查看更多" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6050,22 +6161,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Varsayılan"
-          }
-        }
-      }
-    },
-    "默认保存时间" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default save time"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Varsayılan süre"
           }
         }
       }

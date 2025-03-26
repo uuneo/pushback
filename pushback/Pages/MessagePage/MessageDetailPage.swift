@@ -14,9 +14,11 @@ struct MessageDetailPage: View {
     @EnvironmentObject private var manager:PushbackManager
     
     @ObservedResults(Message.self) var messages
+    @Default(.showMessageAvatar) var showMessageAvatar
+    @Default(.showAssistant) var showAssistant
     @State private var searchText:String = ""
     
-    
+   
     var group:String?
     
     init(group: String? = nil) {
@@ -55,7 +57,7 @@ struct MessageDetailPage: View {
                     List{
                         ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL){ mode in
+                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar,showAssistant:showAssistant){ mode in
                                 
                                 switch mode{
                                 case .text:
@@ -167,8 +169,7 @@ struct MessageDetailPage: View {
                             .padding(.horizontal, 5)
                         
                         HStack{
-                            
-                            Text(message.body ?? "")
+                            MarkdownCustomView(content: message.body ?? "", searchText: "", showCodeViewColor: false)
                                 .textSelection(.enabled)
                             Spacer(minLength: 0)
                         }

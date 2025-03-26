@@ -232,7 +232,7 @@ struct CryptoConfigView: View {
 		if cryptoConfig.key.count != expectKeyLength{
 			cryptoConfig.key = ""
 			if showMsg{
-				Toast.shared.present(title: String(localized:  "自动更正Key参数"), symbol: .info)
+				Toast.info(title: String(localized:  "自动更正Key参数"))
 			}
 			return false
 		}
@@ -243,7 +243,7 @@ struct CryptoConfigView: View {
 		if cryptoConfig.iv.count != 16 {
 			cryptoConfig.iv = ""
 			if showMsg{
-				Toast.shared.present(title: String(localized:  "自动更正Iv参数"), symbol: .info)
+				Toast.info(title: String(localized:  "自动更正Iv参数"))
 			}
 			return false
 		}
@@ -265,7 +265,7 @@ struct CryptoConfigView: View {
 		
 		if !showMsg{
             Clipboard.shared.setString( cryptoExampleHandler() )
-			Toast.shared.present(title: String(localized:  "复制成功"), symbol: .copy)
+			Toast.copy(title: String(localized:  "复制成功"))
 		}
 		
 	}

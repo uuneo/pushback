@@ -26,7 +26,7 @@ class CallHandler: NotificationContentHandler {
             soundName = String(first)
             soundType = String(last)
         } else {
-            soundName = "multiwayinvitation"
+            soundName = "multiway"
             soundType = "caf"
         }
         

@@ -25,6 +25,7 @@ struct MoreOperationsView: View {
 	@Default(.autoSaveToAlbum) var autoSaveToAlbum
     @Default(.defaultBrowser) var defaultBrowser
     @Default(.badgeMode) var badgeMode
+    @Default(.showMessageAvatar) var showMessageAvatar
 	@State private var showImport:Bool = false
 	@State private var select:Int = 0
 
@@ -61,6 +62,7 @@ struct MoreOperationsView: View {
                                 .scaleEffect(0.9)
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.pulse, delay: 5)
                         }
                     }
                     
@@ -75,6 +77,7 @@ struct MoreOperationsView: View {
                                 .scaleEffect(0.9)
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.pulse, delay: 3)
                         }
                     }.onChange(of: badgeMode) { newValue in
                         RealmManager.ChangeBadge()
@@ -97,9 +100,8 @@ struct MoreOperationsView: View {
 							Label("导出", systemImage: "arrow.up.circle")
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint, Color.primary)
-
-
-
+                                .symbolEffect(.wiggle, delay: 3)
+                            
 							Spacer()
 							Text(String(format: String(localized: "%d条消息"), messages.count) )
 								.foregroundStyle(Color.green)
@@ -124,6 +126,7 @@ struct MoreOperationsView: View {
 							Label( "导入", systemImage: "arrow.down.circle")
 								.symbolRenderingMode(.palette)
 								.foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.wiggle, delay: 6)
 
 							Spacer()
 
@@ -135,9 +138,9 @@ struct MoreOperationsView: View {
 						switch result {
 							case .success(let files):
 								let msg = importMessage(files)
-								Toast.shared.present(title: msg, symbol: .info)
+								Toast.info(title: msg)
 							case .failure(let err):
-								Toast.shared.present(title: err.localizedDescription, symbol: .error)
+								Toast.error(title: err.localizedDescription)
 						}
 					})
 
@@ -148,12 +151,19 @@ struct MoreOperationsView: View {
 				} footer:{
 					Text("只能导入.exv结尾的JSON数据")
 				}
+                
 
-
-
-
+               
 
 				Section {
+                    
+                    Toggle(isOn: $showMessageAvatar) {
+                        Label("显示图标", systemImage: showMessageAvatar ? "camera.macro.circle" : "camera.macro.slash.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle( .tint, Color.primary)
+                            .symbolEffect(.replace)
+                        
+                    }
 
 
 					Picker(selection: $messageExpiration) {
@@ -168,16 +178,15 @@ struct MoreOperationsView: View {
 							Image(systemName: "externaldrive.badge.timemachine")
 								.scaleEffect(0.9)
 								.symbolRenderingMode(.palette)
-								.foregroundStyle((messageExpiration.days == 0 ? .red : (messageExpiration.days == -1 ? .green : .yellow)), Color.primary)
-
-
+                                .foregroundStyle((messageExpiration == .no ? .red : (messageExpiration == .forever  ? .green : .yellow)), Color.primary)
+                                .symbolEffect(.pulse, delay: 1)
 
 						}
 					}
 
 
 				}header:{
-					Text("默认保存时间")
+                    Text("信息页面")
 				}footer:{
 
 					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
@@ -197,25 +206,26 @@ struct MoreOperationsView: View {
 							Label("自动保存到相册", systemImage: "a.circle")
 								.symbolRenderingMode(.palette)
 								.foregroundStyle( .tint, Color.primary)
+                                .symbolEffect(.rotate, delay: 3)
                                 .onChange(of: autoSaveToAlbum) { newValue in
                                     if newValue{
                                         debugPrint(newValue)
                                         PHPhotoLibrary.requestAuthorization{status in
                                             switch status {
                                             case .notDetermined:
-                                                Toast.shared.present(title: String(localized: "用户尚未做出选择"), symbol: .info)
+                                                Toast.info(title: String(localized: "用户尚未做出选择"))
                                                
                                             case .restricted:
-                                                Toast.shared.present(title: String(localized: "访问受限（可能是家长控制）"), symbol: .info)
+                                                Toast.info(title: String(localized: "访问受限（可能是家长控制）"))
                                        
                                             case .denied:
-                                                Toast.shared.present(title: String(localized: "用户拒绝了访问权限"), symbol: .info)
+                                                Toast.info(title: String(localized: "用户拒绝了访问权限"))
                                          
                                             case .authorized:
-                                                Toast.shared.present(title: String(localized: "用户已授权访问照片库"), symbol: .success)
+                                                Toast.success(title: String(localized: "用户已授权访问照片库"))
                 
                                             case .limited:
-                                                Toast.shared.present(title: String(localized: "用户授予了有限的访问权限"), symbol: .info)
+                                                Toast.info(title: String(localized: "用户授予了有限的访问权限"))
                                                 
                                             @unknown default:
                                                break
@@ -242,7 +252,8 @@ struct MoreOperationsView: View {
 							Image(systemName: "externaldrive.badge.timemachine")
 								.scaleEffect(0.9)
 								.symbolRenderingMode(.palette)
-								.foregroundStyle((imageSaveDays.days == 0 ? .red : (imageSaveDays.days == -1 ? .green : .yellow)), Color.primary)
+                                .symbolEffect(.pulse, delay: 1)
+                                .foregroundStyle((imageSaveDays == .no ? .red : (imageSaveDays == .forever  ? .green : .yellow)), Color.primary)
 
 						}
 					}
@@ -309,12 +320,10 @@ struct MoreOperationsView: View {
 						Label {
 							Text("存储使用")
 						} icon: {
-							Image(systemName: "chart.pie.fill")
-								.foregroundStyle(Color.darkLight)
-								.background(
-									RoundedRectangle(cornerRadius: 10)
-										.backgroundStyle(.orange)
-								)
+							Image(systemName: "externaldrive.badge.person.crop")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.green, Color.primary)
+                                .symbolEffect(.pulse, delay: 3)
 						}
 						Spacer()
 						Text("\(getUseSize())/\(cacheSize.title)")
@@ -356,7 +365,7 @@ struct MoreOperationsView: View {
 												  action: {
 					if let cache = ImageManager.defaultCache(){
 						cache.clearDiskCache()
-                        Toast.shared.present(title: String(localized: "清理成功"), symbol: .success)
+                        Toast.success(title: String(localized: "清理成功"))
 					}
 
 				}),

@@ -20,8 +20,10 @@ struct MessageCard: View {
     var searchText:String = ""
     var showGroup:Bool =  false
     var showAllTTL:Bool = false
+    var showAvatar:Bool = true
+    var showAssistant:Bool = true
     var complete:((messageCompleteMode)->Void)? = nil
-    @State var showRaw:Bool = false
+    @State private var showRaw:Bool = false
     @State private var showLoading:Bool = false
     @State private var showTTL:Bool = false
     
@@ -34,134 +36,106 @@ struct MessageCard: View {
             return right ?  .red : .clear
         }
         return .clear
-       
+        
     }
-
+    
     var body: some View {
         Section {
-                VStack(alignment: .leading, spacing:5){
-
-                    HStack(alignment: .center){
+            VStack(alignment: .leading, spacing:5){
+                
+                HStack(alignment: .center){
+                    
+                   
+                    
+                    if showAvatar{
                         
-                        Menu {
-                            Button{
-                                PushbackManager.shared.sheetPage = .chatgpt(message.id.uuidString)
-                            }label: {
-                                Label("问智能助手", image: "chatgpt")
-                            }
-                        } label: {
-                            AvatarView(id: message.id.uuidString, icon: message.icon)
-                                .frame(width: 30, height: 30, alignment: .center)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .overlay(alignment: .bottomTrailing) {
-                                    if message.level > 2{
-                                        Image(systemName: "exclamationmark.triangle.fill")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 15)
-                                            .symbolRenderingMode(.palette)
-                                            .foregroundStyle(.white, .red)
-                                    }
+                        AvatarView(id: message.id.uuidString, icon: message.icon)
+                            .frame(width: 30, height: 30, alignment: .center)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .overlay(alignment: .bottomTrailing) {
+                                if message.level > 2{
+                                    Image(systemName: "exclamationmark.triangle.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 15)
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.white, .red)
                                 }
-                        }
-
+                            }
                         
-                       
-
-
-                        VStack{
-                            if let title = message.title{
-                                HStack{
-                                    highlightedText(searchText: searchText, text: title)
-                                        .font(.headline)
-                                        .fontWeight(.bold)
-                                        .textSelection(.enabled)
-
-                                    Spacer()
-
-                                }
-                                .contentShape(Rectangle())
-                                .onTapGesture(count: 2) {
-                                    self.complete?(.text)
-                                }
-                            }
-
-
-                            if let subtitle = message.subtitle{
-
-
-                                HStack{
-
-                                    highlightedText(searchText: searchText, text: subtitle)
-                                        .font(.subheadline)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.gray)
-                                        .textSelection(.enabled)
-                                        
-
-                                    Spacer()
-                                }
-                                .contentShape(Rectangle())
-                                .onTapGesture(count: 2) {
-                                    self.complete?(.text)
-                                }
-
-
-                            }
-                        }
-
                     }
-
-                    Line()
-                        .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
-                        .frame(height: 1)
-                        .padding(.horizontal, 5)
-
-
-                    ScrollView{
-                        if !showRaw{
-                            HStack{
-                                if let body = message.body{
-                                    highlightedText(searchText: searchText, text: body)
-                                        .frame(maxHeight: 260)
-                                        .font(.body)
-                                        .textSelection(.enabled)
-                                        .transition(.opacity)
-
+                    
+                    
+                    
+                    
+                    VStack{
+                        if let title = message.title{
+                            MarkdownCustomView.highlightedText(searchText: searchText, text: title)
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
+                                .onTapGesture(count: 2) {
+                                    self.complete?(.text)
                                 }
-
+                        }
+                        
+                        
+                        if let subtitle = message.subtitle{
+                            
+                            HStack{
+                                
+                                MarkdownCustomView.highlightedText(searchText: searchText, text: subtitle)
+                                    .font(.subheadline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.gray)
+                                    .textSelection(.enabled)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                
                                 Spacer()
                             }
                             .contentShape(Rectangle())
                             .onTapGesture(count: 2) {
                                 self.complete?(.text)
                             }
-                           
-
-
-                        }else{
-
-                            highlightedText(searchText: searchText, text: message.userInfo)
-                                .frame(maxWidth: .infinity)
-                                .transition(.opacity)
-                                .font(.subheadline)
-                                .onTapGesture(count: 2) {
-                                    self.complete?(.userInfo)
-                                }
-
+                            
                         }
                     }
-                    .frame(maxHeight: 260)
                     
-                    
-                   
-
-                
                 }
-                .padding(10)
-                .background(Color.whiteGary)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-
+                if message.title != nil || message.subtitle != nil{
+                    Line()
+                        .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
+                        .frame(height: 1)
+                        .padding(.horizontal, 5)
+                }
+               
+                
+                ScrollView{
+                    
+                    MarkdownCustomView(content: message.body ?? "", userInfo: message.userInfo, searchText: searchText,showRaw: showRaw)
+                        .font(.body)
+                        .textSelection(.enabled)
+                        .contentShape(Rectangle())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .onTapGesture(count: 2) {
+                            if showRaw{
+                                self.complete?(.userInfo)
+                            }else {
+                                self.complete?(.text)
+                            }
+                           
+                        }
+                    
+                }
+                .frame(maxHeight: 300)
+                
+            }
+            .padding(10)
+            .background(Color.whiteGary)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+           
         }header: {
             MessageViewHeader()
                 .padding(5)
@@ -170,84 +144,110 @@ struct MessageCard: View {
         }footer: {
             if showGroup{
                 HStack{
-                    highlightedText(searchText: searchText, text: message.group)
+                    MarkdownCustomView.highlightedText(searchText: searchText, text: message.group)
                         .textSelection(.enabled)
                     Spacer()
                 }
             }
         }.listRowInsets(EdgeInsets())
-
+        
     }
     @ViewBuilder
     func MessageViewHeader()-> some View{
         HStack(alignment: .bottom){
-
-            Image(systemName: showRaw ? "captions.bubble.fill" : "captions.bubble")
-                .symbolRenderingMode(.palette)
-                .foregroundStyle(.primary, .tint)
-                .padding(.leading, 10)
-                .onTapGesture{
-                    if message.userInfo.count > 0{
-                        self.showRaw.toggle()
+           
+                Menu {
+                    if showAssistant{
+                        Button{
+                            PushbackManager.shared.sheetPage = .chatgpt(message.id.uuidString)
+                            PushbackManager.vibration(style: .light)
+                        }label: {
+                            Label("问智能助手", image: "chatgpt")
+                        }
                     }
-                }
-
+                    
+                    if let url = message.url, let fileUrl = URL(string: url){
+                        
+                        Button{
+                            PushbackManager.openUrl(url: fileUrl)
+                            PushbackManager.vibration(style: .light)
+                        }label:{
+                            Label("打开链接", systemImage: "airplane.departure")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(Color.primary, .green)
+                            
+                        }
+                    }
+                    
+                    Button{
+                        
+                        Clipboard.shared.setString(message.allString())
+                        Toast.copy(title: String(localized: "复制成功"))
+                        PushbackManager.vibration(style: .light)
+                    }label:{
+                        Label("复制全部", systemImage: "doc.on.doc")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color.primary, .green)
+                    }
+                    
+                    Button{
+                        self.showRaw.toggle()
+                    }label:{
+                        Label("显示原始数据", systemImage: "doc.badge.ellipsis")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color.primary, .green)
+                    }
+                    
+                } label: {
+                    
+                    Image(systemName: showRaw ?  "captions.bubble.fill" : "captions.bubble" )
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.primary, .tint)
+                        .symbolEffect(.replace)
+                        .symbolEffect(.bounce,delay: 1)
+                        .imageScale(.small)
+                        .padding(.leading, 10)
+                    
+                }.foregroundStyle(.primary, .tint)
+           
+            
+            
             Text((showTTL || showAllTTL) ? message.expiredTime() : message.createDate.agoFormatString())
                 .font(.caption2)
                 .foregroundStyle( (showTTL || showAllTTL) ? (message.ttl < 7 ? .red : .green) : message.createDate.colorForDate())
-                .onTapGesture {
+                .pressEvents(onRelease: { value in
                     withAnimation {
                         self.showTTL.toggle()
                     }
-                }
-                
+                })
+            
             Spacer()
-        
-
-            if let _ =  message.url {
-
+            
+            if let url = message.url, let url = URL(string: url){
                 Image(systemName: "airplane.departure")
-                    .resizable()
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.blue, .green)
+                    .symbolEffect(.bounce,delay: 1)
+                    .padding(.leading, 10)
+                    .pressEvents(onRelease: { value in
+                        PushbackManager.openUrl(url: url)
+                    })
+            }
+            
+            if showRaw{
+                Image(systemName: "xmark.circle")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(Color.primary, .green)
-                    .frame(width: 20, height: 20, alignment: .center)
-                    .padding(.horizontal, 10)
-
-                    .onTapGesture {
-                        if let url = message.url, let fileUrl = URL(string: url) {
-                            PushbackManager.openUrl(url: fileUrl)
-                        }
-                    }
-           
+                    .pressEvents(onRelease:{ result in
+                        self.showRaw.toggle()
+                    })
             }
-
+           
+        
         }
     }
 
-
-
-    func highlightedText(searchText: String, text: String) -> some View {
-        // 将搜索文本和目标文本都转换为小写
-        let lowercasedSearchText = searchText.lowercased()
-        let lowercasedText = text.lowercased()
-        
-        // 在小写版本中查找范围
-        guard let range = lowercasedText.range(of: lowercasedSearchText) else {
-            return Text(text)
-        }
-        
-        // 计算原始文本中的索引
-        let startIndex = text.distance(from: text.startIndex, to: range.lowerBound)
-        let endIndex = text.distance(from: text.startIndex, to: range.upperBound)
-        
-        // 使用原始文本创建前缀、匹配文本和后缀
-        let prefix = Text(text.prefix(startIndex))
-        let highlighted = Text(text[text.index(text.startIndex, offsetBy: startIndex)..<text.index(text.startIndex, offsetBy: endIndex)]).bold().foregroundColor(.red)
-        let suffix = Text(text.suffix(text.count - endIndex))
-        
-        // 返回组合的文本视图
-        return prefix + highlighted + suffix
-    }
+    
     
     func limitTextToLines(_ text: String, charactersPerLine: Int) -> String {
         var result = ""
@@ -265,7 +265,7 @@ struct MessageCard: View {
         
         return result
     }
-
+    
 }
 
 
@@ -287,11 +287,11 @@ struct MessageCard: View {
 struct Line: Shape{
     func path(in rect: CGRect) -> Path {
         return Path{path in
-
+            
             path.move(to: CGPoint(x: 0, y: 0))
             path.addLine(to: CGPoint(x: rect.width, y: 0))
-
+            
         }
     }
-
+    
 }

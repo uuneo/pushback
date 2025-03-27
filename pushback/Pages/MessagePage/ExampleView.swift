@@ -17,21 +17,25 @@ struct ExampleView: View {
 	@State private var showAlart = false
 	@Default(.servers) var servers
 	@Default(.cryptoConfig) var cryptoConfig
+    
 	var body: some View {
         List{
+            if servers.count > 1{
+                HStack{
+                    Spacer()
+                    Picker(selection: $pickerSelection, label: Text("切换服务器")) {
+                        ForEach(servers.indices, id: \.self){index in
+                            let server = servers[index]
+                            Text(server.name)
+                                .tag(server.id)
+                        }
+                    }.pickerStyle(MenuPickerStyle())
 
-            HStack{
-                Spacer()
-                Picker(selection: $pickerSelection, label: Text("切换服务器")) {
-                    ForEach(servers.indices, id: \.self){index in
-                        let server = servers[index]
-                        Text(server.name).tag(server.id)
-                    }
-                }.pickerStyle(MenuPickerStyle())
-
+                }
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
             }
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
+           
 
             customHelpItemView()
 
@@ -182,7 +186,7 @@ extension ExampleView{
 			PushExampleModel(header: AnyView(Text( "右上角点击耳机查看所有铃声")),
 							 footer: AnyView(Text( "可以为推送设置不同的铃声")),
 							 title: AnyView(Text( "推送铃声")),
-							 params: "\(String(localized: "推送内容"))?sound=tuola",
+							 params: "\(String(localized: "推送内容"))?sound=craft",
 							 index: 5),
 
 			PushExampleModel(header: AnyView(Text( "自定义推送显示的logo")),

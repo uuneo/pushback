@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 16.1, *)
+
 struct HackerTextView: View {
     /// Config
     var text: String
@@ -25,7 +25,7 @@ struct HackerTextView: View {
 	
 	var body: some View {
         Text(animatedText)
-            .fontDesign(.monospaced)
+//            .fontDesign(.monospaced)
             .truncationMode(.tail)
             .contentTransition(transition)
             .animation(.easeInOut(duration: 0.15), value: animatedText)

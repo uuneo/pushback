@@ -62,8 +62,6 @@ struct AssistantPageView:View {
                                 .multilineTextAlignment(.center)
                                 .padding(.vertical, 10)
                             
-                            
-                            
                             Text("我可以帮你搜索，答疑，写作，请把你的任务交给我吧！")
                                 .multilineTextAlignment(.center)
                                 .padding(.vertical)

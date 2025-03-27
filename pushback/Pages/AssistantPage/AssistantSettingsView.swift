@@ -191,7 +191,6 @@ struct AssistantSettingsView: View {
                
             }
             .navigationTitle(showClose ? "设置" : "智能助手")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if showClose{
                     ToolbarItem(placement: .topBarTrailing) {

@@ -104,8 +104,8 @@ struct AnimatedButton: View {
     struct Config: Equatable {
         var id = UUID()
         var title: String
-        var foregroundColor: Color
-        var background: Color
+        var foregroundColor: Color = .white
+        var background: Color = .blue
         var symbolImage: String?
         var hPadding: CGFloat = 15
         var vPadding: CGFloat = 10
@@ -119,9 +119,10 @@ struct AnimatedButton: View {
         if let state = state {
             self.state = state
             if state == .success || state == .fail{
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay){
-                    self.state = .normal
-                }
+                try? await Task.sleep(for: .seconds(delay))
+                self.state = .normal
+                try? await Task.sleep(for: .seconds(0.5))
+                complete?()
             }
         }else {
             switch self.state {

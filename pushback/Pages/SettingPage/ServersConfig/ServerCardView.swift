@@ -13,6 +13,7 @@ struct ServerCardView:View {
 	var item: PushServerModel
 	var isCloud:Bool = false
 	
+    var complete:() -> Void
 	
 	var body: some View {
 		HStack(alignment: .center){
@@ -67,14 +68,25 @@ struct ServerCardView:View {
 			}
 			Spacer()
 			
+            if isCloud{
+                Image(systemName: "icloud.and.arrow.down")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .tint, Color.primary)
+                    .symbolEffect(.bounce,delay: 1)
+                    .pressEvents(onRelease:{result in
+                        complete()
+                    })
+            }else {
+                Image(systemName: "doc.on.doc")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .tint, Color.primary)
+                    .symbolEffect(.bounce,delay: 1)
+                    .pressEvents(onRelease:{result in
+                       complete()
+                    })
+            }
 			
-			
-            Image(systemName: "cursorarrow.click.2")
-                .symbolRenderingMode(.palette)
-                .foregroundStyle( .tint, Color.primary)
-                .symbolEffect(.bounce,delay: 1)
-
-			
+           
 		}
 	}
 }

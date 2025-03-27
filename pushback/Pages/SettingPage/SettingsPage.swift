@@ -114,6 +114,7 @@ struct SettingsPage: View {
                     
                     NavigationLink{
                         AssistantSettingsView(showClose: false)
+                            .toolbar(.hidden, for: .tabBar)
                     }label:{
                         
                         Label {

@@ -172,6 +172,10 @@ extension View{
     func pressEvents(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onRelease: ((DragGesture.Value)->Void)? = nil)-> some View{
         modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onRelease))
 	}
+    
+    func button(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onEnd: ((DragGesture.Value)->Void)? = nil)-> some View{
+        modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onEnd))
+    }
 }
 
 
@@ -267,22 +271,22 @@ struct TextFieldModifier: ViewModifier {
 			.overlay(
 				HStack {
 					Image(systemName: icon)
-						.frame(width: 36, height: 36)
+						.frame(width: 30, height: 30)
 						.background(.ultraThinMaterial)
-						.cornerRadius(14)
+						.cornerRadius(8)
 						.modifier(OutlineOverlay(cornerRadius: 14))
 						.offset(x: -46)
 						.accessibility(hidden: true)
 						.symbolRenderingMode(.palette)
 						.foregroundStyle(.tint,.secondary)
-						.onTapGesture {
-							complete?()
-						}
+                        .onTapGesture {
+                            complete?()
+                        }
 					Spacer()
 				}
 			)
 			.foregroundStyle(.primary)
-			.padding(10)
+			.padding()
 			.padding(.leading, 43)
             .background(.ultraThinMaterial)
 			.cornerRadius(20)

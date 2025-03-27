@@ -71,14 +71,13 @@ struct SoundView: View {
                 Spacer()
             }footer: {
                 HStack{
-                    Text( "请先将铃声")
+                    Text( "选择30秒以内铃声,不能选择的需要")
                     Button{
                         PushbackManager.shared.fullPage = .web(BaseConfig.musicUrl)
                     }label: {
-                        Text( "转换成 caf 格式")
+                        Text( "转换为 cdf 格式")
                             .font(.footnote)
                     }
-                    Text( ",时长不超过 30 秒。")
                 }
             }
 

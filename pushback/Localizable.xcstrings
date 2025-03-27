@@ -33,22 +33,6 @@
         }
       }
     },
-    ",时长不超过 30 秒。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ", less 30s."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ",30 saniyeden kısa."
-          }
-        }
-      }
-    },
     "[%@]分组静音成功" : {
       "localizations" : {
         "en" : {
@@ -669,6 +653,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Key:"
+          }
+        }
+      }
+    },
+    "key不正确" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Key is incorrect"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar yanlış"
           }
         }
       }
@@ -2006,7 +2006,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Number of historical messages"
+            "value" : "Number of historical "
           }
         },
         "tr" : {
@@ -2545,22 +2545,6 @@
         }
       }
     },
-    "复制URL和KEY" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy URL & KEY"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kopyala URL&KEY"
-          }
-        }
-      }
-    },
     "复制全部" : {
       "localizations" : {
         "en" : {
@@ -2637,22 +2621,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu parametreyi kullanmak istiyorsanız, ayarlardaki indeks modunu özel olarak ayarlamanız gerekmektedir."
-          }
-        }
-      }
-    },
-    "字符数小于3" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not less than 3"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Karakter sayısı 3'ten küçük"
           }
         }
       }
@@ -3089,22 +3057,6 @@
         }
       }
     },
-    "恢复" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "recover"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geri yükle"
-          }
-        }
-      }
-    },
     "恢复KEY" : {
       "localizations" : {
         "en" : {
@@ -3117,6 +3069,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anahtarı geri yükle"
+          }
+        }
+      }
+    },
+    "恢复中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restoring..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri yükleniyor..."
+          }
+        }
+      }
+    },
+    "恢复失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore failed"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geri yükleme başarısız"
           }
         }
       }
@@ -3634,6 +3618,7 @@
       }
     },
     "新增服务器" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3906,22 +3891,6 @@
         }
       }
     },
-    "更改服务器" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Change server"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sunucu değiştir"
-          }
-        }
-      }
-    },
     "服务器" : {
       "localizations" : {
         "en" : {
@@ -3950,6 +3919,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu zaten mevcut."
+          }
+        }
+      }
+    },
+    "服务器部署教程" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server deployment guide"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu dağıtım kılavuzu"
           }
         }
       }
@@ -4067,6 +4052,7 @@
       }
     },
     "查看服务器部署教程" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4174,6 +4160,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : " iCloud hesap durumu kontrolü hatası: %@"
+          }
+        }
+      }
+    },
+    "检查参数..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking parameters..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parametreler kontrol ediliyor..."
           }
         }
       }
@@ -4354,6 +4356,38 @@
         }
       }
     },
+    "注册KEY" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register key"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar kaydet"
+          }
+        }
+      }
+    },
+    "注册中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registering..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaydoluyor..."
+          }
+        }
+      }
+    },
     "注册失败" : {
       "localizations" : {
         "en" : {
@@ -4483,6 +4517,7 @@
       }
     },
     "添加" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5379,22 +5414,6 @@
         }
       }
     },
-    "请先将铃声" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " set ringtone first"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lütfen önce zil sesini"
-          }
-        }
-      }
-    },
     "请先注册" : {
       "localizations" : {
         "en" : {
@@ -5471,6 +5490,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lütfen 16 haneli IV girin"
+          }
+        }
+      }
+    },
+    "请输入URL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter URL"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lütfen URL girin"
           }
         }
       }
@@ -5555,18 +5590,18 @@
         }
       }
     },
-    "转换成 caf 格式" : {
+    "转换为 cdf 格式" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : " CAF format"
+            "value" : "Convert to CAF format"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CAF formatına dönüştürme"
+            "value" : "CAF formatına dönüştür"
           }
         }
       }
@@ -5583,22 +5618,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d haneli anahtar girin."
-          }
-        }
-      }
-    },
-    "输入使用过的key,可以恢复key" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter used key to restore"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anahtarı geri yüklemek için kullanılan anahtarı girin"
           }
         }
       }
@@ -5668,7 +5687,24 @@
         }
       }
     },
+    "输入旧key,可以恢复" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter old key to restore"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eski anahtarı girin, geri yüklenebilir"
+          }
+        }
+      }
+    },
     "输入服务器地址" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5797,6 +5833,22 @@
         }
       }
     },
+    "选择30秒以内铃声,不能选择的需要" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select under 30s. Unselectable ones."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 sn altı seç. Seçilemezler."
+          }
+        }
+      }
+    },
     "选择后配置自动保存" : {
       "localizations" : {
         "en" : {
@@ -5841,6 +5893,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Metin seçin"
+          }
+        }
+      }
+    },
+    "选择服务器" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select server"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunucu seç"
           }
         }
       }
@@ -5941,18 +6009,18 @@
         }
       }
     },
-    "重置KEY" : {
+    "重置" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reset KEY"
+            "value" : "Reset"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sıfırla KEY"
+            "value" : "Sıfırla"
           }
         }
       }

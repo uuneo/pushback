@@ -42,7 +42,7 @@ struct ChangeKeyView: View {
 			
 			
 			GeometryReader { proxy in
-				ChnageKeyCenterView()
+                ChangeKeyCenterView(dismiss: dismissModal)
 					.rotationEffect(.degrees(viewState.width / 40))
 					.rotation3DEffect(.degrees(viewState.height / 20), axis: (x: 1, y: 0, z: 0), perspective: 1)
 					.shadow(color: Color.black.opacity(0.2), radius: 30, x: 0, y: 30)

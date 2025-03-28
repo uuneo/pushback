@@ -32,6 +32,8 @@ struct ServersConfigView: View {
     
     @Default(.deviceToken) var deviceToken
     
+    @State private var showTextAnimation:Bool = false
+    
     var body: some View {
         NavigationStack{
             List{
@@ -46,6 +48,7 @@ struct ServersConfigView: View {
                             
                             Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
                         }
+                        self.showTextAnimation.toggle()
                     }label: {
                         HStack{
                             
@@ -62,8 +65,9 @@ struct ServersConfigView: View {
                             
                             
                             Spacer()
-                            Text(maskString(deviceToken))
+                            HackerTextView(text: maskString(deviceToken), trigger:showTextAnimation)
                                 .foregroundStyle(.gray)
+                                
                             Image(systemName: "doc.on.doc")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle( .tint, Color.primary)
@@ -250,7 +254,7 @@ struct ServersConfigView: View {
     
     fileprivate func maskString(_ str: String) -> String {
         guard str.count > 6 else { return str }
-        return str.prefix(3) + String(repeating: "*", count: 9) + str.suffix(6)
+        return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(6)
     }
     
     

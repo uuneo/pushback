@@ -31,8 +31,6 @@ struct ServerCardView:View {
                     .symbolEffect(.replace, delay: 2)
                     
                     
-                    
-                   
 			}else{
 				Image(systemName: "link.icloud")
 					.scaleEffect(1.5)

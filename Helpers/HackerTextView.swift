@@ -25,7 +25,7 @@ struct HackerTextView: View {
 	
 	var body: some View {
         Text(animatedText)
-//            .fontDesign(.monospaced)
+            .monospaced()
             .truncationMode(.tail)
             .contentTransition(transition)
             .animation(.easeInOut(duration: 0.15), value: animatedText)

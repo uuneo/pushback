@@ -1,22 +1,6 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    "" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        }
-      }
-    },
     " 删除成功" : {
       "localizations" : {
         "en" : {
@@ -3617,23 +3601,6 @@
         }
       }
     },
-    "新增服务器" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add a server"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yeni sunucu ekle"
-          }
-        }
-      }
-    },
     "新对话" : {
       "localizations" : {
         "en" : {
@@ -4047,23 +4014,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Simgeyi görüntüle"
-          }
-        }
-      }
-    },
-    "查看服务器部署教程" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View server deployment tutorial"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sunucu dağıtım kılavuzunu görüntüle."
           }
         }
       }
@@ -4512,23 +4462,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mesaj arşivi"
-          }
-        }
-      }
-    },
-    "添加" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "append"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ekle"
           }
         }
       }
@@ -5699,23 +5632,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Eski anahtarı girin, geri yüklenebilir"
-          }
-        }
-      }
-    },
-    "输入服务器地址" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter server address"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sunucu adresini girin."
           }
         }
       }

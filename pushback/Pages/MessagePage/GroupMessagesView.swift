@@ -173,7 +173,7 @@ struct MessageRow: View {
     }
     
     private func groupBody(_ message: Message) -> some View {
-        var text = Text("")
+        var text = Text("\("")")
         
         if let title = message.title {
             text = Text("\(title); ").foregroundColor(.blue)
@@ -184,7 +184,8 @@ struct MessageRow: View {
         }
         
         if let body = message.body {
-            text = text + Text("\(body); ").foregroundColor(.primary)
+            
+            text = text + Text("\(MarkdownCustomView.plain(text: body)); ").foregroundColor(.primary)
         }
         
         return text

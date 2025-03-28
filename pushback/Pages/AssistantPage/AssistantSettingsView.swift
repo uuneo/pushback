@@ -35,8 +35,6 @@ struct AssistantSettingsView: View {
                             .symbolEffect(.replace)
                         
                     }
-                }header:{
-                    Text("")
                 }
                 
                 if showAssistant{

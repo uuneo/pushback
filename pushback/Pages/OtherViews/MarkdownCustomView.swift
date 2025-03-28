@@ -71,5 +71,9 @@ struct MarkdownCustomView:View {
         // 返回组合的文本视图
         return prefix + highlighted + suffix
     }
+    
+    static func plain(text: String)-> String{
+        return MarkdownContent(text).renderPlainText()
+    }
 }
 

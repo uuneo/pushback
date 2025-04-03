@@ -1,0 +1,139 @@
+//
+//  MarkdownCustomView.swift
+//  pushback
+//
+//  Created by lynn on 2025/3/26.
+//
+
+import SwiftUI
+import Splash
+import MarkdownUI
+import Kingfisher
+import NetworkImage
+import cmark_gfm
+import cmark_gfm_extensions
+import Foundation
+import WebKit
+
+private typealias UnsafeNode = UnsafeMutablePointer<cmark_node>
+
+struct MarkdownCustomView:View {
+    @Environment(\.colorScheme) var colorScheme
+    
+    var content:String
+    var userInfo:String
+    var searchText:String
+    var showRaw:Bool
+    var showCodeViewColor:Bool
+   
+    
+    private var codeHighlightColorScheme: Splash.Theme {
+        colorScheme == .dark ? .wwdc17(withFont: .init(size: 16)) : .sunset(withFont: .init(size: 16))
+    }
+    
+    init( content: String, userInfo: String = "", searchText: String = "", showRaw: Bool = false, showCodeViewColor: Bool = false) {
+        self.content = content
+        self.userInfo = userInfo
+        self.searchText = searchText
+        self.showRaw = showRaw
+        self.showCodeViewColor = showCodeViewColor
+    }
+   
+    var body: some View {
+        
+        if showRaw || !searchText.isEmpty{
+            MarkdownCustomView.highlightedText(searchText: searchText, text: searchText.isEmpty ? userInfo : content)
+                .transition(.opacity.animation(.easeInOut(duration: 0.1)))
+        }else {
+            
+            Markdown(content)
+
+                .environment(\.openURL, OpenURLAction { url in
+                    print("用户点击的链接是：\(url)")
+                    PushbackManager.openUrl(url: url)
+                    return .handled // 表示链接已经被处理，不再执行默认行为
+                })
+                .if(showCodeViewColor){view in
+                    view
+                        .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
+                }
+                .markdownTheme(MarkdownTheme.enchantedTheme)
+                .transition(.opacity.animation(.easeInOut(duration: 0.1)))
+        }
+       
+    }
+    
+    
+    
+    static func highlightedText(searchText: String, text: String) -> some View {
+        // 将搜索文本和目标文本都转换为小写
+        let lowercasedSearchText = searchText.lowercased()
+        let lowercasedText = text.lowercased()
+        
+        // 在小写版本中查找范围
+        guard let range = lowercasedText.range(of: lowercasedSearchText) else {
+            return Text(text)
+        }
+        
+        // 计算原始文本中的索引
+        let startIndex = text.distance(from: text.startIndex, to: range.lowerBound)
+        let endIndex = text.distance(from: text.startIndex, to: range.upperBound)
+        
+        // 使用原始文本创建前缀、匹配文本和后缀
+        let prefix = Text(text.prefix(startIndex))
+        let highlighted = Text(text[text.index(text.startIndex, offsetBy: startIndex)..<text.index(text.startIndex, offsetBy: endIndex)]).bold().foregroundColor(.red)
+        let suffix = Text(text.suffix(text.count - endIndex))
+        
+        // 返回组合的文本视图
+        return prefix + highlighted + suffix
+    }
+    
+    static func plain(text: String)-> String{
+        return MarkdownContent(text).renderPlainText()
+    }
+}
+
+struct MarkdownWebView: UIViewRepresentable {
+    let markdown: String
+
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        webView.loadHTMLString(convertMarkdownToHTML(markdown), baseURL: nil)
+        return webView
+    }
+
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        uiView.loadHTMLString(convertMarkdownToHTML(markdown), baseURL: nil)
+    }
+
+    private func convertMarkdownToHTML(_ markdown: String) -> String {
+        """
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body { font-family: -apple-system; padding: 10px; }
+                img { max-width: 100%; height: auto; }
+                pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+                code { font-family: monospace; }
+            </style>
+        </head>
+        <body>
+            \(markdownToHTML(markdown))
+        </body>
+        </html>
+        """
+    }
+    
+    func markdownToHTML(_ markdown: String) -> String {
+        let root = cmark_parse_document(markdown, markdown.utf8.count, CMARK_OPT_DEFAULT)
+        let html = cmark_render_html(root, CMARK_OPT_DEFAULT, nil)
+
+        defer {
+            cmark_node_free(root)
+            free(html)
+        }
+
+        return String(cString: html!)
+    }
+}

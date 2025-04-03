@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  upush
+  Created by uuneo 2024/10/11.
+*/
+
+CFBundleDisplayName = "pushback";
+NSPhotoLibraryAddUsageDescription = "Bu uygulama, fotoğrafları kaydetmek için fotoğraf galerisine erişim gerektirir.";
+NSCameraUsageDescription = "QR kodları tanımak için kameranızı kullanmamız gerekiyor.";
+NSPhotoLibraryUsageDescription = "Fotoğraf albümünüze erişmemiz gerekiyor.";

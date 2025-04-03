@@ -365,6 +365,7 @@ struct MoreOperationsView: View {
 												  action: {
 					if let cache = ImageManager.defaultCache(){
 						cache.clearDiskCache()
+                        Defaults[.imageSaves] = []
                         Toast.success(title: String(localized: "清理成功"))
 					}
 

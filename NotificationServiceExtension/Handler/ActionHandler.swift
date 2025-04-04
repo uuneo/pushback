@@ -47,7 +47,7 @@ class ActionHandler: NotificationContentHandler{
 		}
 
         // MARK: - 处理 Ringtone
-        if bestAttemptContent.soundName == "" && bestAttemptContent.getLevel() < 3{
+        if bestAttemptContent.soundName == nil && bestAttemptContent.getLevel() < 3{
             bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
         }
 

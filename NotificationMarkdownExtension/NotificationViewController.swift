@@ -36,7 +36,10 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentSize", let scrollView = object as? UIScrollView {
             
-            self.preferredContentSize = CGSize(width: self.view.bounds.width, height: max(100, scrollView.contentSize.height))
+            if scrollView.contentSize.height > self.preferredContentSize.height{
+                self.preferredContentSize = CGSize(width: self.view.bounds.width, height: max(100, scrollView.contentSize.height))
+            }
+            
         }
     }
 

@@ -2465,6 +2465,22 @@
         }
       }
     },
+    "处理中" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşleniyor"
+          }
+        }
+      }
+    },
     "复制" : {
       "localizations" : {
         "en" : {
@@ -5396,6 +5412,7 @@
       }
     },
     "转换为 cdf 格式" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5621,22 +5638,6 @@
         }
       }
     },
-    "选择30秒以内铃声,不能选择的需要" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select under 30s. Unselectable ones."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30 sn altı seç. Seçilemezler."
-          }
-        }
-      }
-    },
     "选择后配置自动保存" : {
       "localizations" : {
         "en" : {
@@ -5697,6 +5698,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu seç"
+          }
+        }
+      }
+    },
+    "选择铃声，超出30秒的将截断" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select ringtone, truncate if over 30 seconds."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zil sesi seç, 30 saniyeyi aşarsa kırp."
           }
         }
       }

@@ -2721,6 +2721,22 @@
         }
       }
     },
+    "导出失败，原因未知" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export failed, unknown reason"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma başarısız, nedeni bilinmiyor"
+          }
+        }
+      }
+    },
     "导出消息列表" : {
       "localizations" : {
         "en" : {
@@ -2733,6 +2749,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mesaj listesini dışa aktar"
+          }
+        }
+      }
+    },
+    "导出状态异常：%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export status error: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma durumu hatası: %lld"
+          }
+        }
+      }
+    },
+    "导出被取消" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export cancelled"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma iptal edildi"
           }
         }
       }
@@ -3502,6 +3550,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grup yok"
+          }
+        }
+      }
+    },
+    "无法创建导出会话" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to create export session"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma oturumu oluşturulamadı"
           }
         }
       }

@@ -141,47 +141,60 @@ class AudioManager: ObservableObject{
     
     func convertAudioToCAF(inputURL: URL, outputURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
         
+        // 移除已存在的目标文件
         do {
             if FileManager.default.fileExists(atPath: outputURL.path) {
                 try FileManager.default.removeItem(at: outputURL)
             }
         } catch {
-            completion(.failure(error))
-            return
+            return completion(.failure(error))
         }
         
-        
-        // 创建 AVAsset
         let asset = AVAsset(url: inputURL)
         
         // 创建导出会话
         guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
-            completion(.failure(NSError(domain: "AudioConversion", code: 0, userInfo: [NSLocalizedDescriptionKey: "无法创建导出会话"])))
-            return
+            let error = NSError(domain: "AudioConversion", code: 0, userInfo: [
+                NSLocalizedDescriptionKey: String(localized: "无法创建导出会话")
+            ])
+            return completion(.failure(error))
         }
         
-        // 设置输出文件类型为 CAF
         exportSession.outputFileType = .caf
         exportSession.outputURL = outputURL
         
-        // 执行导出
         exportSession.exportAsynchronously {
             switch exportSession.status {
             case .completed:
                 completion(.success(outputURL))
+                
             case .failed:
-                if let error = exportSession.error {
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(NSError(domain: "AudioConversion", code: 1, userInfo: [NSLocalizedDescriptionKey: "导出失败，原因未知"])))
-                }
+                let error = exportSession.error ?? NSError(
+                    domain: "AudioConversion",
+                    code: 1,
+                    userInfo: [NSLocalizedDescriptionKey:String(localized: "导出失败，原因未知")]
+                )
+                completion(.failure(error))
+                
             case .cancelled:
-                completion(.failure(NSError(domain: "AudioConversion", code: 2, userInfo: [NSLocalizedDescriptionKey: "导出被取消"])))
+                let error = NSError(
+                    domain: "AudioConversion",
+                    code: 2,
+                    userInfo: [NSLocalizedDescriptionKey: String(localized:"导出被取消")]
+                )
+                completion(.failure(error))
+                
             default:
-                break
+                let error = NSError(
+                    domain: "AudioConversion",
+                    code: 3,
+                    userInfo: [NSLocalizedDescriptionKey: String(localized:"导出状态异常：\(exportSession.status.rawValue)")]
+                )
+                completion(.failure(error))
             }
         }
     }
+
 }
 
 

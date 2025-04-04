@@ -315,6 +315,7 @@ struct AssistantPageView:View {
         
         
         if !text.isEmpty {
+           
             
             DispatchQueue.main.async{
                 chatManager.currentMessageId = UUID().uuidString
@@ -362,39 +363,38 @@ struct AssistantPageView:View {
                     return
                 }
                 
-                
-                
-                let group2 = ChatGroup()
-                
-                RealmManager.shared.realm { realm in
-                    var group:ChatGroup{
-                        guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
-                            group2.current = true
-                            group2.name = chatManager.currentRequest
-                            if let messageId = chatManager.messageId{
-                                group2.id = messageId
+                DispatchQueue.main.async {
+                    let group2 = ChatGroup()
+                    RealmManager.shared.realm { realm in
+                        var group:ChatGroup{
+                            guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
+                                group2.current = true
+                                group2.name = chatManager.currentRequest
+                                if let messageId = chatManager.messageId{
+                                    group2.id = messageId
+                                }
+                                return group2
                             }
-                            return group2
+                            return group
                         }
-                        return group
-                    }
-                    
-                    let responseMessage = chatManager.currentChatMessage
-                    responseMessage.chat = group.id
-                    
-                    if realm.objects(ChatGroup.self).where( {$0.current} ).count == 0{
-                        realm.add(group)
-                    }
-                    realm.add(responseMessage)
-                    
-                    
-                    
-                    DispatchQueue.main.async{
+                        
+                      
+                        
+                        let responseMessage = chatManager.currentChatMessage
+                        responseMessage.chat = group.id
+                        
+                        if realm.objects(ChatGroup.self).where( {$0.current} ).count == 0{
+                            realm.add(group)
+                        }
+                        realm.add(responseMessage)
+                       
                         chatManager.currentRequest = ""
                         chatManager.isLoading = false
                         PushbackManager.hideKeyboard()
                     }
                 }
+                
+
             }
             
         }

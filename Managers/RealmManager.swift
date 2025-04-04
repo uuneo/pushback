@@ -9,7 +9,7 @@ import RealmSwift
 import Defaults
 import SwiftyJSON
 
-@MainActor
+
 class RealmManager{
     
     static let shared = RealmManager()

@@ -1169,6 +1169,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = pushback/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = pushback;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
@@ -1206,6 +1207,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = pushback/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = pushback;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";

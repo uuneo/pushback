@@ -170,39 +170,21 @@ extension ExampleView{
                              footer: AnyView(Spacer()),
                              title: AnyView(Text( "自定义icon")),
                              params:  "\(String(localized: "推送内容"))?icon=\(BaseConfig.iconRemote)",
-                             index: 4),
-            
-            PushExampleModel(header: AnyView(Text("静音或专注模式可正常提醒")),
-                             footer: AnyView(Text("可选参数值: 0～10 代表音量0～100%")),
-                             title: AnyView(
-                                HStack{
-                                    Image(systemName: "exclamationmark.triangle.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 15)
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.white, .red)
-                                    Text("重要提醒")
-                                }
-                                
-                             ),
-                             params: "\(String(localized:  "重要提醒通知,70%音量"))?level=7",
                              index: 5),
             
             PushExampleModel(header: AnyView(Text("可对通知设置中断级别")),
                              footer: AnyView(Text( """
                              可选参数值:
-                             * passive：仅添加到列表，不会亮屏提醒
-                             * active： 默认值，系统会立即亮屏显示通知。
-                             * timeSensitive:  时效性通知,专注模式下可显示通知。
+                             - passive：仅添加到列表，不会亮屏提醒
+                             - active： 默认值，系统会立即亮屏显示通知。
+                             - timeSensitive:  时效性通知,专注模式下可显示通知。
+                             - critical: ‼️重要提醒，静音或专注模式可正常提醒
+                             * 参数可使用 0-10代替，具体查看文档
                              """)),
                              title: AnyView(Text( "通知类型")),
-                             params: "\(String(localized:  "时效性通知"))?level=timeSensitive",
+                             params: "\(String(localized:  "重要提醒通知,70%音量"))?level=critical&volume=7",
                              index: 6),
             
-            
-            
-           
             
             PushExampleModel(header: AnyView(Text("URLScheme或者网址")),
                              footer: AnyView(Text( "点击跳转app")),

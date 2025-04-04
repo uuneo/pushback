@@ -24,8 +24,6 @@ class LevelHandler: NotificationContentHandler {
 	func getInterruptionLevel(from levelNumber: Int) -> UNNotificationInterruptionLevel {
 		// 根据数字值返回对应的中断级别
 		switch levelNumber {
-			case 0:
-				return .passive
 			case 1:
 				return .active
 			case 2:

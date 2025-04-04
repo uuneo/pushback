@@ -102,7 +102,7 @@ extension Message{
 
 		Message(value: ["group":  "App","title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]),
         
-        Message(value: ["group":  "Markdown", "title":String(localized: "示例") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"), "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0])
+        Message(value: ["group":  "Markdown", "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0])
         
 	]
     

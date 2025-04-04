@@ -133,7 +133,7 @@ final class openChatManager: ObservableObject {
     }
     
     
-    func chatsStream(text:String, account:AssistantAccount? = nil,onResult: @escaping (Result<ChatStreamResult, Error>) -> Void, completion: ((Error?) -> Void)?)  {
+    func chatsStream(text:String, account:AssistantAccount? = nil,onResult: @escaping @Sendable (Result<ChatStreamResult, Error>) -> Void, completion: (@Sendable (Error?) -> Void)?)  {
         guard let openchat = self.getReady(), let query = self.getHistoryParams(text: text,messageId: self.messageId) else {
             completion?(chatError.noConfig)
             return

@@ -2193,34 +2193,18 @@
         }
       }
     },
-    "可选参数值:\n* passive：仅添加到列表，不会亮屏提醒\n* active： 默认值，系统会立即亮屏显示通知。\n* timeSensitive:  时效性通知,专注模式下可显示通知。" : {
+    "可选参数值:\n- passive：仅添加到列表，不会亮屏提醒\n- active： 默认值，系统会立即亮屏显示通知。\n- timeSensitive:  时效性通知,专注模式下可显示通知。\n- critical: ‼️重要提醒，静音或专注模式可正常提醒\n* 参数可使用 0-10代替，具体查看文档" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optional parameter values:\n* `passive`: Only added to the list, won't light up the screen\n* `active`: Default value, system will immediately light up the screen to show notification\n* `timeSensitive`: Time-sensitive notification, can show notification in Focus Mode"
+            "value" : "Optional parameter values:\n- passive: Only added to the list, won't light up the screen\n-  active: Default value, system will immediately light up the screen to show notification\n- timeSensitive: Time-sensitive notification, can show notification in Focus Mode\n- critical: ‼️Important – works in silent/focus mode  \n* Params: use 0–10, see docs"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opsiyonel parametre değerleri:\n* `passive`: Sadece listeye eklenir, ekranı aydınlatmaz\n* `active`: Varsayılan değer, sistem bildirimi göstermek için hemen ekranı aydınlatır\n* `timeSensitive`: Zaman duyarlı bildirim, Odak Modu'nda bildirim gösterebilir"
-          }
-        }
-      }
-    },
-    "可选参数值: 0～10 代表音量0～100%" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Optional parameter values: `0～10` represents volume `0～100%`"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opsiyonel parametre değerleri: `0～10` ses seviyesini `0～100%` temsil eder"
+            "value" : "Opsiyonel parametre değerleri:\n- passive: Sadece listeye eklenir, ekranı aydınlatmaz\n- active: Varsayılan değer, sistem bildirimi göstermek için hemen ekranı aydınlatır\n- timeSensitive: Zaman duyarlı bildirim, Odak Modu'nda bildirim gösterebilir\n- critical: ‼️Önemli – sessiz/odak modunda çalışır  \n* Parametreler: 0–10 kullanın, belgeleri inceleyin"
           }
         }
       }
@@ -3550,22 +3534,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sohbet yok"
-          }
-        }
-      }
-    },
-    "时效性通知" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Time-sensitive notification"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zamanında Bildirim"
           }
         }
       }
@@ -5781,22 +5749,6 @@
         }
       }
     },
-    "重要提醒" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Critical alarm"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Critical alarm"
-          }
-        }
-      }
-    },
     "重要提醒通知,70%音量" : {
       "localizations" : {
         "en" : {
@@ -5953,22 +5905,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "​Grubu 1 saatliğine sessize al​"
-          }
-        }
-      }
-    },
-    "静音或专注模式可正常提醒" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Silent or Focus Mode can notify normally."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sessiz veya Odak Modu normal şekilde bildirim yapabilir."
           }
         }
       }

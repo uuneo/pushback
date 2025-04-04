@@ -13,30 +13,39 @@ class CallHandler: NotificationContentHandler {
     /// 铃声文件夹，扩展访问不到主APP中的铃声，需要先共享铃声文件
     let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory()
     
+    
     func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
+        // 如果不是来电通知，直接返回
         guard let call = bestAttemptContent.userInfo["call"] as? String, call == "1" else {
             return bestAttemptContent
         }
-        // 延长铃声到30s
+
+        // 提取铃声名与类型
+        let defaultSoundName = "call"
+        let defaultSoundType = "caf"
         
-        let sound = (bestAttemptContent.soundName)?.split(separator: ".")
-        let soundName: String
-        let soundType: String
-        if sound?.count == 2, let first = sound?.first, let last = sound?.last, last == "caf" {
-            soundName = String(first)
-            soundType = String(last)
-        } else {
-            soundName = "call"
-            soundType = "caf"
-        }
-        
-        if let longSoundUrl = getLongSound(soundName: soundName, soundType: soundType) {
-            if bestAttemptContent.isCritical {
-                LevelHandler.setCriticalSound(content: bestAttemptContent, soundName: longSoundUrl.lastPathComponent)
+        let soundComponents = bestAttemptContent.soundName?.split(separator: ".").map(String.init)
+        let (soundName, soundType): (String, String) = {
+            if let components = soundComponents, components.count == 2, components[1] == defaultSoundType {
+                return (components[0], components[1])
             } else {
-                bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: longSoundUrl.lastPathComponent))
+                return (defaultSoundName, defaultSoundType)
             }
+        }()
+        
+        // 尝试获取延长铃声 URL
+        guard let longSoundUrl = getLongSound(soundName: soundName, soundType: soundType) else {
+            return bestAttemptContent
         }
+        
+        // 设置铃声
+        let soundFile = UNNotificationSoundName(rawValue: longSoundUrl.lastPathComponent)
+        if bestAttemptContent.isCritical {
+            LevelHandler.setCriticalSound(content: bestAttemptContent, soundName: soundFile.rawValue)
+        } else {
+            bestAttemptContent.sound = UNNotificationSound(named: soundFile)
+        }
+
         return bestAttemptContent
     }
 }

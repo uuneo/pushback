@@ -28,9 +28,8 @@ extension NotificationContentHandler {
 
 
 
-// enum 遵循CaseIterable 所以所有的 handler， 按顺序从上往下对推送进行处理
+// enum 遵循 CaseIterable 所以所有的 handler， 按顺序从上往下对推送进行处理
 // ciphertext 需要放在最前面，有可能所有的推送数据都在密文里
-// call 需要放在最后面，因为这个 handler 不会主动退出， 会一直等到 ServiceExtension 被终止
 enum NotificationContentHandlerItem: CaseIterable {
 
 	case ciphertext

@@ -30,7 +30,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
 		let image = userInfo[Params.image.name] as? String
 		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
         let messageId = userInfo[Params.messageId.name] as? String
-		let level = bestAttemptContent.getLevel()
+        let level =  bestAttemptContent.getLevel()
 
 		var userInfoString:String{
 
@@ -68,7 +68,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
 				message.url = url
 				message.group = group
 				message.icon = icon
-				message.level = level
+				message.level = Int(level)
 				message.image = image
 				message.createDate = Date()
 				message.ttl = saveDays

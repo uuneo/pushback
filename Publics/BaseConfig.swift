@@ -40,7 +40,7 @@ class BaseConfig {
 
 	static let userAgreement = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
 	static let musicUrl = "https://convertio.co/mp3-caf/"
-	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"telegraph\"}"
+	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"typewriter\"}"
 
     static let imageIcloudKey = "uploadImageForcloud.png"
 	

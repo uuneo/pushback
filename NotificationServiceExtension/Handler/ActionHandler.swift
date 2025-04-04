@@ -23,10 +23,13 @@ class ActionHandler: NotificationContentHandler{
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		
 		
+        // MARK: - 处理 Ringtone
+        if bestAttemptContent.soundName == nil && bestAttemptContent.getLevel() < 3{
+            bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
+        }
 		
-		let userInfo = bestAttemptContent.userInfo
 		
-        // 如果是 markdownbody 去掉符号显示
+        // MARK: - markdownbody body 显示
         if bestAttemptContent.categoryIdentifier == Identifiers.markdownCategory{
             bestAttemptContent.body =  String(localized: "下拉查看详情...")
         }
@@ -41,15 +44,10 @@ class ActionHandler: NotificationContentHandler{
 			
 		case .custom:
 			// MARK: 通知角标 .custom
-				if let badgeStr = userInfo[Params.badge.name] as? String, let badge = Int(badgeStr) {
+				if let badgeStr = bestAttemptContent.userInfo[Params.badge.name] as? String, let badge = Int(badgeStr) {
 				bestAttemptContent.badge = NSNumber(value: badge)
 			}
 		}
-
-        // MARK: - 处理 Ringtone
-        if bestAttemptContent.soundName == "" && bestAttemptContent.getLevel() < 3{
-            bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound].name).caf" ) )
-        }
 
 		// MARK: - 删除过期消息
 		if let realm = realm{
@@ -61,8 +59,7 @@ class ActionHandler: NotificationContentHandler{
 			}
 		}
         
-        // 静音分组
-        
+        // MARK: - 静音分组
         for setting in Defaults[.muteSetting] {
             if setting.value < Date() {
                 Defaults[.muteSetting].removeValue(forKey: setting.key)

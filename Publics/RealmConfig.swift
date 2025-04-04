@@ -12,7 +12,7 @@ let kRealmDefaultConfiguration = {
 	let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
 
 #if DEBUG
-	Logger.shared.level = .debug
+	Logger.shared.level = .info
 #endif
     return Realm.Configuration(
 		fileURL: groupUrl?.appendingPathComponent(BaseConfig.realmName),
@@ -24,3 +24,4 @@ let kRealmDefaultConfiguration = {
 	)
 }()
 
+ 

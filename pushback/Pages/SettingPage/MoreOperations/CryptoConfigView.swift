@@ -12,7 +12,7 @@ struct CryptoConfigView: View {
     @Default(.cryptoConfig) var cryptoConfig
     @Default(.servers) var servers
     
-    
+    @Environment(\.editMode) private  var editMode
     @FocusState private var keyFocus
     @FocusState private var ivFocus
     
@@ -39,6 +39,8 @@ struct CryptoConfigView: View {
         }
     }
     
+    
+    @State private var showTextAnimation:Bool = false
     
     var body: some View {
         
@@ -103,42 +105,6 @@ struct CryptoConfigView: View {
             
             Section {
                 
-                HStack{
-                    Label {
-                        Text("Key:")
-                    } icon: {
-                        Image(systemName: "key")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( Color.primary, .tint)
-                    }
-                    Spacer()
-                    
-                    
-                    
-                    TextEditor(text: $cryptoConfig.key)
-                        .focused($keyFocus)
-                        .frame(minHeight: 50)
-                        .overlay{
-                            if cryptoConfig.key.isEmpty{
-                                Text(String(format: String(localized: "输入%d位数的key"), expectKeyLength))
-                                
-                            }
-                        }
-                        .onDisappear{
-                            let _ = verifyKey()
-                        }
-                        .foregroundStyle(.gray)
-                        .lineLimit(2)
-                    
-                }
-                
-                
-                
-            }
-            
-            
-            Section {
-                
                 
                 HStack{
                     Label {
@@ -150,26 +116,82 @@ struct CryptoConfigView: View {
                         
                     }
                     Spacer()
-                    
-                    TextEditor(text: $cryptoConfig.iv)
-                        .focused($ivFocus)
-                        .overlay{
-                            if cryptoConfig.iv.isEmpty{
-                                Text( "请输入16位Iv")
-                                
+                    if editMode?.wrappedValue == .active{
+                        TextEditor(text: $cryptoConfig.iv)
+                            .focused($ivFocus)
+                            .overlay{
+                                if cryptoConfig.iv.isEmpty{
+                                    Text( "请输入16位Iv")
+                                    
+                                }
                             }
-                        }
-                        .onDisappear{
-                            let _ = verifyIv()
-                        }
-                        .foregroundStyle(.gray)
-                        .lineLimit(2)
+                            .onDisappear{
+                                let _ = verifyIv()
+                            }
+                            .foregroundStyle(.gray)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                    }else {
+                        HackerTextView(text: cryptoConfig.iv, trigger:showTextAnimation)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1) // 确保文本在一行内
+                    }
                     
+                    
+                }
+                
+                HStack{
+                    Label {
+                        Text("Key:")
+                    } icon: {
+                        Image(systemName: "key")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle( Color.primary, .tint)
+                    }
+                    Spacer()
+                    
+                    
+                    if editMode?.wrappedValue == .active{
+                        TextEditor(text: $cryptoConfig.key)
+                            .focused($keyFocus)
+                            .frame(minHeight: 50)
+                            .overlay{
+                                if cryptoConfig.key.isEmpty{
+                                    Text(String(format: String(localized: "输入%d位数的key"), expectKeyLength))
+                                    
+                                }
+                            }
+                            .onDisappear{
+                                let _ = verifyKey()
+                            }
+                            .foregroundStyle(.gray)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1) // 确保文本在一行内
+                    }else {
+                        HackerTextView(text: cryptoConfig.key, trigger:showTextAnimation)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1) // 确保文本在一行内
+                    }
                     
                     
                 }
                 
                 
+               
+                
+                
+                
+            }header:{
+                Button {
+                    cryptoConfig.iv = CryptoModel.generateRandomString()
+                    cryptoConfig.key = CryptoModel.generateRandomString(cryptoConfig.algorithm.rawValue)
+                    self.showTextAnimation.toggle()
+                } label: {
+                    Label("随机生成密钥", systemImage: "dice")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.green, Color.primary)
+                    
+                }
             }
             
             
@@ -188,6 +210,11 @@ struct CryptoConfigView: View {
                 }.buttonStyle(BorderedProminentButtonStyle())
                 Spacer()
             } .listRowBackground(Color.clear)
+            
+            
+            
+            
+            
         }
         .navigationTitle( "算法配置")
         .toolbar{
@@ -206,21 +233,11 @@ struct CryptoConfigView: View {
                 }
             }
             
-            ToolbarItem {
-                
-                Button {
-                    cryptoConfig.iv = CryptoModel.generateRandomString()
-                    cryptoConfig.key = CryptoModel.generateRandomString(cryptoConfig.algorithm.rawValue)
-                } label: {
-                    Label("随机生成密钥", systemImage: "dice")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .padding(.horizontal)
-                    
-                }
-                
-                
+            
+            ToolbarItem{
+                EditButton()
             }
+            
         }
         
     }

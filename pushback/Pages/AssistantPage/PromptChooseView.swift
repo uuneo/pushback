@@ -134,7 +134,7 @@ struct PromptChooseView: View {
 
     // MARK: - Methods
     private func handlePromptTap(_ prompt: ChatPrompt) {
-        RealmManager.shared.realm { realm in
+        RealmManager.realm { realm in
             if let data = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
                 data.isSelected = true
             }
@@ -178,7 +178,7 @@ private struct PromptSection: View {
             Button("删除", role: .destructive) {
                 if let prompt = promptToDelete{
                 
-                    RealmManager.shared.realm { realm in
+                    RealmManager.realm { realm in
                         if let prompt1 = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
                             realm.delete(prompt1)
                         }
@@ -325,7 +325,7 @@ struct AddPromptView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("保存") {
-                        RealmManager.shared.realm { realm in
+                        RealmManager.realm { realm in
                             let chatprompt = ChatPrompt()
                             chatprompt.title = title
                             chatprompt.content = content

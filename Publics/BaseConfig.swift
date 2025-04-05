@@ -43,9 +43,12 @@ class BaseConfig {
 	static let testData = "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"typewriter\"}"
 
     static let imageIcloudKey = "uploadImageForcloud.png"
+    
+    
+  
 	
 	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
-	static func getSoundsGroupDirectory() -> URL? {
+	class func getSoundsGroupDirectory() -> URL? {
 		let manager = FileManager.default
 		if let directoryUrl = manager.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.sounds) {
 			if !manager.fileExists(atPath: directoryUrl.path) {
@@ -55,18 +58,19 @@ class BaseConfig {
 		}
 		return nil
 	}
-	
-    enum ImageMode {
+    
+    enum ImageMode: String {
         case icon
         case image
+        var name:String{  self.rawValue }
     }
-	
+   
 	// Get the directory to store images in the App Group
     class func getImagesDirectory(mode:ImageMode = .icon) -> URL? {
 		guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName) else {
 			return nil
 		}
-        let imagesDirectory = containerURL.appendingPathComponent(mode == .icon ? "Icons" : "Images")
+        let imagesDirectory = containerURL.appendingPathComponent(mode.name)
 		
 		// If the directory doesn't exist, create it
 		if !FileManager.default.fileExists(atPath: imagesDirectory.path) {

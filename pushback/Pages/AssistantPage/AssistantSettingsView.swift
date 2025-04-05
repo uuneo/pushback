@@ -211,7 +211,7 @@ struct AssistantSettingsView: View {
             .alert("确认删除", isPresented: $showDeleteOk) {
                 Button("取消", role: .cancel) { }
                 Button("删除", role: .destructive) {
-                    RealmManager.shared.realm { realm in
+                    RealmManager.realm { realm in
                         realm.delete(realm.objects(ChatMessage.self))
                         realm.delete(realm.objects(ChatGroup.self))
                     }

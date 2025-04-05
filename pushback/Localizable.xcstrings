@@ -1826,6 +1826,7 @@
       }
     },
     "删除成功" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

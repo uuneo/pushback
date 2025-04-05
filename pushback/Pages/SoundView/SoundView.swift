@@ -48,8 +48,7 @@ struct SoundView: View {
                         self.uploadLoading = true
                         switch result{
                         case .success(let file):
-                            
-                            
+
                             Task{
                                 
                                 defer {

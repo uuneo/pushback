@@ -1,15 +1,15 @@
 **[English](README.EN.md)** | 中文
 
+> [!IMPORTANT]
+>
+>- 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
+> 
+> - Markdown 样式（计划更新 - 已完成）
+> - 铃声自动转换 （计划更新 - 进行中）
+
 <p align="center">
 <img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
 </p>
-
-
-> [!IMPORTANT]
->
-> - 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
-> - 兼容Bark的所有使用方法
->
 
 # Pushback 反推
 ![IOS](https://img.shields.io/badge/IPhone-16+-ff69b4.svg) ![IOS](https://img.shields.io/badge/IPad-16+-ff69b4.svg) ![Markdown](https://img.shields.io/badge/gcm-markdown-green.svg)

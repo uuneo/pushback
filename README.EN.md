@@ -1,17 +1,17 @@
 English | **[中文](README.md)**
 
 
+> [!IMPORTANT]
+>
+>- Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
+>
+> - Markdown Styles（Planned Updates - Completed）
+> - Automatic Ringtone Conversion （Planned Updates - Under way）
+
+
 <p align="center">
 <img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
 </p>
-
-> [!IMPORTANT]
->
-> - Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
-> - Compatible with all usage methods of Bark
->
-
-
 
 
 # Pushback
@@ -74,9 +74,6 @@ https://push.uuneo.com/yourkey/icon?icon=https://pushback.uuneo.com/_media/avata
 // Specify the push message image, Pictures are automatically saved to albums
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
 ```
-| manually save | automatically save |
-|-|-|
-|<img src="/docs/_media/shoudong.gif" width="350">|<img src="/docs/_media/auto.gif" width="350">|
 
 * video
 ```

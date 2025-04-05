@@ -4,10 +4,8 @@
 >
 >- 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
 > 
-> - 计划更新
-> - Markdown 样式（已完成）
-> - 铃声自动转换
->
+> - Markdown 样式（计划更新 - 已完成）
+> - 铃声自动转换 （计划更新 - 进行中）
 
 <p align="center">
 <img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>

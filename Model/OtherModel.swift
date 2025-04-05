@@ -30,12 +30,6 @@ struct DeviceInfo: Codable {
 	}
 }
 
-struct recoverKeyInfo: Codable{
-    var oldKey:String
-    var deviceToken:String
-}
-
-
 enum requestHeader :String {
 	case https = "https://"
 	case http = "http://"
@@ -271,37 +265,16 @@ enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 	
 	var title:String{
 		switch self {
-		case .no:
-			String(localized: "不保存")
-		case .oneDay:
-			String(localized:"1天")
-		case .weekDay:
-			String(localized:"1周")
-		case .month:
-			String(localized:"1月")
-		case .forever:
-			String(localized: "长期")
+		case .no: String(localized: "不保存")
+		case .oneDay: String(localized:"1天")
+		case .weekDay: String(localized:"1周")
+		case .month: String(localized:"1月")
+		case .forever: String(localized: "长期")
 		}
 	}
 	
 	
 }
-
-
-
-//// MARK: - SoundType
-//
-//struct SoundModel: Codable, Defaults.Serializable{
-//	enum sType: Codable{
-//		case local
-//		case custom
-//		case cloud
-//	}
-//	var type:sType
-//	var name:String
-//	static let def = SoundModel(type: .local, name: "xiu")
-//}
-
 
 
 
@@ -311,10 +284,8 @@ enum DefaultBrowserModel: String, CaseIterable, Defaults.Serializable {
 
 	var title:String{
 		switch self {
-			case .safari:
-				"Safari"
-			case .app:
-				String(localized: "内部")
+			case .safari: "Safari"
+			case .app: String(localized: "内部")
 		}
 	}
 
@@ -329,14 +300,10 @@ enum CacheSizeLimit: Int, CaseIterable, Defaults.Serializable {
 
 	var title:String{
 		switch self {
-			case .five:
-				"5GB"
-			case .twenty:
-				"20GB"
-			case .fifty:
-				"50GB"
-			case .infinity:
-				"∞"
+			case .five: "5GB"
+			case .twenty: "20GB"
+			case .fifty: "50GB"
+			case .infinity: "∞"
 		}
 	}
 
@@ -344,15 +311,6 @@ enum CacheSizeLimit: Int, CaseIterable, Defaults.Serializable {
 		Int64(rawValue << 30)
 	}
 }
-
-
-//
-//
-//struct DebugLogs:Defaults.Serializable,Codable{
-//	var id:String = UUID().uuidString
-//	var createDate:Date = .now
-//	var log:String
-//}
 
 
 struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
@@ -373,9 +331,6 @@ extension AssistantAccount{
         host = host.trimmingCharacters(in: .whitespacesAndNewlines)
         host = host.removeHTTPPrefix()
         basePath = basePath.trimmingCharacters(in: .whitespacesAndNewlines)
-        if basePath.count == 0{
-            basePath = "/v1"
-        }
         key = key.trimmingCharacters(in: .whitespacesAndNewlines)
         model = model.trimmingCharacters(in: .whitespacesAndNewlines)
     }

@@ -17,15 +17,15 @@ struct SoundItemView: View {
 
 	var audio:URL
 	var fileName:String?
-	var ringType:SoundModel.sType = .local
+	
     @State var duration:Double = 0.0
 	@State private var title:String?
 	var name:String{
-		ringType == .cloud ? (fileName ?? "") : audio.deletingPathExtension().lastPathComponent
+		audio.deletingPathExtension().lastPathComponent
 	}
     
     var selectSound:Bool{
-		sound.name == audio.deletingPathExtension().lastPathComponent && ringType == sound.type
+		sound == audio.deletingPathExtension().lastPathComponent
     }
 	
 
@@ -58,31 +58,18 @@ struct SoundItemView: View {
             
             HStack{
                 Spacer()
-				if ringType == .cloud{
-					Image(systemName: "square.and.arrow.down.on.square")
-						.symbolRenderingMode(.palette)
-						.foregroundStyle( .tint, Color.primary)
-						.onTapGesture {
-							if let fileName{
-								audioManager.saveSound(url: audio,name: "\(fileName).caf")
-							}
-							
-						}
-				}else{
-					if duration <= 30{
-						Image(systemName: "doc.on.doc")
-							.symbolRenderingMode(.palette)
-							.foregroundStyle( .tint, Color.primary)
-							.onTapGesture {
-								UIPasteboard.general.string = self.name
-								Toast.copy(title: String(localized:  "复制成功"))
-							}
-					}else{
-						Text("长度不能超过30秒")
-							.foregroundStyle(.red)
-					}
-					
-				}
+                if duration <= 30{
+                    Image(systemName: "doc.on.doc")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle( .tint, Color.primary)
+                        .onTapGesture {
+                            UIPasteboard.general.string = self.name
+                            Toast.copy(title: String(localized:  "复制成功"))
+                        }
+                }else{
+                    Text("长度不能超过30秒")
+                        .foregroundStyle(.red)
+                }
                
             }
             
@@ -92,22 +79,12 @@ struct SoundItemView: View {
             
         }
         .swipeActions(edge: .leading) {
-			if ringType == .cloud{
-				Image(systemName: "square.and.arrow.down.on.square")
-					.symbolRenderingMode(.palette)
-					.foregroundStyle( .tint, Color.primary)
-					.onTapGesture {
-						audioManager.saveSound(url: audio,name: fileName)
-					}
-			}else{
-				Button {
-					sound = .init(type: ringType, name: audio.deletingPathExtension().lastPathComponent)
-					audioManager.playAudio(url: audio)
-				} label: {
-					Text("设置")
-				}.tint(.green)
-			}
-          
+            Button {
+                sound = audio.deletingPathExtension().lastPathComponent
+                audioManager.playAudio(url: audio)
+            } label: {
+                Text("设置")
+            }.tint(.green)
         }
         .task {
             do {

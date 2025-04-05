@@ -101,10 +101,8 @@ struct SoundView: View {
             if audioManager.customSounds.count > 0{
                 Section{
                     
-                    
-                    
                     ForEach(audioManager.customSounds, id: \.self) { url in
-                        SoundItemView(audio: url, ringType: .custom)
+                        SoundItemView(audio: url)
                     }.onDelete { indexSet in
                         for index in indexSet{
                             audioManager.deleteSound(url: audioManager.customSounds[index])
@@ -118,7 +116,7 @@ struct SoundView: View {
             
             Section{
                 ForEach(audioManager.defaultSounds, id: \.self) { url in
-                    SoundItemView(audio: url, ringType: .local)
+                    SoundItemView(audio: url)
                 }
             }header: {
                 Text(  "自带铃声")

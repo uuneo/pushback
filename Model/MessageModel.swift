@@ -67,7 +67,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 
     
     var allString: String {
-        return [ title, subtitle, body, group, url, image ]
+        return [ title, subtitle, body, from, group, url, image,  icon ]
             .compactMap { $0 }  // 过滤掉 nil 值
             .filter { !$0.isEmpty }  // 过滤掉空字符串
             .joined(separator: ";") + ";"  // 使用分号连接并添加结尾分号

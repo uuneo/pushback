@@ -110,7 +110,7 @@ struct MessageDetailPage: View {
         .navigationBarHidden(navHi)
         .overlay{ showSelectMessage() }
         .overlay{ showSelectUserInfo() }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
         .toolbar{
             ToolbarItem {
                 Button{

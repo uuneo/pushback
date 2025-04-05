@@ -104,7 +104,7 @@ struct SingleMessagesView: View {
         }
         .overlay{ showSelectMessage() }
         .overlay{ showSelectUserInfo() }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
         .task {
             RealmManager.realm { proxy in
                 let datas = proxy.objects(Message.self).filter({ !$0.read})

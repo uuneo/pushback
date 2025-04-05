@@ -95,7 +95,7 @@ struct GroupMessagesView: View {
         }
         .animation(.snappy(), value: messages.count)
         .hideNavBarOnSwipe(false)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
         
         
     }

@@ -8,12 +8,15 @@
 import SwiftUI
 import Defaults
 
+
+
+
 struct ServerCardView:View {
 	@StateObject private var manager = PushbackManager.shared
 	var item: PushServerModel
 	var isCloud:Bool = false
 	
-    var complete:() -> Void
+    var complete:(Int) -> Void
 	
 	var body: some View {
 		HStack(alignment: .center){
@@ -71,17 +74,20 @@ struct ServerCardView:View {
                     .symbolRenderingMode(.palette)
                     .foregroundStyle( .tint, Color.primary)
                     .symbolEffect(.bounce,delay: 1)
-                    .pressEvents(onRelease:{result in
-                        complete()
-                    })
+                    .onTapGesture {
+                        complete(0)
+                    }
             }else {
                 Image(systemName: "doc.on.doc")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle( .tint, Color.primary)
                     .symbolEffect(.bounce,delay: 1)
-                    .pressEvents(onRelease:{result in
-                       complete()
-                    })
+                    .onTapGesture {
+                        complete(1)
+                    }
+                    .onLongPressGesture {
+                        complete(2)
+                    }
             }
 			
            

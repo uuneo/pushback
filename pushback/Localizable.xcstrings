@@ -1,23 +1,6 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    " 删除成功" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Successfully deleted"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Silme başarılı"
-          }
-        }
-      }
-    },
     "‼️参数可单独使用\n* /内容 或者 /标题/内容\n* group: 分组名，不传显示 `默认`\n* badge： 自定义角标 可选值 -1...\n* ttl: 消息保存时间 可选值 0..." : {
       "localizations" : {
         "en" : {
@@ -2495,6 +2478,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kopyala"
+          }
+        }
+      }
+    },
+    "复制 KEY 成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Key copied successfully."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar başarıyla kopyalandı."
+          }
+        }
+      }
+    },
+    "复制 URL 和 KEY 成功" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL and Key copied successfully."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL ve Anahtar başarıyla kopyalandı."
           }
         }
       }

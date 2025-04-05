@@ -74,9 +74,6 @@ https://push.uuneo.com/yourkey/icon?icon=https://pushback.uuneo.com/_media/avata
 // Specify the push message image, Pictures are automatically saved to albums
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
 ```
-| manually save | automatically save |
-|-|-|
-|<img src="/docs/_media/shoudong.gif" width="350">|<img src="/docs/_media/auto.gif" width="350">|
 
 * video
 ```

@@ -60,7 +60,18 @@ struct ContentView: View {
                     .destructive(
                         Text("删除"),
                         action: {
-                            RealmManager.shared.read(activeName == "alldelnotread")
+                            
+                            
+                            if activeName == "alldelnotread"{
+                                RealmManager.realm { proxy in
+                                    let datas = proxy.objects(Message.self).filter({ !$0.read})
+                                    for data in datas{
+                                        data.read = true
+                                    }
+                                }
+                            }
+                           
+                            
                         }
                     ), secondaryButton: .cancel())
         }
@@ -183,7 +194,7 @@ struct ContentView: View {
                 AssistantPageView()
                     .onAppear{
                         chatManager.messageId = id
-                        RealmManager.shared.realm { realm in
+                        RealmManager.realm { realm in
                             let groups = realm.objects(ChatGroup.self)
                             
                             for group in groups{
@@ -300,7 +311,12 @@ struct ContentView: View {
                 manager.page = .message
                 switch name{
                 case "allread":
-                    RealmManager.shared.read()
+                    RealmManager.realm { proxy in
+                        let datas = proxy.objects(Message.self).filter({ !$0.read})
+                        for data in datas{
+                            data.read = true
+                        }
+                    }
                     Toast.success(title: String(localized: "操作成功"))
                 case "alldelread","alldelnotread":
                     self.activeName = name
@@ -321,9 +337,13 @@ struct ContentView: View {
             break
         }
         
-        RealmManager.shared.deleteExpired()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        RealmManager.ChangeBadge()
+        
+        RealmManager.realm { proxy in
+            proxy.delete(proxy.objects(Message.self).filter({$0.isExpired()}))
+        }
+        
+       
     }
     
 }

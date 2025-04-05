@@ -54,7 +54,7 @@ struct SideBarMenuView: View {
             }content: {
                 if let chatgroup = selectdChatGroup{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        RealmManager.shared.realm { realm in
+                        RealmManager.realm { realm in
                             if let group = chatgroup.thaw(){
                                 group.name = text
                             }
@@ -91,7 +91,7 @@ struct SideBarMenuView: View {
                     
                     HStack{
                         Button{
-                            RealmManager.shared.realm { realm in
+                            RealmManager.realm { realm in
                                 if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
                                     group.current = true
                                 }
@@ -136,7 +136,7 @@ struct SideBarMenuView: View {
                             Text("重命名")
                         }
                         Button(role: .destructive){
-                            RealmManager.shared.realm { realm in
+                            RealmManager.realm { realm in
                                 if let group = realm.objects(ChatGroup.self).first(where: {$0.id == chatgroup.id}){
                                     
                                     let msgs = realm.objects(ChatMessage.self).filter({$0.chat == group.id})
@@ -202,7 +202,7 @@ struct SideBarMenuView: View {
             HStack{
                 Spacer()
                 Button{
-                    RealmManager.shared.realm { realm in
+                    RealmManager.realm { realm in
                         let datas = realm.objects(ChatGroup.self)
                         for data in datas {
                             data.current = false

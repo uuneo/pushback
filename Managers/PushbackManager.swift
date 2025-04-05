@@ -191,7 +191,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 
 	/// add server
-    func appendServer(server:PushServerModel, completion: @escaping (Bool,String)-> Void ){
+   func appendServer(server:PushServerModel, completion: @escaping (Bool,String)-> Void ){
 		Task.detached(priority: .background) {
             let isServer = Defaults[.servers].contains(where: {$0.key == server.key})
 			let (_, success, msg) = await self.health(url: server.url)
@@ -218,7 +218,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	}
 
 	/// open app settings
-	class func openSetting(){
+	static func openSetting(){
         PushbackManager.openUrl(url: URL(string: UIApplication.openSettingsURLString)!)
 	}
 	/// Open a URL or handle a fallback if the URL cannot be opened

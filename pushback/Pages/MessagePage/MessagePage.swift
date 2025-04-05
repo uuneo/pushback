@@ -157,11 +157,19 @@ struct MessagePage: View {
     func deleteMessage(_ mode: MessageAction){
         switch mode {
         case .markRead:
-            RealmManager.shared.read()
+            RealmManager.realm { proxy in
+                let datas = proxy.objects(Message.self).filter({ !$0.read})
+                for data in datas{
+                    data.read = true
+                }
+            }
+            
         case .cancel:
             break
         default:
-            RealmManager.shared.delete(mode.date)
+            RealmManager.realm { proxy in
+                proxy.delete(proxy.objects(Message.self).where({ $0.createDate < mode.date }))
+            }
         }
         
         Toast.success(title: String(localized: "操作成功"))

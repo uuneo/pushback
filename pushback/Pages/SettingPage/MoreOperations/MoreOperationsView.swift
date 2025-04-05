@@ -80,7 +80,12 @@ struct MoreOperationsView: View {
                                 .symbolEffect(.pulse, delay: 3)
                         }
                     }.onChange(of: badgeMode) { newValue in
-                        RealmManager.ChangeBadge()
+                        if Defaults[.badgeMode] == .auto{
+                            RealmManager.realm { proxy in
+                                let unRead = proxy.objects(Message.self).filter({ !$0.read }).count
+                                UNUserNotificationCenter.current().setBadgeCount( unRead )
+                            }
+                        }
                     }
 
                 }
@@ -405,7 +410,7 @@ struct MoreOperationsView: View {
                     
                     guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
                     
-                    RealmManager.shared.realm { proxy in
+                    RealmManager.realm { proxy in
                         for message in arr {
                             
                             guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }

@@ -11,20 +11,18 @@ import Kingfisher
 
 class ImageManager {
 
-
-    class func storeImage(cache: ImageCache, data: Data, key: String, expiration: StorageExpiration = .never) async {
-        return await withCheckedContinuation { continuation in
-            cache.storeToDisk(data, forKey: key, expiration: expiration) { _ in
-                continuation.resume()
-            }
+    
+    class func storeImage(cache: ImageCache? = nil, mode: BaseConfig.ImageMode = .icon,data: Data, key: String, expiration: StorageExpiration = .never) async {
+        
+        let cacheTem:ImageCache
+        
+        if let cache = cache{  cacheTem = cache } else {
+            guard let cache = defaultCache(mode: mode) else { return }
+            cacheTem = cache
         }
-    }
-    
-    
-    class func storeImage(mode: BaseConfig.ImageMode = .icon,data: Data, key: String, expiration: StorageExpiration = .never) async {
-        guard let cache = ImageManager.defaultCache(mode: mode) else { return}
+        
         return await withCheckedContinuation { continuation in
-            cache.storeToDisk(data, forKey: key, expiration: expiration) { _ in
+            cacheTem.storeToDisk(data, forKey: key, expiration: expiration) { _ in
                 continuation.resume()
             }
         }
@@ -34,9 +32,8 @@ class ImageManager {
     
 
     class func downloadImage(_ imageUrl: String, mode: BaseConfig.ImageMode = .icon, expiration: StorageExpiration = .never) async -> String? {
-
-        guard let cache = ImageManager.defaultCache(mode: mode) else { return nil }
         
+        guard let cache = defaultCache(mode: mode) else { return nil}
         
         // 如果是云图标直接判断返回
         if cache.diskStorage.isCached(forKey: imageUrl) {  return cache.cachePath(forKey: imageUrl) }
@@ -74,23 +71,6 @@ class ImageManager {
 
 		cache.diskStorage.config.sizeLimit = UInt(Defaults[.cacheSize].size)
 		return cache
-	}
-
-	class func deleteImage(_ url:String, completion: ((Bool)-> Void)? = nil){
-		guard let cache  = ImageManager.defaultCache() else {
-			completion?( false)
-			return
-		}
-
-		do{
-			try cache.diskStorage.remove(forKey: url)
-			completion?(true)
-		}catch{
-			completion?(false)
-		}
-
-
-		completion?(false)
 	}
 
 }

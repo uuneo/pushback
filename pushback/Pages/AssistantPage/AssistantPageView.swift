@@ -110,7 +110,7 @@ struct AssistantPageView:View {
             }content: {
                 if let chatgroup = chatgroups.first{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        RealmManager.shared.realm { realm in
+                        RealmManager.realm { realm in
                             if let group = chatgroup.thaw(){
                                 group.name = text
                             }
@@ -191,7 +191,7 @@ struct AssistantPageView:View {
                         Button{
                             chatManager.cancellableRequest?.cancelRequest()
                             
-                            RealmManager.shared.realm { realm in
+                            RealmManager.realm { realm in
                                 let groups = realm.objects(ChatGroup.self)
                                 for group in groups{
                                     group.current = false
@@ -365,7 +365,7 @@ struct AssistantPageView:View {
                 
                 DispatchQueue.main.async {
                     let group2 = ChatGroup()
-                    RealmManager.shared.realm { realm in
+                    RealmManager.realm { realm in
                         var group:ChatGroup{
                             guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
                                 group2.current = true

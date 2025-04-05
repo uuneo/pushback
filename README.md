@@ -5,11 +5,15 @@
 </p>
 
 
-> [!IMPORTANT]
+ [!IMPORTANT]
 >
 > - 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
-> - 兼容Bark的所有使用方法
+> 
+> - 计划更新
+> - Markdown 样式（已完成）
+> - 铃声自动转换
 >
+
 
 # Pushback 反推
 ![IOS](https://img.shields.io/badge/IPhone-16+-ff69b4.svg) ![IOS](https://img.shields.io/badge/IPad-16+-ff69b4.svg) ![Markdown](https://img.shields.io/badge/gcm-markdown-green.svg)

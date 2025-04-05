@@ -5,12 +5,14 @@ English | **[中文](README.md)**
 <img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
 </p>
 
+
 > [!IMPORTANT]
 >
 > - Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
-> - Compatible with all usage methods of Bark
+> - Planned Updates
+> - Markdown Styles（Completed）
+> - Automatic Ringtone Conversion
 >
-
 
 
 

@@ -176,7 +176,7 @@ struct SettingsPage: View {
 									.foregroundStyle(.tint, Color.primary)
 							}
 							Spacer()
-							Text(sound.name)
+							Text(sound)
 								.scaleEffect(0.9)
 								.foregroundStyle(.gray)
 						}

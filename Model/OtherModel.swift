@@ -289,18 +289,18 @@ enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
 
 
 
-// MARK: - SoundType
-
-struct SoundModel: Codable, Defaults.Serializable{
-	enum sType: Codable{
-		case local
-		case custom
-		case cloud
-	}
-	var type:sType
-	var name:String
-	static let def = SoundModel(type: .local, name: "xiu")
-}
+//// MARK: - SoundType
+//
+//struct SoundModel: Codable, Defaults.Serializable{
+//	enum sType: Codable{
+//		case local
+//		case custom
+//		case cloud
+//	}
+//	var type:sType
+//	var name:String
+//	static let def = SoundModel(type: .local, name: "xiu")
+//}
 
 
 
@@ -346,13 +346,13 @@ enum CacheSizeLimit: Int, CaseIterable, Defaults.Serializable {
 }
 
 
-
-
-struct DebugLogs:Defaults.Serializable,Codable{
-	var id:String = UUID().uuidString
-	var createDate:Date = .now
-	var log:String
-}
+//
+//
+//struct DebugLogs:Defaults.Serializable,Codable{
+//	var id:String = UUID().uuidString
+//	var createDate:Date = .now
+//	var log:String
+//}
 
 
 struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{

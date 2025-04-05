@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  upush
+
+  Created by uuneo 2024/10/11.
+  
+*/
+
+
+CFBundleDisplayName = "反推";
+NSPhotoLibraryAddUsageDescription = "このアプリは写真を保存するためにあなたの写真ライブラリにアクセスする必要があります";
+NSCameraUsageDescription = "QRコードを認識するためにカメラを使用する必要があります";
+NSPhotoLibraryUsageDescription = "あなたのアルバムにアクセスする必要があります";

@@ -1,13 +1,8 @@
 /* 
   InfoPlist.strings
   upush
-
   Created by uuneo 2024/10/11.
-  
 */
-
-
-
 
 CFBundleDisplayName = "反推";
 NSPhotoLibraryAddUsageDescription = "此应用需要访问您的照片库以便保存照片";

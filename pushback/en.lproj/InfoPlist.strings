@@ -1,7 +1,9 @@
 /* 
   InfoPlist.strings
   upush
+
   Created by uuneo 2024/10/11.
+  
 */
 
 CFBundleDisplayName = "pushback";

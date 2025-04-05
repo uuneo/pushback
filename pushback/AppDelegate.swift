@@ -139,7 +139,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         PushbackManager.shared.page = .message
         PushbackManager.shared.messagePath = []
         DispatchQueue.main.async{
-            PushbackManager.shared.selectId = content.userInfo[Params.messageId.name] as? String
+            PushbackManager.shared.selectId = response.notification.request.content.targetContentIdentifier
             PushbackManager.shared.selectGroup = content.threadIdentifier
         }
         
@@ -162,47 +162,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 								withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 
 
-		notificatonHandler(userInfo: notification.request.content.userInfo)
-
-
-		if self.getLevel(userInfo:  notification.request.content.userInfo) > 2{
+        
+		if notification.request.content.interruptionLevel.rawValue > 2{
 			completionHandler(.banner)
 		}else{
 			completionHandler(.badge)
 		}
+        
+        notificatonHandler(userInfo: notification.request.content.userInfo)
 	}
 
 	func notificatonHandler(userInfo: [AnyHashable : Any]){
-		if let urlStr = userInfo["url"] as? String, let url = URL(string: urlStr) {
+        if let urlStr = userInfo[Params.url.name] as? String, let url = URL(string: urlStr) {
 			PushbackManager.openUrl(url: url)
 		}
 	}
 
-
-	func getLevel(userInfo: [AnyHashable : Any]) -> Int {
-		// 获取用户信息中的 level 值
-		if let level = userInfo["level"] as? String {
-			// 尝试将 level1 转换为整数
-			if let levelNumber = Int(level), (0...10).contains(levelNumber) {
-				return levelNumber
-			}
-
-			// 使用 switch 语句判断不同的字符串值
-			switch level.lowercased() {
-				case "passive":
-					return 0
-				case "active":
-					return 1
-				case "timeSensitive":
-					return 2
-				case "critical":
-					return 3
-				default:
-					return 1
-			}
-		}
-		return 1 // 如果没有 level 信息，则返回默认值 1
-	}
 
 }
 

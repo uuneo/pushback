@@ -8,7 +8,7 @@ English | **[中文](README.md)**
 
 > [!IMPORTANT]
 >
-> - Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
+>- Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
 > - Planned Updates
 > - Markdown Styles（Completed）
 > - Automatic Ringtone Conversion

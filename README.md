@@ -7,7 +7,7 @@
 
  [!IMPORTANT]
 >
-> - 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
+>- 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
 > 
 > - 计划更新
 > - Markdown 样式（已完成）

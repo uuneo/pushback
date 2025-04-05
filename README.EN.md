@@ -1,11 +1,6 @@
 English | **[中文](README.md)**
 
 
-<p align="center">
-<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
-</p>
-
-
 > [!IMPORTANT]
 >
 >- Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
@@ -14,6 +9,10 @@ English | **[中文](README.md)**
 > - Automatic Ringtone Conversion
 >
 
+
+<p align="center">
+<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
+</p>
 
 
 # Pushback

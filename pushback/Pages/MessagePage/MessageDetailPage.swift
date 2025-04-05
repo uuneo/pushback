@@ -110,7 +110,7 @@ struct MessageDetailPage: View {
         .navigationBarHidden(navHi)
         .overlay{ showSelectMessage() }
         .overlay{ showSelectUserInfo() }
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
         .toolbar{
             ToolbarItem {
                 Button{
@@ -132,8 +132,12 @@ struct MessageDetailPage: View {
         .task {
             
             if let group = group{
-                if let realm = try? Realm(), realm.objects(Message.self).where({$0.group == group && !$0.read}).count > 0 {
-                    RealmManager.shared.read( group)
+                
+                RealmManager.realm { proxy in
+                    let datas = proxy.objects(Message.self).filter({$0.group == group && !$0.read})
+                    for data in datas{
+                        data.read = true
+                    }
                 }
             }
         }

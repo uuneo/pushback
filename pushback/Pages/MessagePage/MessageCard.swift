@@ -185,7 +185,7 @@ struct MessageCard: View {
                     
                     Button{
                         
-                        Clipboard.shared.setString(message.allString())
+                        Clipboard.shared.setString(message.allString)
                         Toast.copy(title: String(localized: "复制成功"))
                         PushbackManager.vibration(style: .light)
                     }label:{

@@ -13,6 +13,7 @@ import SwiftyJSON
 
 
 final class Message: Object , ObjectKeyIdentifiable, Codable  {
+    
 	@Persisted(primaryKey: true) var id:UUID
 	@Persisted(indexed: true) var group:String
 	@Persisted(indexed: true) var createDate:Date
@@ -65,33 +66,14 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	}
 
     
-    func allString() -> String{
-        var text = ""
-        if let title = self.title {
-            text = "\(title);"
-        }
-        
-        if let subtitle = self.subtitle{
-            text += "\(subtitle);"
-        }
-        
-        if let body = self.body{
-            text += "\(body);"
-        }
-        
-        text += "\(group);"
-        
-        if let url = self.url{
-            text += "\(url);"
-        }
-        
-        if let image = self.image{
-            text += "\(image);"
-        }
-        
-        
-        return text
+    var allString: String {
+        return [ title, subtitle, body, from, group, url, image,  icon ]
+            .compactMap { $0 }  // 过滤掉 nil 值
+            .filter { !$0.isEmpty }  // 过滤掉空字符串
+            .joined(separator: ";") + ";"  // 使用分号连接并添加结尾分号
     }
+    
+   
 
 }
 
@@ -112,53 +94,9 @@ extension Message{
 
 
 extension Message{
-	
-	func update(completion: @escaping (Message?) -> Void){
-		do {
-			let realm = try Realm()
-			try realm.write {
-				completion(realm.objects(Message.self).first(where: {$0 == self}))
-			}
-			
-		}catch{
-			completion(nil)
-		}
-	}
-	
-	func isRead(completion: ((String)-> Void)? = nil) {
-		do {
-			let realm = try Realm()
-			try realm.write {
-				if let data = realm.objects(Message.self).first(where: {$0 == self}){
-					data.read = !data.read
-					completion?(String(localized: "修改成功"))
-				}else{
-					completion?(String(localized: "没有数据"))
-				}
-				
-			}
-			
-		}catch{
-			completion?(error.localizedDescription)
-		}
-	}
-	
-	func delete(completion: ((String)-> Void)? = nil){
-		do {
-			let realm = try Realm()
-			try realm.write {
-				if let data = realm.objects(Message.self).first(where: {$0 == self}){
-					data.read = !data.read
-					completion?(String(localized: " 删除成功"))
-				}else{
-					completion?(String(localized: "没有数据"))
-				}
-			}
-			
-		}catch{
-			completion?(error.localizedDescription)
-		}
-	}
+    
+   
+
 	
 	func isExpired() -> Bool{
 		/// 兼容老版本的使用

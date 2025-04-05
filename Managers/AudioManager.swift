@@ -8,7 +8,7 @@
 
 //  History:
 //  Created by uuneo on 2024/12/10.
-	
+
 
 import Foundation
 import AudioToolbox
@@ -17,171 +17,244 @@ import AVFoundation
 
 
 class AudioManager: ObservableObject{
-
-	static let shared = AudioManager()
-	private var manager = FileManager.default
-
-
-	private init() {
-		self.getFileList()
-	}
-
-
-	@Published var defaultSounds:[URL] =  []
-	@Published var customSounds:[URL] =  []
-
-	@Published var soundID: SystemSoundID = 0
-	@Published var playingAudio:URL? = nil
-
-	// MARK: - Get audio folder data
-
-	private func getFileList() {
-		let defaultSounds:[URL] = {
-			var temurl = Bundle.main.urls(forResourcesWithExtension: "caf", subdirectory: nil) ?? []
-			temurl.sort { u1, u2 -> Bool in
-				u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == ComparisonResult.orderedAscending
-			}
-			return temurl
-		}()
-
-		let customSounds: [URL] = {
-            guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return []}
-
-			var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
-			urlemp.sort { u1, u2 -> Bool in
-				u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == ComparisonResult.orderedAscending
-			}
-
-			return urlemp
-		}()
-
-		DispatchQueue.main.async {
-			self.customSounds = customSounds
-			self.defaultSounds = defaultSounds
-		}
-
-	}
-
-	/// 返回指定文件夹，指定后缀的文件列表数组
-	func getFilesInDirectory(directory: String, suffix: String) -> [URL] {
-
-		do {
-			let files = try manager.contentsOfDirectory(atPath: directory)
-			return files.compactMap { file -> URL? in
-                if file.hasSuffix(suffix), !file.hasPrefix(BaseConfig.longSoundPrefix) {
-					return URL(fileURLWithPath: directory).appendingPathComponent(file)
-				}
-				return nil
-			}
-		} catch {
-			return []
-		}
-	}
-
-
-	/// 通用文件保存方法
-	func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
-		guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else  { return }
-
-
-		let  groupDestinationUrl = groupDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent )
-
-
-		if manager.fileExists(atPath: groupDestinationUrl.path) {
-			try? manager.removeItem(at: groupDestinationUrl)
-		}
-        
-		do{
-			try manager.copyItem(at: sourceUrl, to: groupDestinationUrl)
-			Toast.success(title: String(localized: "保存成功"))
-		}catch{
-			Toast.error(title: error.localizedDescription)
-		}
-
-
-		getFileList()
-	}
-
-	func deleteSound(url: URL) {
-        guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return }
-        
-		// 删除sounds目录铃声文件
-		try? manager.removeItem(at: url)
-		// 删除共享目录中的文件
-        let groupSoundUrl = soundsDirectoryUrl.appendingPathComponent("\(BaseConfig.longSoundPrefix).\(url.lastPathComponent)")
-        try? manager.removeItem(at: groupSoundUrl)
-        
-		getFileList()
-	}
-
-
-	func playAudio(url:URL? = nil){
-		AudioServicesDisposeSystemSoundID(self.soundID)
-
-		guard let audio = url ,playingAudio != url else {
-			self.playingAudio = nil
-			self.soundID = 0
-			return
-		}
-		self.playingAudio = audio
-		AudioServicesCreateSystemSoundID(audio as CFURL, &self.soundID)
-		AudioServicesPlaySystemSoundWithCompletion(self.soundID) {
-			if self.playingAudio == url {
-				AudioServicesDisposeSystemSoundID(self.soundID)
-				DispatchQueue.main.async{
-					self.playingAudio = nil
-					self.soundID = 0
-				}
-
-			}
-
-		}
-
-	}
     
-    func convertAudioToCAF(inputURL: URL, outputURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+    static let shared = AudioManager()
+    private var manager = FileManager.default
+    
+    
+    private init() {
+        self.getFileList()
+    }
+    
+    
+    @Published var defaultSounds:[URL] =  []
+    @Published var customSounds:[URL] =  []
+    
+    @Published var soundID: SystemSoundID = 0
+    @Published var playingAudio:URL? = nil
+    
+    // MARK: - Get audio folder data
+    
+    /// 加载系统默认音效和用户自定义音效文件列表
+    private func getFileList() {
         
+        // 加载 Bundle 中的默认 caf 音频资源
+        let defaultSounds: [URL] = {
+            // 从 App Bundle 获取所有 caf 文件
+            var temurl = Bundle.main.urls(forResourcesWithExtension: "caf", subdirectory: nil) ?? []
+            
+            // 按文件名自然排序（考虑数字顺序、人类习惯排序）
+            temurl.sort { u1, u2 -> Bool in
+                u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == .orderedAscending
+            }
+            
+            return temurl
+        }()
+        
+        // 加载 App Group 共享目录中的自定义 caf 音频资源
+        let customSounds: [URL] = {
+            // 获取共享目录路径
+            guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return [] }
+            
+            // 获取指定后缀（caf），排除长音前缀的文件
+            var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
+            
+            // 同样进行自然排序
+            urlemp.sort { u1, u2 -> Bool in
+                u1.lastPathComponent.localizedStandardCompare(u2.lastPathComponent) == .orderedAscending
+            }
+            
+            return urlemp
+        }()
+        
+        // 回到主线程，更新界面相关状态（如 SwiftUI 或 UIKit 列表）
+        DispatchQueue.main.async {
+            self.customSounds = customSounds
+            self.defaultSounds = defaultSounds
+        }
+    }
+
+    
+    /// 返回指定文件夹中，指定后缀且不含长音前缀的文件列表
+    func getFilesInDirectory(directory: String, suffix: String) -> [URL] {
         do {
-            if FileManager.default.fileExists(atPath: outputURL.path) {
-                try FileManager.default.removeItem(at: outputURL)
+            // 获取目录下所有文件名（字符串）
+            let files = try manager.contentsOfDirectory(atPath: directory)
+            
+            // 过滤符合条件的文件，并转换为完整的 URL
+            return files.compactMap { file -> URL? in
+                // 仅保留指定后缀，且排除带有“长音前缀”的文件
+                if file.lowercased().hasSuffix(suffix.lowercased()), !file.hasPrefix(BaseConfig.longSoundPrefix) {
+                    // 构造完整文件路径 URL
+                    return URL(fileURLWithPath: directory).appendingPathComponent(file)
+                }
+                return nil
             }
         } catch {
-            completion(.failure(error))
+            // 出现异常时返回空数组
+            return []
+        }
+    }
+
+    
+    
+    /// 通用文件保存方法
+    func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
+        // 获取 App Group 的共享铃声目录路径
+        guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return }
+        
+        // 构造目标路径：使用传入的自定义文件名（lastPath），否则使用源文件名
+        let groupDestinationUrl = groupDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent)
+        
+        // 如果目标文件已存在，先删除旧文件
+        if manager.fileExists(atPath: groupDestinationUrl.path) {
+            try? manager.removeItem(at: groupDestinationUrl)
+        }
+        
+        do {
+            // 拷贝文件到共享目录（实现“保存”操作）
+            try manager.copyItem(at: sourceUrl, to: groupDestinationUrl)
+            
+            // 弹出成功提示（使用 Toast）
+            Toast.success(title: String(localized: "保存成功"))
+        } catch {
+            // 如果保存失败，弹出错误提示
+            Toast.error(title: error.localizedDescription)
+        }
+        
+        // 刷新铃声文件列表（用于更新 UI 或数据）
+        getFileList()
+    }
+    
+    func deleteSound(url: URL) {
+        // 获取 App Group 中的共享铃声目录
+        guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return }
+        
+        // 删除本地 sounds 目录下的铃声文件
+        try? manager.removeItem(at: url)
+        
+        // 构造共享目录下对应的长铃声文件路径（带有前缀）
+        let groupSoundUrl = soundsDirectoryUrl.appendingPathComponent("\(BaseConfig.longSoundPrefix).\(url.lastPathComponent)")
+        
+        // 删除共享目录中的铃声文件（如果存在）
+        try? manager.removeItem(at: groupSoundUrl)
+        
+        // 刷新文件列表（通常是为了更新 UI 或内部数据状态）
+        getFileList()
+    }
+    
+    
+    func playAudio(url: URL? = nil) {
+        // 先释放之前的 SystemSoundID（如果有），避免内存泄漏或重复播放
+        AudioServicesDisposeSystemSoundID(self.soundID)
+        
+        // 如果传入的 URL 为空，或者与当前正在播放的是同一个音频，则认为是“停止播放”的操作
+        guard let audio = url, playingAudio != url else {
+            self.playingAudio = nil
+            self.soundID = 0
             return
         }
         
+        // 设置当前正在播放的音频
+        self.playingAudio = audio
         
-        // 创建 AVAsset
-        let asset = AVAsset(url: inputURL)
+        // 创建 SystemSoundID，用于播放系统音效（仅支持较小的音频文件，通常小于30秒）
+        AudioServicesCreateSystemSoundID(audio as CFURL, &self.soundID)
         
-        // 创建导出会话
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
-            completion(.failure(NSError(domain: "AudioConversion", code: 0, userInfo: [NSLocalizedDescriptionKey: "无法创建导出会话"])))
-            return
-        }
-        
-        // 设置输出文件类型为 CAF
-        exportSession.outputFileType = .caf
-        exportSession.outputURL = outputURL
-        
-        // 执行导出
-        exportSession.exportAsynchronously {
-            switch exportSession.status {
-            case .completed:
-                completion(.success(outputURL))
-            case .failed:
-                if let error = exportSession.error {
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(NSError(domain: "AudioConversion", code: 1, userInfo: [NSLocalizedDescriptionKey: "导出失败，原因未知"])))
+        // 播放音频，播放完成后执行回调
+        AudioServicesPlaySystemSoundWithCompletion(self.soundID) {
+            // 如果回调时仍是当前音频（防止播放期间被替换）
+            if self.playingAudio == url {
+                // 释放资源
+                AudioServicesDisposeSystemSoundID(self.soundID)
+                DispatchQueue.main.async {
+                    // 重置播放状态
+                    self.playingAudio = nil
+                    self.soundID = 0
                 }
-            case .cancelled:
-                completion(.failure(NSError(domain: "AudioConversion", code: 2, userInfo: [NSLocalizedDescriptionKey: "导出被取消"])))
-            default:
-                break
             }
         }
     }
+
+    
+    func convertAudioToCAF(inputURL: URL, outputURL: URL) async -> Result<URL, Error>  {
+        
+        do{
+            
+            // 如果输出文件已存在，则先删除，防止导出失败
+                  if FileManager.default.fileExists(atPath: outputURL.path) {
+                      try FileManager.default.removeItem(at: outputURL)
+                  }
+                  
+                  // 创建 AVAsset 用于处理输入音频资源
+                  let asset = AVAsset(url: inputURL)
+                  
+                  // 创建导出会话，使用 "Passthrough" 预设保持原始音频格式
+                  guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
+                      let error = NSError(domain: "AudioConversion", code: 0, userInfo: [
+                          NSLocalizedDescriptionKey: String(localized: "无法创建导出会话")
+                      ])
+                      return .failure(error)
+                  }
+
+                  // 获取音频时长（异步加载）
+                  let assetDurationSeconds = try await asset.load(.duration)
+
+                  // 设置导出时间范围：如果音频大于 30 秒，最多只导出 29.9 秒
+                  // AVFoundation 的时间精度有限，设置 29.9 更保险
+                  let maxDurationCMTime = CMTime(seconds: 29.9, preferredTimescale: 600)
+                  if assetDurationSeconds > maxDurationCMTime {
+                      exportSession.timeRange = CMTimeRange(start: .zero, duration: maxDurationCMTime)
+                  }
+
+                  // 设置导出文件类型和输出路径
+                  exportSession.outputFileType = .caf
+                  exportSession.outputURL = outputURL
+
+                  // 开始异步导出
+                  await exportSession.export()
+                  
+                  // 根据导出状态返回结果
+                  switch exportSession.status {
+                  case .completed:
+                      // 导出成功，返回输出路径
+                      return .success(outputURL)
+                      
+                  case .failed:
+                      // 导出失败，返回错误（若无具体错误则用默认错误信息）
+                      let error = exportSession.error ?? NSError(
+                          domain: "AudioConversion",
+                          code: 1,
+                          userInfo: [NSLocalizedDescriptionKey: String(localized: "导出失败，原因未知")]
+                      )
+                      return .failure(error)
+                      
+                  case .cancelled:
+                      // 用户或系统取消了导出
+                      let error = NSError(
+                          domain: "AudioConversion",
+                          code: 2,
+                          userInfo: [NSLocalizedDescriptionKey: String(localized: "导出被取消")]
+                      )
+                      return .failure(error)
+                      
+                  default:
+                      // 其他未知状态
+                      let error = NSError(
+                          domain: "AudioConversion",
+                          code: 3,
+                          userInfo: [NSLocalizedDescriptionKey: String(localized: "导出状态异常：\(exportSession.status.rawValue)")]
+                      )
+                      return .failure(error)
+                  }
+                  
+        }catch{
+            return .failure(error)
+        }
+        
+        
+    }
+    
 }
 
 

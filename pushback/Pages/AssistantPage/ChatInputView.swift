@@ -165,7 +165,7 @@ private struct PromptLabelView: View {
             if let prompt {
                 Menu{
                     Button(role: .destructive){
-                        RealmManager.shared.realm { realm in
+                        RealmManager.realm { realm in
                             let datas = realm.objects(ChatPrompt.self)
                             for data in datas{
                                 data.isSelected = false

@@ -176,7 +176,7 @@ struct SettingsPage: View {
 									.foregroundStyle(.tint, Color.primary)
 							}
 							Spacer()
-							Text(sound.name)
+							Text(sound)
 								.scaleEffect(0.9)
 								.foregroundStyle(.gray)
 						}
@@ -415,7 +415,9 @@ struct SettingsPage: View {
 
 	fileprivate func resetApp(){
 		DEFAULTSTORE.removeAll()
-		RealmManager.shared.deleteAll()
+        RealmManager.realm { proxy in
+            proxy.deleteAll()
+        }
 		exit(0)
 	}
 

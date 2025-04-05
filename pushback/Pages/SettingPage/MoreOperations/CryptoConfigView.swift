@@ -116,27 +116,17 @@ struct CryptoConfigView: View {
                         
                     }
                     Spacer()
-                    if editMode?.wrappedValue == .active{
-                        TextEditor(text: $cryptoConfig.iv)
-                            .focused($ivFocus)
-                            .overlay{
-                                if cryptoConfig.iv.isEmpty{
-                                    Text( "请输入16位Iv")
-                                    
-                                }
-                            }
-                            .onDisappear{
-                                let _ = verifyIv()
-                            }
-                            .foregroundStyle(.gray)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1)
-                    }else {
-                        HackerTextView(text: cryptoConfig.iv, trigger:showTextAnimation)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1) // 确保文本在一行内
-                    }
-                    
+                    TextField("请输入16位Iv",text: $cryptoConfig.iv)
+                        .focused($ivFocus)
+                        .onDisappear{
+                            let _ = verifyIv()
+                        }
+                        .foregroundStyle(.gray)
+                        .if(editMode?.wrappedValue != .active){ view in
+                            HackerTextView(text: cryptoConfig.iv, trigger:showTextAnimation)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1) // 确保文本在一行内
+                        }
                     
                 }
                 
@@ -151,28 +141,19 @@ struct CryptoConfigView: View {
                     Spacer()
                     
                     
-                    if editMode?.wrappedValue == .active{
-                        TextEditor(text: $cryptoConfig.key)
-                            .focused($keyFocus)
-                            .frame(minHeight: 50)
-                            .overlay{
-                                if cryptoConfig.key.isEmpty{
-                                    Text(String(format: String(localized: "输入%d位数的key"), expectKeyLength))
-                                    
-                                }
-                            }
-                            .onDisappear{
-                                let _ = verifyKey()
-                            }
-                            .foregroundStyle(.gray)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1) // 确保文本在一行内
-                    }else {
-                        HackerTextView(text: cryptoConfig.key, trigger:showTextAnimation)
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1) // 确保文本在一行内
-                    }
-                    
+                    TextField(String(format: String(localized: "输入%d位数的key"), expectKeyLength),text: $cryptoConfig.key)
+                        .focused($keyFocus)
+                        .onDisappear{
+                            let _ = verifyKey()
+                        }
+                        .foregroundStyle(.gray)
+                        .if(editMode?.wrappedValue != .active){ view in
+                            
+                            HackerTextView(text: cryptoConfig.key, trigger:showTextAnimation)
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1) // 确保文本在一行内
+                            
+                        }
                     
                 }
                 

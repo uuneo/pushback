@@ -49,7 +49,14 @@ struct GroupMessagesView: View {
                             .swipeActions(edge: .leading) {
                                 Button {
                                     
-                                    Task{ RealmManager.shared.read(message.group) }
+                                    Task{
+                                        RealmManager.realm { proxy in
+                                            let datas = proxy.objects(Message.self).filter({$0.group == message.group && !$0.read})
+                                            for data in datas{
+                                                data.read = true
+                                            }
+                                        }
+                                    }
                                     
                                 } label: {
                                     
@@ -62,7 +69,10 @@ struct GroupMessagesView: View {
                             .swipeActions(edge: .trailing) {
                                 Button {
                                     Task{
-                                        RealmManager.shared.delete(group: message.group)
+                                        RealmManager.realm { proxy in
+                                            let datas = proxy.objects(Message.self).filter({$0.group == message.group })
+                                            proxy.delete(datas)
+                                        }
                                     }
                                     
                                 } label: {
@@ -85,7 +95,7 @@ struct GroupMessagesView: View {
         }
         .animation(.snappy(), value: messages.count)
         .hideNavBarOnSwipe(false)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic))
+        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
         
         
     }

@@ -10,11 +10,13 @@ import AVFoundation
 import UIKit
 
 struct SoundView: View {
-	@Environment(\.dismiss) var dismiss
-	@StateObject private var audioManager = AudioManager.shared
-	@State private var showUpload:Bool = false
-
-	var body: some View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject private var audioManager = AudioManager.shared
+    @State private var showUpload:Bool = false
+    
+    @State private var uploadLoading:Bool = false
+    
+    var body: some View {
         List {
             Section {
                 HStack{
@@ -22,72 +24,85 @@ struct SoundView: View {
                     Button {
                         self.showUpload.toggle()
                     } label: {
+                        
+                        
                         Label("上传铃声", systemImage: "waveform" )
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint)
-
-                    }
+                            .symbolEffect(.replace)
+                            .symbolEffect(.variableColor, delay: 1)
+                            .if(uploadLoading){ view in
+                                HStack{
+                                    Spacer()
+                                    ProgressView()
+                                    Text("处理中")
+                                    Spacer()
+                                }
+                            }
+                        
+                    }.disabled(uploadLoading)
                     
-                   
-                ///  UTType.types(tag: "caf", tagClass: UTTagClass.filenameExtension,conformingTo: nil)
+                    
+                    ///  UTType.types(tag: "caf", tagClass: UTTagClass.filenameExtension,conformingTo: nil)
                     .fileImporter(isPresented: $showUpload, allowedContentTypes: [.audio] ) { result in
-                      
+                        self.uploadLoading = true
                         switch result{
-                            case .success(let file):
-                            
+                        case .success(let file):
+
+                            Task{
+                                
                                 defer {
                                     file.stopAccessingSecurityScopedResource()
                                 }
+                                
                                 if file.startAccessingSecurityScopedResource() {
                                     
-                                    if file.pathExtension.lowercased() == "caf"{
-                                        audioManager.saveSound(url: file)
-                                        return
-                                    }
                                     
                                     let fileName = file.deletingPathExtension().lastPathComponent
-                                  
+                                    
                                     let data = FileManager.default.temporaryDirectory.appendingPathComponent("\(fileName).caf")
-                                    audioManager.convertAudioToCAF(inputURL: file, outputURL: data) { result in
-                                        switch result {
-                                        case .success(let success):
-                                            Log.debug(success)
-                                            audioManager.saveSound(url: success)
-                                        case .failure(let failure):
-                                            Log.error(failure)
-                                        }
+                                    
+                                    let result =  await audioManager.convertAudioToCAF(inputURL: file, outputURL: data)
+                                    switch result {
+                                    case .success(let success):
+                                        Log.debug(success)
+                                        audioManager.saveSound(url: success)
+                                        
+                                    case .failure(let failure):
+                                        Toast.shared.present(title: failure.localizedDescription, symbol: .error)
+                                        Log.error(failure)
+                                    }
+                                    
+                                    try? await Task.sleep(for: .seconds(0.5))
+                                    await MainActor.run{
+                                        self.uploadLoading = false
                                     }
                                 }
-
-                            case .failure(let err):
-                                Log.debug(err)
-
+                                
+                            }
+                            
+                        case .failure(let err):
+                            Log.debug(err)
+                            self.uploadLoading = false
+                            Toast.shared.present(title: err.localizedDescription, symbol: .error)
                         }
                     }
-
+                    
                     Spacer()
                 }
             }header: {
                 Spacer()
             }footer: {
                 HStack{
-                    Text( "选择30秒以内铃声,不能选择的需要")
-                    Button{
-                        PushbackManager.shared.fullPage = .web(BaseConfig.musicUrl)
-                    }label: {
-                        Text( "转换为 cdf 格式")
-                            .font(.footnote)
-                    }
+                    Text( "选择铃声，超出30秒的将截断")
                 }
             }
-
+            
             if audioManager.customSounds.count > 0{
                 Section{
-
-
-
+                    
                     ForEach(audioManager.customSounds, id: \.self) { url in
-                        SoundItemView(audio: url, ringType: .custom)
+                        SoundItemView(audio: url)
                     }.onDelete { indexSet in
                         for index in indexSet{
                             audioManager.deleteSound(url: audioManager.customSounds[index])
@@ -97,35 +112,35 @@ struct SoundView: View {
                     Text(  "自定义铃声")
                 }
             }
-
-
+            
+            
             Section{
                 ForEach(audioManager.defaultSounds, id: \.self) { url in
-                    SoundItemView(audio: url, ringType: .local)
+                    SoundItemView(audio: url)
                 }
             }header: {
                 Text(  "自带铃声")
             }
-
-
+            
+            
         }
         .navigationTitle("所有铃声")
         .onDisappear{
             audioManager.playAudio(url: nil)
         }
-	}
-
-
-
-
-
-
-
+    }
+    
+    
+    
+    
+    
+    
+    
 }
 
 #Preview {
-	SoundView()
-		.environmentObject(PushbackManager.shared)
-
+    SoundView()
+        .environmentObject(PushbackManager.shared)
+    
 }
 

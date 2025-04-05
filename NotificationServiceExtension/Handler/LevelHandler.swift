@@ -38,7 +38,7 @@ class LevelHandler: NotificationContentHandler {
         let audioVolume: Float = bestAttemptContent.getVolume(levelNumber: level)
         // 设置重要警告 sound
         
-        let sound = soundName ?? bestAttemptContent.soundName ?? "\(Defaults[.sound].name).caf"
+        let sound = soundName ?? bestAttemptContent.soundName ?? "\(Defaults[.sound]).caf"
         
         bestAttemptContent.sound = UNNotificationSound.criticalSoundNamed(UNNotificationSoundName(rawValue: sound), withAudioVolume: audioVolume)
     }

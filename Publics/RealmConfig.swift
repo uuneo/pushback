@@ -11,7 +11,7 @@ import Foundation
 let kRealmDefaultConfiguration = {
 	let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
 
-#if DEBUG
+#if DEBUG一天
 	Logger.shared.level = .debug
 #endif
     return Realm.Configuration(
@@ -24,3 +24,4 @@ let kRealmDefaultConfiguration = {
 	)
 }()
 
+ 

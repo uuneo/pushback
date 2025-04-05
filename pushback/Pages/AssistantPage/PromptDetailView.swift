@@ -146,7 +146,7 @@ struct PromptDetailView: View {
     
     private func handleUsePrompt() {
         if prompt != nil{
-            RealmManager.shared.realm { realm in
+            RealmManager.realm { realm in
                 let chatprompt = ChatPrompt()
                 chatprompt.title = title
                 chatprompt.content = content
@@ -160,7 +160,7 @@ struct PromptDetailView: View {
     
     private func handleSavePrompt() {
         if let prompt = prompt{
-            RealmManager.shared.realm { realm in
+            RealmManager.realm { realm in
                 if  let item = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
                     item.title = title
                     item.content = content

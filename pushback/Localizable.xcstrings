@@ -2,6 +2,7 @@
   "sourceLanguage" : "zh-Hans",
   "strings" : {
     " 删除成功" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1826,6 +1827,7 @@
       }
     },
     "删除成功" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2465,6 +2467,22 @@
         }
       }
     },
+    "处理中" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processing"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İşleniyor"
+          }
+        }
+      }
+    },
     "复制" : {
       "localizations" : {
         "en" : {
@@ -2721,6 +2739,22 @@
         }
       }
     },
+    "导出失败，原因未知" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export failed, unknown reason"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma başarısız, nedeni bilinmiyor"
+          }
+        }
+      }
+    },
     "导出消息列表" : {
       "localizations" : {
         "en" : {
@@ -2733,6 +2767,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mesaj listesini dışa aktar"
+          }
+        }
+      }
+    },
+    "导出状态异常：%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export status error: %lld"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma durumu hatası: %lld"
+          }
+        }
+      }
+    },
+    "导出被取消" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export cancelled"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma iptal edildi"
           }
         }
       }
@@ -3506,6 +3572,22 @@
         }
       }
     },
+    "无法创建导出会话" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to create export session"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dışa aktarma oturumu oluşturulamadı"
+          }
+        }
+      }
+    },
     "无法确定 iCloud 账户状态，可能是网络问题" : {
       "localizations" : {
         "en" : {
@@ -4099,6 +4181,7 @@
       }
     },
     "没有数据" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5332,6 +5415,7 @@
       }
     },
     "转换为 cdf 格式" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5557,22 +5641,6 @@
         }
       }
     },
-    "选择30秒以内铃声,不能选择的需要" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select under 30s. Unselectable ones."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30 sn altı seç. Seçilemezler."
-          }
-        }
-      }
-    },
     "选择后配置自动保存" : {
       "localizations" : {
         "en" : {
@@ -5633,6 +5701,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sunucu seç"
+          }
+        }
+      }
+    },
+    "选择铃声，超出30秒的将截断" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select ringtone, truncate if over 30 seconds."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zil sesi seç, 30 saniyeyi aşarsa kırp."
           }
         }
       }

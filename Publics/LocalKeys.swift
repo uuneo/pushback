@@ -22,7 +22,7 @@ extension Defaults.Keys {
     static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
     static let cryptoConfig = Key<CryptoModel>("CryptoSettingFields", CryptoModel.data)
     static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
-    static let sound = Key<SoundModel>("defaultSound", SoundModel.def)
+    static let sound = Key<String>("defaultSound", "xiu")
     static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
     static let messageExpiration = Key<ExpirationTime>("messageExpirtionTime", .forever)
     static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)

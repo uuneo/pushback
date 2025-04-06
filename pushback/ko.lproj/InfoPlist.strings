@@ -9,7 +9,7 @@
 
 
 
-CFBundleDisplayName = "反推";
-NSPhotoLibraryAddUsageDescription = "此应用需要访问您的照片库以便保存照片";
-NSCameraUsageDescription = "需要使用你的相机识别二维码";
-NSPhotoLibraryUsageDescription = "我们需要访问你的相册";
+CFBundleDisplayName = "반추";
+NSPhotoLibraryAddUsageDescription = "이 앱은 사진을 저장하기 위해 귀하의 사진 라이브러리에 접근할 필요가 있습니다";
+NSCameraUsageDescription = "QR 코드를 인식하기 위해 카메라를 사용해야 합니다";
+NSPhotoLibraryUsageDescription = "귀하의 앨범에 접근할 필요가 있습니다";

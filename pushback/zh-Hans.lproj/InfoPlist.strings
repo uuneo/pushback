@@ -4,7 +4,7 @@
   Created by uuneo 2024/10/11.
 */
 
-CFBundleDisplayName = "pushback";
-NSPhotoLibraryAddUsageDescription = "This app requires access to your photo library to save photos.";
-NSCameraUsageDescription = "Need to use your camera to identify the QR code";
-NSPhotoLibraryUsageDescription = "We need access to your photo album";
+CFBundleDisplayName = "反推";
+NSPhotoLibraryAddUsageDescription = "此应用需要访问您的照片库以便保存照片";
+NSCameraUsageDescription = "需要使用你的相机识别二维码";
+NSPhotoLibraryUsageDescription = "我们需要访问你的相册";

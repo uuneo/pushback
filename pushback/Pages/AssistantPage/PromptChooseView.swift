@@ -18,8 +18,7 @@ struct PromptChooseView: View {
 
 
     private var filteredBuiltInPrompts: [ChatPrompt] {
-        guard !searchText.isEmpty else { return prompts.filter{$0.isBuiltIn} }
-        return prompts.filter{$0.isBuiltIn}.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+        ChatPrompt.prompts
     }
 
     private var filteredCustomPrompts: [ChatPrompt] {
@@ -94,7 +93,7 @@ struct PromptChooseView: View {
         Group {
             if !filteredBuiltInPrompts.isEmpty {
                 PromptSection(
-                    title: "内置提示词",
+                    title: String(localized: "内置提示词"),
                     prompts: filteredBuiltInPrompts,
                     onPromptTap: handlePromptTap
                 )
@@ -102,7 +101,7 @@ struct PromptChooseView: View {
 
             if !filteredCustomPrompts.isEmpty {
                 PromptSection(
-                    title: "自定义提示词",
+                    title: String(localized: "自定义提示词"),
                     prompts: filteredCustomPrompts,
                     onPromptTap: handlePromptTap
                 )

@@ -124,7 +124,7 @@ final class ChatPrompt: Object, ObjectKeyIdentifiable {
              3. 循序渐进地解释知识点。
              4. 鼓励用户思考和提问。
              5. 通过反馈确认用户的理解程度。
-             """),"isBuiltIn":false]),
+             """),"isBuiltIn":true]),
         
         ChatPrompt(value: ["title":String(localized: "产品经理"),"content":String(localized: """
              作为一名资深产品经理，你擅长产品规划和用户体验设计。你的任务包括：
@@ -133,6 +133,6 @@ final class ChatPrompt: Object, ObjectKeyIdentifiable {
              3. 制定产品路线图和时间表。
              4. 评估市场机会和竞争环境。
              5. 提出可行且创新的解决方案。
-             """),"isBuiltIn":false]),
+             """),"isBuiltIn":true]),
     ]
 }

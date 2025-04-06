@@ -90,19 +90,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "/#/policy"
+            "value" : "/#/en-us/policy"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "/#/policy"
+            "value" : "/#/en-us/policy"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "/#/policy"
+            "value" : "/#/en-us/policy"
           }
         },
         "zh-Hans" : {
@@ -712,19 +712,19 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "APIキー"
+            "value" : "API Key"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "API 키"
+            "value" : "API Key"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "API密钥"
+            "value" : "API Key"
           }
         }
       }
@@ -1132,19 +1132,19 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キー:"
+            "value" : "Key:"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "키:"
+            "value" : "Key:"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "密钥:"
+            "value" : "Key:"
           }
         }
       }
@@ -1179,12 +1179,6 @@
     },
     "Markdown样式" : {
       "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Markdown样式"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1202,17 +1196,17 @@
             "state" : "translated",
             "value" : "Markdown 스타일"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown样式"
+          }
         }
       }
     },
     "Model" : {
       "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Model"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1229,6 +1223,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모델"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model"
           }
         }
       }
@@ -1300,7 +1300,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "パディング:"
+            "value" : "Padding:"
           }
         },
         "ko" : {
@@ -1312,7 +1312,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "内边距:"
+            "value" : "Padding:"
           }
         }
       }
@@ -3450,7 +3450,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Number of historical messages"
+            "value" : "History Count "
           }
         },
         "ja" : {
@@ -4313,34 +4313,6 @@
         }
       }
     },
-    "复制 KEY 成功" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Key copied successfully"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "キーをコピーしました"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "키 복사 성공"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制 KEY 成功"
-          }
-        }
-      }
-    },
     "复制 URL 和 KEY 成功" : {
       "localizations" : {
         "en" : {
@@ -5108,7 +5080,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "スマートアシスタントを有効にする"
+            "value" : "アシスタント有効化"
           }
         },
         "ko" : {
@@ -6592,13 +6564,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "サーバー"
+            "value" : "Server"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "서버"
+            "value" : "Server"
           }
         },
         "zh-Hans" : {
@@ -8294,7 +8266,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Algorithm Configuration"
+            "value" : "Encryption"
           }
         },
         "ja" : {
@@ -8356,13 +8328,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "スマートアシスタントにメッセージを送信"
+            "value" : "アシスタントに送信"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "스마트 어시스턴트에게 메시지 보내기"
+            "value" : "어시스턴트에 전송"
           }
         },
         "zh-Hans" : {
@@ -8733,6 +8705,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自定义推送显示的logo"
+          }
+        }
+      }
+    },
+    "自定义提示词" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Prompt"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カスタムプロンプト"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용자 정의 프롬프트"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义提示词"
           }
         }
       }

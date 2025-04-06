@@ -61,6 +61,7 @@ struct CryptoConfigView: View {
                 }
             }header:{
                 Text("选择后配置自动保存")
+                    .textCase(.none)
             }
             .onChange(of: cryptoConfig.algorithm) {  _ in
                 verifyCopyText()
@@ -171,6 +172,7 @@ struct CryptoConfigView: View {
                     Label("随机生成密钥", systemImage: "dice")
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(.green, Color.primary)
+                        .textCase(.none)
                     
                 }
             }

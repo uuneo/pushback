@@ -345,6 +345,8 @@ struct SettingsPage: View {
                             manager.fullPage = .web(BaseConfig.privacyURL)
                         }label: {
                             Text("隐私政策")
+                             
+                                
                         }
                         Circle()
                             .frame(width: 3,height: 3)
@@ -352,6 +354,7 @@ struct SettingsPage: View {
                             manager.fullPage = .web(BaseConfig.userAgreement)
                         }label: {
                             Text("用户协议")
+                               
                         }
                         Circle()
                             .frame(width: 3,height: 3)
@@ -361,11 +364,14 @@ struct SettingsPage: View {
                             }
                         }label: {
                             Text("恢复购买")
+                              
                         }
 
                         Spacer(minLength: 10)
                     }
                     .font(.caption)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                 }
 
 			}

@@ -80,14 +80,9 @@ struct ServersConfigView: View {
                 Section{
                     ForEach(servers, id: \.id){ item in
                         
-                        ServerCardView( item: item){ index in
-                            if index == 1{
-                                Clipboard.shared.setString(item.url + "/" + item.key)
-                                Toast.copy(title: String(localized: "复制 URL 和 KEY 成功"))
-                            }else {
-                                Clipboard.shared.setString(item.key)
-                                Toast.copy(title: String(localized: "复制 KEY 成功"))
-                            }
+                        ServerCardView( item: item){
+                            Clipboard.shared.setString(item.url + "/" + item.key)
+                            Toast.copy(title: String(localized: "复制 URL 和 KEY 成功"))
                         }
                         .padding(.vertical,5)
                         .listRowSeparator(.hidden)
@@ -151,7 +146,7 @@ struct ServersConfigView: View {
                         
                         ForEach(filteredCloudDatas, id: \.id){ item in
                             
-                            ServerCardView(item: item,isCloud: true){ _ in
+                            ServerCardView(item: item,isCloud: true){
                                 manager.appendServer(server: item) { _, _ in }
                             }
                             .padding(.vertical,5)

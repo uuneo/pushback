@@ -229,19 +229,6 @@ struct ContentView: View {
                 self.firstStart.toggle()
             }
             
-            if let realm = try? Realm(){
-                
-                try? realm.write {
-                    for msg in Message.messages{
-                        realm.add(msg)
-                    }
-                    for item in ChatPrompt.prompts{
-                        realm.add(item)
-                    }
-                }
-                
-            }
-            
             
             PushServerCloudKit.shared.fetchPushServerModels { response in
                 switch response {

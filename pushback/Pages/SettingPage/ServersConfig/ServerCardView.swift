@@ -16,7 +16,7 @@ struct ServerCardView:View {
 	var item: PushServerModel
 	var isCloud:Bool = false
 	
-    var complete:(Int) -> Void
+    var complete:() -> Void
 	
 	var body: some View {
 		HStack(alignment: .center){
@@ -75,18 +75,17 @@ struct ServerCardView:View {
                     .foregroundStyle( .tint, Color.primary)
                     .symbolEffect(.bounce,delay: 1)
                     .onTapGesture {
-                        complete(0)
+                        complete()
                     }
             }else {
+                
+                
                 Image(systemName: "doc.on.doc")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle( .tint, Color.primary)
                     .symbolEffect(.bounce,delay: 1)
                     .onTapGesture {
-                        complete(1)
-                    }
-                    .onLongPressGesture {
-                        complete(2)
+                        complete()
                     }
             }
 			

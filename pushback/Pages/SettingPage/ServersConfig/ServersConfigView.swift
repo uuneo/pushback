@@ -88,8 +88,6 @@ struct ServersConfigView: View {
                                 Clipboard.shared.setString(item.key)
                                 Toast.copy(title: String(localized: "复制 KEY 成功"))
                             }
-                           
-                            
                         }
                         .padding(.vertical,5)
                         .listRowSeparator(.hidden)

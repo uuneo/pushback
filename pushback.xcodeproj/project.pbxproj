@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5856E882DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
+		B5856E892DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
+		B5856E8A2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
+		B5856E8B2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
+		B5856E8C2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
 		B5D204772D9EABFB00527343 /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044B2D9EABFB00527343 /* call.caf */; };
 		B5D204782D9EABFB00527343 /* tritone.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045A2D9EABFB00527343 /* tritone.caf */; };
 		B5D204792D9EABFB00527343 /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204532D9EABFB00527343 /* hello.caf */; };
@@ -221,6 +226,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		B5D204342D9EABFB00527343 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -326,7 +332,6 @@
 		B5D205EE2D9EAFAD00527343 /* Exceptions for "pushback" folder in "ShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Localizable.xcstrings,
 				Pages/OtherViews/AngularButton.swift,
 			);
 			target = B5D205DA2D9EAF4500527343 /* ShareExtension */;
@@ -342,23 +347,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
-				Localizable.xcstrings,
 			);
 			target = B5D2059C2D9EAEFE00527343 /* NotificationServiceExtension */;
-		};
-		B5D206682D9ECF7900527343 /* Exceptions for "pushback" folder in "NotificationContentExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Localizable.xcstrings,
-			);
-			target = B5D205AD2D9EAF1500527343 /* NotificationContentExtension */;
-		};
-		B5D2066A2D9ECF8300527343 /* Exceptions for "pushback" folder in "NotificationMarkdownExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Localizable.xcstrings,
-			);
-			target = B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -368,8 +358,6 @@
 			exceptions = (
 				B5D2061F2D9EB51700527343 /* Exceptions for "pushback" folder in "pushback" target */,
 				B5D206662D9ECF6800527343 /* Exceptions for "pushback" folder in "NotificationServiceExtension" target */,
-				B5D206682D9ECF7900527343 /* Exceptions for "pushback" folder in "NotificationContentExtension" target */,
-				B5D2066A2D9ECF8300527343 /* Exceptions for "pushback" folder in "NotificationMarkdownExtension" target */,
 				B5D205EE2D9EAFAD00527343 /* Exceptions for "pushback" folder in "ShareExtension" target */,
 			);
 			path = pushback;
@@ -607,6 +595,7 @@
 				B5D204732D9EABFB00527343 /* LocalKeys.swift */,
 				B5D204742D9EABFB00527343 /* BaseConfig.swift */,
 				B5D204752D9EABFB00527343 /* RealmConfig.swift */,
+				B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */,
 			);
 			path = Publics;
 			sourceTree = "<group>";
@@ -792,13 +781,14 @@
 				};
 			};
 			buildConfigurationList = B5D204202D9EABA300527343 /* Build configuration list for PBXProject "pushback" */;
-			developmentRegion = "zh-Hans";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 				"zh-Hans",
-				tr,
+				ja,
+				ko,
 			);
 			mainGroup = B5D2041C2D9EABA300527343;
 			minimizedProjectReferenceProxies = 1;
@@ -845,6 +835,7 @@
 				B5D204802D9EABFB00527343 /* craft.caf in Resources */,
 				B5D204812D9EABFB00527343 /* health.caf in Resources */,
 				B5D204822D9EABFB00527343 /* shake.caf in Resources */,
+				B5856E892DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 				B5D204832D9EABFB00527343 /* typewriter.caf in Resources */,
 				B5D204842D9EABFB00527343 /* trill.caf in Resources */,
 				B5D204852D9EABFB00527343 /* aurora.caf in Resources */,
@@ -864,6 +855,7 @@
 				B5D206552D9ECF5200527343 /* aurora.caf in Resources */,
 				B5D206562D9ECF5200527343 /* bamboo.caf in Resources */,
 				B5D206572D9ECF5200527343 /* complete.caf in Resources */,
+				B5856E8A2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 				B5D206582D9ECF5200527343 /* craft.caf in Resources */,
 				B5D206592D9ECF5200527343 /* health.caf in Resources */,
 				B5D2065A2D9ECF5200527343 /* hello.caf in Resources */,
@@ -883,6 +875,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5856E882DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -890,6 +883,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5856E8B2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,6 +891,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5856E8C2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1096,6 +1091,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1152,6 +1148,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

@@ -99,13 +99,7 @@ struct ScanView: View {
             self.showActive.toggle()
         }
        
-        
     }
-    
-    
-    
-    
-    
     
 }
 

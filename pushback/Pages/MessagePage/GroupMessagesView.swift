@@ -37,11 +37,10 @@ struct GroupMessagesView: View {
                         })
                 }
                 
-                ForEach(messages,id: \.id){ groupMessage in
+                ForEach(messages,id: \.key){ groupMessage in
                     if let message = groupMessage.first{
                        
                         MessageRow(message: message, unreadCount: unRead(message))
-                            .id(message.group)
                             .pressEvents(onRelease: { value in
                                 manager.messagePath = [.messageDetail(message.group)]
                             })

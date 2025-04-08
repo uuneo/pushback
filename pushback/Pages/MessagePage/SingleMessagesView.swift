@@ -79,7 +79,6 @@ struct SingleMessagesView: View {
                             }
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
-                            .id(message.id)
                             
                         }.onDelete(perform: $messages.remove)
                             .onAppear{

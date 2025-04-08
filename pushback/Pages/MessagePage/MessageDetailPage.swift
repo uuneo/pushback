@@ -79,7 +79,6 @@ struct MessageDetailPage: View {
                             }
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
-                            .id(message.id)
                             
                         }.onDelete(perform: $messages.remove)
                            
@@ -129,7 +128,7 @@ struct MessageDetailPage: View {
                 self.dismiss()
             }
         }
-        .task {
+        .task(priority: .background) {
             
             if let group = group{
                 

@@ -52,10 +52,7 @@ struct SingleMessagesView: View {
                 ScrollViewReader { proxy in
                     List{
                         if showAssistant{
-                            MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
-                                .pressEvents(onRelease: { value in
-                                    manager.messagePath = [.assistant]
-                                })
+                            AssistantRowView()
                         }
                     
                         ForEach(currentMessage, id: \.id) { message in

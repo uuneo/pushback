@@ -133,6 +133,8 @@ struct PromptChooseView: View {
 
     // MARK: - Methods
     private func handlePromptTap(_ prompt: ChatPrompt) {
+        
+        
         RealmManager.handler { realm in
             
             let results = realm.objects(ChatPrompt.self)

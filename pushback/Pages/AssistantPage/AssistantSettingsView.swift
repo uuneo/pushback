@@ -211,14 +211,17 @@ struct AssistantSettingsView: View {
             .alert("确认删除", isPresented: $showDeleteOk) {
                 Button("取消", role: .cancel) { }
                 Button("删除", role: .destructive) {
-                    RealmManager.handler { realm in
-                        let messages = realm.objects(ChatMessage.self)
-                        let groups = realm.objects(ChatGroup.self)
-                        realm.writeAsync {
-                            realm.delete(messages)
-                            realm.delete(groups)
+                    Task.detached {
+                        RealmManager.handler { realm in
+                            let messages = realm.objects(ChatMessage.self)
+                            let groups = realm.objects(ChatGroup.self)
+                            try? realm.write {
+                                realm.delete(messages)
+                                realm.delete(groups)
+                            }
                         }
                     }
+                    
                 }
             } message: {
                 Text("此操作将删除所有聊天记录和设置数据，且无法恢复。确定要继续吗？")

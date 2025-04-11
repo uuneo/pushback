@@ -188,6 +188,8 @@ struct MoreOperationsView: View {
 
 						}
 					}
+                
+
 
 
 				}header:{

@@ -70,7 +70,7 @@ struct WaveformScrubber: View {
     struct Config {
         var spacing: Float = 2
         var shapeWidth: Float = 2
-        var activeTint: Color = .black
+        var activeTint: Color = .orange
         var inActiveTint: Color = .gray.opacity(0.7)
         /// OTHER CONFIGS....
     }

@@ -49,7 +49,7 @@ struct SoundView: View {
                         switch result{
                         case .success(let file):
 
-                            Task{
+                            Task.detached{
                                 
                                 defer {
                                     file.stopAccessingSecurityScopedResource()
@@ -66,7 +66,7 @@ struct SoundView: View {
                                     switch result {
                                     case .success(let success):
                                         Log.debug(success)
-                                        audioManager.saveSound(url: success)
+                                        await audioManager.saveSound(url: success)
                                         
                                     case .failure(let failure):
                                         Toast.shared.present(title: failure.localizedDescription, symbol: .error)

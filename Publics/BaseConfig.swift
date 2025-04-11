@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-let DEFAULTSTORE = UserDefaults(suiteName: BaseConfig.groupName)!
 let ISPAD = UIDevice.current.userInterfaceIdiom == .pad
 
 class BaseConfig {

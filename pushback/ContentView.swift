@@ -63,10 +63,10 @@ struct ContentView: View {
                             
                             
                             if activeName == "alldelnotread"{
-                                RealmManager.realm { proxy in
-                                    let datas = proxy.objects(Message.self).filter({ !$0.read})
-                                    for data in datas{
-                                        data.read = true
+                                RealmManager.handler { proxy in
+                                    let datas = proxy.objects(Message.self).where({!$0.read})
+                                    proxy.writeAsync {
+                                        datas.setValue(true, forKey: "read")
                                     }
                                 }
                             }
@@ -82,7 +82,23 @@ struct ContentView: View {
                 PushServerCloudKit.shared.updatePushServers(items: value)
             }
         }
-        
+//        .task{
+//            autoreleasepool {
+//                var messages:[Message] = []
+//                
+//                for index in 0...10000{
+//                    messages.append(contentsOf: Message.examples(group: "\(index % 5)"))
+//                }
+//                
+//                RealmManager.handler { proxy in
+//                    proxy.writeAsync {
+//                        proxy.add(messages)
+//                    }
+//                   
+//                }
+//            }
+//        }
+//        
      
         
     }
@@ -194,18 +210,15 @@ struct ContentView: View {
                 AssistantPageView()
                     .onAppear{
                         chatManager.messageId = id
-                        RealmManager.realm { realm in
-                            let groups = realm.objects(ChatGroup.self)
-                            
-                            for group in groups{
-                                if group.id == id{
-                                    group.current = true
-                                }else {
-                                    group.current = false
-                                }
-                                
+                        
+                        RealmManager.handler { proxy in
+                            let datas = proxy.objects(ChatGroup.self)
+                            let groups = datas.where({$0.id != id})
+                            let current =  datas.where({$0.id == id})
+                            proxy.writeAsync {
+                                groups.setValue(false, forKey: "current")
+                                current.setValue(true, forKey: "current")
                             }
-                            
                         }
                     }
             }
@@ -247,6 +260,12 @@ struct ContentView: View {
                 
                 
             }
+
+            RealmManager.handler{ proxy in
+                proxy.writeAsync {
+                    proxy.add(Message.examples())
+                }
+            }
             
             
         }
@@ -277,19 +296,25 @@ struct ContentView: View {
     }
     
     func backgroundModeHandler(newValue: ScenePhase){
+        
+        manager.registerForRemoteNotifications()
+        
         switch newValue{
         case .active:
+            
             
             if manager.isWarmStart {
                 Log.debug("🔥 热启动")
             } else {
                 Log.debug("❄️ 冷启动")
                 manager.isWarmStart  = true // 进入前台后，标记为热启动
-                if let realm = try? Realm(),
-                   let group = realm.objects(ChatGroup.self).first(where: {$0.current}) {
-                    try? realm.write {
-                        group.current = false
+                RealmManager.handler { proxy in
+                    if let group = proxy.objects(ChatGroup.self).first(where: {$0.current}){
+                        proxy.writeAsync {
+                            group.current = false
+                        }
                     }
+                    
                 }
             }
             
@@ -298,11 +323,12 @@ struct ContentView: View {
                 manager.page = .message
                 switch name{
                 case "allread":
-                    RealmManager.realm { proxy in
-                        let datas = proxy.objects(Message.self).filter({ !$0.read})
-                        for data in datas{
-                            data.read = true
+                    RealmManager.handler { proxy in
+                        let datas = proxy.objects(Message.self).where({!$0.read})
+                        proxy.writeAsync {
+                            datas.setValue(true, forKey: "read")
                         }
+                        
                     }
                     Toast.success(title: String(localized: "操作成功"))
                 case "alldelread","alldelnotread":
@@ -326,11 +352,12 @@ struct ContentView: View {
         
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         
-        RealmManager.realm { proxy in
-            proxy.delete(proxy.objects(Message.self).filter({$0.isExpired()}))
+        RealmManager.handler { proxy in
+            let datas = proxy.objects(Message.self).filter({$0.isExpired()})
+            proxy.writeAsync {
+                proxy.delete(datas)
+            }
         }
-        
-       
     }
     
 }

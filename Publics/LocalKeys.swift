@@ -8,6 +8,9 @@
 @_exported import Defaults
 import Foundation
 
+
+let DEFAULTSTORE = UserDefaults(suiteName: BaseConfig.groupName)!
+
 extension Defaults.Key{
     convenience init(_ name: String, _ defaultValue: Value, iCloud: Bool = false){
         self.init(name, default: defaultValue, suite: DEFAULTSTORE, iCloud: iCloud)

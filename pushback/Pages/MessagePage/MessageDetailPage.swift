@@ -16,19 +16,14 @@ struct MessageDetailPage: View {
     @ObservedResults(Message.self) var messages
     @Default(.showMessageAvatar) var showMessageAvatar
     @Default(.showAssistant) var showAssistant
-    @State private var searchText:String = ""
     
    
     var group:String?
     
-    init(group: String? = nil) {
+    init(group: String) {
         
-        if let group = group {
-            self.group = group
-            self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
-        }else{
-            self._messages = ObservedResults(Message.self, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
-        }
+        self.group = group
+        self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
         
     }
     
@@ -52,35 +47,33 @@ struct MessageDetailPage: View {
     var body: some View {
         
         Group{
-            if searchText.isEmpty{
+            if manager.searchText.isEmpty{
                 ScrollViewReader{ proxy in
                     List{
                         ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar,showAssistant:showAssistant){ mode in
-                                
-                                switch mode{
-                                case .text:
-                                    withAnimation(.easeInOut) {
-                                        self.selectMessage = message
-                                    }
-                                case .userInfo:
-                                    withAnimation(.easeInOut) {
-                                        self.selectUserInfo = message
-                                    }
-                                }
-                            }
-                            
-                            .onAppear{
-                                if messages.prefix(currentPage * itemsPerPage).last == message{
-                                    
-                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
+                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar,showAssistant:showAssistant){
+                                withAnimation(.easeInOut) {
+                                    self.selectMessage = message
                                 }
                             }
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
                             
                         }.onDelete(perform: $messages.remove)
+                        
+                        Color.clear
+                            .listRowBackground(Color.clear)
+                            .onAppear{
+                                if !self.isLoading {
+                                    isLoading = true
+                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                                        isLoading = false
+                                    }
+                                   
+                                }
+                            }
                            
                     }
                     .onAppear{
@@ -102,14 +95,13 @@ struct MessageDetailPage: View {
                 
             }else {
                 List{
-                    SearchMessageView(searchText: searchText, group: group ?? "")
+                    SearchMessageView(searchText: manager.searchText, group: group)
                 }
             }
         }
         .navigationBarHidden(navHi)
         .overlay{ showSelectMessage() }
-        .overlay{ showSelectUserInfo() }
-        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
+        .searchable(text: $manager.searchText)
         .toolbar{
             ToolbarItem {
                 Button{
@@ -123,19 +115,15 @@ struct MessageDetailPage: View {
                 }
             }
         }
-        .onChange(of: messages.count){ newValue in
-            if newValue == 0{
-                self.dismiss()
-            }
-        }
         .task(priority: .background) {
             
             if let group = group{
-                
-                RealmManager.realm { proxy in
-                    let datas = proxy.objects(Message.self).filter({$0.group == group && !$0.read})
-                    for data in datas{
-                        data.read = true
+                Task.detached{
+                    RealmManager.handler { proxy in
+                        let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
+                        try? proxy.write {
+                            datas.setValue(true, forKey: "read")
+                        }
                     }
                 }
             }
@@ -204,41 +192,8 @@ struct MessageDetailPage: View {
         }
         
     }
-    
-    @ViewBuilder
-    func showSelectUserInfo()-> some View{
-        if let message = selectUserInfo{
-            ScrollView{
-                ZStack{
-                    Text(message.userInfo)
-                        .textSelection(.enabled)
-                        .padding()
-                }
-                
-                .frame(width: UIScreen.main.bounds.width)
-                .padding(.vertical, 50)
-                .frame(minHeight: UIScreen.main.bounds.height - 100)
-                
-                
-            }
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-            .background(.ultraThinMaterial)
-            .containerShape(RoundedRectangle(cornerRadius: 0))
-            .onTapGesture {
-                withAnimation(.easeInOut)  {
-                    self.selectUserInfo = nil
-                }
-            }
-            .transition(.opacity)
-        }else{
-            Spacer()
-                .onAppear{
-                    self.selectUserInfo = nil
-                }
-        }
-    }
 }
 
 #Preview {
-    MessageDetailPage()
+    MessageDetailPage(group: "")
 }

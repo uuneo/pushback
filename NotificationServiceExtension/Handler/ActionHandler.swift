@@ -53,9 +53,7 @@ class ActionHandler: NotificationContentHandler{
 		if let realm = realm{
 			let messages = realm.objects(Message.self).filter({$0.isExpired()})
 			try? realm.write{
-				for message in messages{
-					realm.delete( message )
-				}
+                realm.delete( messages )
 			}
 		}
         

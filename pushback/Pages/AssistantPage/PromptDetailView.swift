@@ -146,12 +146,15 @@ struct PromptDetailView: View {
     
     private func handleUsePrompt() {
         if prompt != nil{
-            RealmManager.realm { realm in
-                let chatprompt = ChatPrompt()
-                chatprompt.title = title
-                chatprompt.content = content
-                chatprompt.isBuiltIn = false
-                realm.add(chatprompt)
+            let chatprompt = ChatPrompt()
+            chatprompt.title = title
+            chatprompt.content = content
+            chatprompt.isBuiltIn = false
+            
+            RealmManager.handler{ realm in
+                realm.writeAsync {
+                    realm.add(chatprompt)
+                }
             }
             dismiss()
         }
@@ -160,10 +163,12 @@ struct PromptDetailView: View {
     
     private func handleSavePrompt() {
         if let prompt = prompt{
-            RealmManager.realm { realm in
-                if  let item = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
-                    item.title = title
-                    item.content = content
+            RealmManager.handler { realm in
+                if let item = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
+                    realm.writeAsync {
+                        item.title = title
+                        item.content = content
+                    }
                 }
             }
         }

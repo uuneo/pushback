@@ -23,7 +23,7 @@ struct SingleMessagesView: View {
     @State private var selectUserInfo:Message?
     @State private var selectMarkdown:Message?
     
-    @State private var searchText:String = ""
+ 
     @State private var showAllTTL:Bool = false
     
     @EnvironmentObject private var manager:PushbackManager
@@ -41,11 +41,14 @@ struct SingleMessagesView: View {
         
     }
     
+    var currentMessage:[Message]{
+        Array(messages.prefix(currentPage * itemsPerPage))
+    }
+    
     var body: some View {
         
         Group{
             
-            if searchText.isEmpty{
                 ScrollViewReader { proxy in
                     List{
                         if showAssistant{
@@ -55,62 +58,58 @@ struct SingleMessagesView: View {
                                 })
                         }
                     
-                        ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
+                        ForEach(currentMessage, id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar,showAssistant:showAssistant){ mode in
-                                
-                                switch mode{
-                                case .text:
-                                    withAnimation(.easeInOut) {
-                                        self.selectMessage = message
-                                    }
-                                case .userInfo:
-                                    withAnimation(.easeInOut) {
-                                        self.selectUserInfo = message
-                                    }
-                                }
-                                
-                            }
-                            .onAppear{
-                                if messages.prefix(currentPage * itemsPerPage).last == message{
-                                    
-                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
+                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar,showAssistant:showAssistant){
+                                withAnimation(.easeInOut) {
+                                    self.selectMessage = message
                                 }
                             }
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
                             
                         }.onDelete(perform: $messages.remove)
+                        
+                        Color.clear
+                            .listRowBackground(Color.clear)
                             .onAppear{
-                                DispatchQueue.main.async{
-                                    proxyTo(proxy: proxy, selectId: manager.selectId )
+                                if !self.isLoading {
+                                    isLoading = true
+                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
+                                        isLoading = false
+                                    }
+                                   
                                 }
                             }
-                            .onChange(of: manager.selectId){ value in
-                                DispatchQueue.main.async{
-                                    proxyTo(proxy: proxy, selectId: value )
-                                }
-                            }
+                            
+                    }
+                   
+                    .onAppear{
+                        DispatchQueue.main.async{
+                            proxyTo(proxy: proxy, selectId: manager.selectId )
+                        }
+                    }
+                    .onChange(of: manager.selectId){ value in
+                        DispatchQueue.main.async{
+                            proxyTo(proxy: proxy, selectId: value )
+                        }
                     }
                 }
-            }else{
-                List{
-                    SearchMessageView(searchText: searchText, group:  "")
-                }
-                
-                
-            }
+            
         }
         .overlay{ showSelectMessage() }
-        .overlay{ showSelectUserInfo() }
-        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
+        
         .task {
-            RealmManager.realm { proxy in
-                let datas = proxy.objects(Message.self).filter({ !$0.read})
-                for data in datas{
-                    data.read = true
+            Task.detached {
+                RealmManager.handler { proxy in
+                    let datas = proxy.objects(Message.self).where({!$0.read})
+                    try? proxy.write {
+                        datas.setValue(true, forKey: "read")
+                    }
                 }
             }
+            
         }
     }
     
@@ -190,43 +189,28 @@ struct SingleMessagesView: View {
         }
         
     }
-    
-    @ViewBuilder
-    func showSelectUserInfo()-> some View{
-        if let message = selectUserInfo{
-            ScrollView{
-                ZStack{
-                    Text(message.userInfo)
-                        .textSelection(.enabled)
-                        .padding()
-                }
-                
-                .frame(width: UIScreen.main.bounds.width)
-                .padding(.vertical, 50)
-                .frame(minHeight: UIScreen.main.bounds.height - 100)
-                
-                
-            }
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height, alignment: .center)
-            .background(.ultraThinMaterial)
-            .containerShape(RoundedRectangle(cornerRadius: 0))
-            .onTapGesture {
-                withAnimation(.easeInOut)  {
-                    self.selectUserInfo = nil
-                }
-            }
-            .transition(.opacity)
-            .navigationBarHidden(true)
-            .toolbar(.hidden, for: .tabBar)
-        }else{
-            Spacer()
-                .onAppear{
-                    self.selectUserInfo = nil
-                }
-        }
-    }
 }
 
 #Preview {
     SingleMessagesView()
+}
+
+
+struct BottomScrollDetector: View {
+    let onBottomReached: () -> Void
+    
+    var body: some View {
+        GeometryReader { geo in
+            Color.clear
+                .preference(key: ScrollOffsetKey.self, value: geo.frame(in: .global).maxY)
+        }
+        .frame(height: 0) // 不占空间
+    }
+}
+
+struct ScrollOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
 }

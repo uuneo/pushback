@@ -73,7 +73,7 @@ final class openChatManager: ObservableObject {
             
             var inputText:String{
                 if let message = realm.objects(Message.self).first(where: {$0.id.uuidString == messageId}){
-                    return message.userInfo + "\n" + text
+                    return message.search + "\n" + text
                 }
                 return text
             }

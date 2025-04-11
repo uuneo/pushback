@@ -165,10 +165,11 @@ private struct PromptLabelView: View {
             if let prompt {
                 Menu{
                     Button(role: .destructive){
-                        RealmManager.realm { realm in
-                            let datas = realm.objects(ChatPrompt.self)
-                            for data in datas{
-                                data.isSelected = false
+                        RealmManager.handler { realm in
+                            let datas = realm.objects(ChatPrompt.self).where({$0.isSelected})
+                            
+                            realm.writeAsync {
+                                datas.setValue(false, forKey: "isSelected")
                             }
                         }
                     }label: {

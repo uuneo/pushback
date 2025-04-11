@@ -9,10 +9,6 @@ import SwiftUI
 import RealmSwift
 import Defaults
 
-enum messageCompleteMode{
-    case text
-    case userInfo
-}
 
 struct MessageCard: View {
     
@@ -22,7 +18,7 @@ struct MessageCard: View {
     var showAllTTL:Bool = false
     var showAvatar:Bool = true
     var showAssistant:Bool = true
-    var complete:((messageCompleteMode)->Void)? = nil
+    var complete:(()->Void)? = nil
     @State private var showRaw:Bool = false
     @State private var showLoading:Bool = false
     @State private var showTTL:Bool = false
@@ -76,7 +72,7 @@ struct MessageCard: View {
                                 .contentShape(Rectangle())
                                 .padding(.vertical, 5)
                                 .onTapGesture(count: 2) {
-                                    self.complete?(.text)
+                                    self.complete?()
                                 }
                         }
                         
@@ -96,13 +92,14 @@ struct MessageCard: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture(count: 2) {
-                                self.complete?(.text)
+                                self.complete?()
                             }
                             
                         }
                     }
                     
                 }
+                
                 if message.title != nil || message.subtitle != nil{
                     Line()
                         .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
@@ -113,28 +110,23 @@ struct MessageCard: View {
                 if let body = message.body{
                     ScrollView{
                         
-                       
-                        MarkdownCustomView(content: body, userInfo: message.userInfo, searchText: searchText,showRaw: showRaw)
+                        MarkdownCustomView(content: body, userInfo: message.search, searchText: searchText,showRaw: showRaw)
                             .font(.body)
                             .textSelection(.enabled)
                             .contentShape(Rectangle())
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 10)
                             .onTapGesture(count: 2) {
-                                if showRaw{
-                                    self.complete?(.userInfo)
-                                }else {
-                                    self.complete?(.text)
-                                }
-                               
+                                self.complete?()
                             }
                         
                     }
-                    .frame(maxHeight: 300)
+                    
                 }
              
                 
             }
+            .frame(maxHeight: 300)
             .padding(.horizontal, 5)
             .background(Color.whiteGary)
             .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -185,7 +177,7 @@ struct MessageCard: View {
                     
                     Button{
                         
-                        Clipboard.shared.setString(message.allString)
+                        Clipboard.shared.setString(message.search)
                         Toast.copy(title: String(localized: "复制成功"))
                         PushbackManager.vibration(style: .light)
                     }label:{
@@ -193,15 +185,6 @@ struct MessageCard: View {
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(Color.primary, .green)
                     }
-                    
-                    Button{
-                        self.showRaw.toggle()
-                    }label:{
-                        Label("显示原始数据", systemImage: "doc.badge.ellipsis")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(Color.primary, .green)
-                    }
-                    
                 } label: {
                     
                     Image(systemName: showRaw ?  "captions.bubble.fill" : "captions.bubble" )
@@ -277,7 +260,7 @@ struct MessageCard: View {
 #Preview {
     
     List {
-        MessageCard(message: Message.messages.first!)
+        MessageCard(message: Message.examples().first!)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
             .environmentObject(PushbackManager.shared)

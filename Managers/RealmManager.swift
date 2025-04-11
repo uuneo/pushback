@@ -4,29 +4,36 @@
 //
 //  Created by uuneo 2024/10/9.
 //
-import SwiftUI
 import RealmSwift
-import Defaults
-import SwiftyJSON
 
 
 class RealmManager{
     
-    static let shared = RealmManager()
-    private init(){}
     
-    
-    class func realm(completion: @escaping (Realm) -> Void, fail: ((String)->Void)? = nil){
+    static func handler(completion: @escaping (Realm) -> Void, fail: ((String)->Void)? = nil){
         do{
             let proxy = try Realm()
-            
-            try proxy.write {
-                completion(proxy)
-            }
-            
+            completion(proxy)
         }catch{
             fail?(error.localizedDescription)
         }
+    }
+    
+    
+    static func unRead(_ group:String? = nil) -> Int{
+        do{
+            let results = try Realm().objects(Message.self).where({!$0.read})
+            
+            
+            if let group{
+                return results.where({$0.group == group}).count
+            }
+            return results.count
+            
+        }catch{
+            return 0
+        }
+        
     }
 
     

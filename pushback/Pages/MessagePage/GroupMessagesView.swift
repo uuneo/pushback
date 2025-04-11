@@ -10,12 +10,9 @@ import RealmSwift
 import Defaults
 
 struct GroupMessagesView: View {
-    @ObservedSectionedResults(Message.self,
-                              sectionKeyPath: \.group,
-                              sortDescriptors: [SortDescriptor(keyPath: \Message.createDate, ascending: false)]) var messages
     
-    @State private var searchText:String = ""
-    
+    @EnvironmentObject private var groupModel: GroupMessagesModel
+   
     @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
     
     var chatHomeMessage:Message{
@@ -24,11 +21,12 @@ struct GroupMessagesView: View {
     @EnvironmentObject private var manager:PushbackManager
     @Default(.showAssistant) var showAssistant
     
+    
     var body: some View {
         ScrollViewReader { proxy in
             List{
                 
-                if searchText.isEmpty && showAssistant{
+                if  showAssistant{
                     
                     MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
                     
@@ -37,8 +35,17 @@ struct GroupMessagesView: View {
                         })
                 }
                 
-                ForEach(messages,id: \.key){ groupMessage in
-                    if let message = groupMessage.first{
+                if groupModel.messages.count == 0 || groupModel.isLoading{
+                    HStack{
+                        Spacer()
+                        ProgressView()
+                            .scaleEffect(2)
+                        Spacer()
+                    }.listRowBackground(Color.clear)
+                }
+                
+                ForEach(groupModel.messages,id: \.group){ message in
+       
                        
                         MessageRow(message: message, unreadCount: unRead(message))
                             .pressEvents(onRelease: { value in
@@ -47,14 +54,17 @@ struct GroupMessagesView: View {
                             
                             .swipeActions(edge: .leading) {
                                 Button {
-                                    
-                                    Task{
-                                        RealmManager.realm { proxy in
-                                            let datas = proxy.objects(Message.self).filter({$0.group == message.group && !$0.read})
-                                            for data in datas{
-                                                data.read = true
+                                    let group = message.group
+                                    Task.detached{
+                                        
+                                        RealmManager.handler { proxy in
+                                            let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
+                                            try? proxy.write {
+                                                datas.setValue(true, forKey: "read")
                                             }
+                                         
                                         }
+                                        
                                     }
                                     
                                 } label: {
@@ -67,13 +77,11 @@ struct GroupMessagesView: View {
                             }
                             .swipeActions(edge: .trailing) {
                                 Button {
-                                    Task{
-                                        RealmManager.realm { proxy in
-                                            let datas = proxy.objects(Message.self).filter({$0.group == message.group })
-                                            proxy.delete(datas)
-                                        }
+
+                                    withAnimation {
+                                        groupModel.delete(message: message)
                                     }
-                                    
+                                   
                                 } label: {
                                     
                                     Label( "删除", systemImage: "trash")
@@ -82,19 +90,24 @@ struct GroupMessagesView: View {
                                     
                                 }.tint(.red)
                             }
-                           
-                    }
-                    
-                    
                     
                 }
+                
+                
+                
+                
+                
+                
+            }
+            .refreshable{
+                groupModel.loadMessage()
             }
             .onAppear{  proxyTo(proxy: proxy, selectGroup: manager.selectGroup) }
             .onChange(of: manager.selectGroup){value in  proxyTo(proxy: proxy, selectGroup: value)}
         }
-        .animation(.snappy(), value: messages.count)
+        .animation(.snappy(), value: groupModel.messages)
         .hideNavBarOnSwipe(false)
-        .searchable(text: $searchText, collection: $messages, keyPath: \.allString)
+        
         
         
     }
@@ -113,17 +126,8 @@ struct GroupMessagesView: View {
     
 
     private func unRead(_ message: Message) -> Int{
-        do{
-            return try Realm().objects(Message.self).where({$0.group == message.group && !$0.read}).count
-        }catch{
-            return 0
-        }
-        
+        RealmManager.unRead(message.group)
     }
-    
-    
-    
-   
     
 }
 
@@ -204,4 +208,57 @@ struct MessageRow: View {
 
 #Preview {
     GroupMessagesView()
+}
+
+
+class GroupMessagesModel:ObservableObject{
+    
+    @Published var messages:[Message] = []
+    @Published var isLoading:Bool = false
+    
+    var deleteIds:[String:Bool] = [:]
+    
+    private var notificationToken:NotificationToken?
+    
+    
+    init(){
+        let realm = try! Realm()
+        notificationToken = realm.observe{ notification, changer in
+            self.loadMessage()
+        }
+    }
+    
+    deinit{
+        notificationToken?.invalidate()
+    }
+    
+    
+    func loadMessage(){
+        isLoading = true
+        DispatchQueue.main.async {
+            let realm = try! Realm()
+            let results =  realm.objects(Message.self).sorted(by: \.createDate, ascending: false)
+            let messages = results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)})
+            self.messages = Array(messages)
+            self.isLoading = false
+        }
+        
+       
+    }
+    
+    func delete(message: Message){
+        let (id, group) = (message.id, message.group)
+        
+        deleteIds[id.uuidString] = true
+        
+        self.messages.removeAll(where: {$0.id == id})
+        
+        Task.detached {
+            let realm = try Realm()
+            let messages = realm.objects(Message.self).where({$0.group == group})
+            try realm.write {
+                realm.delete(messages)
+            }
+        }
+    }
 }

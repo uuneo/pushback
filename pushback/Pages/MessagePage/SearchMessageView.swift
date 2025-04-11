@@ -13,10 +13,10 @@ struct SearchMessageView:View {
 
 	init(searchText: String, group: String? = nil) {
 		self.searchText = searchText
-		if let group = group, !group.isEmpty {
-			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "userInfo CONTAINS[c] %@ AND group ==[c] %@", searchText, group), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
+		if let group = group{
+			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "search CONTAINS[c] %@ AND group ==[c] %@", searchText, group), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
 		} else {
-			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "userInfo CONTAINS[c] %@", searchText), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "search CONTAINS[c] %@", searchText), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
 		}
 		self.currentPage = 1
 	}

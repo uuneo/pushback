@@ -11,12 +11,9 @@ import Foundation
 let kRealmDefaultConfiguration = {
 	let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
 
-#if DEBUG一天
-	Logger.shared.level = .debug
-#endif
     return Realm.Configuration(
 		fileURL: groupUrl?.appendingPathComponent(BaseConfig.realmName),
-		schemaVersion: 35,
+		schemaVersion: 50,
 		migrationBlock: { _, oldSchemaVersion in
 			if oldSchemaVersion < 1 { }
 		}

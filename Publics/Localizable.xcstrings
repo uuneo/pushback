@@ -6413,34 +6413,6 @@
         }
       }
     },
-    "显示原始数据" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show original data"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "元のデータを表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "원본 데이터 표시"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示原始数据"
-          }
-        }
-      }
-    },
     "显示图标" : {
       "localizations" : {
         "en" : {
@@ -7197,6 +7169,34 @@
         }
       }
     },
+    "没有打开推送" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are not enabled"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知が有効になっていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "푸시 알림이 꺼져 있습니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有打开推送"
+          }
+        }
+      }
+    },
     "没有找到历史服务器" : {
       "localizations" : {
         "en" : {
@@ -7617,30 +7617,30 @@
         }
       }
     },
-    "清空缓存" : {
+    "清空图片缓存" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clear cache"
+            "value" : "Clear image cache"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "キャッシュをクリア"
+            "value" : "画像キャッシュをクリア"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "캐시 지우기"
+            "value" : "이미지 캐시 삭제"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "清空缓存"
+            "value" : "清空图片缓存"
           }
         }
       }

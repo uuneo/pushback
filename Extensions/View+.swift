@@ -179,61 +179,6 @@ extension View{
 }
 
 
-// MARK: - toolbarTips
-
-struct TipsToolBarItemsModifier: ViewModifier {
-	
-	@State private var errorAnimate: Bool = true
-	private let timer = Timer.publish(every: 1.0, on: .current, in: .common).autoconnect()
-	var isConnected: Bool
-	var isAuthorized: Bool
-	let onAppearAction: () -> Void
-	
-	func body(content: Content) -> some View {
-		content.toolbar {
-			ToolbarItem(placement: .topBarLeading) {
-				if !isConnected || !isAuthorized {
-					Button {
-						onAppearAction()
-					} label: {
-						HStack{
-							if !isConnected {
-								signSymbol(errorAnimate,icon1: "network", icon2: "network.slash")
-							}
-							
-							if !isAuthorized {
-								signSymbol(errorAnimate,icon1: "bell", icon2: "bell.slash")
-							}
-						}
-						.onReceive(timer){ _ in
-							withAnimation(Animation.bouncy(duration: 0.5)) {
-								errorAnimate.toggle()
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	@ViewBuilder
-    private func signSymbol(_ errorAnimate:Bool, icon1: String, icon2: String) -> some View{
-		Image(systemName: errorAnimate ? icon1 : icon2)
-			.symbolRenderingMode(.palette)
-			.foregroundStyle(.red, .foreground)
-            .symbolEffect(.replace, delay: 1)
-        
-	}
-	
-	
-}
-
-extension View{
-	func tipsToolbar(wifi:Bool, notification:Bool , callback: @escaping () -> Void) -> some View{
-		self.modifier(TipsToolBarItemsModifier(isConnected: wifi, isAuthorized: notification, onAppearAction: callback))
-	}
-}
-
 struct replaceSymbol: ViewModifier{
     var icon1:String
     var icon2:String
@@ -711,5 +656,54 @@ extension String{
         }
         
         return strippedText
+    }
+}
+
+
+struct ScrollToBottomDetector: ViewModifier {
+    let onBottom: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .background(GeometryReader { proxy in
+                Color.clear
+                    .preference(key: ScrollViewHeightKey.self, value: proxy.size.height)
+            })
+            .overlay(
+                GeometryReader { geo in
+                    Color.clear
+                        .frame(height: 0)
+                        .preference(key: ScrollBottomOffsetKey.self, value: geo.frame(in: .global).maxY)
+                }
+            )
+            .onPreferenceChange(ScrollBottomOffsetKey.self) { bottomY in
+                DispatchQueue.main.async {
+                    let screenHeight = UIScreen.main.bounds.height
+                    if bottomY < screenHeight + 20 {
+                        onBottom()
+                    }
+                    
+                }
+            }
+    }
+}
+
+struct ScrollBottomOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+struct ScrollViewHeightKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    func onScrollToBottom(perform: @escaping () -> Void) -> some View {
+        self.modifier(ScrollToBottomDetector(onBottom: perform))
     }
 }

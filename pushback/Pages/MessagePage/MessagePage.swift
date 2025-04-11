@@ -13,27 +13,31 @@ struct MessagePage: View {
     @EnvironmentObject private var manager:PushbackManager
     @Default(.showGroup) private var showGroup
     @State private var showAction = false
-    
-    @StateObject var monitor = MonitorsManager.shared
-    
-    
+    @StateObject private var groupModel = GroupMessagesModel()
     
     var body: some View {
         NavigationStack(path: $manager.messagePath){
             Group{
-                if showGroup{
-                    GroupMessagesView()
+                if manager.searchText.isEmpty{
+                    if showGroup{
+                        GroupMessagesView()
+                    }else{
+                        SingleMessagesView()
+                    }
                 }else{
-                    SingleMessagesView()
+                    List{
+                        SearchMessageView(searchText: manager.searchText)
+                    }
+                    
+                    
                 }
                 
+                
             }
-            
+            .environmentObject(groupModel)
+            .searchable(text: $manager.searchText)
             .listRowSpacing(10)
             .navigationTitle( "消息")
-            .tipsToolbar(wifi: monitor.isConnected, notification: monitor.isAuthorized, callback: {
-                PushbackManager.openSetting()
-            })
             .toolbar{
                 
                 ToolbarItem( placement: .topBarLeading) {
@@ -157,18 +161,21 @@ struct MessagePage: View {
     func deleteMessage(_ mode: MessageAction){
         switch mode {
         case .markRead:
-            RealmManager.realm { proxy in
-                let datas = proxy.objects(Message.self).filter({ !$0.read})
-                for data in datas{
-                    data.read = true
+            RealmManager.handler { proxy in
+                let datas = proxy.objects(Message.self).where({ !$0.read})
+                proxy.writeAsync {
+                    datas.setValue(true, forKey: "read")
                 }
             }
             
         case .cancel:
             break
         default:
-            RealmManager.realm { proxy in
-                proxy.delete(proxy.objects(Message.self).where({ $0.createDate < mode.date }))
+            RealmManager.handler { proxy in
+                let datas = proxy.objects(Message.self).where({ $0.createDate < mode.date })
+                proxy.writeAsync {
+                    proxy.delete(datas)
+                }
             }
         }
         

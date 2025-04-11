@@ -54,9 +54,11 @@ struct SideBarMenuView: View {
             }content: {
                 if let chatgroup = selectdChatGroup{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        RealmManager.realm { realm in
-                            if let group = chatgroup.thaw(){
-                                group.name = text
+                        RealmManager.handler { realm in
+                            if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
+                                realm.writeAsync {
+                                    group.name = text
+                                }
                             }
                         }
                     }
@@ -91,13 +93,19 @@ struct SideBarMenuView: View {
                     
                     HStack{
                         Button{
-                            RealmManager.realm { realm in
-                                if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
-                                    group.current = true
+                            RealmManager.handler{ realm in
+                                
+                                let results = realm.objects(ChatGroup.self)
+                                
+                                let current = results.where({$0.id == chatgroup.id})
+                                
+                                let noCurrent = results.where({$0.id != chatgroup.id})
+                                
+                                realm.writeAsync {
+                                    current.setValue(true, forKey: "current")
+                                    noCurrent.setValue(false, forKey: "current")
                                 }
-                                for group in realm.objects(ChatGroup.self).where({$0.id != chatgroup.id}){
-                                    group.current = false
-                                }
+
                                 
                             }
                             self.showMenu.toggle()
@@ -136,13 +144,16 @@ struct SideBarMenuView: View {
                             Text("重命名")
                         }
                         Button(role: .destructive){
-                            RealmManager.realm { realm in
+                            RealmManager.handler{ realm in
                                 if let group = realm.objects(ChatGroup.self).first(where: {$0.id == chatgroup.id}){
                                     
                                     let msgs = realm.objects(ChatMessage.self).filter({$0.chat == group.id})
                                     
-                                    realm.delete(msgs)
-                                    realm.delete(group)
+                                    realm.writeAsync {
+                                        realm.delete(msgs)
+                                        realm.delete(group)
+                                    }
+
                                 }
                             }
                         }label:{
@@ -202,10 +213,11 @@ struct SideBarMenuView: View {
             HStack{
                 Spacer()
                 Button{
-                    RealmManager.realm { realm in
+                    RealmManager.handler { realm in
                         let datas = realm.objects(ChatGroup.self)
-                        for data in datas {
-                            data.current = false
+                        
+                        realm.writeAsync {
+                            datas.setValue(false, forKey: "current")
                         }
                     }
                     self.showMenu.toggle()

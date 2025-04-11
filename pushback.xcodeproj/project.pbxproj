@@ -43,7 +43,6 @@
 		B5D204932D9EABFB00527343 /* OpenChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204662D9EABFB00527343 /* OpenChatManager.swift */; };
 		B5D204942D9EABFB00527343 /* StaggeredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204392D9EABFB00527343 /* StaggeredView.swift */; };
 		B5D204952D9EABFB00527343 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204342D9EABFB00527343 /* MessageModel.swift */; };
-		B5D204962D9EABFB00527343 /* MonitorsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046C2D9EABFB00527343 /* MonitorsManager.swift */; };
 		B5D204972D9EABFB00527343 /* ImageViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2043D2D9EABFB00527343 /* ImageViewer.swift */; };
 		B5D204982D9EABFB00527343 /* AnimatedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2043C2D9EABFB00527343 /* AnimatedButton.swift */; };
 		B5D204992D9EABFB00527343 /* PushbackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046A2D9EABFB00527343 /* PushbackManager.swift */; };
@@ -281,7 +280,6 @@
 		B5D204692D9EABFB00527343 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		B5D2046A2D9EABFB00527343 /* PushbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushbackManager.swift; sourceTree = "<group>"; };
 		B5D2046B2D9EABFB00527343 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		B5D2046C2D9EABFB00527343 /* MonitorsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorsManager.swift; sourceTree = "<group>"; };
 		B5D2046D2D9EABFB00527343 /* cryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cryptoManager.swift; sourceTree = "<group>"; };
 		B5D2046E2D9EABFB00527343 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		B5D2046F2D9EABFB00527343 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -579,7 +577,6 @@
 				B5D204692D9EABFB00527343 /* AudioManager.swift */,
 				B5D2046A2D9EABFB00527343 /* PushbackManager.swift */,
 				B5D2046B2D9EABFB00527343 /* RealmManager.swift */,
-				B5D2046C2D9EABFB00527343 /* MonitorsManager.swift */,
 				B5D2046D2D9EABFB00527343 /* cryptoManager.swift */,
 				B5D2046E2D9EABFB00527343 /* ImageManager.swift */,
 				B5D2046F2D9EABFB00527343 /* NetworkManager.swift */,
@@ -915,7 +912,6 @@
 				B5D204932D9EABFB00527343 /* OpenChatManager.swift in Sources */,
 				B5D204942D9EABFB00527343 /* StaggeredView.swift in Sources */,
 				B5D204952D9EABFB00527343 /* MessageModel.swift in Sources */,
-				B5D204962D9EABFB00527343 /* MonitorsManager.swift in Sources */,
 				B5D204972D9EABFB00527343 /* ImageViewer.swift in Sources */,
 				B5D204982D9EABFB00527343 /* AnimatedButton.swift in Sources */,
 				B5D204992D9EABFB00527343 /* PushbackManager.swift in Sources */,

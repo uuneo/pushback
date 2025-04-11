@@ -27,7 +27,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var level:Int = 1
 	@Persisted var ttl:Int = ExpirationTime.forever.days
 	@Persisted var read:Bool = false
-	@Persisted var userInfo:String
+	@Persisted var search:String
 
 
 	enum CodingKeys: CodingKey {
@@ -44,14 +44,14 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		case createDate
 		case ttl
 		case read
-		case userInfo
+		case search
 	}
 
 	func encode(to encoder: any Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(self.id, forKey: .id)
 		try container.encode(self.group, forKey: .group)
-		try container.encode(self.createDate, forKey: .createDate)
+        try container.encode(self.createDate.timeIntervalSince1970, forKey: .createDate)
 		try container.encode(self.title, forKey: .title)
 		try container.encode(self.subtitle, forKey: .subtitle)
 		try container.encode(self.body, forKey: .body)
@@ -62,31 +62,36 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.level, forKey: .level)
 		try container.encode(self.ttl, forKey: .ttl)
 		try container.encode(self.read, forKey: .read)
-		try container.encode(self.userInfo, forKey: .userInfo)
+		try container.encode(self.search, forKey: .search)
 	}
-
     
-    var allString: String {
-        return [ title, subtitle, body, from, group, url, image,  icon ]
+    
+    func allString()-> String {
+        return [ group,  title, subtitle, body, from, url, image,  icon ]
             .compactMap { $0 }  // 过滤掉 nil 值
             .filter { !$0.isEmpty }  // 过滤掉空字符串
             .joined(separator: ";") + ";"  // 使用分号连接并添加结尾分号
     }
     
-   
+    func mark() -> Self {
+        self.search = allString()
+        return self
+    }
 
 }
 
 extension Message{
 	
-	static let messages = [
-		Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]),
+    static func examples(group:String = "") ->[Message]{
+        [
+            Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例") + group,"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]).mark(),
 
-		Message(value: ["group":  "App","title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]),
-        
-        Message(value: ["group":  "Markdown", "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0])
-        
-	]
+            Message(value: ["group":  "App" + group,"title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]).mark(),
+            
+            Message(value: ["group":  "Markdown" + group, "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]).mark()
+            
+        ]
+    }
     
 	
 }

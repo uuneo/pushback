@@ -25,7 +25,7 @@ class PushbackManager: NetworkManager, ObservableObject{
     
     @Published var selectId:String? = nil
     @Published var selectGroup:String? = nil
-    
+    @Published var searchText:String = ""
     
     @Published var messagePath:[MessageStatckPage] = []
     
@@ -257,6 +257,21 @@ class PushbackManager: NetworkManager, ObservableObject{
     
     class func hideKeyboard(){
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),to: nil,from: nil,for: nil)
+    }
+    
+    
+    // MARK: 注册设备以接收远程推送通知
+    func registerForRemoteNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert]) { (granted, _) in
+            if granted {
+                // 如果授权，注册设备接收推送通知
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            } else {
+                Toast.error(title: String(localized: "没有打开推送"))
+            }
+        }
     }
     
 }

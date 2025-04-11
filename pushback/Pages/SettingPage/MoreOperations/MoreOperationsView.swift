@@ -81,7 +81,7 @@ struct MoreOperationsView: View {
                         }
                     }.onChange(of: badgeMode) { newValue in
                         if Defaults[.badgeMode] == .auto{
-                            RealmManager.realm { proxy in
+                            RealmManager.handler{ proxy in
                                 let unRead = proxy.objects(Message.self).filter({ !$0.read }).count
                                 UNUserNotificationCenter.current().setBadgeCount( unRead )
                             }
@@ -200,9 +200,6 @@ struct MoreOperationsView: View {
 				}
 
 
-                
-
-
 				Section {
 
 
@@ -214,7 +211,6 @@ struct MoreOperationsView: View {
                                 .symbolEffect(.rotate, delay: 3)
                                 .onChange(of: autoSaveToAlbum) { newValue in
                                     if newValue{
-                                        debugPrint(newValue)
                                         PHPhotoLibrary.requestAuthorization{status in
                                             switch status {
                                             case .notDetermined:
@@ -334,7 +330,6 @@ struct MoreOperationsView: View {
 						Text("\(getUseSize())/\(cacheSize.title)")
 
 
-
 					}
 
 
@@ -344,7 +339,7 @@ struct MoreOperationsView: View {
 						}label: {
 							HStack{
 								Spacer()
-								Text("清空缓存")
+								Text("清空图片缓存")
 									.fontWeight(.bold)
 									.padding(.vertical, 5)
 								Spacer()
@@ -410,7 +405,9 @@ struct MoreOperationsView: View {
                     
                     guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
                     
-                    RealmManager.realm { proxy in
+                   
+                    autoreleasepool {
+                        var messages:[Message] = []
                         for message in arr {
                             
                             guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
@@ -427,12 +424,27 @@ struct MoreOperationsView: View {
                             messageObject.image = message["image"].string
                             messageObject.ttl = ExpirationTime.forever.days
                             messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
-                            messageObject.userInfo = message["userInfo"].string ?? ""
+                            messageObject.search = message["search"].string ?? ""
                             
-                            proxy.add(messageObject, update: .modified)
+                            messages.append(messageObject)
+                            
+                            if messages.count == 1000 {
+                                let newMessage = messages
+                                RealmManager.handler { proxy in
+                                    proxy.writeAsync {
+                                        proxy.add(newMessage, update: .modified)
+                                    }
+                                }
+                                
+                                messages = []
+                            }
+                        }
+                        RealmManager.handler { proxy in
+                            proxy.writeAsync {
+                                proxy.add(messages, update: .modified)
+                            }
                         }
                     }
-                    
                 }
                 
                 

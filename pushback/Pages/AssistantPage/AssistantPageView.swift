@@ -110,11 +110,12 @@ struct AssistantPageView:View {
             }content: {
                 if let chatgroup = chatgroups.first{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        RealmManager.realm { realm in
-                            if let group = chatgroup.thaw(){
-                                group.name = text
+                        RealmManager.handler{ realm in
+                            if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
+                                realm.writeAsync {
+                                    group.name = text
+                                }
                             }
-                            
                         }
                     }
                 }else {
@@ -191,10 +192,10 @@ struct AssistantPageView:View {
                         Button{
                             chatManager.cancellableRequest?.cancelRequest()
                             
-                            RealmManager.realm { realm in
+                            RealmManager.handler { realm in
                                 let groups = realm.objects(ChatGroup.self)
-                                for group in groups{
-                                    group.current = false
+                                realm.writeAsync {
+                                    groups.setValue(false, forKey: "current")
                                 }
                             }
                         }label: {
@@ -364,8 +365,9 @@ struct AssistantPageView:View {
                 }
                 
                 DispatchQueue.main.async {
-                    let group2 = ChatGroup()
-                    RealmManager.realm { realm in
+                    
+                    RealmManager.handler { realm in
+                        var group2 = ChatGroup()
                         var group:ChatGroup{
                             guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
                                 group2.current = true
@@ -383,10 +385,14 @@ struct AssistantPageView:View {
                         let responseMessage = chatManager.currentChatMessage
                         responseMessage.chat = group.id
                         
-                        if realm.objects(ChatGroup.self).where( {$0.current} ).count == 0{
-                            realm.add(group)
+                        let groupCount = realm.objects(ChatGroup.self).where( {$0.current} ).count
+                        
+                        realm.writeAsync {
+                            if groupCount == 0{
+                                realm.add(group)
+                            }
+                            realm.add(responseMessage)
                         }
-                        realm.add(responseMessage)
                        
                         chatManager.currentRequest = ""
                         chatManager.isLoading = false

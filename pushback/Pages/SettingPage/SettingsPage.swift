@@ -15,7 +15,6 @@ struct SettingsPage: View {
 	@EnvironmentObject private var manager:PushbackManager
 	@EnvironmentObject private var store:AppState
     
-    @StateObject var monitor = MonitorsManager.shared
 	
 	@Default(.appIcon) var setting_active_app_icon
 	@Default(.sound) var sound
@@ -377,9 +376,6 @@ struct SettingsPage: View {
 			}
 			.navigationTitle("设置")
 			.loading(showLoading)
-			.tipsToolbar(wifi: monitor.isConnected, notification: monitor.isAuthorized, callback: {
-                PushbackManager.openSetting()
-			})
 			.toolbar {
                 
                 ToolbarItem {
@@ -421,8 +417,10 @@ struct SettingsPage: View {
 
 	fileprivate func resetApp(){
 		DEFAULTSTORE.removeAll()
-        RealmManager.realm { proxy in
-            proxy.deleteAll()
+        RealmManager.handler { proxy in
+            proxy.writeAsync {
+                proxy.deleteAll()
+            }
         }
 		exit(0)
 	}

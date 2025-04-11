@@ -133,14 +133,16 @@ struct PromptChooseView: View {
 
     // MARK: - Methods
     private func handlePromptTap(_ prompt: ChatPrompt) {
-        RealmManager.realm { realm in
-            if let data = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
-                data.isSelected = true
-            }
+        RealmManager.handler { realm in
             
-           let datas = realm.objects(ChatPrompt.self).where({$0.id != prompt.id})
-            for item in datas{
-                item.isSelected = false
+            let results = realm.objects(ChatPrompt.self)
+            
+            let selected = results.where({$0.id == prompt.id})
+            let noSelected = results.where({$0.id != prompt.id})
+            
+            realm.writeAsync {
+                selected.setValue(true, forKey: "isSelected")
+                noSelected.setValue(false, forKey: "isSelected")
             }
             
         }
@@ -177,11 +179,14 @@ private struct PromptSection: View {
             Button("删除", role: .destructive) {
                 if let prompt = promptToDelete{
                 
-                    RealmManager.realm { realm in
-                        if let prompt1 = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
-                            realm.delete(prompt1)
+                    RealmManager.handler { realm in
+                        if let datas = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
+                            realm.writeAsync {
+                                realm.delete(datas)
+                            }
+                          
                         }
-                      
+                       
                     }
                 }
                
@@ -324,13 +329,21 @@ struct AddPromptView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("保存") {
-                        RealmManager.realm { realm in
-                            let chatprompt = ChatPrompt()
-                            chatprompt.title = title
-                            chatprompt.content = content
-                            chatprompt.isBuiltIn = false
-                            realm.add(chatprompt)
-                            self.dismiss()
+                        
+                        let chatprompt = ChatPrompt()
+                        chatprompt.title = title
+                        chatprompt.content = content
+                        chatprompt.isBuiltIn = false
+                        
+                        RealmManager.handler { realm in
+                            realm.writeAsync {
+                                realm.add(chatprompt)
+                               
+                            }onComplete: { _ in
+                                self.dismiss()
+                            }
+                            
+                           
                         }
                       
                     }

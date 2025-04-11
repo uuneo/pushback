@@ -110,6 +110,7 @@ struct AssistantPageView:View {
             }content: {
                 if let chatgroup = chatgroups.first{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
+                        
                         RealmManager.handler{ realm in
                             if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
                                 realm.writeAsync {
@@ -191,13 +192,15 @@ struct AssistantPageView:View {
                         
                         Button{
                             chatManager.cancellableRequest?.cancelRequest()
-                            
-                            RealmManager.handler { realm in
-                                let groups = realm.objects(ChatGroup.self)
-                                realm.writeAsync {
-                                    groups.setValue(false, forKey: "current")
+                            Task.detached {
+                                RealmManager.handler { realm in
+                                    let groups = realm.objects(ChatGroup.self)
+                                    try? realm.write {
+                                        groups.setValue(false, forKey: "current")
+                                    }
                                 }
                             }
+                            
                         }label: {
                             
                             Label("新对话", systemImage:  "rectangle.3.group.bubble")
@@ -367,7 +370,7 @@ struct AssistantPageView:View {
                 DispatchQueue.main.async {
                     
                     RealmManager.handler { realm in
-                        var group2 = ChatGroup()
+                        let group2 = ChatGroup()
                         var group:ChatGroup{
                             guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
                                 group2.current = true
@@ -553,3 +556,26 @@ struct StreamingLoadingView: View {
     }
 }
 
+
+
+struct AssistantRowView: View {
+    
+    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
+    @EnvironmentObject private var manager:PushbackManager
+    
+    var chatHomeMessage:Message{
+        var chatGroup:ChatMessage? = nil
+        
+        if let realm = try? Realm(),
+           let chat = realm.objects(ChatMessage.self).sorted(byKeyPath: "timestamp").last {
+            chatGroup = chat
+        }
+        return ChatMessage.getAssistant(chat: chatGroup)
+    }
+    var body: some View {
+        MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
+            .pressEvents(onRelease: { value in
+                manager.messagePath = [.assistant]
+            })
+    }
+}

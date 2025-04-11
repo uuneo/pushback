@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 17.0, *)
 struct PopOutView<Header: View, Content: View>: View {
     @ViewBuilder var header: (Bool) -> Header
     @ViewBuilder var content: (Bool) -> Content
@@ -62,6 +63,7 @@ struct PopOutView<Header: View, Content: View>: View {
 
 /// Custom Overlay View (Which Actually is a Full-Screen-Cover)!
 /// Thus making this to be appear at the top of the window!
+@available(iOS 17.0, *)
 fileprivate struct PopOutOverlay<Header: View, Content: View>: View {
     @Binding var sourceRect: CGRect
     @Binding var animateView: Bool

@@ -20,6 +20,9 @@ struct SoundItemView: View {
 	
     @State var duration:Double = 0.0
 	@State private var title:String?
+    var progress:CGFloat{
+        selectSound ? 1 : 0
+    }
 	var name:String{
 		audio.deletingPathExtension().lastPathComponent
 	}
@@ -34,45 +37,41 @@ struct SoundItemView: View {
         HStack{
             
             HStack{
-                if selectSound{
-                    Image(systemName: "checkmark.circle")
-                        .frame(width: 35)
-                        .foregroundStyle(Color.green)
+                
+                VStack(alignment: .leading){
+                    Text( name)
+                        .foregroundStyle(selectSound ? Color.green :  Color.textBlack)
+                    Text("\(formatDuration(duration))s")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
                 }
                 
-                Button{
-					audioManager.playAudio(url: audio)
-                }label: {
-					VStack(alignment: .leading){
-						Text( name)
-							.foregroundStyle(Color.textBlack)
-						Text("\(formatDuration(duration))s")
-							.font(.caption)
-							.foregroundStyle(.gray)
-					}
-                }
+                WaveformScrubber(url: audio, progress: Binding(get: {progress}, set: {_ in}))
+                    .disabled(true)
+                    .scaleEffect(0.8)
+                
+            }.pressEvents(onRelease:{ _ in
+                audioManager.playAudio(url: audio)
+            })
+            
+            
+            
+           
+            
+            
+            Spacer(minLength: 0)
+            if duration <= 30{
+                Image(systemName: "doc.on.doc")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .tint, Color.primary)
+                    .onTapGesture {
+                        Clipboard.shared.setString(self.name)
+                        Toast.copy(title: String(localized:  "复制成功"))
+                    }
+            }else{
+                Text("长度不能超过30秒")
+                    .foregroundStyle(.red)
             }
-            
-            
-            
-            
-            HStack{
-                Spacer()
-                if duration <= 30{
-                    Image(systemName: "doc.on.doc")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle( .tint, Color.primary)
-                        .onTapGesture {
-                            UIPasteboard.general.string = self.name
-                            Toast.copy(title: String(localized:  "复制成功"))
-                        }
-                }else{
-                    Text("长度不能超过30秒")
-                        .foregroundStyle(.red)
-                }
-               
-            }
-            
             
             
             

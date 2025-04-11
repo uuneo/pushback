@@ -7,11 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B5856E882DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
-		B5856E892DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
-		B5856E8A2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
-		B5856E8B2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
-		B5856E8C2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */; };
+		B53934552DA92578001B9336 /* PopOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53934542DA92578001B9336 /* PopOutView.swift */; };
 		B5D204772D9EABFB00527343 /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044B2D9EABFB00527343 /* call.caf */; };
 		B5D204782D9EABFB00527343 /* tritone.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045A2D9EABFB00527343 /* tritone.caf */; };
 		B5D204792D9EABFB00527343 /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204532D9EABFB00527343 /* hello.caf */; };
@@ -225,7 +221,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B53934542DA92578001B9336 /* PopOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOutView.swift; sourceTree = "<group>"; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		B5D204342D9EABFB00527343 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -299,6 +295,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B53934482DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationContentExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = B5D205AD2D9EAF1500527343 /* NotificationContentExtension */;
+		};
+		B53934492DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationMarkdownExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */;
+		};
 		B5D205A52D9EAEFE00527343 /* Exceptions for "NotificationServiceExtension" folder in "NotificationServiceExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -330,6 +340,7 @@
 		B5D205EE2D9EAFAD00527343 /* Exceptions for "pushback" folder in "ShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Localizable.xcstrings,
 				Pages/OtherViews/AngularButton.swift,
 			);
 			target = B5D205DA2D9EAF4500527343 /* ShareExtension */;
@@ -345,6 +356,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Localizable.xcstrings,
 			);
 			target = B5D2059C2D9EAEFE00527343 /* NotificationServiceExtension */;
 		};
@@ -356,6 +368,8 @@
 			exceptions = (
 				B5D2061F2D9EB51700527343 /* Exceptions for "pushback" folder in "pushback" target */,
 				B5D206662D9ECF6800527343 /* Exceptions for "pushback" folder in "NotificationServiceExtension" target */,
+				B53934482DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationContentExtension" target */,
+				B53934492DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationMarkdownExtension" target */,
 				B5D205EE2D9EAFAD00527343 /* Exceptions for "pushback" folder in "ShareExtension" target */,
 			);
 			path = pushback;
@@ -506,6 +520,7 @@
 		B5D2044A2D9EABFB00527343 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B53934542DA92578001B9336 /* PopOutView.swift */,
 				B5D204372D9EABFB00527343 /* CustomAlertDrawer.swift */,
 				B5D204382D9EABFB00527343 /* TrayHelper.swift */,
 				B5D204392D9EABFB00527343 /* StaggeredView.swift */,
@@ -592,7 +607,6 @@
 				B5D204732D9EABFB00527343 /* LocalKeys.swift */,
 				B5D204742D9EABFB00527343 /* BaseConfig.swift */,
 				B5D204752D9EABFB00527343 /* RealmConfig.swift */,
-				B5856E872DA22C43000BFAD0 /* Localizable.xcstrings */,
 			);
 			path = Publics;
 			sourceTree = "<group>";
@@ -832,7 +846,6 @@
 				B5D204802D9EABFB00527343 /* craft.caf in Resources */,
 				B5D204812D9EABFB00527343 /* health.caf in Resources */,
 				B5D204822D9EABFB00527343 /* shake.caf in Resources */,
-				B5856E892DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 				B5D204832D9EABFB00527343 /* typewriter.caf in Resources */,
 				B5D204842D9EABFB00527343 /* trill.caf in Resources */,
 				B5D204852D9EABFB00527343 /* aurora.caf in Resources */,
@@ -852,7 +865,6 @@
 				B5D206552D9ECF5200527343 /* aurora.caf in Resources */,
 				B5D206562D9ECF5200527343 /* bamboo.caf in Resources */,
 				B5D206572D9ECF5200527343 /* complete.caf in Resources */,
-				B5856E8A2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 				B5D206582D9ECF5200527343 /* craft.caf in Resources */,
 				B5D206592D9ECF5200527343 /* health.caf in Resources */,
 				B5D2065A2D9ECF5200527343 /* hello.caf in Resources */,
@@ -872,7 +884,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5856E882DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,7 +891,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5856E8B2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,7 +898,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5856E8C2DA22C43000BFAD0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,6 +925,7 @@
 				B5D204982D9EABFB00527343 /* AnimatedButton.swift in Sources */,
 				B5D204992D9EABFB00527343 /* PushbackManager.swift in Sources */,
 				B5D2049A2D9EABFB00527343 /* PushParams.swift in Sources */,
+				B53934552DA92578001B9336 /* PopOutView.swift in Sources */,
 				B5D2049B2D9EABFB00527343 /* LocalKeys.swift in Sources */,
 				B5D2049C2D9EABFB00527343 /* ChatMessageModel.swift in Sources */,
 				B5D2049D2D9EABFB00527343 /* View+.swift in Sources */,
@@ -1157,7 +1167,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1195,7 +1205,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1230,7 +1240,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1257,7 +1267,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1284,7 +1294,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1311,7 +1321,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1337,7 +1347,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationMarkdownExtension/Info.plist;
@@ -1363,7 +1373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationMarkdownExtension/Info.plist;

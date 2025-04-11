@@ -28,14 +28,10 @@ struct GroupMessagesView: View {
                 
                 if  showAssistant{
                     
-                    MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
-                    
-                        .pressEvents(onRelease: { value in
-                            manager.messagePath = [.assistant]
-                        })
+                    AssistantRowView()
                 }
                 
-                if groupModel.messages.count == 0 || groupModel.isLoading{
+                if groupModel.isLoading{
                     HStack{
                         Spacer()
                         ProgressView()
@@ -98,9 +94,6 @@ struct GroupMessagesView: View {
                 
                 
                 
-            }
-            .refreshable{
-                groupModel.loadMessage()
             }
             .onAppear{  proxyTo(proxy: proxy, selectGroup: manager.selectGroup) }
             .onChange(of: manager.selectGroup){value in  proxyTo(proxy: proxy, selectGroup: value)}
@@ -214,7 +207,7 @@ struct MessageRow: View {
 class GroupMessagesModel:ObservableObject{
     
     @Published var messages:[Message] = []
-    @Published var isLoading:Bool = false
+    @Published var isLoading:Bool = true
     
     var deleteIds:[String:Bool] = [:]
     
@@ -223,27 +216,23 @@ class GroupMessagesModel:ObservableObject{
     
     init(){
         let realm = try! Realm()
-        notificationToken = realm.observe{ notification, changer in
-            self.loadMessage()
+        notificationToken = realm.objects(Message.self).sorted(by: \.createDate, ascending: false).observe{ changes in
+            self.isLoading = true
+            switch changes {
+            case .initial(let results):
+                self.messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
+            case .update(let results, _, _, _):
+                
+                self.messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
+            case .error(let error):
+                print("监听失败: \(error)")
+            }
+            self.isLoading = false
         }
     }
     
     deinit{
         notificationToken?.invalidate()
-    }
-    
-    
-    func loadMessage(){
-        isLoading = true
-        DispatchQueue.main.async {
-            let realm = try! Realm()
-            let results =  realm.objects(Message.self).sorted(by: \.createDate, ascending: false)
-            let messages = results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)})
-            self.messages = Array(messages)
-            self.isLoading = false
-        }
-        
-       
     }
     
     func delete(message: Message){

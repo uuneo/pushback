@@ -13,10 +13,11 @@
 import Foundation
 import UIKit
 import CommonCrypto
+import Defaults
 
 class NetworkManager {
 
-	private var session = URLSession(configuration: .default)
+    private var session = URLSession(configuration: .default)
 
 	enum requestMethod:String{
 		case get = "GET"
@@ -26,6 +27,8 @@ class NetworkManager {
 			self.rawValue
 		}
 	}
+    
+    
 	
     /// 通用网络请求方法
     /// - Parameters:
@@ -55,25 +58,44 @@ class NetworkManager {
         // 构造 URLRequest 请求对象
         var request = URLRequest(url: requestUrl)
         request.httpMethod = method.method  // .get 或 .post
-        request.setValue(
-            sign(url: url, params: params, key: BaseConfig.signKey), // 自定义签名方法
-            forHTTPHeaderField: "X-Signature"
-        )
-
+        request.setValue( sign(url: url, params: params, key: BaseConfig.signKey), forHTTPHeaderField: "X-Signature" )
+        request.setValue(self.generateCustomUserAgent(), forHTTPHeaderField: "User-Agent" )
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
         // 如果是 POST 请求，将参数编码为 JSON 设置到 httpBody
         if method == .post && !params.isEmpty {
             request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         }
-
+        request.timeoutInterval = 30
+        
         // 打印请求信息（用于调试）
         Log.debug(request)
-
+       
         // 发起请求并等待响应（带有 30 秒超时）
-        let data = try await session.data(for: request, timeout: 30)
+        let data = try await session.data(for: request)
 
         // 尝试将响应的 JSON 解码为泛型模型 T
         let result = try JSONDecoder().decode(T.self, from: data)
         return result
+    }
+    
+    func generateCustomUserAgent() -> String {
+       
+        // 获取设备信息
+        let device = UIDevice.current
+        let systemName = device.systemName      // iOS
+        let systemVersion = device.systemVersion // 系统版本
+        let model = device.model                 // 设备型号 (例如 iPhone, iPad)
+        
+        // 获取应用信息
+        let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "UnknownApp"
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        
+        // 自定义User-Agent字符串
+        let userAgent = "\(appName)/\(appVersion) (\(model); \(systemName) \(systemVersion); Build/\(buildVersion))"
+        
+        return userAgent
     }
     
     

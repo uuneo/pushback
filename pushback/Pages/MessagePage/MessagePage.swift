@@ -161,20 +161,23 @@ struct MessagePage: View {
     func deleteMessage(_ mode: MessageAction){
         switch mode {
         case .markRead:
-            RealmManager.handler { proxy in
-                let datas = proxy.objects(Message.self).where({ !$0.read})
-                proxy.writeAsync {
-                    datas.setValue(true, forKey: "read")
+            autoreleasepool {
+                RealmManager.handler { proxy in
+                    let datas = proxy.objects(Message.self).where({ !$0.read})
+                    proxy.writeAsync {
+                        datas.setValue(true, forKey: "read")
+                    }
                 }
             }
-            
         case .cancel:
             break
         default:
-            RealmManager.handler { proxy in
-                let datas = proxy.objects(Message.self).where({ $0.createDate < mode.date })
-                proxy.writeAsync {
-                    proxy.delete(datas)
+            autoreleasepool {
+                RealmManager.handler { proxy in
+                    let datas = proxy.objects(Message.self).where({ $0.createDate < mode.date })
+                    proxy.writeAsync {
+                        proxy.delete(datas)
+                    }
                 }
             }
         }

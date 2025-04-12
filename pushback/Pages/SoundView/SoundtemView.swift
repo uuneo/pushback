@@ -20,9 +20,7 @@ struct SoundItemView: View {
 	
     @State var duration:Double = 0.0
 	@State private var title:String?
-    var progress:CGFloat{
-        selectSound ? 1 : 0
-    }
+    
 	var name:String{
 		audio.deletingPathExtension().lastPathComponent
 	}
@@ -30,8 +28,12 @@ struct SoundItemView: View {
     var selectSound:Bool{
 		sound == audio.deletingPathExtension().lastPathComponent
     }
+    
+    @State private var progress:CGFloat = 0
 	
-
+    var wavConfig:WaveformScrubber.Config{
+        selectSound ? .init(activeTint: .orange) : .init(activeTint: .textBlack)
+    }
 
     var body: some View{
         HStack{
@@ -46,12 +48,32 @@ struct SoundItemView: View {
                         .foregroundStyle(.gray)
                 }
                 
-                WaveformScrubber(url: audio, progress: Binding(get: {progress}, set: {_ in}))
+                WaveformScrubber(config: wavConfig, url: audio, progress: Binding(get: {progress}, set: {_ in}))
                     .disabled(true)
                     .scaleEffect(0.8)
+                    .onChange(of: selectSound) { value  in
+                        progress = selectSound ? 1 : 0
+                    }
+                    .onAppear{
+                        withAnimation {
+                            progress = selectSound ? 1 : 0
+                        }
+                        
+                    }
                 
-            }.pressEvents(onRelease:{ _ in
-                audioManager.playAudio(url: audio)
+            }
+            .pressEvents(onRelease:{ _ in
+                self.progress = 0
+                DispatchQueue.main.async{
+                    withAnimation(.easeInOut(duration: duration )) {
+                        self.progress = 1
+                    }
+                    
+                    audioManager.playAudio(url: audio)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.1){
+                        self.progress = selectSound ? 1 : 0
+                    }
+                }
             })
             
             

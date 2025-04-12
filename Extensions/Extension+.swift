@@ -11,6 +11,9 @@ import Combine
 import CryptoKit
 
 
+extension String: @retroactive Error {}
+
+
 // MARK: - FontAnimation Modifier
 
 /// A view modifier that animates the font size and other font properties.
@@ -299,40 +302,13 @@ extension URLSession{
         case invalidCode(Int)
     }
     
-    func data(for request:URLRequest, timeout:Double = 30) async throws -> Data{
-        
-        self.configuration.httpAdditionalHeaders = [
-            "application/json" : "Content-Type",
-            "User-Agent" : self.generateCustomUserAgent()
-        ]
-        self.configuration.timeoutIntervalForRequest = timeout
-        
+    func data(for request:URLRequest) async throws -> Data{
+    
         let (data,response) = try await self.data(for: request)
         guard let response = response as? HTTPURLResponse else{ throw APIError.invalidURL }
         guard 200...299 ~= response.statusCode else {throw APIError.invalidCode(response.statusCode) }
         return data
     }
-    
-    
-    func generateCustomUserAgent() -> String {
-        // 获取设备信息
-        let device = UIDevice.current
-        let systemName = device.systemName      // iOS
-        let systemVersion = device.systemVersion // 系统版本
-        let model = device.model                 // 设备型号 (例如 iPhone, iPad)
-        
-        // 获取应用信息
-        let appName = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "UnknownApp"
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-        let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-        
-        // 自定义User-Agent字符串
-        let userAgent = "\(appName)/\(appVersion) (\(model); \(systemName) \(systemVersion); Build/\(buildVersion))"
-        
-        return userAgent
-    }
-    
-    
     
 }
 
@@ -461,11 +437,8 @@ class KeyboardHeightHelper: ObservableObject {
 extension Data{
     func sha256() -> String{
         // 计算 SHA-256 哈希值
-        let hash = SHA256.hash(data: self)
         // 将哈希值转换为十六进制字符串
-        let hashString = hash.compactMap { String(format: "%02x", $0) }.joined()
-
-        return hashString
+        return SHA256.hash(data: self).compactMap { String(format: "%02x", $0) }.joined()
     }
     
     
@@ -484,4 +457,19 @@ extension Data{
         return nil
     }
     
+}
+
+
+extension UInt64{
+    func fileSize()->String{
+        if self >= 1_073_741_824 { // 1GB
+            return String(format: "%.2fGB", Double(self) / 1_073_741_824)
+        } else if self >= 1_048_576 { // 1MB
+            return String(format: "%.2fMB", Double(self) / 1_048_576)
+        } else if self >= 1_024 { // 1KB
+            return String(format: "%dKB", self / 1_024)
+        } else {
+            return "\(self)B" // 小于 1KB 直接显示字节
+        }
+    }
 }

@@ -52,13 +52,14 @@ struct GroupMessagesView: View {
                                 Button {
                                     let group = message.group
                                     Task.detached{
-                                        
-                                        RealmManager.handler { proxy in
-                                            let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
-                                            try? proxy.write {
-                                                datas.setValue(true, forKey: "read")
+                                        autoreleasepool {
+                                            RealmManager.handler { proxy in
+                                                let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
+                                                try? proxy.write {
+                                                    datas.setValue(true, forKey: "read")
+                                                }
+                                                
                                             }
-                                         
                                         }
                                         
                                     }
@@ -244,9 +245,11 @@ class GroupMessagesModel:ObservableObject{
         
         Task.detached {
             let realm = try Realm()
-            let messages = realm.objects(Message.self).where({$0.group == group})
-            try realm.write {
-                realm.delete(messages)
+            try autoreleasepool {
+                let messages = realm.objects(Message.self).where({$0.group == group})
+                try realm.write {
+                    realm.delete(messages)
+                }
             }
         }
     }

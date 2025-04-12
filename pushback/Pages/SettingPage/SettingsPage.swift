@@ -28,7 +28,7 @@ struct SettingsPage: View {
 	@State private var showPaywall:Bool = false
 	@State private var buildDetail:Bool = false
 	@State private var showServerListView:Bool = false
-	@State private var resetAppShow:Bool = false
+
 
 
 	var serverTypeColor:Color{
@@ -98,7 +98,7 @@ struct SettingsPage: View {
                     }label:{
                         
                         Label {
-                            Text("令牌与服务器")
+                            Text("服务器")
                                 .foregroundStyle(.textBlack)
                         } icon: {
                             Image(systemName: "externaldrive.badge.wifi")
@@ -127,7 +127,8 @@ struct SettingsPage: View {
                         }
                     }
 				}
-
+                
+            
 
 				Section(header: Text(  "App配置")) {
 					Button{
@@ -182,28 +183,21 @@ struct SettingsPage: View {
 					}
                     
                     
-                    Button{
-                        manager.sheetPage = .cloudIcon
-                    }label: {
-                        HStack{
-                            Label {
-                                Text( "云图标")
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                ZStack{
-                                    Image(systemName: "icloud")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(Color.primary)
-                                    Image(systemName: "photo")
-                                        .scaleEffect(0.4)
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.tint)
-                                        .offset(y: 2)
-                                } .scaleEffect(0.9)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.gray)
+                   
+                    
+                    NavigationLink{
+                       PrivacySecurity()
+                            .toolbar(.hidden, for: .tabBar)
+                    }label:{
+                        
+                        Label {
+                            Text("隐私与安全")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "lock.shield")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(serverTypeColor,Color.primary)
+                                
                         }
                     }
 
@@ -335,9 +329,6 @@ struct SettingsPage: View {
                             .onTapGesture {
                                 buildDetail.toggle()
                             }
-                            .onTapGesture(count: 7) {
-                                self.resetAppShow.toggle()
-                            }
                         Circle()
                             .frame(width: 3,height: 3)
                         Button{
@@ -403,27 +394,11 @@ struct SettingsPage: View {
                 .customPresentationCornerRadius(20)
 		}
 
-		.alert(isPresented: $resetAppShow) {
-			Alert(title: Text("危险操作!!! 恢复初始化."),
-				  message:  Text("将丢失所有数据"),
-				  primaryButton: .destructive(Text("确定"), action: { resetApp() }),
-				  secondaryButton: .cancel()
-			)}
-
+		
 
 	}
 
-	
-
-	fileprivate func resetApp(){
-		DEFAULTSTORE.removeAll()
-        RealmManager.handler { proxy in
-            proxy.writeAsync {
-                proxy.deleteAll()
-            }
-        }
-		exit(0)
-	}
+       
 
 }
 

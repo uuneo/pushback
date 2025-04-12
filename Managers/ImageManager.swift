@@ -68,8 +68,6 @@ class ImageManager {
     class func defaultCache(mode: BaseConfig.ImageMode = .icon) -> ImageCache?{
         guard let containerURL = BaseConfig.getImagesDirectory(mode: mode),
 			  let cache = try? ImageCache(name: "shared", cacheDirectoryURL: containerURL) else { return nil }
-
-		cache.diskStorage.config.sizeLimit = UInt(Defaults[.cacheSize].size)
 		return cache
 	}
 

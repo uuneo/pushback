@@ -23,7 +23,7 @@ class AudioManager: ObservableObject{
     
     
     private init() {
-        self.getFileList()
+        self.setFileList()
     }
     
     
@@ -35,9 +35,7 @@ class AudioManager: ObservableObject{
     
     // MARK: - Get audio folder data
     
-    /// 加载系统默认音效和用户自定义音效文件列表
-    private func getFileList() {
-        
+    func getFileList()-> ([URL],[URL]) {
         // 加载 Bundle 中的默认 caf 音频资源
         let defaultSounds: [URL] = {
             // 从 App Bundle 获取所有 caf 文件
@@ -67,11 +65,22 @@ class AudioManager: ObservableObject{
             return urlemp
         }()
         
+        
+        return (customSounds, defaultSounds)
+        
+    }
+    
+    /// 加载系统默认音效和用户自定义音效文件列表
+    private func setFileList() {
+        
+        let (customSounds, defaultSounds) = self.getFileList()
+        
         // 回到主线程，更新界面相关状态（如 SwiftUI 或 UIKit 列表）
         DispatchQueue.main.async {
             self.customSounds = customSounds
             self.defaultSounds = defaultSounds
         }
+        
     }
 
     
@@ -123,7 +132,7 @@ class AudioManager: ObservableObject{
         }
         
         // 刷新铃声文件列表（用于更新 UI 或数据）
-        getFileList()
+        setFileList()
     }
     
     func deleteSound(url: URL) {
@@ -140,7 +149,7 @@ class AudioManager: ObservableObject{
         try? manager.removeItem(at: groupSoundUrl)
         
         // 刷新文件列表（通常是为了更新 UI 或内部数据状态）
-        getFileList()
+        setFileList()
     }
     
     

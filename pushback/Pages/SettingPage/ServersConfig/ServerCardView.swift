@@ -13,6 +13,7 @@ import Defaults
 
 struct ServerCardView:View {
 	@StateObject private var manager = PushbackManager.shared
+    @State private var textAnimation:Bool = false
 	var item: PushServerModel
 	var isCloud:Bool = false
 	
@@ -59,7 +60,7 @@ struct ServerCardView:View {
 					Text("Key:")
 						.frame(width:40)
                         .foregroundStyle(.foreground)
-					Text(item.key)
+					HackerTextView(text: item.key, trigger: textAnimation)
 						.lineLimit(1)
 						.minimumScaleFactor(0.5)
                         .foregroundStyle(.foreground)
@@ -86,6 +87,7 @@ struct ServerCardView:View {
                     .symbolEffect(.bounce,delay: 1)
                     .onTapGesture {
                         complete()
+                        self.textAnimation.toggle()
                     }
             }
 			

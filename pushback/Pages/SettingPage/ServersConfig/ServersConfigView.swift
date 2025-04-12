@@ -17,64 +17,19 @@ struct ServersConfigView: View {
     @State private var serverText:String = ""
     @State private var serverName:String = ""
     @State private var pickerSelect:requestHeader = .https
-
+    
     @State private var cloudDatas:[PushServerModel] = []
     @FocusState private var serverNameFocus
     
     
     var showClose:Bool = false
-    var filteredCloudDatas:[PushServerModel]{
-        self.cloudDatas.filter { item in
-            // 筛选不在本地服务器列表中的云服务器
-            !servers.contains(where: { $0.url == item.url && $0.key == item.key })
-        }
-    }
     
-    @Default(.deviceToken) var deviceToken
-    
-    @State private var showTextAnimation:Bool = false
     
     var body: some View {
         NavigationStack{
             List{
                 
-                Section(header:Text( "设备推送令牌")) {
-                    Button{
-                        if deviceToken != ""{
-                            Clipboard.shared.setString(deviceToken)
-                            Toast.copy(title: String(localized: "复制成功"))
-                            
-                        }else{
-                            
-                            Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
-                        }
-                        self.showTextAnimation.toggle()
-                    }label: {
-                        HStack{
-                            
-                            Label {
-                                Text( "令牌")
-                                    .lineLimit(1)
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                Image(systemName: "key")
-                                    .scaleEffect(0.9)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(Color.primary, .tint)
-                            }
-                            
-                            
-                            Spacer()
-                            HackerTextView(text: maskString(deviceToken), trigger:showTextAnimation)
-                                .foregroundStyle(.gray)
-                                
-                            Image(systemName: "doc.on.doc")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle( .tint, Color.primary)
-                                .scaleEffect(0.9)
-                        }
-                    }
-                }
+                
                 
                 
                 Section{
@@ -110,23 +65,22 @@ struct ServersConfigView: View {
                                     .fontWeight(.bold)
                             }.tint(.accentColor)
                         }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true){
-                            
-                            
-                            Button{
-                                
-                                if servers.count > 1{
-                                    if let index = servers.firstIndex(where:{$0.id == item.id}){
-                                        servers.remove(at: index)
-                                    }
-                                }else{
-                                    Toast.error(title:String(localized: "必须保留一个服务"))
+                        .if( servers.count > 1){ view in
+                            view
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true){
+                                    
+                                    
+                                    Button{
+                                        if let index = servers.firstIndex(where:{$0.id == item.id}){
+                                            servers.remove(at: index)
+                                        }
+                                    }label:{
+                                        Text("移除")
+                                            .fontWeight(.bold)
+                                    }.tint(.red)
                                 }
-                            }label:{
-                                Text("移除")
-                                    .fontWeight(.bold)
-                            }.tint(.red)
                         }
+                        
                         
                         
                         
@@ -140,12 +94,13 @@ struct ServersConfigView: View {
                 
                 
                 
-                if filteredCloudDatas.count > 0{
-                    Section{
+                
+                Section{
+                    
+                    
+                    ForEach(cloudDatas, id: \.id){ item in
                         
-                        
-                        ForEach(filteredCloudDatas, id: \.id){ item in
-                            
+                        if !servers.contains(where: { $0.url == item.url && $0.key == item.key }){
                             ServerCardView(item: item,isCloud: true){
                                 manager.appendServer(server: item) { _, _ in }
                             }
@@ -169,27 +124,27 @@ struct ServersConfigView: View {
                                         .foregroundStyle(.primary, Color.accentColor)
                                 }
                             }
-                            
-                            
-                        }
-                    }header: {
-                        HStack{
-                            
-                            Text("历史服务器")
-                            Spacer()
-                            Text("\(self.cloudDatas.count)")
                         }
                     }
-                    .transaction { view in
-                        view.animation = .easeInOut
+                }header: {
+                    HStack{
+                        
+                        Text("历史服务器")
+                        Spacer()
+                        Text("\(self.cloudDatas.count)")
                     }
                 }
+                .transaction { view in
+                    view.animation = .easeInOut
+                }
+                
                 
                 
                 
             }
             .animation(.easeInOut, value: servers)
-            .listRowSpacing(20)
+            .listRowSpacing(10)
+            
             .refreshable {
                 // MARK: - 刷新策略
                 await manager.registers(){ result in
@@ -231,7 +186,7 @@ struct ServersConfigView: View {
                     }
                 }
             }
-            .navigationTitle( "令牌与服务器")
+            .navigationTitle( "服务器")
             .onAppear{ updateCloudServers() }
             
         }
@@ -251,11 +206,6 @@ struct ServersConfigView: View {
         }
     }
     
-    
-    fileprivate func maskString(_ str: String) -> String {
-        guard str.count > 6 else { return str }
-        return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(6)
-    }
     
     
 }

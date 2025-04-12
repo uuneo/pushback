@@ -29,7 +29,6 @@ extension Defaults.Keys {
     static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
     static let messageExpiration = Key<ExpirationTime>("messageExpirtionTime", .forever)
     static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)
-    static let cacheSize = Key<CacheSizeLimit>("CacheSizeLimit", .infinity)
     static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
     static let updateDeleteDatabase = Key<Bool>("updateDeleteDatabase", false)
     static let showGroup = Key<Bool>("showGroupMessage", true)
@@ -42,6 +41,7 @@ extension Defaults.Keys {
     static let imageSaves = Key<[String]>("muteSetting", [])
     static let showMessageAvatar = Key<Bool>("showMessageAvatar",false)
     static let showAssistant = Key<Bool>("showAssistant",false)
+    static let id = Key<String>("UserUniqueId","")
 }
 
 

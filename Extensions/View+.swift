@@ -443,28 +443,6 @@ extension View {
 }
 
 
-extension View {
-    /// Adds an underlying hidden button with a performing action that is triggered on pressed shortcut
-    /// - Parameters:
-    ///   - key: Key equivalents consist of a letter, punctuation, or function key that can be combined with an optional set of modifier keys to specify a keyboard shortcut.
-    ///   - modifiers: A set of key modifiers that you can add to a gesture.
-    ///   - action: Action to perform when the shortcut is pressed
-    public func onKeyboardShortcut(
-        _ key: KeyEquivalent,
-        modifiers: EventModifiers = .command,
-        perform action: @escaping () -> Void
-    ) -> some View {
-        self.background(
-            Button(action: action) {
-                EmptyView()
-            }
-            .keyboardShortcut(key, modifiers: modifiers)
-            .hidden()
-        )
-    }
-}
-
-
 // 扩展 CornerRadius 以支持特定角
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
@@ -484,79 +462,6 @@ struct RoundedCorner: Shape {
 }
 
 
-struct CancelButtonStyle: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(isEnabled ? .white : .gray)
-            .font(.system(size: 18, weight: .bold, design: .rounded))
-            .padding(.vertical, 10)
-            .frame(maxWidth: .infinity)
-            .background(
-                isEnabled ?
-                    (configuration.isPressed ?
-                        LinearGradient(gradient: Gradient(colors: [Color.red.opacity(0.8), Color.orange.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
-                        LinearGradient(gradient: Gradient(colors: [Color.red, Color.orange]), startPoint: .leading, endPoint: .trailing)) :
-                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.5)]), startPoint: .leading, endPoint: .trailing)
-            )
-            .cornerRadius(8)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut, value: configuration.isPressed)
-            .opacity(isEnabled ? 1.0 : 0.7)
-            .shadow(color: Color.red.opacity(0.3), radius: 10, x: 0, y: 5)
-    }
-}
-
-
-struct SuccessButtonStyle: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(isEnabled ? .white : .gray)
-            .font(.system(size: 18, weight: .bold, design: .rounded))
-            .padding(.vertical, 10)
-            .frame(maxWidth: .infinity)
-            .background(
-                isEnabled ?
-                    (configuration.isPressed ?
-                        LinearGradient(gradient: Gradient(colors: [Color.green.opacity(0.8), Color.teal.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
-                        LinearGradient(gradient: Gradient(colors: [Color.green, Color.teal]), startPoint: .leading, endPoint: .trailing)) :
-                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.5)]), startPoint: .leading, endPoint: .trailing)
-            )
-            .cornerRadius(8)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut, value: configuration.isPressed)
-            .opacity(isEnabled ? 1.0 : 0.7)
-            .shadow(color: Color.green.opacity(0.3), radius: 10, x: 0, y: 5)
-    }
-}
-
-
-struct ActionButtonStyle: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(isEnabled ? .white : .gray)
-            .font(.system(size: 18, weight: .bold, design: .rounded))
-            .padding(.vertical, 10)
-            .frame(maxWidth: .infinity)
-            .background(
-                isEnabled ?
-                    (configuration.isPressed ?
-                        LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.8), Color.purple.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
-                        LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing)) :
-                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.5)]), startPoint: .leading, endPoint: .trailing)
-            )
-            .cornerRadius(8)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut, value: configuration.isPressed)
-            .opacity(isEnabled ? 1.0 : 0.7)
-            .shadow(color: Color.blue.opacity(0.3), radius: 10, x: 0, y: 5)
-    }
-}
 
 
 
@@ -628,82 +533,5 @@ extension View{
             self
         }
         
-    }
-}
-
-extension String{
-    func stripMarkdown() -> Self {
-        let patterns: [(pattern: String, replacement: String)] = [
-            ("\\*\\*(.*?)\\*\\*", "$1"),   // **加粗**
-            ("\\*(.*?)\\*", "$1"),         // *斜体*
-            ("\\_(.*?)\\_", "$1"),         // _斜体_
-            ("\\~\\~(.*?)\\~\\~", "$1"),   // ~~删除线~~
-            ("\\`(.*?)\\`", "$1"),         // `代码`
-            ("!\\[(.*?)\\]\\((.*?)\\)", "$1"), // ![图片](图片链接) -> 只保留文本
-            ("\\[(.*?)\\]\\((.*?)\\)", "$1"), // [链接文本](链接地址) -> 只保留文本
-            ("^#{1,6}\\s+", ""),           // # 标题（去掉 # 但保留内容）
-            ("^[>|\\-\\+*]\\s+", ""),      // > 引用、- 无序列表、+ 无序列表、* 无序列表（去掉前缀）
-            ("\\d+\\.\\s+", ""),           // 有序列表 1.（去掉前缀）
-            ("\\[\\s?[x]?\\s?\\]", ""),    // 任务列表 [ ] 和 [x]
-            ("`[^`]+`", ""),               // `行内代码`
-            ("```[\\s\\S]*?```", ""),      // ``` 代码块 ```
-            ("---", ""),                   // --- 分割线
-        ]
-        
-        var strippedText = self
-        for pattern in patterns {
-            strippedText = strippedText.replacingOccurrences(of: pattern.pattern, with: pattern.replacement, options: .regularExpression)
-        }
-        
-        return strippedText
-    }
-}
-
-
-struct ScrollToBottomDetector: ViewModifier {
-    let onBottom: () -> Void
-
-    func body(content: Content) -> some View {
-        content
-            .background(GeometryReader { proxy in
-                Color.clear
-                    .preference(key: ScrollViewHeightKey.self, value: proxy.size.height)
-            })
-            .overlay(
-                GeometryReader { geo in
-                    Color.clear
-                        .frame(height: 0)
-                        .preference(key: ScrollBottomOffsetKey.self, value: geo.frame(in: .global).maxY)
-                }
-            )
-            .onPreferenceChange(ScrollBottomOffsetKey.self) { bottomY in
-                DispatchQueue.main.async {
-                    let screenHeight = UIScreen.main.bounds.height
-                    if bottomY < screenHeight + 20 {
-                        onBottom()
-                    }
-                    
-                }
-            }
-    }
-}
-
-struct ScrollBottomOffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-struct ScrollViewHeightKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
-extension View {
-    func onScrollToBottom(perform: @escaping () -> Void) -> some View {
-        self.modifier(ScrollToBottomDetector(onBottom: perform))
     }
 }

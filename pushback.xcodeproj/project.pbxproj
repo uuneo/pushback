@@ -8,24 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		B53934552DA92578001B9336 /* PopOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53934542DA92578001B9336 /* PopOutView.swift */; };
-		B5D204772D9EABFB00527343 /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044B2D9EABFB00527343 /* call.caf */; };
-		B5D204782D9EABFB00527343 /* tritone.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045A2D9EABFB00527343 /* tritone.caf */; };
-		B5D204792D9EABFB00527343 /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204532D9EABFB00527343 /* hello.caf */; };
-		B5D2047A2D9EABFB00527343 /* multiway.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204542D9EABFB00527343 /* multiway.caf */; };
-		B5D2047B2D9EABFB00527343 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204572D9EABFB00527343 /* silence.caf */; };
-		B5D2047C2D9EABFB00527343 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045C2D9EABFB00527343 /* xiu.caf */; };
-		B5D2047D2D9EABFB00527343 /* complete.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204502D9EABFB00527343 /* complete.caf */; };
-		B5D2047E2D9EABFB00527343 /* gold.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044C2D9EABFB00527343 /* gold.caf */; };
-		B5D2047F2D9EABFB00527343 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044D2D9EABFB00527343 /* alarm.caf */; };
-		B5D204802D9EABFB00527343 /* craft.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204512D9EABFB00527343 /* craft.caf */; };
-		B5D204812D9EABFB00527343 /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204522D9EABFB00527343 /* health.caf */; };
-		B5D204822D9EABFB00527343 /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204562D9EABFB00527343 /* shake.caf */; };
-		B5D204832D9EABFB00527343 /* typewriter.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045B2D9EABFB00527343 /* typewriter.caf */; };
-		B5D204842D9EABFB00527343 /* trill.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204592D9EABFB00527343 /* trill.caf */; };
-		B5D204852D9EABFB00527343 /* aurora.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044E2D9EABFB00527343 /* aurora.caf */; };
-		B5D204862D9EABFB00527343 /* success.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204582D9EABFB00527343 /* success.caf */; };
-		B5D204872D9EABFB00527343 /* bamboo.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044F2D9EABFB00527343 /* bamboo.caf */; };
-		B5D204882D9EABFB00527343 /* popcorn.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204552D9EABFB00527343 /* popcorn.caf */; };
+		B555FA342DAA77AC0008D11E /* snap.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2E2DAA77AC0008D11E /* snap.caf */; };
+		B555FA352DAA77AC0008D11E /* com.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA232DAA77AC0008D11E /* com.caf */; };
+		B555FA362DAA77AC0008D11E /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA272DAA77AC0008D11E /* health.caf */; };
+		B555FA372DAA77AC0008D11E /* typewriter.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA322DAA77AC0008D11E /* typewriter.caf */; };
+		B555FA382DAA77AC0008D11E /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA202DAA77AC0008D11E /* alarm.caf */; };
+		B555FA392DAA77AC0008D11E /* popcorn.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2A2DAA77AC0008D11E /* popcorn.caf */; };
+		B555FA3A2DAA77AC0008D11E /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA332DAA77AC0008D11E /* xiu.caf */; };
+		B555FA3B2DAA77AC0008D11E /* gold.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA262DAA77AC0008D11E /* gold.caf */; };
+		B555FA3C2DAA77AC0008D11E /* multiway.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA292DAA77AC0008D11E /* multiway.caf */; };
+		B555FA3D2DAA77AC0008D11E /* craft.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA242DAA77AC0008D11E /* craft.caf */; };
+		B555FA3E2DAA77AC0008D11E /* aurora.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA212DAA77AC0008D11E /* aurora.caf */; };
+		B555FA3F2DAA77AC0008D11E /* success.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2F2DAA77AC0008D11E /* success.caf */; };
+		B555FA402DAA77AC0008D11E /* tritone.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA312DAA77AC0008D11E /* tritone.caf */; };
+		B555FA412DAA77AC0008D11E /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2D2DAA77AC0008D11E /* silence.caf */; };
+		B555FA422DAA77AC0008D11E /* trill.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA302DAA77AC0008D11E /* trill.caf */; };
+		B555FA432DAA77AC0008D11E /* frog.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA252DAA77AC0008D11E /* frog.caf */; };
+		B555FA442DAA77AC0008D11E /* run.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2B2DAA77AC0008D11E /* run.caf */; };
+		B555FA452DAA77AC0008D11E /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA282DAA77AC0008D11E /* hello.caf */; };
+		B555FA462DAA77AC0008D11E /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2C2DAA77AC0008D11E /* shake.caf */; };
+		B555FA472DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
+		B555FA482DAA77AC0008D11E /* snap.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2E2DAA77AC0008D11E /* snap.caf */; };
+		B555FA492DAA77AC0008D11E /* com.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA232DAA77AC0008D11E /* com.caf */; };
+		B555FA4A2DAA77AC0008D11E /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA272DAA77AC0008D11E /* health.caf */; };
+		B555FA4B2DAA77AC0008D11E /* typewriter.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA322DAA77AC0008D11E /* typewriter.caf */; };
+		B555FA4C2DAA77AC0008D11E /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA202DAA77AC0008D11E /* alarm.caf */; };
+		B555FA4D2DAA77AC0008D11E /* popcorn.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2A2DAA77AC0008D11E /* popcorn.caf */; };
+		B555FA4E2DAA77AC0008D11E /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA332DAA77AC0008D11E /* xiu.caf */; };
+		B555FA4F2DAA77AC0008D11E /* gold.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA262DAA77AC0008D11E /* gold.caf */; };
+		B555FA502DAA77AC0008D11E /* multiway.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA292DAA77AC0008D11E /* multiway.caf */; };
+		B555FA512DAA77AC0008D11E /* craft.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA242DAA77AC0008D11E /* craft.caf */; };
+		B555FA522DAA77AC0008D11E /* aurora.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA212DAA77AC0008D11E /* aurora.caf */; };
+		B555FA532DAA77AC0008D11E /* success.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2F2DAA77AC0008D11E /* success.caf */; };
+		B555FA542DAA77AC0008D11E /* tritone.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA312DAA77AC0008D11E /* tritone.caf */; };
+		B555FA552DAA77AC0008D11E /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2D2DAA77AC0008D11E /* silence.caf */; };
+		B555FA562DAA77AC0008D11E /* trill.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA302DAA77AC0008D11E /* trill.caf */; };
+		B555FA572DAA77AC0008D11E /* frog.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA252DAA77AC0008D11E /* frog.caf */; };
+		B555FA582DAA77AC0008D11E /* run.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2B2DAA77AC0008D11E /* run.caf */; };
+		B555FA592DAA77AC0008D11E /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA282DAA77AC0008D11E /* hello.caf */; };
+		B555FA5A2DAA77AC0008D11E /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2C2DAA77AC0008D11E /* shake.caf */; };
+		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204462D9EABFB00527343 /* Snapshot.swift */; };
 		B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
@@ -131,24 +153,6 @@
 		B5D2063C2D9EBAFE00527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2063B2D9EBAFE00527343 /* Defaults */; };
 		B5D2064C2D9EBFDB00527343 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058C2D9EAE8A00527343 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B5D206502D9EC74900527343 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D2064F2D9EC74900527343 /* WebKit.framework */; };
-		B5D206522D9ECF5200527343 /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044B2D9EABFB00527343 /* call.caf */; };
-		B5D206532D9ECF5200527343 /* gold.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044C2D9EABFB00527343 /* gold.caf */; };
-		B5D206542D9ECF5200527343 /* alarm.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044D2D9EABFB00527343 /* alarm.caf */; };
-		B5D206552D9ECF5200527343 /* aurora.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044E2D9EABFB00527343 /* aurora.caf */; };
-		B5D206562D9ECF5200527343 /* bamboo.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2044F2D9EABFB00527343 /* bamboo.caf */; };
-		B5D206572D9ECF5200527343 /* complete.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204502D9EABFB00527343 /* complete.caf */; };
-		B5D206582D9ECF5200527343 /* craft.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204512D9EABFB00527343 /* craft.caf */; };
-		B5D206592D9ECF5200527343 /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204522D9EABFB00527343 /* health.caf */; };
-		B5D2065A2D9ECF5200527343 /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204532D9EABFB00527343 /* hello.caf */; };
-		B5D2065B2D9ECF5200527343 /* multiway.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204542D9EABFB00527343 /* multiway.caf */; };
-		B5D2065C2D9ECF5200527343 /* popcorn.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204552D9EABFB00527343 /* popcorn.caf */; };
-		B5D2065D2D9ECF5200527343 /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204562D9EABFB00527343 /* shake.caf */; };
-		B5D2065E2D9ECF5200527343 /* silence.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204572D9EABFB00527343 /* silence.caf */; };
-		B5D2065F2D9ECF5200527343 /* success.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204582D9EABFB00527343 /* success.caf */; };
-		B5D206602D9ECF5200527343 /* trill.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D204592D9EABFB00527343 /* trill.caf */; };
-		B5D206612D9ECF5200527343 /* tritone.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045A2D9EABFB00527343 /* tritone.caf */; };
-		B5D206622D9ECF5200527343 /* typewriter.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045B2D9EABFB00527343 /* typewriter.caf */; };
-		B5D206632D9ECF5200527343 /* xiu.caf in Resources */ = {isa = PBXBuildFile; fileRef = B5D2045C2D9EABFB00527343 /* xiu.caf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +226,26 @@
 
 /* Begin PBXFileReference section */
 		B53934542DA92578001B9336 /* PopOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOutView.swift; sourceTree = "<group>"; };
+		B555FA202DAA77AC0008D11E /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
+		B555FA212DAA77AC0008D11E /* aurora.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = aurora.caf; sourceTree = "<group>"; };
+		B555FA222DAA77AC0008D11E /* call.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = call.caf; sourceTree = "<group>"; };
+		B555FA232DAA77AC0008D11E /* com.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = com.caf; sourceTree = "<group>"; };
+		B555FA242DAA77AC0008D11E /* craft.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = craft.caf; sourceTree = "<group>"; };
+		B555FA252DAA77AC0008D11E /* frog.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = frog.caf; sourceTree = "<group>"; };
+		B555FA262DAA77AC0008D11E /* gold.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gold.caf; sourceTree = "<group>"; };
+		B555FA272DAA77AC0008D11E /* health.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = health.caf; sourceTree = "<group>"; };
+		B555FA282DAA77AC0008D11E /* hello.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = hello.caf; sourceTree = "<group>"; };
+		B555FA292DAA77AC0008D11E /* multiway.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = multiway.caf; sourceTree = "<group>"; };
+		B555FA2A2DAA77AC0008D11E /* popcorn.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = popcorn.caf; sourceTree = "<group>"; };
+		B555FA2B2DAA77AC0008D11E /* run.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = run.caf; sourceTree = "<group>"; };
+		B555FA2C2DAA77AC0008D11E /* shake.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shake.caf; sourceTree = "<group>"; };
+		B555FA2D2DAA77AC0008D11E /* silence.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence.caf; sourceTree = "<group>"; };
+		B555FA2E2DAA77AC0008D11E /* snap.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = snap.caf; sourceTree = "<group>"; };
+		B555FA2F2DAA77AC0008D11E /* success.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = success.caf; sourceTree = "<group>"; };
+		B555FA302DAA77AC0008D11E /* trill.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trill.caf; sourceTree = "<group>"; };
+		B555FA312DAA77AC0008D11E /* tritone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tritone.caf; sourceTree = "<group>"; };
+		B555FA322DAA77AC0008D11E /* typewriter.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = typewriter.caf; sourceTree = "<group>"; };
+		B555FA332DAA77AC0008D11E /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		B5D204342D9EABFB00527343 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -245,24 +269,6 @@
 		B5D204472D9EABFB00527343 /* ParticleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffect.swift; sourceTree = "<group>"; };
 		B5D204482D9EABFB00527343 /* HackerTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackerTextView.swift; sourceTree = "<group>"; };
 		B5D204492D9EABFB00527343 /* AnimatedSideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedSideBar.swift; sourceTree = "<group>"; };
-		B5D2044B2D9EABFB00527343 /* call.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = call.caf; sourceTree = "<group>"; };
-		B5D2044C2D9EABFB00527343 /* gold.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gold.caf; sourceTree = "<group>"; };
-		B5D2044D2D9EABFB00527343 /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
-		B5D2044E2D9EABFB00527343 /* aurora.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = aurora.caf; sourceTree = "<group>"; };
-		B5D2044F2D9EABFB00527343 /* bamboo.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bamboo.caf; sourceTree = "<group>"; };
-		B5D204502D9EABFB00527343 /* complete.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = complete.caf; sourceTree = "<group>"; };
-		B5D204512D9EABFB00527343 /* craft.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = craft.caf; sourceTree = "<group>"; };
-		B5D204522D9EABFB00527343 /* health.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = health.caf; sourceTree = "<group>"; };
-		B5D204532D9EABFB00527343 /* hello.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = hello.caf; sourceTree = "<group>"; };
-		B5D204542D9EABFB00527343 /* multiway.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = multiway.caf; sourceTree = "<group>"; };
-		B5D204552D9EABFB00527343 /* popcorn.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = popcorn.caf; sourceTree = "<group>"; };
-		B5D204562D9EABFB00527343 /* shake.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shake.caf; sourceTree = "<group>"; };
-		B5D204572D9EABFB00527343 /* silence.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = silence.caf; sourceTree = "<group>"; };
-		B5D204582D9EABFB00527343 /* success.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = success.caf; sourceTree = "<group>"; };
-		B5D204592D9EABFB00527343 /* trill.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = trill.caf; sourceTree = "<group>"; };
-		B5D2045A2D9EABFB00527343 /* tritone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tritone.caf; sourceTree = "<group>"; };
-		B5D2045B2D9EABFB00527343 /* typewriter.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = typewriter.caf; sourceTree = "<group>"; };
-		B5D2045C2D9EABFB00527343 /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
 		B5D2045E2D9EABFB00527343 /* Navigation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+Extension.swift"; sourceTree = "<group>"; };
 		B5D2045F2D9EABFB00527343 /* Splash+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Splash+.swift"; sourceTree = "<group>"; };
 		B5D204602D9EABFB00527343 /* Extension+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+.swift"; sourceTree = "<group>"; };
@@ -547,24 +553,26 @@
 		B5D2045D2D9EABFB00527343 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				B5D2044B2D9EABFB00527343 /* call.caf */,
-				B5D2044C2D9EABFB00527343 /* gold.caf */,
-				B5D2044D2D9EABFB00527343 /* alarm.caf */,
-				B5D2044E2D9EABFB00527343 /* aurora.caf */,
-				B5D2044F2D9EABFB00527343 /* bamboo.caf */,
-				B5D204502D9EABFB00527343 /* complete.caf */,
-				B5D204512D9EABFB00527343 /* craft.caf */,
-				B5D204522D9EABFB00527343 /* health.caf */,
-				B5D204532D9EABFB00527343 /* hello.caf */,
-				B5D204542D9EABFB00527343 /* multiway.caf */,
-				B5D204552D9EABFB00527343 /* popcorn.caf */,
-				B5D204562D9EABFB00527343 /* shake.caf */,
-				B5D204572D9EABFB00527343 /* silence.caf */,
-				B5D204582D9EABFB00527343 /* success.caf */,
-				B5D204592D9EABFB00527343 /* trill.caf */,
-				B5D2045A2D9EABFB00527343 /* tritone.caf */,
-				B5D2045B2D9EABFB00527343 /* typewriter.caf */,
-				B5D2045C2D9EABFB00527343 /* xiu.caf */,
+				B555FA202DAA77AC0008D11E /* alarm.caf */,
+				B555FA212DAA77AC0008D11E /* aurora.caf */,
+				B555FA222DAA77AC0008D11E /* call.caf */,
+				B555FA232DAA77AC0008D11E /* com.caf */,
+				B555FA242DAA77AC0008D11E /* craft.caf */,
+				B555FA252DAA77AC0008D11E /* frog.caf */,
+				B555FA262DAA77AC0008D11E /* gold.caf */,
+				B555FA272DAA77AC0008D11E /* health.caf */,
+				B555FA282DAA77AC0008D11E /* hello.caf */,
+				B555FA292DAA77AC0008D11E /* multiway.caf */,
+				B555FA2A2DAA77AC0008D11E /* popcorn.caf */,
+				B555FA2B2DAA77AC0008D11E /* run.caf */,
+				B555FA2C2DAA77AC0008D11E /* shake.caf */,
+				B555FA2D2DAA77AC0008D11E /* silence.caf */,
+				B555FA2E2DAA77AC0008D11E /* snap.caf */,
+				B555FA2F2DAA77AC0008D11E /* success.caf */,
+				B555FA302DAA77AC0008D11E /* trill.caf */,
+				B555FA312DAA77AC0008D11E /* tritone.caf */,
+				B555FA322DAA77AC0008D11E /* typewriter.caf */,
+				B555FA332DAA77AC0008D11E /* xiu.caf */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -834,24 +842,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5D204772D9EABFB00527343 /* call.caf in Resources */,
-				B5D204782D9EABFB00527343 /* tritone.caf in Resources */,
-				B5D204792D9EABFB00527343 /* hello.caf in Resources */,
-				B5D2047A2D9EABFB00527343 /* multiway.caf in Resources */,
-				B5D2047B2D9EABFB00527343 /* silence.caf in Resources */,
-				B5D2047C2D9EABFB00527343 /* xiu.caf in Resources */,
-				B5D2047D2D9EABFB00527343 /* complete.caf in Resources */,
-				B5D2047E2D9EABFB00527343 /* gold.caf in Resources */,
-				B5D2047F2D9EABFB00527343 /* alarm.caf in Resources */,
-				B5D204802D9EABFB00527343 /* craft.caf in Resources */,
-				B5D204812D9EABFB00527343 /* health.caf in Resources */,
-				B5D204822D9EABFB00527343 /* shake.caf in Resources */,
-				B5D204832D9EABFB00527343 /* typewriter.caf in Resources */,
-				B5D204842D9EABFB00527343 /* trill.caf in Resources */,
-				B5D204852D9EABFB00527343 /* aurora.caf in Resources */,
-				B5D204862D9EABFB00527343 /* success.caf in Resources */,
-				B5D204872D9EABFB00527343 /* bamboo.caf in Resources */,
-				B5D204882D9EABFB00527343 /* popcorn.caf in Resources */,
+				B555FA342DAA77AC0008D11E /* snap.caf in Resources */,
+				B555FA352DAA77AC0008D11E /* com.caf in Resources */,
+				B555FA362DAA77AC0008D11E /* health.caf in Resources */,
+				B555FA372DAA77AC0008D11E /* typewriter.caf in Resources */,
+				B555FA382DAA77AC0008D11E /* alarm.caf in Resources */,
+				B555FA392DAA77AC0008D11E /* popcorn.caf in Resources */,
+				B555FA3A2DAA77AC0008D11E /* xiu.caf in Resources */,
+				B555FA3B2DAA77AC0008D11E /* gold.caf in Resources */,
+				B555FA3C2DAA77AC0008D11E /* multiway.caf in Resources */,
+				B555FA3D2DAA77AC0008D11E /* craft.caf in Resources */,
+				B555FA3E2DAA77AC0008D11E /* aurora.caf in Resources */,
+				B555FA3F2DAA77AC0008D11E /* success.caf in Resources */,
+				B555FA402DAA77AC0008D11E /* tritone.caf in Resources */,
+				B555FA412DAA77AC0008D11E /* silence.caf in Resources */,
+				B555FA422DAA77AC0008D11E /* trill.caf in Resources */,
+				B555FA432DAA77AC0008D11E /* frog.caf in Resources */,
+				B555FA442DAA77AC0008D11E /* run.caf in Resources */,
+				B555FA452DAA77AC0008D11E /* hello.caf in Resources */,
+				B555FA462DAA77AC0008D11E /* shake.caf in Resources */,
+				B555FA472DAA77AC0008D11E /* call.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,24 +869,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5D206522D9ECF5200527343 /* call.caf in Resources */,
-				B5D206532D9ECF5200527343 /* gold.caf in Resources */,
-				B5D206542D9ECF5200527343 /* alarm.caf in Resources */,
-				B5D206552D9ECF5200527343 /* aurora.caf in Resources */,
-				B5D206562D9ECF5200527343 /* bamboo.caf in Resources */,
-				B5D206572D9ECF5200527343 /* complete.caf in Resources */,
-				B5D206582D9ECF5200527343 /* craft.caf in Resources */,
-				B5D206592D9ECF5200527343 /* health.caf in Resources */,
-				B5D2065A2D9ECF5200527343 /* hello.caf in Resources */,
-				B5D2065B2D9ECF5200527343 /* multiway.caf in Resources */,
-				B5D2065C2D9ECF5200527343 /* popcorn.caf in Resources */,
-				B5D2065D2D9ECF5200527343 /* shake.caf in Resources */,
-				B5D2065E2D9ECF5200527343 /* silence.caf in Resources */,
-				B5D2065F2D9ECF5200527343 /* success.caf in Resources */,
-				B5D206602D9ECF5200527343 /* trill.caf in Resources */,
-				B5D206612D9ECF5200527343 /* tritone.caf in Resources */,
-				B5D206622D9ECF5200527343 /* typewriter.caf in Resources */,
-				B5D206632D9ECF5200527343 /* xiu.caf in Resources */,
+				B555FA482DAA77AC0008D11E /* snap.caf in Resources */,
+				B555FA492DAA77AC0008D11E /* com.caf in Resources */,
+				B555FA4A2DAA77AC0008D11E /* health.caf in Resources */,
+				B555FA4B2DAA77AC0008D11E /* typewriter.caf in Resources */,
+				B555FA4C2DAA77AC0008D11E /* alarm.caf in Resources */,
+				B555FA4D2DAA77AC0008D11E /* popcorn.caf in Resources */,
+				B555FA4E2DAA77AC0008D11E /* xiu.caf in Resources */,
+				B555FA4F2DAA77AC0008D11E /* gold.caf in Resources */,
+				B555FA502DAA77AC0008D11E /* multiway.caf in Resources */,
+				B555FA512DAA77AC0008D11E /* craft.caf in Resources */,
+				B555FA522DAA77AC0008D11E /* aurora.caf in Resources */,
+				B555FA532DAA77AC0008D11E /* success.caf in Resources */,
+				B555FA542DAA77AC0008D11E /* tritone.caf in Resources */,
+				B555FA552DAA77AC0008D11E /* silence.caf in Resources */,
+				B555FA562DAA77AC0008D11E /* trill.caf in Resources */,
+				B555FA572DAA77AC0008D11E /* frog.caf in Resources */,
+				B555FA582DAA77AC0008D11E /* run.caf in Resources */,
+				B555FA592DAA77AC0008D11E /* hello.caf in Resources */,
+				B555FA5A2DAA77AC0008D11E /* shake.caf in Resources */,
+				B555FA5B2DAA77AC0008D11E /* call.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1400,7 +1412,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
@@ -1427,7 +1439,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;

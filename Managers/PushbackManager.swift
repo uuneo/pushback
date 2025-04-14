@@ -274,6 +274,49 @@ class PushbackManager: NetworkManager, ObservableObject{
         }
     }
     
+    func clearContentsOfDirectory(at url: URL) {
+        let fileManager = FileManager.default
+
+        do {
+            let contents = try fileManager.contentsOfDirectory(at: url, includingPropertiesForKeys: nil, options: [])
+
+            for fileURL in contents {
+                do{
+                    try fileManager.removeItem(at: fileURL)
+                    print("✅ 删除: \(fileURL.lastPathComponent)")
+                }catch{
+                    print("❌ 清空失败: \(error.localizedDescription)")
+                }
+            }
+            
+            print("🧹 清空完成：\(url.path)")
+        } catch {
+            print("❌ 清空失败: \(error.localizedDescription)")
+        }
+    }
+    
+    func calculateDirectorySize(at url: URL) -> UInt64 {
+        var totalSize: UInt64 = 0
+
+        if let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: [.fileSizeKey], options: [], errorHandler: nil) {
+            for case let fileURL as URL in enumerator {
+                do {
+                    let resourceValues = try fileURL.resourceValues(forKeys: [.isRegularFileKey, .fileSizeKey])
+                    if resourceValues.isRegularFile == true {
+                        if let fileSize = resourceValues.fileSize {
+                            totalSize += UInt64(fileSize)
+                        }
+                    }
+                } catch {
+                    print("❗️获取文件大小失败: \(fileURL.lastPathComponent) - \(error.localizedDescription)")
+                }
+            }
+        }
+
+        return totalSize
+    }
+    
+    
 }
 
 

@@ -10,6 +10,8 @@ import UIKit
 
 let ISPAD = UIDevice.current.userInterfaceIdiom == .pad
 
+let CONTAINER =  FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
+
 class BaseConfig {
 	
 	static let  groupName = "group.pushback"
@@ -17,7 +19,6 @@ class BaseConfig {
 	static let  realmName = "Meowrld.realm"
 	static let  sounds = "Library/Sounds"
 	static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
-	static let 	cacheSizeLimit = "CacheSizeLimit"
 #if DEBUG
 	static let defaultServer = "https://dev.uuneo.com"
 #else
@@ -49,7 +50,7 @@ class BaseConfig {
 	/// 获取共享目录下的 Sounds 文件夹，如果不存在就创建
 	class func getSoundsGroupDirectory() -> URL? {
 		let manager = FileManager.default
-		if let directoryUrl = manager.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)?.appendingPathComponent(BaseConfig.sounds) {
+		if let directoryUrl = CONTAINER?.appendingPathComponent(BaseConfig.sounds) {
 			if !manager.fileExists(atPath: directoryUrl.path) {
                 try? manager.createDirectory(atPath: directoryUrl.path, withIntermediateDirectories: true, attributes: nil)
 			}
@@ -66,9 +67,8 @@ class BaseConfig {
    
 	// Get the directory to store images in the App Group
     class func getImagesDirectory(mode:ImageMode = .icon) -> URL? {
-		guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName) else {
-			return nil
-		}
+		guard let containerURL = CONTAINER else { return nil }
+        
         let imagesDirectory = containerURL.appendingPathComponent(mode.name)
 		
 		// If the directory doesn't exist, create it
@@ -82,5 +82,6 @@ class BaseConfig {
 		}
 		return imagesDirectory
 	}
+    
 
 }

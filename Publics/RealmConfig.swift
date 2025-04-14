@@ -8,11 +8,12 @@
 @_exported import RealmSwift
 import Foundation
 
+
+
 let kRealmDefaultConfiguration = {
-	let groupUrl = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
 
     return Realm.Configuration(
-		fileURL: groupUrl?.appendingPathComponent(BaseConfig.realmName),
+		fileURL: CONTAINER?.appendingPathComponent(BaseConfig.realmName),
 		schemaVersion: 50,
 		migrationBlock: { _, oldSchemaVersion in
 			if oldSchemaVersion < 1 { }

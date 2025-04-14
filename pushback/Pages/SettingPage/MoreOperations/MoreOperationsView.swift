@@ -18,53 +18,88 @@ import SwiftyJSON
 import Photos
 
 struct MoreOperationsView: View {
-	@ObservedResults(Message.self) var messages
+    @EnvironmentObject private var manager:PushbackManager
 	@Default(.messageExpiration) var messageExpiration
 	@Default(.imageSaveDays) var imageSaveDays
-	@Default(.cacheSize) var cacheSize
 	@Default(.autoSaveToAlbum) var autoSaveToAlbum
-    @Default(.defaultBrowser) var defaultBrowser
+    @ObservedResults(Message.self) var messages
     @Default(.badgeMode) var badgeMode
     @Default(.showMessageAvatar) var showMessageAvatar
-	@State private var showImport:Bool = false
-	@State private var select:Int = 0
+   
 
-	@State private var showDeleteAlert:Bool = false
-	@State private var showexport:Bool = false
+    @State private var showImport:Bool = false
+    @State private var showexport:Bool = false
+	
 
 	var body: some View {
 		NavigationStack{
 			List{
+            
                 
-                Section(header: Text("默认浏览器设置")){
-                    HStack{
-                        Picker(selection: $defaultBrowser) {
-                            ForEach(DefaultBrowserModel.allCases, id: \.self) { item in
-                                Text(item.title)
-                                    .tag(item)
-                            }
-                        }label:{
-                            Text("默认浏览器")
-                        }.pickerStyle(SegmentedPickerStyle())
+                Section {
 
-                    }
-                }
-
-                Section(header: Text("端到端加密")){
-
-                    NavigationLink{
-                        CryptoConfigView()
+                    Button{
+                        self.showexport.toggle()
                     }label: {
-                        Label {
-                            Text( "算法配置")
-                        } icon: {
-                            Image(systemName: "bolt.shield")
-                                .scaleEffect(0.9)
+                        HStack{
+
+                            Label("导出", systemImage: "arrow.up.circle")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.pulse, delay: 5)
+                                .symbolEffect(.wiggle, delay: 3)
+                            
+                            Spacer()
+                            Text(String(format: String(localized: "%d条消息"), messages.count) )
+                                .foregroundStyle(Color.green)
                         }
                     }
+                    .disabled(messages.count == 0)
+                    .fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
+                        switch result {
+                            case .success(let success):
+                            Log.debug(success)
+                            case .failure(let failure):
+                            Log.error(failure)
+                        }
+                        self.showexport = false
+                    }
+
+                    Button{
+                        self.showImport.toggle()
+                    }label: {
+                        HStack{
+
+                            Label( "导入", systemImage: "arrow.down.circle")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.wiggle, delay: 6)
+
+                            Spacer()
+
+                        }
+                    }
+
+
+                    .fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
+                        switch result {
+                            case .success(let files):
+                                let msg = importMessage(files)
+                                Toast.info(title: msg)
+                            case .failure(let err):
+                                Toast.error(title: err.localizedDescription)
+                        }
+                    })
+
+
+
+                } header: {
+                    Text( "导出消息列表")
+                } footer:{
+                    Text("只能导入.exv结尾的JSON数据")
+                }
+                
+                
+				Section {
                     
                     Picker(selection: $badgeMode) {
                         Text( "自动").tag(BadgeAutoMode.auto)
@@ -87,80 +122,7 @@ struct MoreOperationsView: View {
                             }
                         }
                     }
-
-                }
-
-
-                
-                
-                
-                
-				Section {
-
-					Button{
-						self.showexport.toggle()
-					}label: {
-						HStack{
-
-							Label("导出", systemImage: "arrow.up.circle")
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.wiggle, delay: 3)
-                            
-							Spacer()
-							Text(String(format: String(localized: "%d条消息"), messages.count) )
-								.foregroundStyle(Color.green)
-						}
-					}
-					.disabled(messages.count == 0)
-					.fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
-						switch result {
-							case .success(let success):
-                            Log.debug(success)
-							case .failure(let failure):
-                            Log.error(failure)
-						}
-						self.showexport = false
-					}
-
-					Button{
-						self.showImport.toggle()
-					}label: {
-						HStack{
-
-							Label( "导入", systemImage: "arrow.down.circle")
-								.symbolRenderingMode(.palette)
-								.foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.wiggle, delay: 6)
-
-							Spacer()
-
-						}
-					}
-
-
-					.fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
-						switch result {
-							case .success(let files):
-								let msg = importMessage(files)
-								Toast.info(title: msg)
-							case .failure(let err):
-								Toast.error(title: err.localizedDescription)
-						}
-					})
-
-
-
-				} header: {
-					Text( "导出消息列表")
-				} footer:{
-					Text("只能导入.exv结尾的JSON数据")
-				}
-                
-
-               
-
-				Section {
+                    
                     
                     Toggle(isOn: $showMessageAvatar) {
                         Label("显示图标", systemImage: showMessageAvatar ? "camera.macro.circle" : "camera.macro.slash.circle")
@@ -203,44 +165,66 @@ struct MoreOperationsView: View {
 
 
 				Section {
+                    
+                    Button{
+                        manager.sheetPage = .cloudIcon
+                    }label: {
+                        HStack{
+                            Label {
+                                Text( "云图标")
+                                    .foregroundStyle(.textBlack)
+                            } icon: {
+                                ZStack{
+                                    Image(systemName: "icloud")
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(Color.primary)
+                                    Image(systemName: "photo")
+                                        .scaleEffect(0.4)
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.tint)
+                                        .offset(y: 2)
+                                } .scaleEffect(0.9)
+                            }
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.gray)
+                        }
+                    }
+                    
 
-
-					Section {
-						Toggle(isOn: $autoSaveToAlbum) {
-							Label("自动保存到相册", systemImage: "a.circle")
-								.symbolRenderingMode(.palette)
-								.foregroundStyle( .tint, Color.primary)
-                                .symbolEffect(.rotate, delay: 3)
-                                .onChange(of: autoSaveToAlbum) { newValue in
-                                    if newValue{
-                                        PHPhotoLibrary.requestAuthorization{status in
-                                            switch status {
-                                            case .notDetermined:
-                                                Toast.info(title: String(localized: "用户尚未做出选择"))
-                                               
-                                            case .restricted:
-                                                Toast.info(title: String(localized: "访问受限（可能是家长控制）"))
-                                       
-                                            case .denied:
-                                                Toast.info(title: String(localized: "用户拒绝了访问权限"))
-                                         
-                                            case .authorized:
-                                                Toast.success(title: String(localized: "用户已授权访问照片库"))
-                
-                                            case .limited:
-                                                Toast.info(title: String(localized: "用户授予了有限的访问权限"))
-                                                
-                                            @unknown default:
-                                               break
-                                          
-                                            }
+                    Toggle(isOn: $autoSaveToAlbum) {
+                        Label("自动保存到相册", systemImage: "a.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle( .tint, Color.primary)
+                            .symbolEffect(.rotate, delay: 3)
+                            .onChange(of: autoSaveToAlbum) { newValue in
+                                if newValue{
+                                    PHPhotoLibrary.requestAuthorization{status in
+                                        switch status {
+                                        case .notDetermined:
+                                            Toast.info(title: String(localized: "用户尚未做出选择"))
+                                           
+                                        case .restricted:
+                                            Toast.info(title: String(localized: "访问受限（可能是家长控制）"))
+                                   
+                                        case .denied:
+                                            Toast.info(title: String(localized: "用户拒绝了访问权限"))
+                                     
+                                        case .authorized:
+                                            Toast.success(title: String(localized: "用户已授权访问照片库"))
+            
+                                        case .limited:
+                                            Toast.info(title: String(localized: "用户授予了有限的访问权限"))
+                                            
+                                        @unknown default:
+                                           break
+                                      
                                         }
                                     }
                                 }
-                            
-						}
+                            }
                         
-					}
+                    }
 
 
 					Picker(selection: $imageSaveDays) {
@@ -270,134 +254,13 @@ struct MoreOperationsView: View {
 					Text("图片默认保存时间，本地化图片不受影响")
 				}
                 
-                
-                
-
-				Section(header: Text("缓存大小限制")){
-
-
-
-					SlideLineView(data: $cacheSize ){
-						ZStack{
-
-							if let data = CacheSizeLimit.allCases.first{
-								HStack{
-									Text(data.title)
-									Spacer(minLength: 0)
-								}.font(.caption)
-							}
-
-
-
-							HStack(spacing: 0){
-								Spacer()
-								ForEach(CacheSizeLimit.allCases, id: \.self){ item in
-									if item != CacheSizeLimit.allCases.first &&  item != CacheSizeLimit.allCases.last{
-										Text(item.title)
-										Spacer()
-									}
-								}
-							}
-							.font(.caption)
-
-
-
-							if let data = CacheSizeLimit.allCases.last{
-								HStack{
-									Spacer(minLength: 0)
-									Text(data.title)
-
-								}.font(.caption)
-							}
-						}
-
-					}
-					.frame(width: UIScreen.main.bounds.width - 80, height: 60)
-					.padding(.horizontal)
-
-				}
-
-				Section(header: Text("存储用量")){
-
-					HStack{
-						Label {
-							Text("存储使用")
-						} icon: {
-							Image(systemName: "externaldrive.badge.person.crop")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, Color.primary)
-                                .symbolEffect(.pulse, delay: 3)
-						}
-						Spacer()
-						Text("\(getUseSize())/\(cacheSize.title)")
-
-
-					}
-
-
-					HStack{
-						Button{
-							self.showDeleteAlert.toggle()
-						}label: {
-							HStack{
-								Spacer()
-								Text("清空图片缓存")
-									.fontWeight(.bold)
-									.padding(.vertical, 5)
-								Spacer()
-							}
-
-						}.buttonStyle(BorderedProminentButtonStyle())
-
-
-					}
-				}
-
-
-
-
-
-
-
 			}
 			.navigationTitle("更多操作")
-			.alert(isPresented: $showDeleteAlert) {
-				Alert(title: Text("是否确定清空?"),  message: Text("删除后不能还原!!!"),
-					  primaryButton: .destructive(Text("清空"),
-												  action: {
-					if let cache = ImageManager.defaultCache(){
-						cache.clearDiskCache()
-                        Defaults[.imageSaves] = []
-                        Toast.success(title: String(localized: "清理成功"))
-					}
-
-				}),
-					  secondaryButton: .cancel())
-
-			}
+			
 		}
 	}
 
-	func getUseSize()->String{
-
-        if let totalSize = try? ImageManager.defaultCache()?.diskStorage.totalSize(){
-            
-            if totalSize >= 1_073_741_824 { // 1GB
-                return String(format: "%.2fGB", Double(totalSize) / 1_073_741_824)
-            } else if totalSize >= 1_048_576 { // 1MB
-                return String(format: "%.2fMB", Double(totalSize) / 1_048_576)
-            } else if totalSize >= 1_024 { // 1KB
-                return String(format: "%dKB", totalSize / 1_024)
-            } else {
-                return "\(totalSize)B" // 小于 1KB 直接显示字节
-            }
-        }
-
-
-		return "0"
-	}
-    
-    private func importMessage(_ fileUrls: [URL]) -> String {
+    fileprivate func importMessage(_ fileUrls: [URL]) -> String {
         do{
             for url in fileUrls{
                 
@@ -460,6 +323,7 @@ struct MoreOperationsView: View {
             return error.localizedDescription
         }
     }
+	
 }
 
 #Preview {
@@ -498,4 +362,7 @@ struct TextFileMessage: FileDocument {
 		let data = try encoder.encode(content)
 		return FileWrapper(regularFileWithContents: data)
 	}
+    
+    
+   
 }

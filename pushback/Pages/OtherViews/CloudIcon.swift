@@ -89,6 +89,7 @@ struct CloudIcon: View {
                        
                     }
                     .padding(.top ,30)
+                    .blur(radius: selectImage == nil ? 0 : 5)
                 }
                 else {
                     Text("打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端")
@@ -122,7 +123,7 @@ struct CloudIcon: View {
                         Spacer()
                         VStack {
                             ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                .progressViewStyle(CircularProgressViewStyle(tint: .red))
                                 .scaleEffect(2)
                                 .padding()
                             Text("加载中...")
@@ -143,33 +144,54 @@ struct CloudIcon: View {
                         .resizable()
                         .scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .frame(height: 300)
+                        .frame(height: 260)
                         .padding(.horizontal)
-                        .transition(.slide)
                         .offset(offset)
                         .gesture(
                             DragGesture()
                                 .onChanged { value in
-                                    // Update the offset as the user drags the image
                                     withAnimation {
                                         self.offset = value.translation
                                     }
-                                   
                                 }
                                 .onEnded { value in
-                                    // Check if the drag distance is greater than 50 points in any direction
-                                    if abs(value.translation.width) > 50 || abs(value.translation.height) > 50 {
-                                        // If the drag distance exceeds 50 points, hide the image
+                                    let dragThreshold: CGFloat = 50
+                                    let translation = value.translation
+
+                                    // 判断滑动是否超过阈值
+                                    guard abs(translation.width) > dragThreshold || abs(translation.height) > dragThreshold else {
+                                        // 滑动距离不够，回弹
                                         withAnimation {
-                                            self.selectImage = nil
+                                            self.offset = .zero
                                         }
+                                        return
                                     }
-                                    
-                                    withAnimation {
+
+                                    // 计算滑动方向
+                                    var finalOffset = CGSize.zero
+                                    let slideDistance: CGFloat = 500
+
+                                    if abs(translation.width) > abs(translation.height) {
+                                        // 水平方向为主
+                                        finalOffset = CGSize(width: translation.width > 0 ? slideDistance : -slideDistance, height: 0)
+                                    } else {
+                                        // 垂直方向为主
+                                        finalOffset = CGSize(width: 0, height: translation.height > 0 ? slideDistance : -slideDistance)
+                                    }
+
+                                    // 动画滑出
+                                    withAnimation(.easeOut(duration: 0.3)) {
+                                        self.offset = finalOffset
+                                    }
+
+                                    // 滑出后清除图片
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        self.selectImage = nil
                                         self.offset = .zero
                                     }
                                 }
                         )
+                   
                 }
             }
             .onAppear{
@@ -183,9 +205,9 @@ struct CloudIcon: View {
     }
     
     func getIcons(){
-        Task{
+        Task.detached{
             let icons = await PushIconCloudManager.shared.queryIconsForMe()
-            await MainActor.run {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 withAnimation {
                     self.icons = icons
                     self.loading = false

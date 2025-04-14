@@ -139,6 +139,7 @@ class PushIconCloudManager {
         do{
             let userId = try await container.userRecordID()
             let datas = await self.fetchRecords(for: NSPredicate(format: "creatorUserRecordID == %@", userId), in: database)
+            
             return datas
         }catch {
             Log.error(error.localizedDescription)
@@ -149,6 +150,7 @@ class PushIconCloudManager {
    
     
     func queryIcons(name: String? = nil, descriptions: [String]? = nil) async -> [CKRecord] {
+        
         var predicates: [NSPredicate] = []
 
         // **查询 Name**
@@ -185,6 +187,7 @@ class PushIconCloudManager {
         }
 
         Log.debug("查询到 \(uniqueRecords.count) 条记录")
+        
         return uniqueRecords
     }
     
@@ -241,6 +244,9 @@ class PushIconCloudManager {
             }
         }
     }
+    
+ 
+    
     
 }
 

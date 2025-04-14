@@ -32,7 +32,7 @@ struct SoundItemView: View {
     @State private var progress:CGFloat = 0
 	
     var wavConfig:WaveformScrubber.Config{
-        selectSound ? .init(activeTint: .orange) : .init()
+        selectSound ? .init(activeTint: .orange) : .init(activeTint: .textBlack)
     }
 
     var body: some View{
@@ -62,10 +62,7 @@ struct SoundItemView: View {
                     }
                 
             }
-            .contentShape(Rectangle())
             .pressEvents(onRelease:{ _ in
-                let progress = progress
-                
                 self.progress = 0
                 DispatchQueue.main.async{
                     withAnimation(.easeInOut(duration: duration )) {
@@ -74,11 +71,9 @@ struct SoundItemView: View {
                     
                     audioManager.playAudio(url: audio)
                     DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.1){
-                        self.progress = progress
+                        self.progress = selectSound ? 1 : 0
                     }
                 }
-                
-                
             })
             
             

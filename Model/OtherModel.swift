@@ -292,27 +292,6 @@ enum DefaultBrowserModel: String, CaseIterable, Defaults.Serializable {
 }
 
 
-enum CacheSizeLimit: Int, CaseIterable, Defaults.Serializable {
-	case five = 5
-	case twenty = 20
-	case fifty = 50
-	case infinity = 2050
-
-	var title:String{
-		switch self {
-			case .five: "5GB"
-			case .twenty: "20GB"
-			case .fifty: "50GB"
-			case .infinity: "∞"
-		}
-	}
-
-	var size:Int64{
-		Int64(rawValue << 30)
-	}
-}
-
-
 struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
     var id:String = UUID().uuidString
     var current:Bool = false

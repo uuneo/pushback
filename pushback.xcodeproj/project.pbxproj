@@ -80,7 +80,7 @@
 		B5D204A72D9EABFB00527343 /* Splash+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2045F2D9EABFB00527343 /* Splash+.swift */; };
 		B5D204A82D9EABFB00527343 /* TagField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2043F2D9EABFB00527343 /* TagField.swift */; };
 		B5D204A92D9EABFB00527343 /* WaveformScrubber.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2043A2D9EABFB00527343 /* WaveformScrubber.swift */; };
-		B5D204AA2D9EABFB00527343 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* CloudKitManager.swift */; };
+		B5D204AA2D9EABFB00527343 /* PushIconCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */; };
 		B5D204AB2D9EABFB00527343 /* HeroEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204422D9EABFB00527343 /* HeroEffect.swift */; };
 		B5D204AC2D9EABFB00527343 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204692D9EABFB00527343 /* AudioManager.swift */; };
 		B5D204AD2D9EABFB00527343 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204722D9EABFB00527343 /* Clipboard.swift */; };
@@ -118,7 +118,7 @@
 		B5D205F22D9EAFE100527343 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046E2D9EABFB00527343 /* ImageManager.swift */; };
 		B5D205F32D9EAFFA00527343 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204722D9EABFB00527343 /* Clipboard.swift */; };
 		B5D205F42D9EB00600527343 /* TagField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2043F2D9EABFB00527343 /* TagField.swift */; };
-		B5D205F52D9EB01100527343 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* CloudKitManager.swift */; };
+		B5D205F52D9EB01100527343 /* PushIconCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */; };
 		B5D206092D9EB13700527343 /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5D206082D9EB13700527343 /* cmark-gfm */; };
 		B5D2060C2D9EB2BC00527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2060B2D9EB2BC00527343 /* Defaults */; };
 		B5D2060E2D9EB36100527343 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2060D2D9EB36100527343 /* Kingfisher */; };
@@ -149,7 +149,7 @@
 		B5D206372D9EB9F700527343 /* cryptoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046D2D9EABFB00527343 /* cryptoManager.swift */; };
 		B5D206382D9EB9F700527343 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046E2D9EABFB00527343 /* ImageManager.swift */; };
 		B5D206392D9EBA4D00527343 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
-		B5D2063A2D9EBAD700527343 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* CloudKitManager.swift */; };
+		B5D2063A2D9EBAD700527343 /* PushIconCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */; };
 		B5D2063C2D9EBAFE00527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2063B2D9EBAFE00527343 /* Defaults */; };
 		B5D2064C2D9EBFDB00527343 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058C2D9EAE8A00527343 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B5D206502D9EC74900527343 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D2064F2D9EC74900527343 /* WebKit.framework */; };
@@ -275,7 +275,7 @@
 		B5D204612D9EABFB00527343 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		B5D204622D9EABFB00527343 /* image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "image+.swift"; sourceTree = "<group>"; };
 		B5D204632D9EABFB00527343 /* MarkdownColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownColors.swift; sourceTree = "<group>"; };
-		B5D204652D9EABFB00527343 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushIconCloudManager.swift; sourceTree = "<group>"; };
 		B5D204662D9EABFB00527343 /* OpenChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatManager.swift; sourceTree = "<group>"; };
 		B5D204672D9EABFB00527343 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
@@ -593,7 +593,7 @@
 		B5D204702D9EABFB00527343 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				B5D204652D9EABFB00527343 /* CloudKitManager.swift */,
+				B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */,
 				B5D204662D9EABFB00527343 /* OpenChatManager.swift */,
 				B5D204672D9EABFB00527343 /* StoreKitManager.swift */,
 				B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */,
@@ -953,7 +953,7 @@
 				B5D204A72D9EABFB00527343 /* Splash+.swift in Sources */,
 				B5D204A82D9EABFB00527343 /* TagField.swift in Sources */,
 				B5D204A92D9EABFB00527343 /* WaveformScrubber.swift in Sources */,
-				B5D204AA2D9EABFB00527343 /* CloudKitManager.swift in Sources */,
+				B5D204AA2D9EABFB00527343 /* PushIconCloudManager.swift in Sources */,
 				B5D204AB2D9EABFB00527343 /* HeroEffect.swift in Sources */,
 				B5D204AC2D9EABFB00527343 /* AudioManager.swift in Sources */,
 				B5D204AD2D9EABFB00527343 /* Clipboard.swift in Sources */,
@@ -971,7 +971,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5D2063A2D9EBAD700527343 /* CloudKitManager.swift in Sources */,
+				B5D2063A2D9EBAD700527343 /* PushIconCloudManager.swift in Sources */,
 				B5D206392D9EBA4D00527343 /* Extension+.swift in Sources */,
 				B5D206372D9EB9F700527343 /* cryptoManager.swift in Sources */,
 				B5D206382D9EB9F700527343 /* ImageManager.swift in Sources */,
@@ -1012,7 +1012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5D206342D9EB97800527343 /* OtherModel.swift in Sources */,
-				B5D205F52D9EB01100527343 /* CloudKitManager.swift in Sources */,
+				B5D205F52D9EB01100527343 /* PushIconCloudManager.swift in Sources */,
 				B5D205F42D9EB00600527343 /* TagField.swift in Sources */,
 				B5D205F32D9EAFFA00527343 /* Clipboard.swift in Sources */,
 				B5D205F22D9EAFE100527343 /* ImageManager.swift in Sources */,

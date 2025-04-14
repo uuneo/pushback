@@ -6,13 +6,18 @@
 //
 import Foundation
 import CloudKit
+import Defaults
 
 class PushServerCloudKit {
 	static let shared = PushServerCloudKit()
 	
 	private init() { }
+    
+    private let container = CKContainer(identifier: BaseConfig.icloudName)
+    
+    private var database: CKDatabase {  container.privateCloudDatabase }
+    private var publicDB: CKDatabase {  container.publicCloudDatabase }
 	
-	private let database = CKContainer(identifier: BaseConfig.icloudName).privateCloudDatabase
 	private let recordType = "PushServerModal"
 
 	// MARK: - 保存记录到私有数据库
@@ -164,6 +169,43 @@ class PushServerCloudKit {
         }
     }
 	
+    
+    func getUserId() async -> CKRecord.ID? {
+        do{
+            let user =  try await container.userRecordID()
+            if  Defaults[.id].isEmpty{
+                Defaults[.id] = user.recordName
+            }
+             return user
+        }catch {
+            debugPrint(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    func updateUser(token:String) async {
+        do{
+            
+            guard let user = await getUserId() else { return }
+            let data =  try await publicDB.record(for: user)
+            data["token"] = token
+            let operation = CKModifyRecordsOperation(recordsToSave: [ data], recordIDsToDelete: nil)
+            operation.savePolicy = .changedKeys
+            operation.modifyRecordsResultBlock  = {  results in
+                switch results {
+                case .success(let data):
+                    debugPrint(data)
+                case .failure(let err):
+                    debugPrint(err.localizedDescription)
+                }
+            }
+            publicDB.add(operation)
+        }catch{
+            debugPrint(error.localizedDescription)
+        }
+        
+    }
+    
 	
 	
 	

@@ -12,7 +12,7 @@ struct PushToDeviceIntent: AppIntent {
     static var title: LocalizedStringResource = "发送通知到设备"
     static var openAppWhenRun: Bool = false
     
-    @Parameter(title: "*服务器")
+    @Parameter(title: "服务器")
     var address: String
     
     
@@ -39,7 +39,7 @@ struct PushToDeviceIntent: AppIntent {
     @Parameter(title: "副标题")
     var subTitle: String?
     
-    @Parameter(title: "*内容")
+    @Parameter(title: "内容")
     var body: String?
 
     @Parameter(title: "推送图标")
@@ -106,7 +106,7 @@ struct PushToDeviceIntent: AppIntent {
         let http = NetworkManager()
         
         
-        let res:APIPushToDeviceResponse? = try await http.fetch(url: address.absoluteString + "/123", method: .post, params: params)
+        let res:APIPushToDeviceResponse? = try await http.fetch(url: address.absoluteString, method: .post, params: params)
         
         
         return .result(value: res?.code == 200)

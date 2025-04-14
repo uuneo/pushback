@@ -36,10 +36,7 @@
 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
 	<true/>
 	<key>NSUserActivityTypes</key>
-	<array>
-		<string>INSendMessageIntent</string>
-		<string>INStartCallIntent</string>
-	</array>
+	<array/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

@@ -9,6 +9,20 @@ import AppIntents
 import Defaults
 
 
+
+
+
+struct ServerAddressProvider: DynamicOptionsProvider {
+    func results() async throws -> [String] {
+        Defaults[.servers].map { $0.server() }
+    }
+    
+    func defaultResult() async -> String? {
+        Defaults[.servers].first?.server()
+    }
+}
+
+
 struct SoundOptionsProvider: DynamicOptionsProvider {
     func results() async throws -> [String] {
         let (customSounds , defaultSounds) = AudioManager.shared.getFileList()
@@ -75,3 +89,5 @@ struct APIPushToDeviceResponse: Codable {
     let message: String
     let timestamp: Int
 }
+
+

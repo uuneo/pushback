@@ -164,6 +164,10 @@ struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, 
 	}
 	
 	var color: Color{ status ? .green : .orange }
+    
+    func server() -> String{
+        return self.url + "/" + self.key
+    }
 
 }
 

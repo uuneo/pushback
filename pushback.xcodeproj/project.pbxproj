@@ -246,6 +246,8 @@
 		B555FA312DAA77AC0008D11E /* tritone.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = tritone.caf; sourceTree = "<group>"; };
 		B555FA322DAA77AC0008D11E /* typewriter.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = typewriter.caf; sourceTree = "<group>"; };
 		B555FA332DAA77AC0008D11E /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
+		B555FA6A2DACC33A0008D11E /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		B555FA752DACC33B0008D11E /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		B5D204342D9EABFB00527343 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -626,6 +628,8 @@
 				B5D2062D2D9EB85E00527343 /* StoreKit.framework */,
 				B5D205B02D9EAF1500527343 /* UserNotifications.framework */,
 				B5D205B22D9EAF1500527343 /* UserNotificationsUI.framework */,
+				B555FA6A2DACC33A0008D11E /* Intents.framework */,
+				B555FA752DACC33B0008D11E /* IntentsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1189,6 +1193,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo album";
+				INFOPLIST_KEY_NSSiriUsageDescription = "我们需要访问 Siri 来为您提供消息搜索和删除功能。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1227,6 +1232,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need access to your photo album";
+				INFOPLIST_KEY_NSSiriUsageDescription = "我们需要访问 Siri 来为您提供消息搜索和删除功能。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

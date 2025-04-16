@@ -29,7 +29,6 @@ struct MessagePage: View {
                         SearchMessageView(searchText: manager.searchText)
                     }
                     
-                    
                 }
                 
                 

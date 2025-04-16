@@ -9,9 +9,8 @@
 //  History:
 //  Created by uuneo on 2024/12/4.
 	
-
-import Foundation
 import UIKit
+import Foundation
 import CommonCrypto
 import Defaults
 
@@ -27,8 +26,6 @@ class NetworkManager {
 			self.rawValue
 		}
 	}
-    
-    
 	
     /// 通用网络请求方法
     /// - Parameters:
@@ -61,6 +58,7 @@ class NetworkManager {
         request.setValue( sign(url: url, params: params, key: BaseConfig.signKey), forHTTPHeaderField: "X-Signature" )
         request.setValue(self.generateCustomUserAgent(), forHTTPHeaderField: "User-Agent" )
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(Defaults[.id], forHTTPHeaderField: "Authorization")
         
         // 如果是 POST 请求，将参数编码为 JSON 设置到 httpBody
         if method == .post && !params.isEmpty {

@@ -19,7 +19,7 @@ class NotificationService: UNNotificationServiceExtension {
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         
-    
+        
         
         Task {
             guard var bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent) else {

@@ -22,7 +22,6 @@ class ActionHandler: NotificationContentHandler{
 	
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		
-		
         // MARK: - 处理 Ringtone
         if bestAttemptContent.soundName == nil && bestAttemptContent.getLevel() < 3{
             bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound]).caf" ) )
@@ -67,6 +66,10 @@ class ActionHandler: NotificationContentHandler{
         if let date = Defaults[.muteSetting][bestAttemptContent.threadIdentifier], date > Date(){
             bestAttemptContent.interruptionLevel = .passive
         }
+        
+//        let http = NetworkManager()
+//        
+//        http.fetch(url: <#T##String#>)
         
         
         return bestAttemptContent

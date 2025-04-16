@@ -113,6 +113,8 @@ struct ContentView: View {
             })) {
                 
                
+                
+               
                 // MARK: 信息页面
                 MessagePage()
                     .badge(messages.where({!$0.read}).count)
@@ -122,6 +124,7 @@ struct ContentView: View {
                             .foregroundStyle( .green, tabColor2)
                     }
                     .tag(TabPage.message)
+                
                 
                 // MARK: 设置页面
                 SettingsPage()
@@ -337,10 +340,6 @@ struct ContentView: View {
                 default:
                     break
                 }
-            }
-            
-            Task.detached {
-                await manager.registers()
             }
             
         case .background:

@@ -5,9 +5,9 @@
 //  Created by uuneo 2024/10/26.
 //
 
+import UIKit
 import SwiftUI
 import Defaults
-import UIKit
 import Foundation
 
 class PushbackManager: NetworkManager, ObservableObject{
@@ -96,19 +96,23 @@ class PushbackManager: NetworkManager, ObservableObject{
         Task{
             do{
             
-                let response:baseResponse<String>? = try await self.fetch(url: address + "/register/\(deviceKey)",method: .get)
+                let response:baseResponse<String>? = try await self.fetch(url: address + "/register/\(deviceKey)")
+                
+                
                 if let msg = response?.message, let code = response?.code,code == 200, msg == "success"{
                     
                     self.appendServer(server: PushServerModel(url: address,key: deviceKey)) { success, msg in
                         complete?(success)
                     }
+                }else{
+                    complete?(false)
                 }
                 
             }catch{
                 Log.error(error.localizedDescription)
-              
+                complete?(false)
             }
-            complete?(false)
+            
         }
         
     }
@@ -119,7 +123,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	///  completion: 服务器数据，提示消息
     func register(server: PushServerModel, reset:Bool = false, completion: ((Bool,String)-> Void)? = nil){
 		Task.detached(priority: .high) {
-            let (success,msg) = await self.register(server: server,reset: reset)
+            let (success,msg) = await self.register2(server: server,reset: reset)
 			completion?(success, msg)
 		}
 	}
@@ -131,7 +135,7 @@ class PushbackManager: NetworkManager, ObservableObject{
     func registers(completion: (([(Bool,String)])-> Void)? = nil) async {
         await withTaskGroup(of: (Bool,String).self) { group in
 			for server in Defaults[.servers] {
-				group.addTask {await self.register(server: server)}
+				group.addTask {await self.register2(server: server)}
 			}
 
             var results:[(Bool,String)] = []
@@ -143,7 +147,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	}
     
 	/// Register  Server async
-    func register(server: PushServerModel, reset:Bool = false) async -> (Bool,String){
+    func register2(server: PushServerModel, reset:Bool = false) async -> (Bool,String){
 
 		do{
             let deviceToken = reset ? UUID().uuidString : Defaults[.deviceToken]
@@ -193,25 +197,21 @@ class PushbackManager: NetworkManager, ObservableObject{
 	/// add server
    func appendServer(server:PushServerModel, completion: @escaping (Bool,String)-> Void ){
 		Task.detached(priority: .background) {
-            let isServer = Defaults[.servers].contains(where: {$0.key == server.key})
+            let isServer = Defaults[.servers].contains(where: {$0.key == server.key && $0.url == server.url})
+            Log.debug(isServer)
 			let (_, success, msg) = await self.health(url: server.url)
 			if !isServer, success {
 				await MainActor.run {
 					Defaults[.servers].insert(server, at: 0)
 				}
-				let (success,msg) = await self.register(server: server)
+                // contentview 内监听注册，直接返回成功
 				DispatchQueue.main.async{
-					completion(success, msg)
+					completion(success, "success")
 				}
 			}else{
 				DispatchQueue.main.async{
-                    
                     let msg = isServer ? String(localized: "服务器已存在") : (msg ?? "")
-                   
 					completion(false , msg)
-                    
-                    
-                    
 				}
 			}
 		}

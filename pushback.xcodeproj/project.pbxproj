@@ -48,6 +48,7 @@
 		B555FA592DAA77AC0008D11E /* hello.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA282DAA77AC0008D11E /* hello.caf */; };
 		B555FA5A2DAA77AC0008D11E /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2C2DAA77AC0008D11E /* shake.caf */; };
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
+		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204462D9EABFB00527343 /* Snapshot.swift */; };
 		B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
@@ -975,6 +976,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */,
 				B5D2063A2D9EBAD700527343 /* PushIconCloudManager.swift in Sources */,
 				B5D206392D9EBA4D00527343 /* Extension+.swift in Sources */,
 				B5D206372D9EB9F700527343 /* cryptoManager.swift in Sources */,

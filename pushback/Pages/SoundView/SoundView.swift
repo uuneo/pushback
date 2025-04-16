@@ -41,8 +41,6 @@ struct SoundView: View {
                             }
                         
                     }.disabled(uploadLoading)
-                    
-                    
                     ///  UTType.types(tag: "caf", tagClass: UTTagClass.filenameExtension,conformingTo: nil)
                     .fileImporter(isPresented: $showUpload, allowedContentTypes: [.audio] ) { result in
                         self.uploadLoading = true

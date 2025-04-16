@@ -240,8 +240,8 @@ struct ChangeKeyCenterView: View {
                         await view.next(.loading(0))
                         
                         DispatchQueue.main.async {
-                            self.keyName = keyName.trimmingCharacters(in: .whitespacesAndNewlines)
-                            self.keyHost = keyHost.trimmingCharacters(in: .whitespacesAndNewlines)
+                            self.keyName = self.keyName.trimmingCharacters(in: .whitespacesAndNewlines)
+                            self.keyHost = self.keyHost.trimmingCharacters(in: .whitespacesAndNewlines)
                         }
                         
                         try? await Task.sleep(for: .seconds(0.5))

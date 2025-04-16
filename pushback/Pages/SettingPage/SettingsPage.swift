@@ -380,9 +380,6 @@ struct SettingsPage: View {
                     }
                 }
 			}
-			.onAppear {
-				manager.healths()
-			}
 			.navigationDestination(isPresented: $showServerListView) {
 				ServersConfigView()
 					.toolbar(.hidden, for: .tabBar)

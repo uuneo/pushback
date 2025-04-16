@@ -14,6 +14,8 @@ import Foundation
 import CommonCrypto
 import Defaults
 
+
+
 class NetworkManager {
 
     private var session = URLSession(configuration: .default)
@@ -26,7 +28,15 @@ class NetworkManager {
 			self.rawValue
 		}
 	}
-	
+    
+    struct EmptyResponse: Codable {}
+    
+    
+    /// 无返回值
+    func fetch(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async {
+        let _ :EmptyResponse? = try? await self.fetch(url: url, method: method, params: params)
+    }
+    
     /// 通用网络请求方法
     /// - Parameters:
     ///   - url: 接口地址
@@ -187,4 +197,13 @@ class NetworkManager {
         return signString
     }
 
+    func appendQueryParameter(to urlString: String, key: String, value: String) -> String? {
+        guard var components = URLComponents(string: urlString) else { return nil }
+
+        var queryItems = components.queryItems ?? []
+        queryItems.append(URLQueryItem(name: key, value: value))
+        components.queryItems = queryItems
+
+        return components.url?.absoluteString
+    }
 }

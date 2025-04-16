@@ -34,6 +34,8 @@ enum Params: String, CaseIterable{
     case calcolor
     case calminutes
     case messageId
+    
+    case callback
 
     var name:String{ self.rawValue }
 }

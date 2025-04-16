@@ -143,9 +143,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             PushbackManager.shared.selectGroup = content.threadIdentifier
         }
         
-        
         notificatonHandler(userInfo: content.userInfo)
-        
         
         // 清除通知中心的显示
         center.removeDeliveredNotifications(withIdentifiers: [content.threadIdentifier])

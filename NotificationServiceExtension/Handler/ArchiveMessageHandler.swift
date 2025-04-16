@@ -48,7 +48,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
             return id
         }
         //  保存数据到数据库
-        if  saveDays != 0 , let realm{
+        if  saveDays > 0, let realm{
             
             if let message =  realm.objects(Message.self).first(where: {$0.id == id}){
                 try? realm.write {

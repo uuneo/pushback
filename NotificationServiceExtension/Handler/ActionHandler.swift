@@ -67,17 +67,18 @@ class ActionHandler: NotificationContentHandler{
             bestAttemptContent.interruptionLevel = .passive
         }
         
-//        let http = NetworkManager()
-//        
-//        http.fetch(url: <#T##String#>)
-        
+        // MARK: -  回调
+        let http = NetworkManager()
+        if let callback = bestAttemptContent.userInfo[Params.callback] as? String,
+           let id = bestAttemptContent.targetContentIdentifier,
+           let url = http.appendQueryParameter(to: callback, key: "id", value: id){
+            await http.fetch(url: url)
+        }
         
         return bestAttemptContent
         
     
 	}
-    
-
 }
 
 

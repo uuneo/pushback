@@ -1,4 +1,4 @@
-English | **[中文](README.md)**
+English | **[中文](README.md)** | **[日本語](README.JA.md)** | **[한국어](README.KO.md)**
 
 
 > [!IMPORTANT]
@@ -30,7 +30,7 @@ English | **[中文](README.md)**
 ## Usage
 1. Open the app and copy the test URL
 
-<img src="/docs/_media/example.jpg" width=365 />
+<img src="/docs/_media/example.jpeg" width=365 />
 
 2. Modify the content and request this URL
 ```
@@ -73,12 +73,6 @@ https://push.uuneo.com/yourkey/icon?icon=https://pushback.uuneo.com/_media/avata
 ```
 // Specify the push message image, Pictures are automatically saved to albums
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
-```
-
-* video
-```
-// Specify the push message video and drop it down to play it
-https://push.uuneo.com/yourkey/icon?video=https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4
 ```
 
 * sound

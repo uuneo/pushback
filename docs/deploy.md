@@ -4,40 +4,37 @@
 * 配置
 
 ```yaml
-system:
-  name: "NewBearService"
-  user: ""         # 用户名 非必填
-  password: ""    # 密码  非必填
-  host: "0.0.0.0"  # 服务监听地址
-  port: "8080"   # 服务监听端口 docker-compose中的端口映射必须与此端口一致
-  mode: "release"   # debug,release,test
-  dbType: "default" # default,mysql
-  dbPath: "/data" # 数据库文件存放路径
+system: # 系统配置
+  name: "Pushback" # 服务名称
+  user: "" # 服务用户名
+  password: "" # 服务密码
+  host: "0.0.0.0" # 服务地址
+  port: "8180" # 服务端口
+  mode: "release" # debug, release
+  dbType: "default" # 数据库类型
+  dbPath: "./" # 数据库文件路径
+  hostName: "https://push.uuneo.com" # 服务域名
 
-mysql: # 仅在 dbType: "mysql" 时有效
+mysql: # 数据库配置
   host: "localhost"
   port: "3306"
   user: "root"
   password: "root"
 
-apple: # 复制项目中的配置，不需要修改，仅在自己编译app时需要修改
-  keyId:
-  teamId:
-  topic:
-  apnsPrivateKey:
+apple: # 苹果推送配置
+  keyId: "BNY5GUGV38"
+  teamId: "FUWV6U942Q"
+  topic: "me.uuneo.Meoworld"
+  develop: true # 推送程序的模式
+  adminId: "" # 管理员id
+  apnsPrivateKey: 
 
 ```
 
 ## Docker部署
-*  因为国内情况复杂，如果下载不了镜像使用我的镜像地址，先把镜像拉取下来
 
 ```shell
-docker pull crpi-qe87peuqqnyljim6.cn-shanghai.personal.cr.aliyuncs.com/neouu/pushback
-docker tag crpi-qe87peuqqnyljim6.cn-shanghai.personal.cr.aliyuncs.com/neouu/pushback neouu/pushback
-```
 
-
-```shell
 docker run -d --name pushback-server -p 8080:8080 -v ./data:/data  --restart=always  neouu/pushback:latest
 ```
 

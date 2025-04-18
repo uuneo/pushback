@@ -3,7 +3,7 @@
 ## Sending Push Notifications
 1. Open the app and copy the test URL.
 
-<img src="../_media/example.jpg" width=365 />
+<img src="../_media/example.jpeg" width=365 />
 
 2. Modify the content and send a request to this URL.<br>
 You can send either a GET or POST request. A successful request will result in an immediate push notification.<br>
@@ -23,7 +23,7 @@ https://push.uuneo.com/:key/:title/:subtitle/:body
 ##### GET Request
 Parameters are appended to the URL, for example:
 ```sh
-curl https://push.twown.com/your_key/PushContent?group=GroupName&copy=CopyText
+curl https://push.uuneo.com/your_key/PushContent?group=GroupName&copy=CopyText
 ```
 *When manually appending parameters to the URL, please ensure proper URL encoding. You can refer to [FAQ: URL Encoding](/faq?id=%e6%8e%a8%e9%80%81%e7%89%b9%e6%ae%8a%e5%ad%97%e7%ac%a6%e5%af%bc%e8%87%b4%e6%8e%a8%e9%80%81%e5%a4%b1%e8%b4%a5%ef%bc%8c%e6%af%94%e5%a6%82-%e6%8e%a8%e9%80%81%e5%86%85%e5%ae%b9%e5%8c%85%e5%90%ab%e9%93%be%e6%8e%a5%ef%bc%8c%e6%88%96%e6%8e%a8%e9%80%81%e5%bc%82%e5%b8%b8-%e6%af%94%e5%a6%82-%e5%8f%98%e6%88%90%e7%a9%ba%e6%a0%bc) for more details.*
 
@@ -31,12 +31,12 @@ curl https://push.twown.com/your_key/PushContent?group=GroupName&copy=CopyText
 ##### POST Request
 Parameters are placed in the request body, for example:
 ```sh
-curl -X POST https://push.twown.com/your_key \
+curl -X POST https://push.uuneo.com/your_key \
      -d'body=PushContent&group=GroupName&copy=CopyText'
 ```
 ##### POST requests support JSON, for example:
 ```sh
-curl -X "POST" "//https://push.twown.com/your_key" \
+curl -X "POST" "//https://push.uuneo.com/your_key" \
      -H 'Content-Type: application/json; charset=utf-8' \
      -d $'{
   "body": "Test pushback Server",
@@ -52,7 +52,7 @@ curl -X "POST" "//https://push.twown.com/your_key" \
 
 ##### The JSON request key can be included in the request body, and the URL path must be `/push`, for example:
 ```sh
-curl -X "POST" "https://push.twown.com/push" \
+curl -X "POST" "https://push.uuneo.com/push" \
      -H 'Content-Type: application/json; charset=utf-8' \
      -d $'{
   "body": "Test pushback Server",

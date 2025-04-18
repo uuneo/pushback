@@ -1,4 +1,4 @@
-**[English](README.EN.md)** | 中文
+中文 ｜ **[English](README.EN.md)** | **[日本語](README.JA.md)** | **[한국어](README.KO.md)**
 
 > [!IMPORTANT]
 >
@@ -32,7 +32,7 @@ height="40">](https://apps.apple.com/us/app/%E5%8F%8D%E6%8E%A8-%E7%BB%99%E4%BD%A
 ## 发送推送
 1. 打开APP，复制测试URL 
 
-<img src="/docs/_media/example.jpg" width=365 />
+<img src="/docs/_media/example.jpeg" width=365 />
 
 2. 修改内容，请求这个URL
 ```

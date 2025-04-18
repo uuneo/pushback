@@ -96,13 +96,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "/#/en-us/policy"
+            "value" : "/#/ja/policy"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "/#/en-us/policy"
+            "value" : "/#/ko/policy"
           }
         },
         "zh-Hans" : {
@@ -837,6 +837,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "主机"
+          }
+        }
+      }
+    },
+    "https://pushback.uuneo.com/#/encryption" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://pushback.uuneo.com/#/ja/encryption"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://pushback.uuneo.com/#/ko/encryption"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://pushback.uuneo.com/#/en-us/encryption"
           }
         }
       }

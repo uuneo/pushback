@@ -15,7 +15,7 @@ DEVICE_TOKEN=
 #下面的不要修改
 TEAM_ID=FUWV6U942Q
 AUTH_KEY_ID=BNY5GUGV38
-TOPIC=com.twown.paw
+TOPIC=me.uuneo.Meoworld
 APNS_HOST_NAME=api.push.apple.com
 
 # 生成TOKEN

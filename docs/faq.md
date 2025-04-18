@@ -46,17 +46,17 @@ Pushback支持 GET POST ,支持使用Json<br>
 
 ```sh
 # 例如
-https://push.twown.com/key/{推送内容}
+https://push.uuneo.com/key/{推送内容}
 
 # 如果{推送内容}是
 "a/b/c/"
 
 # 则最后拼接的URL是
-https://push.twown.com/key/a/b/c/
+https://push.uuneo.com/key/a/b/c/
 # 将找不到对应的路由，后端程序将返回404
 
 # 应该将 {推送内容} url编码后再进行拼接
-https://push.twown.com/key/a%2Fb%2Fc%2F
+https://push.uuneo.com/key/a%2Fb%2Fc%2F
 ```
 如果是使用成熟的HTTP库时，参数都会被自动处理，无需自己手动编码。<br>
 但如果是自己去拼接URL时，则需要特别注意参数中的特殊字符，**最好不管有没有特殊字符，无脑套一层URL编码**。

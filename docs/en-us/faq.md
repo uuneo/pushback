@@ -46,17 +46,17 @@ When constructing a URL, make sure to URL-encode the parameters.
 
 ```sh
 # Example
-https://push.twown.com/key/{push_content}
+https://push.uuneo.com/key/{push_content}
 
 # If {push_content} is
 "a/b/c/"
 
 # The final URL will be
-https://push.twown.com/key/a/b/c/
+https://push.uuneo.com/key/a/b/c/
 # This will return a 404 error because it can’t find the correct route.
 
 # Instead, URL-encode {push_content} before appending
-https://push.twown.com/key/a%2Fb%2Fc%2F
+https://push.uuneo.com/key/a%2Fb%2Fc%2F
 
 ```
 If you are using a mature HTTP library, the parameters will be automatically handled, and you won’t need to manually encode them.<br>

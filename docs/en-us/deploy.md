@@ -28,13 +28,6 @@ apple: # Copy the configuration from the project; no changes needed unless compi
 
 ```
 ## Docker Deployment  
-* Due to complex network situations in some regions, if you can't pull the image, use my image address to first pull the image  
-
-```shell  
-docker pull crpi-qe87peuqqnyljim6.cn-shanghai.personal.cr.aliyuncs.com/neouu/pushback  
-docker tag crpi-qe87peuqqnyljim6.cn-shanghai.personal.cr.aliyuncs.com/neouu/pushback neouu/pushback  
-```
-
 
 ```shell
 docker run -d --name pushback-server -p 8080:8080 -v ./data:/data  --restart=always  neouu/pushback:latest

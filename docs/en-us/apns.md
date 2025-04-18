@@ -15,7 +15,7 @@ DEVICE_TOKEN=
 # Do not modify the following
 TEAM_ID=FUWV6U942Q
 AUTH_KEY_ID=BNY5GUGV38
-TOPIC=com.twown.paw
+TOPIC=me.uuneo.Meoworld
 APNS_HOST_NAME=api.push.apple.com
 
 # Generate TOKEN
@@ -32,7 +32,7 @@ AUTHENTICATION_TOKEN="${JWT_HEADER}.${JWT_CLAIMS}.${JWT_SIGNED_HEADER_CLAIMS}"
 
 # Send push notification
 curl -v --header "apns-topic: $TOPIC" --header "apns-push-type: alert" --header "authorization: bearer $AUTHENTICATION_TOKEN" --data '{"aps":{"alert":"test"}}' --http2 https://${APNS_HOST_NAME}/3/device/${DEVICE_TOKEN}
-
+```
 
 ### Push Payload Format
 Refer to https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification<br>
@@ -52,3 +52,4 @@ Example:
     },
     "icon": "https://day.app/assets/images/avatar.jpg"
 }
+```

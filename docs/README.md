@@ -1,6 +1,6 @@
  *感谢[BARK](https://github.com/Finb/Bark) 的开源项目*
 ### pushback <!-- {docsify-ignore-all} -->
-- 提供调试服务器，https://dev.twown.com 无需搭建服务器即可自编译ipa文件使用
+- 提供调试服务器，https://dev.uuneo.com 无需搭建服务器即可自编译ipa文件使用
 - 免费、轻量！简单调用接口即可给自己的iPhone发送推送。
 - 依赖苹果APNs，及时、稳定、可靠
 - 不会消耗设备的电量， 基于系统推送服务与推送扩展，APP本体并不需要运行。

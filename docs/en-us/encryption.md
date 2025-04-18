@@ -14,7 +14,7 @@ Push encryption is a method to protect push content by using a custom secret key
 To send an encrypted push, first convert the pushback request parameters into a JSON formatted string, then encrypt the string using the secret key and the selected algorithm. Finally, send the encrypted ciphertext as the `ciphertext` parameter to the server. <br><br>
 **Example:**
 ```python
-# Documentation: "https://pushback.twown.com/#/encryption"
+# Documentation: "https://pushback.uuneo.com/#/en-us/encryption"
 # Python demo: Encrypt data using AES and send it to the server
 # pip3 install pycryptodome
 # The following is just an encryption example, use it directly in the app
@@ -52,7 +52,7 @@ print("Encrypted data (Base64 encoded):", encrypted_base64)
 
 deviceKey = '2uvg28SiADdcrXH46f4xmP'
 
-res = requests.get(f"https://push.twown.com/{deviceKey}/test", params={"ciphertext": encrypted_base64})
+res = requests.get(f"https://push.uuneo.com/{deviceKey}/test", params={"ciphertext": encrypted_base64})
 
 print(res.text)
 ```

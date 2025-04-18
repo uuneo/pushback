@@ -1,0 +1,12 @@
+<!-- docs/_sidebar.md -->
+- [プッシュバック - プッシュバック](/ja/#pushback)
+- **アプリ**
+  - [チュートリアル](/ja/tutorial)
+  - [プッシュ暗号化](/ja/encryption)
+  - [FAQ](/ja/faq)
+- **サーバー**
+  - [サービスのデプロイ](/ja/deploy)
+  - [直接プッシュ](/ja/apns)
+  - [コードのビルド](/ja/build)
+  - [プッシュ証明書](/ja/cert)
+- [プライバシーとセキュリティ](/ja/privacy)

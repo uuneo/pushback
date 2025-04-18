@@ -14,7 +14,7 @@
 要发送加密推送，首先需要把 pushback 请求参数转换成 json 格式的字符串，然后用之前设置的秘钥和相应的算法对字符串进行加密，最后把加密后的密文作为ciphertext参数发送到服务器。<br><br>
 **示例：**
 ```python
-# Documentation: "https://pushback.twown.com/#/encryption"
+# Documentation: "https://pushback.uuneo.com/#/encryption"
 # python demo: 使用AES加密数据，并发送到服务器
 # pip3 install pycryptodome
 # 下面只是一种加密的示例，使用时请在app内直接复制
@@ -52,7 +52,7 @@ print("加密后的数据（Base64编码", encrypted_base64)
 
 deviceKey = '2uvg28SiADdcrXH46f4xmP'
 
-res = requests.get(f"https://push.twown.com/{deviceKey}/test", params = {"ciphertext": encrypted_base64})
+res = requests.get(f"https://push.uuneo.com/{deviceKey}/test", params = {"ciphertext": encrypted_base64})
 
 print(res.text)
 

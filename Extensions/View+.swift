@@ -535,3 +535,38 @@ extension View{
         
     }
 }
+
+
+struct ListButton<LEFT:View, Trailing: View>:View {
+    @ViewBuilder var leading:() -> LEFT
+    @ViewBuilder var trailing: () -> Trailing
+    var action:() -> Void
+    var showRight:Bool
+    
+    init(
+           @ViewBuilder leading: @escaping () -> LEFT,
+           @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() },
+           showRight:Bool = true,
+           action: @escaping () -> Void
+       ) {
+           self.leading = leading
+           self.trailing = trailing
+           self.action = action
+           self.showRight = showRight
+       }
+    
+    
+    var body: some View {
+        HStack{
+            leading()
+            Spacer()
+            trailing()
+            if showRight{
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.gray)
+            }
+        }.pressEvents(onRelease:{_ in
+            action()
+        })
+    }
+}

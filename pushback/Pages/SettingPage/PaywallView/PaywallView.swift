@@ -33,7 +33,9 @@ struct PaywallView: View {
 					Spacer()
 				}
 				.padding(.bottom)
-
+                
+                Spacer(minLength: 0)
+                
 				HStack{
 					Spacer()
 					ForEach(store.products, id: \.id) { product in
@@ -74,7 +76,7 @@ struct PaywallView: View {
 				}
 
 
-
+                Spacer(minLength: 0)
 
 				HStack{
 
@@ -113,7 +115,6 @@ struct PaywallView: View {
 
 				.padding(.vertical)
 
-				Spacer(minLength: 0)
 
 				HStack(spacing: 20){
 					Spacer()
@@ -167,7 +168,7 @@ struct PaywallView: View {
 				}
 			}
 
-		}.presentationDetents([.medium])
+        }.presentationDetents([ISPAD ? .height(500) : .medium])
 	}
 }
 

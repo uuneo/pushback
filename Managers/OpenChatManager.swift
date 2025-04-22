@@ -52,7 +52,10 @@ final class openChatManager: ObservableObject {
         
         let query = ChatQuery(messages: [.user(.init(content: .string("Hello")))], model: account.model)
         
-        self.cancellableRequest = openchat.chatsStream(query: query) { _ in }completion: { success($0 == nil) }
+        self.cancellableRequest = openchat.chatsStream(query: query) { test in
+            print(test)
+            
+        }completion: { success($0 == nil) }
     }
     
     func getHistoryParams(text: String, messageId:String? = nil)-> ChatQuery?{

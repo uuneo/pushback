@@ -18,7 +18,7 @@ struct PromptChooseView: View {
 
 
     private var filteredBuiltInPrompts: [ChatPrompt] {
-        ChatPrompt.prompts
+        Array(prompts.where({$0.isBuiltIn}))
     }
 
     private var filteredCustomPrompts: [ChatPrompt] {

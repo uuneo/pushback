@@ -127,8 +127,11 @@ struct AssistantPageView:View {
                 }
             }
             .sheet(isPresented: $showSettings) {
-                AssistantSettingsView(showClose: true)
-                    .customPresentationCornerRadius(20) 
+                NavigationStack{
+                    AssistantSettingsView(showClose: true)
+                        .customPresentationCornerRadius(20) 
+                }
+                
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -355,7 +358,7 @@ struct AssistantPageView:View {
                 PushbackManager.vibration(style: .heavy,custom: true)
                 
                 
-                //Handle streaming error here
+                //Handle streaming error                                                          ,here
                 if let error{
                     Toast.error(title: String(localized:"发生错误\(error.localizedDescription)"))
                     Log.error(error)
@@ -370,9 +373,10 @@ struct AssistantPageView:View {
                 DispatchQueue.main.async {
                     
                     RealmManager.handler { realm in
-                        let group2 = ChatGroup()
-                        var group:ChatGroup{
+                       
+                        let group:ChatGroup = {
                             guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
+                                let group2 = ChatGroup()
                                 group2.current = true
                                 group2.name = chatManager.currentRequest
                                 if let messageId = chatManager.messageId{
@@ -381,7 +385,7 @@ struct AssistantPageView:View {
                                 return group2
                             }
                             return group
-                        }
+                        }()
                         
                       
                         

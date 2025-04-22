@@ -32,7 +32,7 @@ struct MoreOperationsView: View {
 	
 
 	var body: some View {
-		NavigationStack{
+
 			List{
             
                 
@@ -94,8 +94,34 @@ struct MoreOperationsView: View {
 
                 } header: {
                     Text( "导出消息列表")
+                        .textCase(.none)
                 } footer:{
                     Text("只能导入.exv结尾的JSON数据")
+                }
+                
+                
+                Button{
+                    PushbackManager.openSetting()
+                }label: {
+                    HStack(alignment:.center){
+
+                        Label {
+                            Text( "系统设置")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "gear.circle")
+                                .scaleEffect(0.9)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.rotate)
+
+                        }
+
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(.gray)
+                    }
+
                 }
                 
                 
@@ -156,6 +182,7 @@ struct MoreOperationsView: View {
 
 				}header:{
                     Text("信息页面")
+                        .textCase(.none)
 				}footer:{
 
 					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
@@ -166,32 +193,6 @@ struct MoreOperationsView: View {
 
 				Section {
                     
-                    Button{
-                        manager.sheetPage = .cloudIcon
-                    }label: {
-                        HStack{
-                            Label {
-                                Text( "云图标")
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                ZStack{
-                                    Image(systemName: "icloud")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(Color.primary)
-                                    Image(systemName: "photo")
-                                        .scaleEffect(0.4)
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.tint)
-                                        .offset(y: 2)
-                                } .scaleEffect(0.9)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundStyle(.gray)
-                        }
-                    }
-                    
-
                     Toggle(isOn: $autoSaveToAlbum) {
                         Label("自动保存到相册", systemImage: "a.circle")
                             .symbolRenderingMode(.palette)
@@ -249,6 +250,7 @@ struct MoreOperationsView: View {
 				}header :{
 					Text(  "图片存档")
 						.foregroundStyle(.gray)
+                        .textCase(.none)
 
 				}footer:{
 					Text("图片默认保存时间，本地化图片不受影响")
@@ -257,7 +259,7 @@ struct MoreOperationsView: View {
 			}
 			.navigationTitle("更多操作")
 			
-		}
+		
 	}
 
     fileprivate func importMessage(_ fileUrls: [URL]) -> String {

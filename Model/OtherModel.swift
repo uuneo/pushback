@@ -54,9 +54,9 @@ enum SubPage: Equatable{
 	case imageCache
     case assistant
 	case web(String)
-	case crash(String)
     case chatgpt(String)
     case cloudIcon
+    case paywall
 	case none
     
 }
@@ -67,6 +67,31 @@ enum MessageStatckPage: Hashable {
     case assistant
     case sound
     case crypto
+}
+
+enum SettingStatckPage: Hashable {
+    case server
+    case assistantSetting
+    case sound
+    case privacy
+    case privacyConfig
+    case more
+}
+
+
+enum AllPage: Hashable {
+    case example
+    case messageDetail(String)
+    case assistant
+    case sound
+    case crypto
+    
+    
+    case server
+    case assistantSetting
+    case privacy
+    case privacyConfig
+    case more
 }
 
 

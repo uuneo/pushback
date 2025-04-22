@@ -91,7 +91,11 @@ struct ScanView: View {
     func codeValueHandler(code: String){
         
         if code.isValidURL() == .remote{
-            manager.appendServer(server: PushServerModel(url: code)) { _, msg in
+            manager.appendServer(server: PushServerModel(url: code)) { success, msg in
+                if success{
+                    manager.settingPath = [.server]
+                    manager.allPath = [.server]
+                }
                 Toast.shared.present(title: msg, symbol: "document.viewfinder")
             }
             self.dismiss()

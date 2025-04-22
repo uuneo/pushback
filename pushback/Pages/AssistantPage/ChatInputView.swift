@@ -26,9 +26,14 @@ struct ChatInputView: View {
     var body: some View {
         VStack {
            
-            HStack() {
-                PromptLabelView(prompt: prompts.first)
-            }.padding(.top, 5)
+                HStack() {
+                    if let prompt = prompts.first{
+                        PromptLabelView(prompt: prompt)
+                    }
+                }.padding(.top, 5)
+           
+            
+            
             HStack(spacing: 10) {
                 inputField
                     .disabled(chatManager.isLoading)
@@ -37,7 +42,6 @@ struct ChatInputView: View {
             }
             .padding(.horizontal)
             .padding(.top, 5)
-//            .background(Color(.systemBackground))
             .animation(.default, value: text)
             
             

@@ -62,6 +62,7 @@ struct SingleMessagesView: View {
                                     self.selectMessage = message
                                 }
                             }
+                            .id(message.id)
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
                             
@@ -104,6 +105,10 @@ struct SingleMessagesView: View {
                     try? proxy.write {
                         datas.setValue(true, forKey: "read")
                     }
+                    if Defaults[.badgeMode] == .auto{
+                        UNUserNotificationCenter.current().setBadgeCount( 0 )
+                    }
+                   
                 }
             }
             

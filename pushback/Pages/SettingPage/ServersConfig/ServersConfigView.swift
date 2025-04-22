@@ -26,12 +26,8 @@ struct ServersConfigView: View {
     
     
     var body: some View {
-        NavigationStack{
+      
             List{
-                
-                
-                
-                
                 Section{
                     ForEach(servers, id: \.id){ item in
                         
@@ -189,7 +185,6 @@ struct ServersConfigView: View {
             .navigationTitle( "服务器")
             .onAppear{ updateCloudServers() }
             
-        }
     }
     
     

@@ -96,7 +96,6 @@
 		B5D2057C2D9EAE1C00527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2057B2D9EAE1C00527343 /* Defaults */; };
 		B5D2057F2D9EAE2C00527343 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2057E2D9EAE2C00527343 /* Kingfisher */; };
 		B5D205822D9EAE3F00527343 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205812D9EAE3F00527343 /* OpenAI */; };
-		B5D205852D9EAE5500527343 /* CrashReporter in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205842D9EAE5500527343 /* CrashReporter */; };
 		B5D205882D9EAE6A00527343 /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205872D9EAE6A00527343 /* QRScanner */; };
 		B5D2058D2D9EAE8A00527343 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058C2D9EAE8A00527343 /* RealmSwift */; };
 		B5D205902D9EAEA800527343 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058F2D9EAEA800527343 /* Splash */; };
@@ -428,7 +427,6 @@
 				B5D2057F2D9EAE2C00527343 /* Kingfisher in Frameworks */,
 				B5D2062E2D9EB85F00527343 /* StoreKit.framework in Frameworks */,
 				B5D205932D9EAEBE00527343 /* cmark-gfm in Frameworks */,
-				B5D205852D9EAE5500527343 /* CrashReporter in Frameworks */,
 				B5D205982D9EAED900527343 /* SwiftyJSON in Frameworks */,
 				B5D2057C2D9EAE1C00527343 /* Defaults in Frameworks */,
 				B5D205822D9EAE3F00527343 /* OpenAI in Frameworks */,
@@ -665,7 +663,6 @@
 				B5D2057B2D9EAE1C00527343 /* Defaults */,
 				B5D2057E2D9EAE2C00527343 /* Kingfisher */,
 				B5D205812D9EAE3F00527343 /* OpenAI */,
-				B5D205842D9EAE5500527343 /* CrashReporter */,
 				B5D205872D9EAE6A00527343 /* QRScanner */,
 				B5D2058C2D9EAE8A00527343 /* RealmSwift */,
 				B5D2058F2D9EAEA800527343 /* Splash */,
@@ -821,7 +818,6 @@
 				B5D2057A2D9EAE1C00527343 /* XCRemoteSwiftPackageReference "Defaults" */,
 				B5D2057D2D9EAE2C00527343 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				B5D205802D9EAE3F00527343 /* XCRemoteSwiftPackageReference "OpenAI" */,
-				B5D205832D9EAE5500527343 /* XCRemoteSwiftPackageReference "plcrashreporter" */,
 				B5D205862D9EAE6A00527343 /* XCRemoteSwiftPackageReference "QRScanner" */,
 				B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				B5D2058E2D9EAEA800527343 /* XCRemoteSwiftPackageReference "Splash" */,
@@ -1210,6 +1206,9 @@
 				MARKETING_VERSION = 2.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1249,6 +1248,9 @@
 				MARKETING_VERSION = 2.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1276,6 +1278,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1303,6 +1308,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1330,6 +1338,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1357,6 +1368,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1383,6 +1397,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1409,6 +1426,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1436,6 +1456,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1463,6 +1486,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1557,16 +1583,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.9;
-			};
-		};
-		B5D205832D9EAE5500527343 /* XCRemoteSwiftPackageReference "plcrashreporter" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/microsoft/plcrashreporter.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.12.0;
+				kind = exactVersion;
+				version = 0.3.8;
 			};
 		};
 		B5D205862D9EAE6A00527343 /* XCRemoteSwiftPackageReference "QRScanner" */ = {
@@ -1631,11 +1649,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B5D205802D9EAE3F00527343 /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
-		};
-		B5D205842D9EAE5500527343 /* CrashReporter */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B5D205832D9EAE5500527343 /* XCRemoteSwiftPackageReference "plcrashreporter" */;
-			productName = CrashReporter;
 		};
 		B5D205872D9EAE6A00527343 /* QRScanner */ = {
 			isa = XCSwiftPackageProductDependency;

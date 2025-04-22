@@ -11,7 +11,6 @@ import PushKit
 import SwiftyJSON
 import Defaults
 import SwiftUI
-import CrashReporter
 import AppIntents
 
 
@@ -56,40 +55,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
-#if !DEBUG
-		let config = PLCrashReporterConfig(signalHandlerType: .mach, symbolicationStrategy: [])
-		if let crashReporter = PLCrashReporter(configuration: config) {
-			// Enable the Crash Reporter.
-			do {
-				try crashReporter.enableAndReturnError()
-			} catch {
-				print("Warning: Could not enable crash reporter: \(error)")
-			}
-
-			if crashReporter.hasPendingCrashReport() {
-				do {
-					let data = try crashReporter.loadPendingCrashReportDataAndReturnError()
-
-					// Retrieving crash reporter data.
-					let report = try PLCrashReport(data: data)
-
-					if let text = PLCrashReportTextFormatter.stringValue(for: report, with: PLCrashReportTextFormatiOS) {
-						PushbackManager.shared.fullPage = .crash(text)
-					} else {
-						print("CrashReporter: can't convert report to text")
-					}
-				} catch {
-					print("CrashReporter failed to load and parse with error: \(error)")
-				}
-
-				// Purge the report.
-				crashReporter.purgePendingCrashReport()
-				return true
-			}
-		} else {
-			print("Could not create an instance of PLCrashReporter")
-		}
-#endif
 		/// 配置数据库
 		setupRealm()
         

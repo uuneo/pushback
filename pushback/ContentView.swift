@@ -21,6 +21,7 @@ struct ContentView: View {
     @Default(.servers) private var servers
     @Default(.firstStart) private var firstStart
     @Default(.badgeMode) private var badgeMode
+    @Default(.lang) private var lang
     @State private var noShow:NavigationSplitViewVisibility = .detailOnly
     @State private  var showAlart:Bool = false
     @State private  var activeName:String = ""
@@ -86,7 +87,7 @@ struct ContentView: View {
 //            autoreleasepool {
 //                var messages:[Message] = []
 //                
-//                for index in 0...10000{
+//                for index in 0...30000{
 //                    messages.append(contentsOf: Message.examples(group: "\(index % 5)"))
 //                }
 //                
@@ -112,29 +113,77 @@ struct ContentView: View {
                 manager.page = value
             })) {
                 
-               
                 
-               
-                // MARK: 信息页面
-                MessagePage()
-                    .badge(messages.where({!$0.read}).count)
-                    .tabItem {
-                        Label( "消息", systemImage: "ellipsis.message")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .green, tabColor2)
-                    }
-                    .tag(TabPage.message)
+                NavigationStack(path: $manager.messagePath){
+                    // MARK: 信息页面
+                    MessagePage()
+                        
+                        .navigationDestination(for: MessageStatckPage.self){ router in
+                            switch router {
+                            case .example:
+                                ExampleView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .messageDetail(let group):
+                                MessageDetailPage(group: group)
+                                    .toolbar(.hidden, for: .tabBar)
+                                    .navigationTitle(group)
+                            case .sound:
+                                SoundView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .assistant:
+                                AssistantPageView()
+                                    .navigationBarBackButtonHidden()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .crypto:
+                                CryptoConfigView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            }
+                        }
+                    
+                }
+                .badge(messages.where({!$0.read}).count)
+                .tabItem {
+                    Label( "消息", systemImage: "ellipsis.message")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle( .green, tabColor2)
+                }
+                .tag(TabPage.message)
                 
+                   
                 
-                // MARK: 设置页面
-                SettingsPage()
-                    .tabItem {
-                        Label( "设置", systemImage: "gear.badge.questionmark")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .green, tabColor2)
-                           
-                    }
-                    .tag(TabPage.setting)
+                NavigationStack(path: $manager.settingPath){
+                    // MARK: 设置页面
+                    SettingsPage()
+                       
+                        .navigationDestination(for: SettingStatckPage.self){ router in
+                            switch router {
+                            case .server:
+                                ServersConfigView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .assistantSetting:
+                                AssistantSettingsView(showClose: false)
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .sound:
+                                SoundView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .privacy:
+                                PrivacySecurity()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .privacyConfig:
+                                CryptoConfigView()
+                            case .more:
+                                MoreOperationsView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            }
+                        }
+                        
+                }
+                .tabItem {
+                    Label( "设置", systemImage: "gear.badge.questionmark")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle( .green, tabColor2)
+                }
+                .tag(TabPage.setting)
                 
             }
                
@@ -144,11 +193,53 @@ struct ContentView: View {
     
     @ViewBuilder
     func IpadHomeView() -> some View{
+        
         NavigationSplitView(columnVisibility: $noShow) {
             SettingsPage()
         } detail: {
-            MessagePage()
+          
+            NavigationStack(path: $manager.allPath){
+                MessagePage()
+                    .navigationDestination(for: AllPage.self){ router in
+                        switch router {
+                        case .example:
+                            ExampleView()
+                                .toolbar(.hidden, for: .tabBar)
+                        case .messageDetail(let group):
+                            MessageDetailPage(group: group)
+                                .toolbar(.hidden, for: .tabBar)
+                                .navigationTitle(group)
+                        case .sound:
+                            SoundView()
+                                .toolbar(.hidden, for: .tabBar)
+                        case .assistant:
+                            AssistantPageView()
+                                .navigationBarBackButtonHidden()
+                                .toolbar(.hidden, for: .tabBar)
+                        case .crypto:
+                            CryptoConfigView()
+                                .toolbar(.hidden, for: .tabBar)
+                        case .server:
+                            ServersConfigView()
+                                .toolbar(.hidden, for: .tabBar)
+                        case .assistantSetting:
+                            AssistantSettingsView(showClose: false)
+                                .toolbar(.hidden, for: .tabBar)
+                        case .privacy:
+                            PrivacySecurity()
+                                .toolbar(.hidden, for: .tabBar)
+                        case .privacyConfig:
+                            CryptoConfigView()
+                        case .more:
+                            MoreOperationsView()
+                                .toolbar(.hidden, for: .tabBar)
+                        }
+                    }
+            }
+            
+            
         }
+        
         
     }
     
@@ -170,8 +261,6 @@ struct ContentView: View {
         case .web(let url):
             SFSafariView(url: url)
                 .ignoresSafeArea()
-        case .crash(let crashlog):
-            CrashReportView(crashLog: crashlog)
         case .assistant:
             NavigationStack{
                 AssistantPageView()
@@ -204,9 +293,6 @@ struct ContentView: View {
             SFSafariView(url: url)
                 .ignoresSafeArea()
             
-        case .crash(let crashlog):
-            CrashReportView(crashLog: crashlog)
-            
         case .chatgpt(let id):
             NavigationStack{
                 
@@ -229,6 +315,10 @@ struct ContentView: View {
         case .cloudIcon:
             CloudIcon()
                 .presentationDetents([.height(300),.medium, .large])
+                .customPresentationCornerRadius(20)
+        case .paywall:
+            PaywallView()
+                .environmentObject(AppState.shared)
                 .customPresentationCornerRadius(20)
         default:
             EmptyView()
@@ -301,6 +391,7 @@ struct ContentView: View {
     func backgroundModeHandler(newValue: ScenePhase){
         
         manager.registerForRemoteNotifications()
+        setLnagAssistantPrompt()
         
         switch newValue{
         case .active:
@@ -357,6 +448,25 @@ struct ContentView: View {
                 proxy.delete(datas)
             }
         }
+    }
+    
+    func setLnagAssistantPrompt(){
+        if let currentLang  = Locale.preferredLanguages.first{
+            if lang != currentLang {
+                RealmManager.handler { realm in
+                    let datas = realm.objects(ChatPrompt.self).where({$0.isBuiltIn})
+                    try? realm.write{
+                        realm.delete(datas)
+                        realm.add(ChatPrompt.prompts)
+                        DispatchQueue.main.async {
+                            lang = currentLang
+                        }
+                    }
+                    
+                }
+            }
+        }
+       
     }
     
 }

@@ -27,7 +27,6 @@ struct SettingsPage: View {
 	@State private var showLoading:Bool = false
 	@State private var showPaywall:Bool = false
 	@State private var buildDetail:Bool = false
-	@State private var showServerListView:Bool = false
 
 
 
@@ -75,28 +74,21 @@ struct SettingsPage: View {
 
 
 	var body: some View {
-		NavigationStack{
-			List{
+        List{
 
-				if ISPAD{
-					NavigationLink{
-                        MessagePage()
-							.navigationTitle( "消息")
-					}label: {
-						Label( "消息", systemImage: "app.badge")
-
-					}
-
-				}
-                
+                if ISPAD{
+                    ListButton {
+                        Label( "消息", systemImage: "app.badge")
+                    } action: {
+                        manager.allPath = []
+                        manager.settingPath = []
+                    }
+                }
                
-
-				Section(header:Text( "基础配置")) {
-                    NavigationLink{
-                        ServersConfigView()
-                            .toolbar(.hidden, for: .tabBar)
-                    }label:{
-                        
+                
+                Section(header:Text( "基础配置") .textCase(.none)) {
+                    
+                    ListButton {
                         Label {
                             Text("服务器")
                                 .foregroundStyle(.textBlack)
@@ -109,13 +101,13 @@ struct SettingsPage: View {
                                         .symbolEffect(.variableColor, delay: 0.5)
                                 }
                         }
+                    } action: {
+                        manager.allPath = [.server]
+                        manager.settingPath = [.server]
                     }
+
                     
-                    NavigationLink{
-                        AssistantSettingsView(showClose: false)
-                            .toolbar(.hidden, for: .tabBar)
-                    }label:{
-                        
+                    ListButton {
                         Label {
                             Text("智能助手")
                                 .foregroundStyle(.textBlack)
@@ -125,71 +117,69 @@ struct SettingsPage: View {
                                 .foregroundStyle(.green,Color.primary)
                                 .symbolEffect(.variableColor)
                         }
+                    }action: {
+                        manager.allPath = [.assistantSetting]
+                        manager.settingPath = [.assistantSetting]
                     }
-				}
+                }
                 
             
 
-				Section(header: Text(  "App配置")) {
-					Button{
-						manager.sheetPage = .appIcon
-					}label: {
-
-
-						HStack(alignment:.center){
-							Label {
-								Text("程序图标")
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(setting_active_app_icon.logo)
-									.resizable()
-									.scaledToFit()
-									.frame(width: 25)
-									.clipShape(RoundedRectangle(cornerRadius: 10))
-									.scaleEffect(0.9)
-							}
-							Spacer()
-							Image(systemName: "chevron.right")
-								.foregroundStyle(.gray)
-
-						}
-
-					}
-
-
-					
-
-
-
-					NavigationLink{
-						SoundView()
-							.toolbar(.hidden, for: .tabBar)
-					}label: {
-
-						HStack{
-							Label {
-								Text( "铃声列表")
-							} icon: {
-								Image(systemName: "headphones.circle")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-							}
-							Spacer()
-							Text(sound)
-								.scaleEffect(0.9)
-								.foregroundStyle(.gray)
-						}
-					}
+                Section(header: Text(  "App配置") .textCase(.none)) {
+                    ListButton {
+                        Label {
+                            Text("程序图标")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(setting_active_app_icon.logo)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .scaleEffect(0.9)
+                        }
+                    } action: {
+                        manager.sheetPage = .appIcon
+                    }
+                    ListButton {
+                        Label {
+                            Text( "云图标")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            ZStack{
+                                Image(systemName: "icloud")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(Color.primary)
+                                Image(systemName: "photo")
+                                    .scaleEffect(0.4)
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.tint)
+                                    .offset(y: 2)
+                            } .scaleEffect(0.9)
+                        }
+                    } action: {
+                        manager.sheetPage = .cloudIcon
+                    }
                     
-                    
+                    ListButton {
+                        Label {
+                            Text( "铃声列表")
+                        } icon: {
+                            Image(systemName: "headphones.circle")
+                                .scaleEffect(0.9)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                        }
+                    } trailing: {
+                        Text(sound)
+                            .scaleEffect(0.9)
+                            .foregroundStyle(.gray)
+                    } action: {
+                        manager.allPath = [.sound]
+                        manager.settingPath = [.sound]
+                    }
                    
-                    
-                    NavigationLink{
-                       PrivacySecurity()
-                            .toolbar(.hidden, for: .tabBar)
-                    }label:{
-                        
+                    ListButton {
                         Label {
                             Text("隐私与安全")
                                 .foregroundStyle(.textBlack)
@@ -199,77 +189,42 @@ struct SettingsPage: View {
                                 .foregroundStyle(serverTypeColor,Color.primary)
                                 
                         }
+                    } action: {
+                        manager.allPath = [.privacy]
+                        manager.settingPath = [.privacy]
+                    }
+                    
+                    ListButton  {
+                        Label {
+                            Text( "更多操作")
+                        } icon: {
+                            Image(systemName: "gearshape.arrow.triangle.2.circlepath")
+                                .scaleEffect(0.9)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.rotate, delay: 2)
+                        }
+                    } action: {
+                        manager.allPath = [.more]
+                        manager.settingPath = [.more]
                     }
 
-
-					NavigationLink{
-                        MoreOperationsView()
-							.toolbar(.hidden, for: .tabBar)
-					}label: {
-
-						HStack{
-							Label {
-								Text( "更多操作")
-							} icon: {
-								Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-                                    .symbolEffect(.rotate, delay: 2)
-							}
-							Spacer()
-						}
-					}
-
-				}
-				Section {
-
-
-					Button{
-                        PushbackManager.openSetting()
-					}label: {
-						HStack(alignment:.center){
-
-							Label {
-								Text( "系统设置")
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(systemName: "gear.circle")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-                                    .symbolEffect(.rotate)
-
-							}
-
-							Spacer()
-							Image(systemName: "chevron.right")
-								.foregroundStyle(.gray)
-						}
-
-					}
-
-					Button{
-						manager.fullPage = .web(BaseConfig.helpWebUrl)
-
-					}label: {
-						HStack(alignment:.center){
-							Label {
-								Text( "使用帮助")
-									.foregroundStyle(.textBlack)
-							} icon: {
-								Image(systemName: "person.fill.questionmark")
-									.scaleEffect(0.9)
-									.symbolRenderingMode(.palette)
-									.foregroundStyle(.tint, Color.primary)
-							}
-
-							Spacer()
-							Image(systemName: "chevron.right")
-								.foregroundStyle(.gray)
-						}
-
-					}
+                }
+                Section {
+                    
+                    ListButton {
+                        Label {
+                            Text( "使用帮助")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "person.fill.questionmark")
+                                .scaleEffect(0.9)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                        }
+                    } action: {
+                        manager.fullPage = .web(BaseConfig.helpWebUrl)
+                    }
                     
                     
                     if store.subscriptionInfo.canAccessContent{
@@ -288,38 +243,29 @@ struct SettingsPage: View {
                             Spacer()
                         }
                     }else{
-                        Button{
-                            self.showPaywall.toggle()
-                        }label:{
+                        
+                        ListButton {
+                            Label {
 
-
-                            HStack(alignment:.center){
-
-
-                                Label {
-
-                                    Text("开发者支持计划")
-                                        .foregroundStyle(.textBlack)
-                                } icon: {
-                                    Image(systemName: "creditcard.circle")
-                                        .scaleEffect(0.9)
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.tint, Color.primary)
-                                        .symbolEffect(delay: 0)
-                                }
-
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundStyle(.gray)
+                                Text("开发者支持计划")
+                                    .foregroundStyle(.textBlack)
+                            } icon: {
+                                Image(systemName: "creditcard.circle")
+                                    .scaleEffect(0.9)
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.tint, Color.primary)
+                                    .symbolEffect(delay: 0)
                             }
-
+                        } action: {
+                            manager.sheetPage = .paywall
                         }
 
 
                     }
 
                 }header:{
-                    Text( "设置与帮助" )
+                    Text( "其他" )
+                        .textCase(.none)
                 }footer:{
                     HStack(spacing: 7){
                         Spacer(minLength: 10)
@@ -364,6 +310,7 @@ struct SettingsPage: View {
                     .minimumScaleFactor(0.5)
                 }
 
+
 			}
 			.navigationTitle("设置")
 			.loading(showLoading)
@@ -380,17 +327,6 @@ struct SettingsPage: View {
                     }
                 }
 			}
-			.navigationDestination(isPresented: $showServerListView) {
-				ServersConfigView()
-					.toolbar(.hidden, for: .tabBar)
-			}
-		}
-		.sheet(isPresented: $showPaywall) {
-			// MARK: - 此处mac 报错找不到 AppState 故加上environmentObject
-			PaywallView().environmentObject(AppState.shared)
-                .customPresentationCornerRadius(20)
-		}
-
 		
 
 	}
@@ -398,6 +334,8 @@ struct SettingsPage: View {
        
 
 }
+
+
 
 
 #Preview {

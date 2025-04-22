@@ -42,6 +42,7 @@ extension Defaults.Keys {
     static let showMessageAvatar = Key<Bool>("showMessageAvatar",false)
     static let showAssistant = Key<Bool>("showAssistant",false)
     static let id = Key<String>("UserUniqueId","")
+    static let lang = Key<String>("LocalePreferredLanguagesFirst","")
 }
 
 

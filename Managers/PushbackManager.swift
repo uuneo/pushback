@@ -28,6 +28,8 @@ class PushbackManager: NetworkManager, ObservableObject{
     @Published var searchText:String = ""
     
     @Published var messagePath:[MessageStatckPage] = []
+    @Published var settingPath:[SettingStatckPage] = []
+    @Published var allPath:[AllPage] = []
     
     @Published var isWarmStart:Bool = false
     

@@ -16,7 +16,7 @@ struct MessagePage: View {
     @StateObject private var groupModel = GroupMessagesModel()
     
     var body: some View {
-        NavigationStack(path: $manager.messagePath){
+       
             Group{
                 if manager.searchText.isEmpty{
                     if showGroup{
@@ -62,6 +62,7 @@ struct MessagePage: View {
                         .symbolEffect(delay: 0)
                         .pressEvents(onRelease: { value in
                             manager.messagePath = [.example]
+                            manager.allPath = [.example]
                         })
                 }
                 
@@ -107,7 +108,6 @@ struct MessagePage: View {
                 
                 
             }
-            
             .actionSheet(isPresented: $showAction) {
                 
                 ActionSheet(title: Text( "删除以下时间的信息!"),
@@ -128,29 +128,7 @@ struct MessagePage: View {
                     
                 }))
             }
-            .navigationDestination(for: MessageStatckPage.self){ router in
-                switch router {
-                case .example:
-                    ExampleView()
-                        .toolbar(.hidden, for: .tabBar)
-                case .messageDetail(let group):
-                    MessageDetailPage(group: group)
-                        .toolbar(.hidden, for: .tabBar)
-                        .navigationTitle(group)
-                case .sound:
-                    SoundView()
-                        .toolbar(.hidden, for: .tabBar)
-                case .assistant:
-                    AssistantPageView()
-                        .navigationBarBackButtonHidden()
-                        .toolbar(.hidden, for: .tabBar)
-                case .crypto:
-                    CryptoConfigView()
-                        .toolbar(.hidden, for: .tabBar)
-                }
-            }
-           
-        }
+
 
     }
 

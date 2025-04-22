@@ -138,6 +138,7 @@ extension ExampleView{
                                     HStack{
                                         Button{
                                             manager.messagePath.append(.sound)
+                                            manager.allPath.append(.sound)
                                         }label:{
                                             Text("铃声列表")
                                                 .font(.system(size: 12))
@@ -212,6 +213,8 @@ extension ExampleView{
                                     Text( "需要在")
                                     Button{
                                         manager.messagePath.append(.crypto)
+                                        manager.allPath.append(.privacyConfig)
+                                        
                                     }label:{
                                         Text("算法配置")
                                             .font(.system(size: 12))

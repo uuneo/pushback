@@ -36,7 +36,9 @@
 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
 	<true/>
 	<key>NSUserActivityTypes</key>
-	<array/>
+	<array>
+		<string>INSendMessageIntent</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -87,5 +89,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

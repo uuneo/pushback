@@ -25,7 +25,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         web.frame = view.bounds
         web.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        self.preferredContentSize = CGSize(width: view.bounds.width, height: 100) // 初始高度
+        self.preferredContentSize = CGSize(width: view.bounds.width, height: 10) // 初始高度
         
         // 监听 WKWebView 高度变化
         web.scrollView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
@@ -37,7 +37,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         if keyPath == "contentSize", let scrollView = object as? UIScrollView {
             
             if scrollView.contentSize.height > self.preferredContentSize.height{
-                self.preferredContentSize = CGSize(width: self.view.bounds.width, height: max(100, scrollView.contentSize.height))
+                self.preferredContentSize = CGSize(width: self.view.bounds.width, height: max(10, scrollView.contentSize.height))
             }
             
         }

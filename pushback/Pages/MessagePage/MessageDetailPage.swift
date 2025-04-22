@@ -18,7 +18,7 @@ struct MessageDetailPage: View {
     @Default(.showAssistant) var showAssistant
     
    
-    var group:String?
+    let group:String
     
     init(group: String) {
         
@@ -57,6 +57,7 @@ struct MessageDetailPage: View {
                                     self.selectMessage = message
                                 }
                             }
+                            .id(message.id)
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
                             
@@ -115,16 +116,18 @@ struct MessageDetailPage: View {
                 }
             }
         }
-        .task(priority: .background) {
-            
-            if let group = group{
-                Task.detached{
-                    RealmManager.handler { proxy in
-                        let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
-                        try? proxy.write {
-                            datas.setValue(true, forKey: "read")
-                        }
+        .task {
+            Task.detached(priority: .background){
+                RealmManager.handler { proxy in
+                    let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
+                    try? proxy.write {
+                        datas.setValue(true, forKey: "read")
                     }
+                    if Defaults[.badgeMode] == .auto{
+                        let unRead = proxy.objects(Message.self).where({!$0.read}).count
+                        UNUserNotificationCenter.current().setBadgeCount( unRead )
+                    }
+                    
                 }
             }
         }

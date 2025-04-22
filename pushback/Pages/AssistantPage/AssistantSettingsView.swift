@@ -27,7 +27,7 @@ struct AssistantSettingsView: View {
     
     
     var body: some View {
-        NavigationStack{
+
             List{
                 
                 Section{
@@ -231,9 +231,7 @@ struct AssistantSettingsView: View {
                     .customPresentationCornerRadius(20)
                     .environmentObject(chatManager)
             }
-            
-            
-        }
+           
         
     }
     

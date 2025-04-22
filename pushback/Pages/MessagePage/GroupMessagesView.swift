@@ -31,37 +31,38 @@ struct GroupMessagesView: View {
                     AssistantRowView()
                 }
                 
-                if groupModel.isLoading{
-                    HStack{
-                        Spacer()
-                        ProgressView()
-                            .scaleEffect(2)
-                        Spacer()
-                    }.listRowBackground(Color.clear)
+                if groupModel.isLoading && groupModel.messages.count == 0{
+                    VStack{
+                        HStack{
+                            Spacer()
+                            ProgressView()
+                                .scaleEffect(2)
+                            Spacer()
+                        }
+                    }
+                    .frame(minHeight: 300)
+                    .listRowBackground(Color.clear)
                 }
                 
                 ForEach(groupModel.messages,id: \.group){ message in
        
-                       
                         MessageRow(message: message, unreadCount: unRead(message))
                             .pressEvents(onRelease: { value in
                                 manager.messagePath = [.messageDetail(message.group)]
+                                manager.allPath = [.messageDetail(message.group)]
                             })
-                            
+                            .id(message.group)
                             .swipeActions(edge: .leading) {
                                 Button {
                                     let group = message.group
-                                    Task.detached{
-                                        autoreleasepool {
-                                            RealmManager.handler { proxy in
-                                                let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
-                                                try? proxy.write {
-                                                    datas.setValue(true, forKey: "read")
-                                                }
-                                                
+                                    Task.detached(priority: .background){
+                                        RealmManager.handler { proxy in
+                                            let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
+                                            try? proxy.write {
+                                                datas.setValue(true, forKey: "read")
                                             }
+                                            
                                         }
-                                        
                                     }
                                     
                                 } label: {
@@ -218,6 +219,7 @@ class GroupMessagesModel:ObservableObject{
     init(){
         let realm = try! Realm()
         notificationToken = realm.objects(Message.self).sorted(by: \.createDate, ascending: false).observe{ changes in
+            debugPrint("正在更新")
             self.isLoading = true
             switch changes {
             case .initial(let results):

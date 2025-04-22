@@ -701,34 +701,6 @@
         }
       }
     },
-    "App不会获取任何程序日志 如您需要帮助，复制日志发给我" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App does not collect any program logs. If you need help, copy the logs and send them to me"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリはプログラムログを収集しません。ヘルプが必要な場合は、ログをコピーして送信してください"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱은 프로그램 로그를 수집하지 않습니다. 도움이 필요하시면 로그를 복사하여 보내주세요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App不会获取任何程序日志 如您需要帮助，复制日志发给我"
-          }
-        }
-      }
-    },
     "App配置" : {
       "localizations" : {
         "en" : {
@@ -1339,34 +1311,6 @@
         }
       }
     },
-    "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Telegram: https://t.me/+pmCp6gWuAzFjYWQ1"
-          }
-        }
-      }
-    },
     "tips:" : {
       "localizations" : {
         "en" : {
@@ -1559,34 +1503,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一月前"
-          }
-        }
-      }
-    },
-    "一点使用提示" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usage Tips"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "使用のヒント"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용 팁"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一点使用提示"
           }
         }
       }
@@ -2679,6 +2595,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "全部已读"
+          }
+        }
+      }
+    },
+    "其他" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その他"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기타"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他"
           }
         }
       }
@@ -3859,34 +3803,6 @@
         }
       }
     },
-    "可以解锁更多使用方法,不一一列举" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "More usage methods can be unlocked, not listed one by one"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "追加の使用方法が利用可能になりますが、すべては一覧にしません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "추가적인 사용 방법을 사용할 수 있습니다. 모두 나열하지는 않습니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以解锁更多使用方法,不一一列举"
-          }
-        }
-      }
-    },
     "可对通知设置中断级别" : {
       "localizations" : {
         "en" : {
@@ -3911,34 +3827,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可对通知设置中断级别"
-          }
-        }
-      }
-    },
-    "可能需要重启APP！" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It may be necessary to restart the app!"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリを再起動する必要があるかもしれません！"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앱을 다시 시작해야 할 수도 있습니다!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可能需要重启APP！"
           }
         }
       }
@@ -4615,34 +4503,6 @@
         }
       }
     },
-    "复制崩溃日志" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy crash log"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クラッシュログをコピー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "크래시 로그 복사"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制崩溃日志"
-          }
-        }
-      }
-    },
     "复制成功" : {
       "localizations" : {
         "en" : {
@@ -5091,34 +4951,6 @@
         }
       }
     },
-    "崩溃报告" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Crash report"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "クラッシュレポート"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "크래시 보고서"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "崩溃报告"
-          }
-        }
-      }
-    },
     "已加载全部数据" : {
       "localizations" : {
         "en" : {
@@ -5348,7 +5180,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zhang"
+            "value" : " "
           }
         },
         "ja" : {
@@ -9291,34 +9123,6 @@
         }
       }
     },
-    "设置与帮助" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings and Help"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定とヘルプ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "설정 및 도움말"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置与帮助"
-          }
-        }
-      }
-    },
     "设置每次对话时包含的历史消息数量，数量越多上下文越完整，但会增加 Token 消耗" : {
       "localizations" : {
         "en" : {
@@ -10239,34 +10043,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通知铃声将持续播放30s，同时收到多个将按顺序依次响铃"
-          }
-        }
-      }
-    },
-    "邮箱" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "メール"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이메일"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "邮箱"
           }
         }
       }

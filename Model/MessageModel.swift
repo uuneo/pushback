@@ -84,11 +84,11 @@ extension Message{
 	
     static func examples(group:String = "") ->[Message]{
         [
-            Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例") + group,"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]).mark(),
+            Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例") + group,"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 1]).mark(),
 
-            Message(value: ["group":  "App" + group,"title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]).mark(),
+            Message(value: ["group":  "App" + group,"title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 1]).mark(),
             
-            Message(value: ["group":  "Markdown" + group, "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 0]).mark()
+            Message(value: ["group":  "Markdown" + group, "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 1]).mark()
             
         ]
     }

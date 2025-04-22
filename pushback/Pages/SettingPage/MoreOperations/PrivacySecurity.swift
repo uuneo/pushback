@@ -32,12 +32,27 @@ struct PrivacySecurity:View {
     var body: some View {
         List{
             
-          
-            
-            
-            
             Section(header:Text( "设备推送令牌")) {
-                Button{
+                ListButton(leading: {
+                    Label {
+                        Text( "令牌")
+                            .lineLimit(1)
+                            .foregroundStyle(.textBlack)
+                    } icon: {
+                        Image(systemName: "key")
+                            .scaleEffect(0.9)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color.primary, .tint)
+                    }
+                }, trailing: {
+                    HackerTextView(text: maskString(deviceToken), trigger:showTextAnimation)
+                        .foregroundStyle(.gray)
+                        
+                    Image(systemName: "doc.on.doc")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle( .tint, Color.primary)
+                        .scaleEffect(0.9)
+                }, showRight: false) {
                     if deviceToken != ""{
                         Clipboard.shared.setString(deviceToken)
                         Toast.copy(title: String(localized: "复制成功"))
@@ -47,69 +62,38 @@ struct PrivacySecurity:View {
                         Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
                     }
                     self.showTextAnimation.toggle()
-                }label: {
-                    HStack{
-                        
-                        Label {
-                            Text( "令牌")
-                                .lineLimit(1)
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "key")
-                                .scaleEffect(0.9)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(Color.primary, .tint)
-                        }
-                        
-                        
-                        Spacer()
-                        HackerTextView(text: maskString(deviceToken), trigger:showTextAnimation)
-                            .foregroundStyle(.gray)
-                            
-                        Image(systemName: "doc.on.doc")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .tint, Color.primary)
-                            .scaleEffect(0.9)
-                    }
                 }
                 
-                 Button{
+                ListButton(leading: {
+                    Label {
+                        Text( "ID")
+                            .lineLimit(1)
+                            .foregroundStyle(.textBlack)
+                    } icon: {
+                        Image(systemName: "person.crop.square.filled.and.at.rectangle")
+                            .scaleEffect(0.9)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color.primary, .tint)
+                    }
+                }, trailing: {
+                    HackerTextView(text: maskString(userID,isID: true), trigger: showIdAnimation)
+                        .foregroundStyle(.gray)
+                        
+                    Image(systemName: "doc.on.doc")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle( .tint, Color.primary)
+                        .scaleEffect(0.9)
+                }, showRight: false) {
                     Clipboard.shared.setString(userID)
                     Toast.copy(title: String(localized: "复制成功"))
                     self.showIdAnimation.toggle()
-                }label: {
-                    HStack{
-                        
-                        Label {
-                            Text( "ID")
-                                .lineLimit(1)
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "person.crop.square.filled.and.at.rectangle")
-                                .scaleEffect(0.9)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(Color.primary, .tint)
-                        }
-                        
-                        
-                        Spacer()
-                        HackerTextView(text: maskString(userID,isID: true), trigger: showIdAnimation)
-                            .foregroundStyle(.gray)
-                            
-                        Image(systemName: "doc.on.doc")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .tint, Color.primary)
-                            .scaleEffect(0.9)
-                    }
                 }
                
             }
             
             Section(header: Text("端到端加密")){
                 
-                NavigationLink{
-                    CryptoConfigView()
-                }label: {
+                ListButton {
                     Label {
                         Text( "算法配置")
                     } icon: {
@@ -119,7 +103,11 @@ struct PrivacySecurity:View {
                             .foregroundStyle(.tint, Color.primary)
                             .symbolEffect(.pulse, delay: 5)
                     }
+                } action: {
+                    manager.allPath.append(.crypto)
+                    manager.settingPath.append(.privacyConfig)
                 }
+               
             }
             
             Section(header: Text("默认浏览器设置")){

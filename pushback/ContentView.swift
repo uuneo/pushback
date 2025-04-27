@@ -335,24 +335,7 @@ struct ContentView: View {
                 self.firstStart.toggle()
             }
             
-            
-            PushServerCloudKit.shared.fetchPushServerModels { response in
-                switch response {
-                case .success(let results):
-                    withAnimation(.easeInOut) {
-                        if let result = results.first{
-                            self.servers.append(result)
-                            return
-                        }
-                    }
-                case .failure(let failure):
-                    Log.debug(failure)
-                    Toast.error(title: String(localized: "没有找到历史服务器"))
-                    self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
-                }
-                
-                
-            }
+            self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
 
             RealmManager.handler{ proxy in
                 proxy.writeAsync {

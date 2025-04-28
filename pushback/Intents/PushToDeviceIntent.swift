@@ -12,26 +12,39 @@ struct PushToDeviceIntent: AppIntent {
     static var title: LocalizedStringResource = "发送通知到设备"
     static var openAppWhenRun: Bool = false
     
-    @Parameter(title: "服务器")
+    @Parameter(title: "服务器", optionsProvider: ServerAddressProvider())
     var address: String
     
     
     @Parameter(title: "通知级别", optionsProvider: LevelClassProvider())
     var level: String?
     
+    @Parameter(title: "推送样式", optionsProvider: CategoryParamsProvider())
+    var category: String?
+    
     @Parameter( title: "铃声", optionsProvider: SoundOptionsProvider())
     var sound: String?
-    
-    @Parameter(title: "重要通知音量", optionsProvider: VolumeOptionsProvider())
-    var volume: Int?
     
     @Parameter(title: "持续响铃")
     var isCall: Bool
     
+    @Parameter(title: "重要通知音量", optionsProvider: VolumeOptionsProvider())
+    var volume: Int?
+    
+    @Parameter(title: "加密", default: false)
+    var cipher: Bool
+    
+    @Parameter(title: "推送图标")
+    var icon: URL?
+    
+    @Parameter(title: "推送图片")
+    var image: URL?
+    
+    @Parameter(title: "URL")
+    var url: URL?
     
     @Parameter(title: "群组", default: "默认")
     var group: String?
-    
     
     @Parameter(title: "标题")
     var title: String?
@@ -42,11 +55,7 @@ struct PushToDeviceIntent: AppIntent {
     @Parameter(title: "内容")
     var body: String?
 
-    @Parameter(title: "推送图标")
-    var icon: URL?
-    
-    @Parameter(title: "推送图片")
-    var image: URL?
+   
 
     
     
@@ -57,10 +66,6 @@ struct PushToDeviceIntent: AppIntent {
         }
         
         var params: [String: Any] = [:]
-        
-        
-        @Parameter(title: "重要通知音量", optionsProvider: VolumeOptionsProvider())
-        var volume: Int
         
         if let level, !level.isEmpty,let level = LevelTitle.rawValue(fromDisplayName: level) {
             
@@ -103,8 +108,23 @@ struct PushToDeviceIntent: AppIntent {
             params["image"] = image.absoluteString
         }
         
-        let http = NetworkManager()
+        if let category,category == "Markdown"{
+            params["category"] = CategoryParams.markdown.rawValue
+        }
         
+        if let url{
+            params["url"] = url.absoluteString
+        }
+        
+        if cipher {
+            let jsonData = try JSONSerialization.data(withJSONObject: params)
+            guard let cipherResult = CryptoManager(Defaults[.cryptoConfig]).encrypt(jsonData) else {
+                return .result(value: false)
+            }
+            params = ["cipherText": cipherResult]
+        }
+        
+        let http = NetworkManager()
         
         let res:APIPushToDeviceResponse? = try await http.fetch(url: address.absoluteString, method: .post, params: params)
         

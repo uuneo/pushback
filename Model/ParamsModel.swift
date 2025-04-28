@@ -21,12 +21,12 @@ struct PushParams:Codable, Defaults.Serializable {
     var body:String = String(localized: "测试内容")
     var sound:String = "xiu"
     var call:String = "0"
-    var url:String = "weixin://"
+    var url:String = ""
     var icon:String = BaseConfig.iconRemote
     var image:String = ""
     var cipherText:String = ""
     var category:CategoryParams = .myNotificationCategory
-    var level:LevelTitle = .active
+    var level:LevelTitle = .timeSensitive
     var volume:Double = 5
     var ttl:Int = 999
     var badge:Int = 0

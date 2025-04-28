@@ -580,6 +580,7 @@ struct AssistantRowView: View {
         MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
             .pressEvents(onRelease: { value in
                 manager.messagePath = [.assistant]
+                manager.allPath = [.assistant]
             })
     }
 }

@@ -83,5 +83,13 @@ class BaseConfig {
 		return imagesDirectory
 	}
     
-
+    
+   static  func deviceInfoString() -> String {
+       let deviceName = UIDevice.current.localizedModel
+        let deviceModel = UIDevice.current.model // "iPhone" 变成 "iphone"
+        let systemName = UIDevice.current.systemName // "iOS" 变成 "ios"
+        let systemVersion = UIDevice.current.systemVersion // 版本号比如 "18.0.4"
+        
+        return "\(deviceName) (\(deviceModel)-\(systemName)-\(systemVersion))"
+    }
 }

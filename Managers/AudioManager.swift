@@ -33,6 +33,14 @@ class AudioManager: ObservableObject{
     @Published var soundID: SystemSoundID = 0
     @Published var playingAudio:URL? = nil
     
+    
+    func allSounds()-> [String] {
+        let (customSounds , defaultSounds) = AudioManager.shared.getFileList()
+        return (customSounds + defaultSounds).map {
+            $0.deletingPathExtension().lastPathComponent
+        }
+    }
+    
     // MARK: - Get audio folder data
     
     func getFileList()-> ([URL],[URL]) {

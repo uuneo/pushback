@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B52E8D7F2DBF70620078D2C1 /* ParamsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E8D7C2DBF705E0078D2C1 /* ParamsModel.swift */; };
 		B53934552DA92578001B9336 /* PopOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53934542DA92578001B9336 /* PopOutView.swift */; };
 		B555FA342DAA77AC0008D11E /* snap.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2E2DAA77AC0008D11E /* snap.caf */; };
 		B555FA352DAA77AC0008D11E /* com.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA232DAA77AC0008D11E /* com.caf */; };
@@ -225,6 +226,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B52E8D7C2DBF705E0078D2C1 /* ParamsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamsModel.swift; sourceTree = "<group>"; };
 		B53934542DA92578001B9336 /* PopOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOutView.swift; sourceTree = "<group>"; };
 		B555FA202DAA77AC0008D11E /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
 		B555FA212DAA77AC0008D11E /* aurora.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = aurora.caf; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 		B5D204362D9EABFB00527343 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B52E8D7C2DBF705E0078D2C1 /* ParamsModel.swift */,
 				B5D204332D9EABFB00527343 /* ChatMessageModel.swift */,
 				B5D204342D9EABFB00527343 /* MessageModel.swift */,
 				B5D204352D9EABFB00527343 /* OtherModel.swift */,
@@ -936,6 +939,7 @@
 				B5D204952D9EABFB00527343 /* MessageModel.swift in Sources */,
 				B5D204972D9EABFB00527343 /* ImageViewer.swift in Sources */,
 				B5D204982D9EABFB00527343 /* AnimatedButton.swift in Sources */,
+				B52E8D7F2DBF70620078D2C1 /* ParamsModel.swift in Sources */,
 				B5D204992D9EABFB00527343 /* PushbackManager.swift in Sources */,
 				B5D2049A2D9EABFB00527343 /* PushParams.swift in Sources */,
 				B53934552DA92578001B9336 /* PopOutView.swift in Sources */,
@@ -1181,7 +1185,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1203,7 +1207,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1223,7 +1227,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1245,7 +1249,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1262,7 +1266,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1274,7 +1278,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1292,7 +1296,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1304,7 +1308,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1322,7 +1326,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1334,7 +1338,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1352,7 +1356,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1364,7 +1368,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1381,7 +1385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationMarkdownExtension/Info.plist;
@@ -1393,7 +1397,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1410,7 +1414,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationMarkdownExtension/Info.plist;
@@ -1422,7 +1426,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1452,7 +1456,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1482,7 +1486,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.9;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

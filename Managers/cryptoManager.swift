@@ -31,16 +31,22 @@ final class CryptoManager {
 
 
 	// MARK: - Public Methods
-	func encrypt(_ plaintext: String) -> Data? {
+	func encrypt(_ plaintext: String) -> String? {
 		guard let plaintextData = plaintext.data(using: .utf8) else { return nil }
-
-		switch mode {
-		case .CBC, .ECB:
-			return commonCryptoEncrypt(data: plaintextData, operation: CCOperation(kCCEncrypt))
-		case .GCM:
-			return gcmEncrypt(data: plaintextData)
-		}
+        return self.encrypt(plaintextData)
 	}
+    
+    func encrypt(_ plaintext: Data) -> String? {
+        let data:Data?
+        switch mode {
+        case .CBC, .ECB:
+            data = commonCryptoEncrypt(data: plaintext, operation: CCOperation(kCCEncrypt))
+        case .GCM:
+            data = gcmEncrypt(data: plaintext)
+        }
+            /// .replacingOccurrences(of: "+", with: "%2B")
+        return data?.base64EncodedString()
+    }
 
 	
 

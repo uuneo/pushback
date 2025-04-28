@@ -9,6 +9,7 @@ import SwiftUI
 import Defaults
 import Foundation
 import Kingfisher
+import SwiftyJSON
 
 
 // MARK: - Remote Response
@@ -174,11 +175,22 @@ enum QuickAction{
 
 struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, Hashable{
 	var id:String = UUID().uuidString
+    var device:String
 	var url:String
 	var key:String = ""
 	var status:Bool = false
 	var createDate:Date = .now
 	var updateDate:Date = .now
+    
+    init(id: String = UUID().uuidString, device: String? = nil, url: String, key: String = "", status: Bool = false, createDate: Date = .now, updateDate: Date = .now) {
+        self.id = id
+        self.device = device ?? BaseConfig.deviceInfoString()
+        self.url = url
+        self.key = key
+        self.status = status
+        self.createDate = createDate
+        self.updateDate = updateDate
+    }
 
 	var name:String{
 		var name = url
@@ -189,10 +201,10 @@ struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, 
 	}
 	
 	var color: Color{ status ? .green : .orange }
-    
-    func server() -> String{
+    var server:String{
         return self.url + "/" + self.key
     }
+    
 
 }
 
@@ -343,4 +355,18 @@ extension AssistantAccount{
         model = model.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+}
+
+enum CategoryParams: String, Codable, CaseIterable, Defaults.Serializable{
+    case myNotificationCategory
+    case markdown
+    
+    var name:String{
+        switch self {
+        case .myNotificationCategory:
+            return String(localized: "普通内容")
+        case .markdown:
+            return String(localized: "Markdown")
+        }
+    }
 }

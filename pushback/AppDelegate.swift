@@ -124,9 +124,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 								willPresent notification: UNNotification,
 								withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
 
-
+        debugPrint(notification.request.content.userInfo)
         
-		if notification.request.content.interruptionLevel.rawValue > 2{
+		if notification.request.content.interruptionLevel.rawValue > 1{
 			completionHandler(.banner)
 		}else{
 			completionHandler(.badge)

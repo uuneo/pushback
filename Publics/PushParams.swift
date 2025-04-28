@@ -33,7 +33,8 @@ enum Params: String, CaseIterable{
     case caltitle
     case calcolor
     case calminutes
-    case messageId
+    case id
+    case category
     
     case callback
 

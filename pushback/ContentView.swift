@@ -55,13 +55,11 @@ struct ContentView: View {
             Alert(title:
                     Text( "操作不可逆!"),
                   message:
-                    Text( activeName == "alldelnotread" ? "是否确认删除所有未读消息!" :  "是否确认删除所有已读消息!"
-                        ),
+                    Text( activeName == "alldelnotread" ? "是否确认删除所有未读消息!" :  "是否确认删除所有已读消息!"),
                   primaryButton:
                     .destructive(
                         Text("删除"),
                         action: {
-                            
                             
                             if activeName == "alldelnotread"{
                                 RealmManager.handler { proxy in

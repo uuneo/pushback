@@ -28,6 +28,7 @@ class PushServerCloudKit {
 		let record = CKRecord(recordType: recordType, recordID: recordID)
 		record["url"] = model.url as CKRecordValue
 		record["key"] = model.key as CKRecordValue
+        record["device"] = model.device as CKRecordValue
 
 		database.save(record) { savedRecord, error in
 			DispatchQueue.main.async {
@@ -71,16 +72,16 @@ class PushServerCloudKit {
 	}
 	
 	// MARK: - 将 CKRecord 转换为 PushServerModel
-	private func recordToPushServerModel(_ record: CKRecord) -> PushServerModel? {
-		guard
-			let url = record["url"] as? String,
-			let key = record["key"] as? String
-		else {
-			return nil
-		}
-		return PushServerModel(id: record.recordID.recordName, url: url, key: key)
-	}
-	
+    private func recordToPushServerModel(_ record: CKRecord) -> PushServerModel? {
+        guard
+            let url = record["url"] as? String,
+            let key = record["key"] as? String
+        else {
+            return nil
+        }
+        return PushServerModel(id: record.recordID.recordName,device: record["device"] as? String ?? BaseConfig.deviceInfoString(), url: url, key: key)
+    }
+    
 	
 	func updatePushServers(items: [PushServerModel]) {
 		// 获取云端现有数据

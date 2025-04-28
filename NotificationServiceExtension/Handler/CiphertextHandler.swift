@@ -24,6 +24,16 @@ class CiphertextHandler:NotificationContentHandler{
 			var alert = [String: Any]()
 			var soundName: String? = nil
             
+            if let category = map[Params.category.name] as? String, category == CategoryParams.markdown.rawValue{
+                bestAttemptContent.categoryIdentifier = category
+            }else{
+                bestAttemptContent.categoryIdentifier = CategoryParams.myNotificationCategory.rawValue
+            }
+            
+            if let id = map[Params.id.name] as? String{
+                bestAttemptContent.targetContentIdentifier = id
+            }
+            
 			if let title = map[Params.title.name] as? String {
                 bestAttemptContent.title = title
                 alert[Params.title.name] = title
@@ -61,7 +71,7 @@ class CiphertextHandler:NotificationContentHandler{
 			for (key,value) in map{
 				userInfo[key] = value
 			}
-			
+            
 			bestAttemptContent.userInfo = userInfo
 			
 		} catch {

@@ -35,7 +35,7 @@ struct ServersConfigView: View {
                             Clipboard.shared.setString(item.url + "/" + item.key)
                             Toast.copy(title: String(localized: "复制 URL 和 KEY 成功"))
                         }
-                        .padding(.vertical,5)
+                        
                         .listRowSeparator(.hidden)
                         .swipeActions(edge: .leading, allowsFullSwipe: false) {
                             Button{
@@ -85,7 +85,8 @@ struct ServersConfigView: View {
                         servers.move(fromOffsets: indices, toOffset: newOffset)
                     })
                 }header:{
-                    Text("使用中的服务器")
+                    Label("使用中的服务器", systemImage: "cup.and.heat.waves")
+                        .foregroundStyle(.primary, .green)
                 }
                 
                 
@@ -100,7 +101,7 @@ struct ServersConfigView: View {
                             ServerCardView(item: item,isCloud: true){
                                 manager.appendServer(server: item) { _, _ in }
                             }
-                            .padding(.vertical,5)
+                            
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive){
                                     PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
@@ -117,30 +118,24 @@ struct ServersConfigView: View {
                                 }label:{
                                     Label("删除", systemImage: "trash")
                                         .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.primary, Color.accentColor)
+                                        .foregroundStyle(.white)
                                 }
                             }
                         }
                     }
                 }header: {
                     HStack{
-                        
-                        Text("历史服务器")
+                        Label("历史服务器", systemImage: "cup.and.heat.waves")
+                            .foregroundStyle(.primary, .gray)
                         Spacer()
                         Text("\(self.cloudDatas.count)")
                     }
                 }
-                .transaction { view in
-                    view.animation = .easeInOut
-                }
-                
-                
-                
                 
             }
             .animation(.easeInOut, value: servers)
             .listRowSpacing(10)
-            
+           
             .refreshable {
                 // MARK: - 刷新策略
                 await manager.registers(){ result in

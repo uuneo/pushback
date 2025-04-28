@@ -41,6 +41,7 @@ class LevelHandler: NotificationContentHandler {
         let sound = soundName ?? bestAttemptContent.soundName ?? "\(Defaults[.sound]).caf"
         
         bestAttemptContent.sound = UNNotificationSound.criticalSoundNamed(UNNotificationSoundName(rawValue: sound), withAudioVolume: audioVolume)
+        
     }
 }
 

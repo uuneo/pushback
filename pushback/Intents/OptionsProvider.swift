@@ -62,6 +62,18 @@ struct VolumeOptionsProvider: DynamicOptionsProvider {
     }
 }
 
+struct CategoryParamsProvider: DynamicOptionsProvider{
+    func results() async throws -> [String] {
+        CategoryParams.allCases.compactMap { item in
+            item.name
+        }
+    }
+    func defaultResult() async -> String? {
+        return CategoryParams.myNotificationCategory.name
+    }
+    
+}
+
 
 struct APIPushToDeviceResponse: Codable {
     let code: Int

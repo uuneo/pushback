@@ -8,6 +8,8 @@
 import SwiftUI
 import Defaults
 
+
+
 struct AppIconView: View {
     @Environment(\.dismiss) var dismiss
 	@Default(.appIcon) var setting_active_app_icon
@@ -31,7 +33,7 @@ struct AppIconView: View {
 							.opacity(item == setting_active_app_icon ? 1 : 0)
 							.foregroundStyle(.green)
 						
-					}.animation(.spring, value: setting_active_app_icon)
+                    }.animation(.interactiveSpring, value: setting_active_app_icon)
 						.padding()
 							.listRowBackground(Color.clear)
 							.onTapGesture {
@@ -65,7 +67,9 @@ struct AppIconView: View {
 		setting_active_app_icon = icon
         
         let application = UIApplication.shared
+        
 
+       
 		if application.supportsAlternateIcons {
             application.setAlternateIconName(setting_active_app_icon.name) { err in
 				if let err{
@@ -79,6 +83,7 @@ struct AppIconView: View {
 		}else{
 			Toast.question(title: String(localized: "暂时不能切换"), timing: .short)
 		}
+
 	}
 }
 

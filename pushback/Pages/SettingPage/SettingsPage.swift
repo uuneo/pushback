@@ -60,15 +60,7 @@ struct SettingsPage: View {
 		// build号
 		let buildVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
 
-
-		if buildDetail{
-			return "\(appVersion)(\(buildVersion))"
-		}else{
-			return appVersion
-		}
-
-
-
+        return  buildDetail ? "\(appVersion)(\(buildVersion))" : appVersion
 	}
 
 
@@ -243,7 +235,6 @@ struct SettingsPage: View {
                             Spacer()
                         }
                     }else{
-                        
                         ListButton {
                             Label {
 
@@ -259,8 +250,6 @@ struct SettingsPage: View {
                         } action: {
                             manager.sheetPage = .paywall
                         }
-
-
                     }
 
                 }header:{
@@ -315,7 +304,6 @@ struct SettingsPage: View {
 			.navigationTitle("设置")
 			.loading(showLoading)
 			.toolbar {
-                
                 ToolbarItem {
                     Button {
                         manager.fullPage = .scan
@@ -327,7 +315,7 @@ struct SettingsPage: View {
                     }
                 }
 			}
-		
+            
 
 	}
 

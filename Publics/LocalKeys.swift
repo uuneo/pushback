@@ -18,21 +18,21 @@ extension Defaults.Key{
 }
 
 extension Defaults.Keys {
+    
     static let deviceToken = Key<String>("deviceToken", "")
     static let firstStart = Key<Bool>("firstStartApp", true)
-    static let photoName = Key<String>("CustomPhotoName", "pushback.")
     static let autoSaveToAlbum = Key<Bool>("autoSaveImageToPhotoAlbum", false)
     static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
-    static let cryptoConfig = Key<CryptoModel>("CryptoSettingFields", CryptoModel.data)
+    static let cryptoConfig = Key<CryptoModel>("CryptoSettingFields", CryptoModel.data, iCloud: true)
     static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
     static let sound = Key<String>("defaultSound", "xiu")
     static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
     static let messageExpiration = Key<ExpirationTime>("messageExpirtionTime", .forever)
     static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)
     static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
-    static let updateDeleteDatabase = Key<Bool>("updateDeleteDatabase", false)
+  
     static let showGroup = Key<Bool>("showGroupMessage", true)
-    static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[])
+    static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[], iCloud: true)
     static let historyMessageCount = Key<Int>("historyMessageCount", 10)
     static let historyMessageBool = Key<Bool>("historyMessageBool", false)
     static let showCodeViewColor = Key<Bool>("showCodeViewColor", true)

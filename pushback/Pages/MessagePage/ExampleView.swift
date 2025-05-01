@@ -24,26 +24,16 @@ struct ExampleView: View {
         servers.count > pickerSelection ? servers[pickerSelection] : PushServerModel(url: BaseConfig.defaultServer)
     }
     
+    @Default(.exampleCustom) var params
+    @State private var mode:Bool = false
+    var contentColor:Color = .cyan
+    
+   
+    
+    
     var body: some View {
         VStack{
-            if servers.count > 1{
-                HStack{
-                    Spacer()
-                    Picker(selection: $pickerSelection, label: Text("切换服务器")) {
-                        ForEach(servers.indices, id: \.self){index in
-                            let server = servers[index]
-                            Text(server.name)
-                                .tag(server.id)
-                        }
-                    }.pickerStyle(MenuPickerStyle())
-                        .onChange(of: pickerSelection) { value in
-                            Defaults[.exampleCustom].server = servers[value].server
-                        }
-                    
-                }
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-            }
+            
             
             Group{
                 if showCustomMode{
@@ -75,10 +65,34 @@ struct ExampleView: View {
         }
     }
     
+    @ViewBuilder
+    private func selectServer()-> some View{
+        if servers.count > 1{
+            Section{
+                HStack{
+                    Spacer()
+                    Picker(selection: $pickerSelection, label: Text("切换服务器")) {
+                        ForEach(servers.indices, id: \.self){index in
+                            let server = servers[index]
+                            Text(server.name)
+                                .tag(server.id)
+                        }
+                    }.pickerStyle(MenuPickerStyle())
+                        .onChange(of: pickerSelection) { value in
+                            Defaults[.exampleCustom].server = servers[value].server
+                        }
+                    
+                }
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+        }
+    }
     
     @ViewBuilder
     func customHelpItemView() -> some View{
         List{
+            selectServer()
             ForEach(createExample(cryptoData: cryptoConfig),id: \.id){ item in
                 //            let server = servers[pickerSeletion >= servers.count ? 0 : pickerSeletion]
                 let server = (pickerSelection >= 0 && pickerSelection < servers.count) ? servers[pickerSelection] : servers[0]
@@ -132,6 +146,209 @@ struct ExampleView: View {
         }
         
         
+    }
+    
+    @ViewBuilder
+    func CustomKeyInputView()-> some View{
+        Form{
+            selectServer()
+            
+            Section{
+                HStack{
+                    Text("服务器:")
+                    
+                    TextField("输入服务器地址", text: $params.server)
+                        .foregroundStyle(contentColor)
+                }
+                HStack{
+                    Text("群组:")
+                    
+                    TextField("输入群组", text: $params.group)
+                        .foregroundStyle(contentColor)
+                }
+                
+                HStack{
+                    Text("标题:")
+                    
+                    TextField("输入标题", text: $params.title)
+                        .foregroundStyle(contentColor)
+                }
+                
+                HStack{
+                    Text("副标题:")
+                    
+                    TextField("输入副标题", text: $params.subTitle)
+                        .foregroundStyle(contentColor)
+                }
+                
+                HStack{
+                    Text("URL")
+                    TextField("输入跳转地址", text: $params.url)
+                        .foregroundStyle(contentColor)
+                }
+                
+                HStack{
+                    Text("图标:")
+                    TextField("输入图标地址", text: $params.icon)
+                        .foregroundStyle(contentColor)
+                }
+                
+                HStack{
+                    Text("图片:")
+                    TextField("输入图片地址", text: $params.image)
+                        .foregroundStyle(contentColor)
+                }
+                
+                HStack{
+                    Text("内容:")
+                        .foregroundStyle(.accent)
+                    TextEditor(text:  $params.body)
+                        .lineLimit(10)
+                        .multilineTextAlignment(.leading)
+                        .foregroundStyle(contentColor)
+                }
+            }header: {
+                Text("推送内容")
+            }
+            
+            Section{
+                
+                
+                if mode {
+                    Picker(selection: $params.sound) {
+                        ForEach(AudioManager.shared.allSounds(),id: \.self){ content in
+                            Text(content).tag(content)
+                        }
+                    }label:{
+                        Text("铃声")
+                    }
+                    
+                    Toggle("持续响铃",isOn: Binding(get: {
+                        params.call == "1"
+                    }, set: { value in
+                        params.call = value ? "1" : "0"
+                    }))
+                    
+                    
+                    Picker(selection: $params.level) {
+                        ForEach(LevelTitle.allCases,id: \.self) { item in
+                            Text(item.name).tag(item)
+                        }
+                    }label:{
+                        Text("推送级别")
+                    }
+                    
+                    if params.level == .critical{
+                        HStack{
+                            Text("音量 \(Int(params.volume) * 10) %")
+                            Spacer()
+                            Slider(value: $params.volume, in: 0...10, step: 1)
+                        }
+                    }
+                    
+                    Toggle("加密",isOn: Binding(get: {
+                        params.cipherText != ""
+                    }, set: { value in
+                        params.cipherText = value ? "cipherText" : ""
+                    }))
+                    
+                    
+                    
+                    HStack{
+                        Text("保存天数:")
+                        Spacer()
+                        TextField(value: $params.ttl, format: .number) {
+                            Text("保存天数")
+                        }
+                        .keyboardType(.numberPad)
+                    }
+                    
+                    Picker(selection: $params.category) {
+                        ForEach(CategoryParams.allCases,id: \.self){ item in
+                            Text(item.name).tag(item)
+                        }
+                    }label:{
+                        Text("推送样式")
+                    }
+                    
+                    HStack{
+                        Text("推送角标:")
+                        Spacer()
+                        TextField(value: $params.badge, format: .number) {
+                            Text("推送角标")
+                        }
+                        .keyboardType(.numberPad)
+                    }
+                    
+                    HStack{
+                        Text("ID")
+                        TextField("输入ID", text: $params.id)
+                            .foregroundStyle(contentColor)
+                        Image(systemName: "dice")
+                            .onTapGesture {
+                                params.id = UUID().uuidString
+                            }
+                    }
+                }
+            }header: {
+                Toggle("显示设置",isOn: $mode)
+            }footer: {
+                VStack{
+                    Button{
+                        copyExample()
+                    }label: {
+                        HStack{
+                            Spacer()
+                            Label("复制示例", systemImage: "doc.on.doc")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white, .thinMaterial)
+                            Spacer()
+                        }
+                        
+                    }.buttonStyle(BorderedProminentButtonStyle())
+                    
+                    Button{
+                        sendExample()
+                    }label: {
+                        HStack{
+                            Spacer()
+                            Label("发送通知", systemImage: "arrow.up.message")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white, .thinMaterial)
+                            Spacer()
+                        }
+                        
+                    }.buttonStyle(BorderedProminentButtonStyle())
+                        .tint(.blue)
+                    
+                    Button{
+                        safariExample()
+                    }label: {
+                        HStack{
+                            Spacer()
+                            Label("浏览器测试", systemImage: "safari")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white, .thinMaterial)
+                            Spacer()
+                        }
+                        
+                    }.buttonStyle(BorderedProminentButtonStyle())
+                        .tint(.green)
+                }
+                .padding(.vertical)
+               
+            }
+            
+            
+        }
+        .simultaneousGesture(
+            DragGesture().onEnded { trans in
+                if trans.translation.height > 50{
+                    PushbackManager.hideKeyboard()
+                }
+            }
+        )
+        .multilineTextAlignment(.trailing)
     }
     
 }
@@ -259,229 +476,6 @@ extension ExampleView{
             
         ]
     }
-    
-    
-}
-
-
-
-
-
-struct CustomKeyInputView: View {
-    
-    @Default(.exampleCustom) var params
-    
-    
-    @State private var mode:Bool = false
-    
-
-    
-    var contentColor:Color = .cyan
-    
-    
-    var body: some View {
-        Form{
-            
-            
-            Section{
-                HStack{
-                    Text("服务器:")
-                    
-                    TextField("输入服务器地址", text: $params.server)
-                        .foregroundStyle(contentColor)
-                }
-                HStack{
-                    Text("群组:")
-                    
-                    TextField("输入群组", text: $params.group)
-                        .foregroundStyle(contentColor)
-                }
-                
-                HStack{
-                    Text("标题:")
-                    
-                    TextField("输入标题", text: $params.title)
-                        .foregroundStyle(contentColor)
-                }
-                
-                HStack{
-                    Text("副标题:")
-                    
-                    TextField("输入副标题", text: $params.subTitle)
-                        .foregroundStyle(contentColor)
-                }
-                
-                HStack{
-                    Text("URL:")
-                    TextField("输入跳转地址", text: $params.url)
-                        .foregroundStyle(contentColor)
-                }
-                
-                HStack{
-                    Text("图标:")
-                    TextField("输入图标地址", text: $params.icon)
-                        .foregroundStyle(contentColor)
-                }
-                
-                HStack{
-                    Text("图片:")
-                    TextField("输入图片地址", text: $params.image)
-                        .foregroundStyle(contentColor)
-                }
-                
-                HStack{
-                    Text("内容:")
-                        .foregroundStyle(.accent)
-                    TextEditor(text:  $params.body)
-                        .lineLimit(10)
-                        .multilineTextAlignment(.leading)
-                        .foregroundStyle(contentColor)
-                }
-            }header: {
-                Text("推送内容")
-            }
-            
-            Section{
-                
-                
-                if mode {
-                    Picker(selection: $params.sound) {
-                        ForEach(AudioManager.shared.allSounds(),id: \.self){ content in
-                            Text(content).tag(content)
-                        }
-                    }label:{
-                        Text("铃声")
-                    }
-                    
-                    Toggle("持续响铃",isOn: Binding(get: {
-                        params.call == "1"
-                    }, set: { value in
-                        params.call = value ? "1" : "0"
-                    }))
-                    
-                    
-                    Picker(selection: $params.level) {
-                        ForEach(LevelTitle.allCases,id: \.self) { item in
-                            Text(item.name).tag(item)
-                        }
-                    }label:{
-                        Text("推送级别")
-                    }
-                    
-                    if params.level == .critical{
-                        HStack{
-                            Text("音量 \(Int(params.volume) * 10) %")
-                            Spacer()
-                            Slider(value: $params.volume, in: 0...10, step: 1)
-                        }
-                    }
-                    
-                    Toggle("加密",isOn: Binding(get: {
-                        params.cipherText != ""
-                    }, set: { value in
-                        params.cipherText = value ? "cipherText" : ""
-                    }))
-                    
-                    
-                    
-                    HStack{
-                        Text("保存天数:")
-                        Spacer()
-                        TextField(value: $params.ttl, format: .number) {
-                            Text("保存天数")
-                        }
-                        .keyboardType(.numberPad)
-                    }
-                    
-                    Picker(selection: $params.category) {
-                        ForEach(CategoryParams.allCases,id: \.self){ item in
-                            Text(item.name).tag(item)
-                        }
-                    }label:{
-                        Text("推送样式")
-                    }
-                    
-                    HStack{
-                        Text("推送角标:")
-                        Spacer()
-                        TextField(value: $params.badge, format: .number) {
-                            Text("推送角标")
-                        }
-                        .keyboardType(.numberPad)
-                    }
-                    
-                    HStack{
-                        Text("ID:")
-                        TextField("输入ID", text: $params.id)
-                            .foregroundStyle(contentColor)
-                        Image(systemName: "dice")
-                            .onTapGesture {
-                                params.id = UUID().uuidString
-                            }
-                    }
-                }
-            }header: {
-                Toggle("显示设置",isOn: $mode)
-            }footer: {
-                VStack{
-                    Button{
-                        copyExample()
-                    }label: {
-                        HStack{
-                            Spacer()
-                            Label("复制示例", systemImage: "doc.on.doc")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white, .thinMaterial)
-                            Spacer()
-                        }
-                        
-                    }.buttonStyle(BorderedProminentButtonStyle())
-                    
-                    Button{
-                        sendExample()
-                    }label: {
-                        HStack{
-                            Spacer()
-                            Label("发送通知", systemImage: "arrow.up.message")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white, .thinMaterial)
-                            Spacer()
-                        }
-                        
-                    }.buttonStyle(BorderedProminentButtonStyle())
-                        .tint(.blue)
-                    
-                    Button{
-                        safariExample()
-                    }label: {
-                        HStack{
-                            Spacer()
-                            Label("浏览器测试", systemImage: "safari")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white, .thinMaterial)
-                            Spacer()
-                        }
-                        
-                    }.buttonStyle(BorderedProminentButtonStyle())
-                        .tint(.green)
-                }
-                .padding(.vertical)
-               
-            }
-            
-            
-        }
-        .simultaneousGesture(
-            DragGesture().onEnded { trans in
-                if trans.translation.height > 50{
-                    PushbackManager.hideKeyboard()
-                }
-            }
-        )
-        .multilineTextAlignment(.trailing)
-        
-    }
-    
     func copyExample(){
         let param = params.createParams()
         
@@ -515,10 +509,8 @@ struct CustomKeyInputView: View {
             Toast.error(title: String(localized: "参数错误"))
         }
     }
+    
+   
 }
 
 
-
-#Preview {
-    CustomKeyInputView()
-}

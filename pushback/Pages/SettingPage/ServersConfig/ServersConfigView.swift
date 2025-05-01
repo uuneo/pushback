@@ -22,6 +22,14 @@ struct ServersConfigView: View {
     @FocusState private var serverNameFocus
     
     
+    var cloudServers:[PushServerModel]{
+        cloudDatas.filter { cloudServer in
+            let isInServers = servers.contains { $0.server == cloudServer.server }
+            return !isInServers
+        }
+    }
+    
+    
     var showClose:Bool = false
     
     
@@ -85,50 +93,57 @@ struct ServersConfigView: View {
                         servers.move(fromOffsets: indices, toOffset: newOffset)
                     })
                 }header:{
-                    Label("使用中的服务器", systemImage: "cup.and.heat.waves")
-                        .foregroundStyle(.primary, .green)
+                    HStack{
+                        Label("使用中的服务器", systemImage: "cup.and.heat.waves")
+                            .foregroundStyle(.primary, .green)
+                        Spacer()
+                        Text("\(servers.count)")
+                    }
+                   
                 }
                 
                 
                 
-                
-                Section{
-                    
-                    
-                    ForEach(cloudDatas, id: \.id){ item in
+                if cloudServers.count > 0 {
+                    Section{
                         
-                        if !servers.contains(where: { $0.url == item.url && $0.key == item.key }){
-                            ServerCardView(item: item,isCloud: true){
-                                manager.appendServer(server: item) { _, _ in }
-                            }
+                        ForEach(cloudServers, id: \.id){ item in
                             
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive){
-                                    PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
-                                        if let err{
-                                            Log.debug(err.localizedDescription)
-                                        }else{
-                                            if let index = cloudDatas.firstIndex(where: {$0.id == item.id}){
-                                                cloudDatas.remove(at: index)
+                            if !servers.contains(where: { $0.url == item.url && $0.key == item.key }){
+                                ServerCardView(item: item,isCloud: true){
+                                    manager.appendServer(server: item) { _, _ in }
+                                }
+                                
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive){
+                                        PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
+                                            if let err{
+                                                Log.debug(err.localizedDescription)
+                                            }else{
+                                                if let index = cloudDatas.firstIndex(where: {$0.id == item.id}){
+                                                    cloudDatas.remove(at: index)
+                                                }
+                                                
                                             }
                                             
                                         }
-                                        
+                                    }label:{
+                                        Label("删除", systemImage: "trash")
+                                            .symbolRenderingMode(.palette)
+                                            .foregroundStyle(.white)
                                     }
-                                }label:{
-                                    Label("删除", systemImage: "trash")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.white)
                                 }
                             }
                         }
-                    }
-                }header: {
-                    HStack{
-                        Label("历史服务器", systemImage: "cup.and.heat.waves")
-                            .foregroundStyle(.primary, .gray)
-                        Spacer()
-                        Text("\(self.cloudDatas.count)")
+                        
+                        
+                    }header: {
+                        HStack{
+                            Label("历史服务器", systemImage: "cup.and.heat.waves")
+                                .foregroundStyle(.primary, .gray)
+                            Spacer()
+                            Text("\(cloudServers.count)")
+                        }
                     }
                 }
                 

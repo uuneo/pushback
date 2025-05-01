@@ -25,7 +25,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var image:String?
 	@Persisted var from:String?
 	@Persisted var level:Int = 1
-	@Persisted var ttl:Int = ExpirationTime.forever.days
+    @Persisted var ttl:Int = ExpirationTime.forever.days
 	@Persisted var read:Bool = false
 	@Persisted var search:String
 

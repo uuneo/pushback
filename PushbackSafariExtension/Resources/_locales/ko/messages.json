@@ -1,0 +1,31 @@
+{
+    "extension_description": {
+        "message": "사진과 텍스트를 휴대폰으로 전송",
+        "description": "This is an extension of pushback that allows you to send pictures and text to your phone"
+    },
+    "appNameLocal": { "message": "Pushback+", "description": "appTitle" },
+    "appStoreLocal": { "message": "Pushback에서 키 받기", "description": "appTitle" },
+    "pushConfigLocal": { "message": "푸시 설정", "description": "pushConfigTitle" },
+    "saveLocal": { "message": "저장", "description": "save" },
+    "keyListLocal": { "message": "키 목록", "description": "keylist" },
+    "pageLocal": { "message": "페이지", "description": "pageLocal" },
+    "selectionLocal": { "message": "선택", "description": "pageLocal" },
+    "linkLocal": { "message": "링크", "description": "pageLocal" },
+    "imageLocal": { "message": "이미지", "description": "pageLocal" },
+    "videoLocal": { "message": "비디오", "description": "pageLocal" },
+    "audioLocal": { "message": "오디오", "description": "pageLocal" },
+    "sendAnyToIphoneLocal": {
+        "message": "[$details$]를 휴대폰으로 전송",
+        "description": "send any to iphone",
+        "placeholders": {
+            "details": {
+                "content": "$1",
+                "example": "NULL"
+            }
+        }
+    },
+    "browserDataLocal": {
+        "message": "브라우저 데이터",
+        "description": "Params title"
+    }
+} 

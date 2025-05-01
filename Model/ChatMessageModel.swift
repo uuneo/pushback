@@ -34,12 +34,7 @@ extension ChatGroup{
             Log.error(error.localizedDescription)
             complete?(error)
         }
-        
-        
     }
-    
-   
-    
 }
 
 

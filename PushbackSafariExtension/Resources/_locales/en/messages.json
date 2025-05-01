@@ -1,0 +1,33 @@
+{
+    "extension_description": {
+        "message": "Push pictures and text to the phone",
+        "description": "This is an extension of pushback that allows you to send pictures and text to your phone"
+    },
+    "appNameLocal": { "message": "Pushback+", "description": "appTitle" },
+    "appStoreLocal": { "message": "Get Key in Pushback", "description": "appTitle" },
+    "pushConfigLocal": { "message": "Push Config", "description": "pushConfigTitle" },
+    "saveLocal": { "message": "save", "description": "save" },
+    "keyListLocal": { "message": "keylist", "description": "keylist" },
+    "pageLocal": { "message": "PAGE", "description": "pageLocal" },
+    "selectionLocal": { "message": "WORLD", "description": "pageLocal" },
+    "linkLocal": { "message": "LINK", "description": "pageLocal" },
+    "imageLocal": { "message": "IMAGE", "description": "pageLocal" },
+    "videoLocal": { "message": "VIDEO", "description": "pageLocal" },
+    "audioLocal": { "message": "AUDIO", "description": "pageLocal" },
+    "sendAnyToIphoneLocal": {
+        "message": "Send [$details$] To Phone",
+        "description": "send any to iphone",
+        "placeholders": {
+            "details": {
+                "content": "$1",
+                "example": "NULL"
+            }
+        }
+    },
+    "browserDataLocal": {
+        "message": "浏览器数据",
+        "description": "Params title"
+    }
+}
+
+

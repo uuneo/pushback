@@ -12,11 +12,10 @@ import Combine
 
 
 struct AssistantPageView:View {
-    @Environment(\.dismiss) var dismiss
+    
     @Default(.assistantAccouns) var assistantAccouns
-    
-    
-    @StateObject private var chatManager = openChatManager.shared
+    @EnvironmentObject private var chatManager:openChatManager
+    @EnvironmentObject private var manager:PushbackManager
     
     @State private var inputText:String = ""
     
@@ -35,6 +34,8 @@ struct AssistantPageView:View {
     
     @State private var offsetX: CGFloat = 0
     @State private var offsetHistory:CGFloat = 0
+    @State private var rotation:Double = 0
+    
     
     var body: some View {
 
@@ -104,6 +105,24 @@ struct AssistantPageView:View {
                         })
                 )
                 
+            }
+            .overlay{
+                RoundedRectangle(cornerRadius: ProcessInfo.processInfo.isiOSAppOnMac ? 0 : 50)
+                    .stroke(
+                        AngularGradient(
+                            gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .purple, .red]),
+                            center: .center,
+                            angle: .degrees(rotation)
+                        ),
+                        lineWidth: chatManager.isLoading ? 5 : 0
+                    )
+                    .padding(5)
+                    .ignoresSafeArea()
+                    .onAppear {
+                        withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
+                            rotation = 360
+                        }
+                    }
             }
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
@@ -279,7 +298,8 @@ struct AssistantPageView:View {
     private var navigationToolbarContent: some ToolbarContent{
         ToolbarItem(placement: .navigation) {
             Button{
-                dismiss()
+                manager.allPath = []
+                manager.messagePath = []
                 PushbackManager.vibration(style: .heavy)
             }label: {
                 Image(systemName: "arrow.left")
@@ -342,9 +362,11 @@ struct AssistantPageView:View {
                         DispatchQueue.main.async{
                             chatManager.currentContent = chatManager.currentContent + res
                         }
-          
-                        Task{
-                            PushbackManager.vibration(style: .light)
+                        
+                        Task{ 
+                            if await manager.allPath.last == .assistant{
+                                PushbackManager.vibration(style: .light)
+                            }
                         }
                     }
                     
@@ -429,7 +451,6 @@ struct AssistantPageView:View {
     }
     
 }
-
 
 struct CustomAlertWithTextField: View {
     @State private var text: String = ""
@@ -521,8 +542,6 @@ struct CustomAlertWithTextField: View {
     }
 }
 
-
-
 struct StreamingLoadingView: View {
     @EnvironmentObject private var chatManager:openChatManager
     @State private var dots = ""
@@ -559,8 +578,6 @@ struct StreamingLoadingView: View {
         }
     }
 }
-
-
 
 struct AssistantRowView: View {
     

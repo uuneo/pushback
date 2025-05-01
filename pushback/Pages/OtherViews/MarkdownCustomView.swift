@@ -25,18 +25,19 @@ struct MarkdownCustomView:View {
     var searchText:String
     var showRaw:Bool
     var showCodeViewColor:Bool
-   
+    var scaleFactor: CGFloat
     
     private var codeHighlightColorScheme: Splash.Theme {
         colorScheme == .dark ? .wwdc17(withFont: .init(size: 16)) : .sunset(withFont: .init(size: 16))
     }
     
-    init( content: String, userInfo: String = "", searchText: String = "", showRaw: Bool = false, showCodeViewColor: Bool = false) {
+    init( content: String, userInfo: String = "", searchText: String = "", showRaw: Bool = false, showCodeViewColor: Bool = false, scaleFactor: CGFloat = 1.0) {
         self.content = content
         self.userInfo = userInfo
         self.searchText = searchText
         self.showRaw = showRaw
         self.showCodeViewColor = showCodeViewColor
+        self.scaleFactor = scaleFactor
     }
    
     var body: some View {
@@ -47,7 +48,6 @@ struct MarkdownCustomView:View {
         }else {
             
             Markdown(content)
-
                 .environment(\.openURL, OpenURLAction { url in
                     print("用户点击的链接是：\(url)")
                     PushbackManager.openUrl(url: url)
@@ -57,7 +57,7 @@ struct MarkdownCustomView:View {
                     view
                         .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
                 }
-                .markdownTheme(MarkdownTheme.enchantedTheme)
+                .markdownTheme(MarkdownTheme.defaultTheme(scaleFactor: scaleFactor))
                 .transition(.opacity.animation(.easeInOut(duration: 0.1)))
         }
        

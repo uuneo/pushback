@@ -1,0 +1,31 @@
+{
+    "extension_description": {
+        "message": "写真とテキストを携帯電話に送信",
+        "description": "This is an extension of pushback that allows you to send pictures and text to your phone"
+    },
+    "appNameLocal": { "message": "Pushback+", "description": "appTitle" },
+    "appStoreLocal": { "message": "Pushbackでキーを取得", "description": "appTitle" },
+    "pushConfigLocal": { "message": "プッシュ設定", "description": "pushConfigTitle" },
+    "saveLocal": { "message": "保存", "description": "save" },
+    "keyListLocal": { "message": "キーリスト", "description": "keylist" },
+    "pageLocal": { "message": "ページ", "description": "pageLocal" },
+    "selectionLocal": { "message": "選択", "description": "pageLocal" },
+    "linkLocal": { "message": "リンク", "description": "pageLocal" },
+    "imageLocal": { "message": "画像", "description": "pageLocal" },
+    "videoLocal": { "message": "動画", "description": "pageLocal" },
+    "audioLocal": { "message": "音声", "description": "pageLocal" },
+    "sendAnyToIphoneLocal": {
+        "message": "[$details$]を携帯電話に送信",
+        "description": "send any to iphone",
+        "placeholders": {
+            "details": {
+                "content": "$1",
+                "example": "NULL"
+            }
+        }
+    },
+    "browserDataLocal": {
+        "message": "ブラウザデータ",
+        "description": "Params title"
+    }
+} 

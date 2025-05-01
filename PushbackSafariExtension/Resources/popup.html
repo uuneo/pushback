@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Safari+</title>
+        <link rel="stylesheet" href="popup.css" />
+    </head>
+    <body>
+        <div id="iframe-container" class="popup123">
+            <iframe></iframe>
+        </div>
+
+        <a href="https://apps.apple.com/us/app/id6615073345" target="_blank" class="footer-a">
+            <div class="footer">
+                <img
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+                width="100"
+                height="50"
+                alt="appStore"
+                />
+                <span id="appStoreLocal">Get Key in Pushback </span>
+            </div>
+        </a>
+
+        <form id="config-form">
+            <div class="title">
+                <h1 id="pushConfigLocal">Push Config</h1>
+            </div>
+
+
+            <div class="form-group">
+                <label for="level">Level:</label>
+                <select id="level">
+                    <option value="active">active</option>
+                    <option value="timeSensitive">timeSensitive</option>
+                    <option value="passive">passive</option>
+                    <option value="critical">critical</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sound">Sound:</label>
+                <input type="text" value="success" id="sound" required />
+            </div>
+
+            <div class="form-group">
+                <label for="group">Group:</label>
+                <input type="text" id="group" value="Chrome" required />
+            </div>
+
+            <div class="form-group">
+                <label for="key-input">KEY:</label>
+                <input type="text" id="key-input" placeholder="https://push.uuneo.com/key" value="" />
+                <button type="button" id="add-key">add</button>
+            </div>
+
+            <div class="key-list">
+                <label for="key-list" id="keyListLocal">KeyList:</label>
+            </div>
+            <div class="key-list">
+                <ul id="key-list" class="keyUl"></ul>
+            </div>
+        </form>
+
+        <script src="popup.js"></script>
+    </body>
+</html>
+
+
+

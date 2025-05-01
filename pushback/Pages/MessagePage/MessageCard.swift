@@ -71,16 +71,13 @@ struct MessageCard: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .contentShape(Rectangle())
                                 .padding(.vertical, 5)
-                                .onTapGesture(count: 2) {
-                                    self.complete?()
-                                }
+                                
                         }
                         
                         
                         if let subtitle = message.subtitle{
                             
                             HStack{
-                                
                                 MarkdownCustomView.highlightedText(searchText: searchText, text: subtitle)
                                     .font(.subheadline)
                                     .fontWeight(.bold)
@@ -90,12 +87,11 @@ struct MessageCard: View {
                                 
                                 Spacer()
                             }
-                            .contentShape(Rectangle())
-                            .onTapGesture(count: 2) {
-                                self.complete?()
-                            }
-                            
                         }
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture(count: 2) {
+                        self.complete?()
                     }
                     
                 }
@@ -105,6 +101,7 @@ struct MessageCard: View {
                         .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
                         .frame(height: 1)
                         .padding(.horizontal, 5)
+                        .padding(.vertical,3)
                 }
                
                 if let body = message.body{
@@ -119,7 +116,6 @@ struct MessageCard: View {
                             .onTapGesture(count: 2) {
                                 self.complete?()
                             }
-                        
                     }
                     
                 }

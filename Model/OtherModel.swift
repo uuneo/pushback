@@ -260,12 +260,12 @@ struct CryptoModel: Equatable, Codable, Defaults.Serializable{
 // MARK: - AppIconMode
 
 enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
+    case king
 	case pushback
-    case Whale
     case bell
+    case Whale
     
-	
-
+    
     var name: String? { self == .pushback ? nil : self.rawValue }
     
     var logo: String{
@@ -276,6 +276,8 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
             return "logo1"
         case .Whale:
             return "logo2"
+        case .king:
+            return "logo3"
         }
     }
 }

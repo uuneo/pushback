@@ -60,110 +60,112 @@ extension View {
 }
 
 struct MarkdownTheme {
-    static let enchantedTheme = Theme()
-        .text { FontSize(14) }
-        .code {
-            FontFamilyVariant(.monospaced)
-            FontSize(.em(0.85))
-            BackgroundColor(MarkdownColors.secondaryBackground)
-                
-        }
-        .strong { FontWeight(.semibold) }
-        .link { ForegroundColor(MarkdownColors.link) }
-        .heading1 { configuration in
-            VStack(alignment: .leading, spacing: 0) {
-                configuration.label
-                    .relativePadding(.bottom, length: .em(0.3))
-                    .markdownHeadingStyle(fontSize: 2)
-                Divider().overlay(MarkdownColors.divider)
+    static func defaultTheme(scaleFactor:CGFloat = 1.0) -> Theme {
+        Theme()
+            .text { FontSize(16 * scaleFactor) }
+            .code {
+                FontFamilyVariant(.monospaced)
+                FontSize(.em(0.85))
+                BackgroundColor(MarkdownColors.secondaryBackground)
+                    
             }
-        }
-        .heading2 { configuration in
-            VStack(alignment: .leading, spacing: 0) {
-                configuration.label
-                    .relativePadding(.bottom, length: .em(0.3))
-                    .markdownHeadingStyle(fontSize: 1.5)
-                Divider().overlay(MarkdownColors.divider)
-            }
-        }
-        .heading3 { configuration in
-            configuration.label
-                .markdownHeadingStyle(fontSize: 1.25)
-        }
-        .heading4 { configuration in
-            configuration.label
-                .markdownHeadingStyle(fontSize: 1)
-        }
-        .heading5 { configuration in
-            configuration.label
-                .markdownHeadingStyle(fontSize: 0.875)
-        }
-        .heading6 { configuration in
-            configuration.label
-                .markdownHeadingStyle(fontSize: 0.85)
-                .markdownTextStyle {
-                    ForegroundColor(MarkdownColors.tertiaryText)
+            .strong { FontWeight(.semibold) }
+            .link { ForegroundColor(MarkdownColors.link) }
+            .heading1 { configuration in
+                VStack(alignment: .leading, spacing: 0) {
+                    configuration.label
+                        .relativePadding(.bottom, length: .em(0.3))
+                        .markdownHeadingStyle(fontSize: 2)
+                    Divider().overlay(MarkdownColors.divider)
                 }
-        }
-        .paragraph { configuration in
-            configuration.label
-                .markdownParagraphStyle()
-        }
-        .blockquote { configuration in
-            HStack(spacing: 0) {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(MarkdownColors.border)
-                    .relativeFrame(width: .em(0.2))
-                configuration.label
-                    .markdownTextStyle { ForegroundColor(MarkdownColors.secondaryText) }
-                    .relativePadding(.horizontal, length: .em(1))
             }
-            .fixedSize(horizontal: false, vertical: true)
-        }
-        .codeBlock { configuration in
-            CodeBlock(configuration)
-        }
-        .listItem { configuration in
-            configuration.label
-                .padding(.bottom, 10)
-        }
-        .taskListMarker { configuration in
-            Image(systemName: configuration.isCompleted ? "checkmark.square.fill" : "square")
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(MarkdownColors.checkbox, MarkdownColors.checkboxBackground)
-                .imageScale(.small)
-                .relativeFrame(minWidth: .em(1.5), alignment: .trailing)
-        }
-        .table { configuration in
-            configuration.label
-                .fixedSize(horizontal: false, vertical: true)
-                .markdownTableBorderStyle(.init(color: MarkdownColors.border))
-                .markdownTableBackgroundStyle(
-                    .alternatingRows(MarkdownColors.background, MarkdownColors.secondaryBackground)
-                )
-                .markdownMargin(top: 0, bottom: 16)
-        }
-        .tableCell { configuration in
-            configuration.label
-                .markdownTextStyle {
-                    if configuration.row == 0 {
-                        FontWeight(.semibold)
+            .heading2 { configuration in
+                VStack(alignment: .leading, spacing: 0) {
+                    configuration.label
+                        .relativePadding(.bottom, length: .em(0.3))
+                        .markdownHeadingStyle(fontSize: 1.5)
+                    Divider().overlay(MarkdownColors.divider)
+                }
+            }
+            .heading3 { configuration in
+                configuration.label
+                    .markdownHeadingStyle(fontSize: 1.25)
+            }
+            .heading4 { configuration in
+                configuration.label
+                    .markdownHeadingStyle(fontSize: 1)
+            }
+            .heading5 { configuration in
+                configuration.label
+                    .markdownHeadingStyle(fontSize: 0.875)
+            }
+            .heading6 { configuration in
+                configuration.label
+                    .markdownHeadingStyle(fontSize: 0.85)
+                    .markdownTextStyle {
+                        ForegroundColor(MarkdownColors.tertiaryText)
                     }
-                    BackgroundColor(nil)
+            }
+            .paragraph { configuration in
+                configuration.label
+                    .markdownParagraphStyle()
+            }
+            .blockquote { configuration in
+                HStack(spacing: 0) {
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(MarkdownColors.border)
+                        .relativeFrame(width: .em(0.2))
+                    configuration.label
+                        .markdownTextStyle { ForegroundColor(MarkdownColors.secondaryText) }
+                        .relativePadding(.horizontal, length: .em(1))
                 }
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(.vertical, 6)
-                .padding(.horizontal, 13)
-                .relativeLineSpacing(.em(0.25))
-        }
-        .thematicBreak {
-            Divider()
-                .relativeFrame(height: .em(0.25))
-                .overlay(MarkdownColors.border)
-                .markdownMargin(top: 24, bottom: 24)
-        }
-        
-        
+            }
+            .codeBlock { configuration in
+                CodeBlock(configuration)
+            }
+            .listItem { configuration in
+                configuration.label
+                    .padding(.bottom, 10)
+            }
+            .taskListMarker { configuration in
+                Image(systemName: configuration.isCompleted ? "checkmark.square.fill" : "square")
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundStyle(MarkdownColors.checkbox, MarkdownColors.checkboxBackground)
+                    .imageScale(.small)
+                    .relativeFrame(minWidth: .em(1.5), alignment: .trailing)
+            }
+            .table { configuration in
+                configuration.label
+                    .fixedSize(horizontal: false, vertical: true)
+                    .markdownTableBorderStyle(.init(color: MarkdownColors.border))
+                    .markdownTableBackgroundStyle(
+                        .alternatingRows(MarkdownColors.background, MarkdownColors.secondaryBackground)
+                    )
+                    .markdownMargin(top: 0, bottom: 16)
+            }
+            .tableCell { configuration in
+                configuration.label
+                    .markdownTextStyle {
+                        if configuration.row == 0 {
+                            FontWeight(.semibold)
+                        }
+                        BackgroundColor(nil)
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 13)
+                    .relativeLineSpacing(.em(0.25))
+            }
+            .thematicBreak {
+                Divider()
+                    .relativeFrame(height: .em(0.25))
+                    .overlay(MarkdownColors.border)
+                    .markdownMargin(top: 24, bottom: 24)
+            }
+            
+            
+    }
 }
 
 struct CodeBlock: View {

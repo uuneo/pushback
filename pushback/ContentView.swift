@@ -15,6 +15,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.scenePhase) private var scenePhase
     @EnvironmentObject private var manager:PushbackManager
+    @EnvironmentObject private var appstate:AppState
     @StateObject private var chatManager = openChatManager.shared
     @ObservedResults(Message.self) var messages
     
@@ -46,6 +47,23 @@ struct ContentView: View {
                 firstStartLauchFirstStartView()
             }
             
+            
+            
+        }
+        .overlay{
+            if let message = manager.selectMessage{
+                SelectMessageView(message: message) {
+                    withAnimation(.easeInOut){
+                        manager.selectMessage = nil
+                    }
+                }
+            }
+        }
+        
+        .overlay{
+            if chatManager.isLoading && manager.allPath.last == .assistant{
+                ColoredBorder()
+            }
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage() .customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
@@ -102,6 +120,8 @@ struct ContentView: View {
         
     }
     
+  
+    
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
@@ -117,25 +137,28 @@ struct ContentView: View {
                     MessagePage()
                         
                         .navigationDestination(for: MessageStatckPage.self){ router in
-                            switch router {
-                            case .example:
-                                ExampleView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .messageDetail(let group):
-                                MessageDetailPage(group: group)
-                                    .toolbar(.hidden, for: .tabBar)
-                                    .navigationTitle(group)
-                            case .sound:
-                                SoundView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .assistant:
-                                AssistantPageView()
-                                    .navigationBarBackButtonHidden()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .crypto:
-                                CryptoConfigView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            }
+                            Group{
+                                switch router {
+                                case .example:
+                                    ExampleView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .messageDetail(let group):
+                                    MessageDetailPage(group: group)
+                                        .toolbar(.hidden, for: .tabBar)
+                                        .navigationTitle(group)
+                                case .sound:
+                                    SoundView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .assistant:
+                                    AssistantPageView()
+                                        .navigationBarBackButtonHidden()
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .crypto:
+                                    CryptoConfigView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                }
+                            }.environmentObject(manager)
+                                .environmentObject(chatManager)
                         }
                     
                 }
@@ -154,25 +177,29 @@ struct ContentView: View {
                     SettingsPage()
                        
                         .navigationDestination(for: SettingStatckPage.self){ router in
-                            switch router {
-                            case .server:
-                                ServersConfigView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .assistantSetting:
-                                AssistantSettingsView(showClose: false)
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .sound:
-                                SoundView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .privacy:
-                                PrivacySecurity()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .privacyConfig:
-                                CryptoConfigView()
-                            case .more:
-                                MoreOperationsView()
-                                    .toolbar(.hidden, for: .tabBar)
+                            Group{
+                                switch router {
+                                case .server:
+                                    ServersConfigView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .assistantSetting:
+                                    AssistantSettingsView(showClose: false)
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .sound:
+                                    SoundView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .privacy:
+                                    PrivacySecurity()
+                                        .toolbar(.hidden, for: .tabBar)
+                                case .privacyConfig:
+                                    CryptoConfigView()
+                                case .more:
+                                    MoreOperationsView()
+                                        .toolbar(.hidden, for: .tabBar)
+                                }
                             }
+                            .environmentObject(manager)
+                           
                         }
                         
                 }
@@ -199,43 +226,45 @@ struct ContentView: View {
             NavigationStack(path: $manager.allPath){
                 MessagePage()
                     .navigationDestination(for: AllPage.self){ router in
-                        switch router {
-                        case .example:
-                            ExampleView()
-                                .toolbar(.hidden, for: .tabBar)
-                        case .messageDetail(let group):
-                            MessageDetailPage(group: group)
-                                .toolbar(.hidden, for: .tabBar)
-                                .navigationTitle(group)
-                        case .sound:
-                            SoundView()
-                                .toolbar(.hidden, for: .tabBar)
-                        case .assistant:
-                            AssistantPageView()
-                                .navigationBarBackButtonHidden()
-                                .toolbar(.hidden, for: .tabBar)
-                        case .crypto:
-                            CryptoConfigView()
-                                .toolbar(.hidden, for: .tabBar)
-                        case .server:
-                            ServersConfigView()
-                                .toolbar(.hidden, for: .tabBar)
-                        case .assistantSetting:
-                            AssistantSettingsView(showClose: false)
-                                .toolbar(.hidden, for: .tabBar)
-                        case .privacy:
-                            PrivacySecurity()
-                                .toolbar(.hidden, for: .tabBar)
-                        case .privacyConfig:
-                            CryptoConfigView()
-                        case .more:
-                            MoreOperationsView()
-                                .toolbar(.hidden, for: .tabBar)
+                        Group{
+                            switch router {
+                            case .example:
+                                ExampleView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .messageDetail(let group):
+                                MessageDetailPage(group: group)
+                                    .toolbar(.hidden, for: .tabBar)
+                                    .navigationTitle(group)
+                            case .sound:
+                                SoundView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .assistant:
+                                AssistantPageView()
+                                    .navigationBarBackButtonHidden()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .crypto:
+                                CryptoConfigView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .server:
+                                ServersConfigView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .assistantSetting:
+                                AssistantSettingsView(showClose: false)
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .privacy:
+                                PrivacySecurity()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .privacyConfig:
+                                CryptoConfigView()
+                            case .more:
+                                MoreOperationsView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            }
                         }
+                        .environmentObject(manager)
+                        .environmentObject(chatManager)
                     }
             }
-            
-            
         }
         
         
@@ -244,37 +273,42 @@ struct ContentView: View {
     
     @ViewBuilder
     func ContentFullViewPage() -> some View{
-        
-        switch manager.fullPage {
-        case .customKey:
-            ChangeKeyView()
-        case .servers:
-            ServersConfigView(showClose: true)
-        case .music:
-            NavigationStack{
-                SoundView()
-            }
-        case .scan:
-            ScanView()
-        case .web(let url):
-            SFSafariView(url: url)
-                .ignoresSafeArea()
-        case .assistant:
-            NavigationStack{
-                AssistantPageView()
-                    .navigationBarBackButtonHidden()
-                    .toolbar(.hidden, for: .tabBar)
-                    .transition(.slide)
-                    .animation(.default, value: manager.fullPage)
-            }
-        default:
-            EmptyView()
-                .onAppear{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                        manager.fullPage = .none
-                    }
+        Group{
+            switch manager.fullPage {
+            case .customKey:
+                ChangeKeyView()
+            case .servers:
+                ServersConfigView(showClose: true)
+            case .music:
+                NavigationStack{
+                    SoundView()
+                       
                 }
-        }
+            case .scan:
+                ScanView()
+                   
+            case .web(let url):
+                SFSafariView(url: url)
+                    .ignoresSafeArea()
+            case .assistant:
+                NavigationStack{
+                    AssistantPageView()
+                        .navigationBarBackButtonHidden()
+                        .toolbar(.hidden, for: .tabBar)
+                        .transition(.slide)
+                        .animation(.default, value: manager.fullPage)
+                }
+            default:
+                EmptyView()
+                    .onAppear{
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                            manager.fullPage = .none
+                        }
+                    }
+            }
+        } .environmentObject(manager)
+       
+           
     }
     
     @ViewBuilder
@@ -285,6 +319,7 @@ struct ContentView: View {
         case .appIcon:
             NavigationStack{
                 AppIconView()
+                    .environmentObject(appstate)
             }.presentationDetents([.height(300)])
             
         case .web(let url):
@@ -312,11 +347,11 @@ struct ContentView: View {
             
         case .cloudIcon:
             CloudIcon()
-                .presentationDetents([.height(300),.medium, .large])
+                .presentationDetents([.medium, .large])
                 .customPresentationCornerRadius(20)
         case .paywall:
             PaywallView()
-                .environmentObject(AppState.shared)
+                .environmentObject(appstate)
                 .customPresentationCornerRadius(20)
         default:
             EmptyView()
@@ -449,8 +484,9 @@ struct ContentView: View {
         }
        
     }
-    
 }
+
+
 
 #Preview {
     ContentView()

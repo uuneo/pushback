@@ -33,6 +33,8 @@ class PushbackManager: NetworkManager, ObservableObject{
     
     @Published var isWarmStart:Bool = false
     
+    @Published var selectMessage:Message? = nil
+    
     private static var lastFeedbackTime: TimeInterval = 0
     private static let cooldown: TimeInterval = 0.1
 	

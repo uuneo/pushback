@@ -13,32 +13,21 @@ import Defaults
 struct AppIconView: View {
     @Environment(\.dismiss) var dismiss
 	@Default(.appIcon) var setting_active_app_icon
-    
+    @EnvironmentObject private var appState:AppState
     var body: some View {
 		
 		ScrollView(.horizontal) {
 			HStack{
-				ForEach(AppIconEnum.allCases, id: \.self){ item in
-					ZStack{
-						Image(item.logo)
-							.resizable()
-							.customDraggable(100)
-							.clipShape(RoundedRectangle(cornerRadius: 20, style: .circular))
-							.frame(width: 150,height: 150)
-							.shadow(radius: 3)
-							.tag(item)
-						Image(systemName: "checkmark.seal.fill")
-							.font(.system(.largeTitle))
-							.scaleEffect(item == setting_active_app_icon ? 1 : 0.1)
-							.opacity(item == setting_active_app_icon ? 1 : 0)
-							.foregroundStyle(.green)
-						
-                    }.animation(.interactiveSpring, value: setting_active_app_icon)
-						.padding()
-							.listRowBackground(Color.clear)
-							.onTapGesture {
-								setSystemIcon(item)
-							}
+                ForEach(AppIconEnum.allCases, id: \.self){ item in
+                    if item == AppIconEnum.allCases.first && appState.subscriptionInfo.canAccessContent {
+                        iconItem(item: item)
+                    }
+                    
+                    
+                    if item != AppIconEnum.allCases.first {
+                        iconItem(item: item)
+                    }
+					
 					
 				   
 				}
@@ -59,6 +48,31 @@ struct AppIconView: View {
 		}
         
         
+    }
+    
+    @ViewBuilder
+    func iconItem(item:AppIconEnum )->some View{
+        ZStack{
+            Image(item.logo)
+                .resizable()
+                .customDraggable(100)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .circular))
+                .frame(width: 150,height: 150)
+                .shadow(radius: 3)
+                .tag(item)
+            Image(systemName: "checkmark.seal.fill")
+                .font(.system(.largeTitle))
+                .scaleEffect(item == setting_active_app_icon ? 1 : 0.1)
+                .opacity(item == setting_active_app_icon ? 1 : 0)
+                .foregroundStyle(.green)
+            
+        }
+        .animation(.interactiveSpring, value: setting_active_app_icon)
+        .padding()
+        .listRowBackground(Color.clear)
+        .onTapGesture {
+            setSystemIcon(item)
+        }
     }
 
 	func setSystemIcon(_ icon: AppIconEnum){

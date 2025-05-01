@@ -32,16 +32,7 @@ struct MessageDetailPage: View {
     @State private var currentPage: Int = 1
     @State private var itemsPerPage: Int = 50 // 每页加载50条数据
     @State private var isLoading: Bool = false
-    @State private var selectMessage:Message?
-    @State private var selectUserInfo:Message?
-    @State private var selectMarkdown:Message?
     @State private var showAllTTL:Bool = false
-    
-    var navHi:Bool{
-        selectMessage != nil || selectUserInfo != nil  || selectMarkdown != nil
-    }
-    
-    
     
     
     var body: some View {
@@ -54,7 +45,7 @@ struct MessageDetailPage: View {
                             
                             MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar,showAssistant:showAssistant){
                                 withAnimation(.easeInOut) {
-                                    self.selectMessage = message
+                                    manager.selectMessage = message
                                 }
                             }
                             .id(message.id)
@@ -100,8 +91,6 @@ struct MessageDetailPage: View {
                 }
             }
         }
-        .navigationBarHidden(navHi)
-        .overlay{ showSelectMessage() }
         .searchable(text: $manager.searchText)
         .toolbar{
             ToolbarItem {
@@ -132,67 +121,6 @@ struct MessageDetailPage: View {
             }
         }
         
-        
-    }
-    @ViewBuilder
-    func showSelectMessage()-> some View{
-        if let message =  selectMessage{
-            ScrollView{
-                
-                ZStack{
-                    
-                    VStack{
-                        HStack{
-                            Spacer(minLength: 0)
-                            Text(message.title ?? "")
-                                .font(.title3.bold())
-                                .textSelection(.enabled)
-                            Spacer(minLength: 0)
-                        }
-                        
-                        HStack{
-                            Spacer(minLength: 0)
-                            Text(message.subtitle ?? "")
-                                .font(.headline.bold())
-                                .textSelection(.enabled)
-                            Spacer(minLength: 0)
-                        }
-                        
-                        Line()
-                            .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [7]))
-                            .frame(height: 1)
-                            .padding(.horizontal, 5)
-                        
-                        HStack{
-                            MarkdownCustomView(content: message.body ?? "", searchText: "", showCodeViewColor: false)
-                                .textSelection(.enabled)
-                            Spacer(minLength: 0)
-                        }
-                    }
-                    .frame(width: UIScreen.main.bounds.width - 50)
-                }
-                .frame(width: UIScreen.main.bounds.width)
-                .padding(.vertical, 50)
-                .frame(minHeight: UIScreen.main.bounds.height - 100)
-                
-            }
-            
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            .background(.ultraThinMaterial)
-            .containerShape(RoundedRectangle(cornerRadius: 0))
-            .onTapGesture {
-                withAnimation(.easeInOut) {
-                    self.selectMessage = nil
-                }
-            }
-            
-            .transition(.opacity)
-        }else{
-            Spacer()
-                .onAppear{
-                    self.selectMessage = nil
-                }
-        }
         
     }
 }

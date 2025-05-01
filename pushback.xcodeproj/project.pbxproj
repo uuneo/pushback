@@ -50,6 +50,7 @@
 		B555FA5A2DAA77AC0008D11E /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2C2DAA77AC0008D11E /* shake.caf */; };
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
+		B58E28542DC3A13600A42022 /* PushbackSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204462D9EABFB00527343 /* Snapshot.swift */; };
 		B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
@@ -103,14 +104,14 @@
 		B5D205932D9EAEBE00527343 /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205922D9EAEBE00527343 /* cmark-gfm */; };
 		B5D205952D9EAEBE00527343 /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205942D9EAEBE00527343 /* cmark-gfm-extensions */; };
 		B5D205982D9EAED900527343 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205972D9EAED900527343 /* SwiftyJSON */; };
-		B5D205A42D9EAEFE00527343 /* NotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D2059D2D9EAEFE00527343 /* NotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B5D205A42D9EAEFE00527343 /* NotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D2059D2D9EAEFE00527343 /* NotificationServiceExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B5D205B12D9EAF1500527343 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D205B02D9EAF1500527343 /* UserNotifications.framework */; };
 		B5D205B32D9EAF1500527343 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D205B22D9EAF1500527343 /* UserNotificationsUI.framework */; };
-		B5D205BD2D9EAF1500527343 /* NotificationContentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D205AE2D9EAF1500527343 /* NotificationContentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B5D205BD2D9EAF1500527343 /* NotificationContentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D205AE2D9EAF1500527343 /* NotificationContentExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B5D205C72D9EAF3600527343 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D205B02D9EAF1500527343 /* UserNotifications.framework */; };
 		B5D205C82D9EAF3600527343 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D205B22D9EAF1500527343 /* UserNotificationsUI.framework */; };
-		B5D205D22D9EAF3600527343 /* NotificationMarkdownExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D205C62D9EAF3600527343 /* NotificationMarkdownExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		B5D205E52D9EAF4500527343 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D205DB2D9EAF4500527343 /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B5D205D22D9EAF3600527343 /* NotificationMarkdownExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D205C62D9EAF3600527343 /* NotificationMarkdownExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B5D205E52D9EAF4500527343 /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B5D205DB2D9EAF4500527343 /* ShareExtension.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B5D205EB2D9EAF9900527343 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204732D9EABFB00527343 /* LocalKeys.swift */; };
 		B5D205EC2D9EAFA300527343 /* PushParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204712D9EABFB00527343 /* PushParams.swift */; };
 		B5D205EF2D9EAFC600527343 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
@@ -157,6 +158,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B58E28522DC3A13600A42022 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5D2041D2D9EABA300527343 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B58E283B2DC3A13500A42022;
+			remoteInfo = PushbackSafariExtension;
+		};
 		B5D205A22D9EAEFE00527343 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B5D2041D2D9EABA300527343 /* Project object */;
@@ -194,6 +202,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				B58E28542DC3A13600A42022 /* PushbackSafariExtension.appex in Embed Foundation Extensions */,
 				B5D205E52D9EAF4500527343 /* ShareExtension.appex in Embed Foundation Extensions */,
 				B5D205A42D9EAEFE00527343 /* NotificationServiceExtension.appex in Embed Foundation Extensions */,
 				B5D205BD2D9EAF1500527343 /* NotificationContentExtension.appex in Embed Foundation Extensions */,
@@ -250,6 +259,7 @@
 		B555FA332DAA77AC0008D11E /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
 		B555FA6A2DACC33A0008D11E /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		B555FA752DACC33B0008D11E /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushbackSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		B5D204342D9EABFB00527343 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -319,6 +329,13 @@
 			);
 			target = B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */;
 		};
+		B58E28582DC3A13600A42022 /* Exceptions for "PushbackSafariExtension" folder in "PushbackSafariExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B58E283B2DC3A13500A42022 /* PushbackSafariExtension */;
+		};
 		B5D205A52D9EAEFE00527343 /* Exceptions for "NotificationServiceExtension" folder in "NotificationServiceExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -352,6 +369,7 @@
 			membershipExceptions = (
 				Localizable.xcstrings,
 				Pages/OtherViews/AngularButton.swift,
+				Pages/OtherViews/UploadIclondIcon.swift,
 			);
 			target = B5D205DA2D9EAF4500527343 /* ShareExtension */;
 		};
@@ -373,6 +391,18 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B58E283D2DC3A13600A42022 /* PushbackSafariExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B58E28582DC3A13600A42022 /* Exceptions for "PushbackSafariExtension" folder in "PushbackSafariExtension" target */,
+			);
+			explicitFolders = (
+				Resources/_locales,
+				Resources/images,
+			);
+			path = PushbackSafariExtension;
+			sourceTree = "<group>";
+		};
 		B5D204272D9EABA300527343 /* pushback */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -420,6 +450,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B58E28392DC3A13500A42022 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5D204222D9EABA300527343 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -499,6 +536,7 @@
 				B5D205B42D9EAF1500527343 /* NotificationContentExtension */,
 				B5D205C92D9EAF3600527343 /* NotificationMarkdownExtension */,
 				B5D205DC2D9EAF4500527343 /* ShareExtension */,
+				B58E283D2DC3A13600A42022 /* PushbackSafariExtension */,
 				B5D205AF2D9EAF1500527343 /* Frameworks */,
 				B5D204262D9EABA300527343 /* Products */,
 			);
@@ -512,6 +550,7 @@
 				B5D205AE2D9EAF1500527343 /* NotificationContentExtension.appex */,
 				B5D205C62D9EAF3600527343 /* NotificationMarkdownExtension.appex */,
 				B5D205DB2D9EAF4500527343 /* ShareExtension.appex */,
+				B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -639,6 +678,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B58E283B2DC3A13500A42022 /* PushbackSafariExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B58E28552DC3A13600A42022 /* Build configuration list for PBXNativeTarget "PushbackSafariExtension" */;
+			buildPhases = (
+				B58E28382DC3A13500A42022 /* Sources */,
+				B58E28392DC3A13500A42022 /* Frameworks */,
+				B58E283A2DC3A13500A42022 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B58E283D2DC3A13600A42022 /* PushbackSafariExtension */,
+			);
+			name = PushbackSafariExtension;
+			packageProductDependencies = (
+			);
+			productName = PushbackSafariExtension;
+			productReference = B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B5D204242D9EABA300527343 /* pushback */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5D204302D9EABA600527343 /* Build configuration list for PBXNativeTarget "pushback" */;
@@ -656,6 +717,7 @@
 				B5D205BC2D9EAF1500527343 /* PBXTargetDependency */,
 				B5D205D12D9EAF3600527343 /* PBXTargetDependency */,
 				B5D205E42D9EAF4500527343 /* PBXTargetDependency */,
+				B58E28532DC3A13600A42022 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B5D204272D9EABA300527343 /* pushback */,
@@ -787,6 +849,9 @@
 				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
+					B58E283B2DC3A13500A42022 = {
+						CreatedOnToolsVersion = 16.3;
+					};
 					B5D204242D9EABA300527343 = {
 						CreatedOnToolsVersion = 16.3;
 					};
@@ -837,11 +902,19 @@
 				B5D205AD2D9EAF1500527343 /* NotificationContentExtension */,
 				B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */,
 				B5D205DA2D9EAF4500527343 /* ShareExtension */,
+				B58E283B2DC3A13500A42022 /* PushbackSafariExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B58E283A2DC3A13500A42022 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5D204232D9EABA300527343 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -920,6 +993,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B58E28382DC3A13500A42022 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5D204212D9EABA300527343 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1033,29 +1113,98 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B58E28532DC3A13600A42022 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B58E283B2DC3A13500A42022 /* PushbackSafariExtension */;
+			targetProxy = B58E28522DC3A13600A42022 /* PBXContainerItemProxy */;
+		};
 		B5D205A32D9EAEFE00527343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = B5D2059C2D9EAEFE00527343 /* NotificationServiceExtension */;
 			targetProxy = B5D205A22D9EAEFE00527343 /* PBXContainerItemProxy */;
 		};
 		B5D205BC2D9EAF1500527343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = B5D205AD2D9EAF1500527343 /* NotificationContentExtension */;
 			targetProxy = B5D205BB2D9EAF1500527343 /* PBXContainerItemProxy */;
 		};
 		B5D205D12D9EAF3600527343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */;
 			targetProxy = B5D205D02D9EAF3600527343 /* PBXContainerItemProxy */;
 		};
 		B5D205E42D9EAF4500527343 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = B5D205DA2D9EAF4500527343 /* ShareExtension */;
 			targetProxy = B5D205E32D9EAF4500527343 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		B58E28562DC3A13600A42022 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 336;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PushbackSafariExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PushbackSafariExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushbackSafariExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B58E28572DC3A13600A42022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 336;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PushbackSafariExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PushbackSafariExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushbackSafariExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B5D2042E2D9EABA600527343 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1185,7 +1334,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1210,8 +1359,10 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1227,7 +1378,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushback/pushback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1252,8 +1403,10 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1266,7 +1419,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1281,9 +1434,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1296,7 +1451,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -1311,9 +1466,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1326,7 +1483,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1341,9 +1498,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1356,7 +1515,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NotificationContentExtension/NotificationContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationContentExtension/Info.plist;
@@ -1371,9 +1530,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1385,7 +1546,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationMarkdownExtension/Info.plist;
@@ -1400,9 +1561,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1414,7 +1577,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationMarkdownExtension/Info.plist;
@@ -1429,9 +1592,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1444,7 +1609,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
@@ -1459,9 +1624,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1474,7 +1641,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
@@ -1489,9 +1656,11 @@
 				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1502,6 +1671,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B58E28552DC3A13600A42022 /* Build configuration list for PBXNativeTarget "PushbackSafariExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B58E28562DC3A13600A42022 /* Debug */,
+				B58E28572DC3A13600A42022 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B5D204202D9EABA300527343 /* Build configuration list for PBXProject "pushback" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

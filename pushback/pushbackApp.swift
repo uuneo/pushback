@@ -19,10 +19,9 @@ struct pushbackApp: SwiftUI.App {
             RootView{
                 ContentView()
                     .disabled(manager.disabled)
+                    .environmentObject(manager)
+                    .environmentObject(appstate)
             }
-            .environmentObject(manager)
-            .environmentObject(appstate)
-      
         }
     }
 

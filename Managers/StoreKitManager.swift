@@ -16,8 +16,8 @@ import StoreKit
 final class AppState: ObservableObject {
 	static let shared = AppState()
 	@Published private(set) var products: [Product] = []
-	@Published private(set) var activeTransactions: Set<StoreKit.Transaction> = []
-	@Published var subscriptionInfo: SubscriptionInfo = .stubNoAccess // Default to no access
+	@Published private(set) var activeTransactions: Set<Transaction> = []
+	@Published private(set) var subscriptionInfo: SubscriptionInfo = .stubNoAccess // Default to no access
 
 	private var updatesTask: Task<Void, Never>? // Task for listening to transaction updates
 
@@ -39,8 +39,8 @@ final class AppState: ObservableObject {
 		do {
 			products = try await Product.products(
 				for: [
-					"pushback_monthly_18_intro7days_free",
 					"pushback_yearly_128_intro7days_free",
+					"one_time_support_2_99",
 				]
 			)
 		} catch {

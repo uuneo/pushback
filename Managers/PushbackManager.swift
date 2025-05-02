@@ -43,6 +43,7 @@ class PushbackManager: NetworkManager, ObservableObject{
 	var sheetShow:Binding<Bool>{ Binding { self.sheetPage != .none } set: { _ in self.sheetPage = .none } }
 
 
+
 	
 	private override init() { super.init() }
 

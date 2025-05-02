@@ -71,8 +71,7 @@ struct UploadIclondIcon:View {
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .overlay(  // 再添加圆角边框
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.green, lineWidth: 3)
+                            ColoredBorder(cornerRadius: 10,padding: 0)
                         )
                 }
                 VStack{

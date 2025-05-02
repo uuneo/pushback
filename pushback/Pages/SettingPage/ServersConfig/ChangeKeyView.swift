@@ -67,7 +67,7 @@ struct ChangeKeyView: View {
 						dismissModal()
 					} label: {
 						Image(systemName: "xmark")
-							.font(.system(size: 17, weight: .bold))
+                            .font(.headline.bold())
 							.foregroundColor(.secondary)
 							.padding(8)
 							.background(.ultraThinMaterial, in: Circle())

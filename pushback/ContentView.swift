@@ -46,9 +46,6 @@ struct ContentView: View {
             if firstStart{
                 firstStartLauchFirstStartView()
             }
-            
-            
-            
         }
         .overlay{
             if let message = manager.selectMessage{
@@ -59,9 +56,8 @@ struct ContentView: View {
                 }
             }
         }
-        
         .overlay{
-            if chatManager.isLoading && manager.allPath.last == .assistant{
+            if chatManager.isLoading && chatManager.inAssistant{
                 ColoredBorder()
             }
         }
@@ -87,7 +83,7 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                           
+                            
                             
                         }
                     ), secondaryButton: .cancel())
@@ -99,120 +95,127 @@ struct ContentView: View {
                 PushServerCloudKit.shared.updatePushServers(items: value)
             }
         }
-//        .task{
-//            autoreleasepool {
-//                var messages:[Message] = []
-//                
-//                for index in 0...30000{
-//                    messages.append(contentsOf: Message.examples(group: "\(index % 5)"))
-//                }
-//                
-//                RealmManager.handler { proxy in
-//                    proxy.writeAsync {
-//                        proxy.add(messages)
-//                    }
-//                   
-//                }
-//            }
-//        }
-//        
-     
+        //        .task{
+        //            autoreleasepool {
+        //                var messages:[Message] = []
+        //
+        //                for index in 0...30000{
+        //                    messages.append(contentsOf: Message.examples(group: "\(index % 5)"))
+        //                }
+        //
+        //                RealmManager.handler { proxy in
+        //                    proxy.writeAsync {
+        //                        proxy.add(messages)
+        //                    }
+        //
+        //                }
+        //            }
+        //        }
+        //
+        
         
     }
     
-  
+    
     
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
-            TabView(selection: Binding(get: {
-                manager.page
-            }, set: { value in
-                manager.page = value
-            })) {
-                
-                
-                NavigationStack(path: $manager.messagePath){
-                    // MARK: 信息页面
-                    MessagePage()
-                        
-                        .navigationDestination(for: MessageStatckPage.self){ router in
-                            Group{
-                                switch router {
-                                case .example:
-                                    ExampleView()
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .messageDetail(let group):
-                                    MessageDetailPage(group: group)
-                                        .toolbar(.hidden, for: .tabBar)
-                                        .navigationTitle(group)
-                                case .sound:
-                                    SoundView()
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .assistant:
-                                    AssistantPageView()
-                                        .navigationBarBackButtonHidden()
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .crypto:
-                                    CryptoConfigView()
-                                        .toolbar(.hidden, for: .tabBar)
-                                }
-                            }.environmentObject(manager)
-                                .environmentObject(chatManager)
-                        }
-                    
-                }
-                .badge(messages.where({!$0.read}).count)
-                .tabItem {
-                    Label( "消息", systemImage: "ellipsis.message")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle( .green, tabColor2)
-                }
-                .tag(TabPage.message)
-                
-                   
-                
-                NavigationStack(path: $manager.settingPath){
-                    // MARK: 设置页面
-                    SettingsPage()
-                       
-                        .navigationDestination(for: SettingStatckPage.self){ router in
-                            Group{
-                                switch router {
-                                case .server:
-                                    ServersConfigView()
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .assistantSetting:
-                                    AssistantSettingsView(showClose: false)
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .sound:
-                                    SoundView()
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .privacy:
-                                    PrivacySecurity()
-                                        .toolbar(.hidden, for: .tabBar)
-                                case .privacyConfig:
-                                    CryptoConfigView()
-                                case .more:
-                                    MoreOperationsView()
-                                        .toolbar(.hidden, for: .tabBar)
-                                }
+        TabView(selection: Binding(get: {
+            manager.page
+        }, set: { value in
+            manager.page = value
+        })) {
+            
+            
+            NavigationStack(path: $manager.messagePath){
+                // MARK: 信息页面
+                MessagePage()
+                    .environmentObject(chatManager)
+                    .environmentObject(manager)
+                    .environmentObject(appstate)
+                    .navigationDestination(for: MessageStatckPage.self){ router in
+                        Group{
+                            switch router {
+                            case .example:
+                                ExampleView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .messageDetail(let group):
+                                MessageDetailPage(group: group)
+                                    .toolbar(.hidden, for: .tabBar)
+                                    .navigationTitle(group)
+                            case .sound:
+                                SoundView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .assistant:
+                                AssistantPageView()
+                                    .navigationBarBackButtonHidden()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .crypto:
+                                CryptoConfigView()
+                                    .toolbar(.hidden, for: .tabBar)
                             }
+                        }.environmentObject(chatManager)
                             .environmentObject(manager)
-                           
-                        }
-                        
-                }
-                .tabItem {
-                    Label( "设置", systemImage: "gear.badge.questionmark")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle( .green, tabColor2)
-                }
-                .tag(TabPage.setting)
+                            .environmentObject(appstate)
+                    }
                 
             }
-               
-             
+            .badge(messages.where({!$0.read}).count)
+            .tabItem {
+                Label( "消息", systemImage: "ellipsis.message")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .green, tabColor2)
+            }
+            .tag(TabPage.message)
+            
+            
+            
+            NavigationStack(path: $manager.settingPath){
+                // MARK: 设置页面
+                SettingsPage()
+                    .environmentObject(chatManager)
+                    .environmentObject(manager)
+                    .environmentObject(appstate)
+                    .navigationDestination(for: SettingStatckPage.self){ router in
+                        Group{
+                            switch router {
+                            case .server:
+                                ServersConfigView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .assistantSetting:
+                                AssistantSettingsView(showClose: false)
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .sound:
+                                SoundView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .privacy:
+                                PrivacySecurity()
+                                    .toolbar(.hidden, for: .tabBar)
+                            case .privacyConfig:
+                                CryptoConfigView()
+                            case .more:
+                                MoreOperationsView()
+                                    .toolbar(.hidden, for: .tabBar)
+                            }
+                        }
+                        .environmentObject(chatManager)
+                        .environmentObject(manager)
+                        .environmentObject(appstate)
+                        
+                    }
+                
+            }
+            .tabItem {
+                Label( "设置", systemImage: "gear.badge.questionmark")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .green, tabColor2)
+            }
+            .tag(TabPage.setting)
+            
+        }
+        
+        
         
     }
     
@@ -221,10 +224,16 @@ struct ContentView: View {
         
         NavigationSplitView(columnVisibility: $noShow) {
             SettingsPage()
+                .environmentObject(chatManager)
+                .environmentObject(manager)
+                .environmentObject(appstate)
         } detail: {
-          
+            
             NavigationStack(path: $manager.allPath){
                 MessagePage()
+                    .environmentObject(chatManager)
+                    .environmentObject(manager)
+                    .environmentObject(appstate)
                     .navigationDestination(for: AllPage.self){ router in
                         Group{
                             switch router {
@@ -261,8 +270,9 @@ struct ContentView: View {
                                     .toolbar(.hidden, for: .tabBar)
                             }
                         }
-                        .environmentObject(manager)
                         .environmentObject(chatManager)
+                        .environmentObject(manager)
+                        .environmentObject(appstate)
                     }
             }
         }
@@ -277,27 +287,12 @@ struct ContentView: View {
             switch manager.fullPage {
             case .customKey:
                 ChangeKeyView()
-            case .servers:
-                ServersConfigView(showClose: true)
-            case .music:
-                NavigationStack{
-                    SoundView()
-                       
-                }
             case .scan:
                 ScanView()
-                   
+                
             case .web(let url):
                 SFSafariView(url: url)
                     .ignoresSafeArea()
-            case .assistant:
-                NavigationStack{
-                    AssistantPageView()
-                        .navigationBarBackButtonHidden()
-                        .toolbar(.hidden, for: .tabBar)
-                        .transition(.slide)
-                        .animation(.default, value: manager.fullPage)
-                }
             default:
                 EmptyView()
                     .onAppear{
@@ -306,59 +301,38 @@ struct ContentView: View {
                         }
                     }
             }
-        } .environmentObject(manager)
-       
-           
+        }  .environmentObject(chatManager)
+            .environmentObject(manager)
+            .environmentObject(appstate)
+        
     }
     
     @ViewBuilder
     func ContentSheetViewPage() -> some View {
-        switch manager.sheetPage {
-        case .servers:
-            ServersConfigView(showClose: true)
-        case .appIcon:
-            NavigationStack{
-                AppIconView()
-                    .environmentObject(appstate)
-            }.presentationDetents([.height(300)])
-            
-        case .web(let url):
-            SFSafariView(url: url)
-                .ignoresSafeArea()
-            
-        case .chatgpt(let id):
-            NavigationStack{
+        Group{
+            switch manager.sheetPage {
+            case .appIcon:
+                NavigationStack{
+                    AppIconView()
+                }.presentationDetents([.height(300)])
                 
-                AssistantPageView()
+            case .cloudIcon:
+                CloudIcon()
+                    .presentationDetents([.medium, .large])
+                    .customPresentationCornerRadius(20)
+            case .paywall:
+                PaywallView()
+                    .customPresentationCornerRadius(20)
+            default:
+                EmptyView()
                     .onAppear{
-                        chatManager.messageId = id
-                        
-                        RealmManager.handler { proxy in
-                            let datas = proxy.objects(ChatGroup.self)
-                            let groups = datas.where({$0.id != id})
-                            let current =  datas.where({$0.id == id})
-                            proxy.writeAsync {
-                                groups.setValue(false, forKey: "current")
-                                current.setValue(true, forKey: "current")
-                            }
-                        }
+                        manager.sheetPage = .none
                     }
             }
-            
-        case .cloudIcon:
-            CloudIcon()
-                .presentationDetents([.medium, .large])
-                .customPresentationCornerRadius(20)
-        case .paywall:
-            PaywallView()
-                .environmentObject(appstate)
-                .customPresentationCornerRadius(20)
-        default:
-            EmptyView()
-                .onAppear{
-                    manager.sheetPage = .none
-                }
         }
+        .environmentObject(chatManager)
+        .environmentObject(manager)
+        .environmentObject(appstate)
     }
     
     @ViewBuilder
@@ -369,7 +343,7 @@ struct ContentView: View {
             }
             
             self.servers.append(PushServerModel(url: BaseConfig.defaultServer))
-
+            
             RealmManager.handler{ proxy in
                 proxy.writeAsync {
                     proxy.add(Message.examples())
@@ -392,15 +366,17 @@ struct ContentView: View {
         if host == "addServer"{
             if let url = params["url"], let _ = URL(string: url) {
                 manager.appendServer(server: PushServerModel(url: url)) { result, msg in
-                    manager.fullPage = .servers
-                    
+                    manager.page = .setting
+                    if ISPAD{
+                        manager.allPath = [.server]
+                    }else{
+                        manager.settingPath = [.server]
+                    }
                     Toast.shared.present(title: msg, symbol: "document.viewfinder")
                 }
             }else{
                 Toast.info(title: String(localized: "参数错误"))
             }
-        }else if host == "fromLocalImage",let _ = params["key"]{
-            manager.fullPage = .imageCache
         }
     }
     
@@ -419,12 +395,10 @@ struct ContentView: View {
                 Log.debug("❄️ 冷启动")
                 manager.isWarmStart  = true // 进入前台后，标记为热启动
                 RealmManager.handler { proxy in
-                    if let group = proxy.objects(ChatGroup.self).first(where: {$0.current}){
-                        proxy.writeAsync {
-                            group.current = false
-                        }
+                    let groups = proxy.objects(ChatGroup.self)
+                    proxy.writeAsync {
+                        groups.setValue(false, forKey: "current")
                     }
-                    
                 }
             }
             
@@ -482,7 +456,7 @@ struct ContentView: View {
                 }
             }
         }
-       
+        
     }
 }
 

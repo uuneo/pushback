@@ -33,7 +33,7 @@ struct ServerCardView:View {
                         .foregroundStyle(.accent)
                     Spacer()
                 }
-                .font(.system(size: 10))
+                .font(.caption2)
                 .padding(5)
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
@@ -83,9 +83,11 @@ struct ServerCardView:View {
                     
                     HStack(alignment: .bottom){
                         Text( String(localized: "服务器") + ":")
-                            .font(.system(size: 10))
+                            .font(.caption2)
                             .frame(width: 40)
+                            .minimumScaleFactor(0.5)
                             .foregroundStyle(.foreground)
+                            
                         Text(item.name)
                             .font(.headline)
                             .lineLimit(1)
@@ -93,18 +95,20 @@ struct ServerCardView:View {
                             .foregroundStyle(.foreground)
                         Spacer()
                     }
-                    
+                    .lineLimit(1)
                     HStack(alignment: .bottom){
                         Text("Key:")
                             .frame(width:40)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
                             .foregroundStyle(.foreground)
                         HackerTextView(text: item.key, trigger: textAnimation)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
                             .foregroundStyle(.foreground)
                         Spacer()
-                    } .font(.system(size: 10))
-                    
+                    } .font(.caption2)
+                        
                     
                     
                     
@@ -120,8 +124,6 @@ struct ServerCardView:View {
                             complete()
                         }
                 }else {
-                    
-                    
                     Image(systemName: "doc.on.doc")
                         .symbolRenderingMode(.palette)
                         .foregroundStyle( .tint, Color.primary)

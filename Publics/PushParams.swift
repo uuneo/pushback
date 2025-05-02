@@ -16,6 +16,7 @@ enum Params: String, CaseIterable{
     case icon
     case image
     case from
+    case host
     case group
     case sound
     case badge

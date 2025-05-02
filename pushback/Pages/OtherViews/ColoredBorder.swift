@@ -13,7 +13,7 @@ struct ColoredBorder: View {
     var bottomLeft:Double
     var bottomRight:Double
     var padding:Double
-    
+    var showAnimate:Bool = false
    
     
     init(lineWidth: Double = 3, topLeft: Double, topRight: Double, bottomLeft: Double, bottomRight: Double, padding:Double = 5) {
@@ -61,6 +61,7 @@ struct ColoredBorder: View {
     
     @State private var rotation:Double = 0
     @State private var lineWidth:Double = 3
+    
     var body: some View {
         CustomRoundedRectangle(topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, bottomRight: bottomRight)
             .stroke(
@@ -76,7 +77,6 @@ struct ColoredBorder: View {
             .onAppear {
                 withAnimation(Animation.linear(duration: 1).repeatForever(autoreverses: false)) {
                     rotation = 360
-                    
                 }
             }
     }

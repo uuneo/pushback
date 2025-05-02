@@ -49,23 +49,25 @@ struct ChatMessageListView: View {
             
             ScrollView {
                 
-                
-                Button{
-                    self.showHistory.toggle()
-                }label: {
-                    HStack{
-                        Spacer()
-                        Text("\(suffixCount)/\(messages.count)")
-                            .padding(.trailing, 10)
-                        Text("点击查看更多")
-                       
-                        Spacer()
+                if messages.count > suffixCount{
+                    Button{
+                        self.showHistory.toggle()
+                    }label: {
+                        HStack{
+                            Spacer()
+                            Text("\(suffixCount)/\(messages.count)")
+                                .padding(.trailing, 10)
+                            Text("点击查看更多")
+                           
+                            Spacer()
+                        }
+                        .padding(.vertical)
+                        .contentShape(Rectangle())
+                        .font(.footnote)
+                        .foregroundStyle(.gray)
                     }
-                    .padding(.vertical)
-                    .contentShape(Rectangle())
-                    .font(.footnote)
-                    .foregroundStyle(.gray)
                 }
+                
             
                 
                 ForEach(messages.suffix(suffixCount),id: \.id) { message in

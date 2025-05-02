@@ -11,7 +11,7 @@ import Defaults
 
 
 struct MessageCard: View {
-    
+   
     @ObservedRealmObject var message:Message
     var searchText:String = ""
     var showGroup:Bool =  false
@@ -24,6 +24,7 @@ struct MessageCard: View {
     @State private var showTTL:Bool = false
     
     @EnvironmentObject private var manager:PushbackManager
+    @EnvironmentObject private var chatManager:openChatManager
     
     var linColor:Color{
         
@@ -89,10 +90,6 @@ struct MessageCard: View {
                             }
                         }
                     }
-                    .contentShape(Rectangle())
-                    .onTapGesture(count: 2) {
-                        self.complete?()
-                    }
                     
                 }
                 
@@ -110,12 +107,9 @@ struct MessageCard: View {
                         MarkdownCustomView(content: body, userInfo: message.search, searchText: searchText,showRaw: showRaw)
                             .font(.body)
                             .textSelection(.enabled)
-                            .contentShape(Rectangle())
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.vertical, 10)
-                            .onTapGesture(count: 2) {
-                                self.complete?()
-                            }
+                            
                     }
                     
                 }
@@ -124,8 +118,24 @@ struct MessageCard: View {
             }
             .frame(maxHeight: 300)
             .padding(.horizontal, 5)
-            .background(Color.whiteGary)
+            .background(
+                Color.whiteGary
+                    .overlay(alignment: .topTrailing){
+                        if let _ = message.image{
+                            Image(systemName: "photo")
+                                .resizable()
+                                .scaledToFit()
+                                .rotationEffect(.degrees(45))
+                                .foregroundStyle(.gray.opacity(0.3))
+                                .frame(maxHeight: 50)
+                        }
+                    }
+            )
             .clipShape(RoundedRectangle(cornerRadius: 10))
+            .contentShape(Rectangle())
+            .onTapGesture(count: 2) {
+                self.complete?()
+            }
            
            
         }header: {
@@ -133,6 +143,7 @@ struct MessageCard: View {
                 .padding(5)
                 .background(linColor)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
+                
         }footer: {
             if showGroup{
                 HStack{
@@ -151,7 +162,12 @@ struct MessageCard: View {
                 Menu {
                     if showAssistant{
                         Button{
-                            PushbackManager.shared.sheetPage = .chatgpt(message.id.uuidString)
+                            chatManager.messageId = message.id.uuidString
+                            if ISPAD{
+                                manager.allPath.append(.assistant)
+                            }else{
+                                manager.messagePath.append(.assistant)
+                            }
                             PushbackManager.vibration(style: .light)
                         }label: {
                             Label("问智能助手", image: "chatgpt")

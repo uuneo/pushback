@@ -39,6 +39,8 @@ struct MarkdownCustomView:View {
         self.showCodeViewColor = showCodeViewColor
         self.scaleFactor = scaleFactor
     }
+    
+    @ScaledMetric(relativeTo: .callout) var baseSize: CGFloat = 16
    
     var body: some View {
         
@@ -57,7 +59,7 @@ struct MarkdownCustomView:View {
                     view
                         .markdownCodeSyntaxHighlighter(.splash(theme: codeHighlightColorScheme))
                 }
-                .markdownTheme(MarkdownTheme.defaultTheme(scaleFactor: scaleFactor))
+                .markdownTheme(MarkdownTheme.defaultTheme(baseSize, scaleFactor: scaleFactor))
                 .transition(.opacity.animation(.easeInOut(duration: 0.1)))
         }
        

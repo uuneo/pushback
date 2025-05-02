@@ -60,11 +60,11 @@ struct AppIconView: View {
                 .frame(width: 150,height: 150)
                 .shadow(radius: 3)
                 .tag(item)
-            Image(systemName: "checkmark.seal.fill")
-                .font(.system(.largeTitle))
-                .scaleEffect(item == setting_active_app_icon ? 1 : 0.1)
-                .opacity(item == setting_active_app_icon ? 1 : 0)
-                .foregroundStyle(.green)
+                .overlay(  // 再添加圆角边框
+                    ColoredBorder(cornerRadius: 20,padding: 0)
+                        .scaleEffect(item == setting_active_app_icon ? 1 : 0.1)
+                        .opacity(item == setting_active_app_icon ? 1 : 0)
+                )
             
         }
         .animation(.interactiveSpring, value: setting_active_app_icon)

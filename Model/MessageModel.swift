@@ -23,7 +23,8 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var icon:String?
 	@Persisted var url:String?
 	@Persisted var image:String?
-	@Persisted var from:String?
+    @Persisted var from:String?
+    @Persisted var host:String?
 	@Persisted var level:Int = 1
     @Persisted var ttl:Int = ExpirationTime.forever.days
 	@Persisted var read:Bool = false
@@ -179,8 +180,6 @@ extension Object {
 		}
 		return dicProps
 	}
-	
-	
 }
 
 

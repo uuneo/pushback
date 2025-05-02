@@ -30,7 +30,7 @@ struct ChatMessageView: View {
                     if let quote = quote{
                         HStack{
                             Spacer()
-                            quoteView(quote: "\(quote.title ?? "")\(quote.body ?? "")")
+                            QuoteView(message: quote)
                             Spacer()
                         }
                         .padding(.bottom, 5)
@@ -126,12 +126,15 @@ struct ChatMessageView: View {
         
     }
     
-    @ViewBuilder
-    func quoteView(quote:String)-> some View{
+}
+
+struct QuoteView:View {
+    var message:Message
+    
+    var body: some View {
         HStack(spacing: 5) {
             
-            
-            Text("\(quote)")
+            Text("\(message.search)")
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .font(.caption2)

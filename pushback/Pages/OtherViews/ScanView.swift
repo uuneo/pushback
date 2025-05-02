@@ -23,35 +23,28 @@ struct ScanView: View {
 	var body: some View {
 		ZStack{
 
-			QRScanner(restart: $restart, flash: $torchIsOn) { code in
-                
+            QRScanner(restart: $restart, flash: $torchIsOn) { code in
                 codeValueHandler(code: code)
-               
-				
-			} fail: { error in
-				switch error{
-					case .unauthorized(let status):
-						self.status = status
-					default:
-						self.status = .denied
-				}
-			}
-			.actionSheet(isPresented: $showActive) {
-
-
-				ActionSheet(title: Text( "不正确的地址"),buttons: [
-
-					.default(Text( "重新扫码"), action: {
-						self.restart.toggle()
-						self.showActive = false
-					}),
-
-						.cancel({
-							self.dismiss()
-						})
-				])
-			}
-
+            } fail: { error in
+                switch error{
+                case .unauthorized(let status):
+                    self.status = status
+                default:
+                    self.status = .denied
+                }
+            }
+            .actionSheet(isPresented: $showActive) {
+                ActionSheet(title: Text( "不正确的地址"),buttons: [
+                    
+                    .default(Text( "重新扫码"), action: {
+                        self.restart.toggle()
+                        self.showActive = false
+                    }),
+                    .cancel({
+                        self.dismiss()
+                    })
+                ])
+            }
 
 
 			VStack{
@@ -59,7 +52,7 @@ struct ScanView: View {
 
 					Spacer()
 					Image(systemName: "xmark")
-						.font(.system(size: 17, weight: .bold))
+                        .font(.body.bold())
 						.foregroundColor(.secondary)
 						.padding(8)
 						.background(.ultraThinMaterial, in: Circle())
@@ -77,7 +70,7 @@ struct ScanView: View {
 					self.torchIsOn.toggle()
 				}label: {
 					Image(systemName: "flashlight.\(torchIsOn ? "on" : "off").circle")
-						.font(.system(size: 50))
+						.font(.largeTitle)
 						.padding(.bottom, 80)
 				}
 
@@ -93,8 +86,13 @@ struct ScanView: View {
         if code.isValidURL() == .remote{
             manager.appendServer(server: PushServerModel(url: code)) { success, msg in
                 if success{
-                    manager.settingPath = [.server]
-                    manager.allPath = [.server]
+                    if ISPAD{
+                        manager.allPath = [.server]
+                    }else{
+                        manager.settingPath = [.server]
+                    }
+                    
+                   
                 }
                 Toast.shared.present(title: msg, symbol: "document.viewfinder")
             }

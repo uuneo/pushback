@@ -139,7 +139,7 @@ struct IntroView<ActionView: View>: View {
                 Spacer(minLength: 0)
                 
                 Text(intro.title)
-                    .font(.system(size: 30))
+                    .font(.title)
 					.fontWeight(.bold)
 					.foregroundStyle(.blue)
                 

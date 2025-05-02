@@ -48,14 +48,9 @@ enum Identifiers {
 
 enum SubPage: Equatable{
 	case customKey
-	case servers
 	case scan
-	case music
 	case appIcon
-	case imageCache
-    case assistant
 	case web(String)
-    case chatgpt(String)
     case cloudIcon
     case paywall
 	case none

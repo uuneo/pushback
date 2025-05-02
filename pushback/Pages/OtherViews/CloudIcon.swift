@@ -30,9 +30,11 @@ struct CloudIcon: View {
     
     @State private var rotation: Double = 0
     
+    @State private var showTips:Bool = false
+    
     var body: some View {
         NavigationStack{
-            Group{
+            VStack{
                 if let item = dropImage{
                     UploadIclondIcon(pushIcon: item) { icon in
                         if let icon = icon.toRecord(recordType: "PushIcon"){
@@ -44,6 +46,35 @@ struct CloudIcon: View {
                     }
                 }else{
                     ScrollView(.vertical, showsIndicators: false){
+                        
+                        if showTips || icons.count == 0{
+                            VStack{
+                                
+                                if ProcessInfo.processInfo.isiOSAppOnMac{
+                                    Text("拖动图片到此处")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(.orange)
+                                        .multilineTextAlignment(.center)  // 使文字居中
+                                        .lineSpacing(10)
+                                        .padding(.vertical, 50)
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                    
+                                }else{
+                                    Text("打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端")
+                                        .padding(.top, 50)
+                                        .foregroundStyle(.blue)
+                                        .multilineTextAlignment(.center)  // 使文字居中
+                                        .frame(maxWidth: .infinity, alignment: .center)  // 保证在容器中居中
+                                        .lineSpacing(10)
+                                        .pressEvents(onRelease: { _ in
+                                            PushbackManager.openUrl(url: URL(string: "photos-redirect://")!)
+                                            self.dismiss()
+                                        })
+                                }
+                                
+                            }
+                            .blur(radius: loading ? 5 : 0)
+                        }
                         
                         if icons.count > 0{
                             
@@ -109,171 +140,156 @@ struct CloudIcon: View {
                             }
                             .padding(.top ,30)
                             .blur(radius: selectImage == nil ? 0 : 5)
-                        } else {
-                            VStack{
-                               
-                                if ProcessInfo.processInfo.isiOSAppOnMac{
-                                    Text("拖动图片到此处")
-                                        .font(.largeTitle)
-                                        .foregroundStyle(.orange)
-                                        .multilineTextAlignment(.center)  // 使文字居中
-                                        .lineSpacing(10)
-                                        .padding(.vertical, 50)
-                                        .frame(maxWidth: .infinity, alignment: .center)
-                                        
-                                }else{
-                                    Text("打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端")
-                                        .padding(.top, 50)
-                                        .foregroundStyle(.blue)
-                                        .multilineTextAlignment(.center)  // 使文字居中
-                                        .frame(maxWidth: .infinity, alignment: .center)  // 保证在容器中居中
-                                        .lineSpacing(10)
-                                        .pressEvents(onRelease: { _ in
-                                            PushbackManager.openUrl(url: URL(string: "photos-redirect://")!)
-                                            self.dismiss()
-                                        })
-                                }
-                               
-                            }
-                            .blur(radius: loading ? 5 : 0)
-                            
                         }
                         
+                    }
+                    .onDrop(of: [.image], isTargeted: $isTargeted) { items in
                         
+                        if let item = items.first{
+                            _ = item.loadDataRepresentation(for: .image) { data, error in
+                                
+                                guard let data = data else { return }
+                                
+                                if let image = data.toThumbnail(max: 300){
+                                    let tempDir = FileManager.default.temporaryDirectory
+                                    let tempURL = tempDir.appendingPathComponent("cloudIcon.png")
+                                    
+                                    guard let pngData = image.pngData() else { return }
+                                    
+                                    do{
+                                        try pngData.write(to: tempURL)
+                                    }catch{
+                                        Log.error(error.localizedDescription)
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        dropImage = .init(id: UUID().uuidString, name: "", description: [], size: pngData.count, sha256: pngData.sha256(), file: tempURL, previewImage: image)
+                                    }
+                                }
+                                
+                            }
+                        }
+                        return true
+                    }
+                    
+                }
+            }
+            
+            .overlay{
+                if isTargeted{
+                    ColoredBorder(top: 5, bottom: ProcessInfo.processInfo.isiOSAppOnMac ? 5 : 50)
+                }
+            }
+            .animation(.smooth, value: icons)
+            .navigationTitle("云图标")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        manager.sheetPage = .none
+                    }label: {
+                        Image(systemName: "x.circle")
+                    }
+                    
+                }
+                if icons.count > 0 {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Image(systemName: !showTips ? "text.viewfinder" : "viewfinder")
+                            .pressEvents( onRelease: { _ in
+                                withAnimation {
+                                    self.showTips.toggle()
+                                }
+                            })
+                    }
+                }
+                
+            }
+            .overlay{
+                if loading {
+                    VStack {
+                        Spacer()
+                        VStack {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .red))
+                                .scaleEffect(2)
+                                .padding()
+                            Text("加载中...")
+                                .font(.headline)
+                                .foregroundColor(.gray)
+                                .frame(width: UIScreen.main.bounds.width)
+                            
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding(40)
+                        Spacer()
                     }
                 }
             }
-                .onDrop(of: [.image], isTargeted: $isTargeted) { items in
-            
-                    if let item = items.first{
-                        _ = item.loadDataRepresentation(for: .image) { data, error in
-                            
-                            guard let data = data else { return }
-                            
-                            if let image = data.toThumbnail(max: 300){
-                                let tempDir = FileManager.default.temporaryDirectory
-                                let tempURL = tempDir.appendingPathComponent("cloudIcon.png")
-                                
-                                guard let pngData = image.pngData() else { return }
-                                
-                                do{
-                                    try pngData.write(to: tempURL)
-                                }catch{
-                                    Log.error(error.localizedDescription)
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    dropImage = .init(id: UUID().uuidString, name: "", description: [], size: pngData.count, sha256: pngData.sha256(), file: tempURL, previewImage: image)
-                                }
-                            }
-                            
-                        }
-                    }
-                    return true
-                }
-                .overlay{
-                    if isTargeted{
-                        ColoredBorder(top: 5, bottom: ProcessInfo.processInfo.isiOSAppOnMac ? 5 : 50)
-                    }
-                }
-                .animation(.smooth, value: icons)
-                .navigationTitle("云图标")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            manager.sheetPage = .none
-                        }label: {
-                            Image(systemName: "x.circle")
-                        }
-                        
-                    }
-                }
-                .overlay{
-                    if loading {
-                        VStack {
-                            Spacer()
-                            VStack {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
-                                    .scaleEffect(2)
-                                    .padding()
-                                Text("加载中...")
-                                    .font(.headline)
-                                    .foregroundColor(.gray)
-                                    .frame(width: UIScreen.main.bounds.width)
-                                
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(40)
-                            Spacer()
-                        }
-                    }
-                }
-                .overlay {
-                    if let selectImage = selectImage{
-                        Image(uiImage: selectImage)
-                            .resizable()
-                            .scaledToFit()
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .frame(height: 260)
-                            .padding(.horizontal)
-                            .offset(offset)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        withAnimation {
-                                            self.offset = value.translation
-                                        }
+            .overlay {
+                if let selectImage = selectImage{
+                    Image(uiImage: selectImage)
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .frame(height: 350)
+                        .padding(.horizontal)
+                        .offset(offset)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    withAnimation {
+                                        self.offset = value.translation
                                     }
-                                    .onEnded { value in
-                                        let dragThreshold: CGFloat = 50
-                                        let translation = value.translation
-                                        
-                                        // 判断滑动是否超过阈值
-                                        guard abs(translation.width) > dragThreshold || abs(translation.height) > dragThreshold else {
-                                            // 滑动距离不够，回弹
-                                            withAnimation {
-                                                self.offset = .zero
-                                            }
-                                            return
-                                        }
-                                        
-                                        // 计算滑动方向
-                                        var finalOffset = CGSize.zero
-                                        let slideDistance: CGFloat = 500
-                                        
-                                        if abs(translation.width) > abs(translation.height) {
-                                            // 水平方向为主
-                                            finalOffset = CGSize(width: translation.width > 0 ? slideDistance : -slideDistance, height: 0)
-                                        } else {
-                                            // 垂直方向为主
-                                            finalOffset = CGSize(width: 0, height: translation.height > 0 ? slideDistance : -slideDistance)
-                                        }
-                                        
-                                        // 动画滑出
-                                        withAnimation(.easeOut(duration: 0.3)) {
-                                            self.offset = finalOffset
-                                        }
-                                        
-                                        // 滑出后清除图片
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                            self.selectImage = nil
+                                }
+                                .onEnded { value in
+                                    let dragThreshold: CGFloat = 50
+                                    let translation = value.translation
+                                    
+                                    // 判断滑动是否超过阈值
+                                    guard abs(translation.width) > dragThreshold || abs(translation.height) > dragThreshold else {
+                                        // 滑动距离不够，回弹
+                                        withAnimation {
                                             self.offset = .zero
                                         }
+                                        return
                                     }
-                            )
-                        
-                    }
-                }
-                .onAppear{
-                    withAnimation {
-                        self.loading = true
-                    }
-                    getIcons()
+                                    
+                                    // 计算滑动方向
+                                    var finalOffset = CGSize.zero
+                                    let slideDistance: CGFloat = 500
+                                    
+                                    if abs(translation.width) > abs(translation.height) {
+                                        // 水平方向为主
+                                        finalOffset = CGSize(width: translation.width > 0 ? slideDistance : -slideDistance, height: 0)
+                                    } else {
+                                        // 垂直方向为主
+                                        finalOffset = CGSize(width: 0, height: translation.height > 0 ? slideDistance : -slideDistance)
+                                    }
+                                    
+                                    // 动画滑出
+                                    withAnimation(.easeOut(duration: 0.3)) {
+                                        self.offset = finalOffset
+                                    }
+                                    
+                                    // 滑出后清除图片
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                        self.selectImage = nil
+                                        self.offset = .zero
+                                    }
+                                }
+                        )
                     
                 }
+            }
+            .onAppear{
+                withAnimation {
+                    self.loading = true
+                }
+                getIcons()
+                
+            }
+           
         }
     }
     
@@ -308,5 +324,5 @@ struct CloudIcon: View {
                 .fill(color.gradient)
         }
     }
-
+    
 }

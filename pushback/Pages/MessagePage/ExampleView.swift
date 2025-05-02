@@ -384,11 +384,16 @@ extension ExampleView{
                                 AnyView(
                                     HStack{
                                         Button{
-                                            manager.messagePath.append(.sound)
-                                            manager.allPath.append(.sound)
+                                            if ISPAD{
+                                                manager.allPath.append(.sound)
+                                            }else {
+                                                manager.messagePath.append(.sound)
+                                            }
+                                           
+                                            
                                         }label:{
                                             Text("铃声列表")
-                                                .font(.system(size: 12))
+                                                .font(.callout)
                                                 .padding(.horizontal, 10)
                                         }
                                         Spacer()
@@ -407,7 +412,7 @@ extension ExampleView{
                                             manager.sheetPage = .cloudIcon
                                         }label:{
                                             Text("云图标")
-                                                .font(.system(size: 12))
+                                                .font(.callout)
                                                 .padding(.horizontal, 10)
                                         }
                                         
@@ -459,12 +464,15 @@ extension ExampleView{
                                 AnyView( HStack{
                                     Text( "需要在")
                                     Button{
-                                        manager.messagePath.append(.crypto)
-                                        manager.allPath.append(.privacyConfig)
-                                        
+                                        if ISPAD{
+                                            manager.allPath.append(.privacyConfig)
+                                        }else{
+                                            manager.messagePath.append(.crypto)
+                                        }
+                                       
                                     }label:{
                                         Text("算法配置")
-                                            .font(.system(size: 12))
+                                            .font(.callout)
                                             .padding(.horizontal, 10)
                                     }
                                     Text("中进行配置")

@@ -49,7 +49,6 @@ class LevelHandler: NotificationContentHandler {
 extension UNMutableNotificationContent {
     
     var isCritical: Bool { self.getLevel() > 2 }
-
  
 	/// 声音名称
 	var soundName: String? {

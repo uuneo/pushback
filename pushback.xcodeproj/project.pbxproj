@@ -50,6 +50,7 @@
 		B555FA5A2DAA77AC0008D11E /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2C2DAA77AC0008D11E /* shake.caf */; };
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
+		B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577DAD42DC5F38000AB7527 /* zoomable.swift */; };
 		B58E28542DC3A13600A42022 /* PushbackSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204462D9EABFB00527343 /* Snapshot.swift */; };
 		B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
@@ -259,6 +260,7 @@
 		B555FA332DAA77AC0008D11E /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
 		B555FA6A2DACC33A0008D11E /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		B555FA752DACC33B0008D11E /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		B577DAD42DC5F38000AB7527 /* zoomable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zoomable.swift; sourceTree = "<group>"; };
 		B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushbackSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 			membershipExceptions = (
 				Localizable.xcstrings,
 				Pages/OtherViews/AngularButton.swift,
+				Pages/OtherViews/ColoredBorder.swift,
 				Pages/OtherViews/UploadIclondIcon.swift,
 			);
 			target = B5D205DA2D9EAF4500527343 /* ShareExtension */;
@@ -569,6 +572,7 @@
 		B5D2044A2D9EABFB00527343 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B577DAD42DC5F38000AB7527 /* zoomable.swift */,
 				B53934542DA92578001B9336 /* PopOutView.swift */,
 				B5D204372D9EABFB00527343 /* CustomAlertDrawer.swift */,
 				B5D204382D9EABFB00527343 /* TrayHelper.swift */,
@@ -1026,6 +1030,7 @@
 				B5D2049B2D9EABFB00527343 /* LocalKeys.swift in Sources */,
 				B5D2049C2D9EABFB00527343 /* ChatMessageModel.swift in Sources */,
 				B5D2049D2D9EABFB00527343 /* View+.swift in Sources */,
+				B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */,
 				B5D2049E2D9EABFB00527343 /* cryptoManager.swift in Sources */,
 				B5D2049F2D9EABFB00527343 /* BaseConfig.swift in Sources */,
 				B5D204A02D9EABFB00527343 /* Navigation+Extension.swift in Sources */,

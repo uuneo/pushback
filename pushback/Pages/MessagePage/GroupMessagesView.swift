@@ -48,8 +48,13 @@ struct GroupMessagesView: View {
        
                         MessageRow(message: message, unreadCount: unRead(message))
                             .pressEvents(onRelease: { value in
-                                manager.messagePath = [.messageDetail(message.group)]
-                                manager.allPath = [.messageDetail(message.group)]
+                                if ISPAD{
+                                    manager.allPath = [.messageDetail(message.group)]
+                                }else{
+                                    manager.messagePath = [.messageDetail(message.group)]
+                                }
+                               
+                                
                             })
                             .id(message.group)
                             .swipeActions(edge: .leading) {

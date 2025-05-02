@@ -60,9 +60,9 @@ extension View {
 }
 
 struct MarkdownTheme {
-    static func defaultTheme(scaleFactor:CGFloat = 1.0) -> Theme {
+    static func defaultTheme(_ defaultSize:CGFloat = 16, scaleFactor:CGFloat = 1.0) -> Theme {
         Theme()
-            .text { FontSize(16 * scaleFactor) }
+            .text { FontSize(defaultSize * scaleFactor) }
             .code {
                 FontFamilyVariant(.monospaced)
                 FontSize(.em(0.85))
@@ -183,7 +183,7 @@ struct CodeBlock: View {
         VStack(spacing: 0) {
             HStack {
                 Text(language)
-                    .font(.system(size: 13, design: .monospaced))
+                    .font(.footnote)
                     .fontWeight(.semibold)
                 Spacer()
                 

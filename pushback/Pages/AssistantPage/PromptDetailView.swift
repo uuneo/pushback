@@ -210,7 +210,7 @@ private struct InfoBanner: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 20))
+                .font(.title3)
                 .foregroundColor(.blue)
             
             VStack(alignment: .leading, spacing: 4) {

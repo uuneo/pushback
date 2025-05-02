@@ -18,6 +18,7 @@ final class openChatManager: ObservableObject {
     @Published var currentRequest:String = ""
     @Published var currentContent:String = ""
     @Published var isLoading:Bool = false
+    @Published var inAssistant:Bool = false
     
     @Published var currentMessageId:String = UUID().uuidString
 

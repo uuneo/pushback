@@ -104,8 +104,11 @@ struct PrivacySecurity:View {
                             .symbolEffect(.pulse, delay: 5)
                     }
                 } action: {
-                    manager.allPath.append(.crypto)
-                    manager.settingPath.append(.privacyConfig)
+                    if ISPAD{
+                        manager.allPath.append(.crypto)
+                    }else{
+                        manager.settingPath.append(.privacyConfig)
+                    }
                 }
                
             }

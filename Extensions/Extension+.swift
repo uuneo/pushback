@@ -14,44 +14,6 @@ import CryptoKit
 extension String: @retroactive Error {}
 
 
-// MARK: - FontAnimation Modifier
-
-/// A view modifier that animates the font size and other font properties.
-struct FontAnimation: AnimatableModifier {
-    var size: Double
-    var weight: Font.Weight
-    var design: Font.Design
-    
-    // MARK: - Animatable Protocol
-    var animatableData: Double {
-        get { size }
-        set { size = newValue }
-    }
-    
-    // MARK: - ViewModifier Protocol
-    func body(content: Content) -> some View {
-        
-        content
-            .font(.system(size: size, weight: weight, design: design))
-    }
-}
-
-
-// MARK: - View Extension
-
-extension View {
-    /// Applies an animated font to the view.
-    /// - Parameters:
-    ///   - size: The size of the font.
-    ///   - weight: The weight of the font (default: `.regular`).
-    ///   - design: The design of the font (default: `.default`).
-    /// - Returns: A view with the animated font applied.
-    func animatedFont(size: Double, weight: Font.Weight = .regular, design: Font.Design = .default) -> some View {
-        self.modifier(FontAnimation(size: size, weight: weight, design: design))
-    }
-}
-
-
 // MARK: -   PreferenceKey+.swift
 
 struct CirclePreferenceKey: PreferenceKey {

@@ -21,17 +21,18 @@ struct ChatInputView: View {
      // MARK: - Computed Properties
     @ObservedResults(ChatPrompt.self, where: (\.isSelected)) var prompts
     
-   
+    private var quote:Message?{
+        guard let messageId = chatManager.messageId, let realm = try? Realm() else { return nil }
+        return realm.objects(Message.self).first(where: {$0.id.uuidString == messageId})
+    }
    
     var body: some View {
         VStack {
            
                 HStack() {
-                    if let prompt = prompts.first{
-                        PromptLabelView(prompt: prompt)
-                    }
-                }.padding(.top, 5)
-           
+                    PromptLabelView(prompt: prompts.first)
+                }.padding( 5)
+            
             
             
             HStack(spacing: 10) {
@@ -51,7 +52,7 @@ struct ChatInputView: View {
                     
                 Label("连续对话", systemImage:  isHistoryMessage ? "lamp.desk.fill" : "lamp.desk")
                     .foregroundStyle(isHistoryMessage ? Color.accentColor : Color.primary)
-                    .font(.system(size: 12))
+                    .font(.callout)
                     .fontWeight(isHistoryMessage ? .bold : .light)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
@@ -90,7 +91,7 @@ struct ChatInputView: View {
                 .padding(.vertical, 10)
                 .focused($isFocusedInput)
                 .frame(minHeight: 40)
-                .font(.system(size: 14))
+                .font(.subheadline)
                 .onChange(of: isFocusedInput){value in
                     
                     chatManager.isFocusedInput = value
@@ -171,7 +172,6 @@ private struct PromptLabelView: View {
                     Button(role: .destructive){
                         RealmManager.handler { realm in
                             let datas = realm.objects(ChatPrompt.self).where({$0.isSelected})
-                            
                             realm.writeAsync {
                                 datas.setValue(false, forKey: "isSelected")
                             }
@@ -182,7 +182,7 @@ private struct PromptLabelView: View {
                 }label: {
                     
                     Text(prompt.title)
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.subheadline)
                         .foregroundColor(.white)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -211,33 +211,35 @@ private struct PromptLabelView: View {
                         Label("清除", systemImage: "eraser")
                     }
                 }label: {
-                    
-                    quoteView(quote: "\(quote.title ?? "")\(quote.body ?? "")")
+                    QuoteView(message: quote)
+                        .onAppear{
+                            RealmManager.handler { realm in
+                                if let group = realm.objects(ChatGroup.self).where({$0.id == quote.id.uuidString}).first{
+                                    let currents = realm.objects(ChatGroup.self).where({$0.current})
+                                    try? realm.write{
+                                        currents.setValue(false, forKey: "current")
+                                        group.current = true
+                                    }
+                                }else{
+                                    let currents = realm.objects(ChatGroup.self).where({$0.current})
+                                    
+                                    let group = ChatGroup()
+                                    group.id = quote.id.uuidString
+                                    group.current = true
+                                    group.name = quote.search
+                                    try? realm.write{
+                                        currents.setValue(false, forKey: "current")
+                                        realm.add(group)
+                                    }
+                                }
+                            }
+                        }
                 }
             }
         }
         .padding(.horizontal)
     }
     
-    @ViewBuilder
-    func quoteView(quote:String)-> some View{
-        HStack(spacing: 5) {
-            
-            
-            Text("\(quote)")
-                .lineLimit(1)
-                .truncationMode(.tail)
-                .font(.caption2)
-            
-            Image(systemName: "quote.bubble")
-                .foregroundColor(.gray)
-                .padding(.leading, 10)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
     
 }
 

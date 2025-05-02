@@ -12,7 +12,7 @@ import Combine
 
 
 struct AssistantPageView:View {
-    
+    @Environment(\.dismiss) var dismiss
     @Default(.assistantAccouns) var assistantAccouns
     @EnvironmentObject private var chatManager:openChatManager
     @EnvironmentObject private var manager:PushbackManager
@@ -106,24 +106,6 @@ struct AssistantPageView:View {
                 )
                 
             }
-            .overlay{
-                RoundedRectangle(cornerRadius: ProcessInfo.processInfo.isiOSAppOnMac ? 0 : 50)
-                    .stroke(
-                        AngularGradient(
-                            gradient: Gradient(colors: [.red, .orange, .yellow, .green, .blue, .purple, .red]),
-                            center: .center,
-                            angle: .degrees(rotation)
-                        ),
-                        lineWidth: chatManager.isLoading ? 5 : 0
-                    )
-                    .padding(5)
-                    .ignoresSafeArea()
-                    .onAppear {
-                        withAnimation(Animation.linear(duration: 2).repeatForever(autoreverses: false)) {
-                            rotation = 360
-                        }
-                    }
-            }
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
             }content: {
@@ -181,10 +163,13 @@ struct AssistantPageView:View {
                     .customPresentationCornerRadius(20)
             }
             .onAppear{
-                PushbackManager.vibration(style: .heavy,custom: true)
+                chatManager.inAssistant = true
             }
             .environmentObject(chatManager)
-            
+            .onDisappear{
+                chatManager.messageId = nil
+                chatManager.inAssistant = false
+            }
 
     }
     
@@ -207,7 +192,7 @@ struct AssistantPageView:View {
                         }label: {
                             Label("对话列表", systemImage: "chevron.up")
                                 .foregroundStyle(Color.primary)
-                                .font(.system(size: 12))
+                                .font(.caption)
                                 .fontWeight(.bold)
                         }
                         
@@ -227,7 +212,7 @@ struct AssistantPageView:View {
                             
                             Label("新对话", systemImage:  "rectangle.3.group.bubble")
                                 .foregroundStyle(Color.primary)
-                                .font(.system(size: 12))
+                                .font(.caption)
                                 .fontWeight(.bold)
                         }
                         
@@ -298,8 +283,13 @@ struct AssistantPageView:View {
     private var navigationToolbarContent: some ToolbarContent{
         ToolbarItem(placement: .navigation) {
             Button{
-                manager.allPath = []
-                manager.messagePath = []
+                chatManager.inAssistant = false
+                if ISPAD{
+                    manager.allPath.removeAll(where: {$0 == .assistant})
+                }else{
+                    manager.messagePath.removeAll(where: {$0 == .assistant})
+                }
+                
                 PushbackManager.vibration(style: .heavy)
             }label: {
                 Image(systemName: "arrow.left")
@@ -363,8 +353,8 @@ struct AssistantPageView:View {
                             chatManager.currentContent = chatManager.currentContent + res
                         }
                         
-                        Task{ 
-                            if await manager.allPath.last == .assistant{
+                        Task{
+                            if await chatManager.inAssistant {
                                 PushbackManager.vibration(style: .light)
                             }
                         }
@@ -378,7 +368,6 @@ struct AssistantPageView:View {
             } completion: {  error in
                 
                 PushbackManager.vibration(style: .heavy,custom: true)
-                
                 
                 //Handle streaming error                                                          ,here
                 if let error{
@@ -558,7 +547,7 @@ struct StreamingLoadingView: View {
             // 思考中的动画点
             Text((chatManager.currentContent.isEmpty ?  "思考中" : "正在输入") + "\(dots)")
                 .foregroundColor(.secondary)
-                .font(.system(.subheadline))
+                .font(.subheadline)
                 .animation(.bouncy, value: dots)
         }
         .onAppear {
@@ -596,8 +585,13 @@ struct AssistantRowView: View {
     var body: some View {
         MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
             .pressEvents(onRelease: { value in
-                manager.messagePath = [.assistant]
-                manager.allPath = [.assistant]
+                if ISPAD{
+                    manager.allPath = [.assistant]
+                }else{
+                    manager.messagePath = [.assistant]
+                }
+                
+               
             })
     }
 }

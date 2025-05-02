@@ -72,8 +72,11 @@ struct SettingsPage: View {
                     ListButton {
                         Label( "消息", systemImage: "app.badge")
                     } action: {
-                        manager.allPath = []
-                        manager.settingPath = []
+                        if ISPAD{
+                            manager.allPath = []
+                        }else{
+                            manager.settingPath = []
+                        }
                     }
                 }
                
@@ -94,8 +97,13 @@ struct SettingsPage: View {
                                 }
                         }
                     } action: {
-                        manager.allPath = [.server]
-                        manager.settingPath = [.server]
+                        if ISPAD{
+                            manager.allPath = [.server]
+                        }else{
+                            manager.settingPath = [.server]
+                        }
+                        
+                        
                     }
 
                     
@@ -110,8 +118,13 @@ struct SettingsPage: View {
                                 .symbolEffect(.variableColor)
                         }
                     }action: {
-                        manager.allPath = [.assistantSetting]
-                        manager.settingPath = [.assistantSetting]
+                        if ISPAD{
+                            manager.allPath = [.assistantSetting]
+                        }else{
+                            manager.settingPath = [.assistantSetting]
+                        }
+                       
+                        
                     }
                 }
                 
@@ -167,8 +180,13 @@ struct SettingsPage: View {
                             .scaleEffect(0.9)
                             .foregroundStyle(.gray)
                     } action: {
-                        manager.allPath = [.sound]
-                        manager.settingPath = [.sound]
+                        if ISPAD{
+                            manager.allPath = [.sound]
+                        }else{
+                            manager.settingPath = [.sound]
+                        }
+                        
+                       
                     }
                    
                     ListButton {
@@ -182,8 +200,13 @@ struct SettingsPage: View {
                                 
                         }
                     } action: {
-                        manager.allPath = [.privacy]
-                        manager.settingPath = [.privacy]
+                        if ISPAD{
+                            manager.allPath = [.privacy]
+                        }else{
+                            manager.settingPath = [.privacy]
+                        }
+                       
+                        
                     }
                     
                     ListButton  {
@@ -197,8 +220,13 @@ struct SettingsPage: View {
                                 .symbolEffect(.rotate, delay: 2)
                         }
                     } action: {
-                        manager.allPath = [.more]
-                        manager.settingPath = [.more]
+                        if ISPAD{
+                            manager.allPath = [.more]
+                        }else{
+                            manager.settingPath = [.more]
+                        }
+                       
+                       
                     }
 
                 }

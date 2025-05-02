@@ -29,6 +29,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
 		let ttl = userInfo[Params.ttl.name] as? String
 		let image = userInfo[Params.image.name] as? String
 		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
+        let host = userInfo[Params.host.name] as? String
         let messageId = bestAttemptContent.targetContentIdentifier
         let level =  bestAttemptContent.getLevel()
 
@@ -62,6 +63,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.image = image
                     message.createDate = Date()
                     message.ttl = saveDays
+                    message.host = host
                     message.search = message.allString()
                 }
             }else {
@@ -78,6 +80,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.image = image
                     message.createDate = Date()
                     message.ttl = saveDays
+                    message.host = host
                     message.search = message.allString()
                     realm.add(message)
                 }

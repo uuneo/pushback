@@ -76,7 +76,7 @@ struct AssistantSettingsView: View {
                                         Image(systemName: "network")
                                             .imageScale(.small)
                                         Text("\(account.host)")
-                                            .font(.system(size: 15))
+                                            .font(.subheadline)
                                             .lineLimit(1)
                                             .truncationMode(.tail)
                                             .foregroundStyle(.gray)
@@ -87,7 +87,7 @@ struct AssistantSettingsView: View {
                                         Image(systemName: "slider.horizontal.2.square.badge.arrow.down")
                                             .imageScale(.small)
                                         Text("\(account.model)")
-                                            .font(.system(size: 12))
+                                            .font(.caption)
                                             .lineLimit(1)
                                             .truncationMode(.tail)
                                             .foregroundStyle(.gray)
@@ -101,6 +101,7 @@ struct AssistantSettingsView: View {
                                     .foregroundStyle(.gray)
                                     .imageScale(.small)
                             }
+                            .contentShape(Rectangle())
                             .listRowInsets(EdgeInsets())
                             .padding(10)
                             .listRowBackground(

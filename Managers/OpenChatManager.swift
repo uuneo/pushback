@@ -35,27 +35,34 @@ final class openChatManager: ObservableObject {
     
     var cancellableRequest:CancellableRequest? = nil
     
-    func test(account: AssistantAccount,success:@escaping (Bool)-> Void){
+    func test(account: AssistantAccount) async ->Bool{
         
-        if account.host.isEmpty || account.key.isEmpty || account.basePath.isEmpty || account.model.isEmpty{
-            Log.debug(account)
-            success(false)
-            return
-        }
-        
-        
-        guard let openchat = self.getReady(account: account) else {
-            success(false)
-            return
-        }
-        
-        
-        let query = ChatQuery(messages: [.user(.init(content: .string("Hello")))], model: account.model)
-        
-        self.cancellableRequest = openchat.chatsStream(query: query) { test in
-            print(test)
+        do{
+            if account.host.isEmpty || account.key.isEmpty || account.basePath.isEmpty || account.model.isEmpty{
+                Log.debug(account)
+                
+                return false
+            }
             
-        }completion: { success($0 == nil) }
+            
+            guard let openchat = self.getReady(account: account) else {
+               
+                return false
+            }
+            
+            
+            let query = ChatQuery(messages: [.user(.init(content: .string("Hello")))], model: account.model)
+            
+             _ = try await openchat.chats(query: query)
+        
+            return true
+            
+        }catch{
+            debugPrint(error.localizedDescription)
+            return false
+        }
+        
+       
     }
     
     func getHistoryParams(text: String, messageId:String? = nil)-> ChatQuery?{

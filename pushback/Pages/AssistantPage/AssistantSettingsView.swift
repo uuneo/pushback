@@ -307,8 +307,8 @@ struct ChangeChatAccount:View {
                     HStack{
                         Spacer()
                         AnimatedButton(state:$buttonState, normal:
-                                .init(title: String(localized: "测试连接"),background: .blue,symbolImage: "person.crop.square.filled.and.at.rectangle"), success:
-                                .init(title: String(localized: "连接成功"), background: .green,symbolImage: "checkmark.circle"), fail:
+                                .init(title: String(localized: "测试后保存"),background: .blue,symbolImage: "person.crop.square.filled.and.at.rectangle"), success:
+                                .init(title: String(localized: "测试/保存成功"), background: .green,symbolImage: "checkmark.circle"), fail:
                                 .init(title: String(localized: "连接失败"),background: .red,symbolImage: "xmark.circle"), loadings: [
                                     .init(title: String(localized: "测试中..."), background: .cyan)
                                 ]) { view in
@@ -323,13 +323,14 @@ struct ChangeChatAccount:View {
                                     }
                                     
                                     self.isTestingAPI = true
-                                    chatManager.test(account: data) { success in
-                                        Task{
-                                            await view.next(success ? .success : .fail)
-                                            DispatchQueue.main.async{
-                                                self.isTestingAPI = false
-                                            }
-                                        }
+                                    let success = await chatManager.test(account: data)
+                                    
+                                    
+                                    await view.next(success ? .success : .fail)
+                                    
+                                    DispatchQueue.main.async{
+                                        self.isTestingAPI = false
+                                        self.saveOrChangeData()
                                     }
                                     
                                 }
@@ -350,17 +351,6 @@ struct ChangeChatAccount:View {
                         Text("取消")
                     }.tint(.red)
                         .disabled(isTestingAPI)
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                    
-                        self.saveOrChangeData()
-                        
-                    } label: {
-                        Text("保存")
-                    }
-                    .disabled(isTestingAPI)
                 }
             }
             .disabled(isTestingAPI)

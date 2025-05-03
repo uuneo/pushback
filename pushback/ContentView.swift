@@ -95,23 +95,6 @@ struct ContentView: View {
                 PushServerCloudKit.shared.updatePushServers(items: value)
             }
         }
-        //        .task{
-        //            autoreleasepool {
-        //                var messages:[Message] = []
-        //
-        //                for index in 0...30000{
-        //                    messages.append(contentsOf: Message.examples(group: "\(index % 5)"))
-        //                }
-        //
-        //                RealmManager.handler { proxy in
-        //                    proxy.writeAsync {
-        //                        proxy.add(messages)
-        //                    }
-        //
-        //                }
-        //            }
-        //        }
-        //
         
         
     }
@@ -383,11 +366,10 @@ struct ContentView: View {
     func backgroundModeHandler(newValue: ScenePhase){
         
         manager.registerForRemoteNotifications()
-        setLnagAssistantPrompt()
+        setLangAssistantPrompt()
         
         switch newValue{
         case .active:
-            
             
             if manager.isWarmStart {
                 Log.debug("🔥 热启动")
@@ -440,7 +422,7 @@ struct ContentView: View {
         }
     }
     
-    func setLnagAssistantPrompt(){
+    func setLangAssistantPrompt(){
         if let currentLang  = Locale.preferredLanguages.first{
             if lang != currentLang {
                 RealmManager.handler { realm in

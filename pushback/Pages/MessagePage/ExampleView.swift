@@ -355,7 +355,7 @@ struct ExampleView: View {
 
 
 extension ExampleView{
-    func createExample(cryptoData:CryptoModel)-> [PushExampleModel]{
+    func createExample(cryptoData:CryptoModelConfig)-> [PushExampleModel]{
         
         let ciphertext = CryptoManager(cryptoData).encrypt(BaseConfig.testData)?.replacingOccurrences(of: "+", with: "%2B") ?? ""
         

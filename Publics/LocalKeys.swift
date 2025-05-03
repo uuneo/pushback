@@ -23,7 +23,7 @@ extension Defaults.Keys {
     static let firstStart = Key<Bool>("firstStartApp", true)
     static let autoSaveToAlbum = Key<Bool>("autoSaveImageToPhotoAlbum", false)
     static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
-    static let cryptoConfig = Key<CryptoModel>("CryptoSettingFields", CryptoModel.data, iCloud: true)
+    static let cryptoConfig = Key<CryptoModelConfig>("CryptoSettingFields", CryptoModelConfig.data)
     static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
     static let sound = Key<String>("defaultSound", "xiu")
     static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)

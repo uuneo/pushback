@@ -22,7 +22,7 @@ final class CryptoManager {
 	private let iv: Data
 
 
-	init(_ data: CryptoModel) {
+	init(_ data: CryptoModelConfig) {
 		self.key = data.key.data(using: .utf8)!
 		self.iv = data.iv.data(using: .utf8)!
 		self.mode = data.mode

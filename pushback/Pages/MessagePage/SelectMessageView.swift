@@ -111,7 +111,6 @@ struct SelectMessageView:View {
             .padding(.vertical, 50)
             .frame(minHeight: UIScreen.main.bounds.height - 100)
             
-            
         }
         
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -135,7 +134,6 @@ struct SelectMessageView:View {
         .onTapGesture {
             dismiss()
         }
-        
         .transition(.move(edge: .leading))
     }
 }

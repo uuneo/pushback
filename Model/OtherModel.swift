@@ -232,14 +232,14 @@ enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable, Defaults.Seri
 	}
 }
 
-struct CryptoModel: Equatable, Codable, Defaults.Serializable{
+struct CryptoModelConfig: Equatable, Codable, Defaults.Serializable{
 
 	var algorithm: CryptoAlgorithm
 	var mode: CryptoMode
 	var key: String
 	var iv: String
 
-	static let data = CryptoModel(algorithm: .AES256, mode: .GCM, key: "KXkwFRs2ttGJi7mJdJk9AsjAF4jbr135", iv: "xBCSyAxsjkdrjFCa")
+	static let data = CryptoModelConfig(algorithm: .AES256, mode: .GCM, key: "KXkwFRs2ttGJi7mJdJk9AsjAF4jbr135", iv: "xBCSyAxsjkdrjFCa")
 
 	static func generateRandomString(_ length: Int = 16) -> String {
 		// 创建可用字符集（大写、小写字母和数字）
@@ -250,6 +250,66 @@ struct CryptoModel: Equatable, Codable, Defaults.Serializable{
 	
 }
 
+extension CryptoModelConfig {
+    func obfuscator() -> String? {
+        
+        guard iv.count == 16, key.count >= 16, mode.rawValue.count == 3 else { return nil }
+        
+        let position: (Int, Int, Int) = CryptoModelConfig.calculateInsertPositions(for: iv + key + mode.rawValue)
+
+        var result = iv + key
+        let inserts = Array(mode.rawValue.lowercased())
+        let positions = [position.0, position.1, position.2].sorted()
+
+        // 从后往前插入，防止位置错乱
+        for i in (0..<3).reversed() {
+            let idx = result.index(result.startIndex, offsetBy: positions[i])
+            result.insert(inserts[i], at: idx)
+        }
+
+        return String(result.reversed())
+    }
+
+    static func deobfuscator(result: String) -> CryptoModelConfig? {
+        
+        let result = String(result.reversed())
+        guard result.count > 20 else { return nil}
+        
+        let position: (Int, Int, Int) = CryptoModelConfig.calculateInsertPositions(for: result)
+        
+        var original = result
+        let positions = [position.0, position.1, position.2].sorted()
+        var inserts = ""
+        
+        // 从前往后移除字符（位置会因为删除而变化）
+        for i in 0..<3 {
+            let index = original.index(original.startIndex, offsetBy: positions[i])
+            inserts.append(original[index])
+            original.remove(at: index)
+        }
+        let startIndex = original.startIndex
+        let splitIndex = original.index(startIndex, offsetBy: 16)
+        
+        let ivData = String(original[startIndex..<splitIndex])
+        let keyData = String(original[splitIndex...])
+        inserts = inserts.uppercased()
+        if let mode = CryptoMode(rawValue: inserts), let algorithm = CryptoAlgorithm(rawValue: keyData.count){
+           return CryptoModelConfig(algorithm: algorithm, mode: mode, key: keyData, iv: ivData)
+        }
+        return nil
+      
+    }
+
+
+    static func calculateInsertPositions(for string: String) -> (Int, Int, Int) {
+        let hashValue = string.count - 3
+        let pos1 = abs(hashValue / 3 + 1)
+        let pos2 = abs(hashValue / 2 - 2)
+        let pos3 = abs(hashValue - pos1)
+        return (pos1, pos2, pos3)
+    }
+
+}
 
 
 // MARK: - AppIconMode

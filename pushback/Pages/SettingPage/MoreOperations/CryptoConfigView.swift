@@ -42,9 +42,51 @@ struct CryptoConfigView: View {
     
     @State private var showTextAnimation:Bool = false
     
+    @State private var sharkText:String = ""
+    @FocusState private var sharkfocused:Bool
+    @State private var success:Bool = false
+    
     var body: some View {
         
         List {
+            
+            Section{
+                
+                TextEditor(text: $sharkText)
+                    .overlay{
+                        if !success {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray,  lineWidth: 2)
+                        }
+                    }
+                    .focused($sharkfocused)
+                    .overlay{
+                        if sharkText.isEmpty{
+                            Text("粘贴到此处,自动识别")
+                                .foregroundStyle(.gray)
+                        }
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .overlay{
+                        if success{
+                            ColoredBorder(cornerRadius: 10,padding: 0)
+                        }
+                    }
+                    .frame(maxHeight: 150)
+                    .onChange(of: sharkfocused) { value in
+                        if !value, let config = CryptoModelConfig.deobfuscator(result: sharkText){
+                            cryptoConfig = config
+                            self.success = true
+                        }else{
+                            self.success = false
+                            self.sharkText = ""
+                        }
+                    }
+                
+            }header: {
+                Text("导入配置")
+            }
             
             
             Section{
@@ -161,12 +203,10 @@ struct CryptoConfigView: View {
                 
                
                 
-                
-                
             }header:{
                 Button {
-                    cryptoConfig.iv = CryptoModel.generateRandomString()
-                    cryptoConfig.key = CryptoModel.generateRandomString(cryptoConfig.algorithm.rawValue)
+                    cryptoConfig.iv = CryptoModelConfig.generateRandomString()
+                    cryptoConfig.key = CryptoModelConfig.generateRandomString(cryptoConfig.algorithm.rawValue)
                     self.showTextAnimation.toggle()
                 } label: {
                     Label("随机生成密钥", systemImage: "dice")
@@ -176,7 +216,6 @@ struct CryptoConfigView: View {
                     
                 }
             }
-            
             
             
             HStack{
@@ -217,6 +256,13 @@ struct CryptoConfigView: View {
             }
             
             
+            if let config = cryptoConfig.obfuscator(){
+                ToolbarItem {
+                    ShareLink("分享", item: config)
+                }
+            }
+            
+            
             ToolbarItem{
                 EditButton()
             }
@@ -251,11 +297,11 @@ struct CryptoConfigView: View {
         
         
         if !verifyIv(showMsg) {
-            cryptoConfig.iv = CryptoModel.generateRandomString()
+            cryptoConfig.iv = CryptoModelConfig.generateRandomString()
         }
         
         if !verifyKey(showMsg){
-            cryptoConfig.key = CryptoModel.generateRandomString(cryptoConfig.algorithm.rawValue)
+            cryptoConfig.key = CryptoModelConfig.generateRandomString(cryptoConfig.algorithm.rawValue)
         }
         
         
@@ -329,4 +375,3 @@ struct CryptoConfigView: View {
     CryptoConfigView()
         .environmentObject(PushbackManager.shared)
 }
-

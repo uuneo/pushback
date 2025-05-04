@@ -18,7 +18,7 @@ struct SelectMessageView:View {
     @ScaledMetric(relativeTo: .subheadline) var baseSubtitleSize: CGFloat = 15
     @ScaledMetric(relativeTo: .footnote) var basedateSize: CGFloat = 13
     
-
+    @State private var image:Image? = nil
     
     var body: some View {
         ScrollView{
@@ -26,17 +26,29 @@ struct SelectMessageView:View {
             ZStack{
                 
                 VStack{
-                    
-                    if let image = message.image{
-                        VStack{
-                            KFImage.url(URL(string: image))
-                                .resizable()
-                                .scaledToFit()
-                                .zoomable()
+                    if message.image != nil {
+                        if let image {
+                            VStack{
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .zoomable()
+                                    .draggable( image) {
+                                        // 拖动时的预览图
+                                        image
+                                            .resizable()
+                                            .frame(width: 100, height: 100)
+                                    }
+                            }
+                            .padding()
+                            .zIndex(1)
+                        }else{
+                            ProgressView("Loading…")
+                                .scaleEffect(3)
+                                .padding()
                         }
-                        .padding()
-                        .zIndex(1)
                     }
+                    
                     
                     VStack{
                         HStack{
@@ -110,6 +122,16 @@ struct SelectMessageView:View {
             .frame(width: UIScreen.main.bounds.width)
             .padding(.vertical, 50)
             .frame(minHeight: UIScreen.main.bounds.height - 100)
+            .onAppear{
+                Task(priority: .userInitiated) {
+                    if let image = message.image,
+                       let file =  await ImageManager.downloadImage(image),
+                       let uiImage = UIImage(contentsOfFile: file){
+                        self.image = Image(uiImage: uiImage)
+                        
+                    }
+                }
+            }
             
         }
         

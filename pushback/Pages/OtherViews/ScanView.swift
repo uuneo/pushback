@@ -16,29 +16,38 @@ struct ScanView: View {
 	@State private var torchIsOn = false
 	@State private var restart = false
 	@State private var showActive = false
-	@State private var status:AVAuthorizationStatus = .authorized
     
     @EnvironmentObject private var manager:PushbackManager
+    
+    var response: (String) -> Bool
     
 	var body: some View {
 		ZStack{
 
             QRScanner(restart: $restart, flash: $torchIsOn) { code in
-                codeValueHandler(code: code)
+                if response(code) {
+                    self.dismiss()
+                }else{
+                    self.showActive.toggle()
+                }
             } fail: { error in
                 switch error{
                 case .unauthorized(let status):
-                    self.status = status
+                    if status != .authorized{
+                        Toast.info(title: String(localized: "没有相机权限"))
+                    }
+                    self.dismiss()
                 default:
-                    self.status = .denied
+                    Toast.error(title: String(localized: "扫码失败"))
+                    self.dismiss()
                 }
+                
             }
             .actionSheet(isPresented: $showActive) {
-                ActionSheet(title: Text( "不正确的地址"),buttons: [
-                    
+                ActionSheet(title: Text( "扫码成功"),buttons: [
                     .default(Text( "重新扫码"), action: {
-                        self.restart.toggle()
                         self.showActive = false
+                        self.restart.toggle()
                     }),
                     .cancel({
                         self.dismiss()
@@ -65,51 +74,36 @@ struct ScanView: View {
 				.padding()
 				.padding(.top,50)
 				Spacer()
-
-				Button{
-					self.torchIsOn.toggle()
-				}label: {
-					Image(systemName: "flashlight.\(torchIsOn ? "on" : "off").circle")
-						.font(.largeTitle)
-						.padding(.bottom, 80)
-				}
+                
+                VStack{
+                    Image(systemName: torchIsOn ? "bolt" : "bolt.slash")
+                        .scaleEffect(3)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.accent,.ultraThinMaterial)
+                        .symbolEffect(.replace)
+                        .padding()
+                        .pressEvents(onRelease: { _ in
+                            self.torchIsOn.toggle()
+                            return true
+                        })
+                    
+                }
+                .padding(.bottom, 80)
+				
 
 
 			}
 
 		}.ignoresSafeArea()
 	}
-    
-    
-    func codeValueHandler(code: String){
-        
-        if code.isValidURL() == .remote{
-            manager.appendServer(server: PushServerModel(url: code)) { success, msg in
-                if success{
-                    if ISPAD{
-                        manager.allPath = [.server]
-                    }else{
-                        manager.settingPath = [.server]
-                    }
-                    
-                   
-                }
-                Toast.shared.present(title: msg, symbol: "document.viewfinder")
-            }
-            self.dismiss()
-        }else {
-            self.showActive.toggle()
-        }
-       
-    }
-    
+
 }
 
 
 
 
 #Preview {
-	ScanView()
+    ScanView(){_ in  true }
 }
 
 

@@ -14,8 +14,9 @@ import UniformTypeIdentifiers
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.scenePhase) private var scenePhase
-    @EnvironmentObject private var manager:PushbackManager
-    @EnvironmentObject private var appstate:AppState
+
+    @StateObject private var manager = PushbackManager.shared
+    @StateObject private var appstate = AppState.shared
     @StateObject private var chatManager = openChatManager.shared
     @ObservedResults(Message.self) var messages
     
@@ -37,16 +38,16 @@ struct ContentView: View {
         
         ZStack{
             
-            if ISPAD{
-                IpadHomeView()
-            }else{
-                IphoneHomeView()
-            }
+            IphoneHomeView()
+                .if(ISPAD) { _ in
+                    IpadHomeView()
+                }
             
             if firstStart{
                 firstStartLauchFirstStartView()
             }
         }
+        .environmentObject(manager: manager, chatManager: chatManager, appstate: appstate)
         .overlay{
             if let message = manager.selectMessage{
                 SelectMessageView(message: message) {
@@ -61,12 +62,11 @@ struct ContentView: View {
                 ColoredBorder()
             }
         }
-        .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage() .customPresentationCornerRadius(20) }
+        .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
         .onChange(of: scenePhase, perform: self.backgroundModeHandler)
         .onOpenURL(perform: self.openUrlView)
-        .alert(isPresented: $showAlart) {
-            Alert(title:
+        .alert(isPresented: $showAlart) { Alert(title:
                     Text( "操作不可逆!"),
                   message:
                     Text( activeName == "alldelnotread" ? "是否确认删除所有未读消息!" :  "是否确认删除所有已读消息!"),
@@ -86,21 +86,13 @@ struct ContentView: View {
                             
                             
                         }
-                    ), secondaryButton: .cancel())
-        }
-        .task {
-            for await value in Defaults.updates(.servers) {
+                    ), secondaryButton: .cancel()) }
+        .task {  for await value in Defaults.updates(.servers) {
                 try? await Task.sleep(for: .seconds(1))
                 await manager.registers()
                 PushServerCloudKit.shared.updatePushServers(items: value)
-            }
-        }
-        
-        
+            } }
     }
-    
-    
-    
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
@@ -111,37 +103,10 @@ struct ContentView: View {
         })) {
             
             
-            NavigationStack(path: $manager.messagePath){
+            NavigationStack(path: $manager.router){
                 // MARK: 信息页面
                 MessagePage()
-                    .environmentObject(chatManager)
-                    .environmentObject(manager)
-                    .environmentObject(appstate)
-                    .navigationDestination(for: MessageStatckPage.self){ router in
-                        Group{
-                            switch router {
-                            case .example:
-                                ExampleView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .messageDetail(let group):
-                                MessageDetailPage(group: group)
-                                    .toolbar(.hidden, for: .tabBar)
-                                    .navigationTitle(group)
-                            case .sound:
-                                SoundView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .assistant:
-                                AssistantPageView()
-                                    .navigationBarBackButtonHidden()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .crypto:
-                                CryptoConfigView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            }
-                        }.environmentObject(chatManager)
-                            .environmentObject(manager)
-                            .environmentObject(appstate)
-                    }
+                    .router(manager: manager, chatManager: chatManager, appstate: appstate)
                 
             }
             .badge(messages.where({!$0.read}).count)
@@ -154,39 +119,10 @@ struct ContentView: View {
             
             
             
-            NavigationStack(path: $manager.settingPath){
+            NavigationStack(path: $manager.router){
                 // MARK: 设置页面
                 SettingsPage()
-                    .environmentObject(chatManager)
-                    .environmentObject(manager)
-                    .environmentObject(appstate)
-                    .navigationDestination(for: SettingStatckPage.self){ router in
-                        Group{
-                            switch router {
-                            case .server:
-                                ServersConfigView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .assistantSetting:
-                                AssistantSettingsView(showClose: false)
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .sound:
-                                SoundView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .privacy:
-                                PrivacySecurity()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .privacyConfig:
-                                CryptoConfigView()
-                            case .more:
-                                MoreOperationsView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            }
-                        }
-                        .environmentObject(chatManager)
-                        .environmentObject(manager)
-                        .environmentObject(appstate)
-                        
-                    }
+                    .router(manager: manager, chatManager: chatManager, appstate: appstate)
                 
             }
             .tabItem {
@@ -207,62 +143,17 @@ struct ContentView: View {
         
         NavigationSplitView(columnVisibility: $noShow) {
             SettingsPage()
-                .environmentObject(chatManager)
-                .environmentObject(manager)
-                .environmentObject(appstate)
+                .environmentObject(manager: manager, chatManager: chatManager, appstate: appstate)
         } detail: {
             
-            NavigationStack(path: $manager.allPath){
+            NavigationStack(path: $manager.router){
                 MessagePage()
-                    .environmentObject(chatManager)
-                    .environmentObject(manager)
-                    .environmentObject(appstate)
-                    .navigationDestination(for: AllPage.self){ router in
-                        Group{
-                            switch router {
-                            case .example:
-                                ExampleView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .messageDetail(let group):
-                                MessageDetailPage(group: group)
-                                    .toolbar(.hidden, for: .tabBar)
-                                    .navigationTitle(group)
-                            case .sound:
-                                SoundView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .assistant:
-                                AssistantPageView()
-                                    .navigationBarBackButtonHidden()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .crypto:
-                                CryptoConfigView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .server:
-                                ServersConfigView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .assistantSetting:
-                                AssistantSettingsView(showClose: false)
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .privacy:
-                                PrivacySecurity()
-                                    .toolbar(.hidden, for: .tabBar)
-                            case .privacyConfig:
-                                CryptoConfigView()
-                            case .more:
-                                MoreOperationsView()
-                                    .toolbar(.hidden, for: .tabBar)
-                            }
-                        }
-                        .environmentObject(chatManager)
-                        .environmentObject(manager)
-                        .environmentObject(appstate)
-                    }
+                    .router(manager: manager, chatManager: chatManager, appstate: appstate)
             }
         }
         
         
     }
-    
     
     @ViewBuilder
     func ContentFullViewPage() -> some View{
@@ -271,22 +162,30 @@ struct ContentView: View {
             case .customKey:
                 ChangeKeyView()
             case .scan:
-                ScanView()
-                
+                ScanView{ code in
+                    if code.isValidURL() == .remote{
+                        manager.appendServer(server: PushServerModel(url: code)) { success, msg in
+                            if success{
+                                manager.router = [.server]
+                            }
+                            Toast.shared.present(title: msg, symbol: "document.viewfinder")
+                        }
+                        return true
+                    }
+                    return false
+                    
+                }
             case .web(let url):
                 SFSafariView(url: url)
                     .ignoresSafeArea()
             default:
                 EmptyView()
                     .onAppear{
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                            manager.fullPage = .none
-                        }
+                        manager.fullPage = .none
                     }
             }
-        }  .environmentObject(chatManager)
-            .environmentObject(manager)
-            .environmentObject(appstate)
+        }
+        .environmentObject(manager: manager, chatManager: chatManager, appstate: appstate)
         
     }
     
@@ -298,13 +197,16 @@ struct ContentView: View {
                 NavigationStack{
                     AppIconView()
                 }.presentationDetents([.height(300)])
-                
             case .cloudIcon:
                 CloudIcon()
                     .presentationDetents([.medium, .large])
                     .customPresentationCornerRadius(20)
             case .paywall:
                 PaywallView()
+                    .customPresentationCornerRadius(20)
+            case .quickResponseCode(let text, let title, let preview):
+                QuickResponseCodeview(text:text, title: title, preview:preview)
+                    .presentationDetents([.medium])
                     .customPresentationCornerRadius(20)
             default:
                 EmptyView()
@@ -313,9 +215,7 @@ struct ContentView: View {
                     }
             }
         }
-        .environmentObject(chatManager)
-        .environmentObject(manager)
-        .environmentObject(appstate)
+        .environmentObject(manager: manager, chatManager: chatManager, appstate: appstate)
     }
     
     @ViewBuilder
@@ -336,31 +236,6 @@ struct ContentView: View {
             
         }
         .background(.ultraThinMaterial)
-    }
-    
-    func openUrlView(url: URL){
-        guard let scheme = url.scheme,
-              let host = url.host(),
-              let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else{ return }
-        
-        let params = components.getParams()
-        Log.debug(scheme, host, params)
-        // scheme = "mw" host = "fromLocalImage" params = ["key": "1233"]
-        if host == "addServer"{
-            if let url = params["url"], let _ = URL(string: url) {
-                manager.appendServer(server: PushServerModel(url: url)) { result, msg in
-                    manager.page = .setting
-                    if ISPAD{
-                        manager.allPath = [.server]
-                    }else{
-                        manager.settingPath = [.server]
-                    }
-                    Toast.shared.present(title: msg, symbol: "document.viewfinder")
-                }
-            }else{
-                Toast.info(title: String(localized: "参数错误"))
-            }
-        }
     }
     
     func backgroundModeHandler(newValue: ScenePhase){
@@ -440,11 +315,55 @@ struct ContentView: View {
         }
         
     }
+    
+    func openUrlView(url: URL){
+        
+        let result = manager.outParamsHandler(address: url.absoluteString)
+        
+        switch result {
+        case .text(_):
+            break
+        case .crypto(let text):
+            Log.debug(text)
+            DispatchQueue.main.async {
+                manager.page = .setting
+                manager.router = [.privacy, .crypto(text)]
+            }
+        case .server(let url):
+            manager.appendServer(server: PushServerModel(url: url)) { _, msg in
+                DispatchQueue.main.async {
+                    manager.page = .setting
+                    manager.router = [.server]
+                }
+                Toast.shared.present(title: msg, symbol: "document.viewfinder")
+            }
+        case .serverKey(let url, let key):
+            manager.restore(address: url, deviceKey: key) { success in
+                DispatchQueue.main.async {
+                    manager.page = .setting
+                    manager.router = [.server]
+                }
+                if !success{
+                    Toast.error(title: String(localized: "key不正确"))
+                }
+            }
+        case .assistant(let text):
+            if let account = AssistantAccount(base64: text){
+                DispatchQueue.main.async {
+                    manager.page = .setting
+                    manager.router = [.assistantSetting(account)]
+                }
+            }
+        case .otherUrl( _):
+            break
+        }
+        
+    }
 }
 
 
 
 #Preview {
     ContentView()
-        .environmentObject(PushbackManager.shared)
+        .environmentObject(manager: PushbackManager.shared, chatManager: openChatManager.shared, appstate: AppState.shared)
 }

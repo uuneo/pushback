@@ -47,6 +47,7 @@ struct AngularButton: View {
                     if !disable && loading == "" && abs(res.translation.width) < 10 {
                         onTap()
 					}
+                    return true
 				}
 			Spacer()
 		}

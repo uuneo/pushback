@@ -43,61 +43,7 @@ enum Identifiers {
     static let muteAction = "mute"
 }
 
-// MARK: - Page model
 
-
-enum SubPage: Equatable{
-	case customKey
-	case scan
-	case appIcon
-	case web(String)
-    case cloudIcon
-    case paywall
-	case none
-    
-}
-
-enum MessageStatckPage: Hashable {
-    case example
-    case messageDetail(String)
-    case assistant
-    case sound
-    case crypto
-}
-
-enum SettingStatckPage: Hashable {
-    case server
-    case assistantSetting
-    case sound
-    case privacy
-    case privacyConfig
-    case more
-}
-
-
-enum AllPage: Hashable {
-    case example
-    case messageDetail(String)
-    case assistant
-    case sound
-    case crypto
-    
-    
-    case server
-    case assistantSetting
-    case privacy
-    case privacyConfig
-    case more
-}
-
-
-
-
-
-enum TabPage :String{
-	case message = "message"
-	case setting = "setting"
-}
 
 // MARK: - MessageAction model
 
@@ -341,7 +287,8 @@ enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
 
 struct PushExampleModel:Identifiable {
 	var id = UUID().uuidString
-	var header,footer,title: AnyView
+	var header,footer: AnyView
+    var title:String
 	var params:String
 	var index:Int
 }
@@ -390,7 +337,7 @@ enum DefaultBrowserModel: String, CaseIterable, Defaults.Serializable {
 }
 
 
-struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
+struct AssistantAccount: Defaults.Serializable, Codable, Identifiable, Equatable,Hashable{
     var id:String = UUID().uuidString
     var current:Bool = false
     var timestamp:Date = .now
@@ -399,6 +346,33 @@ struct AssistantAccount: Defaults.Serializable, Codable, Identifiable{
     var basePath:String
     var key:String
     var model:String
+    
+    func toBase64() -> String? {
+        guard let data = try? JSONEncoder().encode(self) else { return nil }
+        return data.base64EncodedString()
+    }
+    
+    init( current: Bool = false, name: String = String(localized: "智能助手"), host: String, basePath: String, key: String, model: String) {
+        self.current = current
+        self.name = name
+        self.host = host
+        self.basePath = basePath
+        self.key = key
+        self.model = model
+    }
+    
+    
+    init?(base64: String) {
+        guard let data = Data(base64Encoded: base64), let decoded = try? JSONDecoder().decode(Self.self, from: data) else {
+            return nil
+        }
+        self = decoded
+        self.id = UUID().uuidString
+    }
+    
+    
+    
+
 }
 
 
@@ -426,4 +400,13 @@ enum CategoryParams: String, Codable, CaseIterable, Defaults.Serializable{
             return String(localized: "Markdown")
         }
     }
+}
+
+enum OutDataType{
+    case text(String)
+    case crypto(String)
+    case server(String)
+    case serverKey(url:String,key:String)
+    case otherUrl(String)
+    case assistant(String)
 }

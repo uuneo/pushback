@@ -22,8 +22,17 @@ struct AssistantSettingsView: View {
     @State private var isSecured = true
     @State private var isTestingAPI = false
     @State private var selectAccount:AssistantAccount? = nil
+    @State private var addAccount:AssistantAccount? = nil
     
     var showClose:Bool
+    
+    init(showClose:Bool = false, account: AssistantAccount? = nil) {
+        self.showClose = showClose
+        if let account{
+            self._addAccount = State(wrappedValue: account)
+        }
+       
+    }
     
     
     var body: some View {
@@ -228,7 +237,12 @@ struct AssistantSettingsView: View {
                 Text("此操作将删除所有聊天记录和设置数据，且无法恢复。确定要继续吗？")
             }
             .sheet(item: $selectAccount) { account in
-                ChangeChatAccount(assistantAccount: account)
+                AddOrChangeChatAccount(assistantAccount: account, isAdd: false)
+                    .customPresentationCornerRadius(20)
+                    .environmentObject(chatManager)
+            }
+            .sheet(item: $addAccount) { account in
+                AddOrChangeChatAccount(assistantAccount: account, isAdd: true)
                     .customPresentationCornerRadius(20)
                     .environmentObject(chatManager)
             }
@@ -237,225 +251,6 @@ struct AssistantSettingsView: View {
     }
     
     
-}
-
-struct ChangeChatAccount:View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var chatManager:openChatManager
-    @State private var data: AssistantAccount
-    @Default(.assistantAccouns) var assistantAccouns
-    @State private var isSecured:Bool = true
-    @State private var isTestingAPI = false
-    
-    var title:String
-    
-    @State private var buttonState:AnimatedButton.buttonState = .normal
-    
-    init(assistantAccount: AssistantAccount) {
-        self._data = State(wrappedValue: assistantAccount)
-        if assistantAccount.key.isEmpty{
-            self.title = String(localized: "增加新资料")
-        }else{
-            self.title = String(localized: "修改资料")
-        }
-    }
-    
-    var body: some View {
-        NavigationStack{
-            List{
-                
-                Section("输入别名") {
-                    baseNameField
-                }
-                .textCase(.none)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-                .listRowSpacing(0)
-                
-                Section("请求地址(api.openai.com)") {
-                    baseHostField
-                }
-                .textCase(.none)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-                .listRowSpacing(0)
-                Section("请求路径: /v1") {
-                    basePathField
-                }
-                .textCase(.none)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-                .listRowSpacing(0)
-                
-                Section("模型名称: (gpt-4o-mini)") {
-                    baseModelField
-                }
-                .textCase(.none)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-                .listRowSpacing(0)
-                
-                Section("请求密钥") {
-                    apiKeyField
-                }
-                .textCase(.none)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets())
-                .listRowSpacing(0)
-                
-                
-                Section{
-                    HStack{
-                        Spacer()
-                        AnimatedButton(state:$buttonState, normal:
-                                .init(title: String(localized: "测试后保存"),background: .blue,symbolImage: "person.crop.square.filled.and.at.rectangle"), success:
-                                .init(title: String(localized: "测试/保存成功"), background: .green,symbolImage: "checkmark.circle"), fail:
-                                .init(title: String(localized: "连接失败"),background: .red,symbolImage: "xmark.circle"), loadings: [
-                                    .init(title: String(localized: "测试中..."), background: .cyan)
-                                ]) { view in
-                                    await view.next(.loading(1))
-                                    
-                                    data.trimAssistantAccountParameters()
-                                    
-                                    if data.key.isEmpty || data.host.isEmpty || isTestingAPI{
-                                        try? await Task.sleep(for: .seconds(1))
-                                        await view.next(.fail)
-                                        return
-                                    }
-                                    
-                                    self.isTestingAPI = true
-                                    let success = await chatManager.test(account: data)
-                                    
-                                    
-                                    await view.next(success ? .success : .fail)
-                                    
-                                    DispatchQueue.main.async{
-                                        self.isTestingAPI = false
-                                        self.saveOrChangeData()
-                                    }
-                                    
-                                }
-                        Spacer()
-                    }
-                }
-                .listRowBackground(Color.clear)
-                
-                
-            }
-           
-            .navigationTitle(title)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        self.dismiss()
-                    } label: {
-                        Text("取消")
-                    }.tint(.red)
-                        .disabled(isTestingAPI)
-                }
-            }
-            .disabled(isTestingAPI)
-        }
-    }
-    
-    private func saveOrChangeData(){
-        data.trimAssistantAccountParameters()
-       
-        if data.host.isEmpty || data.key.isEmpty || data.model.isEmpty {
-            Toast.info(title: String(localized:"参数不能为空"))
-            return
-        }
-        
-        if assistantAccouns.count == 0{
-            data.current = true
-        }
-        
-        
-        if let index = assistantAccouns.firstIndex(where: {$0.id == data.id}){
-            
-            assistantAccouns[index] = data
-            Toast.success(title: String(localized:"添加成功"))
-            self.dismiss()
-            return
-        }else{
-            
-            
-            if assistantAccouns.filter({$0.host == data.host && $0.basePath == data.basePath && $0.model == data.model && $0.key == data.key}).count > 0 {
-                Toast.error(title: String(localized:"重复数据"))
-                return
-            }
-            
-            assistantAccouns.insert(data, at: 0)
-            Toast.success(title:String(localized: "修改成功"))
-            self.dismiss()
-        }
-        
-        
-       
-        
-    }
-    
-    private var apiKeyField: some View {
-        HStack {
-            if isSecured {
-                SecureField("API Key", text: $data.key)
-                    .textContentType(.password)
-                    .autocapitalization(.none)
-                    .customField(
-                        icon: "key.icloud"
-                    )
-            } else {
-                TextField("API Key", text: $data.key)
-                    .textContentType(.none)
-                    .autocapitalization(.none)
-                    .customField(
-                        icon: "key.icloud"
-                    )
-            }
-            
-            Image(systemName: isSecured ? "eye.slash" : "eye")
-                .foregroundColor(isSecured ? .gray : .primary)
-                .onTapGesture {
-                    isSecured.toggle()
-                }
-        }
-    }
-    
-    private var baseNameField: some View {
-        TextField("Name", text: $data.name)
-            .autocapitalization(.none)
-            .keyboardType(.URL)
-            .customField(
-                icon: "atom"
-            )
-    }
-    
-    private var baseHostField: some View {
-        TextField("Host", text: $data.host)
-            .autocapitalization(.none)
-            .keyboardType(.URL)
-            .customField(
-                icon: "network"
-            )
-    }
-    
-    private var basePathField: some View {
-        TextField("BasePath", text: $data.basePath)
-            .autocapitalization(.none)
-            .keyboardType(.URL)
-            .customField(
-                icon: "point.filled.topleft.down.curvedto.point.bottomright.up"
-            )
-    }
-    
-    private var baseModelField: some View {
-        TextField("Model", text: $data.model)
-            .autocapitalization(.none)
-            .keyboardType(.URL)
-            .customField(icon: "slider.horizontal.2.square.badge.arrow.down")
-    }
-    
-  
 }
 
 

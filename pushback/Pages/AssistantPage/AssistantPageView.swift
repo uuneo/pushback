@@ -284,12 +284,7 @@ struct AssistantPageView:View {
         ToolbarItem(placement: .navigation) {
             Button{
                 chatManager.inAssistant = false
-                if ISPAD{
-                    manager.allPath.removeAll(where: {$0 == .assistant})
-                }else{
-                    manager.messagePath.removeAll(where: {$0 == .assistant})
-                }
-                
+                manager.router.removeAll(where: {$0 == .assistant})
                 PushbackManager.vibration(style: .heavy)
             }label: {
                 Image(systemName: "arrow.left")
@@ -585,12 +580,8 @@ struct AssistantRowView: View {
     var body: some View {
         MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
             .pressEvents(onRelease: { value in
-                if ISPAD{
-                    manager.allPath = [.assistant]
-                }else{
-                    manager.messagePath = [.assistant]
-                }
-                
+                manager.router = [.assistant]
+                return true
                
             })
     }

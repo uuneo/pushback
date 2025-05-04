@@ -15,21 +15,18 @@ class PushbackManager: NetworkManager, ObservableObject{
 	
 	private let session = URLSession(configuration: .default)
 	
-	@Published var page:TabPage = .message
+    @Published var page:TabPage = .message
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
 	@Published var crashLog:String?
-	@Published var disabled:Bool = false
     
     
     @Published var selectId:String? = nil
     @Published var selectGroup:String? = nil
     @Published var searchText:String = ""
     
-    @Published var messagePath:[MessageStatckPage] = []
-    @Published var settingPath:[SettingStatckPage] = []
-    @Published var allPath:[AllPage] = []
+    @Published var router:[RouterPage] = []
     
     @Published var isWarmStart:Bool = false
     
@@ -96,28 +93,30 @@ class PushbackManager: NetworkManager, ObservableObject{
 		}
 	}
     
+    func restore(address:String, deviceKey:String) async -> Bool{
+        do{
+        
+            let response:baseResponse<String>? = try await self.fetch(url: address + "/register/\(deviceKey)")
+            
+            
+            if let msg = response?.message, let code = response?.code,code == 200, msg == "success"{
+                
+               let ( success, _) = await self.appendServer(server: PushServerModel(url: address,key: deviceKey))
+                return success
+            }else{
+               return false
+            }
+            
+        }catch{
+            Log.error(error.localizedDescription)
+            return false
+        }
+    }
     
     func restore(address:String, deviceKey:String, complete:((Bool)->Void)? = nil) {
         Task{
-            do{
-            
-                let response:baseResponse<String>? = try await self.fetch(url: address + "/register/\(deviceKey)")
-                
-                
-                if let msg = response?.message, let code = response?.code,code == 200, msg == "success"{
-                    
-                    self.appendServer(server: PushServerModel(url: address,key: deviceKey)) { success, msg in
-                        complete?(success)
-                    }
-                }else{
-                    complete?(false)
-                }
-                
-            }catch{
-                Log.error(error.localizedDescription)
-                complete?(false)
-            }
-            
+            let success = await self.restore(address: address, deviceKey: deviceKey)
+            complete?(success)
         }
         
     }
@@ -197,28 +196,33 @@ class PushbackManager: NetworkManager, ObservableObject{
 		return (true,String(localized: "注册失败"))
 	}
 
-
-
+    func appendServer(server:PushServerModel) async -> (Bool,String){
+        let isServer = Defaults[.servers].contains(where: {$0.key == server.key && $0.url == server.url})
+        Log.debug(isServer)
+        let (_, success, msg) = await self.health(url: server.url)
+        if !isServer, success {
+            await MainActor.run {
+                Defaults[.servers].insert(server, at: 0)
+            }
+            // contentview 内监听注册，直接返回成功
+            return (success, "success")
+        }else{
+            let msg = isServer ? String(localized: "服务器已存在") : (msg ?? "")
+            return (false , msg)
+        }
+    }
 	/// add server
    func appendServer(server:PushServerModel, completion: @escaping (Bool,String)-> Void ){
 		Task.detached(priority: .background) {
-            let isServer = Defaults[.servers].contains(where: {$0.key == server.key && $0.url == server.url})
-            Log.debug(isServer)
-			let (_, success, msg) = await self.health(url: server.url)
-			if !isServer, success {
-				await MainActor.run {
-					Defaults[.servers].insert(server, at: 0)
-				}
-                // contentview 内监听注册，直接返回成功
-				DispatchQueue.main.async{
-					completion(success, "success")
-				}
-			}else{
-				DispatchQueue.main.async{
-                    let msg = isServer ? String(localized: "服务器已存在") : (msg ?? "")
-					completion(false , msg)
-				}
-			}
+            
+            let (success,_) = await self.appendServer(server: server)
+            
+            DispatchQueue.main.async{
+                DispatchQueue.main.async{
+                    completion(success, "success")
+                }
+                
+            }
 		}
 	}
 
@@ -322,36 +326,42 @@ class PushbackManager: NetworkManager, ObservableObject{
     }
     
     
-    static func generateQRCode(from string: String, size: CGSize = .init(width: 300, height: 300)) -> UIImage? {
-        // 创建二维码生成器
-        guard let filter = CIFilter(name: "CIQRCodeGenerator") else {
-            return nil
+    func outParamsHandler(address:String) -> OutDataType{
+        
+        guard let url = URL(string: address), let scheme = url.scheme?.lowercased() else {
+            return .text(address)
         }
         
-        // 设置输入数据
-        let data = string.data(using: .utf8)
-        filter.setValue(data, forKey: "inputMessage")
+        if ["pb","mw"].contains(scheme),let host = url.host(), let components = URLComponents(url: url, resolvingAgainstBaseURL: false){
+            let params = components.getParams()
+            
+            if host == "server", let url = params["text"],let urlResponse = URL(string: url), url.isHttpAndHttps() {
+                let (result, key) = urlResponse.findNameAndKey()
+                if let key{
+                    return .serverKey(url: result, key: key)
+                }else {
+                    return .server(result)
+                }
+            }
+            
+            if host == "crypto",let config = params["text"]{
+                return .crypto(config)
+            }
+            
+            if host == "assistant", let config = params["text"]{
+                return .assistant(config)
+            }
         
-        // 获取二维码图像
-        guard let ciImage = filter.outputImage else {
-            return nil
+            
         }
         
-        // 设置二维码图像的大小
-        let transform = CGAffineTransform(scaleX: size.width / ciImage.extent.size.width, y: size.height / ciImage.extent.size.height)
-        let scaledImage = ciImage.transformed(by: transform)
-        
-        // 转换为 UIImage
-        let context = CIContext()
-        if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-            return UIImage(cgImage: cgImage)
-        }
-        
-        return nil
+        return .otherUrl(address)
     }
     
     
+    
 }
+
 
 
 

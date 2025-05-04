@@ -96,35 +96,47 @@ struct ExampleView: View {
             ForEach(createExample(cryptoData: cryptoConfig),id: \.id){ item in
                 //            let server = servers[pickerSeletion >= servers.count ? 0 : pickerSeletion]
                 let server = (pickerSelection >= 0 && pickerSelection < servers.count) ? servers[pickerSelection] : servers[0]
-                let resultUrl = server.url + "/" + server.key + "/" +  item.params
+                let resultUrl = server.server + "/" +  item.params
                 
                 Section{
                     HStack{
-                        item.title
-                            .font(.headline)
-                            .fontWeight(.bold)
+                        HStack{
+                            Image(systemName: "qrcode.viewfinder")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                .padding(.trailing, 5)
+                                
+                            Text(item.title)
+                                .font(.headline)
+                                .fontWeight(.bold)
+                        }.pressEvents( onRelease: { _ in
+                            PushbackManager.shared.sheetPage = .quickResponseCode(text: resultUrl,title: item.title, preview: item.title)
+                            return true
+                        })
+                       
                         Spacer()
-                        Image(systemName: "doc.on.doc")
                         
+                       
+                        
+                        Image(systemName: "doc.on.doc")
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint, Color.primary)
                             .padding(.horizontal)
-                            .onTapGesture {
-                                
+                            .pressEvents( onRelease: { _ in
                                 UIPasteboard.general.string = resultUrl
-                                
                                 Toast.copy(title: String(localized:  "复制成功"))
-                            }
+                                return true
+                            })
                         Image(systemName: "safari")
                             .scaleEffect(1.3)
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint, Color.primary)
-                            .onTapGesture {
+                            .pressEvents( onRelease: { _ in
                                 if resultUrl.isValidURL() == .remote, let url = URL(string: resultUrl) {
-                                    
                                     UIApplication.shared.open(url)
                                 }
-                            }
+                                return true
+                            })
                     }
                     Text(resultUrl).font(.caption)
                     
@@ -370,13 +382,13 @@ extension ExampleView{
                                  * ttl: 消息保存时间 可选值 0...
                                  """)),
                              
-                             title: AnyView(Text( "基本用法示例")),
+                             title: String(localized: "基本用法示例"),
                              params: String(localized: "标题/副标题/内容?group=默认&badge=1&ttl=1"),
                              index: 1),
             
             PushExampleModel(header: AnyView(Spacer()),
                              footer: AnyView(Text( "GET方法需要URIConponent编码")),
-                             title: AnyView(Text( "Markdown样式")),
+                             title: String(localized:"Markdown样式"),
                              params: "?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback",
                              index: 2),
             
@@ -384,13 +396,7 @@ extension ExampleView{
                                 AnyView(
                                     HStack{
                                         Button{
-                                            if ISPAD{
-                                                manager.allPath.append(.sound)
-                                            }else {
-                                                manager.messagePath.append(.sound)
-                                            }
-                                           
-                                            
+                                            manager.router.append(.sound)
                                         }label:{
                                             Text("铃声列表")
                                                 .font(.callout)
@@ -400,7 +406,7 @@ extension ExampleView{
                                     }
                                 ),
                              footer: AnyView(Text( "可以为推送设置不同的铃声")),
-                             title: AnyView(Text( "推送铃声")),
+                             title: String(localized:"推送铃声"),
                              params: "\(String(localized: "推送内容"))?sound=craft",
                              index: 3),
             
@@ -421,7 +427,7 @@ extension ExampleView{
                                     }
                                 ),
                              footer: AnyView(Spacer()),
-                             title: AnyView(Text( "自定义icon")),
+                             title: String(localized:"自定义icon"),
                              params:  "\(String(localized: "推送内容"))?icon=\(BaseConfig.iconRemote)",
                              index: 5),
             
@@ -434,14 +440,14 @@ extension ExampleView{
                              - critical: ‼️重要提醒，静音或专注模式可正常提醒
                              * 参数可使用 0-10代替，具体查看文档
                              """)),
-                             title: AnyView(Text( "通知类型")),
+                             title: String(localized:"通知类型"),
                              params: "\(String(localized:  "重要提醒通知,70%音量"))?level=critical&volume=7",
                              index: 6),
             
             
             PushExampleModel(header: AnyView(Text("URLScheme或者网址")),
                              footer: AnyView(Text( "点击跳转app")),
-                             title: AnyView(Text("打开第三方App或者网站")),
+                             title: String(localized:"跳转第三方"),
                              params:  "\(String(localized: "推送内容"))?url=weixin://",
                              index: 7),
             
@@ -449,13 +455,13 @@ extension ExampleView{
             
             PushExampleModel(header: AnyView(Text( "持续响铃")),
                              footer: AnyView(Text("通知铃声将持续播放30s，同时收到多个将按顺序依次响铃")),
-                             title: AnyView(Text("持续响铃")),
+                             title:  String(localized:"持续响铃"),
                              params: "\(String(localized:  "持续响铃"))?call=1",
                              index: 8),
             
             PushExampleModel(header: AnyView(Text( "下拉消息会显示图片")),
                              footer: AnyView(Text( "携带一个image,会自动下载缓存")),
-                             title:  AnyView(Text("携带图片")),
+                             title:  String(localized: "携带图片"),
                              params:  "?title=\(String(localized: "标题" ))&body=\(String(localized: "内容" ))&image=\(BaseConfig.iconRemote)",
                              index: 9),
             
@@ -464,12 +470,7 @@ extension ExampleView{
                                 AnyView( HStack{
                                     Text( "需要在")
                                     Button{
-                                        if ISPAD{
-                                            manager.allPath.append(.privacyConfig)
-                                        }else{
-                                            manager.messagePath.append(.crypto)
-                                        }
-                                       
+                                        manager.router.append(.crypto(nil))
                                     }label:{
                                         Text("算法配置")
                                             .font(.callout)
@@ -478,7 +479,7 @@ extension ExampleView{
                                     Text("中进行配置")
                                 }),
                              footer: AnyView(Text( "加密后请求需要注意特殊字符的处理")),
-                             title: AnyView(Text( "端到端加密推送")),
+                             title: String(localized: "端到端加密推送"),
                              params: "?ciphertext=\(ciphertext)",
                              index: 10),
             

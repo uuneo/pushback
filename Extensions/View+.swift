@@ -134,7 +134,7 @@ extension View {
 struct ButtonPress: ViewModifier{
     var maxX:Double = 10
 	var onPress:((DragGesture.Value)->Void)? = nil
-	var onRelease:((DragGesture.Value)->Void)? = nil
+	var onRelease:((DragGesture.Value)->Bool)? = nil
     
     @State private var ispress = false
     
@@ -153,8 +153,10 @@ struct ButtonPress: ViewModifier{
 					.onEnded({ result in
                         self.ispress = false
                         if abs(result.translation.width) <= maxX {
-                            vibration()
-                            onRelease?(result)
+                            
+                            if let success = onRelease?(result), success{
+                                vibration()
+                            }
                         }
 					})
 			)
@@ -169,11 +171,11 @@ struct ButtonPress: ViewModifier{
 
 
 extension View{
-    func pressEvents(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onRelease: ((DragGesture.Value)->Void)? = nil)-> some View{
+    func pressEvents(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onRelease: ((DragGesture.Value)->Bool)? = nil)-> some View{
         modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onRelease))
 	}
     
-    func button(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onEnd: ((DragGesture.Value)->Void)? = nil)-> some View{
+    func button(_ maxX:Double = 0.0, onPress: ((DragGesture.Value)->Void)? = nil, onEnd: ((DragGesture.Value)->Bool)? = nil)-> some View{
         modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onEnd))
     }
 }
@@ -483,6 +485,8 @@ enum sybolEffectType{
     case replace
     
     case wiggle
+    
+    case replaceblack
         
 }
 
@@ -524,6 +528,8 @@ extension View{
                     self.symbolEffect(.wiggle.clockwise.byLayer, options: .repeat(repeatBehavior1))
                 case .replace:
                     self.contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .repeat(repeatBehavior1)))
+                case .replaceblack:
+                    self.contentTransition(.symbolEffect(.replace))
                 
                 }
             
@@ -540,14 +546,14 @@ extension View{
 struct ListButton<LEFT:View, Trailing: View>:View {
     @ViewBuilder var leading:() -> LEFT
     @ViewBuilder var trailing: () -> Trailing
-    var action:() -> Void
+    var action:() -> Bool
     var showRight:Bool
     
     init(
            @ViewBuilder leading: @escaping () -> LEFT,
            @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() },
            showRight:Bool = true,
-           action: @escaping () -> Void
+           action: @escaping () -> Bool
        ) {
            self.leading = leading
            self.trailing = trailing
@@ -566,7 +572,7 @@ struct ListButton<LEFT:View, Trailing: View>:View {
                     .foregroundStyle(.gray)
             }
         }.pressEvents(onRelease:{_ in
-            action()
+            return action()
         })
     }
 }

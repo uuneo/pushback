@@ -72,11 +72,8 @@ struct SettingsPage: View {
                     ListButton {
                         Label( "消息", systemImage: "app.badge")
                     } action: {
-                        if ISPAD{
-                            manager.allPath = []
-                        }else{
-                            manager.settingPath = []
-                        }
+                        manager.router = []
+                        return true
                     }
                 }
                
@@ -97,12 +94,8 @@ struct SettingsPage: View {
                                 }
                         }
                     } action: {
-                        if ISPAD{
-                            manager.allPath = [.server]
-                        }else{
-                            manager.settingPath = [.server]
-                        }
-                        
+                        manager.router = [.server]
+                        return true
                         
                     }
 
@@ -118,13 +111,8 @@ struct SettingsPage: View {
                                 .symbolEffect(.variableColor)
                         }
                     }action: {
-                        if ISPAD{
-                            manager.allPath = [.assistantSetting]
-                        }else{
-                            manager.settingPath = [.assistantSetting]
-                        }
-                       
-                        
+                        manager.router = [.assistantSetting(nil)]
+                        return true
                     }
                 }
                 
@@ -145,6 +133,7 @@ struct SettingsPage: View {
                         }
                     } action: {
                         manager.sheetPage = .appIcon
+                        return true
                     }
                     ListButton {
                         Label {
@@ -164,6 +153,7 @@ struct SettingsPage: View {
                         }
                     } action: {
                         manager.sheetPage = .cloudIcon
+                        return true
                     }
                     
                     ListButton {
@@ -180,12 +170,8 @@ struct SettingsPage: View {
                             .scaleEffect(0.9)
                             .foregroundStyle(.gray)
                     } action: {
-                        if ISPAD{
-                            manager.allPath = [.sound]
-                        }else{
-                            manager.settingPath = [.sound]
-                        }
-                        
+                        manager.router = [.sound]
+                        return true
                        
                     }
                    
@@ -200,12 +186,8 @@ struct SettingsPage: View {
                                 
                         }
                     } action: {
-                        if ISPAD{
-                            manager.allPath = [.privacy]
-                        }else{
-                            manager.settingPath = [.privacy]
-                        }
-                       
+                        manager.router = [.privacy]
+                        return true
                         
                     }
                     
@@ -220,12 +202,8 @@ struct SettingsPage: View {
                                 .symbolEffect(.rotate, delay: 2)
                         }
                     } action: {
-                        if ISPAD{
-                            manager.allPath = [.more]
-                        }else{
-                            manager.settingPath = [.more]
-                        }
-                       
+                        manager.router = [.more]
+                        return true
                        
                     }
 
@@ -244,6 +222,7 @@ struct SettingsPage: View {
                         }
                     } action: {
                         manager.fullPage = .web(BaseConfig.helpWebUrl)
+                        return true
                     }
                     
                     
@@ -277,6 +256,7 @@ struct SettingsPage: View {
                             }
                         } action: {
                             manager.sheetPage = .paywall
+                            return true
                         }
                     }
 

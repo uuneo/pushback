@@ -74,6 +74,7 @@ struct SoundItemView: View {
                         self.progress = selectSound ? 1 : 0
                     }
                 }
+                return true
             })
             
             

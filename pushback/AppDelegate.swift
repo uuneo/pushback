@@ -102,7 +102,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         Log.debug(content)
         
         PushbackManager.shared.page = .message
-        PushbackManager.shared.messagePath = []
+        PushbackManager.shared.router = []
         DispatchQueue.main.async{
             PushbackManager.shared.selectId = response.notification.request.content.targetContentIdentifier
             PushbackManager.shared.selectGroup = content.threadIdentifier

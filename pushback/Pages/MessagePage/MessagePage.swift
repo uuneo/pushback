@@ -61,12 +61,8 @@ struct MessagePage: View {
                         .foregroundStyle(.green, Color.primary)
                         .symbolEffect(delay: 0)
                         .pressEvents(onRelease: { value in
-                            if ISPAD{
-                                manager.allPath = [.example]
-                            }else{
-                                manager.messagePath = [.example]
-                            }
-                           
+                            manager.router = [.example]
+                            return true
                             
                         })
                 }

@@ -71,6 +71,7 @@ struct PaywallView: View {
                             Task {
                                 self.selectProduct = product
                             }
+                            return true
                             
                         })
                         Spacer(minLength: 0)

@@ -46,6 +46,17 @@ struct CryptoConfigView: View {
     @FocusState private var sharkfocused:Bool
     @State private var success:Bool = false
     
+    
+    init(config: String?){
+        if let text = config{
+            self._sharkText = State(wrappedValue: text)
+            if let config = CryptoModelConfig.deobfuscator(result: sharkText){
+                Defaults[.cryptoConfig] = config
+                self._success = State(wrappedValue: true)
+            }
+        }
+    }
+    
     var body: some View {
         
         List {
@@ -258,7 +269,11 @@ struct CryptoConfigView: View {
             
             if let config = cryptoConfig.obfuscator(){
                 ToolbarItem {
-                    ShareLink("分享", item: config)
+                    Button{
+                        PushbackManager.shared.sheetPage = .quickResponseCode(text: "pb://crypto?text=\(config)",title: String(localized: "配置文件"),preview: String(localized: "分享配置"))
+                    }label:{
+                        Label("分享", systemImage: "qrcode")
+                    }
                 }
             }
             
@@ -372,6 +387,6 @@ struct CryptoConfigView: View {
 }
 
 #Preview {
-    CryptoConfigView()
+    CryptoConfigView(config: nil)
         .environmentObject(PushbackManager.shared)
 }

@@ -70,11 +70,13 @@ extension String{
         return self.replacingOccurrences(of: "^(https?:\\/\\/)?", with: "", options: .regularExpression)
     }
     
+    func isHttpAndHttps() -> Bool{ ["http", "https"].contains{ self.lowercased().hasPrefix($0) } }
+    
     /// 判断字符串是否为有效的 URL，并返回图片类型
     func isValidURL() -> urlType {
         guard let url = URL(string: self) else { return .none }
         
-        if let scheme = url.scheme?.lowercased(), ["http", "https"].contains(scheme) {
+        if self.isHttpAndHttps() {
             return .remote
         } else if url.isFileURL {
             return .local
@@ -433,5 +435,18 @@ extension UInt64{
         } else {
             return "\(self)B" // 小于 1KB 直接显示字节
         }
+    }
+}
+
+extension URL{
+    func findNameAndKey() -> (String,String?){
+        guard let scheme = self.scheme, let host = self.host() else { return ("", nil)}
+        
+        let path = self.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        if path.count > 1 {
+            return (scheme + "://" + host, path)
+        }
+        
+        return (scheme + "://" + host, nil)
     }
 }

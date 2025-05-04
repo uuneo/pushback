@@ -163,11 +163,7 @@ struct MessageCard: View {
                     if showAssistant{
                         Button{
                             chatManager.messageId = message.id.uuidString
-                            if ISPAD{
-                                manager.allPath.append(.assistant)
-                            }else{
-                                manager.messagePath.append(.assistant)
-                            }
+                            manager.router.append(.assistant)
                             PushbackManager.vibration(style: .light)
                         }label: {
                             Label("问智能助手", image: "chatgpt")
@@ -218,6 +214,7 @@ struct MessageCard: View {
                     withAnimation {
                         self.showTTL.toggle()
                     }
+                    return true
                 })
             
             Spacer()
@@ -230,6 +227,7 @@ struct MessageCard: View {
                     .padding(.leading, 10)
                     .pressEvents(onRelease: { value in
                         PushbackManager.openUrl(url: url)
+                        return true
                     })
             }
             
@@ -239,6 +237,7 @@ struct MessageCard: View {
                     .foregroundStyle(Color.primary, .green)
                     .pressEvents(onRelease:{ result in
                         self.showRaw.toggle()
+                        return true
                     })
             }
            

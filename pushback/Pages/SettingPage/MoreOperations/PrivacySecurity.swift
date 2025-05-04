@@ -62,6 +62,7 @@ struct PrivacySecurity:View {
                         Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
                     }
                     self.showTextAnimation.toggle()
+                    return true
                 }
                 
                 ListButton(leading: {
@@ -87,6 +88,7 @@ struct PrivacySecurity:View {
                     Clipboard.shared.setString(userID)
                     Toast.copy(title: String(localized: "复制成功"))
                     self.showIdAnimation.toggle()
+                    return true
                 }
                
             }
@@ -104,11 +106,8 @@ struct PrivacySecurity:View {
                             .symbolEffect(.pulse, delay: 5)
                     }
                 } action: {
-                    if ISPAD{
-                        manager.allPath.append(.crypto)
-                    }else{
-                        manager.settingPath.append(.privacyConfig)
-                    }
+                    manager.router.append(.crypto(nil))
+                    return true
                 }
                
             }

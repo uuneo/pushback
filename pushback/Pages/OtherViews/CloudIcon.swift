@@ -69,6 +69,7 @@ struct CloudIcon: View {
                                         .pressEvents(onRelease: { _ in
                                             PushbackManager.openUrl(url: URL(string: "photos-redirect://")!)
                                             self.dismiss()
+                                            return true
                                         })
                                 }
                                 
@@ -200,6 +201,7 @@ struct CloudIcon: View {
                                 withAnimation {
                                     self.showTips.toggle()
                                 }
+                                return true
                             })
                     }
                 }

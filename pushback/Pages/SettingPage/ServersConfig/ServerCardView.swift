@@ -24,7 +24,7 @@ struct ServerCardView:View {
             
             if showDevice{
                 HStack{
-                    Image(systemName: "info.circle")
+                    Image(systemName: "qrcode")
                         .imageScale(.small)
                         .foregroundStyle(.gray)
                     Text(item.device)
@@ -38,6 +38,7 @@ struct ServerCardView:View {
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .padding(.leading, 10)
+               
             }
             
             
@@ -65,19 +66,21 @@ struct ServerCardView:View {
                             .foregroundStyle(.green, Color.primary)
                     }
                 }
-                .onTapGesture {
+                
+                .pressEvents( onRelease: { _ in
                     if !showDevice{
-                        withAnimation(.bouncy) {
+                        withAnimation(.easeInOut) {
                             self.showDevice = true
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                            withAnimation(.easeInOut) {
                                 self.showDevice = false
                             }
                         }
-                       
+                        return true
                     }
-                    
-                }
-            
+                    return false
+                })
                 
                 VStack(alignment: .leading){
                     
@@ -87,7 +90,7 @@ struct ServerCardView:View {
                             .frame(width: 40)
                             .minimumScaleFactor(0.5)
                             .foregroundStyle(.foreground)
-                            
+                        
                         Text(item.name)
                             .font(.headline)
                             .lineLimit(1)
@@ -108,11 +111,13 @@ struct ServerCardView:View {
                             .foregroundStyle(.foreground)
                         Spacer()
                     } .font(.caption2)
-                        
-                    
-                    
                     
                 }
+                .pressEvents(onRelease: { _ in
+                    manager.sheetPage = .quickResponseCode(text: "pb://server?text=\(item.server)", title: String(localized: "服务器配置"),preview: nil)
+                    return true
+                })
+                
                 Spacer()
                 
                 if isCloud{

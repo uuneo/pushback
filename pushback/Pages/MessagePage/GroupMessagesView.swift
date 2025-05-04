@@ -48,13 +48,8 @@ struct GroupMessagesView: View {
        
                         MessageRow(message: message, unreadCount: unRead(message))
                             .pressEvents(onRelease: { value in
-                                if ISPAD{
-                                    manager.allPath = [.messageDetail(message.group)]
-                                }else{
-                                    manager.messagePath = [.messageDetail(message.group)]
-                                }
-                               
-                                
+                                manager.router = [.messageDetail(message.group)]
+                                return true
                             })
                             .id(message.group)
                             .swipeActions(edge: .leading) {
@@ -118,7 +113,7 @@ struct GroupMessagesView: View {
                 proxy.scrollTo(value,anchor: .center)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                manager.messagePath = [.messageDetail(value)]
+                manager.router = [.messageDetail(value)]
             }
            
         }

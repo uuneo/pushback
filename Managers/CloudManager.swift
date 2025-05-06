@@ -73,18 +73,16 @@ extension CKRecord{
 }
 
 
-class PushIconCloudManager {
-    static let shared = PushIconCloudManager()
+class CloudManager {
+    static let shared = CloudManager()
     
-    private init() { }
+    private init() {}
     private let container = CKContainer(identifier: BaseConfig.icloudName)
     
     private var database: CKDatabase {
         container.publicCloudDatabase
     }
     private let recordType = "PushIcon"
-    
-
     
     func checkAccount() async -> (Bool, String) {
         do {
@@ -109,9 +107,6 @@ class PushIconCloudManager {
         }
     }
     
-
-    
-    
     func fetchRecords(for predicate: NSPredicate, in database: CKDatabase, limit: Int = 100) async -> [CKRecord] {
         let query = CKQuery(recordType: recordType, predicate: predicate)
         do {
@@ -134,7 +129,6 @@ class PushIconCloudManager {
         }
     }
     
-    
     func queryIconsForMe() async -> [CKRecord] {
         do{
             let userId = try await container.userRecordID()
@@ -146,8 +140,6 @@ class PushIconCloudManager {
             return []
         }
     }
-    
-   
     
     func queryIcons(name: String? = nil, descriptions: [String]? = nil) async -> [CKRecord] {
         
@@ -191,8 +183,6 @@ class PushIconCloudManager {
         return uniqueRecords
     }
     
-
-    
     // MARK: - 保存记录到 CloudKit（检查  name 是否重复）
     func savePushIconModel(_ model: PushIcon) async -> PushIconCloudError {
 
@@ -223,11 +213,6 @@ class PushIconCloudManager {
         
     }
     
-    
-    
-    
-    
-    
     // 删除指定的 PushIcon
     func deleteCloudIcon(_ serverID: String, completion: @escaping (Error?) -> Void) {
         // 创建 CKRecord.ID 对象
@@ -245,8 +230,14 @@ class PushIconCloudManager {
         }
     }
     
- 
-    
+    func getUserId() {
+        Task.detached(priority: .userInitiated) { [self] in
+            if let user =  try? await container.userRecordID(){
+                Defaults[.id] = user.recordName
+            }
+        }
+        
+    }
     
 }
 

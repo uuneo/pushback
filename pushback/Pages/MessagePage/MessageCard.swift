@@ -8,6 +8,7 @@
 import SwiftUI
 import RealmSwift
 import Defaults
+import AVFAudio
 
 
 struct MessageCard: View {
@@ -17,13 +18,18 @@ struct MessageCard: View {
     var showGroup:Bool =  false
     var showAllTTL:Bool = false
     var showAvatar:Bool = true
-    var showAssistant:Bool = true
     var complete:(()->Void)? = nil
     @State private var showRaw:Bool = false
     @State private var showLoading:Bool = false
-    @State private var showTTL:Bool = false
     
-    @EnvironmentObject private var manager:PushbackManager
+    @State private var timeMode:Int = 0
+    
+    var dateTime:String{
+        showAllTTL ?  message.expiredTime() :
+        (timeMode == 1 ? message.createDate.formatString() : message.createDate.agoFormatString())
+    }
+    
+    @EnvironmentObject private var manager:AppManager
     @EnvironmentObject private var chatManager:openChatManager
     
     var linColor:Color{
@@ -38,15 +44,17 @@ struct MessageCard: View {
     
     var body: some View {
         Section {
+            
+            
             VStack(alignment: .leading, spacing: 0){
                 
                 HStack(alignment: .center){
-                    
                     if showAvatar{
                         
-                        AvatarView(id: message.id.uuidString, icon: message.icon)
+                        AvatarView( icon: message.icon)
                             .frame(width: 30, height: 30, alignment: .center)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .padding(.top,5)
                             .overlay(alignment: .bottomTrailing) {
                                 if message.level > 2{
                                     Image(systemName: "exclamationmark.triangle.fill")
@@ -59,10 +67,6 @@ struct MessageCard: View {
                             }
                         
                     }
-                    
-                    
-                    
-                    
                     VStack{
                         if let title = message.title{
                             MarkdownCustomView.highlightedText(searchText: searchText, text: title)
@@ -90,7 +94,6 @@ struct MessageCard: View {
                             }
                         }
                     }
-                    
                 }
                 
                 if message.title != nil || message.subtitle != nil{
@@ -131,10 +134,96 @@ struct MessageCard: View {
                         }
                     }
             )
+            .overlay(alignment: .bottom) {
+                RoundedRectangle(cornerRadius: 0)
+                    .fill(Color.clear)
+                    .frame(height: 5)
+                    .background(.ultraThinMaterial)
+            }
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .contentShape(Rectangle())
             .onTapGesture(count: 2) {
                 self.complete?()
+            }
+            .contextMenu{
+               
+                Section{
+                    Button{
+                        chatManager.messageId = message.id.uuidString
+                        manager.router.append(.assistant)
+                        AppManager.vibration(style: .light)
+                    }label: {
+                        Label("问智能助手", image: "chatgpt")
+                    }
+                }
+               
+                Section{
+                    if let body = message.body{
+                        Button{
+                            Clipboard.shared.setString(body)
+                            Toast.copy(title: "复制成功")
+                            AppManager.vibration(style: .light)
+                        }label:{
+                            Label("复制内容", systemImage: "doc")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.green)
+                        }
+                        
+                    }
+                   
+                    Button{
+                        
+                        Clipboard.shared.setString(message.search)
+                        Toast.copy(title: "复制成功")
+                        AppManager.vibration(style: .light)
+                    }label:{
+                        Label("复制全部", systemImage: "doc.on.doc")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color.accent, .green)
+                    }
+                }
+                
+                
+                Section{
+                    Button {
+                        Task(priority: .high) {
+                            guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                                return
+                            }
+                            player.play()
+                        }
+                    }label: {
+                        Label("朗读内容",  systemImage: "waveform")
+                            .symbolEffect(.variableColor)
+                    }
+                }
+               
+                Section{
+                    
+                    if let url = message.url, let fileUrl = URL(string: url){
+                        
+                        Button{
+                            AppManager.openUrl(url: fileUrl)
+                            AppManager.vibration(style: .light)
+                        }label:{
+                            Label("打开链接", systemImage: "airplane.departure")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(Color.accent, .green)
+                            
+                        }
+                    }
+                    
+                    Button {
+                        self.complete?()
+                        AppManager.vibration(style: .light)
+                    } label: {
+                        Label("全屏查看", systemImage: "arrow.up.left.arrow.down.right")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color.green, .green)
+                    }
+
+                }
+                
             }
            
            
@@ -159,63 +248,17 @@ struct MessageCard: View {
     func MessageViewHeader()-> some View{
         HStack(alignment: .bottom){
            
-                Menu {
-                    if showAssistant{
-                        Button{
-                            chatManager.messageId = message.id.uuidString
-                            manager.router.append(.assistant)
-                            PushbackManager.vibration(style: .light)
-                        }label: {
-                            Label("问智能助手", image: "chatgpt")
-                        }
-                    }
-                    
-                    if let url = message.url, let fileUrl = URL(string: url){
-                        
-                        Button{
-                            PushbackManager.openUrl(url: fileUrl)
-                            PushbackManager.vibration(style: .light)
-                        }label:{
-                            Label("打开链接", systemImage: "airplane.departure")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(Color.primary, .green)
-                            
-                        }
-                    }
-                    
-                    Button{
-                        
-                        Clipboard.shared.setString(message.search)
-                        Toast.copy(title: String(localized: "复制成功"))
-                        PushbackManager.vibration(style: .light)
-                    }label:{
-                        Label("复制全部", systemImage: "doc.on.doc")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(Color.primary, .green)
-                    }
-                } label: {
-                    
-                    Image(systemName: showRaw ?  "captions.bubble.fill" : "captions.bubble" )
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.primary, .tint)
-                        .symbolEffect(.replace)
-                        .symbolEffect(.bounce,delay: 1)
-                        .imageScale(.small)
-                        .padding(.leading, 10)
-                    
-                }.foregroundStyle(.primary, .tint)
-           
-            
-            
-            Text((showTTL || showAllTTL) ? message.expiredTime() : message.createDate.agoFormatString())
+            Text(dateTime)
                 .font(.caption2)
-                .foregroundStyle( (showTTL || showAllTTL) ? (message.ttl < 7 ? .red : .green) : message.createDate.colorForDate())
+                .foregroundStyle( message.createDate.colorForDate() )
                 .pressEvents(onRelease: { value in
                     withAnimation {
-                        self.showTTL.toggle()
+                        let number = self.timeMode + 1
+                        self.timeMode = number > 2 ? 0 : number
                     }
                     return true
                 })
+                .padding(.leading, 10)
             
             Spacer()
             
@@ -226,7 +269,7 @@ struct MessageCard: View {
                     .symbolEffect(.bounce,delay: 1)
                     .padding(.leading, 10)
                     .pressEvents(onRelease: { value in
-                        PushbackManager.openUrl(url: url)
+                        AppManager.openUrl(url: url)
                         return true
                     })
             }
@@ -274,7 +317,7 @@ struct MessageCard: View {
         MessageCard(message: Message.examples().first!)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
-            .environmentObject(PushbackManager.shared)
+            .environmentObject(AppManager.shared)
         
     }.listStyle(GroupedListStyle())
     

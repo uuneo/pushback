@@ -19,11 +19,8 @@ final class openChatManager: ObservableObject {
     @Published var currentContent:String = ""
     @Published var isLoading:Bool = false
     @Published var inAssistant:Bool = false
-    
     @Published var currentMessageId:String = UUID().uuidString
-
     @Published var messageId:String?
-    
     @Published var isFocusedInput:Bool = false
     
     
@@ -46,12 +43,8 @@ final class openChatManager: ObservableObject {
             }
             
             
-            guard let openchat = self.getReady(account: account) else {
-               
-                return false
-            }
-            
-            
+            guard let openchat = self.getReady(account: account) else {  return false }
+
             let query = ChatQuery(messages: [.user(.init(content: .string("Hello")))], model: account.model)
             
              _ = try await openchat.chats(query: query)
@@ -59,7 +52,7 @@ final class openChatManager: ObservableObject {
             return true
             
         }catch{
-            debugPrint(error.localizedDescription)
+            debugPrint(error)
             return false
         }
         
@@ -119,12 +112,8 @@ final class openChatManager: ObservableObject {
           
             return ChatQuery(messages: [.user(.init(content: .string(text)))], model: account.model)
         }
-        
-        
-        
-        
-        
     }
+    
     
     func getReady(account:AssistantAccount? = nil) -> OpenAI?{
         if let account = account {

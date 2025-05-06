@@ -154,6 +154,7 @@ struct SelectMessageView:View {
         .background(.ultraThinMaterial)
         .containerShape(RoundedRectangle(cornerRadius: 0))
         .onTapGesture {
+            AppManager.vibration(style: .light)
             dismiss()
         }
         .transition(.move(edge: .leading))

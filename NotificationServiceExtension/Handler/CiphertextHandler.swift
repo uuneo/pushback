@@ -12,7 +12,7 @@ import UserNotifications
 class CiphertextHandler:NotificationContentHandler{
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		
-		guard let ciphertext = bestAttemptContent.userInfo[Params.ciphertext.name] as? String  else {
+        guard let ciphertext:String = bestAttemptContent.userInfo[Params.ciphertext.name] as? String  else {
 			return bestAttemptContent
 		}
 		var userInfo = bestAttemptContent.userInfo

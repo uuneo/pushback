@@ -5,12 +5,13 @@
 >
 >- 프로젝트의 일부 코드는 [Bark](https://github.com/Finb/Bark)에서 가져왔습니다
 >
-> - 마크다운 스타일 (계획된 업데이트 - 완료됨)
-> - 자동 벨소리 변환 (계획된 업데이트 - 진행 중)
+> - 마크다운 스타일링 (완료)
+> - 자동 벨소리 변환 (완료)
+> - 메시지 내용 읽기 (베타) (완료)
 
 
 <p align="center">
-<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
+<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="100"/>
 </p>
 
 
@@ -48,6 +49,12 @@ POST 요청의 경우 매개변수 이름은 위와 동일합니다
 ```
 
 ## 매개변수
+
+* Markdown
+```
+// category=markdown을 지정하면 푸시 알림에서 마크다운이 렌더링됩니다
+https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+```
 
 * url
 ```
@@ -92,7 +99,7 @@ https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 ```
 * level
 ```
-// 시간 민감도 알림 설정
+// 알림 수준 설정 및 시간 민감도 알림
 https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 
 // 선택적 매개변수 값으로 level = 1...10도 사용할 수 있으며, volume은 level보다 우선순위가 높습니다
@@ -115,3 +122,8 @@ https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 - [QRScanner](https://github.com/mercari/QRScanner)
 - [realm](https://github.com/realm/realm-swift)
 - [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+- [Kingfisher](https://github.com/onevcat/Kingfisher)
+- [OpenAI](https://github.com/MacPaw/OpenAI)
+- [Splash](https://github.com/AugustDev/Splash)
+- [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui)
+

@@ -5,12 +5,13 @@
 >
 >- プロジェクトの一部のコードは [Bark](https://github.com/Finb/Bark) から派生しています
 >
-> - Markdown スタイル（計画された更新 - 完了）
-> - 自動着信音変換（計画された更新 - 進行中）
+> - Markdown スタイリング（完了）
+> - 着信音の自動変換（完了）
+> - メッセージ内容の読み上げ（ベータ版）（完了）
 
 
 <p align="center">
-<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
+<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="100"/>
 </p>
 
 
@@ -48,6 +49,12 @@ POSTリクエストの場合、パラメータ名は上記と同じです
 ```
 
 ## Parameters
+
+* Markdown
+```
+// category=markdown を指定すると、プッシュ通知でMarkdownがレンダリングされます
+https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+```
 
 * url
 ```
@@ -92,7 +99,7 @@ https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 ```
 * level
 ```
-// 時間に敏感な通知を設定します
+// 通知レベルを設定し、時間に敏感な通知を設定します
 https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 
 // オプションパラメータ値として level = 1...10 も使用可能です。音量は level より優先度が高いです
@@ -115,3 +122,10 @@ https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 - [QRScanner](https://github.com/mercari/QRScanner)
 - [realm](https://github.com/realm/realm-swift)
 - [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+- [Kingfisher](https://github.com/onevcat/Kingfisher)
+- [OpenAI](https://github.com/MacPaw/OpenAI)
+- [Splash](https://github.com/AugustDev/Splash)
+- [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui)
+
+
+

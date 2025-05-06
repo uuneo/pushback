@@ -4,11 +4,12 @@
 >
 >- 项目部分代码来自 [Bark ](https://github.com/Finb/Bark)
 > 
-> - Markdown 样式（计划更新 - 已完成）
-> - 铃声自动转换 （计划更新 - 进行中）
+> - Markdown 样式（已完成）
+> - 铃声自动转换 （已完成）
+> - 朗读消息内容(测试版) （已完成）
 
 <p align="center">
-<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
+<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="100"/>
 </p>
 
 # Pushback 反推
@@ -51,6 +52,13 @@ post 请求 参数名也是上面这些
 
 ## 功能参数
 
+* Markdown
+```
+// 指定 category=markdown 推送将渲染Markdown
+https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+```
+
+
 * url
 ```
 // 点击推送将跳转到url的地址（发送时，URL参数需要编码）
@@ -76,16 +84,6 @@ https://push.uuneo.com/yourkey/需要自定义图标的推送?icon=https://pushb
 // 指定推送消息图片，图片自动保存到相册
 https://push.uuneo.com/yourkey/icon?image=https://pushback.uuneo.com/_media/avatar.png
 ```
-|手动保存|自动保存|
-|-|-|
-|<img src="/docs/_media/shoudong.gif" width="350">|<img src="/docs/_media/auto.gif" width="350">|
-
-
-* video
-```
-// 指定推送消息视频，下拉可以播放
-https://push.uuneo.com/yourkey/icon?video=https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4
-```
 
 * sound
 ```
@@ -102,9 +100,9 @@ https://push.uuneo.com/yourkey/call?call=1
 // 推送加密的密文
 https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 ```
-* 时效性通知
+* level
 ```
-// 设置时效性通知
+// 消息通知级别 设置时效性通知 
 https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive&volume=10
 
 // 可选参数值 也可使用 level = 1...10  volume 声音优先级大于 level
@@ -125,4 +123,8 @@ https://push.uuneo.com/yourkey/时效性通知?level=timeSensitive&volume=10
 - [QRScanner](https://github.com/mercari/QRScanner)
 - [realm](https://github.com/realm/realm-swift)
 - [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+- [Kingfisher](https://github.com/onevcat/Kingfisher)
+- [OpenAI](https://github.com/MacPaw/OpenAI)
+- [Splash](https://github.com/AugustDev/Splash)
+- [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui)
 

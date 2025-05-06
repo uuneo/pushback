@@ -12,7 +12,7 @@ import UniformTypeIdentifiers
 
 struct CloudIcon: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var manager:PushbackManager
+    @EnvironmentObject var manager:AppManager
     
     @State private var searchText:String = ""
     
@@ -42,7 +42,7 @@ struct CloudIcon: View {
                         }
                         self.dropImage = nil
                     } endEditing: {
-                        PushbackManager.hideKeyboard()
+                        AppManager.hideKeyboard()
                     }
                 }else{
                     ScrollView(.vertical, showsIndicators: false){
@@ -67,7 +67,7 @@ struct CloudIcon: View {
                                         .frame(maxWidth: .infinity, alignment: .center)  // 保证在容器中居中
                                         .lineSpacing(10)
                                         .pressEvents(onRelease: { _ in
-                                            PushbackManager.openUrl(url: URL(string: "photos-redirect://")!)
+                                            AppManager.openUrl(url: URL(string: "photos-redirect://")!)
                                             self.dismiss()
                                             return true
                                         })
@@ -93,7 +93,7 @@ struct CloudIcon: View {
                                                         }
                                                         
                                                     }else {
-                                                        Toast.error(title: String(localized: "图片加载失败"))
+                                                        Toast.error(title: "图片加载失败")
                                                     }
                                                     
                                                 }label:{
@@ -103,7 +103,7 @@ struct CloudIcon: View {
                                                 
                                                 Button {
                                                     Clipboard.shared.setString(name)
-                                                    Toast.copy(title: String(localized:"复制成功"))
+                                                    Toast.copy(title: "复制成功")
                                                 }label:{
                                                     
                                                     Label("复制key", systemImage: "doc.on.doc")
@@ -112,11 +112,11 @@ struct CloudIcon: View {
                                                 Section{
                                                     Button(role: .destructive) {
                                                         
-                                                        PushIconCloudManager.shared.deleteCloudIcon( icon.recordID.recordName) { error in
+                                                        CloudManager.shared.deleteCloudIcon( icon.recordID.recordName) { error in
                                                             if let error{
                                                                 Toast.error(title: "\(error.localizedDescription)")
                                                             }else{
-                                                                Toast.success(title: String(localized:"图片删除成功"))
+                                                                Toast.success(title: "图片删除成功")
                                                                 if let index = icons.firstIndex(where: {$0.recordID.recordName == icon.recordID.recordName}){
                                                                     icons.remove(at: index)
                                                                 }
@@ -298,7 +298,7 @@ struct CloudIcon: View {
     
     func getIcons(){
         Task.detached{
-            let icons = await PushIconCloudManager.shared.queryIconsForMe()
+            let icons = await CloudManager.shared.queryIconsForMe()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 withAnimation {
                     self.icons = icons

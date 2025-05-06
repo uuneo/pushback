@@ -16,7 +16,7 @@ class CallHandler: NotificationContentHandler {
     
     func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
         // 如果不是来电通知，直接返回
-        guard let call = bestAttemptContent.userInfo["call"] as? String, call == "1" else {
+        guard let call:String = bestAttemptContent.userInfo.raw(.call), call == "1" else {
             return bestAttemptContent
         }
 

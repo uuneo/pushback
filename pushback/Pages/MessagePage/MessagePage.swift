@@ -10,7 +10,7 @@ import Defaults
 import RealmSwift
 
 struct MessagePage: View {
-    @EnvironmentObject private var manager:PushbackManager
+    @EnvironmentObject private var manager:AppManager
     @Default(.showGroup) private var showGroup
     @State private var showAction = false
     @StateObject private var groupModel = GroupMessagesModel()
@@ -70,15 +70,13 @@ struct MessagePage: View {
                 
                 ToolbarItem {
                     
-                    
-                    
                     if ISPAD{
                         Menu {
                             ForEach( MessageAction.allCases, id: \.self){ item in
-                                Button{
+                                Button(role: item == .cancel ? .destructive : .cancel){
                                     deleteMessage(item)
                                 }label:{
-                                    Label(item.localized, systemImage: (item == .cancel ? "arrow.uturn.right.circle" : item == .markRead ? "text.badge.checkmark" : "xmark.bin.circle"))
+                                    Label(item.localized, systemImage:  "xmark.bin.circle" )
                                         .symbolRenderingMode(.palette)
                                         .foregroundStyle(.green, Color.primary)
                                 }
@@ -92,40 +90,32 @@ struct MessagePage: View {
                         
                     }else{
                         
-                        Button{
-                            self.showAction = true
-                        }label: {
-                            Image(systemName: "trash.circle")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, Color.primary)
-                                .symbolEffect(delay: 0)
-                            
-                        }
-                        
-                        
+                        Image(systemName: "trash.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.green, Color.primary)
+                            .symbolEffect(delay: 0)
+                            .padding(.horizontal)
+                            .pressEvents(onRelease: { value in
+                                self.showAction = true
+                                return true
+                                
+                            })
                     }
                     
                 }
                 
-                
+            
             }
             .actionSheet(isPresented: $showAction) {
                 
                 ActionSheet(title: Text( "删除以下时间的信息!"),
                             buttons: MessageAction.allCases.map({ item in
                     
-                    switch item{
-                    case .cancel:
-                        Alert.Button.cancel()
-                    case .markRead:
-                        Alert.Button.default(Text(item.localized), action: {
-                            deleteMessage(item)
-                        })
-                    default:
-                        Alert.Button.destructive(Text(item.localized), action: {
-                            deleteMessage(item)
-                        })
-                    }
+                    item == .cancel ?
+                    Alert.Button.cancel() :
+                    Alert.Button.default(Text(item.localized), action: {
+                        deleteMessage(item)
+                    })
                     
                 }))
             }
@@ -137,19 +127,8 @@ struct MessagePage: View {
    
     
     func deleteMessage(_ mode: MessageAction){
-        switch mode {
-        case .markRead:
-            autoreleasepool {
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({ !$0.read})
-                    proxy.writeAsync {
-                        datas.setValue(true, forKey: "read")
-                    }
-                }
-            }
-        case .cancel:
-            break
-        default:
+        
+        if mode != .cancel{
             autoreleasepool {
                 RealmManager.handler { proxy in
                     let datas = proxy.objects(Message.self).where({ $0.createDate < mode.date })
@@ -157,11 +136,9 @@ struct MessagePage: View {
                         proxy.delete(datas)
                     }
                 }
+                Toast.success(title: "操作成功")
             }
         }
-        
-        Toast.success(title: String(localized: "操作成功"))
-        
     }
     
   

@@ -11,7 +11,7 @@ import UIKit
 
 struct SoundView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject private var audioManager = AudioManager.shared
+    @EnvironmentObject private var audioManager:AudioManager
     @State private var showUpload:Bool = false
     
     @State private var uploadLoading:Bool = false
@@ -65,7 +65,6 @@ struct SoundView: View {
                                     case .success(let success):
                                         Log.debug(success)
                                         await audioManager.saveSound(url: success)
-                                        
                                     case .failure(let failure):
                                         Toast.shared.present(title: failure.localizedDescription, symbol: .error)
                                         Log.error(failure)
@@ -138,7 +137,7 @@ struct SoundView: View {
 
 #Preview {
     SoundView()
-        .environmentObject(PushbackManager.shared)
+        .environmentObject(AppManager.shared)
     
 }
 

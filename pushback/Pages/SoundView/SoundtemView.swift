@@ -12,7 +12,7 @@ import Defaults
 
 
 struct SoundItemView: View {
-	@StateObject private var audioManager = AudioManager.shared
+    @EnvironmentObject private var audioManager:AudioManager
 	@Default(.sound) var sound
 
 	var audio:URL
@@ -89,7 +89,7 @@ struct SoundItemView: View {
                     .foregroundStyle( .tint, Color.primary)
                     .onTapGesture {
                         Clipboard.shared.setString(self.name)
-                        Toast.copy(title: String(localized:  "复制成功"))
+                        Toast.copy(title: "复制成功")
                     }
             }else{
                 Text("长度不能超过30秒")
@@ -149,5 +149,5 @@ extension SoundItemView{
 
 #Preview{
     SettingsPage()
-		.environmentObject(PushbackManager.shared)
+		.environmentObject(AppManager.shared)
 }

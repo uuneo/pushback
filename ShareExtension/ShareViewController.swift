@@ -16,7 +16,7 @@ class ShareViewController: UIViewController  {
     
     override func viewDidLoad() {
         if let itemProviders = (extensionContext!.inputItems.first as? NSExtensionItem)?.attachments {
-            let hostingView = UIHostingController(rootView: ShareView(itemProviders: itemProviders, extensionContext: extensionContext, view: view))
+            let hostingView = UIHostingController(rootView: ShareView(itemProviders: itemProviders, extensionContext: extensionContext, view: view, openHostApp: openHostApp))
             hostingView.view.frame = view.frame
             
             view.addSubview(hostingView.view)
@@ -24,14 +24,13 @@ class ShareViewController: UIViewController  {
     }
     
     
-    
-    func openHostApp(localKey:String) {
+    func openHostApp(_ localKey:URL) {
         var responder: UIResponder? = self // 从当前对象开始
         
         while let currentResponder = responder {
             // 检查是否是 UIApplication 类型
             if let app = currentResponder as? UIApplication{
-                app.open(URL(string: "mw://fromLocalImage?key=\(localKey)")!, options: [:]) { success in
+                app.open(localKey, options: [:]) { success in
                     Log.debug("打开app状态：\(success)")
                 }
                 return
@@ -51,6 +50,7 @@ fileprivate struct ShareView: View {
     var itemProviders: [NSItemProvider]
     var extensionContext: NSExtensionContext?
     var view:UIView?
+    var openHostApp:(URL)-> Void
     
    
     @State private var pushIcon:PushIcon?
@@ -70,6 +70,8 @@ fileprivate struct ShareView: View {
             
             if let pushIcon{
                 UploadIclondIcon(pushIcon: pushIcon) { _ in
+                    openHostApp(PBScheme.pb.scheme(host: .openPage, params: ["page" : "icon"]))
+                    
                     dismiss()
                 } endEditing: {
                     self.view?.endEditing(true)
@@ -117,7 +119,6 @@ fileprivate struct ShareView: View {
             }
         }
     }
-    
     
     /// Dismissing View
     func dismiss() {

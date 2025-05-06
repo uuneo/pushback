@@ -23,8 +23,6 @@ class RealmManager{
     static func unRead(_ group:String? = nil) -> Int{
         do{
             let results = try Realm().objects(Message.self).where({!$0.read})
-            
-            
             if let group{
                 return results.where({$0.group == group}).count
             }

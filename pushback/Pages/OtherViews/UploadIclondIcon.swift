@@ -163,9 +163,9 @@ struct UploadIclondIcon:View {
             pictureLoading = true
             Task{
                 
-                let (success, message) = await PushIconCloudManager.shared.checkAccount()
+                let (success, message) = await CloudManager.shared.checkAccount()
                 
-                let records = await PushIconCloudManager.shared.queryIconsForMe()
+                let records = await CloudManager.shared.queryIconsForMe()
                 
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1){
@@ -185,7 +185,7 @@ struct UploadIclondIcon:View {
         DispatchQueue.main.async {
             self.pictureLoading = true
         }
-        let err = await PushIconCloudManager.shared.savePushIconModel(self.pushIcon)
+        let err = await CloudManager.shared.savePushIconModel(self.pushIcon)
         Log.debug(err.tips)
         
         switch err {

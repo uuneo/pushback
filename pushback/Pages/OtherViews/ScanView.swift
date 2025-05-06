@@ -17,28 +17,31 @@ struct ScanView: View {
 	@State private var restart = false
 	@State private var showActive = false
     
-    @EnvironmentObject private var manager:PushbackManager
+    @EnvironmentObject private var manager:AppManager
     
-    var response: (String) -> Bool
+    var response: (String) async-> Bool
     
 	var body: some View {
 		ZStack{
 
             QRScanner(restart: $restart, flash: $torchIsOn) { code in
-                if response(code) {
-                    self.dismiss()
-                }else{
-                    self.showActive.toggle()
+                Task{
+                    if await response(code) {
+                        self.dismiss()
+                    }else{
+                        self.showActive.toggle()
+                    }
                 }
+                
             } fail: { error in
                 switch error{
                 case .unauthorized(let status):
                     if status != .authorized{
-                        Toast.info(title: String(localized: "没有相机权限"))
+                        Toast.info(title:  "没有相机权限")
                     }
                     self.dismiss()
                 default:
-                    Toast.error(title: String(localized: "扫码失败"))
+                    Toast.error(title: "扫码失败")
                     self.dismiss()
                 }
                 

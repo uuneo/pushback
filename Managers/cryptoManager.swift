@@ -48,8 +48,6 @@ final class CryptoManager {
         return data?.base64EncodedString()
     }
 
-	
-
 	func decrypt(_ ciphertext: Data) -> String? {
 		switch mode {
 		case .CBC, .ECB:

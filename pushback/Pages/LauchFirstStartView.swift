@@ -60,16 +60,11 @@ struct LauchFirstStartView: View {
                     Spacer(minLength: 10)
                     
                     Button {
-						withAnimation {
-							withAnimation {
-								self.show.toggle()
-							}
-							
-							DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-								complete?()
-							}
-						}
 						
+                        withAnimation {
+                            self.show.toggle()
+                            complete?()
+                        }
                     } label: {
                         Text("开始使用")
                             .fontWeight(.semibold)

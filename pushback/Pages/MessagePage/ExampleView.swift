@@ -10,7 +10,7 @@ import Defaults
 
 
 struct ExampleView: View {
-    @EnvironmentObject private var manager:PushbackManager
+    @EnvironmentObject private var manager:AppManager
     @State private var username:String = ""
     @State private var title:String = ""
     @State private var pickerSelection:Int = 0
@@ -110,7 +110,7 @@ struct ExampleView: View {
                                 .font(.headline)
                                 .fontWeight(.bold)
                         }.pressEvents( onRelease: { _ in
-                            PushbackManager.shared.sheetPage = .quickResponseCode(text: resultUrl,title: item.title, preview: item.title)
+                            AppManager.shared.sheetPage = .quickResponseCode(text: resultUrl,title: item.title, preview: item.title)
                             return true
                         })
                        
@@ -124,7 +124,7 @@ struct ExampleView: View {
                             .padding(.horizontal)
                             .pressEvents( onRelease: { _ in
                                 UIPasteboard.general.string = resultUrl
-                                Toast.copy(title: String(localized:  "复制成功"))
+                                Toast.copy(title:  "复制成功")
                                 return true
                             })
                         Image(systemName: "safari")
@@ -356,7 +356,7 @@ struct ExampleView: View {
         .simultaneousGesture(
             DragGesture().onEnded { trans in
                 if trans.translation.height > 50{
-                    PushbackManager.hideKeyboard()
+                    AppManager.hideKeyboard()
                 }
             }
         )
@@ -490,7 +490,7 @@ extension ExampleView{
         
         Clipboard.shared.setString(param)
                                 
-        Toast.success(title: String(localized: "复制成功"))
+        Toast.success(title: "复制成功")
     }
     
     func sendExample(){
@@ -501,9 +501,9 @@ extension ExampleView{
             let res:APIPushToDeviceResponse? = try await http.fetch(url: params.server, method: .post, params: query)
             debugPrint(query)
             if res?.code == 200{
-                Toast.success(title: String(localized: "操作成功"))
+                Toast.success(title:  "操作成功")
             }else{
-                Toast.error(title: String(localized: "操作失败"))
+                Toast.error(title: "操作失败")
             }
         }
        
@@ -513,9 +513,9 @@ extension ExampleView{
         
         let param = params.createParams()
         if let url = URL(string: param){
-            PushbackManager.openUrl(url: url)
+            AppManager.openUrl(url: url)
         }else{
-            Toast.error(title: String(localized: "参数错误"))
+            Toast.error(title: "参数错误")
         }
     }
     

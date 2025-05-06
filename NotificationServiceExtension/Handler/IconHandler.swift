@@ -15,14 +15,14 @@ class IconHandler: NotificationContentHandler{
         let userInfo = bestAttemptContent.userInfo
         
         
-        guard let imageUrl = userInfo[Params.icon.name] as? String else { return bestAttemptContent}
+        guard let imageUrl:String = userInfo.raw(.icon) else { return bestAttemptContent}
         
         var localPath = await ImageManager.downloadImage(imageUrl)
         
         /// 获取icon 云图标
         if localPath == nil {
             
-            let images = await PushIconCloudManager.shared.queryIcons(name: imageUrl)
+            let images = await CloudManager.shared.queryIcons(name: imageUrl)
             
             if let image = images.first, let icon = image.toPushIcon(), let previewImage = icon.previewImage, let data = previewImage.pngData() {
                 

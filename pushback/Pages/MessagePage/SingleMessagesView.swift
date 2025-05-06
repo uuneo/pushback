@@ -12,9 +12,7 @@ import Defaults
 struct SingleMessagesView: View {
     
     @ObservedResults(Message.self,sortDescriptor: SortDescriptor(keyPath: \Message.createDate, ascending: false)) var messages
-    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
     @Default(.showMessageAvatar) var showMessageAvatar
-    @Default(.showAssistant) var showAssistant
     
     @State private var currentPage: Int = 1
     @State private var itemsPerPage: Int = 50 // 每页加载50条数据
@@ -23,21 +21,8 @@ struct SingleMessagesView: View {
  
     @State private var showAllTTL:Bool = false
     
-    @EnvironmentObject private var manager:PushbackManager
-    var chatHomeMessage:Message{
-        var chatGroup:ChatMessage? = nil
-        
-        if let realm = try? Realm(),
-           let chat = realm.objects(ChatMessage.self).sorted(byKeyPath: "timestamp").last {
-            chatGroup = chat
-            
-        }
-        
-        return ChatMessage.getAssistant(chat: chatGroup)
-        
-        
-    }
-    
+    @EnvironmentObject private var manager:AppManager
+
     var currentMessage:[Message]{
         Array(messages.prefix(currentPage * itemsPerPage))
     }
@@ -48,13 +33,10 @@ struct SingleMessagesView: View {
             
                 ScrollViewReader { proxy in
                     List{
-                        if showAssistant{
-                            AssistantRowView()
-                        }
                     
                         ForEach(currentMessage, id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar,showAssistant:showAssistant){
+                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
                                 withAnimation(.easeInOut) {
                                     manager.selectMessage = message
                                 }
@@ -62,6 +44,19 @@ struct SingleMessagesView: View {
                             .id(message.id)
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                Button {
+                                    Task(priority: .high) {
+                                        guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                                            return
+                                        }
+                                        player.play()
+                                    }
+                                }label: {
+                                    Label("朗读内容",  systemImage: "waveform")
+                                        .symbolEffect(.variableColor)
+                                }
+                            }
                             
                         }.onDelete(perform: $messages.remove)
                         

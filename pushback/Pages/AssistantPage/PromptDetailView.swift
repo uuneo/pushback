@@ -9,6 +9,7 @@ struct PromptDetailView: View {
     let prompt: ChatPrompt?
     
     @State private var title: String
+    @State private var address: String
     @State private var content: String
     @State private var showDeleteConfirmation = false
     @State private var isEditing = false
@@ -18,6 +19,7 @@ struct PromptDetailView: View {
         _title = State(initialValue: prompt?.title ?? "")
         _content = State(initialValue: prompt?.content ?? "")
         _isEditing = State(initialValue: prompt == nil)
+        _address = State(wrappedValue: prompt?.address ?? "")
     }
     
     var body: some View {
@@ -25,6 +27,9 @@ struct PromptDetailView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     titleSection
+                    if address.count > 5 || isEditing{
+                        addressSection
+                    }
                     contentSection
                     promptInfoSection
                     actionButtonsSection
@@ -48,6 +53,18 @@ struct PromptDetailView: View {
                     .textFieldStyle(.roundedBorder)
             } else {
                 Text(title).font(.body)
+            }
+        }
+    }
+    
+    // MARK: - View Components
+    private var addressSection: some View {
+        SectionView(false,title: String(localized: "自动更新")) {
+            if isEditing {
+                TextField("请输入网络地址", text: $address)
+                    .textFieldStyle(.roundedBorder)
+            } else {
+                Text(address).font(.body)
             }
         }
     }
@@ -149,6 +166,7 @@ struct PromptDetailView: View {
             let chatprompt = ChatPrompt()
             chatprompt.title = title
             chatprompt.content = content
+            chatprompt.address = address
             chatprompt.isBuiltIn = false
             
             RealmManager.handler{ realm in
@@ -183,14 +201,19 @@ struct PromptDetailView: View {
 // MARK: - SectionView
 private struct SectionView<Content: View>: View {
     let title: String
+    let center:Bool
     let content: Content
     
-    init(title: String, @ViewBuilder content: () -> Content) {
+    
+    init(_ center:Bool = true, title: String, @ViewBuilder content: () -> Content) {
         self.title = title
+        self.center = center
         self.content = content()
+      
     }
     
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.headline)
@@ -198,6 +221,14 @@ private struct SectionView<Content: View>: View {
             content
         }
         .padding(.horizontal)
+        .if(!center){ view in
+            HStack{
+               view
+                Spacer()
+            }
+        }
+        
+        
     }
 }
 

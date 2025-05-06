@@ -311,6 +311,7 @@ struct AddPromptView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
     @State private var content = ""
+    @State private var address = ""
 
     
     // MARK: - View
@@ -318,6 +319,7 @@ struct AddPromptView: View {
         NavigationStack {
             Form {
                 TextField("标题", text: $title)
+                TextField("网络地址", text: $address)
                 TextEditor(text: $content)
                     .frame(height: 200)
             }
@@ -335,6 +337,7 @@ struct AddPromptView: View {
                         let chatprompt = ChatPrompt()
                         chatprompt.title = title
                         chatprompt.content = content
+                        chatprompt.address = address
                         chatprompt.isBuiltIn = false
                         
                         RealmManager.handler { realm in

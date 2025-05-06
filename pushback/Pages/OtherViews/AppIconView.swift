@@ -13,13 +13,14 @@ import Defaults
 struct AppIconView: View {
     @Environment(\.dismiss) var dismiss
 	@Default(.appIcon) var setting_active_app_icon
-    @EnvironmentObject private var appState:AppState
+    @State private var PremiumUser:Bool = false
+    @EnvironmentObject private var manager:AppManager
     var body: some View {
-		
-		ScrollView(.horizontal) {
-			HStack{
+        
+        ScrollView(.horizontal) {
+            HStack{
                 ForEach(AppIconEnum.allCases, id: \.self){ item in
-                    if item == AppIconEnum.allCases.first && appState.subscriptionInfo.canAccessContent {
+                    if item == AppIconEnum.allCases.first && manager.PremiumUser {
                         iconItem(item: item)
                     }
                     
@@ -27,25 +28,23 @@ struct AppIconView: View {
                     if item != AppIconEnum.allCases.first {
                         iconItem(item: item)
                     }
-					
-					
-				   
-				}
-			}
-		}
-		.scrollIndicators(.hidden)
-		.navigationTitle( "程序图标")
-		.navigationBarTitleDisplayMode(.inline)
-		.toolbar{
-			ToolbarItem{
-				Button{
-					self.dismiss()
-				}label:{
-					Image(systemName: "xmark.seal")
-				}
-				
-			}
-		}
+                }
+            }
+        }
+        .scrollIndicators(.hidden)
+        .navigationTitle( "程序图标")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar{
+            ToolbarItem{
+                Button{
+                    self.dismiss()
+                }label:{
+                    Image(systemName: "xmark.seal")
+                }
+                
+            }
+        }
+       
         
         
     }
@@ -92,10 +91,10 @@ struct AppIconView: View {
 				}
 			}
 
-			Toast.success(title: String(localized: "切换成功"), timing: .long)
+			Toast.success(title: "切换成功", timing: .long)
 			dismiss()
 		}else{
-			Toast.question(title: String(localized: "暂时不能切换"), timing: .short)
+			Toast.question(title: "暂时不能切换", timing: .short)
 		}
 
 	}

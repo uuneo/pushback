@@ -14,9 +14,9 @@ struct SearchMessageView:View {
 	init(searchText: String, group: String? = nil) {
 		self.searchText = searchText
 		if let group = group{
-			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "search CONTAINS[c] %@ AND group ==[c] %@", searchText, group), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "(body CONTAINS[c] %@ OR title CONTAINS[c] %@ OR subtitle CONTAINS[c] %@)AND group ==[c] %@", searchText, searchText, searchText, group), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
 		} else {
-			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "search CONTAINS[c] %@", searchText), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
+			self._messages = ObservedResults(Message.self, filter: NSPredicate(format: "body CONTAINS[c] %@ OR title CONTAINS[c] %@ OR subtitle CONTAINS[c] %@ OR group CONTAINS[c] %@", searchText, searchText, searchText, searchText), sortDescriptor: SortDescriptor(keyPath: "createDate", ascending: false))
 		}
 		self.currentPage = 1
 	}
@@ -26,7 +26,8 @@ struct SearchMessageView:View {
 			HStack{
 				Spacer()
 				Text(String(format: String(localized: "找到%1$d条数据"), messages.count))
-					.foregroundStyle(.gray)
+                    .font(.caption)
+                    .foregroundStyle(.gray)
 					.padding(.trailing, 10)
 				
 			}
@@ -41,7 +42,7 @@ struct SearchMessageView:View {
 						}
 					}
 			}
-		}
+        }
 	}
 
 }

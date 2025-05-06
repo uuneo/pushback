@@ -12,8 +12,7 @@ import Kingfisher
 
 
 struct AvatarView: View {
-	
-	var id:String?
+
 	var icon:String?
     var customIcon:String = ""
 	
@@ -79,7 +78,6 @@ struct AvatarView: View {
         Log.debug(icon)
 		Task.detached(priority: .background)  {
 			if let localPath = await ImageManager.downloadImage(icon) {
-                Log.debug(localPath )
 				await MainActor.run {
                     self.image = URL(fileURLWithPath: localPath)
 				}

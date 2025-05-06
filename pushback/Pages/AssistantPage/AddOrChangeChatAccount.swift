@@ -97,14 +97,15 @@ struct AddOrChangeChatAccount:View {
                                     self.isTestingAPI = true
                                     let success = await chatManager.test(account: data)
                                     
-                                    
                                     await view.next(success ? .success : .fail)
-                                    
-                                    DispatchQueue.main.async{
+                                    await MainActor.run{
                                         self.isTestingAPI = false
-                                        self.saveOrChangeData()
                                     }
-                                    
+                                    if success{
+                                        await MainActor.run{
+                                            self.saveOrChangeData()
+                                        }
+                                    }
                                 }
                         Spacer()
                     }
@@ -129,7 +130,8 @@ struct AddOrChangeChatAccount:View {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button{
                             self.dismiss()
-                            PushbackManager.shared.sheetPage = .quickResponseCode(text: "pb://assistant?text=\(config)", title: String(localized: "智能助手"), preview: String(localized: "智能助手"))
+                            let local = PBScheme.pb.scheme(host: .assistant, params: ["text":config])
+                            AppManager.shared.sheetPage = .quickResponseCode(text: local.absoluteString, title: String(localized: "智能助手"), preview: String(localized: "智能助手"))
                         }label:{
                             Label("分享", systemImage: "qrcode")
                         }
@@ -144,7 +146,7 @@ struct AddOrChangeChatAccount:View {
         data.trimAssistantAccountParameters()
        
         if data.host.isEmpty || data.key.isEmpty || data.model.isEmpty {
-            Toast.info(title: String(localized:"参数不能为空"))
+            Toast.info(title: "参数不能为空")
             return
         }
         
@@ -156,19 +158,19 @@ struct AddOrChangeChatAccount:View {
         if let index = assistantAccouns.firstIndex(where: {$0.id == data.id}){
             
             assistantAccouns[index] = data
-            Toast.success(title: String(localized:"添加成功"))
+            Toast.success(title: "添加成功")
             self.dismiss()
             return
         }else{
             
             
             if assistantAccouns.filter({$0.host == data.host && $0.basePath == data.basePath && $0.model == data.model && $0.key == data.key}).count > 0 {
-                Toast.error(title: String(localized:"重复数据"))
+                Toast.error(title: "重复数据")
                 return
             }
             
             assistantAccouns.insert(data, at: 0)
-            Toast.success(title:String(localized: "修改成功"))
+            Toast.success(title:"修改成功")
             self.dismiss()
         }
         

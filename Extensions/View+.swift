@@ -30,12 +30,6 @@ struct OutlineModifier: ViewModifier {
 		)
 	}
 }
-extension View{
-	func addLine() -> some View {
-		self.modifier(OutlineModifier())
-	}
-}
-
 
 
 // MARK: - BackgroundColor2 视图
@@ -200,13 +194,6 @@ struct replaceSymbol: ViewModifier{
     }
     
 }
-
-
-
-
-
-
-
 // MARK: - TextFieldModifier
 
 struct TextFieldModifier: ViewModifier {
@@ -241,16 +228,8 @@ struct TextFieldModifier: ViewModifier {
 	}
 }
 
-extension View {
-	func customField(icon: String, complete: (()-> Void)? = nil) -> some View {
-		self.modifier(TextFieldModifier( icon: icon,complete: complete))
-	}
-}
-
 
 // MARK: - LoadingPress
-
-
 struct LoadingPress: ViewModifier{
 	
 	var show:Bool = false
@@ -279,23 +258,21 @@ struct LoadingPress: ViewModifier{
 
 
 extension View {
+    func customField(icon: String, complete: (()-> Void)? = nil) -> some View {
+        self.modifier(TextFieldModifier( icon: icon,complete: complete))
+    }
+    
 	func loading(_ show:Bool, _ title:String = "")-> some View{
 		modifier(LoadingPress(show: show, title: title))
 	}
+    @ViewBuilder
+    func viewExtractor(result: @escaping (UIView)-> ()) -> some View{
+        self
+            .background(ViewExtractHelper(result: result))
+            .compositingGroup()
+    }
 }
  
-
-
-
-
-extension View{
-	@ViewBuilder
-	func viewExtractor(result: @escaping (UIView)-> ()) -> some View{
-		self
-			.background(ViewExtractHelper(result: result))
-			.compositingGroup()
-	}
-}
 
 fileprivate struct ViewExtractHelper: UIViewRepresentable {
 	var result:(UIView) -> ()
@@ -331,53 +308,6 @@ extension View{
 }
 
 
-// MARK: - Conditional View
-extension View {
-    /// Whether the view should be empty.
-    /// - Parameter bool: Set to `true` to show the view (return EmptyView instead).
-    func showIf(_ bool: Bool) -> some View {
-        modifier(ConditionalView(show: [bool]))
-    }
-    
-    /// returns a original view only if all conditions are true
-    func showIf(_ conditions: Bool...) -> some View {
-        modifier(ConditionalView(show: conditions))
-    }
-}
-
-struct ConditionalView: ViewModifier {
-    
-    let show: [Bool]
-    
-    func body(content: Content) -> some View {
-        Group {
-            if show.filter({ $0 == false }).count == 0 {
-                content
-            } else {
-                EmptyView()
-            }
-        }
-    }
-}
-
-
-extension View {
-    /// Usually you would pass  `@Environment(\.displayScale) var displayScale`
-    @MainActor func render(scale displayScale: CGFloat = 1.0) -> PlatformImage? {
-        let renderer = ImageRenderer(content: self)
-        
-        renderer.scale = displayScale
-        
-#if os(iOS) || os(visionOS)
-        let image = renderer.uiImage
-#elseif os(macOS)
-        let image = renderer.nsImage
-#endif
-        
-        return image
-    }
-}
-
 extension View {
     /// Applies the given transform if the given condition evaluates to `true`.
     /// - Parameters:
@@ -393,10 +323,11 @@ extension View {
         }
     }
     
-    @ViewBuilder func if18 <Content: View>( transform: (Self) -> Content) -> some View {
-        if #available(iOS 18.0, *){
-            transform(self)
-        }else{
+    
+    @ViewBuilder func `if` <Content: View>(_ condition: Bool, transform: () -> Content) -> some View {
+        if condition {
+            transform()
+        } else {
             self
         }
     }
@@ -434,17 +365,6 @@ struct MovingGradientForegroundStyle: ViewModifier {
 }
 
 
-extension View {
-    func enchantify() -> some View {
-        modifier(GradientForegroundStyle())
-    }
-    
-    func enchantifyMoving() -> some View {
-        self.modifier(MovingGradientForegroundStyle())
-    }
-}
-
-
 // 扩展 CornerRadius 以支持特定角
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
@@ -462,10 +382,6 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-
-
-
-
 
 enum sybolEffectType{
    
@@ -576,7 +492,6 @@ struct ListButton<LEFT:View, Trailing: View>:View {
         })
     }
 }
-
 
 struct CustomRoundedRectangle: Shape {
     var topLeft: CGFloat = 0

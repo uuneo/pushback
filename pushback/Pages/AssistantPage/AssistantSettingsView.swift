@@ -11,12 +11,11 @@ import RealmSwift
 
 struct AssistantSettingsView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject private var chatManager = openChatManager.shared
+    @EnvironmentObject private var chatManager: openChatManager
     
     @Default(.assistantAccouns) var assistantAccouns
     @Default(.historyMessageCount) var historyMessageCount
     @Default(.showCodeViewColor) var showCodeViewColor
-    @Default(.showAssistant) var showAssistant
     
     @State private var showDeleteOk:Bool = false
     @State private var isSecured = true
@@ -24,10 +23,8 @@ struct AssistantSettingsView: View {
     @State private var selectAccount:AssistantAccount? = nil
     @State private var addAccount:AssistantAccount? = nil
     
-    var showClose:Bool
     
-    init(showClose:Bool = false, account: AssistantAccount? = nil) {
-        self.showClose = showClose
+    init(account: AssistantAccount? = nil) {
         if let account{
             self._addAccount = State(wrappedValue: account)
         }
@@ -38,186 +35,155 @@ struct AssistantSettingsView: View {
     var body: some View {
 
             List{
-                
                 Section{
-                    Toggle(isOn: $showAssistant) {
-                        Label("开启智能助手", systemImage:  showAssistant ? "sharedwithyou" : "sharedwithyou.slash")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .tint, Color.primary)
-                            .symbolEffect(.replace)
-                        
-                    }
-                }
-                
-                if showAssistant{
-                    Section{
-                        
-                        Button{
-                            self.selectAccount =  AssistantAccount(host: "api.openai.com", basePath: "/v1", key: "", model: "gpt-4o-mini")
-                        }label: {
-                            HStack{
-                                Label("增加新账户", systemImage: "person.badge.plus")
-                                Spacer()
-                            }
-                            .contentShape(RoundedRectangle(cornerRadius: 0))
-                        }
-                        
-                        
-                        
-                        ForEach(assistantAccouns,id: \.id){ account in
-                            HStack{
-                                HStack{
-                                    Text("\(account.name)")
-                                        .lineLimit(1)
-                                        .truncationMode(.tail)
-                                        .fontWeight( account.current ? .bold : .light)
-                                        .foregroundStyle(account.current ? .green : .primary)
-                                    
-                                    Spacer()
-                                }
-                                .padding(.vertical)
-                                .padding(.leading, 5)
-                                .frame(width: 100)
-                                
-                                
-                                VStack{
-                                    HStack{
-                                        Image(systemName: "network")
-                                            .imageScale(.small)
-                                        Text("\(account.host)")
-                                            .font(.subheadline)
-                                            .lineLimit(1)
-                                            .truncationMode(.tail)
-                                            .foregroundStyle(.gray)
-                                        Spacer()
-                                    }
-                                    .padding(.bottom, 5)
-                                    HStack{
-                                        Image(systemName: "slider.horizontal.2.square.badge.arrow.down")
-                                            .imageScale(.small)
-                                        Text("\(account.model)")
-                                            .font(.caption)
-                                            .lineLimit(1)
-                                            .truncationMode(.tail)
-                                            .foregroundStyle(.gray)
-                                        Spacer()
-                                    }
-                                    
-                                }
-                                
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundStyle(.gray)
-                                    .imageScale(.small)
-                            }
-                            .contentShape(Rectangle())
-                            .listRowInsets(EdgeInsets())
-                            .padding(10)
-                            .listRowBackground(
-                                RoundedRectangle(cornerRadius: 0)
-                                    .fill(.background)
-                                    .background(.ultraThinMaterial)
-                            )
-                            .onTapGesture(perform: {
-                                self.selectAccount = account
-                            })
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    
-                                    if let index = assistantAccouns.firstIndex(where: {$0.current}){
-                                        assistantAccouns[index].current = false
-                                    }
-                                    
-                                    if let index = assistantAccouns.firstIndex(where: {$0.id == account.id}){
-                                        assistantAccouns[index].current = true
-                                    }
-                
-                                } label: {
-                                    Label("默认", systemImage: "cursorarrow.click.2")
-                                }.tint(.green)
-                            }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    if let index = assistantAccouns.firstIndex(where: {$0.id == account.id}){
-                                        assistantAccouns.remove(at: index)
-                                    }
-                                    PushbackManager.vibration(style: .heavy)
-                                } label: {
-                                    Label("删除", systemImage: "trash")
-                                }
-                            }
-                            
-                            
-                        }
-                        .onMove { indexSet, index in
-                            assistantAccouns.move(fromOffsets: indexSet, toOffset: index)
-                        }
-                        
-                    }header: {
-                        Text("账户列表")
-                    }
                     
-                    
-                    Section("AI 助手") {
-                        
+                    Button{
+                        self.selectAccount =  AssistantAccount(host: "api.openai.com", basePath: "/v1", key: "", model: "gpt-4o-mini")
+                    }label: {
                         HStack{
-                            
-                            Toggle(isOn: $showCodeViewColor) {
-                                Label("彩色代码", systemImage: "theatermask.and.paintbrush")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.primary, showCodeViewColor ? .red : .gray)
-                            }
-                        }
-                        
-                        Stepper(
-                            value: $historyMessageCount,
-                            in: 1...50,
-                            step: 1
-                        ) {
-                            HStack {
-                                Label("历史消息数量", systemImage: "clock.arrow.circlepath")
-                                Spacer()
-                                Text("\(historyMessageCount)")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                        
-                        Text("设置每次对话时包含的历史消息数量，数量越多上下文越完整，但会增加 Token 消耗")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    
-                    Section("数据管理") {
-                        Button(role: .destructive) {
-                            self.showDeleteOk = true
-                        } label: {
-                            Label("清除所有数据", systemImage: "trash")
+                            Label("增加新账户", systemImage: "person.badge.plus")
                             Spacer()
                         }
+                        .contentShape(RoundedRectangle(cornerRadius: 0))
                     }
                     
+                    
+                    
+                    ForEach(assistantAccouns,id: \.id){ account in
+                        HStack{
+                            HStack{
+                                Text("\(account.name)")
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
+                                    .fontWeight( account.current ? .bold : .light)
+                                    .foregroundStyle(account.current ? .green : .primary)
+                                
+                                Spacer()
+                            }
+                            .padding(.vertical)
+                            .padding(.leading, 5)
+                            .frame(width: 100)
+                            
+                            
+                            VStack{
+                                HStack{
+                                    Image(systemName: "network")
+                                        .imageScale(.small)
+                                    Text("\(account.host)")
+                                        .font(.subheadline)
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        .foregroundStyle(.gray)
+                                    Spacer()
+                                }
+                                .padding(.bottom, 5)
+                                HStack{
+                                    Image(systemName: "slider.horizontal.2.square.badge.arrow.down")
+                                        .imageScale(.small)
+                                    Text("\(account.model)")
+                                        .font(.caption)
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        .foregroundStyle(.gray)
+                                    Spacer()
+                                }
+                                
+                            }
+                            
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundStyle(.gray)
+                                .imageScale(.small)
+                        }
+                        .contentShape(Rectangle())
+                        .listRowInsets(EdgeInsets())
+                        .padding(10)
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 0)
+                                .fill(.background)
+                                .background(.ultraThinMaterial)
+                        )
+                        .onTapGesture(perform: {
+                            self.selectAccount = account
+                        })
+                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            Button {
+                                
+                                if let index = assistantAccouns.firstIndex(where: {$0.current}){
+                                    assistantAccouns[index].current = false
+                                }
+                                
+                                if let index = assistantAccouns.firstIndex(where: {$0.id == account.id}){
+                                    assistantAccouns[index].current = true
+                                }
+            
+                            } label: {
+                                Label("默认", systemImage: "cursorarrow.click.2")
+                            }.tint(.green)
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                if let index = assistantAccouns.firstIndex(where: {$0.id == account.id}){
+                                    assistantAccouns.remove(at: index)
+                                }
+                                AppManager.vibration(style: .heavy)
+                            } label: {
+                                Label("删除", systemImage: "trash")
+                            }
+                        }
+                        
+                        
+                    }
+                    .onMove { indexSet, index in
+                        assistantAccouns.move(fromOffsets: indexSet, toOffset: index)
+                    }
+                    
+                }header: {
+                    Text("账户列表")
                 }
                 
-               
-            }
-            .navigationTitle(showClose ? "设置" : "智能助手")
-            .toolbar {
-                if showClose{
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button{
-                            withAnimation {
-                                self.dismiss()
-                            }
-                        }label: {
-                            Image(systemName: "xmark")
+                
+                Section("AI 助手") {
+                    
+                    HStack{
+                        
+                        Toggle(isOn: $showCodeViewColor) {
+                            Label("彩色代码", systemImage: "theatermask.and.paintbrush")
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, .primary)
+                                .foregroundStyle(.primary, showCodeViewColor ? .red : .gray)
                         }
+                    }
+                    
+                    Stepper(
+                        value: $historyMessageCount,
+                        in: 1...50,
+                        step: 1
+                    ) {
+                        HStack {
+                            Label("历史消息数量", systemImage: "clock.arrow.circlepath")
+                            Spacer()
+                            Text("\(historyMessageCount)")
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    
+                    Text("设置每次对话时包含的历史消息数量，数量越多上下文越完整，但会增加 Token 消耗")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
+                
+                Section("数据管理") {
+                    Button(role: .destructive) {
+                        self.showDeleteOk = true
+                    } label: {
+                        Label("清除所有数据", systemImage: "trash")
+                        Spacer()
                     }
                 }
                
             }
+            .navigationTitle( "智能助手")
             .alert("确认删除", isPresented: $showDeleteOk) {
                 Button("取消", role: .cancel) { }
                 Button("删除", role: .destructive) {
@@ -257,5 +223,5 @@ struct AssistantSettingsView: View {
 
 
 #Preview {
-    AssistantSettingsView(showClose: false)
+    AssistantSettingsView()
 }

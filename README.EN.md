@@ -5,12 +5,13 @@ English | **[中文](README.md)** | **[日本語](README.JA.md)** | **[한국어
 >
 >- Some of the project's code is derived from [Bark](https://github.com/Finb/Bark)
 >
-> - Markdown Styles（Planned Updates - Completed）
-> - Automatic Ringtone Conversion （Planned Updates - Under way）
+> - Markdown styling (Completed)
+> - Automatic ringtone conversion (Completed)
+> - Message content reading (Beta) (Completed)
 
 
 <p align="center">
-<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="300"/>
+<img src="/docs/_media/egglogo.png" alt="pushback" title="pushback" width="100"/>
 </p>
 
 
@@ -48,6 +49,12 @@ For POST requests, the parameter names are the same as above
 ```
 
 ## Parameters
+
+* Markdown
+```
+// Specify category=markdown to render Markdown in the push notification
+https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+```
 
 * url
 ```
@@ -90,9 +97,9 @@ https://push.uuneo.com/yourkey/call?call=1
 // Encrypted push message
 https://push.uuneo.com/yourkey/ciphertext?ciphertext=
 ```
-* Time-sensitive notifications
+* level
 ```
-// Set time-sensitive notifications
+// Set notification level for time-sensitive notifications
 https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 
 // Optional parameter values can also use level = 1...10，volume The voice priority is greater than the level
@@ -115,3 +122,8 @@ https://push.uuneo.com/yourkey/Timeliness notice?level=timeSensitive
 - [QRScanner](https://github.com/mercari/QRScanner)
 - [realm](https://github.com/realm/realm-swift)
 - [SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON)
+- [Kingfisher](https://github.com/onevcat/Kingfisher)
+- [OpenAI](https://github.com/MacPaw/OpenAI)
+- [Splash](https://github.com/AugustDev/Splash)
+- [swift-markdown-ui](https://github.com/gonzalezreal/swift-markdown-ui)
+

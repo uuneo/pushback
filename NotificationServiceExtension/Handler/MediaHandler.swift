@@ -5,21 +5,18 @@
 //  Created by uuneo 2024/8/8.
 //
 
-import Foundation
+
 import UniformTypeIdentifiers
-import MobileCoreServices
-import SwiftUI
-import AVFoundation
 import Defaults
 import UIKit
-import UserNotifications
+
 
 class MediaHandler:NotificationContentHandler{
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 		let userInfo = bestAttemptContent.userInfo
 		
 		
-        if let imageUrl =  userInfo[Params.image.name] as? String{
+        if let imageUrl:String =  userInfo.raw(.image){
             
             guard let localPath = await ImageManager.downloadImage(imageUrl,mode: .image, expiration: .days(Defaults[.imageSaveDays].days)) else { return bestAttemptContent }
 

@@ -72,6 +72,13 @@ extension String{
     
     func isHttpAndHttps() -> Bool{ ["http", "https"].contains{ self.lowercased().hasPrefix($0) } }
     
+    func isURL() -> Bool{
+        guard let url = URL(string: self), url.scheme?.isHttpAndHttps() == true, url.host != nil else {
+               return false
+           }
+           return true
+    }
+    
     /// 判断字符串是否为有效的 URL，并返回图片类型
     func isValidURL() -> urlType {
         guard let url = URL(string: self) else { return .none }
@@ -109,6 +116,15 @@ extension String{
     /// 去除字符串两端的空白字符
     func trimmed() -> String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    func sha256() -> String{
+        // 计算 SHA-256 哈希值
+        // 将哈希值转换为十六进制字符串
+        guard let data = self.data(using: .utf8) else {
+            return String(self.prefix(10)) 
+        }
+        return SHA256.hash(data: data).compactMap { String(format: "%02x", $0) }.joined()
     }
 }
 
@@ -164,7 +180,6 @@ extension Date {
         // Display "just now" for time differences of less than 1 minute
         return String(localized: "刚刚")
     }
-    
     
     // 计算日期与当前日期的差异，并根据差异生成颜色
     func colorForDate() -> Color {
@@ -369,34 +384,6 @@ struct GrowingButton: ButtonStyle {
             .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }
-
-
-
-
-class KeyboardHeightHelper: ObservableObject {
-    // 使用 @Published 属性来发布键盘高度的变化
-    @Published var keyboardHeight: CGFloat = 0
-    
-    private var cancellables = Set<AnyCancellable>()
-    
-    init() {
-        // 监听键盘将要显示的通知
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
-            .compactMap { notification in
-                notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-            }
-            .map { $0.height }
-            .assign(to: \.keyboardHeight, on: self)
-            .store(in: &cancellables)
-        
-        // 监听键盘将要隐藏的通知
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .map { _ in CGFloat(0) }
-            .assign(to: \.keyboardHeight, on: self)
-            .store(in: &cancellables)
-    }
-}
-
 
 extension Data{
     func sha256() -> String{

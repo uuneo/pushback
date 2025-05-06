@@ -168,10 +168,6 @@ fileprivate struct PopOutOverlay<Header: View, Content: View>: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
-
 extension View {
     fileprivate func solidBackground(color: Color, opacity: CGFloat) -> some View {
         Rectangle()
@@ -182,3 +178,9 @@ extension View {
             }
     }
 }
+
+
+#Preview {
+    ContentView()
+}
+

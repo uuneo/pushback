@@ -40,7 +40,7 @@ struct MarkdownCustomView:View {
         self.scaleFactor = scaleFactor
     }
     
-    @ScaledMetric(relativeTo: .callout) var baseSize: CGFloat = 16
+    @ScaledMetric(relativeTo: .callout) var baseSize: CGFloat = 17
    
     var body: some View {
         
@@ -52,7 +52,7 @@ struct MarkdownCustomView:View {
             Markdown(content)
                 .environment(\.openURL, OpenURLAction { url in
                     print("用户点击的链接是：\(url)")
-                    PushbackManager.openUrl(url: url)
+                    AppManager.openUrl(url: url)
                     return .handled // 表示链接已经被处理，不再执行默认行为
                 })
                 .if(showCodeViewColor){view in
@@ -90,52 +90,4 @@ struct MarkdownCustomView:View {
         return prefix + highlighted + suffix
     }
     
-    static func plain(text: String)-> String{
-        return MarkdownContent(text).renderPlainText()
-    }
-}
-
-struct MarkdownWebView: UIViewRepresentable {
-    let markdown: String
-
-    func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView()
-        webView.loadHTMLString(convertMarkdownToHTML(markdown), baseURL: nil)
-        return webView
-    }
-
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        uiView.loadHTMLString(convertMarkdownToHTML(markdown), baseURL: nil)
-    }
-
-    private func convertMarkdownToHTML(_ markdown: String) -> String {
-        """
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <style>
-                body { font-family: -apple-system; padding: 10px; }
-                img { max-width: 100%; height: auto; }
-                pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
-                code { font-family: monospace; }
-            </style>
-        </head>
-        <body>
-            \(markdownToHTML(markdown))
-        </body>
-        </html>
-        """
-    }
-    
-    func markdownToHTML(_ markdown: String) -> String {
-        let root = cmark_parse_document(markdown, markdown.utf8.count, CMARK_OPT_DEFAULT)
-        let html = cmark_render_html(root, CMARK_OPT_DEFAULT, nil)
-
-        defer {
-            cmark_node_free(root)
-            free(html)
-        }
-
-        return String(cString: html!)
-    }
 }

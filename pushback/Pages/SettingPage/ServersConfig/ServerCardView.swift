@@ -12,7 +12,7 @@ import Defaults
 
 
 struct ServerCardView:View {
-	@StateObject private var manager = PushbackManager.shared
+    @EnvironmentObject private var manager: AppManager
     @State private var textAnimation:Bool = false
     @State private var showDevice:Bool = false
 	var item: PushServerModel
@@ -114,7 +114,8 @@ struct ServerCardView:View {
                     
                 }
                 .pressEvents(onRelease: { _ in
-                    manager.sheetPage = .quickResponseCode(text: "pb://server?text=\(item.server)", title: String(localized: "服务器配置"),preview: nil)
+                    let local = PBScheme.pb.scheme(host: .server, params: ["text": item.server])
+                    manager.sheetPage = .quickResponseCode(text: local.absoluteString, title: String(localized: "服务器配置"),preview: nil)
                     return true
                 })
                 

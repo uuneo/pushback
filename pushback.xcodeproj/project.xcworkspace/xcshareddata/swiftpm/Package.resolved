@@ -1,5 +1,5 @@
 {
-  "originHash" : "c2dc156e26ecfec114ef108d376c05ac39a404741b68a66fd1186bc07b69a903",
+  "originHash" : "d5892765c23d5c4d7696f32b0a11c5d9cfa1d3f27e32dd0437b7f18f80683da3",
   "pins" : [
     {
       "identity" : "defaults",
@@ -31,10 +31,10 @@
     {
       "identity" : "openai",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MacPaw/OpenAI.git",
+      "location" : "https://github.com/uuneo/OpenAI.git",
       "state" : {
-        "revision" : "58de48f0da70ec743727849245c24a22c03f1ee6",
-        "version" : "0.3.8"
+        "branch" : "main",
+        "revision" : "5fbd7c8e79008ed9d647b1197c691d85a8aa94cb"
       }
     },
     {
@@ -83,12 +83,30 @@
       }
     },
     {
+      "identity" : "swift-http-types",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-http-types",
+      "state" : {
+        "revision" : "a0a57e949a8903563aba4615869310c0ebf14c03",
+        "version" : "1.4.0"
+      }
+    },
+    {
       "identity" : "swift-markdown-ui",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/swift-markdown-ui",
       "state" : {
         "revision" : "2f5628729f96d12814b3f772f748363819e7246e",
         "version" : "2.4.2"
+      }
+    },
+    {
+      "identity" : "swift-openapi-runtime",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-openapi-runtime",
+      "state" : {
+        "revision" : "8f33cc5dfe81169fb167da73584b9c72c3e8bc23",
+        "version" : "1.8.2"
       }
     },
     {

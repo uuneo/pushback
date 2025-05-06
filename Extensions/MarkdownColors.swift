@@ -189,7 +189,7 @@ struct CodeBlock: View {
                 
                 Button(action: {
                     Clipboard.shared.setString(configuration.content)
-                    Toast.success(title:  String(localized: "复制成功"))
+                    Toast.copy(title: "复制成功")
                 }) {
                     Image(systemName: "doc.on.doc")
                         .padding(7)

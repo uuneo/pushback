@@ -13,11 +13,11 @@ import SwiftyJSON
 struct PrivacySecurity:View {
     
    
-    @Default(.defaultBrowser) var defaultBrowser
+    
     @Default(.deviceToken) var deviceToken
     @Default(.id) var userID
-    
-    @EnvironmentObject private var manager:PushbackManager
+    @ObservedResults(Message.self) var messages
+    @EnvironmentObject private var manager:AppManager
     
     @State private var showTextAnimation:Bool = false
     @State private var showIdAnimation:Bool = false
@@ -28,9 +28,13 @@ struct PrivacySecurity:View {
     @State private var totalSize:UInt64 = 0
     @State private var cacheSize:UInt64 = 0
    
+    @State private var showImport:Bool = false
+    @State private var showexport:Bool = false
     
     var body: some View {
         List{
+            
+            
             
             Section(header:Text( "设备推送令牌")) {
                 ListButton(leading: {
@@ -55,11 +59,11 @@ struct PrivacySecurity:View {
                 }, showRight: false) {
                     if deviceToken != ""{
                         Clipboard.shared.setString(deviceToken)
-                        Toast.copy(title: String(localized: "复制成功"))
+                        Toast.copy(title: "复制成功")
                         
                     }else{
                         
-                        Toast.shared.present(title:  String(localized: "请先注册"), symbol: "questionmark.circle.dashed")
+                        Toast.shared.present(title: "请先注册", symbol: "questionmark.circle.dashed")
                     }
                     self.showTextAnimation.toggle()
                     return true
@@ -86,12 +90,77 @@ struct PrivacySecurity:View {
                         .scaleEffect(0.9)
                 }, showRight: false) {
                     Clipboard.shared.setString(userID)
-                    Toast.copy(title: String(localized: "复制成功"))
+                    Toast.copy(title:  "复制成功")
                     self.showIdAnimation.toggle()
                     return true
                 }
                
             }
+            
+            
+            Section {
+
+                Button{
+                    self.showexport.toggle()
+                }label: {
+                    HStack{
+
+                        Label("导出", systemImage: "arrow.up.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.tint, Color.primary)
+                            .symbolEffect(.wiggle, delay: 3)
+                        
+                        Spacer()
+                        Text(String(format: String(localized: "%d条消息"), messages.count) )
+                            .foregroundStyle(Color.green)
+                    }
+                }
+                .disabled(messages.count == 0)
+                .fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
+                    switch result {
+                        case .success(let success):
+                        Log.debug(success)
+                        case .failure(let failure):
+                        Log.error(failure)
+                    }
+                    self.showexport = false
+                }
+
+                Button{
+                    self.showImport.toggle()
+                }label: {
+                    HStack{
+
+                        Label( "导入", systemImage: "arrow.down.circle")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.tint, Color.primary)
+                            .symbolEffect(.wiggle, delay: 6)
+
+                        Spacer()
+
+                    }
+                }
+
+
+                .fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
+                    switch result {
+                    case .success(let files):
+                        let msg = importMessage(files)
+                        Toast.shared.present(title: msg, symbol: .info)
+                    case .failure(let err):
+                        Toast.shared.present(title: err.localizedDescription, symbol: .error)
+                    }
+                })
+
+
+
+            } header: {
+                Text( "导出消息列表")
+                    .textCase(.none)
+            } footer:{
+                Text("只能导入.exv结尾的JSON数据")
+            }
+            
             
             Section(header: Text("端到端加密")){
                 
@@ -112,19 +181,7 @@ struct PrivacySecurity:View {
                
             }
             
-            Section(header: Text("默认浏览器设置")){
-                HStack{
-                    Picker(selection: $defaultBrowser) {
-                        ForEach(DefaultBrowserModel.allCases, id: \.self) { item in
-                            Text(item.title)
-                                .tag(item)
-                        }
-                    }label:{
-                        Text("默认浏览器")
-                    }.pickerStyle(SegmentedPickerStyle())
 
-                }
-            }
             
            
             
@@ -217,16 +274,19 @@ struct PrivacySecurity:View {
                                                           action: {
                             if let cache = ImageManager.defaultCache(),
                                let imageCache = ImageManager.defaultCache(mode: .image),
-                               let fileUrl = BaseConfig.getSoundsGroupDirectory(){
+                               let fileUrl = BaseConfig.getSoundsGroupDirectory(),
+                               let voiceUrl = BaseConfig.getVoiceDirectory()
+                            {
                                 cache.clearDiskCache()
                                 imageCache.clearDiskCache()
                                 manager.clearContentsOfDirectory(at: fileUrl)
+                                manager.clearContentsOfDirectory(at: voiceUrl)
                                 Defaults[.imageSaves] = []
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                     calculateSize()
                                 }
-                                Toast.success(title: String(localized: "清理成功"))
+                                Toast.success(title: "清理成功")
                             }
                             
                         }),
@@ -241,10 +301,14 @@ struct PrivacySecurity:View {
     func calculateSize(){
         if let group = CONTAINER,
            let soundsUrl = BaseConfig.getSoundsGroupDirectory(),
-           let imageUrl = BaseConfig.getImagesDirectory(){
+           let imageUrl = BaseConfig.getImagesDirectory(),
+           let voiceUrl = BaseConfig.getVoiceDirectory()
+        {
             self.totalSize = manager.calculateDirectorySize(at: group)
             
-            self.cacheSize =  manager.calculateDirectorySize(at: soundsUrl) +  manager.calculateDirectorySize(at: imageUrl)
+            self.cacheSize =  manager.calculateDirectorySize(at: soundsUrl) +  manager.calculateDirectorySize(at: imageUrl) +
+            manager.calculateDirectorySize(at: voiceUrl)
+            
         }
     }
     
@@ -267,6 +331,70 @@ struct PrivacySecurity:View {
             return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(6)
         }
        
+    }
+    
+    fileprivate func importMessage(_ fileUrls: [URL]) -> String {
+        do{
+            for url in fileUrls{
+                
+                if url.startAccessingSecurityScopedResource(){
+                    
+                    let data = try Data(contentsOf: url)
+                    
+                    guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
+                    
+                   
+                    autoreleasepool {
+                        var messages:[Message] = []
+                        for message in arr {
+                            
+                            guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
+                            
+                            let messageObject = Message()
+                            if let idString = UUID(uuidString: id){ messageObject.id = idString }
+                            
+                            messageObject.title = message["title"].string
+                            messageObject.body = message["body"].string
+                            messageObject.url = message["url"].string
+                            messageObject.group = message["group"].string ?? String(localized: "导入数据")
+                            messageObject.read = true
+                            messageObject.level = message["level"].int ?? 1
+                            messageObject.image = message["image"].string
+                            messageObject.ttl = ExpirationTime.forever.days
+                            messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
+                           
+                            
+                            messages.append(messageObject)
+                            
+                            if messages.count == 1000 {
+                                let newMessage = messages
+                                RealmManager.handler { proxy in
+                                    proxy.writeAsync {
+                                        proxy.add(newMessage, update: .modified)
+                                    }
+                                }
+                                
+                                messages = []
+                            }
+                        }
+                        RealmManager.handler { proxy in
+                            proxy.writeAsync {
+                                proxy.add(messages, update: .modified)
+                            }
+                        }
+                    }
+                }
+                
+                
+                
+            }
+            
+            return String(localized: "导入成功")
+            
+        }catch{
+            Log.debug(error)
+            return error.localizedDescription
+        }
     }
     
     

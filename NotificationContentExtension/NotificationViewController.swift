@@ -9,11 +9,13 @@ import UIKit
 import UserNotifications
 import UserNotificationsUI
 import Defaults
+import AVFoundation
 
 
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
 
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var musicView: UIView!
     
     var memorySize:CGSize = .zero
     
@@ -21,7 +23,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     override func viewDidLoad() {
         super.viewDidLoad()
         self.imageView.contentMode = .scaleAspectFit
-
         // 添加长按手势到图片视图
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressOnImage(_:)))
         self.imageView.isUserInteractionEnabled = true // 确保图片视图可以交互
@@ -42,15 +43,24 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                 UIPasteboard.general.string = notification.request.content.body
             }
         }
-
-
+        
         let imageList = mediaHandler(userInfo: userInfo, name: Params.image.name)
-
-        if let imageUrl = imageList.first {
-            ImageHandler(imageUrl: imageUrl)
-        } else {
-            self.preferredContentSize = CGSize(width: self.view.frame.width, height: 1)
+        
+       
+        
+        self.musicView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50)
+        
+        var music: MusicInfoView{
+            let music = MusicInfoView()
+            music.text = userInfo.voiceText()
+            music.frame = musicView.frame
+            return music
         }
+       
+       
+        self.musicView.addSubview(music)
+        self.preferredContentSize = CGSize(width: self.view.bounds.width, height: 50)
+        if let imageUrl = imageList.first {   ImageHandler(imageUrl: imageUrl) }
     }
 
     func didReceive(_ response: UNNotificationResponse, completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void) {
@@ -70,7 +80,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
             }
             showTips(text:String(localized: "复制成功"))
             completion(.doNotDismiss)
-
         default:
             completion(.doNotDismiss)
         }
@@ -90,13 +99,14 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                 await MainActor.run { [weak self] in
                     guard let self = self else { return }
                     self.imageView.image = image
-                    self.preferredContentSize = size
-                    self.imageView.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+                   
+                    self.imageView.frame = CGRect(x: 0, y: 50, width: size.width, height: size.height)
+                    self.preferredContentSize = .init(width: size.width, height: size.height + 50)
                 }
             } else {
                 await MainActor.run { [weak self] in
                     guard let self = self else { return }
-                    self.preferredContentSize = .zero
+                    self.preferredContentSize = CGSize(width: self.view.bounds.width, height: 50)
                 }
             }
         }

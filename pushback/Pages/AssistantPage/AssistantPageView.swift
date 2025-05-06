@@ -12,10 +12,12 @@ import Combine
 
 
 struct AssistantPageView:View {
-    @Environment(\.dismiss) var dismiss
+    
     @Default(.assistantAccouns) var assistantAccouns
+    
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var chatManager:openChatManager
-    @EnvironmentObject private var manager:PushbackManager
+    @EnvironmentObject private var manager:AppManager
     
     @State private var inputText:String = ""
     
@@ -30,7 +32,6 @@ struct AssistantPageView:View {
     
     @ObservedResults(ChatGroup.self, where: (\.current)) var chatgroups
     @Default(.historyMessageBool) var historyMessageBool
-    @State private var showSettings:Bool = false
     
     @State private var offsetX: CGFloat = 0
     @State private var offsetHistory:CGFloat = 0
@@ -44,7 +45,7 @@ struct AssistantPageView:View {
                     
                     ChatMessageListView( chatGroup: chatgroups.first)
                     .onTapGesture {
-                        PushbackManager.hideKeyboard()
+                        AppManager.hideKeyboard()
                     }
                     
                 }else{
@@ -75,7 +76,7 @@ struct AssistantPageView:View {
                     }
                     .transition(.slide)
                     .onTapGesture {
-                        PushbackManager.hideKeyboard()
+                        AppManager.hideKeyboard()
                     }
                 }
                 
@@ -83,6 +84,9 @@ struct AssistantPageView:View {
                 
                 
                 Spacer()
+               
+            }
+            .safeAreaInset(edge: .bottom) {
                 // 底部输入框
                 ChatInputView(
                     text: $inputText,
@@ -96,10 +100,10 @@ struct AssistantPageView:View {
                         .onEnded({ value in
                             Log.debug(value.translation, value.startLocation)
                             if -value.translation.height > 200{
-                                PushbackManager.vibration(style: .heavy)
+                                AppManager.vibration(style: .heavy)
                                 self.showMenu.toggle()
                             }else if value.translation.height > 100 {
-                                PushbackManager.hideKeyboard()
+                                AppManager.hideKeyboard()
                             }
                             
                         })
@@ -127,25 +131,17 @@ struct AssistantPageView:View {
                         }
                 }
             }
-            .sheet(isPresented: $showSettings) {
-                NavigationStack{
-                    AssistantSettingsView(showClose: true)
-                        .customPresentationCornerRadius(20) 
-                }
-                
-            }
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 
                 ToolbarItem {
-                    Button{
-                        withAnimation {
-                            self.showMenu = false
-                            self.showSettings.toggle()
-                        }
-                    }label: {
-                        Text( "设置")
-                    }
+                    Label("设置", systemImage: "gear")
+                        .foregroundStyle(.accent)
+                        .pressEvents(onRelease: { _ in
+                            withAnimation {
+                                manager.router.append(.assistantSetting(nil))
+                            }
+                            return true
+                        })
                 }
                 
                 navigationToolbarContent
@@ -154,10 +150,10 @@ struct AssistantPageView:View {
                 
             }
             .sheet(isPresented: $showMenu) {
-                SideBarMenuView(showMenu: $showMenu, showSettings: $showSettings)
+                SideBarMenuView(showMenu: $showMenu)
                     .onChange(of: showMenu) { value in
                         DispatchQueue.main.async {
-                            PushbackManager.hideKeyboard()
+                            AppManager.hideKeyboard()
                         }
                     }
                     .customPresentationCornerRadius(20)
@@ -187,7 +183,7 @@ struct AssistantPageView:View {
                     Menu {
                         
                         Button {
-                            PushbackManager.vibration(style: .heavy)
+                            AppManager.vibration(style: .heavy)
                             self.showMenu.toggle()
                         }label: {
                             Label("对话列表", systemImage: "chevron.up")
@@ -270,7 +266,7 @@ struct AssistantPageView:View {
                     .transition(.scale)
                     .onTapGesture {
                         self.showMenu = true
-                        PushbackManager.vibration(style: .heavy)
+                        AppManager.vibration(style: .heavy)
                     }
                 }
                 
@@ -285,7 +281,7 @@ struct AssistantPageView:View {
             Button{
                 chatManager.inAssistant = false
                 manager.router.removeAll(where: {$0 == .assistant})
-                PushbackManager.vibration(style: .heavy)
+                AppManager.vibration(style: .heavy)
             }label: {
                 Image(systemName: "arrow.left")
                 
@@ -321,7 +317,6 @@ struct AssistantPageView:View {
     // 发送消息
     private  func sendMessage(_ text: String) {
         guard assistantAccouns.first(where: {$0.current}) != nil else {
-            self.showSettings = true
             return
         }
         
@@ -350,7 +345,7 @@ struct AssistantPageView:View {
                         
                         Task{
                             if await chatManager.inAssistant {
-                                PushbackManager.vibration(style: .light)
+                                AppManager.vibration(style: .light)
                             }
                         }
                     }
@@ -358,15 +353,15 @@ struct AssistantPageView:View {
                 case .failure(let error):
                     //Handle chunk error here
                     Log.error(error)
-                    Toast.error(title: String(localized:"发生错误\(error.localizedDescription)"))
+                    Toast.error(title: "发生错误\(error.localizedDescription)")
                 }
             } completion: {  error in
                 
-                PushbackManager.vibration(style: .heavy,custom: true)
+                AppManager.vibration(style: .heavy,custom: true)
                 
                 //Handle streaming error                                                          ,here
                 if let error{
-                    Toast.error(title: String(localized:"发生错误\(error.localizedDescription)"))
+                    Toast.error(title: "发生错误\(error.localizedDescription)")
                     Log.error(error)
                     DispatchQueue.main.async{
                             chatManager.isLoading = false
@@ -409,7 +404,7 @@ struct AssistantPageView:View {
                        
                         chatManager.currentRequest = ""
                         chatManager.isLoading = false
-                        PushbackManager.hideKeyboard()
+                        AppManager.hideKeyboard()
                     }
                 }
                 
@@ -563,26 +558,3 @@ struct StreamingLoadingView: View {
     }
 }
 
-struct AssistantRowView: View {
-    
-    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
-    @EnvironmentObject private var manager:PushbackManager
-    
-    var chatHomeMessage:Message{
-        var chatGroup:ChatMessage? = nil
-        
-        if let realm = try? Realm(),
-           let chat = realm.objects(ChatMessage.self).sorted(byKeyPath: "timestamp").last {
-            chatGroup = chat
-        }
-        return ChatMessage.getAssistant(chat: chatGroup)
-    }
-    var body: some View {
-        MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
-            .pressEvents(onRelease: { value in
-                manager.router = [.assistant]
-                return true
-               
-            })
-    }
-}

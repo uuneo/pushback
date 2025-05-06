@@ -12,25 +12,12 @@ import Defaults
 struct GroupMessagesView: View {
     
     @EnvironmentObject private var groupModel: GroupMessagesModel
-   
-    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
-    
-    var chatHomeMessage:Message{
-        return ChatMessage.getAssistant(chat: chatMessages.last)
-    }
-    @EnvironmentObject private var manager:PushbackManager
-    @Default(.showAssistant) var showAssistant
+    @EnvironmentObject private var manager:AppManager
     
     
     var body: some View {
         ScrollViewReader { proxy in
             List{
-                
-                if  showAssistant{
-                    
-                    AssistantRowView()
-                }
-                
                 if groupModel.isLoading && groupModel.messages.count == 0{
                     VStack{
                         HStack{
@@ -140,7 +127,7 @@ struct MessageRow: View {
                     .frame(width: 10, height: 10)
             }
             
-            AvatarView(id: message.id.uuidString, icon: message.icon, customIcon: customIcon)
+            AvatarView(icon: message.icon, customIcon: customIcon)
                 .frame(width: 45, height: 45)
                 .clipped()
                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -154,6 +141,8 @@ struct MessageRow: View {
                             .foregroundStyle(.white, .red)
                     }
                 }
+            
+           
             
             
             VStack(alignment: .leading) {
@@ -185,16 +174,16 @@ struct MessageRow: View {
         var text = Text("\("")")
         
         if let title = message.title {
-            text = Text("\(title); ").foregroundColor(.blue)
+            text = Text("\(title);").foregroundColor(.blue)
         }
         
         if let subtitle = message.subtitle {
-            text = text + Text("\(subtitle); ").foregroundColor(.gray)
+            text = text + Text("\(subtitle);").foregroundColor(.gray)
         }
         
         if let body = message.body {
             
-            text = text + Text("\(MarkdownCustomView.plain(text: body)); ").foregroundColor(.primary)
+            text = text + Text("\(PBMarkdown.plain(body).replacingOccurrences(of: " ", with: ""))").foregroundColor(.primary)
         }
         
         return text

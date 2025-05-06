@@ -52,18 +52,18 @@ extension UNMutableNotificationContent {
  
 	/// 声音名称
 	var soundName: String? {
-        if let soundName = (self.userInfo["aps"] as? [AnyHashable: Any])?["sound"] as? String, !soundName.isEmpty{
-            return soundName
+        if let sound:String = self.userInfo.raw(Params.sound), !sound.isEmpty{
+            return sound
         }
         return nil
-	}
+    }
 
     func getLevel() -> UInt {
         // 默认值
         let defaultLevel: UInt = 1
 
         // 获取 level 字符串
-        guard let level = self.userInfo["level"] as? String else {
+        guard let level:String = self.userInfo.raw(Params.level) else {
             return defaultLevel
         }
 
@@ -82,13 +82,12 @@ extension UNMutableNotificationContent {
 
 	func getVolume(levelNumber: UInt) -> Float{
 
-		if let volume = self.userInfo["volume"] as? String, let volume = Float(volume) {
+        if let volume:String = self.userInfo.raw(Params.volume), let volume = Float(volume) {
             return max(0.0, min(10.0, volume / 10.0))
 		}
         
         return max(0.0, min(10.0, Float(levelNumber) / 10.0))
 
 	}
-
 
 }

@@ -262,7 +262,7 @@ struct CryptoConfigView: View {
                 }
                 Spacer()
                 Button( "完成") {
-                    PushbackManager.hideKeyboard()
+                    AppManager.hideKeyboard()
                 }
             }
             
@@ -270,7 +270,8 @@ struct CryptoConfigView: View {
             if let config = cryptoConfig.obfuscator(){
                 ToolbarItem {
                     Button{
-                        PushbackManager.shared.sheetPage = .quickResponseCode(text: "pb://crypto?text=\(config)",title: String(localized: "配置文件"),preview: String(localized: "分享配置"))
+                        let local = PBScheme.pb.scheme(host: .crypto, params: ["text" : config])
+                        AppManager.shared.sheetPage = .quickResponseCode(text: local.absoluteString,title: String(localized: "配置文件"),preview: String(localized: "分享配置"))
                     }label:{
                         Label("分享", systemImage: "qrcode")
                     }
@@ -289,7 +290,7 @@ struct CryptoConfigView: View {
         if cryptoConfig.key.count != expectKeyLength{
             cryptoConfig.key = ""
             if showMsg{
-                Toast.info(title: String(localized:  "自动更正Key参数"))
+                Toast.info(title: "自动更正Key参数")
             }
             return false
         }
@@ -300,7 +301,7 @@ struct CryptoConfigView: View {
         if cryptoConfig.iv.count != 16 {
             cryptoConfig.iv = ""
             if showMsg{
-                Toast.info(title: String(localized:  "自动更正Iv参数"))
+                Toast.info(title: "自动更正Iv参数")
             }
             return false
         }
@@ -322,7 +323,7 @@ struct CryptoConfigView: View {
         
         if !showMsg{
             Clipboard.shared.setString( cryptoExampleHandler() )
-            Toast.copy(title: String(localized:  "复制成功"))
+            Toast.copy(title:  "复制成功")
         }
         
     }
@@ -388,5 +389,5 @@ struct CryptoConfigView: View {
 
 #Preview {
     CryptoConfigView(config: nil)
-        .environmentObject(PushbackManager.shared)
+        .environmentObject(AppManager.shared)
 }

@@ -32,6 +32,10 @@ enum RouterPage: Hashable {
     case assistantSetting(AssistantAccount?)
     case privacy
     case more
+    
+    case widget(title:String?, data:String)
+    
+    case tts
 }
 
 
@@ -43,59 +47,10 @@ enum TabPage :String{
 }
 
 
-struct RouterPageViewModifier:ViewModifier{
-    var manager:PushbackManager
-    var chatManager:openChatManager
-    var appstate:AppState
-    func body(content: Content) -> some View {
-        content
-            .environmentObject(manager: manager, chatManager: chatManager, appstate: appstate)
-            .navigationDestination(for: RouterPage.self){ router in
-                Group{
-                    switch router {
-                    case .example:
-                        ExampleView()
-                            .toolbar(.hidden, for: .tabBar)
-                    case .messageDetail(let group):
-                        MessageDetailPage(group: group)
-                            .navigationTitle(group)
-                            .toolbar(.hidden, for: .tabBar)
-                    case .sound:
-                        SoundView()
-                            .toolbar(.hidden, for: .tabBar)
-                    case .assistant:
-                        AssistantPageView()
-                            .navigationBarBackButtonHidden()
-                            .toolbar(.hidden, for: .tabBar)
-                    case .crypto(let text):
-                        CryptoConfigView(config: text)
-                            .toolbar(.hidden, for: .tabBar)
-                    case .server:
-                        ServersConfigView()
-                            .toolbar(.hidden, for: .tabBar)
-                    case .assistantSetting(let account):
-                        AssistantSettingsView(showClose: false, account: account)
-                            .toolbar(.hidden, for: .tabBar)
-                    case .privacy:
-                        PrivacySecurity()
-                            .toolbar(.hidden, for: .tabBar)
-                    case .more:
-                        MoreOperationsView()
-                            .toolbar(.hidden, for: .tabBar)
-                    }
-                }
-                .environmentObject(manager: manager, chatManager: chatManager, appstate: appstate)
-               
-            }
-    }
-}
-
-
 struct EnvironmentObjectModifier:ViewModifier{
     
     var manager:PushbackManager?
     var chatManager:openChatManager?
-    var appstate:AppState?
     
     func body(content: Content) -> some View {
         content
@@ -105,9 +60,6 @@ struct EnvironmentObjectModifier:ViewModifier{
             .if(chatManager != nil) { view in
                 view.environmentObject(chatManager!)
             }
-            .if(appstate != nil) { view in
-                view.environmentObject(appstate!)
-            }
         
     }
     
@@ -116,11 +68,56 @@ struct EnvironmentObjectModifier:ViewModifier{
 }
 
 extension View{
-    func router(manager: PushbackManager, chatManager: openChatManager, appstate: AppState) -> some View{
-        modifier(RouterPageViewModifier(manager: manager, chatManager: chatManager, appstate: appstate))
+    func router(_ manager:PushbackManager, chat:openChatManager, audio:AudioManager) -> some View{
+        self
+            .navigationDestination(for: RouterPage.self){ router in
+                Group{
+                    switch router {
+                    case .example:
+                        ExampleView()
+                        
+                    case .messageDetail(let group):
+                        MessageDetailPage(group: group)
+                            .navigationTitle(group)
+                    case .sound:
+                        SoundView()
+                    case .assistant:
+                        AssistantPageView()
+                            .navigationBarBackButtonHidden()
+                        
+                    case .crypto(let text):
+                        CryptoConfigView(config: text)
+                        
+                    case .server:
+                        ServersConfigView()
+                        
+                    case .assistantSetting(let account):
+                        AssistantSettingsView(account: account)
+                    case .privacy:
+                        PrivacySecurity()
+                        
+                    case .more:
+                        MoreOperationsView()
+                        
+                    case .widget(title: let title, data: let data):
+                        WidgetChartView(data: data)
+                            .navigationTitle(title ?? "小组件")
+                    case .tts:
+                        SpeakSettingsView()
+                       
+                    }
+                }
+                .toolbar(.hidden, for: .tabBar)
+                .env(manager, chat, audio)
+                
+                
+            }
     }
     
-    func environmentObject(manager: PushbackManager? = nil, chatManager: openChatManager? = nil, appstate: AppState? = nil) -> some View{
-        modifier(EnvironmentObjectModifier(manager: manager, chatManager: chatManager, appstate: appstate))
+    func env(_ manager:PushbackManager,_ chat:openChatManager,_ audio:AudioManager) -> some View{
+        self
+            .environmentObject(manager)
+            .environmentObject(chat)
+            .environmentObject(audio)
     }
 }

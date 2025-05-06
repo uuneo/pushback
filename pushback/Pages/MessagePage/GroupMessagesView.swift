@@ -12,25 +12,12 @@ import Defaults
 struct GroupMessagesView: View {
     
     @EnvironmentObject private var groupModel: GroupMessagesModel
-   
-    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
-    
-    var chatHomeMessage:Message{
-        return ChatMessage.getAssistant(chat: chatMessages.last)
-    }
     @EnvironmentObject private var manager:PushbackManager
-    @Default(.showAssistant) var showAssistant
     
     
     var body: some View {
         ScrollViewReader { proxy in
             List{
-                
-                if  showAssistant{
-                    
-                    AssistantRowView()
-                }
-                
                 if groupModel.isLoading && groupModel.messages.count == 0{
                     VStack{
                         HStack{
@@ -155,6 +142,8 @@ struct MessageRow: View {
                     }
                 }
             
+           
+            
             
             VStack(alignment: .leading) {
                 HStack {
@@ -194,7 +183,7 @@ struct MessageRow: View {
         
         if let body = message.body {
             
-            text = text + Text("\(MarkdownCustomView.plain(text: body)); ").foregroundColor(.primary)
+            text = text + Text("\(PBMarkdown.plain(body)); ").foregroundColor(.primary)
         }
         
         return text

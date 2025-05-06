@@ -393,10 +393,11 @@ extension View {
         }
     }
     
-    @ViewBuilder func if18 <Content: View>( transform: (Self) -> Content) -> some View {
-        if #available(iOS 18.0, *){
-            transform(self)
-        }else{
+    
+    @ViewBuilder func `if` <Content: View>(_ condition: Bool, transform: () -> Content) -> some View {
+        if condition {
+            transform()
+        } else {
             self
         }
     }

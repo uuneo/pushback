@@ -11,18 +11,20 @@
 
 
 import Foundation
-import AudioToolbox
-import AVFAudio
 import AVFoundation
+import SwiftUI
 
 
-class AudioManager: ObservableObject{
+class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     static let shared = AudioManager()
     private var manager = FileManager.default
     
     
-    private init() {
+    
+    
+    private override init() {
+        super.init()
         self.setFileList()
     }
     
@@ -32,6 +34,12 @@ class AudioManager: ObservableObject{
     
     @Published var soundID: SystemSoundID = 0
     @Published var playingAudio:URL? = nil
+    
+    @Published var speakPlayer:AVAudioPlayer? = nil
+    @Published var speaking:Bool = false
+    @Published var loading:Bool = false
+    
+    @Published var ShareURL: URL?  = nil
     
     
     func allSounds()-> [String] {
@@ -90,7 +98,6 @@ class AudioManager: ObservableObject{
         }
         
     }
-
     
     /// 返回指定文件夹中，指定后缀且不含长音前缀的文件列表
     func getFilesInDirectory(directory: String, suffix: String) -> [URL] {
@@ -113,8 +120,6 @@ class AudioManager: ObservableObject{
         }
     }
 
-    
-    
     /// 通用文件保存方法
     func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
         // 获取 App Group 的共享铃声目录路径
@@ -160,7 +165,6 @@ class AudioManager: ObservableObject{
         setFileList()
     }
     
-    
     func playAudio(url: URL? = nil) {
         // 先释放之前的 SystemSoundID（如果有），避免内存泄漏或重复播放
         AudioServicesDisposeSystemSoundID(self.soundID)
@@ -193,7 +197,6 @@ class AudioManager: ObservableObject{
         }
     }
 
-    
     func convertAudioToCAF(inputURL: URL, outputURL: URL) async -> Result<URL, Error>  {
         
         do{
@@ -270,6 +273,54 @@ class AudioManager: ObservableObject{
         }
         
         
+    }
+    
+    func Speak(_ text: String) async -> AVAudioPlayer? {
+       
+        do{
+            let start = DispatchTime.now()
+            await MainActor.run {
+                withAnimation(.default) {
+                    self.loading = true
+                    self.speaking = true
+                }
+               
+            }
+            
+            let client = try VoiceManager()
+            let audio = try await client.synthesizeLongText(text: text)
+            await MainActor.run{
+                self.ShareURL = audio
+            }
+           
+           
+            let player = try AVAudioPlayer(contentsOf: audio)
+            await MainActor.run {
+                self.speakPlayer = player
+                self.speakPlayer?.delegate = self
+                self.loading = false
+            }
+    
+            let end = DispatchTime.now()
+            let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+            debugPrint("运行时间：",Double(nanoTime) / 1_000_000_000)
+            return self.speakPlayer
+        }catch{
+            await MainActor.run {
+                self.speakPlayer = nil
+                self.loading = false
+            }
+            debugPrint(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        DispatchQueue.main.async{
+            withAnimation(.default) {
+                self.speaking = false
+            }
+        }
     }
     
 }

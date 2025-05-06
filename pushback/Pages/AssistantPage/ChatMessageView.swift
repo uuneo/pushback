@@ -43,17 +43,8 @@ struct ChatMessageView: View {
                                 .if(isLoading) { view in
                                     view.lineLimit(2)
                                 }
-                                .contextMenu{
-                                    Button(action: { Clipboard.shared.setString(message.content) }) {
-                                        Label("复制", systemImage: "doc.on.doc")
-                                    }
-                                    
-                                    Button{
-                                        
-                                    }label: {
-                                        Label("选择文本", systemImage: "selection.pin.in.out")
-                                    }
-                                }
+                                .assistantMenu(message.request)
+                                
                             
                         }
                     }
@@ -66,12 +57,7 @@ struct ChatMessageView: View {
             if  !message.content.isEmpty {
                 HStack{
                     assistantMessageView
-                        .contextMenu{
-                            Button(action: { Clipboard.shared.setString(message.content) }) {
-                                Label("复制", systemImage: "doc.on.doc")
-                            }
-                            
-                        }
+                        .assistantMenu(message.content)
                     Spacer()
                 }
                 .padding(.horizontal, 10)
@@ -126,6 +112,39 @@ struct ChatMessageView: View {
         
     }
     
+}
+
+
+extension View{
+    
+    func assistantMenu(_ text:String)-> some View{
+        self
+            .onTapGesture(count: 2){
+                Clipboard.shared.setString(text)
+                Toast.success(title: String(localized: "复制成功"))
+            }
+            .contextMenu{
+                
+                Section {
+                    Button {
+                        Task(priority: .high) {
+                            guard let player = await AudioManager.shared.Speak(PBMarkdown.plain(text)) else { return }
+                            player.play()
+                        }
+                    }label: {
+                        Label("朗读内容",  systemImage: "waveform")
+                            .symbolEffect(.variableColor)
+                    }
+                }
+                
+                Section{
+                    Button(action: { Clipboard.shared.setString(text) }) {
+                        Label("复制", systemImage: "doc.on.doc")
+                    }
+                }
+                
+            }
+    }
 }
 
 struct QuoteView:View {

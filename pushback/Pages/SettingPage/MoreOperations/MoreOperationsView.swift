@@ -22,89 +22,68 @@ struct MoreOperationsView: View {
 	@Default(.messageExpiration) var messageExpiration
 	@Default(.imageSaveDays) var imageSaveDays
 	@Default(.autoSaveToAlbum) var autoSaveToAlbum
-    @ObservedResults(Message.self) var messages
+    
     @Default(.badgeMode) var badgeMode
     @Default(.showMessageAvatar) var showMessageAvatar
-   
+    
+    @Default(.defaultBrowser) var defaultBrowser
 
-    @State private var showImport:Bool = false
-    @State private var showexport:Bool = false
 	
 
 	var body: some View {
 
 			List{
-            
                 
-                Section {
+                Section(header: Text("默认浏览器设置")){
+                    HStack{
+                        Picker(selection: $defaultBrowser) {
+                            ForEach(DefaultBrowserModel.allCases, id: \.self) { item in
+                                Text(item.title)
+                                    .tag(item)
+                            }
+                        }label:{
+                            Text("默认浏览器")
+                        }.pickerStyle(SegmentedPickerStyle())
 
-                    Button{
-                        self.showexport.toggle()
-                    }label: {
-                        HStack{
-
-                            Label("导出", systemImage: "arrow.up.circle")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.wiggle, delay: 3)
-                            
-                            Spacer()
-                            Text(String(format: String(localized: "%d条消息"), messages.count) )
-                                .foregroundStyle(Color.green)
-                        }
                     }
-                    .disabled(messages.count == 0)
-                    .fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
-                        switch result {
-                            case .success(let success):
-                            Log.debug(success)
-                            case .failure(let failure):
-                            Log.error(failure)
-                        }
-                        self.showexport = false
-                    }
-
-                    Button{
-                        self.showImport.toggle()
-                    }label: {
-                        HStack{
-
-                            Label( "导入", systemImage: "arrow.down.circle")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.wiggle, delay: 6)
-
-                            Spacer()
-
-                        }
-                    }
-
-
-                    .fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
-                        switch result {
-                            case .success(let files):
-                                let msg = importMessage(files)
-                                Toast.info(title: msg)
-                            case .failure(let err):
-                                Toast.error(title: err.localizedDescription)
-                        }
-                    })
-
-
-
-                } header: {
-                    Text( "导出消息列表")
-                        .textCase(.none)
-                } footer:{
-                    Text("只能导入.exv结尾的JSON数据")
+                    
+                   
+                    
                 }
                 
-                
-                Button{
-                    PushbackManager.openSetting()
-                }label: {
-                    HStack(alignment:.center){
-
+                Section{
+                    ListButton {
+                        Label {
+                            Text("语音配置")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "waveform.circle")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                
+                        }
+                    } action:{
+                        manager.router.append(.tts)
+                        return true
+                    }
+                   
+                    
+                    ListButton {
+                        Label {
+                            Text("小组件")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "window.shade.closed")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                
+                        }
+                    } action:{
+                        manager.router.append(.widget(title: nil, data: "app"))
+                        return true
+                    }
+                    
+                    ListButton {
                         Label {
                             Text( "系统设置")
                                 .foregroundStyle(.textBlack)
@@ -116,14 +95,12 @@ struct MoreOperationsView: View {
                                 .symbolEffect(.rotate)
 
                         }
-
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundStyle(.gray)
+                    } action:{
+                        PushbackManager.openSetting()
+                        return true
                     }
-
                 }
-                
+             
                 
 				Section {
                     
@@ -262,69 +239,7 @@ struct MoreOperationsView: View {
 		
 	}
 
-    fileprivate func importMessage(_ fileUrls: [URL]) -> String {
-        do{
-            for url in fileUrls{
-                
-                if url.startAccessingSecurityScopedResource(){
-                    
-                    let data = try Data(contentsOf: url)
-                    
-                    guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
-                    
-                   
-                    autoreleasepool {
-                        var messages:[Message] = []
-                        for message in arr {
-                            
-                            guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
-                            
-                            let messageObject = Message()
-                            if let idString = UUID(uuidString: id){ messageObject.id = idString }
-                            
-                            messageObject.title = message["title"].string
-                            messageObject.body = message["body"].string
-                            messageObject.url = message["url"].string
-                            messageObject.group = message["group"].string ?? String(localized: "导入数据")
-                            messageObject.read = true
-                            messageObject.level = message["level"].int ?? 1
-                            messageObject.image = message["image"].string
-                            messageObject.ttl = ExpirationTime.forever.days
-                            messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
-                            messageObject.search = message["search"].string ?? ""
-                            
-                            messages.append(messageObject)
-                            
-                            if messages.count == 1000 {
-                                let newMessage = messages
-                                RealmManager.handler { proxy in
-                                    proxy.writeAsync {
-                                        proxy.add(newMessage, update: .modified)
-                                    }
-                                }
-                                
-                                messages = []
-                            }
-                        }
-                        RealmManager.handler { proxy in
-                            proxy.writeAsync {
-                                proxy.add(messages, update: .modified)
-                            }
-                        }
-                    }
-                }
-                
-                
-                
-            }
-            
-            return String(localized: "导入成功")
-            
-        }catch{
-            Log.debug(error)
-            return error.localizedDescription
-        }
-    }
+   
 	
 }
 

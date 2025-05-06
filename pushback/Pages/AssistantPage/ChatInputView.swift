@@ -39,7 +39,7 @@ struct ChatInputView: View {
                 inputField
                     .disabled(chatManager.isLoading)
                 rightActionButton
-                    .disabled(chatManager.isLoading)
+                   
             }
             .padding(.horizontal)
             .padding(.top, 5)
@@ -113,21 +113,11 @@ struct ChatInputView: View {
     @ViewBuilder
     private var rightActionButton: some View {
         
-        if !text.isEmpty {
-            // 发送按钮
+        if chatManager.isLoading{
             Button(action: {
-                
-                self.text = text.trimmingCharacters(in: .whitespaces)
-                if text.count > 1{
-                    onSend(text)
-                    isFocusedInput = false
-                }else {
-                    Toast.error(title: String(localized: "至少2个字符"))
-                }
-               
-               
+                chatManager.cancellableRequest?.cancelRequest()
             }) {
-                Image(systemName: "arrow.up.circle.fill")
+                Image(systemName: "xmark.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 35, height: 35)
@@ -136,19 +126,49 @@ struct ChatInputView: View {
                     .background(Color.white)
                     .clipShape(Circle())
                     .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
+                    .symbolEffect(.rotate)
             }
             .transition(.scale)
-        } else {
-            
-            // 附件菜单
-            AttachmentMenuView(
-                onSelectedPicture: onSelectedPicture,
-                onSelectedFile: onSelectedFile,
-                onCapturePhoto: onCapturePhoto
-            )
-            .transition(.scale)
-            
+        }else{
+            if !text.isEmpty {
+                // 发送按钮
+                Button(action: {
+                    
+                    self.text = text.trimmingCharacters(in: .whitespaces)
+                    if text.count > 1{
+                        onSend(text)
+                        isFocusedInput = false
+                    }else {
+                        Toast.error(title: String(localized: "至少2个字符"))
+                    }
+                   
+                   
+                }) {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.blue)
+                        .opacity(0.7)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
+                }
+                .transition(.scale)
+            } else {
+                
+                // 附件菜单
+                AttachmentMenuView(
+                    onSelectedPicture: onSelectedPicture,
+                    onSelectedFile: onSelectedFile,
+                    onCapturePhoto: onCapturePhoto
+                )
+                .transition(.scale)
+                
+            }
         }
+        
+        
     }
     
    

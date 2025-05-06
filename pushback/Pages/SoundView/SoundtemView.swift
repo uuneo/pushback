@@ -12,7 +12,7 @@ import Defaults
 
 
 struct SoundItemView: View {
-	@StateObject private var audioManager = AudioManager.shared
+    @EnvironmentObject private var audioManager:AudioManager
 	@Default(.sound) var sound
 
 	var audio:URL

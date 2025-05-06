@@ -19,7 +19,11 @@ class PushbackManager: NetworkManager, ObservableObject{
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
-	@Published var crashLog:String?
+    @Published var crashLog:String?
+    
+    
+    
+	@Published var PremiumUser:Bool = false
     
     
     @Published var selectId:String? = nil
@@ -271,7 +275,7 @@ class PushbackManager: NetworkManager, ObservableObject{
     
     // MARK: 注册设备以接收远程推送通知
     func registerForRemoteNotifications() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert]) { (granted, _) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert,.provisional, .providesAppNotificationSettings]) { (granted, _) in
             if granted {
                 // 如果授权，注册设备接收推送通知
                 DispatchQueue.main.async {
@@ -332,6 +336,8 @@ class PushbackManager: NetworkManager, ObservableObject{
             return .text(address)
         }
         
+        debugPrint(address)
+        
         if ["pb","mw"].contains(scheme),let host = url.host(), let components = URLComponents(url: url, resolvingAgainstBaseURL: false){
             let params = components.getParams()
             
@@ -350,6 +356,11 @@ class PushbackManager: NetworkManager, ObservableObject{
             
             if host == "assistant", let config = params["text"]{
                 return .assistant(config)
+            }
+            
+            /// pb://openPage?type=widget&page=small
+            if host == "openPage",let page = params["page"] {
+                return .page(page: page,title: params["title"], data: params["data"] ?? "")
             }
         
             

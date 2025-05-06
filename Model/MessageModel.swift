@@ -11,7 +11,6 @@ import UniformTypeIdentifiers
 import SwiftyJSON
 
 
-
 final class Message: Object , ObjectKeyIdentifiable, Codable  {
     
 	@Persisted(primaryKey: true) var id:UUID
@@ -28,7 +27,6 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 	@Persisted var level:Int = 1
     @Persisted var ttl:Int = ExpirationTime.forever.days
 	@Persisted var read:Bool = false
-	@Persisted var search:String
 
 
 	enum CodingKeys: CodingKey {
@@ -45,7 +43,6 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		case createDate
 		case ttl
 		case read
-		case search
 	}
 
 	func encode(to encoder: any Encoder) throws {
@@ -63,33 +60,21 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
 		try container.encode(self.level, forKey: .level)
 		try container.encode(self.ttl, forKey: .ttl)
 		try container.encode(self.read, forKey: .read)
-		try container.encode(self.search, forKey: .search)
 	}
     
+    var search:String{  [ group, title, subtitle, body, from, url].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: ";") + ";" }
     
-    func allString()-> String {
-        return [ group,  title, subtitle, body, from, url, image,  icon ]
-            .compactMap { $0 }  // 过滤掉 nil 值
-            .filter { !$0.isEmpty }  // 过滤掉空字符串
-            .joined(separator: ";") + ";"  // 使用分号连接并添加结尾分号
-    }
-    
-    func mark() -> Self {
-        self.search = allString()
-        return self
-    }
-
 }
 
 extension Message{
 	
-    static func examples(group:String = "") ->[Message]{
+    static func examples() ->[Message]{
         [
-            Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例") + group,"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 1]).mark(),
+            Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","ttl": 1]),
 
-            Message(value: ["group":  "App" + group,"title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 1]).mark(),
+            Message(value: ["group":  "App","title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","ttl": 1]),
             
-            Message(value: ["group":  "Markdown" + group, "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","userInfo":String(localized: "{这是一个示例,没有原始数据}"),"ttl": 1]).mark()
+            Message(value: ["group":  "Markdown", "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","ttl": 1])
             
         ]
     }
@@ -134,11 +119,25 @@ extension Message{
 
 		return String(localized:"即将过期")
 	}
+    
+    var voiceText: String{
+        var text:[String] = []
+        
+        if let title{
+            text.append(title)
+        }
+        
+        if let subtitle{
+            text.append(subtitle)
+        }
+        
+        if let body{
+            text.append(PBMarkdown.plain(body))
+        }
+        
+        return text.joined(separator: ",")
+    }
 }
-
-
-
-
 
 extension ResultsSection: @retroactive Hashable{
 	public func hash(into hasher: inout Hasher) {
@@ -186,3 +185,11 @@ extension Object {
 extension UTType {
 	static var trnExportType = UTType(exportedAs: "me.uuneo.pushback.exv")
 }
+
+extension Calendar {
+    func startOfWeek(for date: Date) -> Date {
+        self.date(from: self.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
+    }
+}
+
+

@@ -12,8 +12,10 @@ import Combine
 
 
 struct AssistantPageView:View {
-    @Environment(\.dismiss) var dismiss
+    
     @Default(.assistantAccouns) var assistantAccouns
+    
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var chatManager:openChatManager
     @EnvironmentObject private var manager:PushbackManager
     
@@ -30,7 +32,6 @@ struct AssistantPageView:View {
     
     @ObservedResults(ChatGroup.self, where: (\.current)) var chatgroups
     @Default(.historyMessageBool) var historyMessageBool
-    @State private var showSettings:Bool = false
     
     @State private var offsetX: CGFloat = 0
     @State private var offsetHistory:CGFloat = 0
@@ -83,6 +84,9 @@ struct AssistantPageView:View {
                 
                 
                 Spacer()
+               
+            }
+            .safeAreaInset(edge: .bottom) {
                 // 底部输入框
                 ChatInputView(
                     text: $inputText,
@@ -127,25 +131,17 @@ struct AssistantPageView:View {
                         }
                 }
             }
-            .sheet(isPresented: $showSettings) {
-                NavigationStack{
-                    AssistantSettingsView(showClose: true)
-                        .customPresentationCornerRadius(20) 
-                }
-                
-            }
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 
                 ToolbarItem {
-                    Button{
-                        withAnimation {
-                            self.showMenu = false
-                            self.showSettings.toggle()
-                        }
-                    }label: {
-                        Text( "设置")
-                    }
+                    Label("设置", systemImage: "gear")
+                        .foregroundStyle(.accent)
+                        .pressEvents(onRelease: { _ in
+                            withAnimation {
+                                manager.router.append(.assistantSetting(nil))
+                            }
+                            return true
+                        })
                 }
                 
                 navigationToolbarContent
@@ -154,7 +150,7 @@ struct AssistantPageView:View {
                 
             }
             .sheet(isPresented: $showMenu) {
-                SideBarMenuView(showMenu: $showMenu, showSettings: $showSettings)
+                SideBarMenuView(showMenu: $showMenu)
                     .onChange(of: showMenu) { value in
                         DispatchQueue.main.async {
                             PushbackManager.hideKeyboard()
@@ -321,7 +317,6 @@ struct AssistantPageView:View {
     // 发送消息
     private  func sendMessage(_ text: String) {
         guard assistantAccouns.first(where: {$0.current}) != nil else {
-            self.showSettings = true
             return
         }
         
@@ -563,26 +558,3 @@ struct StreamingLoadingView: View {
     }
 }
 
-struct AssistantRowView: View {
-    
-    @ObservedResults(ChatMessage.self, sortDescriptor: .init(keyPath: \ChatGroup.timestamp)) var chatMessages
-    @EnvironmentObject private var manager:PushbackManager
-    
-    var chatHomeMessage:Message{
-        var chatGroup:ChatMessage? = nil
-        
-        if let realm = try? Realm(),
-           let chat = realm.objects(ChatMessage.self).sorted(byKeyPath: "timestamp").last {
-            chatGroup = chat
-        }
-        return ChatMessage.getAssistant(chat: chatGroup)
-    }
-    var body: some View {
-        MessageRow(message: chatHomeMessage, unreadCount: 0, customIcon: "chatgpt")
-            .pressEvents(onRelease: { value in
-                manager.router = [.assistant]
-                return true
-               
-            })
-    }
-}

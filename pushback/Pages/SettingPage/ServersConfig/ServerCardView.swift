@@ -12,7 +12,7 @@ import Defaults
 
 
 struct ServerCardView:View {
-	@StateObject private var manager = PushbackManager.shared
+    @EnvironmentObject private var manager: PushbackManager
     @State private var textAnimation:Bool = false
     @State private var showDevice:Bool = false
 	var item: PushServerModel

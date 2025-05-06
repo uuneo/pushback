@@ -7,8 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B51515EE2DCDBB7500E6158B /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515ED2DCDBB7300E6158B /* WidgetData.swift */; };
+		B51515EF2DCDBBDE00E6158B /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515ED2DCDBB7300E6158B /* WidgetData.swift */; };
+		B51515F62DCDC10D00E6158B /* DefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515F52DCDC10800E6158B /* DefaultsConfig.swift */; };
+		B51515F72DCDC10D00E6158B /* DefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515F52DCDC10800E6158B /* DefaultsConfig.swift */; };
+		B51515F82DCDC10D00E6158B /* DefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515F52DCDC10800E6158B /* DefaultsConfig.swift */; };
+		B51515F92DCDC10D00E6158B /* DefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515F52DCDC10800E6158B /* DefaultsConfig.swift */; };
+		B51515FA2DCDC2A600E6158B /* DefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515F52DCDC10800E6158B /* DefaultsConfig.swift */; };
 		B52E8D7F2DBF70620078D2C1 /* ParamsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E8D7C2DBF705E0078D2C1 /* ParamsModel.swift */; };
 		B53934552DA92578001B9336 /* PopOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53934542DA92578001B9336 /* PopOutView.swift */; };
+		B53B0B1E2DD7316E007848AA /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B53B0B1D2DD7316E007848AA /* Defaults */; };
+		B53B0B1F2DD731D5007848AA /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
+		B53B0B202DD731D5007848AA /* DefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51515F52DCDC10800E6158B /* DefaultsConfig.swift */; };
+		B53B0B212DD731D5007848AA /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204732D9EABFB00527343 /* LocalKeys.swift */; };
+		B53B0B222DD731EB007848AA /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204742D9EABFB00527343 /* BaseConfig.swift */; };
+		B53B0B232DD73203007848AA /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
+		B53B0B242DD7321F007848AA /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
 		B555FA342DAA77AC0008D11E /* snap.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2E2DAA77AC0008D11E /* snap.caf */; };
 		B555FA352DAA77AC0008D11E /* com.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA232DAA77AC0008D11E /* com.caf */; };
 		B555FA362DAA77AC0008D11E /* health.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA272DAA77AC0008D11E /* health.caf */; };
@@ -51,7 +65,33 @@
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577DAD42DC5F38000AB7527 /* zoomable.swift */; };
+		B58133BC2DC9A61F00752D46 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58133BB2DC9A61F00752D46 /* WidgetKit.framework */; };
+		B58133BE2DC9A61F00752D46 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58133BD2DC9A61F00752D46 /* SwiftUI.framework */; };
+		B58133CF2DC9A62300752D46 /* PushbackWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B58133D72DCAD9BB00752D46 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B58133D62DCAD9BB00752D46 /* Defaults */; };
+		B58133D92DCAD9BB00752D46 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B58133D82DCAD9BB00752D46 /* RealmSwift */; };
+		B58133DC2DCAD9CF00752D46 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204342D9EABFB00527343 /* MessageModel.swift */; };
+		B58133DD2DCAE8AB00752D46 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
+		B58133DE2DCAEA8500752D46 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
+		B58133DF2DCAEA9F00752D46 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204742D9EABFB00527343 /* BaseConfig.swift */; };
+		B58133E02DCAEBF600752D46 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204752D9EABFB00527343 /* RealmConfig.swift */; };
 		B58E28542DC3A13600A42022 /* PushbackSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B5A883102DD46B3F009696F6 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
+		B5A885082DD50049009696F6 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
+		B5A8850C2DD5135C009696F6 /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5A8850B2DD5135C009696F6 /* cmark-gfm-extensions */; };
+		B5A8850E2DD51373009696F6 /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5A8850D2DD51373009696F6 /* cmark-gfm */; };
+		B5A885102DD51373009696F6 /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5A8850F2DD51373009696F6 /* cmark-gfm-extensions */; };
+		B5A885122DD513BD009696F6 /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A885112DD513B2009696F6 /* Markdown.swift */; };
+		B5A885132DD513BD009696F6 /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A885112DD513B2009696F6 /* Markdown.swift */; };
+		B5A885142DD513BD009696F6 /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A885112DD513B2009696F6 /* Markdown.swift */; };
+		B5A885152DD513BD009696F6 /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A885112DD513B2009696F6 /* Markdown.swift */; };
+		B5A885162DD513BD009696F6 /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A885112DD513B2009696F6 /* Markdown.swift */; };
+		B5A885182DD51453009696F6 /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5A885172DD51453009696F6 /* cmark-gfm */; };
+		B5A8851A2DD51453009696F6 /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5A885192DD51453009696F6 /* cmark-gfm-extensions */; };
+		B5A8851C2DD51464009696F6 /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5A8851B2DD51464009696F6 /* cmark-gfm */; };
+		B5A8851E2DD51464009696F6 /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5A8851D2DD51464009696F6 /* cmark-gfm-extensions */; };
+		B5A8851F2DD514BE009696F6 /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A885112DD513B2009696F6 /* Markdown.swift */; };
+		B5C5148A2DD3776200DE6F65 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
 		B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204462D9EABFB00527343 /* Snapshot.swift */; };
 		B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
@@ -77,7 +117,6 @@
 		B5D204A02D9EABFB00527343 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2045E2D9EABFB00527343 /* Navigation+Extension.swift */; };
 		B5D204A12D9EABFB00527343 /* image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204622D9EABFB00527343 /* image+.swift */; };
 		B5D204A22D9EABFB00527343 /* TrayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204382D9EABFB00527343 /* TrayHelper.swift */; };
-		B5D204A32D9EABFB00527343 /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204672D9EABFB00527343 /* StoreKitManager.swift */; };
 		B5D204A42D9EABFB00527343 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204752D9EABFB00527343 /* RealmConfig.swift */; };
 		B5D204A52D9EABFB00527343 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
 		B5D204A62D9EABFB00527343 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
@@ -159,6 +198,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B58133CD2DC9A62300752D46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5D2041D2D9EABA300527343 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B58133B92DC9A61F00752D46;
+			remoteInfo = PushbackWidgetExtension;
+		};
 		B58E28522DC3A13600A42022 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B5D2041D2D9EABA300527343 /* Project object */;
@@ -197,6 +243,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B58133DA2DCAD9BB00752D46 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5D205A92D9EAEFE00527343 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -204,6 +260,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				B58E28542DC3A13600A42022 /* PushbackSafariExtension.appex in Embed Foundation Extensions */,
+				B58133CF2DC9A62300752D46 /* PushbackWidgetExtension.appex in Embed Foundation Extensions */,
 				B5D205E52D9EAF4500527343 /* ShareExtension.appex in Embed Foundation Extensions */,
 				B5D205A42D9EAEFE00527343 /* NotificationServiceExtension.appex in Embed Foundation Extensions */,
 				B5D205BD2D9EAF1500527343 /* NotificationContentExtension.appex in Embed Foundation Extensions */,
@@ -236,6 +293,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B51515ED2DCDBB7300E6158B /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
+		B51515F52DCDC10800E6158B /* DefaultsConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsConfig.swift; sourceTree = "<group>"; };
 		B52E8D7C2DBF705E0078D2C1 /* ParamsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamsModel.swift; sourceTree = "<group>"; };
 		B53934542DA92578001B9336 /* PopOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOutView.swift; sourceTree = "<group>"; };
 		B555FA202DAA77AC0008D11E /* alarm.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alarm.caf; sourceTree = "<group>"; };
@@ -261,7 +320,12 @@
 		B555FA6A2DACC33A0008D11E /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		B555FA752DACC33B0008D11E /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		B577DAD42DC5F38000AB7527 /* zoomable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zoomable.swift; sourceTree = "<group>"; };
+		B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushbackWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B58133BB2DC9A61F00752D46 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B58133BD2DC9A61F00752D46 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushbackSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5A885112DD513B2009696F6 /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
+		B5C514862DD3770400DE6F65 /* VoiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceManager.swift; sourceTree = "<group>"; };
 		B5D204252D9EABA300527343 /* pushback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D204332D9EABFB00527343 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
 		B5D204342D9EABFB00527343 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
@@ -293,7 +357,6 @@
 		B5D204632D9EABFB00527343 /* MarkdownColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownColors.swift; sourceTree = "<group>"; };
 		B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushIconCloudManager.swift; sourceTree = "<group>"; };
 		B5D204662D9EABFB00527343 /* OpenChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatManager.swift; sourceTree = "<group>"; };
-		B5D204672D9EABFB00527343 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		B5D204692D9EABFB00527343 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		B5D2046A2D9EABFB00527343 /* PushbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushbackManager.swift; sourceTree = "<group>"; };
@@ -317,6 +380,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B51515E92DCCF9D300E6158B /* Exceptions for "pushback" folder in "PushbackWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = B58133B92DC9A61F00752D46 /* PushbackWidgetExtension */;
+		};
 		B53934482DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationContentExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -330,6 +400,20 @@
 				Localizable.xcstrings,
 			);
 			target = B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */;
+		};
+		B53B0B1C2DD7310E007848AA /* Exceptions for "NotificationContentExtension" folder in "NotificationMarkdownExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MusicInfoView.swift,
+			);
+			target = B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */;
+		};
+		B58133D32DC9A62300752D46 /* Exceptions for "PushbackWidget" folder in "PushbackWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B58133B92DC9A61F00752D46 /* PushbackWidgetExtension */;
 		};
 		B58E28582DC3A13600A42022 /* Exceptions for "PushbackSafariExtension" folder in "PushbackSafariExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -394,6 +478,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B58133BF2DC9A61F00752D46 /* PushbackWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B58133D32DC9A62300752D46 /* Exceptions for "PushbackWidget" folder in "PushbackWidgetExtension" target */,
+			);
+			path = PushbackWidget;
+			sourceTree = "<group>";
+		};
 		B58E283D2DC3A13600A42022 /* PushbackSafariExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -414,6 +506,7 @@
 				B53934482DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationContentExtension" target */,
 				B53934492DA91A18001B9336 /* Exceptions for "pushback" folder in "NotificationMarkdownExtension" target */,
 				B5D205EE2D9EAFAD00527343 /* Exceptions for "pushback" folder in "ShareExtension" target */,
+				B51515E92DCCF9D300E6158B /* Exceptions for "pushback" folder in "PushbackWidgetExtension" target */,
 			);
 			path = pushback;
 			sourceTree = "<group>";
@@ -430,6 +523,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B5D205BE2D9EAF1500527343 /* Exceptions for "NotificationContentExtension" folder in "NotificationContentExtension" target */,
+				B53B0B1C2DD7310E007848AA /* Exceptions for "NotificationContentExtension" folder in "NotificationMarkdownExtension" target */,
 			);
 			path = NotificationContentExtension;
 			sourceTree = "<group>";
@@ -453,6 +547,19 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B58133B72DC9A61F00752D46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B58133D92DCAD9BB00752D46 /* RealmSwift in Frameworks */,
+				B58133D72DCAD9BB00752D46 /* Defaults in Frameworks */,
+				B58133BE2DC9A61F00752D46 /* SwiftUI.framework in Frameworks */,
+				B58133BC2DC9A61F00752D46 /* WidgetKit.framework in Frameworks */,
+				B5A8851A2DD51453009696F6 /* cmark-gfm-extensions in Frameworks */,
+				B5A885182DD51453009696F6 /* cmark-gfm in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B58E28392DC3A13500A42022 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -486,6 +593,7 @@
 				B5D206232D9EB78600527343 /* Kingfisher in Frameworks */,
 				B5D206212D9EB78600527343 /* Defaults in Frameworks */,
 				B5D206292D9EB78600527343 /* SwiftyJSON in Frameworks */,
+				B5A8850C2DD5135C009696F6 /* cmark-gfm-extensions in Frameworks */,
 				B5D206092D9EB13700527343 /* cmark-gfm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +606,8 @@
 				B5D2060C2D9EB2BC00527343 /* Defaults in Frameworks */,
 				B5D205B32D9EAF1500527343 /* UserNotificationsUI.framework in Frameworks */,
 				B5D205B12D9EAF1500527343 /* UserNotifications.framework in Frameworks */,
+				B5A885102DD51373009696F6 /* cmark-gfm-extensions in Frameworks */,
+				B5A8850E2DD51373009696F6 /* cmark-gfm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +615,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53B0B1E2DD7316E007848AA /* Defaults in Frameworks */,
 				B5D206502D9EC74900527343 /* WebKit.framework in Frameworks */,
 				B5D206172D9EB3FA00527343 /* cmark-gfm in Frameworks */,
 				B5D205C82D9EAF3600527343 /* UserNotificationsUI.framework in Frameworks */,
@@ -517,7 +628,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A8851C2DD51464009696F6 /* cmark-gfm in Frameworks */,
 				B5D2063C2D9EBAFE00527343 /* Defaults in Frameworks */,
+				B5A8851E2DD51464009696F6 /* cmark-gfm-extensions in Frameworks */,
 				B5D2062B2D9EB7BD00527343 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,6 +653,7 @@
 				B5D205C92D9EAF3600527343 /* NotificationMarkdownExtension */,
 				B5D205DC2D9EAF4500527343 /* ShareExtension */,
 				B58E283D2DC3A13600A42022 /* PushbackSafariExtension */,
+				B58133BF2DC9A61F00752D46 /* PushbackWidget */,
 				B5D205AF2D9EAF1500527343 /* Frameworks */,
 				B5D204262D9EABA300527343 /* Products */,
 			);
@@ -554,6 +668,7 @@
 				B5D205C62D9EAF3600527343 /* NotificationMarkdownExtension.appex */,
 				B5D205DB2D9EAF4500527343 /* ShareExtension.appex */,
 				B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */,
+				B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -561,6 +676,7 @@
 		B5D204362D9EABFB00527343 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B51515ED2DCDBB7300E6158B /* WidgetData.swift */,
 				B52E8D7C2DBF705E0078D2C1 /* ParamsModel.swift */,
 				B5D204332D9EABFB00527343 /* ChatMessageModel.swift */,
 				B5D204342D9EABFB00527343 /* MessageModel.swift */,
@@ -642,7 +758,6 @@
 			children = (
 				B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */,
 				B5D204662D9EABFB00527343 /* OpenChatManager.swift */,
-				B5D204672D9EABFB00527343 /* StoreKitManager.swift */,
 				B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */,
 				B5D204692D9EABFB00527343 /* AudioManager.swift */,
 				B5D2046A2D9EABFB00527343 /* PushbackManager.swift */,
@@ -650,6 +765,7 @@
 				B5D2046D2D9EABFB00527343 /* cryptoManager.swift */,
 				B5D2046E2D9EABFB00527343 /* ImageManager.swift */,
 				B5D2046F2D9EABFB00527343 /* NetworkManager.swift */,
+				B5C514862DD3770400DE6F65 /* VoiceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -657,6 +773,8 @@
 		B5D204762D9EABFB00527343 /* Publics */ = {
 			isa = PBXGroup;
 			children = (
+				B5A885112DD513B2009696F6 /* Markdown.swift */,
+				B51515F52DCDC10800E6158B /* DefaultsConfig.swift */,
 				B5D204712D9EABFB00527343 /* PushParams.swift */,
 				B5D204722D9EABFB00527343 /* Clipboard.swift */,
 				B5D204732D9EABFB00527343 /* LocalKeys.swift */,
@@ -675,6 +793,8 @@
 				B5D205B22D9EAF1500527343 /* UserNotificationsUI.framework */,
 				B555FA6A2DACC33A0008D11E /* Intents.framework */,
 				B555FA752DACC33B0008D11E /* IntentsUI.framework */,
+				B58133BB2DC9A61F00752D46 /* WidgetKit.framework */,
+				B58133BD2DC9A61F00752D46 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -682,6 +802,33 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B58133B92DC9A61F00752D46 /* PushbackWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B58133D02DC9A62300752D46 /* Build configuration list for PBXNativeTarget "PushbackWidgetExtension" */;
+			buildPhases = (
+				B58133B62DC9A61F00752D46 /* Sources */,
+				B58133B72DC9A61F00752D46 /* Frameworks */,
+				B58133B82DC9A61F00752D46 /* Resources */,
+				B58133DA2DCAD9BB00752D46 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B58133BF2DC9A61F00752D46 /* PushbackWidget */,
+			);
+			name = PushbackWidgetExtension;
+			packageProductDependencies = (
+				B58133D62DCAD9BB00752D46 /* Defaults */,
+				B58133D82DCAD9BB00752D46 /* RealmSwift */,
+				B5A885172DD51453009696F6 /* cmark-gfm */,
+				B5A885192DD51453009696F6 /* cmark-gfm-extensions */,
+			);
+			productName = PushbackWidgetExtension;
+			productReference = B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B58E283B2DC3A13500A42022 /* PushbackSafariExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B58E28552DC3A13600A42022 /* Build configuration list for PBXNativeTarget "PushbackSafariExtension" */;
@@ -722,6 +869,7 @@
 				B5D205D12D9EAF3600527343 /* PBXTargetDependency */,
 				B5D205E42D9EAF4500527343 /* PBXTargetDependency */,
 				B58E28532DC3A13600A42022 /* PBXTargetDependency */,
+				B58133CE2DC9A62300752D46 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B5D204272D9EABA300527343 /* pushback */,
@@ -766,6 +914,7 @@
 				B5D206222D9EB78600527343 /* Kingfisher */,
 				B5D206242D9EB78600527343 /* RealmSwift */,
 				B5D206282D9EB78600527343 /* SwiftyJSON */,
+				B5A8850B2DD5135C009696F6 /* cmark-gfm-extensions */,
 			);
 			productName = NotificationServiceExtension;
 			productReference = B5D2059D2D9EAEFE00527343 /* NotificationServiceExtension.appex */;
@@ -790,6 +939,8 @@
 			packageProductDependencies = (
 				B5D2060B2D9EB2BC00527343 /* Defaults */,
 				B5D2060D2D9EB36100527343 /* Kingfisher */,
+				B5A8850D2DD51373009696F6 /* cmark-gfm */,
+				B5A8850F2DD51373009696F6 /* cmark-gfm-extensions */,
 			);
 			productName = NotificationContentExtension;
 			productReference = B5D205AE2D9EAF1500527343 /* NotificationContentExtension.appex */;
@@ -814,6 +965,7 @@
 			packageProductDependencies = (
 				B5D206162D9EB3FA00527343 /* cmark-gfm */,
 				B5D206182D9EB3FA00527343 /* cmark-gfm-extensions */,
+				B53B0B1D2DD7316E007848AA /* Defaults */,
 			);
 			productName = NotificationMarkdownExtension;
 			productReference = B5D205C62D9EAF3600527343 /* NotificationMarkdownExtension.appex */;
@@ -838,6 +990,8 @@
 			packageProductDependencies = (
 				B5D2062A2D9EB7BD00527343 /* Kingfisher */,
 				B5D2063B2D9EBAFE00527343 /* Defaults */,
+				B5A8851B2DD51464009696F6 /* cmark-gfm */,
+				B5A8851D2DD51464009696F6 /* cmark-gfm-extensions */,
 			);
 			productName = ShareExtension;
 			productReference = B5D205DB2D9EAF4500527343 /* ShareExtension.appex */;
@@ -853,6 +1007,9 @@
 				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1630;
 				TargetAttributes = {
+					B58133B92DC9A61F00752D46 = {
+						CreatedOnToolsVersion = 16.3;
+					};
 					B58E283B2DC3A13500A42022 = {
 						CreatedOnToolsVersion = 16.3;
 					};
@@ -907,11 +1064,19 @@
 				B5D205C52D9EAF3600527343 /* NotificationMarkdownExtension */,
 				B5D205DA2D9EAF4500527343 /* ShareExtension */,
 				B58E283B2DC3A13500A42022 /* PushbackSafariExtension */,
+				B58133B92DC9A61F00752D46 /* PushbackWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B58133B82DC9A61F00752D46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B58E283A2DC3A13500A42022 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -997,6 +1162,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B58133B62DC9A61F00752D46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B51515FA2DCDC2A600E6158B /* DefaultsConfig.swift in Sources */,
+				B5A885162DD513BD009696F6 /* Markdown.swift in Sources */,
+				B51515EF2DCDBBDE00E6158B /* WidgetData.swift in Sources */,
+				B58133E02DCAEBF600752D46 /* RealmConfig.swift in Sources */,
+				B58133DF2DCAEA9F00752D46 /* BaseConfig.swift in Sources */,
+				B58133DE2DCAEA8500752D46 /* OtherModel.swift in Sources */,
+				B58133DD2DCAE8AB00752D46 /* Extension+.swift in Sources */,
+				B58133DC2DCAD9CF00752D46 /* MessageModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B58E28382DC3A13500A42022 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1008,8 +1188,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5C5148A2DD3776200DE6F65 /* VoiceManager.swift in Sources */,
 				B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */,
 				B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */,
+				B5A885132DD513BD009696F6 /* Markdown.swift in Sources */,
 				B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */,
 				B5D2048C2D9EABFB00527343 /* ImageManager.swift in Sources */,
 				B5D2048D2D9EABFB00527343 /* HackerTextView.swift in Sources */,
@@ -1031,12 +1213,12 @@
 				B5D2049C2D9EABFB00527343 /* ChatMessageModel.swift in Sources */,
 				B5D2049D2D9EABFB00527343 /* View+.swift in Sources */,
 				B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */,
+				B51515EE2DCDBB7500E6158B /* WidgetData.swift in Sources */,
 				B5D2049E2D9EABFB00527343 /* cryptoManager.swift in Sources */,
 				B5D2049F2D9EABFB00527343 /* BaseConfig.swift in Sources */,
 				B5D204A02D9EABFB00527343 /* Navigation+Extension.swift in Sources */,
 				B5D204A12D9EABFB00527343 /* image+.swift in Sources */,
 				B5D204A22D9EABFB00527343 /* TrayHelper.swift in Sources */,
-				B5D204A32D9EABFB00527343 /* StoreKitManager.swift in Sources */,
 				B5D204A42D9EABFB00527343 /* RealmConfig.swift in Sources */,
 				B5D204A52D9EABFB00527343 /* Extension+.swift in Sources */,
 				B5D204A62D9EABFB00527343 /* OtherModel.swift in Sources */,
@@ -1049,6 +1231,7 @@
 				B5D204AD2D9EABFB00527343 /* Clipboard.swift in Sources */,
 				B5D204AE2D9EABFB00527343 /* ParallaxImageView.swift in Sources */,
 				B5D204AF2D9EABFB00527343 /* ParticleEffect.swift in Sources */,
+				B51515F92DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
 				B5D204B02D9EABFB00527343 /* PopView.swift in Sources */,
 				B5D204B12D9EABFB00527343 /* FullSwipeNavigationStack.swift in Sources */,
 				B5D204B22D9EABFB00527343 /* PushServerCloudKit.swift in Sources */,
@@ -1061,6 +1244,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A885122DD513BD009696F6 /* Markdown.swift in Sources */,
+				B5A885082DD50049009696F6 /* VoiceManager.swift in Sources */,
 				B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */,
 				B5D2063A2D9EBAD700527343 /* PushIconCloudManager.swift in Sources */,
 				B5D206392D9EBA4D00527343 /* Extension+.swift in Sources */,
@@ -1071,6 +1256,7 @@
 				B5D2062F2D9EB90E00527343 /* PushParams.swift in Sources */,
 				B5D206302D9EB90E00527343 /* Clipboard.swift in Sources */,
 				B5D206312D9EB90E00527343 /* LocalKeys.swift in Sources */,
+				B51515F82DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
 				B5D206322D9EB90E00527343 /* BaseConfig.swift in Sources */,
 				B5D206332D9EB90E00527343 /* RealmConfig.swift in Sources */,
 			);
@@ -1080,13 +1266,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A883102DD46B3F009696F6 /* VoiceManager.swift in Sources */,
 				B5D206152D9EB3BB00527343 /* ImageManager.swift in Sources */,
 				B5D2060F2D9EB3AC00527343 /* OtherModel.swift in Sources */,
 				B5D206102D9EB3AC00527343 /* Extension+.swift in Sources */,
 				B5D206112D9EB3AC00527343 /* PushParams.swift in Sources */,
 				B5D206122D9EB3AC00527343 /* Clipboard.swift in Sources */,
+				B5A885142DD513BD009696F6 /* Markdown.swift in Sources */,
 				B5D206132D9EB3AC00527343 /* LocalKeys.swift in Sources */,
 				B5D206142D9EB3AC00527343 /* BaseConfig.swift in Sources */,
+				B51515F62DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,6 +1283,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53B0B242DD7321F007848AA /* Extension+.swift in Sources */,
+				B53B0B232DD73203007848AA /* VoiceManager.swift in Sources */,
+				B53B0B222DD731EB007848AA /* BaseConfig.swift in Sources */,
+				B53B0B1F2DD731D5007848AA /* OtherModel.swift in Sources */,
+				B53B0B202DD731D5007848AA /* DefaultsConfig.swift in Sources */,
+				B53B0B212DD731D5007848AA /* LocalKeys.swift in Sources */,
+				B5A8851F2DD514BE009696F6 /* Markdown.swift in Sources */,
 				B5D2061D2D9EB4AB00527343 /* PushParams.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1111,6 +1307,8 @@
 				B5D205EF2D9EAFC600527343 /* Extension+.swift in Sources */,
 				B5D205F02D9EAFC600527343 /* View+.swift in Sources */,
 				B5D205EC2D9EAFA300527343 /* PushParams.swift in Sources */,
+				B5A885152DD513BD009696F6 /* Markdown.swift in Sources */,
+				B51515F72DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
 				B5D205EB2D9EAF9900527343 /* LocalKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1118,6 +1316,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B58133CE2DC9A62300752D46 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B58133B92DC9A61F00752D46 /* PushbackWidgetExtension */;
+			targetProxy = B58133CD2DC9A62300752D46 /* PBXContainerItemProxy */;
+		};
 		B58E28532DC3A13600A42022 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B58E283B2DC3A13500A42022 /* PushbackSafariExtension */;
@@ -1150,6 +1353,64 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		B58133D12DC9A62300752D46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = PushbackWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 336;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PushbackWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PushbackWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushbackWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B58133D22DC9A62300752D46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = PushbackWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 336;
+				DEVELOPMENT_TEAM = FUWV6U942Q;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PushbackWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PushbackWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushbackWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B58E28562DC3A13600A42022 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1166,7 +1427,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1196,7 +1457,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1361,7 +1622,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1405,7 +1666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1436,7 +1697,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1468,7 +1729,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1500,7 +1761,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1532,7 +1793,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1550,6 +1811,7 @@
 		B5D205D52D9EAF3600527343 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationMarkdownExtension/NotificationMarkdownExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
@@ -1563,7 +1825,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1581,6 +1843,7 @@
 		B5D205D62D9EAF3600527343 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NotificationMarkdownExtension/NotificationMarkdownExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 336;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
@@ -1594,7 +1857,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1626,7 +1889,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1658,7 +1921,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1676,6 +1939,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B58133D02DC9A62300752D46 /* Build configuration list for PBXNativeTarget "PushbackWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B58133D12DC9A62300752D46 /* Debug */,
+				B58133D22DC9A62300752D46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B58E28552DC3A13600A42022 /* Build configuration list for PBXNativeTarget "PushbackSafariExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1817,6 +2089,56 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B53B0B1D2DD7316E007848AA /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D2057A2D9EAE1C00527343 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		B58133D62DCAD9BB00752D46 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D2057A2D9EAE1C00527343 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		B58133D82DCAD9BB00752D46 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		B5A8850B2DD5135C009696F6 /* cmark-gfm-extensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm-extensions";
+		};
+		B5A8850D2DD51373009696F6 /* cmark-gfm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm";
+		};
+		B5A8850F2DD51373009696F6 /* cmark-gfm-extensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm-extensions";
+		};
+		B5A885172DD51453009696F6 /* cmark-gfm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm";
+		};
+		B5A885192DD51453009696F6 /* cmark-gfm-extensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm-extensions";
+		};
+		B5A8851B2DD51464009696F6 /* cmark-gfm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm";
+		};
+		B5A8851D2DD51464009696F6 /* cmark-gfm-extensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */;
+			productName = "cmark-gfm-extensions";
+		};
 		B5D205782D9EAE0400527343 /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B5D205772D9EAE0400527343 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;

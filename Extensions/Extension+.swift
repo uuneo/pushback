@@ -72,6 +72,13 @@ extension String{
     
     func isHttpAndHttps() -> Bool{ ["http", "https"].contains{ self.lowercased().hasPrefix($0) } }
     
+    func isURL() -> Bool{
+        guard let url = URL(string: self), url.scheme?.isHttpAndHttps() == true, url.host != nil else {
+               return false
+           }
+           return true
+    }
+    
     /// 判断字符串是否为有效的 URL，并返回图片类型
     func isValidURL() -> urlType {
         guard let url = URL(string: self) else { return .none }
@@ -109,6 +116,15 @@ extension String{
     /// 去除字符串两端的空白字符
     func trimmed() -> String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    func sha256() -> String{
+        // 计算 SHA-256 哈希值
+        // 将哈希值转换为十六进制字符串
+        guard let data = self.data(using: .utf8) else {
+            return String(self.prefix(10)) 
+        }
+        return SHA256.hash(data: data).compactMap { String(format: "%02x", $0) }.joined()
     }
 }
 

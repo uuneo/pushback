@@ -71,6 +71,8 @@ final class ChatPrompt: Object, ObjectKeyIdentifiable {
     @Persisted var title: String
     /// 提示词内容
     @Persisted var content: String
+    /// 远程更新
+    @Persisted var address: String
     /// 是否为内置提示词
     @Persisted var isBuiltIn: Bool
     /// 创建时间
@@ -81,14 +83,7 @@ final class ChatPrompt: Object, ObjectKeyIdentifiable {
     
     
     static let prompts = [
-        ChatPrompt(value: ["title":String(localized: "AI 助手"),"content":String(localized: """
-             作为一名智能助手，你的职责包括：
-             1. 以简洁清晰的方式回答用户问题。
-             2. 提供准确且有价值的信息。
-             3. 在必要时主动寻求澄清，确保理解用户需求。
-             4. 保持友好且专业的态度。
-             5. 严格遵循用户的具体指示。
-             """),"isBuiltIn":true]),
+        
         ChatPrompt(value: ["title":String(localized: "代码助手"),"content":String(localized: """
              作为一名经验丰富的程序员，你擅长编写清晰、简洁且易于维护的代码。在回答问题时：
              1. 提供详细的代码示例。
@@ -110,24 +105,6 @@ final class ChatPrompt: Object, ObjectKeyIdentifiable {
              3. 确保文章连贯性和流畅性。
              4. 突出重点内容和核心信息。
              5. 使文章符合目标读者的阅读习惯。
-             """),"isBuiltIn":true]),
-        
-        ChatPrompt(value: ["title":String(localized: "学习导师"),"content":String(localized: """
-             作为一名耐心的学习导师，你擅长将复杂的概念简化解释。在回答问题时：
-             1. 使用简单易懂的语言。
-             2. 提供具体的例子和类比。
-             3. 循序渐进地解释知识点。
-             4. 鼓励用户思考和提问。
-             5. 通过反馈确认用户的理解程度。
-             """),"isBuiltIn":true]),
-        
-        ChatPrompt(value: ["title":String(localized: "产品经理"),"content":String(localized: """
-             作为一名资深产品经理，你擅长产品规划和用户体验设计。你的任务包括：
-             1. 分析用户需求和痛点。
-             2. 设计产品功能和流程。
-             3. 制定产品路线图和时间表。
-             4. 评估市场机会和竞争环境。
-             5. 提出可行且创新的解决方案。
              """),"isBuiltIn":true]),
     ]
 }

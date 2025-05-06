@@ -12,7 +12,6 @@ import Defaults
 
 struct ChangeKeyCenterView: View {
 	@EnvironmentObject private var manager:PushbackManager
-	@EnvironmentObject private var store:AppState
 
     @State private var keyName:String = ""
 	@State private var keyHost:String = ""

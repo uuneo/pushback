@@ -13,12 +13,11 @@ import Defaults
 struct SettingsPage: View {
 
 	@EnvironmentObject private var manager:PushbackManager
-	@EnvironmentObject private var store:AppState
     
 	
 	@Default(.appIcon) var setting_active_app_icon
-	@Default(.sound) var sound
 	
+    @Default(.sound) var sound
 	@Default(.servers) var servers
 
 
@@ -27,9 +26,7 @@ struct SettingsPage: View {
 	@State private var showLoading:Bool = false
 	@State private var showPaywall:Bool = false
 	@State private var buildDetail:Bool = false
-
-
-
+    
 	var serverTypeColor:Color{
 
 		let right =  servers.filter(\.status == true).count
@@ -105,13 +102,13 @@ struct SettingsPage: View {
                             Text("智能助手")
                                 .foregroundStyle(.textBlack)
                         } icon: {
-                            Image(systemName: "message.badge.waveform")
+                            Image(systemName: "message.and.waveform")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.green,Color.primary)
                                 .symbolEffect(.variableColor)
                         }
                     }action: {
-                        manager.router = [.assistantSetting(nil)]
+                        manager.router = [.assistant]
                         return true
                     }
                 }
@@ -135,6 +132,7 @@ struct SettingsPage: View {
                         manager.sheetPage = .appIcon
                         return true
                     }
+                    
                     ListButton {
                         Label {
                             Text( "云图标")
@@ -170,46 +168,52 @@ struct SettingsPage: View {
                             .scaleEffect(0.9)
                             .foregroundStyle(.gray)
                     } action: {
-                        manager.router = [.sound]
+                        manager.router.append(.sound)
                         return true
                        
-                    }
-                   
-                    ListButton {
-                        Label {
-                            Text("隐私与安全")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "lock.shield")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(serverTypeColor,Color.primary)
-                                
-                        }
-                    } action: {
-                        manager.router = [.privacy]
-                        return true
-                        
                     }
                     
-                    ListButton  {
-                        Label {
-                            Text( "更多操作")
-                        } icon: {
-                            Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-                                .scaleEffect(0.9)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.rotate, delay: 2)
+                    
+                    
+                    
+                    if #available(iOS 18.0, *) {
+                        ListButton {
+                            Label {
+                                Text("隐私与安全")
+                                    .foregroundStyle(.textBlack)
+                            } icon: {
+                                Image(systemName: "lock.shield")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(serverTypeColor,Color.primary)
+                                
+                            }
+                        } action: {
+                            manager.router = [.privacy]
+                            return true
+                            
                         }
-                    } action: {
-                        manager.router = [.more]
-                        return true
-                       
+                        
+                        ListButton  {
+                            Label {
+                                Text( "更多操作")
+                            } icon: {
+                                Image(systemName: "gearshape.arrow.triangle.2.circlepath")
+                                    .scaleEffect(0.9)
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.tint, Color.primary)
+                                    .symbolEffect(.rotate, delay: 2)
+                            }
+                        } action: {
+                            manager.router = [.more]
+                            return true
+                            
+                        }
                     }
 
                 }
                 Section {
                     
+                   
                     ListButton {
                         Label {
                             Text( "使用帮助")
@@ -225,26 +229,10 @@ struct SettingsPage: View {
                         return true
                     }
                     
-                    
-                    if store.subscriptionInfo.canAccessContent{
-                        HStack{
-                            Spacer()
-                            Label {
-
-                                Text(store.subscriptionInfo.subscriptionState.description)
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                Image(systemName: "bolt.shield")
-                                    .scaleEffect(0.9)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.tint, Color.primary)
-                            }
-                            Spacer()
-                        }
-                    }else{
+                    if #available(iOS 18.0, *) {
                         ListButton {
                             Label {
-
+                                
                                 Text("开发者支持计划")
                                     .foregroundStyle(.textBlack)
                             } icon: {
@@ -257,6 +245,38 @@ struct SettingsPage: View {
                         } action: {
                             manager.sheetPage = .paywall
                             return true
+                        }
+                    }else{
+                        ListButton {
+                            Label {
+                                Text("隐私与安全")
+                                    .foregroundStyle(.textBlack)
+                            } icon: {
+                                Image(systemName: "lock.shield")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(serverTypeColor,Color.primary)
+                                
+                            }
+                        } action: {
+                            manager.router = [.privacy]
+                            return true
+                            
+                        }
+                        
+                        ListButton  {
+                            Label {
+                                Text( "更多操作")
+                            } icon: {
+                                Image(systemName: "gearshape.arrow.triangle.2.circlepath")
+                                    .scaleEffect(0.9)
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.tint, Color.primary)
+                                    .symbolEffect(.rotate, delay: 2)
+                            }
+                        } action: {
+                            manager.router = [.more]
+                            return true
+                            
                         }
                     }
 
@@ -289,17 +309,7 @@ struct SettingsPage: View {
                             Text("用户协议")
                                
                         }
-                        Circle()
-                            .frame(width: 3,height: 3)
-                        Button{
-                            Task{
-                                await store.restorePurchases()
-                            }
-                        }label: {
-                            Text("恢复购买")
-                              
-                        }
-
+                    
                         Spacer(minLength: 10)
                     }
                     .font(.caption)
@@ -323,6 +333,9 @@ struct SettingsPage: View {
                     }
                 }
 			}
+            .task {
+                manager.healths()
+            }
             
 
 	}
@@ -338,7 +351,6 @@ struct SettingsPage: View {
 	NavigationStack{
         SettingsPage()
 			.environmentObject(PushbackManager.shared)
-			.environmentObject(AppState.shared)
 	}
 
 }

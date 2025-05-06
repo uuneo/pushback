@@ -22,7 +22,6 @@ struct SideBarMenuView: View {
     }
     @Binding var showMenu:Bool
     @State private var text:String = ""
-    @Binding var showSettings:Bool
     @State private var showChangeGroupName:Bool = false
     @State private var selectdChatGroup:ChatGroup? = nil
     var body: some View {
@@ -70,15 +69,14 @@ struct SideBarMenuView: View {
                         }
                 }
             }
-            .toolbar {
-                Button{
-                    withAnimation {
-                        self.showMenu.toggle()
-                        self.showSettings.toggle()
-                    }
-                }label: {
-                    Text( "设置")
-                    
+            .toolbar{
+                ToolbarItem {
+                    Label("关闭", systemImage: "xmark.seal")
+                        .foregroundStyle(.red)
+                        .pressEvents(onRelease: { _ in
+                            self.showMenu.toggle()
+                            return true
+                        })
                 }
             }
             
@@ -277,5 +275,5 @@ struct SideBarMenuView: View {
 }
 
 #Preview {
-    SideBarMenuView(showMenu: .constant(false),showSettings: .constant(false))
+    SideBarMenuView(showMenu: .constant(false))
 }

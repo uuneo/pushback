@@ -15,6 +15,7 @@ import WebKit
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
 
     @IBOutlet var web: WKWebView!
+    @IBOutlet weak var musicView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         if keyPath == "contentSize", let scrollView = object as? UIScrollView {
             
             if scrollView.contentSize.height > self.preferredContentSize.height{
-                self.preferredContentSize = CGSize(width: self.view.bounds.width, height: max(10, scrollView.contentSize.height))
+                self.preferredContentSize = CGSize(width: self.view.bounds.width, height: max(10, scrollView.contentSize.height + 50))
             }
             
         }
@@ -51,19 +52,34 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     func didReceive(_ notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
         
-        if let alert = (userInfo[Params.aps.name] as? [String: Any])?[Params.alert.name] as? [String: Any],
-            let body = alert[Params.body.name] as? String,
+        self.musicView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 50)
+        
+        
+        var music: MusicInfoView{
+            let music = MusicInfoView()
+            music.text = userInfo.voiceText()
+            music.frame = musicView.frame
+            return music
+        }
+       
+        self.musicView.addSubview(music)
+        self.preferredContentSize = CGSize(width: self.view.bounds.width, height: 50)
+        
+        if let body:String = userInfo.raw(Params.body),
            let htmlContent = convertMarkdownToHTML(body),
            let cssPath = Bundle.main.path(forResource: "markdown", ofType: "css") {
             let baseURL = URL(fileURLWithPath: cssPath).deletingLastPathComponent()
             web.loadHTMLString(htmlContent, baseURL:baseURL)
+            
         } else {
             web.loadHTMLString("<h1>Error loading content</h1>", baseURL: nil)
         }
+        web.frame = .init(x: 0, y: 50, width: self.view.bounds.width, height: web.frame.height)
     }
     
     private func convertMarkdownToHTML(_ markdown: String) -> String? {
-        guard let htmlBody = markdownToHTML(markdown) else { return nil }
+       
+        guard let htmlBody =  PBMarkdown.markdownToHTML(markdown) else { return nil }
         return """
         <html>
         <head>
@@ -91,43 +107,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         </body>
         </html>
         """
-    }
-    
-    private func markdownToHTML(_ markdown: String) -> String? {
-        // 注册 GFM 扩展
-        cmark_gfm_core_extensions_ensure_registered()
-
-        // 创建解析器
-        guard let parser = cmark_parser_new(CMARK_OPT_DEFAULT) else {
-            
-            return nil
-        }
-        let extensionNames: Set<String> =  ["autolink", "strikethrough", "tagfilter", "tasklist", "table"]
-        
-        for extensionName in extensionNames {
-          guard let syntaxExtension = cmark_find_syntax_extension(extensionName) else {
-            continue
-          }
-          cmark_parser_attach_syntax_extension(parser, syntaxExtension)
-        }
-        // 解析 Markdown
-        cmark_parser_feed(parser, markdown, markdown.utf8.count)
-        
-        guard let doc = cmark_parser_finish(parser) else { return nil }
-
-        // 渲染为 HTML
-       
-        if let html = cmark_render_html(doc, 0, nil) {
-           return String(cString: html)
-        }
-
-        defer {
-            // 释放资源
-            cmark_node_free(doc)
-            cmark_parser_free(parser)
-        }
-       
-        return nil
     }
     
 }

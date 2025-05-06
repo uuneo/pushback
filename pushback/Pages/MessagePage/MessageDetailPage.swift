@@ -15,7 +15,7 @@ struct MessageDetailPage: View {
     
     @ObservedResults(Message.self) var messages
     @Default(.showMessageAvatar) var showMessageAvatar
-    @Default(.showAssistant) var showAssistant
+
     
    
     let group:String
@@ -43,7 +43,7 @@ struct MessageDetailPage: View {
                     List{
                         ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar,showAssistant:showAssistant){
+                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar){
                                 withAnimation(.easeInOut) {
                                     manager.selectMessage = message
                                 }
@@ -51,6 +51,19 @@ struct MessageDetailPage: View {
                             .id(message.id)
                             .listRowBackground(Color.clear)
                             .listSectionSeparator(.visible)
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                                Button {
+                                    Task(priority: .high) {
+                                        guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                                            return
+                                        }
+                                        player.play()
+                                    }
+                                }label: {
+                                    Label("朗读内容",  systemImage: "waveform")
+                                        .symbolEffect(.variableColor)
+                                }.tint(.green)
+                            }
                             
                         }.onDelete(perform: $messages.remove)
                         
@@ -94,15 +107,14 @@ struct MessageDetailPage: View {
         .searchable(text: $manager.searchText)
         .toolbar{
             ToolbarItem {
-                Button{
-                    withAnimation {
-                        self.showAllTTL.toggle()
-                    }
-                    
-                }label: {
-                    Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
-                        .font(.caption)
-                }
+                Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
+                    .font(.caption)
+                    .pressEvents(onRelease: { _ in
+                        withAnimation {
+                            self.showAllTTL.toggle()
+                        }
+                        return true
+                    })
             }
         }
         .task {

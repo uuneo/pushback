@@ -21,7 +21,6 @@ class ActionHandler: NotificationContentHandler{
 	
 	
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
-		
         // MARK: - 处理 Ringtone
         if bestAttemptContent.soundName == nil && bestAttemptContent.getLevel() < 3{
             bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound]).caf" ))
@@ -41,12 +40,12 @@ class ActionHandler: NotificationContentHandler{
 				bestAttemptContent.badge = NSNumber(value:  messages.count)
 			}
 			
-		case .custom:
-			// MARK: 通知角标 .custom
-				if let badgeStr = bestAttemptContent.userInfo[Params.badge.name] as? String, let badge = Int(badgeStr) {
-				bestAttemptContent.badge = NSNumber(value: badge)
-			}
-		}
+        case .custom:
+            // MARK: 通知角标 .custom
+            if let badgeStr:String = bestAttemptContent.userInfo.raw(.badge), let badge = Int(badgeStr) {
+                bestAttemptContent.badge = NSNumber(value: badge)
+            }
+        }
 
 		// MARK: - 删除过期消息
 		if let realm = realm{
@@ -69,10 +68,21 @@ class ActionHandler: NotificationContentHandler{
         
         // MARK: -  回调
         let http = NetworkManager()
-        if let callback = bestAttemptContent.userInfo[Params.callback] as? String,
+        if let callback:String = bestAttemptContent.userInfo.raw(.callback),
            let id = bestAttemptContent.targetContentIdentifier,
            let url = http.appendQueryParameter(to: callback, key: "id", value: id){
             await http.fetch(url: url)
+        }
+        
+        
+        if Defaults[.voicesAutoPreloading]{
+            let text = bestAttemptContent.userInfo.voiceText()
+            let client = try VoiceManager()
+            let _ = try await client.synthesizeLongText(text: text)
+        }
+        
+        if let widget:String = bestAttemptContent.userInfo.raw(.widget), let _ = URL(string: widget){
+            Defaults[.widgetURL] = widget
         }
         
         return bestAttemptContent

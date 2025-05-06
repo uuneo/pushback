@@ -8,8 +8,7 @@
 import SwiftUI
 import Defaults
 import Foundation
-import Kingfisher
-import SwiftyJSON
+
 
 
 // MARK: - Remote Response
@@ -48,7 +47,6 @@ enum Identifiers {
 // MARK: - MessageAction model
 
 enum MessageAction: String, CaseIterable, Equatable{
-	case markRead = "allMarkRead"
 	case lastHour = "hourAgo"
 	case lastDay = "dayAgo"
 	case lastWeek = "weekAgo"
@@ -58,7 +56,6 @@ enum MessageAction: String, CaseIterable, Equatable{
 	
 	var localized:String{
 		switch self {
-		case .markRead: String(localized: "全部已读")
 		case .lastHour: String(localized: "一小时前")
 		case .lastDay: String(localized: "一天前")
 		case .lastWeek: String(localized: "一周前")
@@ -88,33 +85,29 @@ enum QuickAction{
 	static var selectAction:UIApplicationShortcutItem?
 
 	static var allShortcutItems = [
-		UIApplicationShortcutItem(
-			type: "allread",
-			localizedTitle: String(localized:  "已读全部") ,
-			localizedSubtitle: "",
-			icon: UIApplicationShortcutIcon(systemImageName: "bookmark"),
-			userInfo: ["name":"allread" as NSSecureCoding]
-		),
+        
+        UIApplicationShortcutItem(
+            type: "assistant",
+            localizedTitle: String(localized:  "问智能助手"),
+            localizedSubtitle: "",
+            icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
+            userInfo: ["name":"assistant" as NSSecureCoding]
+        ),
+
 		UIApplicationShortcutItem(
 			type: "alldelread",
 			localizedTitle: String(localized: "删除全部已读"),
 			localizedSubtitle: "",
 			icon: UIApplicationShortcutIcon(systemImageName: "trash"),
 			userInfo: ["name":"alldelread" as NSSecureCoding]
-		),
-		UIApplicationShortcutItem(
-			type: "alldelnotread",
-			localizedTitle: String(localized:  "删除全部未读"),
-			localizedSubtitle: "",
-			icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-			userInfo: ["name":"alldelnotread" as NSSecureCoding]
 		)
+		
 	]
 }
 
 // MARK: - PushServerModel
 
-struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, Hashable{
+struct PushServerModel: Codable, Identifiable,Equatable, Hashable{
 	var id:String = UUID().uuidString
     var device:String
 	var url:String
@@ -145,20 +138,18 @@ struct PushServerModel: Codable, Identifiable,Equatable, Defaults.Serializable, 
     var server:String{
         return self.url + "/" + self.key
     }
-    
-
 }
 
 // MARK: - BadgeAutoMode
 
-enum BadgeAutoMode:String, CaseIterable,Defaults.Serializable {
+enum BadgeAutoMode:String, CaseIterable {
 	case auto = "Auto"
 	case custom = "Custom"
 }
 
 // MARK: - CryptoMode
 
-enum CryptoMode: String, Codable,CaseIterable, RawRepresentable, Defaults.Serializable {
+enum CryptoMode: String, Codable,CaseIterable, RawRepresentable {
 	
 	case CBC, ECB, GCM
 	var padding: String {
@@ -168,7 +159,7 @@ enum CryptoMode: String, Codable,CaseIterable, RawRepresentable, Defaults.Serial
 	
 }
 
-enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable, Defaults.Serializable {
+enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable {
 	case AES128 = 16 // 16 bytes = 128 bits
 	case AES192 = 24 // 24 bytes = 192 bits
 	case AES256 = 32 // 32 bytes = 256 bits
@@ -178,7 +169,8 @@ enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable, Defaults.Seri
 	}
 }
 
-struct CryptoModelConfig: Equatable, Codable, Defaults.Serializable{
+
+struct CryptoModelConfig: Equatable, Codable{
 
 	var algorithm: CryptoAlgorithm
 	var mode: CryptoMode
@@ -260,7 +252,7 @@ extension CryptoModelConfig {
 
 // MARK: - AppIconMode
 
-enum AppIconEnum:String, CaseIterable,Equatable,Defaults.Serializable{
+enum AppIconEnum:String, CaseIterable,Equatable{
     case king
 	case pushback
     case bell
@@ -297,33 +289,7 @@ struct PushExampleModel:Identifiable {
 
 // MARK: - ExpirationTime
 
-
-
-enum ExpirationTime: Int, CaseIterable, Defaults.Serializable, Equatable{
-	case forever = 999999
-	case month = 30
-	case weekDay = 7
-	case oneDay = 1
-	case no = 0
-
-	var days: Int{ self.rawValue }
-	
-	var title:String{
-		switch self {
-		case .no: String(localized: "不保存")
-		case .oneDay: String(localized:"1天")
-		case .weekDay: String(localized:"1周")
-		case .month: String(localized:"1月")
-		case .forever: String(localized: "长期")
-		}
-	}
-	
-	
-}
-
-
-
-enum DefaultBrowserModel: String, CaseIterable, Defaults.Serializable {
+enum DefaultBrowserModel: String, CaseIterable {
 	case safari
 	case app
 
@@ -337,7 +303,7 @@ enum DefaultBrowserModel: String, CaseIterable, Defaults.Serializable {
 }
 
 
-struct AssistantAccount: Defaults.Serializable, Codable, Identifiable, Equatable,Hashable{
+struct AssistantAccount: Codable, Identifiable, Equatable,Hashable{
     var id:String = UUID().uuidString
     var current:Bool = false
     var timestamp:Date = .now
@@ -388,7 +354,9 @@ extension AssistantAccount{
 
 }
 
-enum CategoryParams: String, Codable, CaseIterable, Defaults.Serializable{
+
+
+enum CategoryParams: String, Codable, CaseIterable{
     case myNotificationCategory
     case markdown
     
@@ -409,4 +377,49 @@ enum OutDataType{
     case serverKey(url:String,key:String)
     case otherUrl(String)
     case assistant(String)
+    case page(page:String, title:String?, data:String)
+}
+
+
+enum ExpirationTime: Int, CaseIterable, Equatable{
+    case forever = 999999
+    case month = 30
+    case weekDay = 7
+    case oneDay = 1
+    case no = 0
+
+    var days: Int{ self.rawValue }
+    
+    var title:String{
+        switch self {
+        case .no: String(localized: "不保存")
+        case .oneDay: String(localized:"1天")
+        case .weekDay: String(localized:"1周")
+        case .month: String(localized:"1月")
+        case .forever: String(localized: "长期")
+        }
+    }
+    
+    
+}
+
+
+struct SelectMessage: Codable{
+    
+    var id:UUID = UUID()
+    var group:String
+    var createDate:Date
+    var title:String?
+    var subtitle:String?
+    var body:String?
+    var icon:String?
+    var url:String?
+    var image:String?
+    var from:String?
+    var host:String?
+    var level:Int = 1
+    var ttl:Int = ExpirationTime.forever.days
+    var read:Bool = false
+    var search:String
+
 }

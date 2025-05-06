@@ -20,16 +20,15 @@ class ArchiveMessageHandler: NotificationContentHandler{
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 
         let userInfo = bestAttemptContent.userInfo
-		let alert = (userInfo[Params.aps.name] as? [String: Any])?[Params.alert.name] as? [String: Any]
-		let title = alert?[Params.title.name] as? String
-		let subtitle = alert?[Params.subtitle.name] as? String
-		let body = alert?[Params.body.name] as? String
-		let url = userInfo[Params.url.name] as? String
-		let icon = userInfo[Params.icon.name] as? String
-		let ttl = userInfo[Params.ttl.name] as? String
-		let image = userInfo[Params.image.name] as? String
-		let group = userInfo[Params.group.name] as? String ?? String(localized: "默认")
-        let host = userInfo[Params.host.name] as? String
+        let title:String? = userInfo.raw(.title)
+        let subtitle:String? = userInfo.raw(.subtitle)
+        let body:String? = userInfo.raw(.body)
+        let url:String? = userInfo.raw(.url)
+        let icon:String? = userInfo.raw(.icon)
+        let ttl:String? = userInfo.raw(.ttl)
+        let image:String? = userInfo.raw(.image)
+        let group:String = userInfo.raw(.group) ?? String(localized: "默认")
+        let host:String? = userInfo.raw(.host)
         let messageId = bestAttemptContent.targetContentIdentifier
         let level =  bestAttemptContent.getLevel()
 
@@ -64,7 +63,6 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.createDate = Date()
                     message.ttl = saveDays
                     message.host = host
-                    message.search = message.allString()
                 }
             }else {
                 try? realm.write {
@@ -81,15 +79,13 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.createDate = Date()
                     message.ttl = saveDays
                     message.host = host
-                    message.search = message.allString()
                     realm.add(message)
                 }
             }
-            
-            
-            
         }
         
+        
+        Defaults[.allMessagecount] += 1
 
 		return bestAttemptContent
 	}

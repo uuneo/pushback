@@ -9,9 +9,9 @@
 import Foundation
 
 extension Defaults.Keys {
-
     
     static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
+    static let cloudServers = Key<[PushServerModel]>("serverArrayCloudStroage", [], iCloud: true)
     static let cryptoConfig = Key<CryptoModelConfig>("CryptoSettingFields", CryptoModelConfig.data)
     static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
     static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
@@ -20,8 +20,6 @@ extension Defaults.Keys {
     static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[], iCloud: true)
     
-   
-   
 }
 
 extension ExpirationTime: Defaults.Serializable{ }

@@ -13,8 +13,6 @@ import Foundation
 class PushbackManager: NetworkManager, ObservableObject{
 	static let shared = PushbackManager()
 	
-	private let session = URLSession(configuration: .default)
-	
     @Published var page:TabPage = .message
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
@@ -47,212 +45,123 @@ class PushbackManager: NetworkManager, ObservableObject{
 
 	
 	private override init() { super.init() }
-
-
-	/// Update Server Status
-	///  - Parameters:
-	///  	- completion: (  url, success, message ) - > void
-	func health(url: String) async -> (String, Bool, String?) {
-		let healthUrl = url + "/health"
-		do{
-			let response:String? = try await self.fetch(url: healthUrl)
-			let success = response == "ok"
-			await MainActor.run {
-				if 	let index = Defaults[.servers].firstIndex(where: {$0.url  == url}){
-                    withAnimation{
-                        Defaults[.servers][index].status = success
-                    }
-				}
-			}
-			return (url,success, "")
-		}catch{
-			await MainActor.run {
-				if 	let index = Defaults[.servers].firstIndex(where: {$0.url  == url}){
-                    withAnimation{
-                        Defaults[.servers][index].status = false
-                    }
-				}
-			}
-			return (url,false, error.localizedDescription)
-		}
-	}
-	/// Update All Server Status
-	///  - Parameters:
-	///  	- completion: [(  url: 网址, bool: 是否成功, string: 提示消息 )]- > void
-	func healths(completion: (([(String, Bool, String?)])-> Void)? = nil){
-		Task.detached(priority: .background) {
-			await withTaskGroup(of:(String, Bool, String?).self){ group in
-				for server in Defaults[.servers] {
-					group.addTask{  await self.health(url: server.url)  }
-				}
-
-				var results:[(String, Bool, String?)] = []
-
-				for await result in group{
-					results.append(result)
-				}
-				completion?(results)
-			}
-
-		}
-	}
+    
     
     func restore(address:String, deviceKey:String) async -> Bool{
-        do{
-        
-            let response:baseResponse<String>? = try await self.fetch(url: address + "/register/\(deviceKey)")
-            
-            
-            if let msg = response?.message, let code = response?.code,code == 200, msg == "success"{
-                
-               let ( success, _) = await self.appendServer(server: PushServerModel(url: address,key: deviceKey))
-                return success
-            }else{
-               return false
-            }
-            
-        }catch{
-            Log.error(error.localizedDescription)
+        let response:baseResponse<String>? = try? await self.fetch(url: address + "/register/\(deviceKey)")
+        if let msg = response?.message, let code = response?.code,code == 200, msg == "success"{
+            let success = await self.appendServer(server: PushServerModel(url: address,key: deviceKey))
+            return success
+        }else{
             return false
         }
     }
     
-    func restore(address:String, deviceKey:String, complete:((Bool)->Void)? = nil) {
-        Task{
-            let success = await self.restore(address: address, deviceKey: deviceKey)
-            complete?(success)
+    func registers(){
+        Task.detached(priority: .background) {
+            let servers = Defaults[.servers]
+            let results =  await withTaskGroup(of: PushServerModel.self){ group in
+                
+                for server in servers {
+                    group.addTask{  await self.register(server: server) }
+                }
+                var results:[PushServerModel] = []
+                
+                for await result in group{
+                    results.append(result)
+                }
+                return results
+            }
+            await MainActor.run {
+                Defaults[.servers] = results
+                Self.syncLocalToCloud()
+            }
+        }
+    }
+
+    
+    func register(server:PushServerModel, reset:Bool = false) async -> PushServerModel{
+        var server = server
+        let deviceToken = reset ? UUID().uuidString : Defaults[.deviceToken]
+        let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary() ?? [:]
+        
+        let response:baseResponse<DeviceInfo>? = try? await self.fetch(url: server.url + "/register",method: .post, params: params)
+        
+        if let response = response,  let data = response.data {
+            server.key = data.deviceKey
+            server.status = true
+            
+            Toast.success(title: reset ? String(localized: "解绑成功") : String(localized: "注册成功"))
+            
+        }else{
+            server.status = false
+            Toast.success(title: String(localized: "注册失败"))
         }
         
+        return server
     }
-
-	/// Register  Server
-	///  - Parameters:
-	///  server: 服务器数据
-	///  completion: 服务器数据，提示消息
-    func register(server: PushServerModel, reset:Bool = false, completion: ((Bool,String)-> Void)? = nil){
-		Task.detached(priority: .high) {
-            let (success,msg) = await self.register2(server: server,reset: reset)
-			completion?(success, msg)
-		}
-	}
-
-	/// Register  Servers Status
-	///  - Parameters:
-	///  server: 服务器数据
-	///  completion: 列表 ( 服务器数据，提示消息 )
-    func registers(completion: (([(Bool,String)])-> Void)? = nil) async {
-        await withTaskGroup(of: (Bool,String).self) { group in
-			for server in Defaults[.servers] {
-				group.addTask {await self.register2(server: server)}
-			}
-
-            var results:[(Bool,String)] = []
-			for await result in group{
-				results.append(result)
-			}
-			completion?(results)
-		}
-	}
     
-	/// Register  Server async
-    func register2(server: PushServerModel, reset:Bool = false) async -> (Bool,String){
 
-		do{
-            let deviceToken = reset ? UUID().uuidString : Defaults[.deviceToken]
-            
-			if let index = Defaults[.servers].firstIndex(of: server){
-
-				let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary() ?? [:]
-
-				let response:baseResponse<DeviceInfo>? = try await self.fetch(url: server.url + "/register",method: .post, params: params)
-
-				if let response = response,  let data = response.data {
-                    if !reset{
-                        DispatchQueue.main.async{
-                            Defaults[.servers][index].key = data.deviceKey
-                            withAnimation{
-                                Defaults[.servers][index].status = true
-                            }
-                        }
-                    }
-                    return (true,String(localized: "注册成功"))
-				}else{
-                    if !reset{
-                        DispatchQueue.main.async{
-                            withAnimation{
-                                Defaults[.servers][index].status = false
-                            }
-                        }
-                    }
-				}
-			}
-
-		}catch{
-			if let index = Defaults[.servers].firstIndex(of: server){
-                withAnimation{
-                    Defaults[.servers][index].status = false
-                }
-			}
-            Log.error(error.localizedDescription)
-			return (false,error.localizedDescription)
-		}
-
-		return (true,String(localized: "注册失败"))
-	}
-
-    func appendServer(server:PushServerModel) async -> (Bool,String){
-        let isServer = Defaults[.servers].contains(where: {$0.key == server.key && $0.url == server.url})
-        Log.debug(isServer)
-        let (_, success, msg) = await self.health(url: server.url)
-        if !isServer, success {
+    func appendServer(server:PushServerModel) async -> Bool{
+        
+        guard !Defaults[.servers].contains(where: {$0.key == server.key && $0.url == server.url})else{
+            Toast.error(title: String(localized: "服务器已存在"))
+            return false
+        }
+        let server = await self.register(server: server)
+        if server.status {
             await MainActor.run {
                 Defaults[.servers].insert(server, at: 0)
+                Self.syncLocalToCloud()
             }
-            // contentview 内监听注册，直接返回成功
-            return (success, "success")
-        }else{
-            let msg = isServer ? String(localized: "服务器已存在") : (msg ?? "")
-            return (false , msg)
+            Toast.success(title: String(localized: "添加成功"))
+        }
+        return server.status
+    }
+    
+    class func syncLocalToCloud() {
+        let locals = Defaults[.servers]
+        var clouds = Defaults[.cloudServers]
+
+        let cloudServerSet = Set(clouds.map { $0.server })
+
+        let newItems = locals.filter { !cloudServerSet.contains($0.server) }
+
+        if !newItems.isEmpty {
+            clouds.append(contentsOf: newItems)
+            Defaults[.cloudServers] = clouds
         }
     }
-	/// add server
-   func appendServer(server:PushServerModel, completion: @escaping (Bool,String)-> Void ){
-		Task.detached(priority: .background) {
-            
-            let (success,_) = await self.appendServer(server: server)
-            
-            DispatchQueue.main.async{
-                DispatchQueue.main.async{
-                    completion(success, "success")
-                }
-                
-            }
-		}
-	}
 
-	/// open app settings
-	static func openSetting(){
+	
+    
+}
+
+
+extension PushbackManager{
+    /// open app settings
+    static func openSetting(){
         PushbackManager.openUrl(url: URL(string: UIApplication.openSettingsURLString)!)
-	}
-	/// Open a URL or handle a fallback if the URL cannot be opened
-	/// - Parameters:
-	///   - url: The URL to open
-	///   - unOpen: A closure called when the URL cannot be opened, passing the URL as an argument
-	class func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
+    }
+    /// Open a URL or handle a fallback if the URL cannot be opened
+    /// - Parameters:
+    ///   - url: The URL to open
+    ///   - unOpen: A closure called when the URL cannot be opened, passing the URL as an argument
+    class func openUrl(url: URL, unOpen: ((URL) -> Void)? = nil) {
 
-		if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
+        if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
 
-			switch Defaults[.defaultBrowser] {
-				case .app:
-					PushbackManager.shared.fullPage = .web(url.absoluteString)
-				case .safari:
-					UIApplication.shared.open(url, options: [:], completionHandler: nil)
-			}
+            switch Defaults[.defaultBrowser] {
+                case .app:
+                    PushbackManager.shared.fullPage = .web(url.absoluteString)
+                case .safari:
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
 
-		} else {
-			UIApplication.shared.open(url, options: [:], completionHandler: nil)
-		}
-	}
+        } else {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 
     
     class func vibration(style: UIImpactFeedbackGenerator.FeedbackStyle, custom:Bool = false) {
@@ -370,9 +279,6 @@ class PushbackManager: NetworkManager, ObservableObject{
     }
     
     
-    
 }
-
-
 
 

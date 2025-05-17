@@ -35,15 +35,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         
-        if Defaults[.deviceToken] != token{
-            
-            Defaults[.deviceToken] = token
-            // MARK: 注册设备
-            Task.detached {
-                await PushServerCloudKit.shared.updateUser(token: token)
-                await PushbackManager.shared.registers()
-            }
-        }
+        Defaults[.deviceToken] = token
+        PushbackManager.shared.registers()
         
     }
     

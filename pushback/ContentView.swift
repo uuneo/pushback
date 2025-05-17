@@ -109,13 +109,6 @@ struct ContentView: View {
                     }
                 }
             }), secondaryButton: .cancel()) }
-        .task {
-            for await value in Defaults.updates(.servers) {
-                try? await Task.sleep(for: .seconds(1))
-                await manager.registers()
-                PushServerCloudKit.shared.updatePushServers(items: value)
-            }
-        }
     }
     
     @ViewBuilder
@@ -184,13 +177,11 @@ struct ContentView: View {
             case .scan:
                 ScanView{ code in
                     if code.isValidURL() == .remote{
-                        manager.appendServer(server: PushServerModel(url: code)) { success, msg in
-                            if success{
-                                manager.router = [.server]
-                            }
-                            Toast.shared.present(title: msg, symbol: "document.viewfinder")
+                        let success = await manager.appendServer(server: PushServerModel(url: code))
+                        if success{
+                            manager.router = [.server]
                         }
-                        return true
+                        return success
                     }
                     return false
                     
@@ -359,21 +350,23 @@ struct ContentView: View {
                 manager.router = [.privacy, .crypto(text)]
             }
         case .server(let url):
-            manager.appendServer(server: PushServerModel(url: url)) { _, msg in
-                DispatchQueue.main.async {
-                    manager.page = .setting
-                    manager.router = [.server]
+            Task{
+                let success = await manager.appendServer(server: PushServerModel(url: url))
+                if success{
+                    DispatchQueue.main.async {
+                        manager.page = .setting
+                        manager.router = [.server]
+                    }
                 }
-                Toast.shared.present(title: msg, symbol: "document.viewfinder")
             }
         case .serverKey(let url, let key):
-            manager.restore(address: url, deviceKey: key) { success in
-                DispatchQueue.main.async {
-                    manager.page = .setting
-                    manager.router = [.server]
-                }
-                if !success{
-                    Toast.error(title: String(localized: "key不正确"))
+            Task{
+                let success = await manager.restore(address: url, deviceKey: key)
+                if success{
+                    DispatchQueue.main.async {
+                        manager.page = .setting
+                        manager.router = [.server]
+                    }
                 }
             }
         case .assistant(let text):

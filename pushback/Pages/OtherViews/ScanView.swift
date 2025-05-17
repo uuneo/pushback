@@ -19,17 +19,20 @@ struct ScanView: View {
     
     @EnvironmentObject private var manager:PushbackManager
     
-    var response: (String) -> Bool
+    var response: (String) async-> Bool
     
 	var body: some View {
 		ZStack{
 
             QRScanner(restart: $restart, flash: $torchIsOn) { code in
-                if response(code) {
-                    self.dismiss()
-                }else{
-                    self.showActive.toggle()
+                Task{
+                    if await response(code) {
+                        self.dismiss()
+                    }else{
+                        self.showActive.toggle()
+                    }
                 }
+                
             } fail: { error in
                 switch error{
                 case .unauthorized(let status):

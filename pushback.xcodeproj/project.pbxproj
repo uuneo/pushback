@@ -131,7 +131,6 @@
 		B5D204AF2D9EABFB00527343 /* ParticleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204472D9EABFB00527343 /* ParticleEffect.swift */; };
 		B5D204B02D9EABFB00527343 /* PopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204402D9EABFB00527343 /* PopView.swift */; };
 		B5D204B12D9EABFB00527343 /* FullSwipeNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204432D9EABFB00527343 /* FullSwipeNavigationStack.swift */; };
-		B5D204B22D9EABFB00527343 /* PushServerCloudKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */; };
 		B5D204B32D9EABFB00527343 /* TagLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2043E2D9EABFB00527343 /* TagLayout.swift */; };
 		B5D204B42D9EABFB00527343 /* TabStateScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204452D9EABFB00527343 /* TabStateScrollView.swift */; };
 		B5D205792D9EAE0400527343 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205782D9EAE0400527343 /* MarkdownUI */; };
@@ -357,7 +356,6 @@
 		B5D204632D9EABFB00527343 /* MarkdownColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownColors.swift; sourceTree = "<group>"; };
 		B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushIconCloudManager.swift; sourceTree = "<group>"; };
 		B5D204662D9EABFB00527343 /* OpenChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatManager.swift; sourceTree = "<group>"; };
-		B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushServerCloudKit.swift; sourceTree = "<group>"; };
 		B5D204692D9EABFB00527343 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		B5D2046A2D9EABFB00527343 /* PushbackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushbackManager.swift; sourceTree = "<group>"; };
 		B5D2046B2D9EABFB00527343 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
@@ -758,7 +756,6 @@
 			children = (
 				B5D204652D9EABFB00527343 /* PushIconCloudManager.swift */,
 				B5D204662D9EABFB00527343 /* OpenChatManager.swift */,
-				B5D204682D9EABFB00527343 /* PushServerCloudKit.swift */,
 				B5D204692D9EABFB00527343 /* AudioManager.swift */,
 				B5D2046A2D9EABFB00527343 /* PushbackManager.swift */,
 				B5D2046B2D9EABFB00527343 /* RealmManager.swift */,
@@ -1234,7 +1231,6 @@
 				B51515F92DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
 				B5D204B02D9EABFB00527343 /* PopView.swift in Sources */,
 				B5D204B12D9EABFB00527343 /* FullSwipeNavigationStack.swift in Sources */,
-				B5D204B22D9EABFB00527343 /* PushServerCloudKit.swift in Sources */,
 				B5D204B32D9EABFB00527343 /* TagLayout.swift in Sources */,
 				B5D204B42D9EABFB00527343 /* TabStateScrollView.swift in Sources */,
 			);

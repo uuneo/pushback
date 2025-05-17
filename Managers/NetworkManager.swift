@@ -18,7 +18,7 @@ import Defaults
 
 class NetworkManager {
 
-    private var session = URLSession(configuration: .default)
+    let session = URLSession(configuration: .default)
 
 	enum requestMethod:String{
 		case get = "GET"
@@ -33,8 +33,10 @@ class NetworkManager {
     
     
     /// 无返回值
-    func fetch(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async {
-        let _ :EmptyResponse? = try? await self.fetch(url: url, method: method, params: params)
+    func fetchVoid(url: String, method: requestMethod = .get, params: [String: Any] = [:]) {
+        Task.detached(priority: .background) {
+            _ = try? await self.fetch(url: url, method: method, params: params)
+        }
     }
     
     /// 通用网络请求方法
@@ -44,6 +46,14 @@ class NetworkManager {
     ///   - params: 请求参数（支持 GET 查询参数或 POST body）
     /// - Returns: 返回泛型解码后的模型数据
     func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async throws -> T? {
+        let data = try await self.fetch(url: url, method: method, params: params)
+        // 尝试将响应的 JSON 解码为泛型模型 T
+        let result = try JSONDecoder().decode(T.self, from: data)
+        return result
+        
+    }
+    
+    func fetch(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async throws -> Data {
         
         // 尝试将字符串转换为 URL，如果失败则抛出错误
         guard var requestUrl = URL(string: url) else {
@@ -82,9 +92,7 @@ class NetworkManager {
         // 发起请求并等待响应（带有 30 秒超时）
         let data = try await session.data(for: request)
 
-        // 尝试将响应的 JSON 解码为泛型模型 T
-        let result = try JSONDecoder().decode(T.self, from: data)
-        return result
+       return data
     }
     
     func generateCustomUserAgent() -> String {

@@ -261,23 +261,20 @@ struct ChangeKeyCenterView: View {
                         
                        
                         
-                        PushbackManager.shared.restore(address: keyHost, deviceKey: self.keyName){ success in
-                            Task{
-                                try? await Task.sleep(for: .seconds(1))
-                                if success{
-                                   
-                                    await view.next(.success){
-                                        DispatchQueue.main.async{
-                                            self.dismiss()
-                                            self.disabledPage = false
-                                        }
-                                    }
-                                }else {
-                                    Toast.error(title: String(localized: "key不正确"))
-                                    await view.next(.fail)
+                        let success = await manager.restore(address: keyHost, deviceKey: self.keyName)
+                        
+                        if success{
+                            try? await Task.sleep(for: .seconds(1))
+                            await view.next(.success){
+                                DispatchQueue.main.async{
+                                    self.dismiss()
                                     self.disabledPage = false
                                 }
                             }
+                        }else {
+                            Toast.error(title: String(localized: "key不正确"))
+                            await view.next(.fail)
+                            self.disabledPage = false
                         }
                     }
             
@@ -317,26 +314,22 @@ struct ChangeKeyCenterView: View {
                        
                         
                         let item = PushServerModel(url: keyHost)
-                        manager.appendServer(server: item){success,msg in
-                            Toast.info(title: msg)
-                            Task{
-                                if success{
-                                    
-                                    try? await Task.sleep(for: .seconds(1))
-                                    await view.next(.success){
-                                        DispatchQueue.main.async{
-                                            self.dismiss()
-                                            self.disabledPage = false
-                                        }
-                                    }
-                                   
-                                    
-                                }else {
-                                    await view.next(.fail)
-                                    DispatchQueue.main.async {
-                                        self.disabledPage = false
-                                    }
+                        let success = await manager.appendServer(server: item)
+                        if success{
+                            
+                            try? await Task.sleep(for: .seconds(1))
+                            await view.next(.success){
+                                DispatchQueue.main.async{
+                                    self.dismiss()
+                                    self.disabledPage = false
                                 }
+                            }
+                           
+                            
+                        }else {
+                            await view.next(.fail)
+                            DispatchQueue.main.async {
+                                self.disabledPage = false
                             }
                         }
                         

@@ -333,10 +333,6 @@ struct SettingsPage: View {
                     }
                 }
 			}
-            .task {
-                manager.healths()
-            }
-            
 
 	}
 

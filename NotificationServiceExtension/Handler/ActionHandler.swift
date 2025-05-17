@@ -71,7 +71,7 @@ class ActionHandler: NotificationContentHandler{
         if let callback:String = bestAttemptContent.userInfo.raw(.callback),
            let id = bestAttemptContent.targetContentIdentifier,
            let url = http.appendQueryParameter(to: callback, key: "id", value: id){
-            await http.fetch(url: url)
+            http.fetchVoid(url: url)
         }
         
         

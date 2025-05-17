@@ -11,23 +11,8 @@ import Defaults
 struct ServersConfigView: View {
     @Environment(\.dismiss) var dismiss
     @Default(.servers) var servers
+    @Default(.cloudServers) var cloudServers
     @EnvironmentObject private var manager:PushbackManager
-    
-    @State private var showAction:Bool = false
-    @State private var serverText:String = ""
-    @State private var serverName:String = ""
-    @State private var pickerSelect:requestHeader = .https
-    
-    @State private var cloudDatas:[PushServerModel] = []
-    @FocusState private var serverNameFocus
-    
-    
-    var cloudServers:[PushServerModel]{
-        cloudDatas.filter { cloudServer in
-            let isInServers = servers.contains { $0.server == cloudServer.server }
-            return !isInServers
-        }
-    }
     
     
     var showClose:Bool = false
@@ -47,21 +32,14 @@ struct ServersConfigView: View {
                         .listRowSeparator(.hidden)
                         .swipeActions(edge: .leading, allowsFullSwipe: false) {
                             Button{
-                                manager.appendServer(server: PushServerModel(url: item.url )) { success, msg in
-                                    if success{
-                                        manager.register(server: item, reset: true)
-                                        if let index = servers.firstIndex(where: {$0.id == item.id}){
-                                            servers.remove(at: index)
-                                            if  !cloudDatas.contains(where: { $0.id == item.id}){
-                                                cloudDatas.insert(item, at: 0)
-                                            }
-                                        }
-                                        Toast.success(title: String(localized: "操作成功"))
-                                        
-                                    }else {
-                                        Toast.info(title: String(localized: "操作失败"))
-                                    }
+                                Task{
+                                    let success = await manager.appendServer(server: PushServerModel(url: item.url ))
                                     
+                                    if success {
+                                        if let index = servers.firstIndex(where:{$0.id == item.id}){
+                                            servers.remove(at: index)
+                                        }
+                                    }
                                 }
                                 
                             }label:{
@@ -73,10 +51,13 @@ struct ServersConfigView: View {
                             view
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true){
                                     
-                                    
                                     Button{
+                                        
                                         if let index = servers.firstIndex(where:{$0.id == item.id}){
                                             servers.remove(at: index)
+                                            Task{
+                                               await manager.register(server: item, reset: true)
+                                            }
                                         }
                                     }label:{
                                         Text("移除")
@@ -103,47 +84,38 @@ struct ServersConfigView: View {
                 }
                 
                 
-                
-                if cloudServers.count > 0 {
-                    Section{
+                Section{
+                    
+                    ForEach(cloudServers, id: \.id){ item in
                         
-                        ForEach(cloudServers, id: \.id){ item in
-                            
-                            if !servers.contains(where: { $0.url == item.url && $0.key == item.key }){
-                                ServerCardView(item: item,isCloud: true){
-                                    manager.appendServer(server: item) { _, _ in }
+                        if !servers.contains(where: { $0.url == item.url && $0.key == item.key }){
+                            ServerCardView(item: item,isCloud: true){
+                                servers.append(item)
+                                Task{
+                                   await manager.register(server: item)
                                 }
-                                
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive){
-                                        PushServerCloudKit.shared.deleteCloudServer(item.id) { err in
-                                            if let err{
-                                                Log.debug(err.localizedDescription)
-                                            }else{
-                                                if let index = cloudDatas.firstIndex(where: {$0.id == item.id}){
-                                                    cloudDatas.remove(at: index)
-                                                }
-                                                
-                                            }
-                                            
-                                        }
-                                    }label:{
-                                        Label("删除", systemImage: "trash")
-                                            .symbolRenderingMode(.palette)
-                                            .foregroundStyle(.white)
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive){
+                                    if let index = cloudServers.firstIndex(where: {$0.id == item.id}){
+                                        cloudServers.remove(at: index)
                                     }
+                                }label:{
+                                    Label("删除", systemImage: "trash")
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.white)
                                 }
                             }
                         }
-                        
-                        
-                    }header: {
-                        HStack{
-                            Label("历史服务器", systemImage: "cup.and.heat.waves")
-                                .foregroundStyle(.primary, .gray)
-                            Spacer()
-                            Text("\(cloudServers.count)")
-                        }
+                    }
+                    
+                    
+                }header: {
+                    HStack{
+                        Label("历史服务器", systemImage: "cup.and.heat.waves")
+                            .foregroundStyle(.primary, .gray)
+                        Spacer()
+                        Text("\(cloudServers.count - servers.count)")
                     }
                 }
                 
@@ -153,12 +125,7 @@ struct ServersConfigView: View {
            
             .refreshable {
                 // MARK: - 刷新策略
-                await manager.registers(){ result in
-                    Toast.info(title: String(localized: "操作成功"))
-                    
-                }
-                
-                updateCloudServers()
+                manager.registers()
             }
             
             .toolbar{
@@ -193,26 +160,9 @@ struct ServersConfigView: View {
                 }
             }
             .navigationTitle( "服务器")
-            .onAppear{ updateCloudServers() }
             
     }
-    
-    
-    func updateCloudServers(){
-        PushServerCloudKit.shared.fetchPushServerModels { response in
-            switch response {
-            case .success(let results):
-                withAnimation(.easeInOut) {
-                    self.cloudDatas = results
-                }
-            case .failure(let failure):
-                Log.debug(failure.localizedDescription)
-            }
-        }
-    }
-    
-    
-    
+     
 }
 
 #Preview {

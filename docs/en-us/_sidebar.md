@@ -4,6 +4,7 @@
 - **App**
   - [Tutorial](/en-us/tutorial)
   - [Push Encryption](/en-us/encryption)
+  - [Widget](/en-us/widget)
   - [FAQ](/en-us/faq)
 - **Server**
   - [Deploy Service](/en-us/deploy)

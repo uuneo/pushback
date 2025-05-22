@@ -66,9 +66,10 @@ The list of supported parameters, the specific effects can be previewed in the a
 
 | Parameter | Bark | Pushback Usage Differences |
 | --------- | ---- | -------------------------- |
+| id | None | Pass UUID to overwrite existing message with same id |
 | title | Push notification title | Same |
 | subtitle | Push notification subtitle | Same |
-| body | Push notification content | Same |
+| body | Push notification content | Same, requires category=markdown when sending markdown |
 | level | Push notification interruption level.<br>**active**: Default, the system will immediately light up the screen to show the notification.<br>**timeSensitive**: Time-sensitive notifications, displayed even during focus mode.<br>**passive**: Adds notifications to the notification list without lighting up the screen.<br>**critical**: Critical notifications, displayed even during focus mode or silent mode. | Compatible. Parameters can be replaced with numbers: `level=1`<br>0: passive<br>1: active<br>2: timeSensitive<br>3...10: critical, where numbers are used for volume (`level=3...10`). |
 | volume | Volume level for critical mode notifications. Range: 0...10 | Same |
 | call | Long notification, similar to a WeChat call notification | Same |
@@ -78,7 +79,6 @@ The list of supported parameters, the specific effects can be previewed in the a
 | sound | Sets a custom sound for the push notification. | Default sound can be set in-app. |
 | icon | Sets a custom icon for the push notification. The custom icon replaces the default Bark icon.<br>The icon is automatically cached locally, and identical URLs will only be downloaded once. | Compatible |
 | image | URL of an image to be downloaded and cached when the notification is received. | Can view the image by pulling down the notification or within the app.<br>Locally renamed images can be directly used via `icon=local_name`. |
-| video | <font color='red'>Not supported</font> | URL of a video to be played when pulling down the notification. |
 | group | Groups notifications by the specified value. Notifications will appear grouped in the notification center and can be filtered in the history list. | Compatible |
 | isArchive | `1` to save the notification, any other value to discard. If not provided, the app's settings will determine whether to save. | Uses `ttl=days`. If not provided, app settings are used. |
 | url | URL to open when the push notification is clicked. Supports URL Scheme and Universal Link. | Same |

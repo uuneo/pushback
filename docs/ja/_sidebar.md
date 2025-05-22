@@ -3,6 +3,7 @@
 - **アプリ**
   - [チュートリアル](/ja/tutorial)
   - [プッシュ暗号化](/ja/encryption)
+  - [ウィジェット](/ja/widget)
   - [FAQ](/ja/faq)
 - **サーバー**
   - [サービスのデプロイ](/ja/deploy)

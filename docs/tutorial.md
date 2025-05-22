@@ -63,6 +63,7 @@ curl -X "POST" "https://push.uuneo.com/push" \
 
 | 参数 | Bark | Pushback 使用差异 |
 | ----- | ----------- | ----------- |
+| id | 无 | UUID 传入相同id覆盖原有消息 |
 | title | 推送标题 | 一致 |
 | subtitle | 推送副标题 | 一致 |
 | body | 推送内容 | 一致 传入markdown时需category=markdown |
@@ -75,8 +76,6 @@ curl -X "POST" "https://push.uuneo.com/push" \
 | sound | 可以为推送设置不同的铃声 | 应用内可设置默认铃声 |
 | icon | 为推送设置自定义图标，设置的图标将替换默认 Bark 图标。<br>图标会自动缓存在本机，相同的图标 URL 仅下载一次。 | 兼容，支持上传云图标 |
 | image | 传入图片地址，手机收到消息后自动下载缓存 | 消息下拉可以查看图片<br> |
-| category | - |可选参数 可传 `markdown`,`media`  ｜
-| video | <font color='red'>暂不支持</font> | 配合category=media 传入视频地址，手机收到消息后可下拉观看 |
 | group | 对消息进行分组，推送将按 `group` 分组显示在通知中心中。<br>也可在历史消息列表中选择查看不同的群组。 | 兼容 |
 | isArchive | 传 `1` 保存推送，传其他的不保存推送，不传按 App 内设置来决定是否保存。 | 用 `ttl=天数`，不传以 App 内设置为准 |
 | url | 点击推送时，跳转的 URL，支持 URL Scheme 和 Universal Link | 一致 |

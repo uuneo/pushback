@@ -1,9 +1,11 @@
 <!-- docs/_sidebar.md -->
 
+
 - [푸시백 - 푸시백](/ko/#pushback)
 - **앱**
   - [튜토리얼](/ko/tutorial)
   - [푸시 암호화](/ko/encryption)
+  - [위젯](/ko/widget)
   - [FAQ](/ko/faq)
 - **서버**
   - [서비스 배포](/ko/deploy)

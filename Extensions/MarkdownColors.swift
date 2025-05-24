@@ -188,7 +188,7 @@ struct CodeBlock: View {
                 Spacer()
                 
                 Button(action: {
-                    Clipboard.shared.setString(configuration.content)
+                    Clipboard.set(configuration.content)
                     Toast.copy(title: "复制成功")
                 }) {
                     Image(systemName: "doc.on.doc")

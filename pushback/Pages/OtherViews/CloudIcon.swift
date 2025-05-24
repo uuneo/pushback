@@ -102,7 +102,7 @@ struct CloudIcon: View {
                                                 }
                                                 
                                                 Button {
-                                                    Clipboard.shared.setString(name)
+                                                    Clipboard.set(name)
                                                     Toast.copy(title: "复制成功")
                                                 }label:{
                                                     

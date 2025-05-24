@@ -134,7 +134,7 @@ struct ContentView: View {
             
             RealmManager.handler{ proxy in
                 proxy.writeAsync {
-                    proxy.add(Message.examples())
+                    proxy.add(RealmManager.examples())
                 }
             }
         }

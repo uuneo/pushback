@@ -9,6 +9,7 @@ import SwiftUI
 import RealmSwift
 import Defaults
 import AVFAudio
+import UniformTypeIdentifiers
 
 
 struct MessageCard: View {
@@ -160,7 +161,7 @@ struct MessageCard: View {
                 Section{
                     if let body = message.body{
                         Button{
-                            Clipboard.shared.setString(body)
+                            Clipboard.set(body)
                             Toast.copy(title: "复制成功")
                             AppManager.vibration(style: .light)
                         }label:{
@@ -172,10 +173,18 @@ struct MessageCard: View {
                     }
                    
                     Button{
-                        
-                        Clipboard.shared.setString(message.search)
-                        Toast.copy(title: "复制成功")
-                        AppManager.vibration(style: .light)
+                        Task{
+                            if let url = message.image,
+                               let imageUrl = await ImageManager.downloadImage(url),
+                               let image = UIImage(contentsOfFile: imageUrl)
+                            {
+                                Clipboard.set(message.search,[UTType.image.identifier: image])
+                            }else{
+                                Clipboard.set(message.search)
+                            }
+                            Toast.copy(title: "复制成功")
+                            AppManager.vibration(style: .light)
+                        }
                     }label:{
                         Label("复制全部", systemImage: "doc.on.doc")
                             .symbolRenderingMode(.palette)
@@ -314,7 +323,7 @@ struct MessageCard: View {
 #Preview {
     
     List {
-        MessageCard(message: Message.examples().first!)
+        MessageCard(message: RealmManager.examples().first!)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
             .environmentObject(AppManager.shared)

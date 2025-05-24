@@ -25,7 +25,7 @@ struct ServersConfigView: View {
                     ForEach(servers, id: \.id){ item in
                         
                         ServerCardView( item: item){
-                            Clipboard.shared.setString(item.url + "/" + item.key)
+                            Clipboard.set(item.url + "/" + item.key)
                             Toast.copy(title: "复制 URL 和 KEY 成功")
                         }
                         

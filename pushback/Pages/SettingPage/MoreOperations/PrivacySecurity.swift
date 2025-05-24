@@ -58,7 +58,7 @@ struct PrivacySecurity:View {
                         .scaleEffect(0.9)
                 }, showRight: false) {
                     if deviceToken != ""{
-                        Clipboard.shared.setString(deviceToken)
+                        Clipboard.set(deviceToken)
                         Toast.copy(title: "复制成功")
                         
                     }else{
@@ -89,7 +89,7 @@ struct PrivacySecurity:View {
                         .foregroundStyle( .tint, Color.primary)
                         .scaleEffect(0.9)
                 }, showRight: false) {
-                    Clipboard.shared.setString(userID)
+                    Clipboard.set(userID)
                     Toast.copy(title:  "复制成功")
                     self.showIdAnimation.toggle()
                     return true

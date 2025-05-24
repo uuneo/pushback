@@ -88,7 +88,7 @@ struct SoundItemView: View {
                     .symbolRenderingMode(.palette)
                     .foregroundStyle( .tint, Color.primary)
                     .onTapGesture {
-                        Clipboard.shared.setString(self.name)
+                        Clipboard.set(self.name)
                         Toast.copy(title: "复制成功")
                     }
             }else{

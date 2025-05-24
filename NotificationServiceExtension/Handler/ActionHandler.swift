@@ -68,9 +68,9 @@ class ActionHandler: NotificationContentHandler{
         
         // MARK: -  回调
         let http = NetworkManager()
-        if let callback:String = bestAttemptContent.userInfo.raw(.callback),
+        if let host:String = bestAttemptContent.userInfo.raw(.host),
            let id = bestAttemptContent.targetContentIdentifier,
-           let url = http.appendQueryParameter(to: callback, key: "id", value: id){
+           let url = http.appendQueryParameter(to: host, key: "id", value: id){
             http.fetchVoid(url: url)
         }
         

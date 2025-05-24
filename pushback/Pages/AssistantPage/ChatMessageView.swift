@@ -120,7 +120,7 @@ extension View{
     func assistantMenu(_ text:String)-> some View{
         self
             .onTapGesture(count: 2){
-                Clipboard.shared.setString(text)
+                Clipboard.set(text)
                 Toast.success(title: "复制成功")
             }
             .contextMenu{
@@ -139,7 +139,7 @@ extension View{
                 
                 Section{
                     Button(action: {
-                        Clipboard.shared.setString(text)
+                        Clipboard.set(text)
                         Toast.success(title: "复制成功")
                     }) {
                         Label("复制", systemImage: "doc.on.doc")

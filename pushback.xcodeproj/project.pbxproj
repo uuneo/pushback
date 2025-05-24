@@ -66,6 +66,7 @@
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B55B8DFF2DDC139A002EA38E /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B55B8DFE2DDC139A002EA38E /* OpenAI */; };
+		B55B93512DE00B89002EA38E /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
 		B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577DAD42DC5F38000AB7527 /* zoomable.swift */; };
 		B58133BC2DC9A61F00752D46 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58133BB2DC9A61F00752D46 /* WidgetKit.framework */; };
 		B58133BE2DC9A61F00752D46 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58133BD2DC9A61F00752D46 /* SwiftUI.framework */; };
@@ -1244,6 +1245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B55B93512DE00B89002EA38E /* RealmManager.swift in Sources */,
 				B5A885122DD513BD009696F6 /* Markdown.swift in Sources */,
 				B5A885082DD50049009696F6 /* VoiceManager.swift in Sources */,
 				B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */,
@@ -1371,7 +1373,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushbackWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1399,7 +1401,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushbackWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1418,13 +1420,13 @@
 				INFOPLIST_FILE = PushbackSafariExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PushbackSafariExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1447,13 +1449,13 @@
 				INFOPLIST_FILE = PushbackSafariExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PushbackSafariExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1621,7 +1623,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1664,7 +1666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1694,7 +1696,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1725,7 +1727,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1756,7 +1758,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1787,7 +1789,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1818,7 +1820,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1849,7 +1851,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.NotificationMarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1880,7 +1882,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -1911,7 +1913,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.1;
+				MARKETING_VERSION = 2.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;

@@ -11,11 +11,12 @@ import UniformTypeIdentifiers
 import SwiftyJSON
 
 
-final class Message: Object , ObjectKeyIdentifiable, Codable  {
+final class Message: Object, ObjectKeyIdentifiable, Codable  {
     
 	@Persisted(primaryKey: true) var id:UUID
 	@Persisted(indexed: true) var group:String
 	@Persisted(indexed: true) var createDate:Date
+    @Persisted(indexed: true) var isLatestInGroup: Bool = false
 	@Persisted var title:String?
 	@Persisted var subtitle:String?
 	@Persisted var body:String?
@@ -28,6 +29,7 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
     @Persisted var ttl:Int = ExpirationTime.forever.days
 	@Persisted var read:Bool = false
 
+    
 
 	enum CodingKeys: CodingKey {
 		case id
@@ -64,22 +66,6 @@ final class Message: Object , ObjectKeyIdentifiable, Codable  {
     
     var search:String{  [ group, title, subtitle, body, from, url].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: ";") + ";" }
     
-}
-
-extension Message{
-	
-    static func examples() ->[Message]{
-        [
-            Message(value: ["title":  String(localized: "示例"),"group":  String(localized: "示例"),"body": String(localized:  "点击或者滑动可以修改信息状态"),"mode":"999","ttl": 1]),
-
-            Message(value: ["group":  "App","title":String(localized: "点击跳转app") ,"body":String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),"url":"weixin://","mode":"999","ttl": 1]),
-            
-            Message(value: ["group":  "Markdown", "title":String(localized: "示例") ,"body":"# Pushback \n## Pushback \n### Pushback", "mode":"999","ttl": 1])
-            
-        ]
-    }
-    
-	
 }
 
 

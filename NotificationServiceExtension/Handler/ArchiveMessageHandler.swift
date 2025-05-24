@@ -49,9 +49,17 @@ class ArchiveMessageHandler: NotificationContentHandler{
         }
         //  保存数据到数据库
         if  saveDays > 0, let realm{
+            let datas = realm.objects(Message.self).filter("group == %@ AND isLatestInGroup == true", group)
             
-            if let message =  realm.objects(Message.self).first(where: {$0.id == id}){
+            try? realm.write {
+                datas.setValue(false, forKey: "isLatestInGroup")
+            }
+            
+            
+            if let message = realm.objects(Message.self).first(where: {$0.id == id}){
+                
                 try? realm.write {
+                    message.createDate = .now
                     message.title = title
                     message.subtitle = subtitle
                     message.body = body
@@ -63,6 +71,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.createDate = Date()
                     message.ttl = saveDays
                     message.host = host
+                    message.isLatestInGroup = true
                 }
             }else {
                 try? realm.write {
@@ -79,11 +88,12 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.createDate = Date()
                     message.ttl = saveDays
                     message.host = host
+                    message.isLatestInGroup = true
                     realm.add(message)
                 }
             }
         }
-        
+        try RealmManager.createOrUpdate(id: id, group: group, title: title, subtitle: subtitle, body: body, icon: icon, url: url, image: image, host: host, level: Int(level), ttl: saveDays)
         
         Defaults[.allMessagecount] += 1
 

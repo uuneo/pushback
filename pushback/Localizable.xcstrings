@@ -5517,7 +5517,11 @@
         }
       }
     },
+    "导出失败" : {
+
+    },
     "导出失败，原因未知" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5574,6 +5578,7 @@
       }
     },
     "导出状态异常：%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5602,6 +5607,7 @@
       }
     },
     "导出被取消" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7338,6 +7344,7 @@
       }
     },
     "无法创建导出会话" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

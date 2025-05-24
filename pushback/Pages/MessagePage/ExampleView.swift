@@ -488,7 +488,7 @@ extension ExampleView{
     func copyExample(){
         let param = params.createParams()
         
-        Clipboard.shared.setString(param)
+        Clipboard.set(param)
                                 
         Toast.success(title: "复制成功")
     }

@@ -120,7 +120,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             return []
         }
     }
-
+    
     /// 通用文件保存方法
     func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
         // 获取 App Group 的共享铃声目录路径
@@ -197,87 +197,53 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             }
         }
     }
-
-    func convertAudioToCAF(inputURL: URL, outputURL: URL) async -> Result<URL, Error>  {
+    
+    func convertAudioToCAF(inputURL: URL) async -> URL?  {
         
         do{
             
+            let fileName = inputURL.deletingPathExtension().lastPathComponent
+            
+            let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(fileName).caf")
             // 如果输出文件已存在，则先删除，防止导出失败
-                  if FileManager.default.fileExists(atPath: outputURL.path) {
-                      try FileManager.default.removeItem(at: outputURL)
-                  }
-                  
-                  // 创建 AVAsset 用于处理输入音频资源
-                  let asset = AVAsset(url: inputURL)
-                  
-                  // 创建导出会话，使用 "Passthrough" 预设保持原始音频格式
-                  guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else {
-                      let error = NSError(domain: "AudioConversion", code: 0, userInfo: [
-                          NSLocalizedDescriptionKey: String(localized: "无法创建导出会话")
-                      ])
-                      return .failure(error)
-                  }
-
-                  // 获取音频时长（异步加载）
-                  let assetDurationSeconds = try await asset.load(.duration)
-
-                  // 设置导出时间范围：如果音频大于 30 秒，最多只导出 29.9 秒
-                  // AVFoundation 的时间精度有限，设置 29.9 更保险
-                  let maxDurationCMTime = CMTime(seconds: 29.9, preferredTimescale: 600)
-                  if assetDurationSeconds > maxDurationCMTime {
-                      exportSession.timeRange = CMTimeRange(start: .zero, duration: maxDurationCMTime)
-                  }
-
-                  // 设置导出文件类型和输出路径
-                  exportSession.outputFileType = .caf
-                  exportSession.outputURL = outputURL
-
-                  // 开始异步导出
-                  await exportSession.export()
-                  
-                  // 根据导出状态返回结果
-                  switch exportSession.status {
-                  case .completed:
-                      // 导出成功，返回输出路径
-                      return .success(outputURL)
-                      
-                  case .failed:
-                      // 导出失败，返回错误（若无具体错误则用默认错误信息）
-                      let error = exportSession.error ?? NSError(
-                          domain: "AudioConversion",
-                          code: 1,
-                          userInfo: [NSLocalizedDescriptionKey: String(localized: "导出失败，原因未知")]
-                      )
-                      return .failure(error)
-                      
-                  case .cancelled:
-                      // 用户或系统取消了导出
-                      let error = NSError(
-                          domain: "AudioConversion",
-                          code: 2,
-                          userInfo: [NSLocalizedDescriptionKey: String(localized: "导出被取消")]
-                      )
-                      return .failure(error)
-                      
-                  default:
-                      // 其他未知状态
-                      let error = NSError(
-                          domain: "AudioConversion",
-                          code: 3,
-                          userInfo: [NSLocalizedDescriptionKey: String(localized: "导出状态异常：\(exportSession.status.rawValue)")]
-                      )
-                      return .failure(error)
-                  }
-                  
+            if FileManager.default.fileExists(atPath: outputURL.path) {
+                try FileManager.default.removeItem(at: outputURL)
+            }
+            
+            // 创建 AVAsset 用于处理输入音频资源
+            let asset = AVAsset(url: inputURL)
+            
+            // 创建导出会话，使用 "Passthrough" 预设保持原始音频格式
+            guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetPassthrough) else { return nil }
+            // 获取音频时长（异步加载）
+            let assetDurationSeconds = try await asset.load(.duration)
+            
+            // 设置导出时间范围：如果音频大于 30 秒，最多只导出 29.9 秒
+            // AVFoundation 的时间精度有限，设置 29.9 更保险
+            let maxDurationCMTime = CMTime(seconds: 29.9, preferredTimescale: 600)
+            if assetDurationSeconds > maxDurationCMTime {
+                exportSession.timeRange = CMTimeRange(start: .zero, duration: maxDurationCMTime)
+            }
+            
+            // 设置导出文件类型和输出路径
+            exportSession.outputFileType = .caf
+            exportSession.outputURL = outputURL
+            
+            // 开始异步导出
+            await exportSession.export()
+            
+            // 根据导出状态返回结果
+            return exportSession.status == .completed ? outputURL : nil
+            
         }catch{
-            return .failure(error)
+            return nil
         }
         
         
     }
     
     func Speak(_ text: String) async -> AVAudioPlayer? {
-       
+        
         do{
             let start = DispatchTime.now()
             await MainActor.run {
@@ -285,7 +251,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
                     self.loading = true
                     self.speaking = true
                 }
-               
+                
             }
             
             let client = try VoiceManager()
@@ -293,15 +259,15 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             await MainActor.run{
                 self.ShareURL = audio
             }
-           
-           
+            
+            
             let player = try AVAudioPlayer(contentsOf: audio)
             await MainActor.run {
                 self.speakPlayer = player
                 self.speakPlayer?.delegate = self
                 self.loading = false
             }
-    
+            
             let end = DispatchTime.now()
             let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
             debugPrint("运行时间：",Double(nanoTime) / 1_000_000_000)

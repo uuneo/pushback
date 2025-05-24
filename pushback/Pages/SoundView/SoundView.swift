@@ -55,21 +55,11 @@ struct SoundView: View {
                                 
                                 if file.startAccessingSecurityScopedResource() {
                                     
-                                    
-                                    let fileName = file.deletingPathExtension().lastPathComponent
-                                    
-                                    let data = FileManager.default.temporaryDirectory.appendingPathComponent("\(fileName).caf")
-                                    
-                                    let result =  await audioManager.convertAudioToCAF(inputURL: file, outputURL: data)
-                                    switch result {
-                                    case .success(let success):
-                                        Log.debug(success)
-                                        await audioManager.saveSound(url: success)
-                                    case .failure(let failure):
-                                        Toast.shared.present(title: failure.localizedDescription, symbol: .error)
-                                        Log.error(failure)
+                                    if let url = await audioManager.convertAudioToCAF(inputURL: file){
+                                        await audioManager.saveSound(url: url)
+                                    }else{
+                                        Toast.error(title: "导出失败")
                                     }
-                                    
                                     try? await Task.sleep(for: .seconds(0.5))
                                     await MainActor.run{
                                         self.uploadLoading = false

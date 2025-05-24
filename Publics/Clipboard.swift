@@ -1,50 +1,55 @@
-
-import Foundation
-
-#if os(macOS)
-import AppKit
-#else
+import UniformTypeIdentifiers
 import UIKit
-#endif
 
-#if os(iOS) || os(visionOS)
-typealias PlatformImage = UIImage
-#else
-typealias PlatformImage = NSImage
-#endif
 
-final class Clipboard: Sendable {
-    static let shared = Clipboard()
-    
-    private init() {} // 防止外部实例化
-    
-    func setString(_ message: String) {
-        #if os(iOS) || os(visionOS)
-        UIPasteboard.general.string = message
-        #elseif os(macOS)
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(message, forType: .string)
-        #endif
+class Clipboard {
+
+    class func set(_ message: String? = nil, _ items:[String : Any]...) {
+        var result:[[String:Any]] = []
+        
+        if let message { result.append([UTType.utf8PlainText.identifier: message]) }
+        
+        UIPasteboard.general.items = result + items
     }
     
-    func getText() -> String? {
-        #if os(iOS) || os(visionOS)
-        return UIPasteboard.general.string
-        #elseif os(macOS)
-        return NSPasteboard.general.string(forType: .string)
-        #endif
+    class func getText() -> String? {
+        UIPasteboard.general.string
     }
     
-    func getImage() -> PlatformImage? {
-        #if os(iOS) || os(visionOS)
-        return UIPasteboard.general.image
-        #elseif os(macOS)
-        let pasteboard = NSPasteboard.general
-        guard let imgData = pasteboard.data(forType: .tiff) else { return nil }
-        return NSImage(data: imgData)
-        #endif
+    class func getNSAttributedString() -> NSAttributedString {
+        let result = NSMutableAttributedString()
+
+        for item in UIPasteboard.general.items {
+            for (type, value) in item {
+                if type == "public.rtf", let data = value as? Data {
+                    if let attrStr = try? NSAttributedString(data: data, options: [
+                        .documentType: NSAttributedString.DocumentType.rtf
+                    ], documentAttributes: nil) {
+                        result.append(attrStr)
+                    }
+                } else if type == "public.html", let htmlString = value as? String {
+                    if let data = htmlString.data(using: .utf8),
+                       let attrStr = try? NSAttributedString(data: data, options: [
+                           .documentType: NSAttributedString.DocumentType.html,
+                           .characterEncoding: String.Encoding.utf8.rawValue
+                       ], documentAttributes: nil) {
+                        result.append(attrStr)
+                    }
+                } else if type.hasPrefix("public.image"), let image = value as? UIImage {
+                    let attachment = NSTextAttachment()
+                    attachment.image = image
+                    let imageAttrStr = NSAttributedString(attachment: attachment)
+                    result.append(imageAttrStr)
+                } else if type == "public.utf8-plain-text", let text = value as? String {
+                    let textAttrStr = NSAttributedString(string: text)
+                    result.append(textAttrStr)
+                }
+            }
+        }
+
+        return result
     }
+
 }
 
 

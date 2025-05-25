@@ -8,31 +8,44 @@
 import SwiftUI
 import RealmSwift
 
-class GroupMessagesModel:ObservableObject{
+class MessagesData:ObservableObject{
+    
+    static let shared = MessagesData()
     
     @Published var messages:[Message] = []
     @Published var isLoading:Bool = true
+    @Published var unReadCount:Int = 0
+    @Published var allCount:Int = 0
     
     var deleteIds:[String:Bool] = [:]
     
     private var notificationToken:NotificationToken?
     
-    
-    init(){
+    private init(){
         let realm = try! Realm()
         notificationToken = realm.objects(Message.self).sorted(by: \.createDate, ascending: false).observe{ changes in
             debugPrint("正在更新")
             self.isLoading = true
             switch changes {
             case .initial(let results):
-                self.messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
+                self.update(results: results)
             case .update(let results, _, _, _):
-                
-                self.messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
+                self.update(results: results)
             case .error(let error):
                 print("监听失败: \(error)")
             }
             self.isLoading = false
+        }
+    }
+    
+    func update(results:Results<Message>){
+        let messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
+        let unReadCount = results.filter({!$0.read}).count
+        let allCount = results.count
+        DispatchQueue.main.async {
+            self.messages = messages
+            self.unReadCount = unReadCount
+            self.allCount = allCount
         }
     }
     

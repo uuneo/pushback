@@ -16,7 +16,6 @@ final class Message: Object, ObjectKeyIdentifiable, Codable  {
 	@Persisted(primaryKey: true) var id:UUID
 	@Persisted(indexed: true) var group:String
 	@Persisted(indexed: true) var createDate:Date
-    @Persisted(indexed: true) var isLatestInGroup: Bool = false
 	@Persisted var title:String?
 	@Persisted var subtitle:String?
 	@Persisted var body:String?
@@ -123,6 +122,25 @@ extension Message{
         
         return text.joined(separator: ",")
     }
+    
+    func toCopy() -> MessageCopy {
+            MessageCopy(
+                id: self.id,
+                group: self.group,
+                createDate: self.createDate,
+                title: self.title,
+                subtitle: self.subtitle,
+                body: self.body,
+                icon: self.icon,
+                url: self.url,
+                image: self.image,
+                from: self.from,
+                host: self.host,
+                level: self.level,
+                ttl: self.ttl,
+                read: self.read
+            )
+        }
 }
 
 extension ResultsSection: @retroactive Hashable{
@@ -179,3 +197,20 @@ extension Calendar {
 }
 
 
+
+struct MessageCopy: Codable {
+    var id: UUID
+    var group: String
+    var createDate: Date
+    var title: String?
+    var subtitle: String?
+    var body: String?
+    var icon: String?
+    var url: String?
+    var image: String?
+    var from: String?
+    var host: String?
+    var level: Int
+    var ttl: Int
+    var read: Bool
+}

@@ -19,15 +19,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="startapp" translatesAutoresizingMaskIntoConstraints="NO" id="soc-a3-ik2">
-                                <rect key="frame" x="341" y="513" width="350" height="350"/>
+                                <rect key="frame" x="366" y="488" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="350" id="QLx-DI-4K8"/>
-                                    <constraint firstAttribute="width" secondItem="soc-a3-ik2" secondAttribute="height" multiplier="1:1" id="YTO-hi-rvN"/>
-                                    <constraint firstAttribute="width" constant="350" id="qeO-vq-4SC"/>
+                                    <constraint firstAttribute="width" constant="300" id="NLs-VG-pJ3"/>
+                                    <constraint firstAttribute="width" secondItem="soc-a3-ik2" secondAttribute="height" multiplier="1:1" id="Yzk-Qz-no6"/>
+                                    <constraint firstAttribute="height" constant="300" id="rpa-cD-e0U"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PUSHBACK" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29B-Qq-BE9">
-                                <rect key="frame" x="427.5" y="1239" width="177" height="42"/>
+                                <rect key="frame" x="427.5" y="1301" width="177" height="42"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <color key="textColor" systemColor="secondarySystemBackgroundColor"/>
                                 <color key="highlightedColor" systemColor="systemOrangeColor"/>
@@ -37,25 +37,23 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <constraints>
-                            <constraint firstItem="soc-a3-ik2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="2JK-uM-Nau"/>
-                            <constraint firstItem="29B-Qq-BE9" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="4Z2-rU-ZYz"/>
-                            <constraint firstItem="soc-a3-ik2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="E6F-PT-R03"/>
-                            <constraint firstItem="soc-a3-ik2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="I0e-i8-QTZ"/>
-                            <constraint firstItem="soc-a3-ik2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="S9y-f1-fJO"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="29B-Qq-BE9" secondAttribute="bottom" constant="50" id="jp2-jY-ocD"/>
+                            <constraint firstItem="soc-a3-ik2" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-50" id="EQ8-DM-fPo"/>
+                            <constraint firstItem="soc-a3-ik2" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="X95-hP-Zyd"/>
+                            <constraint firstAttribute="bottom" secondItem="29B-Qq-BE9" secondAttribute="bottom" constant="33" id="aJ2-vv-0wq"/>
+                            <constraint firstItem="29B-Qq-BE9" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ra2-GX-fC3"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52.325581395348841" y="374.56395348837208"/>
+            <point key="canvasLocation" x="51.81818181818182" y="374.05857740585776"/>
         </scene>
     </scenes>
     <color key="tintColor" name="AccentColor"/>
     <resources>
         <image name="startapp" width="1024" height="1024"/>
         <namedColor name="AccentColor">
-            <color red="1" green="0.56800001859664917" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

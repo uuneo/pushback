@@ -25,8 +25,7 @@ class ActionHandler: NotificationContentHandler{
         if bestAttemptContent.soundName == nil && bestAttemptContent.getLevel() < 3{
             bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound]).caf" ))
         }
-		
-		
+        
         // MARK: - markdownbody body 显示
         if bestAttemptContent.categoryIdentifier == Identifiers.markdownCategory{
             bestAttemptContent.body =  String(localized: "下拉查看详情...")

@@ -20,7 +20,7 @@ struct ContentView: View {
     @EnvironmentObject private var audioManager: AudioManager
     @EnvironmentObject private var chatManager: openChatManager
     
-    @ObservedResults(Message.self) var messages
+    @EnvironmentObject private var groupModel: MessagesData
     
     @Default(.servers) private var servers
     @Default(.firstStart) private var firstStart
@@ -60,6 +60,23 @@ struct ContentView: View {
                     }
                 }
             }), secondaryButton: .cancel()) }
+//        .task {
+//            Task.detached(priority: .background) {
+//                if let realm = try? Realm() {
+//                    var datas:[Message] = []
+//                    for k in 0...33335{
+//                        print(k)
+//                        datas += RealmManager.examples().compactMap({
+//                            $0.group = "\(k % 10)\($0.group)"
+//                            return $0
+//                        })
+//                    }
+//                    try? realm.write{
+//                        realm.add(datas)
+//                    }
+//                }
+//            }
+//        }
     }
     
     @ViewBuilder
@@ -73,10 +90,12 @@ struct ContentView: View {
             
             NavigationStack(path: $manager.router){
                 // MARK: 信息页面
-                MessagePage().router(manager, chat: chatManager, audio: audioManager)
+                MessagePage()
+                    .router(manager, chat: chatManager, audio: audioManager,message: groupModel)
+
                 
             }
-            .badge(messages.where({!$0.read}).count)
+            .badge(groupModel.unReadCount)
             .tabItem {
                 Label( "消息", systemImage: "ellipsis.message")
                     .symbolRenderingMode(.palette)
@@ -88,7 +107,8 @@ struct ContentView: View {
             
             NavigationStack(path: $manager.router){
                 // MARK: 设置页面
-                SettingsPage().router(manager, chat: chatManager, audio: audioManager)
+                SettingsPage()
+                    .router(manager, chat: chatManager, audio: audioManager,message: groupModel)
                 
             }
             .tabItem {
@@ -109,12 +129,14 @@ struct ContentView: View {
         
         NavigationSplitView(columnVisibility: $HomeViewMode) {
             SettingsPage()
-                .env(manager, chatManager, audioManager)
+                .env(manager, chatManager, audioManager, groupModel)
+                .environmentObject(groupModel)
         } detail: {
             
             NavigationStack(path: $manager.router){
                 MessagePage()
-                    .router(manager, chat: chatManager, audio: audioManager)
+                    .router(manager, chat: chatManager, audio: audioManager, message: groupModel)
+                    .environmentObject(groupModel)
             }
         }
     }
@@ -197,14 +219,17 @@ struct ContentView: View {
             break
         }
         
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        
         WidgetCenter.shared.reloadAllTimelines()
         
         RealmManager.handler { proxy in
-            let datas = proxy.objects(Message.self).filter({$0.isExpired()})
+            let results = proxy.objects(Message.self)
+            let datas = results.filter({$0.isExpired()})
             proxy.writeAsync {
                 proxy.delete(datas)
+            }
+            if Defaults[.badgeMode] == .auto{
+                let unRead = results.where({!$0.read}).count
+                UNUserNotificationCenter.current().setBadgeCount( unRead == 0 ? -1 : unRead )
             }
         }
     }
@@ -288,5 +313,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .env(AppManager.shared, openChatManager.shared, AudioManager.shared)
+        .env(AppManager.shared, openChatManager.shared, AudioManager.shared, MessagesData.shared)
 }

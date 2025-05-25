@@ -121,7 +121,7 @@ struct MoreOperationsView: View {
                         if Defaults[.badgeMode] == .auto{
                             RealmManager.handler{ proxy in
                                 let unRead = proxy.objects(Message.self).filter({ !$0.read }).count
-                                UNUserNotificationCenter.current().setBadgeCount( unRead )
+                                UNUserNotificationCenter.current().setBadgeCount( unRead == 0 ? -1 : unRead)
                             }
                         }
                     }
@@ -248,38 +248,3 @@ struct MoreOperationsView: View {
 }
 
 
-struct TextFileMessage: FileDocument {
-
-	static var readableContentTypes: [UTType] { [.trnExportType] } // 使用 JSON 文件类型
-
-	var content: [Message]
-
-	// 初始化器（设置默认内容）
-	init(content: Results<Message>) {
-		self.content = Array(content)
-	}
-
-	// 从文件中读取内容
-	init(configuration: ReadConfiguration) throws {
-		guard let data = configuration.file.regularFileContents else {
-			throw CocoaError(.fileReadCorruptFile)
-		}
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .secondsSince1970
-		let content = try decoder.decode([Message].self, from: data)
-		self.content = content
-	}
-
-	// 写入内容到文件
-	func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-		let encoder = JSONEncoder()
-		encoder.outputFormatting = .prettyPrinted // 格式化输出
-		encoder.dateEncodingStrategy = .secondsSince1970
-
-		let data = try encoder.encode(content)
-		return FileWrapper(regularFileWithContents: data)
-	}
-    
-    
-   
-}

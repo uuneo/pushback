@@ -5518,33 +5518,29 @@
       }
     },
     "导出失败" : {
-
-    },
-    "导出失败，原因未知" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Export failed, reason unknown"
+            "value" : "Export failed"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "エクスポート失敗、理由は不明"
+            "value" : "エクスポートに失敗しました"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "내보내기 실패, 원인 불명"
+            "value" : "내보내기 실패"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "导出失败，原因未知"
+            "value" : "导出失败"
           }
         }
       }
@@ -5573,64 +5569,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "导出消息列表"
-          }
-        }
-      }
-    },
-    "导出状态异常：%lld" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export status abnormal: %lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "エクスポート状態異常：%lld"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내보내기 상태 비정상: %lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导出状态异常：%lld"
-          }
-        }
-      }
-    },
-    "导出被取消" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Export canceled"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "エクスポートがキャンセルされました"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내보내기가 취소되었습니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导出被取消"
           }
         }
       }
@@ -7339,35 +7277,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新建提示词"
-          }
-        }
-      }
-    },
-    "无法创建导出会话" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unable to create export session"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "エクスポートセッションを作成できません"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내보내기 세션을 만들 수 없습니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法创建导出会话"
           }
         }
       }

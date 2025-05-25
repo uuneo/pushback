@@ -11,7 +11,7 @@ import Defaults
 
 struct GroupMessagesView: View {
     
-    @EnvironmentObject private var groupModel: GroupMessagesModel
+    @EnvironmentObject private var groupModel: MessagesData
     @EnvironmentObject private var manager:AppManager
     
     

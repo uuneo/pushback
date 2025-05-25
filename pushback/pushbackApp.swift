@@ -23,10 +23,11 @@ struct RootView<Content: View>: View {
     @StateObject private var manager = AppManager.shared
     @StateObject private var audioManager = AudioManager.shared
     @StateObject private var chatManager = openChatManager.shared
+    @StateObject private var groupModel = MessagesData.shared
     
     var body: some View {
         content
-            .env(manager, chatManager, audioManager)
+            .env(manager, chatManager, audioManager, groupModel)
             .safeAreaInset(edge: .bottom) {
                 if audioManager.speaking {
                     Rectangle()
@@ -130,7 +131,7 @@ struct RootView<Content: View>: View {
                 EmptyView().onAppear{  manager.fullPage = .none }
             }
         }
-        .env(manager, chatManager, audioManager)
+        .env(manager, chatManager, audioManager, groupModel)
         
     }
     
@@ -150,7 +151,7 @@ struct RootView<Content: View>: View {
                 EmptyView().onAppear{ manager.sheetPage = .none }
             }
         }
-        .env(manager, chatManager, audioManager)
+        .env(manager, chatManager, audioManager, groupModel)
         .customPresentationCornerRadius(20)
     }
 }
@@ -178,7 +179,7 @@ fileprivate class PassthroughWindow: UIWindow {
 }
 
 extension View{
-    func router(_ manager:AppManager, chat:openChatManager, audio:AudioManager) -> some View{
+    func router(_ manager:AppManager, chat:openChatManager, audio:AudioManager, message: MessagesData) -> some View{
         self
             .navigationDestination(for: RouterPage.self){ router in
                 Group{
@@ -218,17 +219,18 @@ extension View{
                     }
                 }
                 .toolbar(.hidden, for: .tabBar)
-                .env(manager, chat, audio)
+                .env(manager, chat, audio, message)
                 
                 
             }
     }
     
-    func env(_ manager:AppManager,_ chat:openChatManager,_ audio:AudioManager) -> some View{
+    func env(_ manager:AppManager,_ chat:openChatManager,_ audio:AudioManager, _ message: MessagesData) -> some View{
         self
             .environmentObject(manager)
             .environmentObject(chat)
             .environmentObject(audio)
+            .environmentObject(message)
     }
 }
 

@@ -12,11 +12,9 @@ import SwiftyJSON
 
 struct PrivacySecurity:View {
     
-   
-    
     @Default(.deviceToken) var deviceToken
     @Default(.id) var userID
-    @ObservedResults(Message.self) var messages
+    @EnvironmentObject private var groupModel: MessagesData
     @EnvironmentObject private var manager:AppManager
     
     @State private var showTextAnimation:Bool = false
@@ -30,6 +28,10 @@ struct PrivacySecurity:View {
    
     @State private var showImport:Bool = false
     @State private var showexport:Bool = false
+    
+    @State private var showexportLoading:Bool = false
+    
+    @State private var messages:[MessageCopy] = []
     
     var body: some View {
         List{
@@ -101,7 +103,28 @@ struct PrivacySecurity:View {
             Section {
 
                 Button{
-                    self.showexport.toggle()
+                    
+                    Task.detached(priority: .userInitiated) {
+                        DispatchQueue.main.async{
+                            self.showexportLoading = true
+                        }
+                        if let realm = try? Realm(){
+                            let messages = realm.objects(Message.self)
+                                .sorted(byKeyPath: "createDate", ascending: false)
+                            var copyarr:[MessageCopy] = []
+                            for item in messages{
+                                copyarr.append(item.toCopy())
+                            }
+                            DispatchQueue.main.async{
+                                self.messages = copyarr
+                                self.showexportLoading = false
+                                self.showexport.toggle()
+                            }
+                        }
+                    }
+                    
+                    
+                   
                 }label: {
                     HStack{
 
@@ -109,21 +132,36 @@ struct PrivacySecurity:View {
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint, Color.primary)
                             .symbolEffect(.wiggle, delay: 3)
+                            .if(showexportLoading) {
+                                ProgressView()
+                            }
                         
                         Spacer()
-                        Text(String(format: String(localized: "%d条消息"), messages.count) )
+                        Text(String(format: String(localized: "%d条消息"), groupModel.allCount) )
                             .foregroundStyle(Color.green)
                     }
                 }
-                .disabled(messages.count == 0)
-                .fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
-                    switch result {
-                        case .success(let success):
-                        Log.debug(success)
-                        case .failure(let failure):
-                        Log.error(failure)
-                    }
-                    self.showexport = false
+                .disabled(groupModel.allCount == 0 || showexportLoading)
+                .if(showexport){view in
+                    
+                    view
+                       
+                        .fileExporter(isPresented: $showexport,
+                                      document: TextFileMessage(content: messages),
+                                      contentType: .trnExportType,
+                                      defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
+                            switch result {
+                            case .success(let success):
+                                Log.debug(success)
+                            case .failure(let failure):
+                                Log.error(failure)
+                            }
+                            self.showexport = false
+                        }
+                                      
+                }
+                .onDisappear{
+                    self.messages = []
                 }
 
                 Button{

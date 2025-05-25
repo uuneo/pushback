@@ -137,6 +137,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         // 在 UIViewController 里弹出
         present(alert, animated: true, completion: nil)
     }
+    
+
 }
 
 extension NotificationViewController{

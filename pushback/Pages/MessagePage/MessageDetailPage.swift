@@ -125,7 +125,7 @@ struct MessageDetailPage: View {
                     }
                     if Defaults[.badgeMode] == .auto{
                         let unRead = proxy.objects(Message.self).where({!$0.read}).count
-                        UNUserNotificationCenter.current().setBadgeCount( unRead )
+                        UNUserNotificationCenter.current().setBadgeCount( unRead == 0 ? -1 : unRead )
                     }
                     
                 }

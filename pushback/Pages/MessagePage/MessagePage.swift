@@ -13,7 +13,7 @@ struct MessagePage: View {
     @EnvironmentObject private var manager:AppManager
     @Default(.showGroup) private var showGroup
     @State private var showAction = false
-    @StateObject private var groupModel = GroupMessagesModel()
+    @EnvironmentObject private var groupModel:MessagesData
     
     var body: some View {
        

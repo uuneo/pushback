@@ -97,7 +97,7 @@ struct SingleMessagesView: View {
                         datas.setValue(true, forKey: "read")
                     }
                     if Defaults[.badgeMode] == .auto{
-                        UNUserNotificationCenter.current().setBadgeCount( 0 )
+                        UNUserNotificationCenter.current().setBadgeCount( -1 )
                     }
                     
                 }

@@ -10,38 +10,31 @@ import RealmSwift
 import Defaults
 
 struct MessageDetailPage: View {
+    let group:String
+    
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var manager:AppManager
     
-    @ObservedResults(Message.self) var messages
     @Default(.showMessageAvatar) var showMessageAvatar
 
-    
-   
-    let group:String
-    
-    init(group: String) {
-        
-        self.group = group
-        self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
-        
-    }
-    
-    
     // 分页相关状态
-    @State private var currentPage: Int = 1
+    @State private var messages:[Message]  = []
+    @State private var messagesCount:Int = 100
+    @State private var currentPage: Int = 0
     @State private var itemsPerPage: Int = 50 // 每页加载50条数据
     @State private var isLoading: Bool = false
     @State private var showAllTTL:Bool = false
     
-    
+    var maxPage:Int{
+      Int(ceil(Double(messagesCount) / Double(50)))
+    }
     var body: some View {
         
         Group{
             if manager.searchText.isEmpty{
                 ScrollViewReader{ proxy in
                     List{
-                        ForEach(messages.prefix(currentPage * itemsPerPage), id: \.id) { message in
+                        ForEach(messages, id: \.id) { message in
                             
                             MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar){
                                 withAnimation(.easeInOut) {
@@ -65,37 +58,22 @@ struct MessageDetailPage: View {
                                 }.tint(.green)
                             }
                             
-                        }.onDelete(perform: $messages.remove)
+                        }
                         
-                        Color.clear
-                            .listRowBackground(Color.clear)
-                            .onAppear{
-                                if !self.isLoading {
-                                    isLoading = true
-                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                        isLoading = false
-                                    }
-                                   
-                                }
-                            }
-                           
-                    }
-                    .onAppear{
-                        manager.selectGroup = nil
-                        
-                        if let selectId = manager.selectId{
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                                withAnimation {
-                                    proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                    manager.selectId = nil
-                                }
+                        HStack{
+                            ProgressView()
+                            Text("正在加载中...")
+                        }
+                        .opacity(currentPage >= maxPage ? 0 : 1)
+                        .listRowBackground(Color.clear)
+                        .onAppear{
+                            currentPage += 1
+                            Task{
+                                loadData(proxy: proxy)
                             }
                         }
+                        
                     }
-                    
                 }
                 
             }else {
@@ -107,7 +85,7 @@ struct MessageDetailPage: View {
         .searchable(text: $manager.searchText)
         .toolbar{
             ToolbarItem {
-                Text("\(min(currentPage * itemsPerPage, messages.count))/\(messages.count)")
+                Text("\(min(currentPage * itemsPerPage, messages.count))/\(messagesCount)")
                     .font(.caption)
                     .pressEvents(onRelease: { _ in
                         withAnimation {
@@ -117,7 +95,7 @@ struct MessageDetailPage: View {
                     })
             }
         }
-        .task {
+        .onDisappear{
             Task.detached(priority: .background){
                 RealmManager.handler { proxy in
                     let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
@@ -134,6 +112,24 @@ struct MessageDetailPage: View {
         }
         
         
+    }
+    
+    
+    private func loadData(proxy:ScrollViewProxy){
+        guard let realm = try? Realm() else { return }
+        let results = realm.objects(Message.self)
+            .filter({$0.group == self.group}).sorted(by: {$0.createDate > $1.createDate})
+        
+        let size = min(self.currentPage * 50, results.count)
+        DispatchQueue.main.async {
+            self.messagesCount = results.count
+            self.messages = Array(results.prefix(size))
+            if let selectId = manager.selectId{
+                proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
+                manager.selectId = nil
+                manager.selectGroup = nil
+            }
+        }
     }
 }
 

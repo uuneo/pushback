@@ -11,27 +11,22 @@ import Defaults
 
 struct GroupMessagesView: View {
     
-    @EnvironmentObject private var groupModel: GroupMessagesModel
+    @EnvironmentObject private var groupModel: MessagesData
     @EnvironmentObject private var manager:AppManager
     
+    @State private var messages:[Message]  = []
+    @State private var currentPage:Int = 0
+    @State private var messagesCount:Int = 100
+    
+    var maxPage:Int{
+      Int(ceil(Double(messagesCount) / Double(50)))
+    }
     
     var body: some View {
         ScrollViewReader { proxy in
             List{
-                if groupModel.isLoading && groupModel.messages.count == 0{
-                    VStack{
-                        HStack{
-                            Spacer()
-                            ProgressView()
-                                .scaleEffect(2)
-                            Spacer()
-                        }
-                    }
-                    .frame(minHeight: 300)
-                    .listRowBackground(Color.clear)
-                }
-                
-                ForEach(groupModel.messages,id: \.group){ message in
+             
+                ForEach(messages,id: \.group){ message in
        
                         MessageRow(message: message, unreadCount: unRead(message))
                             .pressEvents(onRelease: { value in
@@ -78,20 +73,41 @@ struct GroupMessagesView: View {
                     
                 }
                 
-                
-                
-                
+                HStack{
+                    ProgressView()
+                    Text("正在加载中...")
+                }
+                .opacity(currentPage >= maxPage ? 0 : 1)
+                .listRowBackground(Color.clear)
+                .onAppear{
+                    Task{
+                        currentPage += 1
+                        loadData(proxy: proxy)
+                        proxyTo(proxy: proxy, selectGroup: manager.selectGroup)
+                    }
+                }
                 
                 
             }
-            .onAppear{  proxyTo(proxy: proxy, selectGroup: manager.selectGroup) }
             .onChange(of: manager.selectGroup){value in  proxyTo(proxy: proxy, selectGroup: value)}
+            .refreshable {
+                loadData(proxy: proxy)
+            }
         }
         .animation(.snappy(), value: groupModel.messages)
         .hideNavBarOnSwipe(false)
         
-        
-        
+    }
+    
+    private func loadData(proxy:ScrollViewProxy){
+        guard let realm = try? Realm() else { return }
+        let results = realm.objects(Message.self)
+            .distinct(by: ["group"]).sorted(by: {$0.createDate > $1.createDate})
+        let size = min(self.currentPage * 50, results.count)
+        DispatchQueue.main.async {
+            self.messagesCount = results.count
+            self.messages = Array(results.prefix(size))
+        }
     }
     
     private func proxyTo(proxy: ScrollViewProxy, selectGroup:String?){
@@ -195,53 +211,3 @@ struct MessageRow: View {
 }
 
 
-class GroupMessagesModel:ObservableObject{
-    
-    @Published var messages:[Message] = []
-    @Published var isLoading:Bool = true
-    
-    var deleteIds:[String:Bool] = [:]
-    
-    private var notificationToken:NotificationToken?
-    
-    
-    init(){
-        let realm = try! Realm()
-        notificationToken = realm.objects(Message.self).sorted(by: \.createDate, ascending: false).observe{ changes in
-            debugPrint("正在更新")
-            self.isLoading = true
-            switch changes {
-            case .initial(let results):
-                self.messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
-            case .update(let results, _, _, _):
-                
-                self.messages = Array(results.distinct(by: ["group"]).filter({!(self.deleteIds[$0.id.uuidString] ?? false)}))
-            case .error(let error):
-                print("监听失败: \(error)")
-            }
-            self.isLoading = false
-        }
-    }
-    
-    deinit{
-        notificationToken?.invalidate()
-    }
-    
-    func delete(message: Message){
-        let (id, group) = (message.id, message.group)
-        
-        deleteIds[id.uuidString] = true
-        
-        self.messages.removeAll(where: {$0.id == id})
-        
-        Task.detached {
-            let realm = try Realm()
-            try autoreleasepool {
-                let messages = realm.objects(Message.self).where({$0.group == group})
-                try realm.write {
-                    realm.delete(messages)
-                }
-            }
-        }
-    }
-}

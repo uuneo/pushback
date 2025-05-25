@@ -11,10 +11,9 @@ import Defaults
 
 struct SingleMessagesView: View {
     
-    @ObservedResults(Message.self,sortDescriptor: SortDescriptor(keyPath: \Message.createDate, ascending: false)) var messages
     @Default(.showMessageAvatar) var showMessageAvatar
     
-    @State private var currentPage: Int = 1
+    @State private var currentPage: Int = 0
     @State private var itemsPerPage: Int = 50 // 每页加载50条数据
     @State private var isLoading: Bool = false
     
@@ -23,69 +22,67 @@ struct SingleMessagesView: View {
     
     @EnvironmentObject private var manager:AppManager
 
-    var currentMessage:[Message]{
-        Array(messages.prefix(currentPage * itemsPerPage))
+    @State private var messages:[Message]  = []
+    @State private var messagesCount:Int = 100
+    
+    var maxPage:Int{
+      Int(ceil(Double(messagesCount) / Double(50)))
     }
     
     var body: some View {
         
         Group{
             
-                ScrollViewReader { proxy in
-                    List{
+            ScrollViewReader { proxy in
+                List{
                     
-                        ForEach(currentMessage, id: \.id) { message in
-                            
-                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
-                                withAnimation(.easeInOut) {
-                                    manager.selectMessage = message
-                                }
-                            }
-                            .id(message.id)
-                            .listRowBackground(Color.clear)
-                            .listSectionSeparator(.visible)
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    Task(priority: .high) {
-                                        guard let player = await AudioManager.shared.Speak(message.voiceText) else {
-                                            return
-                                        }
-                                        player.play()
-                                    }
-                                }label: {
-                                    Label("朗读内容",  systemImage: "waveform")
-                                        .symbolEffect(.variableColor)
-                                }
-                            }
-                            
-                        }.onDelete(perform: $messages.remove)
+                    ForEach(messages, id: \.id) { message in
                         
-                        Color.clear
-                            .listRowBackground(Color.clear)
-                            .onAppear{
-                                if !self.isLoading {
-                                    isLoading = true
-                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                        isLoading = false
-                                    }
-                                   
-                                }
+                        MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
+                            withAnimation(.easeInOut) {
+                                manager.selectMessage = message
                             }
-                            
-                    }
-                   
-                    .onAppear{
-                        DispatchQueue.main.async{
-                            proxyTo(proxy: proxy, selectId: manager.selectId )
                         }
-                    }
-                    .onChange(of: manager.selectId){ value in
-                        DispatchQueue.main.async{
-                            proxyTo(proxy: proxy, selectId: value )
+                        .id(message.id)
+                        .listRowBackground(Color.clear)
+                        .listSectionSeparator(.visible)
+                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            Button {
+                                Task(priority: .high) {
+                                    guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                                        return
+                                    }
+                                    player.play()
+                                }
+                            }label: {
+                                Label("朗读内容",  systemImage: "waveform")
+                                    .symbolEffect(.variableColor)
+                            }
                         }
+                        
                     }
+                    
+                    HStack{
+                        Spacer()
+                        ProgressView()
+                        Text("正在加载中...")
+                        Spacer()
+                    }
+                    .opacity(currentPage >= maxPage ? 0 : 1)
+                        .listRowBackground(Color.clear)
+                        .onAppear{
+                            Task{
+                                currentPage += 1
+                                loadData(proxy: proxy)
+                            }
+                        }
+                    
                 }
+                .refreshable {
+                    currentPage = 1
+                    self.loadData(proxy: proxy)
+                }
+            }
             
         }
         
@@ -114,6 +111,20 @@ struct SingleMessagesView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                 manager.selectId = nil
                 manager.selectGroup = nil
+            }
+        }
+    }
+    
+    private func loadData(proxy: ScrollViewProxy ){
+        guard let realm = try? Realm() else { return }
+        let results = realm.objects(Message.self).sorted(by: {$0.createDate > $1.createDate})
+        let size = min(self.currentPage * 50, results.count)
+        DispatchQueue.main.async {
+            self.messagesCount = results.count
+            self.messages = Array(results.prefix(size))
+            if let selectId = manager.selectId{
+                proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
+                manager.selectId = nil
             }
         }
     }

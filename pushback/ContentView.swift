@@ -20,7 +20,7 @@ struct ContentView: View {
     @EnvironmentObject private var audioManager: AudioManager
     @EnvironmentObject private var chatManager: openChatManager
     
-    @ObservedResults(Message.self) var messages
+    @StateObject private var messageModel =  MessagesData.shared
     
     @Default(.servers) private var servers
     @Default(.firstStart) private var firstStart
@@ -60,6 +60,19 @@ struct ContentView: View {
                     }
                 }
             }), secondaryButton: .cancel()) }
+//        .task {
+//            Task.detached(priority: .background) {
+//                var messages: [Message] = []
+//                for k in 0...15000{
+//                    print(k)
+//                    messages += RealmManager.examples()
+//                }
+//                let realm = try! Realm()
+//                try! realm.write {
+//                    realm.add(messages)
+//                }
+//            }
+//        }
     }
     
     @ViewBuilder
@@ -76,7 +89,7 @@ struct ContentView: View {
                 MessagePage().router(manager, chat: chatManager, audio: audioManager)
                 
             }
-            .badge(messages.where({!$0.read}).count)
+            .badge(messageModel.unReadCount)
             .tabItem {
                 Label( "消息", systemImage: "ellipsis.message")
                     .symbolRenderingMode(.palette)

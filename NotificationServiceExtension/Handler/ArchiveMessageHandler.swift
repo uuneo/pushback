@@ -71,7 +71,6 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.createDate = Date()
                     message.ttl = saveDays
                     message.host = host
-                    message.isLatestInGroup = true
                 }
             }else {
                 try? realm.write {
@@ -88,13 +87,11 @@ class ArchiveMessageHandler: NotificationContentHandler{
                     message.createDate = Date()
                     message.ttl = saveDays
                     message.host = host
-                    message.isLatestInGroup = true
                     realm.add(message)
                 }
             }
         }
-        try RealmManager.createOrUpdate(id: id, group: group, title: title, subtitle: subtitle, body: body, icon: icon, url: url, image: image, host: host, level: Int(level), ttl: saveDays)
-        
+
         Defaults[.allMessagecount] += 1
 
 		return bestAttemptContent

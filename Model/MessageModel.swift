@@ -16,7 +16,6 @@ final class Message: Object, ObjectKeyIdentifiable, Codable  {
 	@Persisted(primaryKey: true) var id:UUID
 	@Persisted(indexed: true) var group:String
 	@Persisted(indexed: true) var createDate:Date
-    @Persisted(indexed: true) var isLatestInGroup: Bool = false
 	@Persisted var title:String?
 	@Persisted var subtitle:String?
 	@Persisted var body:String?

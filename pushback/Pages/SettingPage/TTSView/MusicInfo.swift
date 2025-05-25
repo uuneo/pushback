@@ -10,7 +10,7 @@ import SwiftUI
 
 /// Resuable File
 struct MusicInfo: View {
-    @EnvironmentObject private var audioManager:AudioManager
+    @StateObject private var audioManager = AudioManager.shared
     @State private var progress: CGFloat = 0
     @State private var duration: TimeInterval = 0
     
@@ -88,7 +88,7 @@ struct MusicInfo: View {
                 Button {
                     withAnimation {
                         audioManager.speakPlayer?.stop()
-                        audioManager.speaking.toggle()
+                        AppManager.shared.speaking.toggle()
                     }
                     
                 } label: {

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import RealmSwift
+import GRDB
 
 struct ChatMessageSection {
     var id:String = UUID().uuidString
@@ -15,7 +15,7 @@ struct ChatMessageSection {
 }
 
 struct SideBarMenuView: View {
-    @ObservedResults(ChatGroup.self, sortDescriptor: SortDescriptor(keyPath: \ChatGroup.timestamp, ascending: false)) var chatGroups
+    @State private var chatGroups:[ChatGroup] = []
     
     var chatGroupSection:[ChatMessageSection]{
         getGroupedMessages(allMessages: chatGroups)
@@ -23,7 +23,10 @@ struct SideBarMenuView: View {
     @Binding var showMenu:Bool
     @State private var text:String = ""
     @State private var showChangeGroupName:Bool = false
+    
     @State private var selectdChatGroup:ChatGroup? = nil
+    
+    @EnvironmentObject private var chatManager: openChatManager
     var body: some View {
         NavigationStack{
             VStack{
@@ -34,7 +37,6 @@ struct SideBarMenuView: View {
                         LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                             ForEach(chatGroupSection, id: \.id){ section in
                                 chatView(section: section)
-                                    
                             }
                         }
                     }
@@ -53,14 +55,23 @@ struct SideBarMenuView: View {
             }content: {
                 if let chatgroup = selectdChatGroup{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        RealmManager.handler { realm in
-                            if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
-                                realm.writeAsync {
-                                    group.name = text
+                        Task.detached(priority: .background) {
+                            do {
+                                try await DatabaseManager.shared.dbPool.write { db in
+                                    if var group = try ChatGroup
+                                        .filter(ChatGroup.Columns.id == chatgroup.id)
+                                        .fetchOne(db)
+                                    {
+                                        group.name = text
+                                        try group.update(db)
+                                    }
                                 }
+                            } catch {
+                                print("❌ 更新 group.name 失败: \(error)")
                             }
                         }
                     }
+
                 }else {
                     Spacer()
                         .onAppear{
@@ -79,7 +90,25 @@ struct SideBarMenuView: View {
                         })
                 }
             }
+            .task {
+                loadGroups()
+            }
             
+        }
+    }
+    
+    private func loadGroups(){
+        Task.detached(priority: .background) {
+            do{
+                let groups = try  await DatabaseManager.shared.dbPool.read { db in
+                    try ChatGroup.fetchAll(db)
+                }
+                await MainActor.run {
+                    self.chatGroups = groups
+                }
+            }catch{
+                debugPrint(error.localizedDescription)
+            }
         }
     }
     
@@ -91,21 +120,7 @@ struct SideBarMenuView: View {
                     
                     HStack{
                         Button{
-                            RealmManager.handler{ realm in
-                                
-                                let results = realm.objects(ChatGroup.self)
-                                
-                                let current = results.where({$0.id == chatgroup.id})
-                                
-                                let noCurrent = results.where({$0.id != chatgroup.id})
-                                
-                                realm.writeAsync {
-                                    current.setValue(true, forKey: "current")
-                                    noCurrent.setValue(false, forKey: "current")
-                                }
-
-                                
-                            }
+                            chatManager.chatgroup = chatgroup
                             self.showMenu.toggle()
                         }label: {
                             
@@ -116,12 +131,12 @@ struct SideBarMenuView: View {
                                     .truncationMode(.tail) // 超出部分用省略号
                                     .padding(.vertical, 10)
                                     .padding(.leading, 10)
-                                    .foregroundColor(chatgroup.current ? .green : .primary)
+                                    .foregroundColor( chatManager.chatgroup == chatgroup ? .green : .primary)
                                 Spacer()
                                 
                                 Image(systemName: "chevron.right")
                                     .imageScale(.large)
-                                    .foregroundColor(chatgroup.current ? .green : .gray)
+                                    .foregroundColor(chatManager.chatgroup == chatgroup  ? .green : .gray)
                                     
                             }
                             .padding(.horizontal, 10)
@@ -136,22 +151,25 @@ struct SideBarMenuView: View {
                     }
                     .contextMenu {
                         Button{
+                            
                             self.selectdChatGroup = chatgroup
                             self.showChangeGroupName = true
                         }label:{
                             Text("重命名")
                         }
                         Button(role: .destructive){
-                            RealmManager.handler{ realm in
-                                if let group = realm.objects(ChatGroup.self).first(where: {$0.id == chatgroup.id}){
-                                    
-                                    let msgs = realm.objects(ChatMessage.self).filter({$0.chat == group.id})
-                                    
-                                    realm.writeAsync {
-                                        realm.delete(msgs)
-                                        realm.delete(group)
+                            Task.detached(priority: .background) {
+                                try? await DatabaseManager.shared.dbPool.write { db in
+                                    // 查找 ChatGroup
+                                    if let group = try ChatGroup.fetchOne(db, key: chatgroup.id) {
+                                        // 删除与该 group.id 关联的所有 ChatMessage
+                                        try ChatMessage
+                                            .filter(ChatMessage.Columns.chat == group.id)
+                                            .deleteAll(db)
+                                        
+                                        // 删除该 ChatGroup 本身
+                                        try group.delete(db)
                                     }
-
                                 }
                             }
                         }label:{
@@ -211,13 +229,8 @@ struct SideBarMenuView: View {
             HStack{
                 Spacer()
                 Button{
-                    RealmManager.handler { realm in
-                        let datas = realm.objects(ChatGroup.self)
-                        
-                        realm.writeAsync {
-                            datas.setValue(false, forKey: "current")
-                        }
-                    }
+                    chatManager.chatgroup = nil
+
                     self.showMenu.toggle()
                 }label: {
                     Text("开始新聊天")
@@ -236,14 +249,16 @@ struct SideBarMenuView: View {
     }
     
     private func getleftIconName(group:String)-> String{
-        if let realm = try? Realm(){
-           return  realm.objects(ChatMessage.self).filter({$0.messageId == group}).count == 0 ? "rectangle.3.group.bubble" :"message.badge.circle"
+        let count = try? DatabaseManager.shared.dbPool.read { db in
+            try ChatMessage
+                .filter(ChatMessage.Columns.message == group)
+                .fetchCount(db)
         }
-        return "rectangle.3.group.bubble"
+        return (count ?? 0) == 0 ? "rectangle.3.group.bubble" : "message.badge.circle"
     }
     
     
-    private func getGroupedMessages(allMessages: Results<ChatGroup>) -> [ChatMessageSection] {
+    private func getGroupedMessages(allMessages: [ChatGroup]) -> [ChatMessageSection] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         

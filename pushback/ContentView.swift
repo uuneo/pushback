@@ -7,7 +7,7 @@
 
 
 import SwiftUI
-import RealmSwift
+import GRDB
 import Defaults
 import UniformTypeIdentifiers
 import WidgetKit
@@ -17,10 +17,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     
     @EnvironmentObject private var manager: AppManager
-    @EnvironmentObject private var audioManager: AudioManager
-    @EnvironmentObject private var chatManager: openChatManager
-    
-    @ObservedResults(Message.self) var messages
+    @StateObject private var messageManager = MessagesManager.shared
     
     @Default(.servers) private var servers
     @Default(.firstStart) private var firstStart
@@ -52,14 +49,17 @@ struct ContentView: View {
         .onOpenURL(perform: self.openUrlView)
         .alert(isPresented: $showAlart) {
             Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
-                
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({$0.read})
-                    proxy.writeAsync {
-                        proxy.delete(datas)
-                    }
+                Task.detached(priority: .userInitiated) {
+                    await DatabaseManager.shared.delete(allRead: true)
                 }
             }), secondaryButton: .cancel()) }
+//        .task {
+//            Task.detached(priority: .userInitiated) {
+//                await DatabaseManager.CreateStresstest(max: 200000)
+//            }
+//           
+//        }
+        
     }
     
     @ViewBuilder
@@ -73,10 +73,10 @@ struct ContentView: View {
             
             NavigationStack(path: $manager.router){
                 // MARK: 信息页面
-                MessagePage().router(manager, chat: chatManager, audio: audioManager)
+                MessagePage().router(manager)
                 
             }
-            .badge(messages.where({!$0.read}).count)
+            .badge(messageManager.unreadCount)
             .tabItem {
                 Label( "消息", systemImage: "ellipsis.message")
                     .symbolRenderingMode(.palette)
@@ -88,7 +88,7 @@ struct ContentView: View {
             
             NavigationStack(path: $manager.router){
                 // MARK: 设置页面
-                SettingsPage().router(manager, chat: chatManager, audio: audioManager)
+                SettingsPage().router(manager)
                 
             }
             .tabItem {
@@ -109,12 +109,12 @@ struct ContentView: View {
         
         NavigationSplitView(columnVisibility: $HomeViewMode) {
             SettingsPage()
-                .env(manager, chatManager, audioManager)
+                .environmentObject(manager)
         } detail: {
             
             NavigationStack(path: $manager.router){
                 MessagePage()
-                    .router(manager, chat: chatManager, audio: audioManager)
+                    .router(manager)
             }
         }
     }
@@ -131,12 +131,12 @@ struct ContentView: View {
                     await manager.appendServer(server: PushServerModel(url: BaseConfig.defaultServer))
                 }
             }
-            
-            RealmManager.handler{ proxy in
-                proxy.writeAsync {
-                    proxy.add(RealmManager.examples())
+            Task.detached(priority: .userInitiated) {
+                for item in DatabaseManager.examples(){
+                    await  DatabaseManager.shared.add(item)
                 }
             }
+            
         }
         .background(.ultraThinMaterial)
     }
@@ -152,27 +152,11 @@ struct ContentView: View {
             if !manager.isWarmStart{
                 Log.debug("❄️ 冷启动")
                 manager.isWarmStart = true // 进入前台后，标记为热启动
-                RealmManager.handler { proxy in
-                    let groups = proxy.objects(ChatGroup.self)
-                    proxy.writeAsync {
-                        groups.setValue(false, forKey: "current")
-                    }
-                    
-                    var deleteList:[ChatGroup] = []
-                    
-                    for group in groups {
-                        if proxy.objects(ChatMessage.self).where({$0.chat == group.id }).count == 0{
-                            deleteList.append(group)
-                        }
-                    }
-                    
-                    if deleteList.count > 0{
-                        try? proxy.write{
-                            proxy.delete(deleteList)
-                        }
-                    }
-                    
-                }
+                openChatManager.shared.clearunuse()
+                
+            }
+            Task.detached(priority: .userInitiated) {
+                await MessagesManager.shared.updateGroup()
             }
             
             if let name = QuickAction.selectAction?.type{
@@ -191,39 +175,40 @@ struct ContentView: View {
             }
             
         case .background:
-            UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
+            UIApplication.shared.shortcutItems = QuickAction.allShortcutItems(showAssistant: Defaults[.assistantAccouns].count > 0)
+            
             
         default:
             break
         }
         
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        
+        UNUserNotificationCenter.current().setBadgeCount(DatabaseManager.shared.unreadCount())
         WidgetCenter.shared.reloadAllTimelines()
-        
-        RealmManager.handler { proxy in
-            let datas = proxy.objects(Message.self).filter({$0.isExpired()})
-            proxy.writeAsync {
-                proxy.delete(datas)
-            }
+        Task.detached(priority: .userInitiated) {
+            await DatabaseManager.shared.deleteExpired()
         }
     }
     
     func setLangAssistantPrompt(){
         if let currentLang  = Locale.preferredLanguages.first{
-            if lang != currentLang {
-                RealmManager.handler { realm in
-                    let datas = realm.objects(ChatPrompt.self).where({$0.isBuiltIn})
-                    try? realm.write{
-                        realm.delete(datas)
-                        realm.add(ChatPrompt.prompts)
-                        DispatchQueue.main.async {
-                            lang = currentLang
-                        }
+            Task.detached(priority: .background) {
+                try await DatabaseManager.shared.dbPool.write { db in
+                    // 删除 inside == true 的项
+                    try ChatPrompt.filter(ChatPrompt.Columns.inside == true).deleteAll(db)
+                    
+                    // 添加默认 prompts
+                    for prompt in ChatPrompt.prompts {
+                        try prompt.insert(db)
                     }
                     
+                    // 回到主线程设置语言
+                     DispatchQueue.main.async {
+                        lang = currentLang
+                    }
                 }
             }
+            
         }
         
     }
@@ -233,7 +218,7 @@ struct ContentView: View {
         switch manager.outParamsHandler(address: url.absoluteString) {
         case .crypto(let text):
             Log.debug(text)
-            DispatchQueue.main.async {
+             DispatchQueue.main.async {
                 manager.page = .setting
                 manager.router = [.privacy, .crypto(text)]
             }
@@ -241,7 +226,7 @@ struct ContentView: View {
             Task{
                 let success = await manager.appendServer(server: PushServerModel(url: url))
                 if success{
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         manager.page = .setting
                         manager.router = [.server]
                     }
@@ -251,7 +236,7 @@ struct ContentView: View {
             Task{
                 let success = await manager.restore(address: url, deviceKey: key)
                 if success{
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         manager.page = .setting
                         manager.router = [.server]
                     }
@@ -259,7 +244,7 @@ struct ContentView: View {
             }
         case .assistant(let text):
             if let account = AssistantAccount(base64: text){
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     manager.page = .setting
                     manager.router = [.assistant,.assistantSetting(account)]
                 }
@@ -267,7 +252,7 @@ struct ContentView: View {
         case .page(page: let page,title: let title, data: let data):
             switch page{
             case .widget:
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     manager.page = .setting
                     manager.router = [.more, .widget(title: title, data: data)]
                 }
@@ -288,5 +273,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .env(AppManager.shared, openChatManager.shared, AudioManager.shared)
+        .environmentObject(AppManager.shared)
 }

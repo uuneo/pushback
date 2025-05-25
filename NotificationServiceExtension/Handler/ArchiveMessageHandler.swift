@@ -12,10 +12,6 @@ import UserNotifications
 
 
 class ArchiveMessageHandler: NotificationContentHandler{
-	private lazy var realm: Realm? = {
-		Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
-		return try? Realm()
-	}()
 
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
 
@@ -43,58 +39,20 @@ class ArchiveMessageHandler: NotificationContentHandler{
 			}
 		}
         
-        var id:UUID{
-            guard let messageId, let id = UUID(uuidString: messageId) else {  return  UUID() }
-            return id
+        var id:String{
+            if let messageId{ return messageId }
+            else {  return  UUID().uuidString }
         }
         //  保存数据到数据库
-        if  saveDays > 0, let realm{
-            let datas = realm.objects(Message.self).filter("group == %@ AND isLatestInGroup == true", group)
+        if  saveDays > 0{
             
-            try? realm.write {
-                datas.setValue(false, forKey: "isLatestInGroup")
+            let message = Message(id: id, group: group, createDate: .now, title: title, subtitle: subtitle, body: body, icon: icon, url: url, image: image,  host: host, level: Int(level), ttl: saveDays, read: false)
+            Task.detached(priority: .background) {
+                await DatabaseManager.shared.add(message)
             }
             
-            
-            if let message = realm.objects(Message.self).first(where: {$0.id == id}){
-                
-                try? realm.write {
-                    message.createDate = .now
-                    message.title = title
-                    message.subtitle = subtitle
-                    message.body = body
-                    message.url = url
-                    message.group = group
-                    message.icon = icon
-                    message.level = Int(level)
-                    message.image = image
-                    message.createDate = Date()
-                    message.ttl = saveDays
-                    message.host = host
-                    message.isLatestInGroup = true
-                }
-            }else {
-                try? realm.write {
-                    let message = Message()
-                    message.id = id
-                    message.title = title
-                    message.subtitle = subtitle
-                    message.body = body
-                    message.url = url
-                    message.group = group
-                    message.icon = icon
-                    message.level = Int(level)
-                    message.image = image
-                    message.createDate = Date()
-                    message.ttl = saveDays
-                    message.host = host
-                    message.isLatestInGroup = true
-                    realm.add(message)
-                }
-            }
         }
-        try RealmManager.createOrUpdate(id: id, group: group, title: title, subtitle: subtitle, body: body, icon: icon, url: url, image: image, host: host, level: Int(level), ttl: saveDays)
-        
+
         Defaults[.allMessagecount] += 1
 
 		return bestAttemptContent

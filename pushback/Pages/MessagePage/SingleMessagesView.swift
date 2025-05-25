@@ -6,101 +6,132 @@
 //
 
 import SwiftUI
-import RealmSwift
+import GRDB
 import Defaults
 
 struct SingleMessagesView: View {
     
-    @ObservedResults(Message.self,sortDescriptor: SortDescriptor(keyPath: \Message.createDate, ascending: false)) var messages
     @Default(.showMessageAvatar) var showMessageAvatar
     
-    @State private var currentPage: Int = 1
-    @State private var itemsPerPage: Int = 50 // 每页加载50条数据
     @State private var isLoading: Bool = false
     
  
     @State private var showAllTTL:Bool = false
     
     @EnvironmentObject private var manager:AppManager
-
-    var currentMessage:[Message]{
-        Array(messages.prefix(currentPage * itemsPerPage))
-    }
+    @EnvironmentObject private var messageManager: MessagesManager
+    
+    @State private var showLoading:Bool = false
     
     var body: some View {
         
-        Group{
-            
-                ScrollViewReader { proxy in
-                    List{
+        ScrollViewReader { proxy in
+            List{
+                
+                ForEach(messageManager.singleMessages, id: \.id) { message in
                     
-                        ForEach(currentMessage, id: \.id) { message in
-                            
-                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
-                                withAnimation(.easeInOut) {
-                                    manager.selectMessage = message
-                                }
-                            }
-                            .id(message.id)
-                            .listRowBackground(Color.clear)
-                            .listSectionSeparator(.visible)
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    Task(priority: .high) {
-                                        guard let player = await AudioManager.shared.Speak(message.voiceText) else {
-                                            return
-                                        }
-                                        player.play()
-                                    }
-                                }label: {
-                                    Label("朗读内容",  systemImage: "waveform")
-                                        .symbolEffect(.variableColor)
-                                }
-                            }
-                            
-                        }.onDelete(perform: $messages.remove)
-                        
-                        Color.clear
-                            .listRowBackground(Color.clear)
-                            .onAppear{
-                                if !self.isLoading {
-                                    isLoading = true
-                                    currentPage = min(Int(ceil(Double(messages.count) / Double(itemsPerPage))), currentPage + 1)
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
-                                        isLoading = false
-                                    }
-                                   
-                                }
-                            }
-                            
+                    MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
+                        withAnimation(.easeInOut) {
+                            manager.selectMessage = message
+                        }
                     }
-                   
+                    .id(message.id)
+                    .listRowBackground(Color.clear)
+                    .listSectionSeparator(.visible)
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                        Button {
+                            Task(priority: .high) {
+                                guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                                    return
+                                }
+                                player.play()
+                            }
+                        }label: {
+                            Label("朗读内容",  systemImage: "waveform")
+                                .symbolEffect(.variableColor)
+                        }.tint(.green)
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button {
+
+                            withAnimation {
+                                messageManager.singleMessages.removeAll(where: {$0.id == message.id})
+                               
+                            }
+                            Task.detached(priority: .background){
+                                _ = await DatabaseManager.shared.delete(message)
+                            }
+                        } label: {
+                            
+                            Label( "删除", systemImage: "trash")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.white, Color.primary)
+                            
+                        }.tint(.red)
+                    }
                     .onAppear{
-                        DispatchQueue.main.async{
-                            proxyTo(proxy: proxy, selectId: manager.selectId )
+                        if messageManager.singleMessages.count < messageManager.allCount &&
+                            messageManager.singleMessages.last == message{
+                            self.loadData(proxy: proxy, item: message)
                         }
                     }
-                    .onChange(of: manager.selectId){ value in
-                        DispatchQueue.main.async{
-                            proxyTo(proxy: proxy, selectId: value )
-                        }
-                    }
+                    
                 }
-            
+                if showLoading && messageManager.singleMessages.count == 0{
+                    HStack{
+                        Spacer()
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.5)
+                            
+                            Text("数据排序中...")
+                                .foregroundColor(.white)
+                                .font(.body)
+                                .bold()
+                        }
+                        Spacer()
+                    }
+                    .padding(24)
+                    .shadow(radius: 10)
+                    .listRowBackground(Color.clear)
+                }
+                
+            }
+            .refreshable {
+                self.loadData(proxy: proxy , limit: min(messageManager.singleMessages.count, 200))
+            }
+            .onChange(of: messageManager.updateSign) {  newValue in
+                loadData(proxy: proxy, limit: max(messageManager.singleMessages.count, 50))
+            }
         }
-        
+        .safeAreaInset(edge: .bottom, content: {
+            HStack{
+                Spacer()
+                Text("\(messageManager.singleMessages.count) / \(max(messageManager.allCount, messageManager.singleMessages.count))")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .padding(.horizontal, 20)
+                    .background(.ultraThinMaterial)
+            }.opacity((messageManager.singleMessages.count == 0 || messageManager.singleMessages.count == messageManager.allCount) ? 0 : 1)
+            
+        })
         .task {
-            Task.detached {
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({!$0.read})
-                    try? proxy.write {
-                        datas.setValue(true, forKey: "read")
+            self.loadData()
+            Task.detached(priority: .background) {
+                
+                try? await DatabaseManager.shared.dbPool.write { db in
+                    // 批量更新 read 字段为 true
+                    try Message
+                        .filter(Message.Columns.read == false)
+                        .updateAll(db, [Message.Columns.read.set(to: true)])
+                    
+                    // 清除徽章
+                    if Defaults[.badgeMode] == .auto {
+                        UNUserNotificationCenter.current().setBadgeCount(0)
                     }
-                    if Defaults[.badgeMode] == .auto{
-                        UNUserNotificationCenter.current().setBadgeCount( 0 )
-                    }
-                   
                 }
+
             }
             
         }
@@ -109,11 +140,35 @@ struct SingleMessagesView: View {
     private func proxyTo(proxy: ScrollViewProxy, selectId:String?){
         if let selectId = selectId{
             withAnimation {
-                proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
+                proxy.scrollTo(selectId, anchor: .center)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                 manager.selectId = nil
                 manager.selectGroup = nil
+            }
+        }
+    }
+    
+    private func loadData(proxy:ScrollViewProxy? = nil, limit:Int =  50, item:Message? = nil){
+        self.showLoading = true
+       Task.detached(priority: .userInitiated) {
+            
+           let results = await DatabaseManager.shared.query( limit: limit, item?.createDate)
+            
+             DispatchQueue.main.async {
+ 
+                if item == nil {
+                    
+                    messageManager.singleMessages = results
+                }else{
+                    messageManager.singleMessages += results
+                }
+                if let selectId = manager.selectId{
+                    proxy?.scrollTo(selectId, anchor: .center)
+                    manager.selectId = nil
+                    manager.selectGroup = nil
+                }
+                self.showLoading = false
             }
         }
     }

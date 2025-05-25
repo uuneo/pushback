@@ -21,22 +21,15 @@ struct RootView<Content: View>: View {
     /// View Properties
     @State private var overlayWindow: UIWindow?
     @StateObject private var manager = AppManager.shared
-    @StateObject private var audioManager = AudioManager.shared
-    @StateObject private var chatManager = openChatManager.shared
     
     var body: some View {
         content
-            .env(manager, chatManager, audioManager)
+            .environmentObject(manager)
             .safeAreaInset(edge: .bottom) {
-                if audioManager.speaking {
+                if manager.speaking {
                     Rectangle()
                         .fill(.ultraThickMaterial)
-                        .overlay {
-                            /// Music Info
-                            MusicInfo()
-                                .environmentObject(audioManager)
-                        }
-                    
+                        .overlay { MusicInfo() }
                         .frame(height: 70)
                     /// Separator Line
                         .overlay(alignment: .bottom, content: {
@@ -64,7 +57,7 @@ struct RootView<Content: View>: View {
                 }
             }
             .overlay{
-                if chatManager.isLoading && chatManager.inAssistant{
+                if manager.isLoading && manager.inAssistant{
                     ColoredBorder()
                 }
             }
@@ -130,7 +123,7 @@ struct RootView<Content: View>: View {
                 EmptyView().onAppear{  manager.fullPage = .none }
             }
         }
-        .env(manager, chatManager, audioManager)
+        .environmentObject(manager)
         
     }
     
@@ -150,7 +143,7 @@ struct RootView<Content: View>: View {
                 EmptyView().onAppear{ manager.sheetPage = .none }
             }
         }
-        .env(manager, chatManager, audioManager)
+        .environmentObject(manager)
         .customPresentationCornerRadius(20)
     }
 }
@@ -178,7 +171,7 @@ fileprivate class PassthroughWindow: UIWindow {
 }
 
 extension View{
-    func router(_ manager:AppManager, chat:openChatManager, audio:AudioManager) -> some View{
+    func router(_ manager:AppManager) -> some View{
         self
             .navigationDestination(for: RouterPage.self){ router in
                 Group{
@@ -194,7 +187,6 @@ extension View{
                     case .assistant:
                         AssistantPageView()
                             .navigationBarBackButtonHidden()
-                        
                     case .crypto(let text):
                         CryptoConfigView(config: text)
                         
@@ -218,18 +210,13 @@ extension View{
                     }
                 }
                 .toolbar(.hidden, for: .tabBar)
-                .env(manager, chat, audio)
+                .environmentObject(manager)
+               
                 
                 
             }
     }
     
-    func env(_ manager:AppManager,_ chat:openChatManager,_ audio:AudioManager) -> some View{
-        self
-            .environmentObject(manager)
-            .environmentObject(chat)
-            .environmentObject(audio)
-    }
 }
 
 

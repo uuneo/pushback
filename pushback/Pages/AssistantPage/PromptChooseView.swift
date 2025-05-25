@@ -2,7 +2,7 @@
 
 import SwiftUI
 import Foundation
-import RealmSwift
+import GRDB
 
 // MARK: - Views
 /// 提示词选择视图
@@ -10,20 +10,20 @@ struct PromptChooseView: View {
     // MARK: - Properties
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
-    @ObservedResults(ChatPrompt.self) var prompts
+    @EnvironmentObject private var chatManager:openChatManager
+    
+    @State private var prompts:[ChatPrompt] = []
     
     @State private var isAddingPrompt = false
     @State private var searchText = ""
     @State private var selectedPrompt: ChatPrompt? = nil
 
 
-    private var filteredBuiltInPrompts: [ChatPrompt] {
-        Array(prompts.where({$0.isBuiltIn}))
-    }
+    private var filteredBuiltInPrompts: [ChatPrompt] {  prompts.filter({$0.inside}) }
 
     private var filteredCustomPrompts: [ChatPrompt] {
-        guard !searchText.isEmpty else { return prompts.filter({!$0.isBuiltIn}) }
-        return prompts.filter({!$0.isBuiltIn}).filter {
+        guard !searchText.isEmpty else { return prompts.filter({!$0.inside}) }
+        return prompts.filter({!$0.inside}).filter {
             $0.title.localizedCaseInsensitiveContains(searchText)
         }
     }
@@ -47,6 +47,27 @@ struct PromptChooseView: View {
                     toolbarContent
                     addPromptButton
                 }
+                .task {
+                    loadData()
+                }
+                .onChange(of: chatManager.promptCount) { _ in
+                    loadData()
+                }
+                
+        }
+    }
+    private func loadData(){
+        Task.detached(priority: .background) {
+            do{
+                let results =  try await  DatabaseManager.shared.dbPool.read{db in
+                    try ChatPrompt.fetchAll(db)
+                }
+                await MainActor.run{
+                    self.prompts = results
+                }
+            }catch{
+                debugPrint(error.localizedDescription)
+            }
         }
     }
 
@@ -81,6 +102,7 @@ struct PromptChooseView: View {
 
             } else {
                 promptSections
+                    .environmentObject(chatManager)
             }
         }
         .sheet(isPresented: $isAddingPrompt) {
@@ -93,6 +115,7 @@ struct PromptChooseView: View {
         Group {
             if !filteredBuiltInPrompts.isEmpty {
                 PromptSection(
+                    selectId: chatManager.chatPrompt?.id,
                     title: String(localized: "内置提示词"),
                     prompts: filteredBuiltInPrompts,
                     onPromptTap: handlePromptTap
@@ -101,6 +124,7 @@ struct PromptChooseView: View {
 
             if !filteredCustomPrompts.isEmpty {
                 PromptSection(
+                    selectId: chatManager.chatPrompt?.id,
                     title: String(localized: "自定义提示词"),
                     prompts: filteredCustomPrompts,
                     onPromptTap: handlePromptTap
@@ -133,38 +157,34 @@ struct PromptChooseView: View {
 
     // MARK: - Methods
     private func handlePromptTap(_ prompt: ChatPrompt) {
-        
-        
-        RealmManager.handler { realm in
-            
-            let results = realm.objects(ChatPrompt.self)
-            
-            let selected = results.where({$0.id == prompt.id})
-            let noSelected = results.where({$0.id != prompt.id})
-            
-            realm.writeAsync {
-                selected.setValue(true, forKey: "isSelected")
-                noSelected.setValue(false, forKey: "isSelected")
-            }
-            
+        if chatManager.chatPrompt == prompt{
+            chatManager.chatPrompt = nil
+        }else{
+            chatManager.chatPrompt = prompt
+            dismiss()
         }
-        dismiss()
+        
+        
     }
+    
+    
 }
 
 // MARK: - PromptSection
 private struct PromptSection: View {
+    let selectId:String?
     let title: String
     let prompts: [ChatPrompt]
     let onPromptTap: (ChatPrompt) -> Void
     
     @State private var showDeleteAlert = false
     @State private var promptToDelete: ChatPrompt?
+    
 
     var body: some View {
         Section(title) {
             ForEach(prompts) { prompt in
-                PromptRowView(prompt: prompt)
+                PromptRowView(prompt: prompt,selectId: selectId)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         onPromptTap(prompt)
@@ -180,15 +200,16 @@ private struct PromptSection: View {
             Button("取消", role: .cancel) {}
             Button("删除", role: .destructive) {
                 if let prompt = promptToDelete{
-                
-                    RealmManager.handler { realm in
-                        if let datas = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
-                            realm.writeAsync {
-                                realm.delete(datas)
+                    Task.detached(priority: .userInitiated) {
+                        do {
+                            _ = try await  DatabaseManager.shared.dbPool.write { db in
+                                try ChatPrompt
+                                    .filter(Column("id") == prompt.id)
+                                    .deleteAll(db)
                             }
-                          
+                        } catch {
+                            print("❌ 删除 ChatPrompt 失败: \(error)")
                         }
-                       
                     }
                 }
                
@@ -202,17 +223,17 @@ private struct PromptSection: View {
 // MARK: - PromptRowView
 private struct PromptRowView: View {
     let prompt: ChatPrompt
-
+    var selectId:String?
     var body: some View {
         HStack(spacing: 12) {
             // 选中状态指示器
             Circle()
-                .fill(prompt.isSelected ? Color.blue : Color.clear)
+                .fill( prompt.id == selectId ? Color.blue : Color.clear)
                 .frame(width: 8, height: 8)
                 .overlay(
                     Circle()
                         .strokeBorder(
-                            prompt.isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
+                            prompt.id == selectId ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
                 )
 
             // 提示词内容
@@ -222,7 +243,7 @@ private struct PromptRowView: View {
                         .font(.headline)
                         .foregroundColor(.primary)
 
-                    if prompt.isBuiltIn {
+                    if prompt.inside {
                         Text("内置")
                             .font(.caption)
                             .foregroundColor(.white)
@@ -265,7 +286,7 @@ private struct PromptSwipeActions: ViewModifier {
                 }
                 .tint(.blue)
             }
-            .if(!prompt.isBuiltIn) { view in
+            .if(!prompt.inside) { view in
                 view
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         Button(role: .destructive) {
@@ -334,23 +355,27 @@ struct AddPromptView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("保存") {
                         
-                        let chatprompt = ChatPrompt()
-                        chatprompt.title = title
-                        chatprompt.content = content
-                        chatprompt.address = address
-                        chatprompt.isBuiltIn = false
-                        
-                        RealmManager.handler { realm in
-                            realm.writeAsync {
-                                realm.add(chatprompt)
+                        let chatprompt = ChatPrompt(
+                            id: UUID().uuidString,
+                            timestamp: Date(),
+                            title: title,
+                            content: content,
+                            inside: false
+                        )
+                        Task.detached(priority: .userInitiated) {
+                            do {
+                                try await  DatabaseManager.shared.dbPool.write { db in
+                                    try chatprompt.insert(db)
+                                }
+                                await MainActor.run {
+                                    self.dismiss()
+                                }
                                
-                            }onComplete: { _ in
-                                self.dismiss()
+                            } catch {
+                                print("❌ 插入 ChatPrompt 失败: \(error)")
                             }
                             
-                           
                         }
-                      
                     }
                     .disabled(!(!title.isEmpty && !content.isEmpty))
                 }

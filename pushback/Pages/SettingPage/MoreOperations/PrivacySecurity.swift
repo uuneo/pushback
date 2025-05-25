@@ -7,8 +7,8 @@
 
 import SwiftUI
 import Defaults
-import RealmSwift
 import SwiftyJSON
+import GRDB
 
 struct PrivacySecurity:View {
     
@@ -16,8 +16,11 @@ struct PrivacySecurity:View {
     
     @Default(.deviceToken) var deviceToken
     @Default(.id) var userID
-    @ObservedResults(Message.self) var messages
+    @State private var messages:[Message] = []
+    @State private var allCount:Int = 0
     @EnvironmentObject private var manager:AppManager
+    @StateObject private var messageManager = MessagesManager.shared
+    
     
     @State private var showTextAnimation:Bool = false
     @State private var showIdAnimation:Bool = false
@@ -30,6 +33,13 @@ struct PrivacySecurity:View {
    
     @State private var showImport:Bool = false
     @State private var showexport:Bool = false
+    
+    
+    @State private var showexportLoading:Bool = false
+    @State private var showDriveCheckLoading:Bool = false
+    
+    
+    @State private var cancelTask: Task<Void, Never>?
     
     var body: some View {
         List{
@@ -62,7 +72,6 @@ struct PrivacySecurity:View {
                         Toast.copy(title: "复制成功")
                         
                     }else{
-                        
                         Toast.shared.present(title: "请先注册", symbol: "questionmark.circle.dashed")
                     }
                     self.showTextAnimation.toggle()
@@ -101,7 +110,26 @@ struct PrivacySecurity:View {
             Section {
 
                 Button{
-                    self.showexport.toggle()
+                    guard !showexportLoading else { return }
+                    self.showexportLoading = true
+                    cancelTask = Task.detached(priority: .background) {
+                        do{
+                            let results = try await  DatabaseManager.shared.dbPool.read { db in
+                                try Message.fetchAll(db)
+                            }
+                             DispatchQueue.main.async {
+                                self.messages = results
+                                self.showexportLoading = false
+                                self.showexport = true
+                            }
+                        }catch{
+                            debugPrint(error.localizedDescription)
+                             DispatchQueue.main.async{
+                                self.showexportLoading = false
+                            }
+                        }
+                    }
+                    
                 }label: {
                     HStack{
 
@@ -109,13 +137,18 @@ struct PrivacySecurity:View {
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint, Color.primary)
                             .symbolEffect(.wiggle, delay: 3)
+                            .if(showexportLoading) {
+                                Label("正在处理数据", systemImage: "slowmo")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.tint, Color.primary)
+                                    .symbolEffect(.rotate)
+                            }
                         
                         Spacer()
-                        Text(String(format: String(localized: "%d条消息"), messages.count) )
+                        Text(String(format: String(localized: "%d条消息"), messageManager.allCount) )
                             .foregroundStyle(Color.green)
                     }
                 }
-                .disabled(messages.count == 0)
                 .fileExporter(isPresented: $showexport, document: TextFileMessage(content: messages), contentType: .trnExportType, defaultFilename: "pushback_\(Date().formatString(format:"yyyy_MM_dd_HH_mm"))") { result in
                     switch result {
                         case .success(let success):
@@ -124,6 +157,12 @@ struct PrivacySecurity:View {
                         Log.error(failure)
                     }
                     self.showexport = false
+                }
+                .onDisappear{
+                    cancelTask?.cancel()
+                    self.messages = []
+                    self.showexport = false
+                    
                 }
 
                 Button{
@@ -140,8 +179,6 @@ struct PrivacySecurity:View {
 
                     }
                 }
-
-
                 .fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
                     switch result {
                     case .success(let files):
@@ -186,7 +223,7 @@ struct PrivacySecurity:View {
            
             
 
-            Section(header: Text("缓存大小限制")){
+            Section(header: Text("缓存大小限制, 建议多清几次")){
 
                 HStack{
                     Label {
@@ -197,35 +234,41 @@ struct PrivacySecurity:View {
                             .foregroundStyle(.green, Color.primary)
                             .symbolEffect(.pulse, delay: 3)
                     }
+                    
                     Spacer()
                     
                     Text(totalSize.fileSize())
                         .onAppear{
                             calculateSize()
                         }
-                    
-                    
                 }
+                
 
 
                 HStack{
                     Button{
+                        guard !showDeleteAlert else { return }
                         self.showDeleteAlert.toggle()
                     }label: {
                         HStack{
                             Spacer()
-                            Text(cacheSize.fileSize())
-                                .padding(.horizontal, 3)
-                            Text("清空缓存")
+                            Label("清空缓存数据", systemImage: "trash.circle")
+                                .foregroundStyle(.white, Color.primary)
                                 .fontWeight(.bold)
                                 .padding(.vertical, 5)
+                                .if(showDriveCheckLoading) {
+                                    Label("正在处理数据", systemImage: "slowmo")
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.white, Color.primary)
+                                        .symbolEffect(.rotate)
+                                }
                            
                             Spacer()
                         }
+                        
 
                     }.buttonStyle(BorderedProminentButtonStyle())
-                        .disabled(cacheSize == 0)
-
+                        
                 }
                 
                 HStack{
@@ -234,9 +277,10 @@ struct PrivacySecurity:View {
                     }label: {
                         HStack{
                             Spacer()
-                            Text("初始化App")
-                                .fontWeight(.bold)
+                            Label("初始化App", systemImage: "arrow.3.trianglepath")
+                                .foregroundStyle(.white, Color.primary)
                                 .padding(.vertical, 5)
+                                .fontWeight(.bold)
                            
                             Spacer()
                         }
@@ -247,10 +291,6 @@ struct PrivacySecurity:View {
                     .buttonStyle(BorderedProminentButtonStyle())
 
                 }
-                
-                
-           
-
             }
 
            
@@ -272,6 +312,7 @@ struct PrivacySecurity:View {
                         Alert(title: Text("是否确定清空?"),  message: Text("删除后不能还原!!!"),
                               primaryButton: .destructive(Text("清空"),
                                                           action: {
+                            self.showDriveCheckLoading = true
                             if let cache = ImageManager.defaultCache(),
                                let imageCache = ImageManager.defaultCache(mode: .image),
                                let fileUrl = BaseConfig.getSoundsGroupDirectory(),
@@ -283,11 +324,23 @@ struct PrivacySecurity:View {
                                 manager.clearContentsOfDirectory(at: voiceUrl)
                                 Defaults[.imageSaves] = []
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                    calculateSize()
-                                }
                                 Toast.success(title: "清理成功")
                             }
+                            
+                            
+                            DatabaseManager.shared.checkDriveData { success in
+                                if success{
+                                    Toast.success(title: "数据库整理成功")
+                                }else{
+                                    Toast.error(title: "数据库整理失败")
+                                }
+                              
+                                 DispatchQueue.main.async{
+                                    self.showDriveCheckLoading = false
+                                    calculateSize()
+                                }
+                            }
+                            
                             
                         }),
                               secondaryButton: .cancel())
@@ -334,58 +387,20 @@ struct PrivacySecurity:View {
     }
     
     fileprivate func importMessage(_ fileUrls: [URL]) -> String {
+        guard let url = fileUrls.first else { return ""}
         do{
-            for url in fileUrls{
+            if url.startAccessingSecurityScopedResource(){
                 
-                if url.startAccessingSecurityScopedResource(){
-                    
-                    let data = try Data(contentsOf: url)
-                    
-                    guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
-                    
-                   
-                    autoreleasepool {
-                        var messages:[Message] = []
-                        for message in arr {
-                            
-                            guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
-                            
-                            let messageObject = Message()
-                            if let idString = UUID(uuidString: id){ messageObject.id = idString }
-                            
-                            messageObject.title = message["title"].string
-                            messageObject.body = message["body"].string
-                            messageObject.url = message["url"].string
-                            messageObject.group = message["group"].string ?? String(localized: "导入数据")
-                            messageObject.read = true
-                            messageObject.level = message["level"].int ?? 1
-                            messageObject.image = message["image"].string
-                            messageObject.ttl = ExpirationTime.forever.days
-                            messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
-                           
-                            
-                            messages.append(messageObject)
-                            
-                            if messages.count == 1000 {
-                                let newMessage = messages
-                                RealmManager.handler { proxy in
-                                    proxy.writeAsync {
-                                        proxy.add(newMessage, update: .modified)
-                                    }
-                                }
-                                
-                                messages = []
-                            }
-                        }
-                        RealmManager.handler { proxy in
-                            proxy.writeAsync {
-                                proxy.add(messages, update: .modified)
-                            }
-                        }
+                let data = try Data(contentsOf: url)
+                // TODO: 
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .secondsSince1970
+                let messages = try decoder.decode([Message].self, from: data)
+                try?  DatabaseManager.shared.dbPool.write { db in
+                    for message in messages {
+                        try message.insert(db)
                     }
                 }
-                
-                
                 
             }
             

@@ -271,7 +271,9 @@ struct CryptoConfigView: View {
                 ToolbarItem {
                     Button{
                         let local = PBScheme.pb.scheme(host: .crypto, params: ["text" : config])
-                        AppManager.shared.sheetPage = .quickResponseCode(text: local.absoluteString,title: String(localized: "配置文件"),preview: String(localized: "分享配置"))
+                        DispatchQueue.main.async{
+                            AppManager.shared.sheetPage = .quickResponseCode(text: local.absoluteString,title: String(localized: "配置文件"),preview: String(localized: "分享配置"))
+                        }
                     }label:{
                         Label("分享", systemImage: "qrcode")
                     }

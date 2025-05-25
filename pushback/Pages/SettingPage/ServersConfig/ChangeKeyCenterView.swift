@@ -234,12 +234,12 @@ struct ChangeKeyCenterView: View {
                            ]
             ) { view in
                 
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     self.disabledPage = true
                 }
                 await view.next(.loading(0))
                 
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     self.keyName = self.keyName.trimmingCharacters(in: .whitespacesAndNewlines)
                     self.keyHost = self.keyHost.trimmingCharacters(in: .whitespacesAndNewlines)
                 }
@@ -250,7 +250,7 @@ struct ChangeKeyCenterView: View {
                 guard keyHost.isValidURL() == .remote, !keyName.isEmpty else {
                     await view.next(.fail)
                     Toast.info(title: "参数错误")
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         self.disabledPage = false
                     }
                     return
@@ -267,7 +267,7 @@ struct ChangeKeyCenterView: View {
                 if success{
                     try? await Task.sleep(for: .seconds(1))
                     await view.next(.success){
-                        DispatchQueue.main.async{
+                         DispatchQueue.main.async{
                             self.dismiss()
                             self.disabledPage = false
                         }
@@ -304,7 +304,7 @@ struct ChangeKeyCenterView: View {
                 guard keyHost.count > 3 && keyHost.isValidURL() == .remote else {
                     Toast.error(title: "格式错误")
                     await view.next(.fail)
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         self.disabledPage = false
                     }
                     return
@@ -319,7 +319,7 @@ struct ChangeKeyCenterView: View {
                     
                     try? await Task.sleep(for: .seconds(1))
                     await view.next(.success){
-                        DispatchQueue.main.async{
+                         DispatchQueue.main.async{
                             self.dismiss()
                             self.disabledPage = false
                         }
@@ -328,7 +328,7 @@ struct ChangeKeyCenterView: View {
                     
                 }else {
                     await view.next(.fail)
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         self.disabledPage = false
                     }
                 }

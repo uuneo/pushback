@@ -7,7 +7,7 @@
 
 import AppIntents
 import SwiftUI
-import RealmSwift
+import GRDB
 
 struct DeleteMessageIntent: AppIntent {
     
@@ -24,11 +24,14 @@ struct DeleteMessageIntent: AppIntent {
     
     @MainActor
     func perform()  async throws -> some IntentResult {
-        let realm = try await Realm()
-        
-        let datas = realm.objects(Message.self).where({$0.createDate < date})
-        try? realm.write {
-            realm.delete(datas)
+        do {
+           _ = try await DatabaseManager.shared.dbPool.write { db in
+                try Message
+                    .filter(Column("createDate") < date)
+                    .deleteAll(db)
+            }
+        } catch {
+            print("❌ 删除旧消息失败: \(error)")
         }
         return .result()
     }

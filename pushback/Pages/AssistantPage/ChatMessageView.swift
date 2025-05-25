@@ -1,18 +1,17 @@
 
 
 import SwiftUI
-import RealmSwift
 import Defaults
 
 struct ChatMessageView: View {
-    
+    @EnvironmentObject private var chatManager:openChatManager
     let message: ChatMessage
     let isLoading:Bool
     
     
     private var quote:Message?{
-        guard let messageId = message.messageId, let realm = try? Realm() else { return nil }
-        return realm.objects(Message.self).first(where: {$0.id.uuidString == messageId})
+        guard let messageId = AppManager.shared.askMessageId  else { return nil }
+        return  DatabaseManager.shared.query(id: messageId)
     }
     
     @Default(.showCodeViewColor) var showCodeViewColor
@@ -173,7 +172,7 @@ struct QuoteView:View {
 }
 
 #Preview {
-    ChatMessageView(message: ChatMessage(value: ["request" : "你好,我想了解一下 SwiftUI 的基础知识"]),isLoading: true)
+    ChatMessageView(message: ChatMessage(id: "", timestamp: .now, chat: "", request: "", content: "", message: ""), isLoading: false)
 }
 
 

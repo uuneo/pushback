@@ -16,7 +16,6 @@ class BaseConfig {
 	
 	static let  groupName = "group.pushback"
 	static let 	icloudName = "iCloud.pushback"
-	static let  realmName = "Meowrld.realm"
 	static let  sounds = "Library/Sounds"
 	static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
 #if DEBUG

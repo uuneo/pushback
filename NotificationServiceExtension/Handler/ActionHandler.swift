@@ -14,11 +14,6 @@ import UserNotifications
 
 class ActionHandler: NotificationContentHandler{
 	
-	private lazy var realm: Realm? = {
-		Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
-		return try? Realm()
-	}()
-	
 	
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
         // MARK: - 处理 Ringtone
@@ -36,9 +31,7 @@ class ActionHandler: NotificationContentHandler{
 		switch Defaults[.badgeMode] {
 		case .auto:
 			// MARK: 通知角标 .auto
-			if let messages = realm?.objects(Message.self).where({!$0.read}){
-				bestAttemptContent.badge = NSNumber(value:  messages.count)
-			}
+            bestAttemptContent.badge = NSNumber(value:  DatabaseManager.shared.unreadCount())
 			
         case .custom:
             // MARK: 通知角标 .custom
@@ -48,12 +41,7 @@ class ActionHandler: NotificationContentHandler{
         }
 
 		// MARK: - 删除过期消息
-		if let realm = realm{
-			let messages = realm.objects(Message.self).filter({$0.isExpired()})
-			try? realm.write{
-                realm.delete( messages )
-			}
-		}
+        await DatabaseManager.shared.deleteExpired()
         
         // MARK: - 静音分组
         for setting in Defaults[.muteSetting] {

@@ -11,7 +11,7 @@ import UIKit
 
 struct SoundView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject private var audioManager:AudioManager
+    @StateObject private var audioManager = AudioManager.shared
     @State private var showUpload:Bool = false
     
     @State private var uploadLoading:Bool = false
@@ -90,11 +90,13 @@ struct SoundView: View {
                     
                     ForEach(audioManager.customSounds, id: \.self) { url in
                         SoundItemView(audio: url)
+                           
                     }.onDelete { indexSet in
                         for index in indexSet{
                             audioManager.deleteSound(url: audioManager.customSounds[index])
                         }
                     }
+                    .environmentObject(audioManager)
                 }header: {
                     Text(  "自定义铃声")
                 }
@@ -104,7 +106,7 @@ struct SoundView: View {
             Section{
                 ForEach(audioManager.defaultSounds, id: \.self) { url in
                     SoundItemView(audio: url)
-                }
+                } .environmentObject(audioManager)
             }header: {
                 Text(  "自带铃声")
             }

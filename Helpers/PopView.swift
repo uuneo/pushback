@@ -123,11 +123,11 @@ fileprivate struct PopViewHelper<ViewContent: View>: ViewModifier {
     }
     
     var screenSize: CGSize {
-        if let screenSize = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.size {
-            return screenSize
+        var size: CGSize = .zero
+         DispatchQueue.main.async{
+            size = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.screen.bounds.size ?? .zero
         }
-        
-        return .zero
+        return size
     }
 }
 

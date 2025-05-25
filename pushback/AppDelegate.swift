@@ -21,17 +21,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     let pushRegistry = PKPushRegistry(queue: DispatchQueue.main)
     
-    func setupRealm() {
-        // Tell Realm to use this new configuration object for the default Realm
-        Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
-        
-#if DEBUG
-        let realm = try? Realm()
-        Log.debug("message count: \(realm?.objects(Message.self).count ?? 0)")
-#endif
-    }
-    
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         
@@ -47,10 +36,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        /// 配置数据库
-        setupRealm()
-        
-        
         
         UNUserNotificationCenter.current().delegate = self
         
@@ -92,11 +77,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
         let content = response.notification.request.content
-        Log.debug(content)
         
-        AppManager.shared.page = .message
-        AppManager.shared.router = []
+       
         DispatchQueue.main.async{
+            AppManager.shared.page = .message
+            AppManager.shared.router = []
             AppManager.shared.selectId = response.notification.request.content.targetContentIdentifier
             AppManager.shared.selectGroup = content.threadIdentifier
         }
@@ -116,8 +101,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        debugPrint(notification.request.content.userInfo)
+        // 由于AppGroup消息通知存在延迟，手动通知一下
+        Task.detached(priority: .background) {
+            await  MessagesManager.shared.updateGroup()
+        }
         
         if notification.request.content.interruptionLevel.rawValue > 1{
             completionHandler(.banner)
@@ -135,8 +122,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
-        AppManager.shared.page = .setting
-        AppManager.shared.router = [.more]
+        DispatchQueue.main.async{
+            AppManager.shared.page = .setting
+            AppManager.shared.router = [.more]
+        }
     }
     
 }

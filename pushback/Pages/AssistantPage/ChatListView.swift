@@ -1,33 +1,16 @@
 
 
 import SwiftUI
-import RealmSwift
 import Defaults
 import Combine
+import GRDB
 
-
-struct OffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
 
 struct ChatMessageListView: View {
-    
-    // MARK: - Properties
-    let chatgroup:ChatGroup?
-    @ObservedResults(ChatMessage.self,where: {$0.chat == ""}) var messages
-    
-    init(chatGroup:ChatGroup?, messageId:String? = nil) {
-        self.chatgroup = chatGroup
-        if let chatGroup = chatGroup{
-            self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == chatGroup.id})
-        }
-        
-    }
+    @State private var messages:[ChatMessage] = []
     
     @EnvironmentObject private var chatManager:openChatManager
+    @EnvironmentObject private var manager:AppManager
     
     @State private var showHistory:Bool = false
     
@@ -70,15 +53,15 @@ struct ChatMessageListView: View {
                 
             
                 
-                ForEach(messages.suffix(suffixCount),id: \.id) { message in
-                    ChatMessageView(message: message,isLoading: chatManager.isLoading)
+                ForEach(messages,id: \.id) { message in
+                    ChatMessageView(message: message,isLoading: manager.isLoading)
                         .id(message.id)
                 }
                 
                 VStack{
-                    if chatManager.isLoading{
+                    if manager.isLoading{
                         
-                        ChatMessageView(message:   chatManager.currentChatMessage,isLoading: chatManager.isLoading)
+                        ChatMessageView(message: chatManager.currentChatMessage,isLoading: manager.isLoading)
                     }
                     
                     RoundedRectangle(cornerRadius: 0)
@@ -120,7 +103,7 @@ struct ChatMessageListView: View {
                    
                 }
             }
-            .onChange(of: chatManager.isLoading){ value in
+            .onChange(of: manager.isLoading){ value in
                 if offsetY < 800{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                         scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
@@ -128,7 +111,7 @@ struct ChatMessageListView: View {
                 }
             }
             .sheet(isPresented: $showHistory) {
-                if let chatgroup = chatgroup{
+                if let chatgroup = chatManager.chatgroup{
                     HistoryMessage(showHistory: $showHistory, group: chatgroup.id)
                         .customPresentationCornerRadius(20)
                 }else{
@@ -139,59 +122,42 @@ struct ChatMessageListView: View {
                 }
                 
             }
+            .task {
+                loadData()
+            }
+            .onChange(of: chatManager.messagesCount) { value in
+                debugPrint(value)
+                loadData()
+            }
+            .onChange(of: chatManager.groupsCount) { value in
+                debugPrint(value)
+                loadData()
+            }
+            .onChange(of: chatManager.chatgroup) { _ in
+                loadData()
+            }
         }
     }
     
-    
-}
-
-
-struct HistoryMessage:View {
-    @Binding var showHistory:Bool
-    @ObservedResults(ChatMessage.self,sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false)) var messages
-    
-    init(showHistory: Binding<Bool>, group:String) {
-        self._showHistory = showHistory
-        self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == group},sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false))
-    }
-    
-    var body: some View {
-        NavigationStack{
-            ScrollView{
-                LazyVStack{
-                    ForEach(messages, id:\.id) { message in
-                        
-                        ChatMessageView(message: message,isLoading: false)
-                            .id(message.id)
-                    }
-                    
-                    Text("已加载全部数据")
-                        .font(.caption)
-                        .foregroundStyle(.gray)
+    private func loadData(){
+        if let id = chatManager.chatgroup?.id{
+            Task.detached(priority: .background) {
+                let results = try await  DatabaseManager.shared.dbPool.read { db in
+                    let results  =  try ChatMessage
+                        .filter(ChatMessage.Columns.chat == id)
+                        .limit(10)
+                        .fetchAll(db)
+                    return results
                 }
-                
-            }
-            
-            .navigationTitle("历史记录")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        self.showHistory = false
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                    
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("\(messages.count)")
-                        .font(.caption2)
-                        .foregroundStyle(Color.gray)
+                await MainActor.run {
+                    self.messages = results
                 }
             }
         }
     }
 }
+
+
 
 
 class Throttler {
@@ -225,5 +191,12 @@ class Throttler {
             pendingWorkItem = workItem
             queue.asyncAfter(deadline: .now() + delay - timeSinceLastExecution, execute: workItem)
         }
+    }
+}
+
+struct OffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }

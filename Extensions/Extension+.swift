@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 import CryptoKit
-
+import UniformTypeIdentifiers
 
 extension String: @retroactive Error {}
 
@@ -435,5 +435,15 @@ extension URL{
         }
         
         return (scheme + "://" + host, nil)
+    }
+}
+
+extension UTType {
+    static var trnExportType = UTType(exportedAs: "me.uuneo.pushback.exv")
+}
+
+extension Calendar {
+    func startOfWeek(for date: Date) -> Date {
+        self.date(from: self.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
     }
 }

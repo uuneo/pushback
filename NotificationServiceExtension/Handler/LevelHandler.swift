@@ -52,7 +52,7 @@ extension UNMutableNotificationContent {
  
 	/// 声音名称
 	var soundName: String? {
-        if let sound:String = self.userInfo.raw(Params.sound), !sound.isEmpty{
+        if let sound:String = self.userInfo.raw(Params.sound), sound.count > 0{
             return sound
         }
         return nil

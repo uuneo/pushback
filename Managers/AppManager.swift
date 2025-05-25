@@ -28,11 +28,22 @@ class AppManager: NetworkManager, ObservableObject{
     @Published var selectGroup:String? = nil
     @Published var searchText:String = ""
     
+    
     @Published var router:[RouterPage] = []
     
     @Published var isWarmStart:Bool = false
     
     @Published var selectMessage:Message? = nil
+    
+    
+    /// 首页彩色框
+    @Published var isLoading:Bool = false
+    @Published var inAssistant:Bool = false
+    
+    /// 问智能助手
+    @Published var askMessageId:String? = nil
+    /// 开始播放语音
+    @Published var speaking:Bool = false
     
     private static var lastFeedbackTime: TimeInterval = 0
     private static let cooldown: TimeInterval = 0.1
@@ -194,7 +205,7 @@ extension AppManager{
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert, .providesAppNotificationSettings]) { (granted, _) in
             if granted {
                 // 如果授权，注册设备接收推送通知
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             } else {
@@ -234,6 +245,7 @@ extension AppManager{
                     if resourceValues.isRegularFile == true {
                         if let fileSize = resourceValues.fileSize {
                             totalSize += UInt64(fileSize)
+                            debugPrint(fileURL.lastPathComponent, UInt64(fileSize))
                         }
                     }
                 } catch {
@@ -287,5 +299,3 @@ extension AppManager{
     
     
 }
-
-

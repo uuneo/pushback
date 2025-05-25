@@ -1,5 +1,5 @@
 {
-  "originHash" : "d5892765c23d5c4d7696f32b0a11c5d9cfa1d3f27e32dd0437b7f18f80683da3",
+  "originHash" : "05c5054f8ff7b35204bcfc5417d12b5b40ada335d646af81cbb940a266696034",
   "pins" : [
     {
       "identity" : "defaults",
@@ -8,6 +8,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "cc938ecf0bed848dc80a9726ac5455104e3f9dae"
+      }
+    },
+    {
+      "identity" : "grdb.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/groue/GRDB.swift.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a5a1be26b4513dc7ec360eb56bc08a345bac6649"
       }
     },
     {
@@ -34,7 +43,7 @@
       "location" : "https://github.com/uuneo/OpenAI.git",
       "state" : {
         "branch" : "main",
-        "revision" : "5fbd7c8e79008ed9d647b1197c691d85a8aa94cb"
+        "revision" : "0cc546da95dee2f791a86c911bc576c104cdb797"
       }
     },
     {
@@ -44,24 +53,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "721430c8fceb2a465846b712d4bc584fe6ef1a0a"
-      }
-    },
-    {
-      "identity" : "realm-core",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-core.git",
-      "state" : {
-        "revision" : "cccb3ca9e26ec452a29f2f0d4050d1e38b8a3d43",
-        "version" : "14.14.0"
-      }
-    },
-    {
-      "identity" : "realm-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/realm/realm-swift.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "8cb364a6a63695df296f05b53f7c3f3b1dda6af3"
       }
     },
     {

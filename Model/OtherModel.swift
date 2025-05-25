@@ -88,25 +88,40 @@ enum QuickAction: String{
     
 	static var selectAction:UIApplicationShortcutItem?
 
-	static var allShortcutItems = [
-        
-        UIApplicationShortcutItem(
-            type: Self.assistant.rawValue,
-            localizedTitle: String(localized:  "问智能助手"),
-            localizedSubtitle: "",
-            icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
-            userInfo: ["name":"assistant" as NSSecureCoding]
-        ),
+    static func allShortcutItems(showAssistant:Bool) -> [UIApplicationShortcutItem] {
+        if showAssistant{
+            return [
+                
+                UIApplicationShortcutItem(
+                    type: Self.assistant.rawValue,
+                    localizedTitle: String(localized:  "问智能助手"),
+                    localizedSubtitle: "",
+                    icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
+                    userInfo: ["name":"assistant" as NSSecureCoding]
+                ),
 
-		UIApplicationShortcutItem(
-            type: Self.alldelread.rawValue,
-			localizedTitle: String(localized: "删除全部已读"),
-			localizedSubtitle: "",
-			icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-			userInfo: ["name":"alldelread" as NSSecureCoding]
-		)
-		
-	]
+                UIApplicationShortcutItem(
+                    type: Self.alldelread.rawValue,
+                    localizedTitle: String(localized: "删除全部已读"),
+                    localizedSubtitle: "",
+                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
+                    userInfo: ["name":"alldelread" as NSSecureCoding]
+                )
+                
+            ]
+        }else{
+            return [
+                UIApplicationShortcutItem(
+                    type: Self.alldelread.rawValue,
+                    localizedTitle: String(localized: "删除全部已读"),
+                    localizedSubtitle: "",
+                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
+                    userInfo: ["name":"alldelread" as NSSecureCoding]
+                )
+            ]
+        }
+        
+    }
 }
 
 // MARK: - PushServerModel

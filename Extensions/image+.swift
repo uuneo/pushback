@@ -19,7 +19,7 @@ extension UIImage {
         
         let oldStatus = PHPhotoLibrary.authorizationStatus()
         PHPhotoLibrary.requestAuthorization({ status in
-			DispatchQueue.main.async{
+			 DispatchQueue.main.async{
 				if status == .denied {
 					// 用户拒绝当前App访问相册
 					if oldStatus != .notDetermined {

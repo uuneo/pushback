@@ -7,37 +7,32 @@
 
 import SwiftUI
 import Defaults
-import RealmSwift
 
 struct MessagePage: View {
     @EnvironmentObject private var manager:AppManager
     @Default(.showGroup) private var showGroup
     @State private var showAction = false
-    @StateObject private var groupModel = GroupMessagesModel()
+    @StateObject private var messageManager = MessagesManager.shared
     
     var body: some View {
-       
-            Group{
-                if manager.searchText.isEmpty{
-                    if showGroup{
+        
+        Group{
+            if manager.searchText.isEmpty{
+                SingleMessagesView()
+                    .if(showGroup) {
                         GroupMessagesView()
-                    }else{
-                        SingleMessagesView()
                     }
-                }else{
-                    List{
-                        SearchMessageView(searchText: manager.searchText)
-                    }
-                    
-                }
-                
-                
+            }else{
+                SearchMessageView(searchText: $manager.searchText)
             }
-            .environmentObject(groupModel)
-            .searchable(text: $manager.searchText)
-            .listRowSpacing(10)
-            .navigationTitle( "消息")
-            .toolbar{
+            
+            
+        }
+        .navigationTitle( "消息")
+        .environmentObject(messageManager)
+        .searchable(text: $manager.searchText)
+        .listRowSpacing(10)
+        .toolbar{
                 
                 ToolbarItem( placement: .topBarLeading) {
                     Button{
@@ -54,7 +49,6 @@ struct MessagePage: View {
                     }
                 }
                 
-                
                 ToolbarItem{
                     Image(systemName: "questionmark.circle")
                         .symbolRenderingMode(.palette)
@@ -66,7 +60,6 @@ struct MessagePage: View {
                             
                         })
                 }
-                
                 
                 ToolbarItem {
                     
@@ -103,45 +96,39 @@ struct MessagePage: View {
                     }
                     
                 }
-                
             
-            }
-            .actionSheet(isPresented: $showAction) {
+            
+        }
+        .actionSheet(isPresented: $showAction) {
+            
+            ActionSheet(title: Text( "删除以下时间的信息!"),
+                        buttons: MessageAction.allCases.map({ item in
                 
-                ActionSheet(title: Text( "删除以下时间的信息!"),
-                            buttons: MessageAction.allCases.map({ item in
-                    
-                    item == .cancel ?
-                    Alert.Button.cancel() :
-                    Alert.Button.default(Text(item.localized), action: {
-                        deleteMessage(item)
-                    })
-                    
-                }))
-            }
-
-
+                item == .cancel ?
+                Alert.Button.cancel() :
+                Alert.Button.default(Text(item.localized), action: {
+                    deleteMessage(item)
+                })
+                
+            }))
+        }
+        
+        
     }
-
     
-   
+    
+    
     
     func deleteMessage(_ mode: MessageAction){
         
         if mode != .cancel{
-            autoreleasepool {
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({ $0.createDate < mode.date })
-                    proxy.writeAsync {
-                        proxy.delete(datas)
-                    }
-                }
-                Toast.success(title: "操作成功")
+            Task.detached(priority: .background) {
+                await DatabaseManager.shared.delete(date: mode.date)
             }
         }
     }
     
-  
+    
     
 }
 

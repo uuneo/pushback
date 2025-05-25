@@ -3,10 +3,11 @@
 import SwiftUI
 import Combine
 import Defaults
-import RealmSwift
+import GRDB
 
 struct ChatInputView: View {
     @EnvironmentObject private var chatManager:openChatManager
+    @EnvironmentObject private var manager:AppManager
     @Binding var text: String
     
     let onSend: (String) -> Void
@@ -18,26 +19,24 @@ struct ChatInputView: View {
     @FocusState private var isFocusedInput: Bool
     
     @Default(.historyMessageBool) var isHistoryMessage
-     // MARK: - Computed Properties
-    @ObservedResults(ChatPrompt.self, where: (\.isSelected)) var prompts
     
     private var quote:Message?{
-        guard let messageId = chatManager.messageId, let realm = try? Realm() else { return nil }
-        return realm.objects(Message.self).first(where: {$0.id.uuidString == messageId})
+        guard let messageId = manager.askMessageId else { return nil }
+        return  DatabaseManager.shared.query(id: messageId)
     }
    
     var body: some View {
         VStack {
            
                 HStack() {
-                    PromptLabelView(prompt: prompts.first)
+                    PromptLabelView(prompt: chatManager.chatPrompt)
                 }.padding( 5)
             
             
             
             HStack(spacing: 10) {
                 inputField
-                    .disabled(chatManager.isLoading)
+                    .disabled(manager.isLoading)
                 rightActionButton
                    
             }
@@ -59,7 +58,7 @@ struct ChatInputView: View {
                     .background(.ultraThinMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .onTapGesture {
-                        if !chatManager.isLoading{
+                        if !manager.isLoading{
                             AppManager.vibration(style: .heavy)
                             self.isHistoryMessage.toggle()
                         }
@@ -78,7 +77,7 @@ struct ChatInputView: View {
         .background(.background)
         .cornerRadius(30, corners: [.topLeft, .topRight])
         .onTapGesture {
-            self.isFocusedInput = !chatManager.isLoading
+            self.isFocusedInput = !manager.isLoading
         }
         .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: -5)
     }
@@ -113,7 +112,7 @@ struct ChatInputView: View {
     @ViewBuilder
     private var rightActionButton: some View {
         
-        if chatManager.isLoading{
+        if manager.isLoading{
             Button(action: {
                 chatManager.cancellableRequest?.cancelRequest()
             }) {
@@ -181,8 +180,8 @@ private struct PromptLabelView: View {
     @EnvironmentObject private var chatManager:openChatManager
     
     private var quote:Message?{
-        guard let realm = try? Realm() else { return nil }
-        return realm.objects(Message.self).first(where: {$0.id.uuidString == chatManager.messageId})
+        guard let messageId = AppManager.shared.askMessageId  else { return nil }
+        return  DatabaseManager.shared.query(id: messageId)
     }
     
     var body: some View {
@@ -190,12 +189,7 @@ private struct PromptLabelView: View {
             if let prompt {
                 Menu{
                     Button(role: .destructive){
-                        RealmManager.handler { realm in
-                            let datas = realm.objects(ChatPrompt.self).where({$0.isSelected})
-                            realm.writeAsync {
-                                datas.setValue(false, forKey: "isSelected")
-                            }
-                        }
+                        chatManager.chatPrompt = nil
                     }label: {
                         Label("清除", systemImage: "eraser")
                     }
@@ -226,30 +220,40 @@ private struct PromptLabelView: View {
             if let quote = quote{
                 Menu{
                     Button(role: .destructive){
-                        chatManager.messageId = nil
+                        AppManager.shared.askMessageId = nil
                     }label: {
                         Label("清除", systemImage: "eraser")
                     }
                 }label: {
                     QuoteView(message: quote)
                         .onAppear{
-                            RealmManager.handler { realm in
-                                if let group = realm.objects(ChatGroup.self).where({$0.id == quote.id.uuidString}).first{
-                                    let currents = realm.objects(ChatGroup.self).where({$0.current})
-                                    try? realm.write{
-                                        currents.setValue(false, forKey: "current")
-                                        group.current = true
+                            Task.detached(priority: .background) {
+                                try? await  DatabaseManager.shared.dbPool.write { db in
+                                     DispatchQueue.main.async{
+                                        openChatManager.shared.chatgroup = nil
                                     }
-                                }else{
-                                    let currents = realm.objects(ChatGroup.self).where({$0.current})
                                     
-                                    let group = ChatGroup()
-                                    group.id = quote.id.uuidString
-                                    group.current = true
-                                    group.name = quote.search
-                                    try? realm.write{
-                                        currents.setValue(false, forKey: "current")
-                                        realm.add(group)
+                                    // 尝试查找 quote.id 对应的 group
+                                    if let group = try  ChatGroup.fetchOne(db, key: quote.id) {
+                                        // 如果存在，就设为 current
+                                         DispatchQueue.main.async{
+                                            openChatManager.shared.chatgroup = group
+                                        }
+                                        
+                                        try group.update(db)
+                                    } else {
+                                        // 如果不存在，创建一个新的
+                                        let group = ChatGroup(
+                                            id: quote.id,
+                                            timestamp: .now,
+                                            name: quote.search,
+                                            host: "",
+                                        )
+                                        try group.insert(db)
+                                         DispatchQueue.main.async{
+                                            openChatManager.shared.chatgroup = group
+                                        }
+                                        
                                     }
                                 }
                             }

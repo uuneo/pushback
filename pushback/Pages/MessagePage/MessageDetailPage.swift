@@ -24,7 +24,6 @@ struct MessageDetailPage: View {
         
         self.group = group
         self._messages = ObservedResults(Message.self, where: { $0.group == group }, sortDescriptor:  SortDescriptor(keyPath: \Message.createDate, ascending: false))
-        
     }
     
     

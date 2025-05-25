@@ -19,8 +19,6 @@ import AppIntents
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate{
     
     
-    let pushRegistry = PKPushRegistry(queue: DispatchQueue.main)
-    
     func setupRealm() {
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
@@ -49,8 +47,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         /// 配置数据库
         setupRealm()
-        
-        
         
         UNUserNotificationCenter.current().delegate = self
         

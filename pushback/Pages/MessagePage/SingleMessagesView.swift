@@ -90,7 +90,7 @@ struct SingleMessagesView: View {
         }
         
         .task {
-            Task.detached {
+            Task.detached(priority: .background) {
                 RealmManager.handler { proxy in
                     let datas = proxy.objects(Message.self).where({!$0.read})
                     try? proxy.write {
@@ -99,7 +99,7 @@ struct SingleMessagesView: View {
                     if Defaults[.badgeMode] == .auto{
                         UNUserNotificationCenter.current().setBadgeCount( 0 )
                     }
-                   
+                    
                 }
             }
             

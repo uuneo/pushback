@@ -152,36 +152,45 @@ struct PromptDetailView: View {
                 title: title,
                 content: content,
                 inside: false,
-                selected: false,
             )
+        Task.detached(priority: .userInitiated) {
             
             do {
-                try DatabaseManager.shared.dbQueue.write { db in
+                try await  DatabaseManager.shared.dbPool.write { db in
                     try chatPrompt.insert(db)
                 }
-                dismiss()
+                await MainActor.run {
+                    self.dismiss()
+                }
             } catch {
                 print("❌ 插入 ChatPrompt 失败:", error)
             }
+        }
        
     }
     
     private func handleSavePrompt() {
-        do {
-            try DatabaseManager.shared.dbQueue.write { db in
-                if var item = try ChatPrompt.fetchOne(db, key: prompt?.id) {
-                    item.title = title
-                    item.content = content
-                    try item.update(db)
+        let title = self.title
+        let content = self.content
+        Task.detached(priority: .userInitiated) {
+            do {
+                try await  DatabaseManager.shared.dbPool.write { db in
+                    if var item = try ChatPrompt.fetchOne(db, key: prompt?.id){
+                        item.title = title
+                        item.content = content
+                        try item.update(db)
+                    }
+                }
+            } catch {
+                print("❌ 更新 ChatPrompt 失败:", error)
+            }
+            await MainActor.run {
+                if prompt == nil {
+                    self.dismiss()
+                } else {
+                    self.isEditing = false
                 }
             }
-        } catch {
-            print("❌ 更新 ChatPrompt 失败:", error)
-        }
-        if prompt == nil {
-            dismiss()
-        } else {
-            isEditing = false
         }
     }
 }
@@ -251,6 +260,6 @@ private struct InfoBanner: View {
 
 #Preview("提示词详情") {
     PromptDetailView(
-        prompt: ChatPrompt(id: "", timestamp: .now, title: "", content: "", inside: false, selected: false)
+        prompt: ChatPrompt(id: "", timestamp: .now, title: "", content: "", inside: false)
     )
 }

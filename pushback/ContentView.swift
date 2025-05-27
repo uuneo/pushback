@@ -49,9 +49,11 @@ struct ContentView: View {
         .onOpenURL(perform: self.openUrlView)
         .alert(isPresented: $showAlart) {
             Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
-                MessagesManager.shared.delete(allRead: true)
+                Task.detached(priority: .userInitiated) {
+                    await MessagesManager.shared.delete(allRead: true)
+                }
             }), secondaryButton: .cancel()) }
-//
+        
     }
     
     @ViewBuilder
@@ -123,10 +125,10 @@ struct ContentView: View {
                     await manager.appendServer(server: PushServerModel(url: BaseConfig.defaultServer))
                 }
             }
-            
-            // TODO: 添加example
-            for item in MessagesManager.examples(){
-                MessagesManager.shared.add(item)
+            Task.detached(priority: .userInitiated) {
+                for item in MessagesManager.examples(){
+                   await  MessagesManager.shared.add(item)
+                }
             }
             
         }
@@ -144,37 +146,11 @@ struct ContentView: View {
             if !manager.isWarmStart{
                 Log.debug("❄️ 冷启动")
                 manager.isWarmStart = true // 进入前台后，标记为热启动
-                do {
-                    try DatabaseManager.shared.dbQueue.write { db in
-                        // 1. 将所有 ChatGroup 的 current 设为 false
-                        try ChatGroup.updateAll(db,
-                                                ChatGroup.Columns.current.set(to: false))
-
-                        // 2. 查找无关联 ChatMessage 的 ChatGroup
-                        let allGroups = try ChatGroup.fetchAll(db)
-                        var deleteList: [ChatGroup] = []
-
-                        for group in allGroups {
-                            let messageCount = try ChatMessage
-                                .filter(ChatMessage.Columns.chat == group.id)
-                                .fetchCount(db)
-
-                            if messageCount == 0 {
-                                deleteList.append(group)
-                            }
-                        }
-
-                        // 3. 删除无消息的 ChatGroup
-                        if !deleteList.isEmpty {
-                            for group in deleteList {
-                                try group.delete(db)
-                            }
-                        }
-                    }
-                } catch {
-                    print("GRDB 错误: \(error)")
-                }
-
+                openChatManager.shared.clearunuse()
+                
+            }
+            Task.detached(priority: .userInitiated) {
+                await MessagesManager.shared.updateGroup()
             }
             
             if let name = QuickAction.selectAction?.type{
@@ -193,7 +169,8 @@ struct ContentView: View {
             }
             
         case .background:
-            UIApplication.shared.shortcutItems = QuickAction.allShortcutItems
+            UIApplication.shared.shortcutItems = QuickAction.allShortcutItems(showAssistant: Defaults[.assistantAccouns].count > 0)
+            
             
         default:
             break
@@ -202,13 +179,15 @@ struct ContentView: View {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         UNUserNotificationCenter.current().setBadgeCount(messageManager.unreadCount())
         WidgetCenter.shared.reloadAllTimelines()
-        MessagesManager.shared.deleteExpired()
+        Task.detached(priority: .userInitiated) {
+            await MessagesManager.shared.deleteExpired()
+        }
     }
     
     func setLangAssistantPrompt(){
         if let currentLang  = Locale.preferredLanguages.first{
-            if lang != currentLang {
-                try? DatabaseManager.shared.dbQueue.write { db in
+            Task.detached(priority: .background) {
+                try await openChatManager.shared.dbPool.write { db in
                     // 删除 inside == true 的项
                     try ChatPrompt.filter(ChatPrompt.Columns.inside == true).deleteAll(db)
                     
@@ -222,8 +201,8 @@ struct ContentView: View {
                         lang = currentLang
                     }
                 }
-
             }
+            
         }
         
     }

@@ -126,7 +126,9 @@ struct MessagePage: View {
     func deleteMessage(_ mode: MessageAction){
         
         if mode != .cancel{
-            messageManager.delete(date: mode.date)
+            Task.detached(priority: .background) {
+                await messageManager.delete(date: mode.date)
+            }
         }
     }
     

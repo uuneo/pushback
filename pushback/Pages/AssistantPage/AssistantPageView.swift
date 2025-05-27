@@ -14,10 +14,11 @@ import GRDB
 struct AssistantPageView:View {
     
     @Default(.assistantAccouns) var assistantAccouns
+    @Default(.historyMessageBool) var historyMessageBool
     
     @Environment(\.dismiss) var dismiss
-    @StateObject private var chatManager = openChatManager.shared
     @EnvironmentObject private var manager:AppManager
+    @StateObject private var chatManager = openChatManager.shared
     
     @State private var inputText:String = ""
     
@@ -30,9 +31,6 @@ struct AssistantPageView:View {
     
     @State private var showChangeGroupName:Bool = false
     
-    @State private var chatgroups:[ChatGroup] = []
-    @Default(.historyMessageBool) var historyMessageBool
-    
     @State private var offsetX: CGFloat = 0
     @State private var offsetHistory:CGFloat = 0
     @State private var rotation:Double = 0
@@ -41,9 +39,9 @@ struct AssistantPageView:View {
     var body: some View {
 
             VStack {
-                if  chatgroups.count != 0 || manager.isLoading {
+                if  chatManager.chatgroup != nil || manager.isLoading {
                     
-                    ChatMessageListView( chatGroup: chatgroups.first)
+                    ChatMessageListView()
                     .onTapGesture {
                         AppManager.hideKeyboard()
                     }
@@ -113,7 +111,7 @@ struct AssistantPageView:View {
             .popView(isPresented: $showChangeGroupName){
                 showChangeGroupName = false
             }content: {
-                if let chatgroup = chatgroups.first{
+                if let chatgroup = chatManager.chatgroup{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
                         chatManager.updateGroupName(groupId: chatgroup.id, newName: text)
                     }
@@ -172,7 +170,7 @@ struct AssistantPageView:View {
             }else{
                 
                 
-                if let chatGroup = chatgroups.first{
+                if let chatGroup = chatManager.chatgroup{
                     Menu {
                         
                         Button {
@@ -188,12 +186,7 @@ struct AssistantPageView:View {
                         
                         Button{
                             chatManager.cancellableRequest?.cancelRequest()
-                            Task.detached {
-                                try await chatManager.dbQueue.write { db in
-                                    // 使用 SQL 语句执行批量更新
-                                    try db.execute(sql: "UPDATE chatGroup SET current = 0")
-                                }
-                            }
+                            chatManager.chatgroup = nil
                             
                         }label: {
                             
@@ -304,7 +297,6 @@ struct AssistantPageView:View {
         }
     }
     
-    
     // 发送消息
     private  func sendMessage(_ text: String) {
         guard assistantAccouns.first(where: {$0.current}) != nil else {
@@ -349,8 +341,7 @@ struct AssistantPageView:View {
             } completion: {  error in
                 
                 AppManager.vibration(style: .heavy,custom: true)
-                
-                //Handle streaming error                                                          ,here
+          
                 if let error{
                     Toast.error(title: "发生错误\(error.localizedDescription)")
                     Log.error(error)
@@ -362,37 +353,42 @@ struct AssistantPageView:View {
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    
-                    let group:ChatGroup = {
-                        if let group = try? chatManager.dbQueue.read ({ db in
-                            try? ChatGroup.filter(Column("current") == true).fetchOne(db)
-                        }){
-                            return group
+                let newGroup = openChatManager.shared.chatgroup ?? ChatGroup(id: AppManager.shared.askMessageId ?? UUID().uuidString,timestamp: .now,name: openChatManager.shared.currentRequest, host: "")
+                
+                let responseMessage:ChatMessage = {
+                    var message = openChatManager.shared.currentChatMessage
+                    message.chat = newGroup.id
+                    return message
+                }()
+                
+                Task.detached(priority: .userInitiated) {
+                    do{
+                        
+                        try await openChatManager.shared.dbPool.write { db in
+                            
+                            if openChatManager.shared.chatgroup == nil {
+                                try newGroup.insert(db)
+                                DispatchQueue.main.async{
+                                    openChatManager.shared.chatgroup = newGroup
+                                }
+                            }
+                            
+                            try responseMessage.insert(db)
+                        }
+                        DispatchQueue.main.async {
+                            openChatManager.shared.currentRequest = ""
+                            AppManager.shared.isLoading = false
+                            AppManager.hideKeyboard()
                         }
                         
-                        return ChatGroup(id: manager.askMessageId ?? UUID().uuidString,timestamp: .now,name: chatManager.currentRequest, host: "", current: true)
-                    }()
-                    
-                  
-                    
-                    var responseMessage = chatManager.currentChatMessage
-                    responseMessage.chat = group.id
-                    
-                    try? chatManager.dbQueue.write { db in
-                        let groupCount = try ChatGroup.filter(Column("current") == true).fetchCount(db)
-                        
-                        if groupCount == 0 {
-                            try group.insert(db)
-                        }
-                        
-                        try responseMessage.insert(db)
+                       
+                    }catch{
+                        debugPrint(error.localizedDescription)
                     }
-                    
-                    chatManager.currentRequest = ""
-                    manager.isLoading = false
-                    AppManager.hideKeyboard()
                 }
+               
+                
+                
                 
 
             }

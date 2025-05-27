@@ -112,7 +112,7 @@ struct MessageDetailPage: View {
             loadData()
             
             Task.detached(priority: .background){
-                try? await DatabaseManager.shared.dbQueue.write { db in
+                try? await DatabaseManager.shared.dbPool.write { db in
                     // 更新指定 group 的未读消息为已读
                    let count =  try Message
                         .filter(Message.Columns.group == group)

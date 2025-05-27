@@ -11,19 +11,19 @@ class MessagesManager: ObservableObject{
     static let shared =  MessagesManager()
     
     let local:URL
-    let dbQueue:DatabasePool
+    let dbPool:DatabasePool
     private var observationCancellable: AnyDatabaseCancellable?
     
     @Published var unreadCount: Int = 0
     @Published var allCount: Int = 0
     @Published var updateSign:Int = 0
     @Published var groupMessages: [Message] = []
+    @Published var singleMessages: [Message] = []
     @Published var showGroupLoading:Bool = false
     
     private init() {
-        self.dbQueue = DatabaseManager.shared.dbQueue
+        self.dbPool = DatabaseManager.shared.dbPool
         self.local = DatabaseManager.shared.localPath
-        try! Message.createInit(dbQueue: dbQueue)
         startObservingUnreadCount()
     }
     
@@ -42,24 +42,27 @@ class MessagesManager: ObservableObject{
         }
         
         observationCancellable = observation.start(
-            in: dbQueue,
+            in: dbPool,
             scheduling: .async(onQueue: .global()),
             onError: { error in
                 print("Failed to observe unread count:", error)
             },
             onChange: { [weak self] newUnreadCount in
-                print("监听 SqlLite \(newUnreadCount)")
-                let results = self?.queryGroup()
                 DispatchQueue.main.async {
+                    self?.showGroupLoading = true
                     self?.updateSign += 1
                     self?.unreadCount = newUnreadCount.0
                     self?.allCount = newUnreadCount.1
-                    self?.showGroupLoading = true
-                    if let results{
-                        self?.groupMessages = results
+                }
+                Task.detached(priority: .background) { [unowned self] in
+                    let results = await self?.queryGroup()
+                    await MainActor.run {
+                        if let results{
+                            self?.groupMessages = results
+                        }
+                       
+                        self?.showGroupLoading = false
                     }
-                   
-                    self?.showGroupLoading = false
                 }
             }
         )
@@ -69,9 +72,9 @@ class MessagesManager: ObservableObject{
 
 //  message 消息方法
 extension MessagesManager{
-    func unreadCount(group: String? = nil)-> Int {
+    func unreadCount(group: String? = nil) -> Int {
         do{
-            return try dbQueue.read { db in
+            return try  dbPool.read { db in
                 var request = Message.filter(Column("read") == false)
                 
                 if let group = group {
@@ -87,9 +90,9 @@ extension MessagesManager{
         
     }
     
-    func count(group: String? = nil)-> Int {
+    func count(group: String? = nil) -> Int {
         do{
-            let count = try dbQueue.read { db in
+            let count = try  dbPool.read { db in
                 if let group = group{
                     return  try Message.filter(Message.Columns.group == group).fetchCount(db)
                 }else {
@@ -104,18 +107,29 @@ extension MessagesManager{
         }
     }
     
-    func add(_ message: Message) {
+    func add(_ message: Message) async  {
         do {
-            try dbQueue.write { db in
+            try await  dbPool.write { db in
                 try message.insert(db, onConflict: .replace)
             }
         } catch {
             print("Add or update message failed:", error)
         }
     }
+    
     func query(id: String) -> Message? {
         do {
-            return try dbQueue.read { db in
+            return try  dbPool.read { db in
+                try Message.fetchOne(db, key: id)
+            }
+        } catch {
+            print("Failed to query message by id:", error)
+            return nil
+        }
+    }
+    func query(id: String) async -> Message? {
+        do {
+            return try await  dbPool.read { db in
                 try Message.fetchOne(db, key: id)
             }
         } catch {
@@ -125,10 +139,10 @@ extension MessagesManager{
     }
     
     func query(search: String, group: String? = nil,
-               limit lim: Int = 50, _ date: Date? = nil) -> ([Message],Int) {
+               limit lim: Int = 50, _ date: Date? = nil) async -> ([Message],Int) {
         debugPrint(search)
         do {
-            return try dbQueue.read { db in
+            return try await  dbPool.read { db in
                 let escapedQuery = search.replacingOccurrences(of: "%", with: "\\%")
                     .replacingOccurrences(of: "_", with: "\\_")
                 let pattern = "%" + escapedQuery + "%"
@@ -156,24 +170,42 @@ extension MessagesManager{
         }
     }
 
+    func updateGroup() async {
+        let results = await self.queryGroup()
+        await MainActor.run {
+            self.groupMessages = results
+            self.updateSign += 1
+        }
+    }
 
-    
-    func queryGroup() -> [Message] {
+    func queryGroup() async -> [Message]{
         do {
-            return try dbQueue.read { db in
+            return try await dbPool.read { db in
+                
                 let rows = try Row.fetchAll(db, sql: """
-                    SELECT m.*
-                    FROM message m
-                    INNER JOIN (
-                        SELECT "group", MAX(createDate) AS maxDate
-                        FROM message
-                        GROUP BY "group"
-                    ) grouped
-                    ON m."group" = grouped."group" AND m.createDate = grouped.maxDate
-                    ORDER BY m.createDate DESC
-                """)
+                               SELECT m.*, unread.count AS unreadCount
+                               FROM (
+                                   SELECT *
+                                   FROM (
+                                       SELECT *,
+                                              ROW_NUMBER() OVER (PARTITION BY "group" ORDER BY createDate DESC, id DESC) AS rn
+                                       FROM message
+                                   )
+                                   WHERE rn = 1
+                               ) AS m
+                               LEFT JOIN (
+                                   SELECT "group", COUNT(*) AS count
+                                   FROM message
+                                   WHERE read = 0
+                                   GROUP BY "group"
+                               ) AS unread
+                               ON m."group" = unread."group"
+                               ORDER BY unread.count DESC NULLS LAST, m.createDate DESC
+                           """)
+                
+                
                 let messages = try rows.map { try Message(row: $0) }
-               
+                
                 return messages
             }
         } catch {
@@ -182,9 +214,45 @@ extension MessagesManager{
         }
     }
     
-    func query(group: String? = nil, limit lim: Int = 50, _ date: Date? = nil) -> [Message] {
+    func queryGroup() -> [Message] {
         do {
-            return try dbQueue.read { db in
+            return try  dbPool.read { db in
+                
+                let rows = try Row.fetchAll(db, sql: """
+                               SELECT m.*, unread.count AS unreadCount
+                               FROM (
+                                   SELECT *
+                                   FROM (
+                                       SELECT *,
+                                              ROW_NUMBER() OVER (PARTITION BY "group" ORDER BY createDate DESC, id DESC) AS rn
+                                       FROM message
+                                   )
+                                   WHERE rn = 1
+                               ) AS m
+                               LEFT JOIN (
+                                   SELECT "group", COUNT(*) AS count
+                                   FROM message
+                                   WHERE read = 0
+                                   GROUP BY "group"
+                               ) AS unread
+                               ON m."group" = unread."group"
+                               ORDER BY unread.count DESC NULLS LAST, m.createDate DESC
+                           """)
+                
+                
+                let messages = try rows.map { try Message(row: $0) }
+                
+                return messages
+            }
+        } catch {
+            print("Failed to query messages:", error)
+            return []
+        }
+    }
+    
+    func query(group: String? = nil, limit lim: Int = 50, _ date: Date? = nil) async -> [Message] {
+        do {
+            return try await  dbPool.read { db in
                 var request = Message.order(Column("createDate").desc)
                 
                 if let group = group {
@@ -203,9 +271,9 @@ extension MessagesManager{
         }
     }
     
-    func markAllRead(group: String? = nil) {
+    func markAllRead(group: String? = nil) async {
         do{
-            try dbQueue.write { db in
+            try await self.dbPool.write { db in
                 var request = Message.filter(Column("read") == false)
                 if let group = group {
                     request = request.filter(Column("group") == group)
@@ -215,12 +283,11 @@ extension MessagesManager{
         }catch{
             print("markAllRead error")
         }
-        
     }
     
-    func delete(allRead: Bool = false, date: Date? = nil) {
+    func delete(allRead: Bool = false, date: Date? = nil) async {
         do {
-            try dbQueue.write { db in
+            try await self.dbPool.write { db in
                 var request = Message.all()
                 
                 // 构建查询条件
@@ -242,9 +309,9 @@ extension MessagesManager{
             print("删除消息失败: \(error)")
         }
     }
-    func delete(_ message: Message) -> Bool {
+    func delete(_ message: Message) async -> Bool {
         do {
-            return try dbQueue.write { db in
+            return try await dbPool.write { db in
                 try message.delete(db)
             }
         } catch {
@@ -253,9 +320,9 @@ extension MessagesManager{
         return false
     }
     
-    func deleteAll(inGroup group: String) -> Bool {
+    func deleteAll(inGroup group: String) async -> Bool {
         do {
-            return try dbQueue.write { db in
+            return try await dbPool.write { db in
                 try Message
                     .filter(Message.Columns.group == group)
                     .deleteAll(db) > 0
@@ -266,10 +333,10 @@ extension MessagesManager{
         }
     }
     
-    func deleteExpired() {
+    func deleteExpired() async {
         
         do{
-            try dbQueue.write { db in
+            try await dbPool.write { db in
                 let now = Date()
                 let cutoffDateExpr = now.addingTimeInterval(-1) // 当前时间
                 
@@ -299,6 +366,26 @@ extension MessagesManager{
             
         ]
     }
+    
+    
+    static func CreateStresstest(max number:Int = 10000)  async -> Bool {
+
+        return ((try? await  Self.shared.dbPool.write { db in
+            for k in 0...number{
+                let message =  Message(id: UUID().uuidString,
+                                       group: "\(k % 20)",
+                                       createDate: .now,
+                                       title: "\(k) Test",
+                                       body: "Text Data \(k)",
+                                       level: 1,
+                                       ttl: 1,
+                                       read: false)
+                try message.insert(db)
+            }
+            return true
+        }) != nil)
+    }
+
     
     
 }

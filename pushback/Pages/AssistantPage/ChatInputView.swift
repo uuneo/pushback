@@ -19,8 +19,6 @@ struct ChatInputView: View {
     @FocusState private var isFocusedInput: Bool
     
     @Default(.historyMessageBool) var isHistoryMessage
-     // MARK: - Computed Properties
-    @State private var prompts: [ChatPrompt] = []
     
     private var quote:Message?{
         guard let messageId = manager.askMessageId else { return nil }
@@ -31,7 +29,7 @@ struct ChatInputView: View {
         VStack {
            
                 HStack() {
-                    PromptLabelView(prompt: prompts.first)
+                    PromptLabelView(prompt: chatManager.chatPrompt)
                 }.padding( 5)
             
             
@@ -191,11 +189,7 @@ private struct PromptLabelView: View {
             if let prompt {
                 Menu{
                     Button(role: .destructive){
-                        _ = try? chatManager.dbQueue.write ({ db in
-                            try? ChatPrompt
-                                .filter(Column("selected") == true)
-                                .updateAll(db, [Column("selected").set(to: false)])
-                        })
+                        chatManager.chatPrompt = nil
                     }label: {
                         Label("清除", systemImage: "eraser")
                     }
@@ -233,30 +227,28 @@ private struct PromptLabelView: View {
                 }label: {
                     QuoteView(message: quote)
                         .onAppear{
-                            try? chatManager.dbQueue.write { db in
-                                // 清除所有 current = true 的 group
-                                try ChatGroup
-                                    .filter(ChatGroup.Columns.current == true)
-                                    .updateAll(db, [ChatGroup.Columns.current.set(to: false)])
-                                
-                                // 尝试查找 quote.id 对应的 group
-                                if var group = try ChatGroup.fetchOne(db, key: quote.id) {
-                                    // 如果存在，就设为 current
-                                    group.current = true
-                                    try group.update(db)
-                                } else {
-                                    // 如果不存在，创建一个新的
-                                    let group = ChatGroup(
-                                        id: quote.id,
-                                        timestamp: .now,
-                                        name: quote.search,
-                                        host: "",
-                                        current: true
-                                    )
-                                    try group.insert(db)
+                            Task.detached(priority: .background) {
+                                try? await  chatManager.dbPool.write { db in
+                                   
+                                    openChatManager.shared.chatgroup = nil
+                                    // 尝试查找 quote.id 对应的 group
+                                    if let group = try  ChatGroup.fetchOne(db, key: quote.id) {
+                                        // 如果存在，就设为 current
+                                        openChatManager.shared.chatgroup = group
+                                        try group.update(db)
+                                    } else {
+                                        // 如果不存在，创建一个新的
+                                        let group = ChatGroup(
+                                            id: quote.id,
+                                            timestamp: .now,
+                                            name: quote.search,
+                                            host: "",
+                                        )
+                                        try group.insert(db)
+                                        openChatManager.shared.chatgroup = group
+                                    }
                                 }
                             }
-
                         }
                 }
             }

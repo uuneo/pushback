@@ -3,28 +3,11 @@
 import SwiftUI
 import Defaults
 import Combine
+import GRDB
 
-
-struct OffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
 
 struct ChatMessageListView: View {
-    
-    // MARK: - Properties
-    let chatgroup:ChatGroup?
     @State private var messages:[ChatMessage] = []
-    
-    init(chatGroup:ChatGroup?, messageId:String? = nil) {
-        self.chatgroup = chatGroup
-//        if let chatGroup = chatGroup{
-//            self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == chatGroup.id})
-//        }
-        
-    }
     
     @EnvironmentObject private var chatManager:openChatManager
     @EnvironmentObject private var manager:AppManager
@@ -70,7 +53,7 @@ struct ChatMessageListView: View {
                 
             
                 
-                ForEach(messages.suffix(suffixCount),id: \.id) { message in
+                ForEach(messages,id: \.id) { message in
                     ChatMessageView(message: message,isLoading: manager.isLoading)
                         .id(message.id)
                 }
@@ -78,7 +61,7 @@ struct ChatMessageListView: View {
                 VStack{
                     if manager.isLoading{
                         
-                        ChatMessageView(message:   chatManager.currentChatMessage,isLoading: manager.isLoading)
+                        ChatMessageView(message: chatManager.currentChatMessage,isLoading: manager.isLoading)
                     }
                     
                     RoundedRectangle(cornerRadius: 0)
@@ -128,7 +111,7 @@ struct ChatMessageListView: View {
                 }
             }
             .sheet(isPresented: $showHistory) {
-                if let chatgroup = chatgroup{
+                if let chatgroup = chatManager.chatgroup{
                     HistoryMessage(showHistory: $showHistory, group: chatgroup.id)
                         .customPresentationCornerRadius(20)
                 }else{
@@ -139,10 +122,36 @@ struct ChatMessageListView: View {
                 }
                 
             }
+            .task {
+                loadData()
+            }
+            .onChange(of: chatManager.messagesCount) { value in
+                debugPrint(value)
+                loadData()
+            }
+            .onChange(of: chatManager.groupsCount) { value in
+                debugPrint(value)
+                loadData()
+            }
         }
     }
     
-    
+    private func loadData(){
+        if let id = chatManager.chatgroup?.id{
+            Task.detached(priority: .background) {
+                let results = try await  DatabaseManager.shared.dbPool.read { db in
+                    let results  =  try ChatMessage
+                        .filter(ChatMessage.Columns.chat == id)
+                        .limit(10)
+                        .fetchAll(db)
+                    return results
+                }
+                await MainActor.run {
+                    self.messages = results
+                }
+            }
+        }
+    }
 }
 
 
@@ -193,7 +202,6 @@ struct HistoryMessage:View {
     }
 }
 
-
 class Throttler {
     private var lastExecution: Date = .distantPast
     private let queue: DispatchQueue
@@ -225,5 +233,12 @@ class Throttler {
             pendingWorkItem = workItem
             queue.asyncAfter(deadline: .now() + delay - timeSinceLastExecution, execute: workItem)
         }
+    }
+}
+
+struct OffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }

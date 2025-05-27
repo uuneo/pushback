@@ -25,7 +25,7 @@ struct DeleteMessageIntent: AppIntent {
     @MainActor
     func perform()  async throws -> some IntentResult {
         do {
-           _ = try await DatabaseManager.shared.dbQueue.write { db in
+           _ = try await DatabaseManager.shared.dbPool.write { db in
                 try Message
                     .filter(Column("createDate") < date)
                     .deleteAll(db)

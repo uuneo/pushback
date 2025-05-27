@@ -25,35 +25,36 @@ final class openChatManager: ObservableObject {
     @Published var messagesCount:Int = 0
     @Published var promptCount:Int = 0
     
-    let local:URL
-    let dbQueue:DatabasePool
-    private var observationCancellable: AnyDatabaseCancellable?
+    @Published var chatgroup:ChatGroup? = nil
+    @Published var chatPrompt:ChatPrompt? = nil
+    @Published var chatMessages:[ChatMessage] = []
     
+    let local:URL
+    let dbPool:DatabasePool
+    private var observationCancellable: AnyDatabaseCancellable?
+    var cancellableRequest:CancellableRequest? = nil
     
     var currentChatMessage:ChatMessage{
-        ChatMessage(id: currentMessageId, timestamp: .now, chat: "", request: currentRequest, content: "", message: AppManager.shared.askMessageId)
+        ChatMessage(id: currentMessageId, timestamp: .now, chat: "", request: currentRequest, content: currentContent, message: AppManager.shared.askMessageId)
     }
     
     
     private init(){
         self.local = DatabaseManager.shared.localPath
-        self.dbQueue = DatabaseManager.shared.dbQueue
-        try! ChatGroup.createInit(dbQueue: dbQueue)
-        try! ChatMessage.createInit(dbQueue: dbQueue)
-        try! ChatPrompt.createInit(dbQueue: dbQueue)
+        self.dbPool = DatabaseManager.shared.dbPool
+        startObservingUnreadCount()
     }
     
     private func startObservingUnreadCount() {
         let observation = ValueObservation.tracking { db -> (Int,Int,Int) in
-            var groupsCount:Int =  try ChatGroup.fetchCount(db)
-            var goupsCurrent = try ChatGroup.filter(ChatGroup.Columns.current == true).fetchOne(db)
-            var messagesCount:Int = try ChatMessage.filter(ChatMessage.Columns.chat == goupsCurrent?.id).fetchCount(db)
-            var promptCount:Int = try ChatPrompt.fetchCount(db)
+            let groupsCount:Int =  try ChatGroup.fetchCount(db)
+            let messagesCount:Int = try ChatMessage.filter(ChatMessage.Columns.chat == self.chatgroup?.id).fetchCount(db)
+            let promptCount:Int = try ChatPrompt.fetchCount(db)
             return (groupsCount, messagesCount, promptCount)
         }
         
         observationCancellable = observation.start(
-            in: dbQueue,
+            in: dbPool,
             scheduling: .async(onQueue: .global()),
             onError: { error in
                 print("Failed to observe unread count:", error)
@@ -71,19 +72,24 @@ final class openChatManager: ObservableObject {
     }
     
     func updateGroupName( groupId: String, newName: String) {
-        do {
-            try dbQueue.write { db in
-                if var group = try ChatGroup.filter(Column("id") == groupId).fetchOne(db) {
-                    group.name = newName
-                    try group.update(db)
+        Task.detached(priority: .userInitiated) {
+            do {
+                try await self.dbPool.write { db in
+                    if var group = try ChatGroup.filter(Column("id") == groupId).fetchOne(db) {
+                        group.name = newName
+                        try group.update(db)
+                        DispatchQueue.main.async {
+                            openChatManager.shared.chatgroup = group
+                        }
+                        
+                    }
                 }
+            } catch {
+                print("更新失败: \(error)")
             }
-        } catch {
-            print("更新失败: \(error)")
         }
+        
     }
-    
-    var cancellableRequest:CancellableRequest? = nil
     
     
     
@@ -125,7 +131,7 @@ extension openChatManager{
         var params:[ChatQuery.ChatCompletionMessageParam] = []
         
         ///  增加system的前置参数
-        if let promt = try? dbQueue.read({ db in
+        if let promt = try? dbPool.read({ db in
             try ChatPrompt.filter(Column("selected")).fetchOne(db)
         }){
             params.append(.system(.init(content: promt.content, name: promt.title)))
@@ -141,8 +147,8 @@ extension openChatManager{
         
         
         /// 连续对话，获取前多少条的对话
-        if (try? dbQueue.read({ db in
-            try ChatGroup.filter(ChatGroup.Columns.current == true).fetchOne(db)
+        if (try? dbPool.read({ db in
+            try ChatGroup.filter(ChatGroup.Columns.id == chatgroup?.id).fetchOne(db)
         })) != nil{
             return ChatQuery(messages: [.user(.init(content: .string(inputText)))], model: account.model)
         }
@@ -150,7 +156,7 @@ extension openChatManager{
         
         
         let limit = Defaults[.historyMessageCount]
-        if  let messageRaw = try? dbQueue.read({ db in
+        if  let messageRaw = try? dbPool.read({ db in
             try ChatMessage
                 .order(Column("timestamp").desc)
                 .limit(limit)
@@ -203,5 +209,35 @@ extension openChatManager{
     
     enum chatError: Error {
         case noConfig
+    }
+    
+    func clearunuse(){
+        Task.detached(priority: .background) {
+            do {
+                try self.dbPool.write { db in
+                    
+                    // 1. 查找无关联 ChatMessage 的 ChatGroup
+                    let allGroups = try ChatGroup.fetchAll(db)
+                    var deleteList: [ChatGroup] = []
+                    
+                    for group in allGroups {
+                        let messageCount = try ChatMessage
+                            .filter(ChatMessage.Columns.chat == group.id)
+                            .fetchCount(db)
+                        
+                        if messageCount == 0 {
+                            deleteList.append(group)
+                        }
+                    }
+                    
+                    for group in deleteList {
+                        try group.delete(db)
+                    }
+                }
+            } catch {
+                print("GRDB 错误: \(error)")
+            }
+        }
+       
     }
 }

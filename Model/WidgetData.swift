@@ -134,21 +134,19 @@ extension WidgetData{
         
         let groups = MessagesManager.shared.queryGroup().count
         
-        let total = try? DatabaseManager.shared.dbQueue.read ({ db in
-            try Message.fetchCount(db)
-        })
+        let total = MessagesManager.shared.count()
         
         // 本周
         let startOfWeek = calendar.startOfWeek(for: now)
         
-        let weekMessages = try? DatabaseManager.shared.dbQueue.read ({ db in
+        let weekMessages = try? DatabaseManager.shared.dbPool.read ({ db in
             try Message.filter(Column("createDate") > startOfWeek).fetchCount(db)
         })
 //        let weekMessages = total.filter({$0.createDate > startOfWeek})
         
         // 本月
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: now))!
-        let monthMessages = try? DatabaseManager.shared.dbQueue.read ({ db in
+        let monthMessages = try? DatabaseManager.shared.dbPool.read ({ db in
             try Message.filter(Column("createDate") > startOfMonth).fetchCount(db)
         })
    
@@ -157,7 +155,7 @@ extension WidgetData{
         let averagePerDay = Int(max(Double(monthMessages ?? 0) / Double(dayCount),1))
         
         let items:[Item] = [
-            .init( name: String(localized: "总计"), value: total ?? 0),
+            .init( name: String(localized: "总计"), value: total),
             .init( name: String(localized: "分组"), value: groups),
             .init( name: String(localized: "未读"), value: unRead),
             .init( name: String(localized: "本周"), value: weekMessages ?? 0),
@@ -167,8 +165,12 @@ extension WidgetData{
         
         return WidgetData.Section(title: WidgetData.title, subTitle: WidgetData.subTitle(), result: isSmall ? Array(items.prefix(3)) : items)
     }
-    static func getDefault()-> Self{
-        WidgetData(small: WidgetData.getDefaultSmallOrMedium(),
+    static func getDefault() -> Self {
+        
+        
+        
+        
+        return WidgetData(small: WidgetData.getDefaultSmallOrMedium(),
                    medium: WidgetData.getDefaultSmallOrMedium(false),
                    large: WidgetData.getDefaultLarge(),
                    lock:  WidgetData.Section(title: WidgetData.title, subTitle: WidgetData.subTitle()))
@@ -180,7 +182,7 @@ extension WidgetData{
         let APIURL = Defaults[.widgetURL]
         
         guard let url = URL(string: APIURL) else {
-            return Self.getDefault()
+            return  Self.getDefault()
         }
         
         let session = URLSession(configuration: .default)

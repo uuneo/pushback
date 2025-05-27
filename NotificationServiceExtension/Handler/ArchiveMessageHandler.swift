@@ -47,8 +47,10 @@ class ArchiveMessageHandler: NotificationContentHandler{
         if  saveDays > 0{
             
             let message = Message(id: id, group: group, createDate: .now, title: title, subtitle: subtitle, body: body, icon: icon, url: url, image: image,  host: host, level: Int(level), ttl: saveDays, read: false)
+            Task.detached(priority: .background) {
+                await MessagesManager.shared.add(message)
+            }
             
-            MessagesManager.shared.add(message)
         }
 
         Defaults[.allMessagecount] += 1

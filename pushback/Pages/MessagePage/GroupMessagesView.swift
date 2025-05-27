@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Defaults
+import GRDB
 
 struct GroupMessagesView: View {
     
@@ -16,59 +17,36 @@ struct GroupMessagesView: View {
     var body: some View {
         ScrollViewReader { proxy in
             List{
-             
+                
                 ForEach(messageManager.groupMessages, id: \.id){ message in
        
-                    MessageRow(message: message, unreadCount: unRead(message))
+                    MessageRow(message: message)
                         .pressEvents(onRelease: { value in
                             manager.router = [.messageDetail(message.group)]
                             return true
                         })
                         .id(message.group)
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                messageManager.markAllRead(group: message.group)
-                            } label: {
-                                
-                                Label( "标记", systemImage: unRead(message) == 0 ?  "envelope.open" : "envelope")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.white, Color.primary)
-                                
-                            }.tint(.blue)
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button {
-
-                                withAnimation {
-                                    messageManager.groupMessages.removeAll(where: {$0.id == message.id})
-                                   
-                                }
-                                
-                                Task.detached(priority: .background){
-                                
-                                    _ = await messageManager.deleteAll(inGroup: message.group)
-                                }
-                               
-                            } label: {
-                                
-                                Label( "删除", systemImage: "trash")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.white, Color.primary)
-                                
-                            }.tint(.red)
-                        }
-                    
                 }
                 
-                HStack{
-                    Spacer()
-                    ProgressView()
-                    Text("正在加载中...")
-                    Spacer()
+                if messageManager.showGroupLoading && messageManager.groupMessages.count == 0{
+                    HStack{
+                        Spacer()
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.5)
+                            
+                            Text("数据分组中...")
+                                .foregroundColor(.white)
+                                .font(.body)
+                                .bold()
+                        }
+                        Spacer()
+                    }
+                    .padding(24)
+                    .shadow(radius: 10)
+                    .listRowBackground(Color.clear)
                 }
-                .listRowBackground(Color.clear)
-                .opacity(messageManager.showGroupLoading ? 1 : 0)
-                .animation(.easeInOut, value: messageManager.showGroupLoading)
                 
             }
             
@@ -90,18 +68,15 @@ struct GroupMessagesView: View {
         }
     }
     
-
-    private func unRead(_ message: Message) -> Int{
-        messageManager.unreadCount(group: message.group)
-    }
     
 }
 
 
 struct MessageRow: View {
     var message:Message
-    var unreadCount: Int
     var customIcon:String = ""
+    @State private var unreadCount: Int = 0
+    @EnvironmentObject private var messageManager:MessagesManager
     var body: some View {
         
         HStack {
@@ -151,6 +126,58 @@ struct MessageRow: View {
             Image(systemName: "chevron.right")
                 .foregroundStyle(.gray)
                 .imageScale(.small)
+        }
+        .swipeActions(edge: .leading) {
+            Button {
+                Task.detached(priority: .userInitiated) {
+                    await messageManager.markAllRead(group: message.group)
+                }
+            } label: {
+                
+                Label( "标记", systemImage: unreadCount == 0 ?  "envelope.open" : "envelope")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, Color.primary)
+                
+            }.tint(.blue)
+        }
+        .swipeActions(edge: .trailing) {
+            Button {
+
+                withAnimation {
+                    messageManager.groupMessages.removeAll(where: {$0.id == message.id})
+                   
+                }
+                
+                Task.detached(priority: .background){
+                
+                    _ = await messageManager.deleteAll(inGroup: message.group)
+                }
+               
+            } label: {
+                
+                Label( "删除", systemImage: "trash")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, Color.primary)
+                
+            }.tint(.red)
+        }
+        .task { loadCount() }
+        .onChange(of: messageManager.updateSign) { _ in
+            loadCount()
+        }
+    }
+    
+    private func loadCount(){
+        Task.detached(priority: .background) {
+            let count = try await messageManager.dbPool.read { db in
+                try Message
+                    .filter(Message.Columns.group == message.group)
+                    .filter(Message.Columns.read == false)
+                    .fetchCount(db)
+            }
+            DispatchQueue.main.async{
+                self.unreadCount = count
+            }
         }
     }
     

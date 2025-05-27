@@ -23,7 +23,10 @@ struct SideBarMenuView: View {
     @Binding var showMenu:Bool
     @State private var text:String = ""
     @State private var showChangeGroupName:Bool = false
+    
     @State private var selectdChatGroup:ChatGroup? = nil
+    
+    @EnvironmentObject private var chatManager: openChatManager
     var body: some View {
         NavigationStack{
             VStack{
@@ -34,7 +37,6 @@ struct SideBarMenuView: View {
                         LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
                             ForEach(chatGroupSection, id: \.id){ section in
                                 chatView(section: section)
-                                    
                             }
                         }
                     }
@@ -53,18 +55,20 @@ struct SideBarMenuView: View {
             }content: {
                 if let chatgroup = selectdChatGroup{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        do {
-                            try DatabaseManager.shared.dbQueue.write { db in
-                                if var group = try ChatGroup
-                                    .filter(ChatGroup.Columns.id == chatgroup.id)
-                                    .fetchOne(db)
-                                {
-                                    group.name = text
-                                    try group.update(db)
+                        Task.detached(priority: .background) {
+                            do {
+                                try await DatabaseManager.shared.dbPool.write { db in
+                                    if var group = try ChatGroup
+                                        .filter(ChatGroup.Columns.id == chatgroup.id)
+                                        .fetchOne(db)
+                                    {
+                                        group.name = text
+                                        try group.update(db)
+                                    }
                                 }
+                            } catch {
+                                print("❌ 更新 group.name 失败: \(error)")
                             }
-                        } catch {
-                            print("❌ 更新 group.name 失败: \(error)")
                         }
                     }
 
@@ -86,7 +90,25 @@ struct SideBarMenuView: View {
                         })
                 }
             }
+            .task {
+                loadGroups()
+            }
             
+        }
+    }
+    
+    private func loadGroups(){
+        Task.detached(priority: .background) {
+            do{
+                let groups = try  await DatabaseManager.shared.dbPool.read { db in
+                    try ChatGroup.fetchAll(db)
+                }
+                await MainActor.run {
+                    self.chatGroups = groups
+                }
+            }catch{
+                debugPrint(error.localizedDescription)
+            }
         }
     }
     
@@ -98,18 +120,7 @@ struct SideBarMenuView: View {
                     
                     HStack{
                         Button{
-                            try? DatabaseManager.shared.dbQueue.write { db in
-                                // 将所有不等于指定 id 的 group 设置为非 current
-                                try ChatGroup
-                                    .filter(ChatGroup.Columns.id != chatgroup.id)
-                                    .updateAll(db, ChatGroup.Columns.current.set(to: false))
-                                
-                                // 将指定 id 的 group 设置为 current
-                                try ChatGroup
-                                    .filter(ChatGroup.Columns.id == chatgroup.id)
-                                    .updateAll(db, [ChatGroup.Columns.current.set(to: true)])
-                            }
-
+                            chatManager.chatgroup = chatgroup
                             self.showMenu.toggle()
                         }label: {
                             
@@ -120,12 +131,12 @@ struct SideBarMenuView: View {
                                     .truncationMode(.tail) // 超出部分用省略号
                                     .padding(.vertical, 10)
                                     .padding(.leading, 10)
-                                    .foregroundColor(chatgroup.current ? .green : .primary)
+                                    .foregroundColor( chatManager.chatgroup == chatgroup ? .green : .primary)
                                 Spacer()
                                 
                                 Image(systemName: "chevron.right")
                                     .imageScale(.large)
-                                    .foregroundColor(chatgroup.current ? .green : .gray)
+                                    .foregroundColor(chatManager.chatgroup == chatgroup  ? .green : .gray)
                                     
                             }
                             .padding(.horizontal, 10)
@@ -140,25 +151,27 @@ struct SideBarMenuView: View {
                     }
                     .contextMenu {
                         Button{
+                            
                             self.selectdChatGroup = chatgroup
                             self.showChangeGroupName = true
                         }label:{
                             Text("重命名")
                         }
                         Button(role: .destructive){
-                            try? DatabaseManager.shared.dbQueue.write { db in
-                                // 查找 ChatGroup
-                                if let group = try ChatGroup.fetchOne(db, key: chatgroup.id) {
-                                    // 删除与该 group.id 关联的所有 ChatMessage
-                                    try ChatMessage
-                                        .filter(ChatMessage.Columns.chat == group.id)
-                                        .deleteAll(db)
-                                    
-                                    // 删除该 ChatGroup 本身
-                                    try group.delete(db)
+                            Task.detached(priority: .background) {
+                                try? await DatabaseManager.shared.dbPool.write { db in
+                                    // 查找 ChatGroup
+                                    if let group = try ChatGroup.fetchOne(db, key: chatgroup.id) {
+                                        // 删除与该 group.id 关联的所有 ChatMessage
+                                        try ChatMessage
+                                            .filter(ChatMessage.Columns.chat == group.id)
+                                            .deleteAll(db)
+                                        
+                                        // 删除该 ChatGroup 本身
+                                        try group.delete(db)
+                                    }
                                 }
                             }
-
                         }label:{
                             Text("删除")
                         }
@@ -216,11 +229,7 @@ struct SideBarMenuView: View {
             HStack{
                 Spacer()
                 Button{
-                    _ = try? DatabaseManager.shared.dbQueue.write { db in
-                        try ChatGroup
-                            
-                            .updateAll(db, [ChatGroup.Columns.current.set(to: false)])
-                    }
+                    chatManager.chatgroup = nil
 
                     self.showMenu.toggle()
                 }label: {
@@ -240,7 +249,7 @@ struct SideBarMenuView: View {
     }
     
     private func getleftIconName(group:String)-> String{
-        let count = try? DatabaseManager.shared.dbQueue.read { db in
+        let count = try? DatabaseManager.shared.dbPool.read { db in
             try ChatMessage
                 .filter(ChatMessage.Columns.message == group)
                 .fetchCount(db)

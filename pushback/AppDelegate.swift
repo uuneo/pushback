@@ -102,11 +102,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         // 由于AppGroup消息通知存在延迟，手动通知一下
         Task.detached(priority: .background) {
-            let results = MessagesManager.shared.queryGroup()
-            DispatchQueue.main.asyncAfter(deadline: .now()){
-                MessagesManager.shared.groupMessages = results
-                MessagesManager.shared.updateSign += 1
-            }
+            await  MessagesManager.shared.updateGroup()
         }
         
         if notification.request.content.interruptionLevel.rawValue > 1{

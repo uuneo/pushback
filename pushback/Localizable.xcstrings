@@ -7187,6 +7187,18 @@
         }
       }
     },
+    "数据分组中..." : {
+
+    },
+    "数据库整理失败" : {
+
+    },
+    "数据库整理成功" : {
+
+    },
+    "数据排序中..." : {
+
+    },
     "数据管理" : {
       "localizations" : {
         "en" : {
@@ -7244,6 +7256,7 @@
       }
     },
     "文件格式错误" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -8420,9 +8433,6 @@
         }
       }
     },
-    "正在加载中..." : {
-
-    },
     "正在处理中..." : {
       "localizations" : {
         "en" : {
@@ -8450,6 +8460,9 @@
           }
         }
       }
+    },
+    "正在处理数据" : {
+
     },
     "正常通知" : {
       "localizations" : {
@@ -9180,6 +9193,7 @@
       }
     },
     "清空缓存" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9206,6 +9220,9 @@
           }
         }
       }
+    },
+    "清空缓存数据" : {
+
     },
     "清除" : {
       "localizations" : {
@@ -10160,6 +10177,7 @@
       }
     },
     "缓存大小限制" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10186,6 +10204,9 @@
           }
         }
       }
+    },
+    "缓存大小限制, 建议多清几次" : {
+
     },
     "编辑" : {
       "localizations" : {

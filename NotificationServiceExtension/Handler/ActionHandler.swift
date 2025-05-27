@@ -41,7 +41,7 @@ class ActionHandler: NotificationContentHandler{
         }
 
 		// MARK: - 删除过期消息
-        MessagesManager.shared.deleteExpired()
+        await MessagesManager.shared.deleteExpired()
         
         // MARK: - 静音分组
         for setting in Defaults[.muteSetting] {

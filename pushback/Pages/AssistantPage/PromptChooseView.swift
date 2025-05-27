@@ -10,6 +10,8 @@ struct PromptChooseView: View {
     // MARK: - Properties
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme
+    @EnvironmentObject private var chatManager:openChatManager
+    
     @State private var prompts:[ChatPrompt] = []
     
     @State private var isAddingPrompt = false
@@ -45,6 +47,27 @@ struct PromptChooseView: View {
                     toolbarContent
                     addPromptButton
                 }
+                .task {
+                    loadData()
+                }
+                .onChange(of: chatManager.promptCount) { _ in
+                    loadData()
+                }
+                
+        }
+    }
+    private func loadData(){
+        Task.detached(priority: .background) {
+            do{
+                let results =  try await  DatabaseManager.shared.dbPool.read{db in
+                    try ChatPrompt.fetchAll(db)
+                }
+                await MainActor.run{
+                    self.prompts = results
+                }
+            }catch{
+                debugPrint(error.localizedDescription)
+            }
         }
     }
 
@@ -79,6 +102,7 @@ struct PromptChooseView: View {
 
             } else {
                 promptSections
+                    .environmentObject(chatManager)
             }
         }
         .sheet(isPresented: $isAddingPrompt) {
@@ -91,6 +115,7 @@ struct PromptChooseView: View {
         Group {
             if !filteredBuiltInPrompts.isEmpty {
                 PromptSection(
+                    selectId: chatManager.chatPrompt?.id,
                     title: String(localized: "内置提示词"),
                     prompts: filteredBuiltInPrompts,
                     onPromptTap: handlePromptTap
@@ -99,6 +124,7 @@ struct PromptChooseView: View {
 
             if !filteredCustomPrompts.isEmpty {
                 PromptSection(
+                    selectId: chatManager.chatPrompt?.id,
                     title: String(localized: "自定义提示词"),
                     prompts: filteredCustomPrompts,
                     onPromptTap: handlePromptTap
@@ -131,39 +157,34 @@ struct PromptChooseView: View {
 
     // MARK: - Methods
     private func handlePromptTap(_ prompt: ChatPrompt) {
-        
-        do {
-            try DatabaseManager.shared.dbQueue.write { db in
-                // 先将所有 ChatPrompt 的 isSelected 设为 false
-                try ChatPrompt
-                    .filter(Column("selected") == true)
-                    .updateAll(db, [ChatPrompt.Columns.selected.set(to: false)])
-                
-                // 再将指定 ID 的项设为 true
-                try ChatPrompt
-                    .filter(Column("id") == prompt.id)
-                    .updateAll(db, [ChatPrompt.Columns.selected.set(to: true)])
-            }
-        } catch {
-            print("❌ 更新 ChatPrompt isSelected 状态失败: \(error)")
+        if chatManager.chatPrompt == prompt{
+            chatManager.chatPrompt = nil
+        }else{
+            chatManager.chatPrompt = prompt
+            dismiss()
         }
-        dismiss()
+        
+        
     }
+    
+    
 }
 
 // MARK: - PromptSection
 private struct PromptSection: View {
+    let selectId:String?
     let title: String
     let prompts: [ChatPrompt]
     let onPromptTap: (ChatPrompt) -> Void
     
     @State private var showDeleteAlert = false
     @State private var promptToDelete: ChatPrompt?
+    
 
     var body: some View {
         Section(title) {
             ForEach(prompts) { prompt in
-                PromptRowView(prompt: prompt)
+                PromptRowView(prompt: prompt,selectId: selectId)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         onPromptTap(prompt)
@@ -179,15 +200,16 @@ private struct PromptSection: View {
             Button("取消", role: .cancel) {}
             Button("删除", role: .destructive) {
                 if let prompt = promptToDelete{
-                
-                    do {
-                        _ = try DatabaseManager.shared.dbQueue.write { db in
-                            try ChatPrompt
-                                .filter(Column("id") == prompt.id)
-                                .deleteAll(db)
+                    Task.detached(priority: .userInitiated) {
+                        do {
+                            _ = try await  DatabaseManager.shared.dbPool.write { db in
+                                try ChatPrompt
+                                    .filter(Column("id") == prompt.id)
+                                    .deleteAll(db)
+                            }
+                        } catch {
+                            print("❌ 删除 ChatPrompt 失败: \(error)")
                         }
-                    } catch {
-                        print("❌ 删除 ChatPrompt 失败: \(error)")
                     }
                 }
                
@@ -201,17 +223,17 @@ private struct PromptSection: View {
 // MARK: - PromptRowView
 private struct PromptRowView: View {
     let prompt: ChatPrompt
-
+    var selectId:String?
     var body: some View {
         HStack(spacing: 12) {
             // 选中状态指示器
             Circle()
-                .fill(prompt.selected ? Color.blue : Color.clear)
+                .fill( prompt.id == selectId ? Color.blue : Color.clear)
                 .frame(width: 8, height: 8)
                 .overlay(
                     Circle()
                         .strokeBorder(
-                            prompt.selected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
+                            prompt.id == selectId ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
                 )
 
             // 提示词内容
@@ -338,20 +360,22 @@ struct AddPromptView: View {
                             timestamp: Date(),
                             title: title,
                             content: content,
-                            inside: false,
-                            selected: false
+                            inside: false
                         )
-
-                        do {
-                            try DatabaseManager.shared.dbQueue.write { db in
-                                try chatprompt.insert(db)
+                        Task.detached(priority: .userInitiated) {
+                            do {
+                                try await  DatabaseManager.shared.dbPool.write { db in
+                                    try chatprompt.insert(db)
+                                }
+                                await MainActor.run {
+                                    self.dismiss()
+                                }
+                               
+                            } catch {
+                                print("❌ 插入 ChatPrompt 失败: \(error)")
                             }
-                            self.dismiss()
-                        } catch {
-                            print("❌ 插入 ChatPrompt 失败: \(error)")
+                            
                         }
-                        
-                      
                     }
                     .disabled(!(!title.isEmpty && !content.isEmpty))
                 }

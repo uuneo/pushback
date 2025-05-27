@@ -19,17 +19,16 @@ struct SingleMessagesView: View {
     @State private var showAllTTL:Bool = false
     
     @EnvironmentObject private var manager:AppManager
-    @StateObject private var messageManager = MessagesManager.shared
-
-
-    @State private var messages:[Message]  = []
+    @EnvironmentObject private var messageManager: MessagesManager
+    
+    @State private var showLoading:Bool = false
     
     var body: some View {
         
         ScrollViewReader { proxy in
             List{
                 
-                ForEach(messages, id: \.id) { message in
+                ForEach(messageManager.singleMessages, id: \.id) { message in
                     
                     MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
                         withAnimation(.easeInOut) {
@@ -56,7 +55,7 @@ struct SingleMessagesView: View {
                         Button {
 
                             withAnimation {
-                                messages.removeAll(where: {$0.id == message.id})
+                                messageManager.singleMessages.removeAll(where: {$0.id == message.id})
                                
                             }
                             Task.detached(priority: .background){
@@ -71,38 +70,56 @@ struct SingleMessagesView: View {
                         }.tint(.red)
                     }
                     .onAppear{
-                        if messages.last == message{
+                        if messageManager.singleMessages.last == message{
                             self.loadData(proxy: proxy, item: message)
                         }
                     }
                     
                 }
-                
+                if showLoading && messageManager.singleMessages.count == 0{
+                    HStack{
+                        Spacer()
+                        VStack(spacing: 16) {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(1.5)
+                            
+                            Text("数据排序中...")
+                                .foregroundColor(.white)
+                                .font(.body)
+                                .bold()
+                        }
+                        Spacer()
+                    }
+                    .padding(24)
+                    .shadow(radius: 10)
+                    .listRowBackground(Color.clear)
+                }
                 
             }
             .refreshable {
-                self.loadData(proxy: proxy , limit: min(messages.count, 200))
+                self.loadData(proxy: proxy , limit: min(messageManager.singleMessages.count, 200))
             }
             .onChange(of: messageManager.updateSign) {  newValue in
-                loadData(proxy: proxy, limit: max(messages.count, 50))
+                loadData(proxy: proxy, limit: max(messageManager.singleMessages.count, 50))
             }
         }
         .safeAreaInset(edge: .bottom, content: {
             HStack{
                 Spacer()
-                Text("\(messages.count) / \(max(messageManager.allCount, messages.count))")
+                Text("\(messageManager.singleMessages.count) / \(max(messageManager.allCount, messageManager.singleMessages.count))")
                     .font(.caption)
                     .foregroundStyle(.gray)
                     .padding(.horizontal, 20)
                     .background(.ultraThinMaterial)
-            }.opacity((messages.count == 0 || messages.count == messageManager.allCount) ? 0 : 1)
+            }.opacity((messageManager.singleMessages.count == 0 || messageManager.singleMessages.count == messageManager.allCount) ? 0 : 1)
             
         })
         .task {
             self.loadData()
             Task.detached(priority: .background) {
                 
-                try? await DatabaseManager.shared.dbQueue.write { db in
+                try? await DatabaseManager.shared.dbPool.write { db in
                     // 批量更新 read 字段为 true
                     try Message
                         .filter(Message.Columns.read == false)
@@ -132,6 +149,7 @@ struct SingleMessagesView: View {
     }
     
     private func loadData(proxy:ScrollViewProxy? = nil, limit:Int =  50, item:Message? = nil){
+        self.showLoading = true
        Task.detached(priority: .userInitiated) {
             
             let results = await messageManager.query( limit: limit, item?.createDate)
@@ -139,15 +157,17 @@ struct SingleMessagesView: View {
             DispatchQueue.main.async {
  
                 if item == nil {
-                    self.messages = results
+                    
+                    messageManager.singleMessages = results
                 }else{
-                    self.messages += results
+                    messageManager.singleMessages += results
                 }
                 if let selectId = manager.selectId{
                     proxy?.scrollTo(selectId, anchor: .center)
                     manager.selectId = nil
                     manager.selectGroup = nil
                 }
+                self.showLoading = false
             }
         }
     }

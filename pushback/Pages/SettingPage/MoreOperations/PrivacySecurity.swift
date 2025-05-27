@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Defaults
-import RealmSwift
 import SwiftyJSON
 
 struct PrivacySecurity:View {
@@ -16,7 +15,7 @@ struct PrivacySecurity:View {
     
     @Default(.deviceToken) var deviceToken
     @Default(.id) var userID
-    @ObservedResults(Message.self) var messages
+    @State private var messages:[Message] = []
     @EnvironmentObject private var manager:AppManager
     
     @State private var showTextAnimation:Bool = false
@@ -334,59 +333,15 @@ struct PrivacySecurity:View {
     }
     
     fileprivate func importMessage(_ fileUrls: [URL]) -> String {
+        guard let url = fileUrls.first else { return ""}
         do{
-            for url in fileUrls{
+            if url.startAccessingSecurityScopedResource(){
                 
-                if url.startAccessingSecurityScopedResource(){
-                    
-                    let data = try Data(contentsOf: url)
-                    
-                    guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
-                    
-                   
-                    autoreleasepool {
-                        var messages:[Message] = []
-                        for message in arr {
-                            
-                            guard let id = message["id"].string,let createDate = message["createDate"].int64 else { continue }
-                            
-                            let messageObject = Message()
-                            if let idString = UUID(uuidString: id){ messageObject.id = idString }
-                            
-                            messageObject.title = message["title"].string
-                            messageObject.body = message["body"].string
-                            messageObject.url = message["url"].string
-                            messageObject.group = message["group"].string ?? String(localized: "导入数据")
-                            messageObject.read = true
-                            messageObject.level = message["level"].int ?? 1
-                            messageObject.image = message["image"].string
-                            messageObject.ttl = ExpirationTime.forever.days
-                            messageObject.createDate = Date(timeIntervalSince1970: TimeInterval(createDate))
-                           
-                            
-                            messages.append(messageObject)
-                            
-                            if messages.count == 1000 {
-                                let newMessage = messages
-                                RealmManager.handler { proxy in
-                                    proxy.writeAsync {
-                                        proxy.add(newMessage, update: .modified)
-                                    }
-                                }
-                                
-                                messages = []
-                            }
-                        }
-                        RealmManager.handler { proxy in
-                            proxy.writeAsync {
-                                proxy.add(messages, update: .modified)
-                            }
-                        }
-                    }
-                }
+                let data = try Data(contentsOf: url)
+                // TODO: 
+                guard let arr = try JSON(data: data).array else { return String(localized: "文件格式错误") }
                 
-                
-                
+               
             }
             
             return String(localized: "导入成功")

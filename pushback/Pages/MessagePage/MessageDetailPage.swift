@@ -6,28 +6,25 @@
 //
 
 import SwiftUI
-import RealmSwift
 import Defaults
+import GRDB
 
 struct MessageDetailPage: View {
     let group:String
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var manager:AppManager
+    @StateObject private var messageManager = MessagesManager.shared
     
     @Default(.showMessageAvatar) var showMessageAvatar
 
     // 分页相关状态
     @State private var messages:[Message]  = []
-    @State private var messagesCount:Int = 100
-    @State private var currentPage: Int = 0
-    @State private var itemsPerPage: Int = 50 // 每页加载50条数据
+    @State private var allCount:Int = 100
+
     @State private var isLoading: Bool = false
     @State private var showAllTTL:Bool = false
     
-    var maxPage:Int{
-      Int(ceil(Double(messagesCount) / Double(50)))
-    }
     var body: some View {
         
         Group{
@@ -57,35 +54,51 @@ struct MessageDetailPage: View {
                                         .symbolEffect(.variableColor)
                                 }.tint(.green)
                             }
-                            
-                        }
-                        
-                        HStack{
-                            ProgressView()
-                            Text("正在加载中...")
-                        }
-                        .opacity(currentPage >= maxPage ? 0 : 1)
-                        .listRowBackground(Color.clear)
-                        .onAppear{
-                            currentPage += 1
-                            Task{
-                                loadData(proxy: proxy)
+                            .swipeActions(edge: .trailing) {
+                                Button {
+
+                                    withAnimation {
+                                        messages.removeAll(where: {$0.id == message.id})
+                                       
+                                    }
+                                    Task.detached(priority: .background){
+                                        _ = await messageManager.delete(message)
+                                    }
+                                    
+                                   
+                                } label: {
+                                    
+                                    Label( "删除", systemImage: "trash")
+                                        .symbolRenderingMode(.palette)
+                                        .foregroundStyle(.white, Color.primary)
+                                    
+                                }.tint(.red)
+                            }
+                            .onAppear{
+                                if messages.last == message{
+                                    loadData(proxy: proxy,item: message)
+                                }
                             }
                         }
                         
+                       
+                    }
+                    .onChange(of: messageManager.updateSign) {  newValue in
+                        loadData(proxy: proxy, limit: max(messages.count, 50))
                     }
                 }
                 
             }else {
-                List{
-                    SearchMessageView(searchText: manager.searchText, group: group)
-                }
+                SearchMessageView(searchText: $manager.searchText, group: group)
             }
         }
         .searchable(text: $manager.searchText)
+        .refreshable {
+            loadData( limit: min(messages.count, 200))
+        }
         .toolbar{
             ToolbarItem {
-                Text("\(min(currentPage * itemsPerPage, messages.count))/\(messagesCount)")
+                Text("\(messages.count)/\(allCount)")
                     .font(.caption)
                     .pressEvents(onRelease: { _ in
                         withAnimation {
@@ -95,19 +108,33 @@ struct MessageDetailPage: View {
                     })
             }
         }
-        .onDisappear{
+        .task{
+            loadData()
+            
             Task.detached(priority: .background){
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
-                    try? proxy.write {
-                        datas.setValue(true, forKey: "read")
-                    }
-                    if Defaults[.badgeMode] == .auto{
-                        let unRead = proxy.objects(Message.self).where({!$0.read}).count
-                        UNUserNotificationCenter.current().setBadgeCount( unRead )
-                    }
+                try? await DatabaseManager.shared.dbQueue.write { db in
+                    // 更新指定 group 的未读消息为已读
+                   let count =  try Message
+                        .filter(Message.Columns.group == group)
+                        .filter(Message.Columns.read == false)
+                        .fetchCount(db)
                     
+                    guard count > 0 else { return }
+                    
+                    try Message
+                        .filter(Message.Columns.group == group)
+                        .filter(Message.Columns.read == false)
+                        .updateAll(db, [Message.Columns.read.set(to: true)])
+
+                    // 重新计算未读数，更新通知角标（假设有同步环境）
+                    if Defaults[.badgeMode] == .auto {
+                        let unRead = try Message
+                            .filter(Message.Columns.read == false)
+                            .fetchCount(db)
+                        UNUserNotificationCenter.current().setBadgeCount(unRead)
+                    }
                 }
+
             }
         }
         
@@ -115,19 +142,24 @@ struct MessageDetailPage: View {
     }
     
     
-    private func loadData(proxy:ScrollViewProxy){
-        guard let realm = try? Realm() else { return }
-        let results = realm.objects(Message.self)
-            .filter({$0.group == self.group}).sorted(by: {$0.createDate > $1.createDate})
+    private func loadData(proxy:ScrollViewProxy? = nil, limit:Int =  50, item:Message? = nil){
         
-        let size = min(self.currentPage * 50, results.count)
-        DispatchQueue.main.async {
-            self.messagesCount = results.count
-            self.messages = Array(results.prefix(size))
-            if let selectId = manager.selectId{
-                proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
-                manager.selectId = nil
-                manager.selectGroup = nil
+        
+        Task.detached(priority: .userInitiated) {
+            let results = await messageManager.query(group: self.group, limit: limit, item?.createDate)
+            let count = await messageManager.count(group: self.group)
+            DispatchQueue.main.async {
+                self.allCount = count
+                if item == nil {
+                    self.messages = results
+                }else{
+                    self.messages += results
+                }
+                if let selectId = manager.selectId{
+                    proxy?.scrollTo(selectId, anchor: .center)
+                    manager.selectId = nil
+                    manager.selectGroup = nil
+                }
             }
         }
     }

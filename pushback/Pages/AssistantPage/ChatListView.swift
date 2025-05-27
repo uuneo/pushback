@@ -1,7 +1,6 @@
 
 
 import SwiftUI
-import RealmSwift
 import Defaults
 import Combine
 
@@ -17,17 +16,18 @@ struct ChatMessageListView: View {
     
     // MARK: - Properties
     let chatgroup:ChatGroup?
-    @ObservedResults(ChatMessage.self,where: {$0.chat == ""}) var messages
+    @State private var messages:[ChatMessage] = []
     
     init(chatGroup:ChatGroup?, messageId:String? = nil) {
         self.chatgroup = chatGroup
-        if let chatGroup = chatGroup{
-            self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == chatGroup.id})
-        }
+//        if let chatGroup = chatGroup{
+//            self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == chatGroup.id})
+//        }
         
     }
     
     @EnvironmentObject private var chatManager:openChatManager
+    @EnvironmentObject private var manager:AppManager
     
     @State private var showHistory:Bool = false
     
@@ -71,14 +71,14 @@ struct ChatMessageListView: View {
             
                 
                 ForEach(messages.suffix(suffixCount),id: \.id) { message in
-                    ChatMessageView(message: message,isLoading: chatManager.isLoading)
+                    ChatMessageView(message: message,isLoading: manager.isLoading)
                         .id(message.id)
                 }
                 
                 VStack{
-                    if chatManager.isLoading{
+                    if manager.isLoading{
                         
-                        ChatMessageView(message:   chatManager.currentChatMessage,isLoading: chatManager.isLoading)
+                        ChatMessageView(message:   chatManager.currentChatMessage,isLoading: manager.isLoading)
                     }
                     
                     RoundedRectangle(cornerRadius: 0)
@@ -120,7 +120,7 @@ struct ChatMessageListView: View {
                    
                 }
             }
-            .onChange(of: chatManager.isLoading){ value in
+            .onChange(of: manager.isLoading){ value in
                 if offsetY < 800{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                         scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
@@ -148,11 +148,11 @@ struct ChatMessageListView: View {
 
 struct HistoryMessage:View {
     @Binding var showHistory:Bool
-    @ObservedResults(ChatMessage.self,sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false)) var messages
+    @State private var messages:[ChatMessage] = []
     
     init(showHistory: Binding<Bool>, group:String) {
         self._showHistory = showHistory
-        self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == group},sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false))
+//        self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == group},sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false))
     }
     
     var body: some View {

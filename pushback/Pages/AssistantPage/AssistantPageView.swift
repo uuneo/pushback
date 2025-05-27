@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import RealmSwift
 import Defaults
 import Combine
+import GRDB
 
 
 struct AssistantPageView:View {
@@ -16,7 +16,7 @@ struct AssistantPageView:View {
     @Default(.assistantAccouns) var assistantAccouns
     
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject private var chatManager:openChatManager
+    @StateObject private var chatManager = openChatManager.shared
     @EnvironmentObject private var manager:AppManager
     
     @State private var inputText:String = ""
@@ -30,7 +30,7 @@ struct AssistantPageView:View {
     
     @State private var showChangeGroupName:Bool = false
     
-    @ObservedResults(ChatGroup.self, where: (\.current)) var chatgroups
+    @State private var chatgroups:[ChatGroup] = []
     @Default(.historyMessageBool) var historyMessageBool
     
     @State private var offsetX: CGFloat = 0
@@ -41,7 +41,7 @@ struct AssistantPageView:View {
     var body: some View {
 
             VStack {
-                if  chatgroups.count != 0 || chatManager.isLoading {
+                if  chatgroups.count != 0 || manager.isLoading {
                     
                     ChatMessageListView( chatGroup: chatgroups.first)
                     .onTapGesture {
@@ -115,14 +115,7 @@ struct AssistantPageView:View {
             }content: {
                 if let chatgroup = chatgroups.first{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        
-                        RealmManager.handler{ realm in
-                            if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
-                                realm.writeAsync {
-                                    group.name = text
-                                }
-                            }
-                        }
+                        chatManager.updateGroupName(groupId: chatgroup.id, newName: text)
                     }
                 }else {
                     Spacer()
@@ -159,12 +152,12 @@ struct AssistantPageView:View {
                     .customPresentationCornerRadius(20)
             }
             .onAppear{
-                chatManager.inAssistant = true
+                manager.inAssistant = true
             }
             .environmentObject(chatManager)
             .onDisappear{
-                chatManager.messageId = nil
-                chatManager.inAssistant = false
+                manager.askMessageId = nil
+                manager.inAssistant = false
             }
 
     }
@@ -173,7 +166,7 @@ struct AssistantPageView:View {
     private var principalToolbarContent: some ToolbarContent {
         
         ToolbarItem(placement: .principal) {
-            if  chatManager.isLoading{
+            if  manager.isLoading{
                 StreamingLoadingView()
                     .transition(.scale)
             }else{
@@ -196,11 +189,9 @@ struct AssistantPageView:View {
                         Button{
                             chatManager.cancellableRequest?.cancelRequest()
                             Task.detached {
-                                RealmManager.handler { realm in
-                                    let groups = realm.objects(ChatGroup.self)
-                                    try? realm.write {
-                                        groups.setValue(false, forKey: "current")
-                                    }
+                                try await chatManager.dbQueue.write { db in
+                                    // 使用 SQL 语句执行批量更新
+                                    try db.execute(sql: "UPDATE chatGroup SET current = 0")
                                 }
                             }
                             
@@ -279,7 +270,7 @@ struct AssistantPageView:View {
     private var navigationToolbarContent: some ToolbarContent{
         ToolbarItem(placement: .navigation) {
             Button{
-                chatManager.inAssistant = false
+                manager.inAssistant = false
                 manager.router.removeAll(where: {$0 == .assistant})
                 AppManager.vibration(style: .heavy)
             }label: {
@@ -297,7 +288,7 @@ struct AssistantPageView:View {
                 
                 Button{
                     withAnimation {
-                        if !chatManager.isLoading{
+                        if !manager.isLoading{
                             chatManager.currentRequest = ""
                             chatManager.currentContent = ""
                         }
@@ -326,7 +317,7 @@ struct AssistantPageView:View {
             
             DispatchQueue.main.async{
                 chatManager.currentMessageId = UUID().uuidString
-                chatManager.isLoading = true
+                manager.isLoading = true
                 chatManager.currentRequest = text
                 
                 self.inputText = ""
@@ -344,7 +335,7 @@ struct AssistantPageView:View {
                         }
                         
                         Task{
-                            if await chatManager.inAssistant {
+                            if await manager.inAssistant {
                                 AppManager.vibration(style: .light)
                             }
                         }
@@ -364,48 +355,43 @@ struct AssistantPageView:View {
                     Toast.error(title: "发生错误\(error.localizedDescription)")
                     Log.error(error)
                     DispatchQueue.main.async{
-                            chatManager.isLoading = false
-                            chatManager.currentRequest = ""
-                            chatManager.currentContent = ""
+                        manager.isLoading = false
+                        chatManager.currentRequest = ""
+                        chatManager.currentContent = ""
                     }
                     return
                 }
                 
                 DispatchQueue.main.async {
                     
-                    RealmManager.handler { realm in
-                       
-                        let group:ChatGroup = {
-                            guard let group = realm.objects(ChatGroup.self).where( {$0.current} ).first else {
-                                let group2 = ChatGroup()
-                                group2.current = true
-                                group2.name = chatManager.currentRequest
-                                if let messageId = chatManager.messageId{
-                                    group2.id = messageId
-                                }
-                                return group2
-                            }
+                    let group:ChatGroup = {
+                        if let group = try? chatManager.dbQueue.read ({ db in
+                            try? ChatGroup.filter(Column("current") == true).fetchOne(db)
+                        }){
                             return group
-                        }()
-                        
-                      
-                        
-                        let responseMessage = chatManager.currentChatMessage
-                        responseMessage.chat = group.id
-                        
-                        let groupCount = realm.objects(ChatGroup.self).where( {$0.current} ).count
-                        
-                        realm.writeAsync {
-                            if groupCount == 0{
-                                realm.add(group)
-                            }
-                            realm.add(responseMessage)
                         }
-                       
-                        chatManager.currentRequest = ""
-                        chatManager.isLoading = false
-                        AppManager.hideKeyboard()
+                        
+                        return ChatGroup(id: manager.askMessageId ?? UUID().uuidString,timestamp: .now,name: chatManager.currentRequest, host: "", current: true)
+                    }()
+                    
+                  
+                    
+                    var responseMessage = chatManager.currentChatMessage
+                    responseMessage.chat = group.id
+                    
+                    try? chatManager.dbQueue.write { db in
+                        let groupCount = try ChatGroup.filter(Column("current") == true).fetchCount(db)
+                        
+                        if groupCount == 0 {
+                            try group.insert(db)
+                        }
+                        
+                        try responseMessage.insert(db)
                     }
+                    
+                    chatManager.currentRequest = ""
+                    manager.isLoading = false
+                    AppManager.hideKeyboard()
                 }
                 
 

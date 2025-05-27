@@ -37,7 +37,6 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     @Published var playingAudio:URL? = nil
     
     @Published var speakPlayer:AVAudioPlayer? = nil
-    @Published var speaking:Bool = false
     @Published var loading:Bool = false
     
     @Published var ShareURL: URL?  = nil
@@ -249,7 +248,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             await MainActor.run {
                 withAnimation(.default) {
                     self.loading = true
-                    self.speaking = true
+                    AppManager.shared.speaking = true
                 }
                 
             }
@@ -285,7 +284,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         DispatchQueue.main.async{
             withAnimation(.default) {
-                self.speaking = false
+                AppManager.shared.speaking = false
             }
         }
     }

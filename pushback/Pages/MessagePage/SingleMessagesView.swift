@@ -6,98 +6,114 @@
 //
 
 import SwiftUI
-import RealmSwift
+import GRDB
 import Defaults
 
 struct SingleMessagesView: View {
     
     @Default(.showMessageAvatar) var showMessageAvatar
     
-    @State private var currentPage: Int = 0
-    @State private var itemsPerPage: Int = 50 // 每页加载50条数据
     @State private var isLoading: Bool = false
     
  
     @State private var showAllTTL:Bool = false
     
     @EnvironmentObject private var manager:AppManager
+    @StateObject private var messageManager = MessagesManager.shared
+
 
     @State private var messages:[Message]  = []
-    @State private var messagesCount:Int = 100
-    
-    var maxPage:Int{
-      Int(ceil(Double(messagesCount) / Double(50)))
-    }
     
     var body: some View {
         
-        Group{
-            
-            ScrollViewReader { proxy in
-                List{
+        ScrollViewReader { proxy in
+            List{
+                
+                ForEach(messages, id: \.id) { message in
                     
-                    ForEach(messages, id: \.id) { message in
-                        
-                        MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
-                            withAnimation(.easeInOut) {
-                                manager.selectMessage = message
-                            }
+                    MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
+                        withAnimation(.easeInOut) {
+                            manager.selectMessage = message
                         }
-                        .id(message.id)
-                        .listRowBackground(Color.clear)
-                        .listSectionSeparator(.visible)
-                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                            Button {
-                                Task(priority: .high) {
-                                    guard let player = await AudioManager.shared.Speak(message.voiceText) else {
-                                        return
-                                    }
-                                    player.play()
+                    }
+                    .id(message.id)
+                    .listRowBackground(Color.clear)
+                    .listSectionSeparator(.visible)
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                        Button {
+                            Task(priority: .high) {
+                                guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                                    return
                                 }
-                            }label: {
-                                Label("朗读内容",  systemImage: "waveform")
-                                    .symbolEffect(.variableColor)
+                                player.play()
                             }
+                        }label: {
+                            Label("朗读内容",  systemImage: "waveform")
+                                .symbolEffect(.variableColor)
+                        }.tint(.green)
+                    }
+                    .swipeActions(edge: .trailing) {
+                        Button {
+
+                            withAnimation {
+                                messages.removeAll(where: {$0.id == message.id})
+                               
+                            }
+                            Task.detached(priority: .background){
+                                _ = await messageManager.delete(message)
+                            }
+                        } label: {
+                            
+                            Label( "删除", systemImage: "trash")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.white, Color.primary)
+                            
+                        }.tint(.red)
+                    }
+                    .onAppear{
+                        if messages.last == message{
+                            self.loadData(proxy: proxy, item: message)
                         }
-                        
                     }
                     
-                    HStack{
-                        Spacer()
-                        ProgressView()
-                        Text("正在加载中...")
-                        Spacer()
-                    }
-                    .opacity(currentPage >= maxPage ? 0 : 1)
-                        .listRowBackground(Color.clear)
-                        .onAppear{
-                            Task{
-                                currentPage += 1
-                                loadData(proxy: proxy)
-                            }
-                        }
-                    
                 }
-                .refreshable {
-                    currentPage = 1
-                    self.loadData(proxy: proxy)
-                }
+                
+                
             }
-            
+            .refreshable {
+                self.loadData(proxy: proxy , limit: min(messages.count, 200))
+            }
+            .onChange(of: messageManager.updateSign) {  newValue in
+                loadData(proxy: proxy, limit: max(messages.count, 50))
+            }
         }
-        
+        .safeAreaInset(edge: .bottom, content: {
+            HStack{
+                Spacer()
+                Text("\(messages.count) / \(max(messageManager.allCount, messages.count))")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
+                    .padding(.horizontal, 20)
+                    .background(.ultraThinMaterial)
+            }.opacity((messages.count == 0 || messages.count == messageManager.allCount) ? 0 : 1)
+            
+        })
         .task {
-            Task.detached {
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({!$0.read})
-                    try? proxy.write {
-                        datas.setValue(true, forKey: "read")
+            self.loadData()
+            Task.detached(priority: .background) {
+                
+                try? await DatabaseManager.shared.dbQueue.write { db in
+                    // 批量更新 read 字段为 true
+                    try Message
+                        .filter(Message.Columns.read == false)
+                        .updateAll(db, [Message.Columns.read.set(to: true)])
+                    
+                    // 清除徽章
+                    if Defaults[.badgeMode] == .auto {
+                        UNUserNotificationCenter.current().setBadgeCount(0)
                     }
-                    if Defaults[.badgeMode] == .auto{
-                        UNUserNotificationCenter.current().setBadgeCount( 0 )
-                    }
-                   
                 }
+
             }
             
         }
@@ -115,16 +131,23 @@ struct SingleMessagesView: View {
         }
     }
     
-    private func loadData(proxy: ScrollViewProxy ){
-        guard let realm = try? Realm() else { return }
-        let results = realm.objects(Message.self).sorted(by: {$0.createDate > $1.createDate})
-        let size = min(self.currentPage * 50, results.count)
-        DispatchQueue.main.async {
-            self.messagesCount = results.count
-            self.messages = Array(results.prefix(size))
-            if let selectId = manager.selectId{
-                proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
-                manager.selectId = nil
+    private func loadData(proxy:ScrollViewProxy? = nil, limit:Int =  50, item:Message? = nil){
+       Task.detached(priority: .userInitiated) {
+            
+            let results = await messageManager.query( limit: limit, item?.createDate)
+            
+            DispatchQueue.main.async {
+ 
+                if item == nil {
+                    self.messages = results
+                }else{
+                    self.messages += results
+                }
+                if let selectId = manager.selectId{
+                    proxy?.scrollTo(selectId, anchor: .center)
+                    manager.selectId = nil
+                    manager.selectGroup = nil
+                }
             }
         }
     }

@@ -7,13 +7,12 @@
 
 import SwiftUI
 import Defaults
-import RealmSwift
 
 struct MessagePage: View {
     @EnvironmentObject private var manager:AppManager
     @Default(.showGroup) private var showGroup
     @State private var showAction = false
-    @StateObject private var groupModel = MessagesData.shared
+    @StateObject private var messageManager = MessagesManager.shared
     
     var body: some View {
        
@@ -25,15 +24,13 @@ struct MessagePage: View {
                         SingleMessagesView()
                     }
                 }else{
-                    List{
-                        SearchMessageView(searchText: manager.searchText)
-                    }
-                    
+                   
+                    SearchMessageView(searchText: $manager.searchText)
                 }
                 
                 
             }
-            .environmentObject(groupModel)
+            .environmentObject(messageManager)
             .searchable(text: $manager.searchText)
             .listRowSpacing(10)
             .navigationTitle( "消息")
@@ -129,15 +126,7 @@ struct MessagePage: View {
     func deleteMessage(_ mode: MessageAction){
         
         if mode != .cancel{
-            autoreleasepool {
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({ $0.createDate < mode.date })
-                    proxy.writeAsync {
-                        proxy.delete(datas)
-                    }
-                }
-                Toast.success(title: "操作成功")
-            }
+            messageManager.delete(date: mode.date)
         }
     }
     

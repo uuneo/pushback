@@ -7,7 +7,7 @@
 
 
 import SwiftUI
-import RealmSwift
+import GRDB
 import Defaults
 import UniformTypeIdentifiers
 import WidgetKit
@@ -17,10 +17,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     
     @EnvironmentObject private var manager: AppManager
-    @EnvironmentObject private var audioManager: AudioManager
-    @EnvironmentObject private var chatManager: openChatManager
-    
-    @StateObject private var messageModel =  MessagesData.shared
+    @StateObject private var messageManager = MessagesManager.shared
     
     @Default(.servers) private var servers
     @Default(.firstStart) private var firstStart
@@ -52,27 +49,9 @@ struct ContentView: View {
         .onOpenURL(perform: self.openUrlView)
         .alert(isPresented: $showAlart) {
             Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
-                
-                RealmManager.handler { proxy in
-                    let datas = proxy.objects(Message.self).where({$0.read})
-                    proxy.writeAsync {
-                        proxy.delete(datas)
-                    }
-                }
+                MessagesManager.shared.delete(allRead: true)
             }), secondaryButton: .cancel()) }
-//        .task {
-//            Task.detached(priority: .background) {
-//                var messages: [Message] = []
-//                for k in 0...15000{
-//                    print(k)
-//                    messages += RealmManager.examples()
-//                }
-//                let realm = try! Realm()
-//                try! realm.write {
-//                    realm.add(messages)
-//                }
-//            }
-//        }
+//
     }
     
     @ViewBuilder
@@ -86,10 +65,10 @@ struct ContentView: View {
             
             NavigationStack(path: $manager.router){
                 // MARK: 信息页面
-                MessagePage().router(manager, chat: chatManager, audio: audioManager)
+                MessagePage().router(manager)
                 
             }
-            .badge(messageModel.unReadCount)
+            .badge(messageManager.unreadCount)
             .tabItem {
                 Label( "消息", systemImage: "ellipsis.message")
                     .symbolRenderingMode(.palette)
@@ -101,7 +80,7 @@ struct ContentView: View {
             
             NavigationStack(path: $manager.router){
                 // MARK: 设置页面
-                SettingsPage().router(manager, chat: chatManager, audio: audioManager)
+                SettingsPage().router(manager)
                 
             }
             .tabItem {
@@ -122,12 +101,12 @@ struct ContentView: View {
         
         NavigationSplitView(columnVisibility: $HomeViewMode) {
             SettingsPage()
-                .env(manager, chatManager, audioManager)
+                .environmentObject(manager)
         } detail: {
             
             NavigationStack(path: $manager.router){
                 MessagePage()
-                    .router(manager, chat: chatManager, audio: audioManager)
+                    .router(manager)
             }
         }
     }
@@ -145,11 +124,11 @@ struct ContentView: View {
                 }
             }
             
-            RealmManager.handler{ proxy in
-                proxy.writeAsync {
-                    proxy.add(RealmManager.examples())
-                }
+            // TODO: 添加example
+            for item in MessagesManager.examples(){
+                MessagesManager.shared.add(item)
             }
+            
         }
         .background(.ultraThinMaterial)
     }
@@ -165,27 +144,37 @@ struct ContentView: View {
             if !manager.isWarmStart{
                 Log.debug("❄️ 冷启动")
                 manager.isWarmStart = true // 进入前台后，标记为热启动
-                RealmManager.handler { proxy in
-                    let groups = proxy.objects(ChatGroup.self)
-                    proxy.writeAsync {
-                        groups.setValue(false, forKey: "current")
-                    }
-                    
-                    var deleteList:[ChatGroup] = []
-                    
-                    for group in groups {
-                        if proxy.objects(ChatMessage.self).where({$0.chat == group.id }).count == 0{
-                            deleteList.append(group)
+                do {
+                    try DatabaseManager.shared.dbQueue.write { db in
+                        // 1. 将所有 ChatGroup 的 current 设为 false
+                        try ChatGroup.updateAll(db,
+                                                ChatGroup.Columns.current.set(to: false))
+
+                        // 2. 查找无关联 ChatMessage 的 ChatGroup
+                        let allGroups = try ChatGroup.fetchAll(db)
+                        var deleteList: [ChatGroup] = []
+
+                        for group in allGroups {
+                            let messageCount = try ChatMessage
+                                .filter(ChatMessage.Columns.chat == group.id)
+                                .fetchCount(db)
+
+                            if messageCount == 0 {
+                                deleteList.append(group)
+                            }
+                        }
+
+                        // 3. 删除无消息的 ChatGroup
+                        if !deleteList.isEmpty {
+                            for group in deleteList {
+                                try group.delete(db)
+                            }
                         }
                     }
-                    
-                    if deleteList.count > 0{
-                        try? proxy.write{
-                            proxy.delete(deleteList)
-                        }
-                    }
-                    
+                } catch {
+                    print("GRDB 错误: \(error)")
                 }
+
             }
             
             if let name = QuickAction.selectAction?.type{
@@ -211,31 +200,29 @@ struct ContentView: View {
         }
         
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        
+        UNUserNotificationCenter.current().setBadgeCount(messageManager.unreadCount())
         WidgetCenter.shared.reloadAllTimelines()
-        
-        RealmManager.handler { proxy in
-            let datas = proxy.objects(Message.self).filter({$0.isExpired()})
-            proxy.writeAsync {
-                proxy.delete(datas)
-            }
-        }
+        MessagesManager.shared.deleteExpired()
     }
     
     func setLangAssistantPrompt(){
         if let currentLang  = Locale.preferredLanguages.first{
             if lang != currentLang {
-                RealmManager.handler { realm in
-                    let datas = realm.objects(ChatPrompt.self).where({$0.isBuiltIn})
-                    try? realm.write{
-                        realm.delete(datas)
-                        realm.add(ChatPrompt.prompts)
-                        DispatchQueue.main.async {
-                            lang = currentLang
-                        }
+                try? DatabaseManager.shared.dbQueue.write { db in
+                    // 删除 inside == true 的项
+                    try ChatPrompt.filter(ChatPrompt.Columns.inside == true).deleteAll(db)
+                    
+                    // 添加默认 prompts
+                    for prompt in ChatPrompt.prompts {
+                        try prompt.insert(db)
                     }
                     
+                    // 回到主线程设置语言
+                    DispatchQueue.main.async {
+                        lang = currentLang
+                    }
                 }
+
             }
         }
         
@@ -301,5 +288,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .env(AppManager.shared, openChatManager.shared, AudioManager.shared)
+        .environmentObject(AppManager.shared)
 }

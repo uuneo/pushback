@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Defaults
-import RealmSwift
 
 struct AssistantSettingsView: View {
     @Environment(\.dismiss) var dismiss
@@ -188,14 +187,11 @@ struct AssistantSettingsView: View {
                 Button("取消", role: .cancel) { }
                 Button("删除", role: .destructive) {
                     Task.detached {
-                        RealmManager.handler { realm in
-                            let messages = realm.objects(ChatMessage.self)
-                            let groups = realm.objects(ChatGroup.self)
-                            try? realm.write {
-                                realm.delete(messages)
-                                realm.delete(groups)
-                            }
+                        try? DatabaseManager.shared.dbQueue.write { db in
+                            try ChatMessage.deleteAll(db)
+                            try ChatGroup.deleteAll(db)
                         }
+
                     }
                     
                 }

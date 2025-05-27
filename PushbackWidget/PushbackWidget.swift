@@ -8,7 +8,6 @@
 import WidgetKit
 import SwiftUI
 import Charts
-import RealmSwift
 
 
 let UserStore = UserDefaults(suiteName: BaseConfig.groupName)!

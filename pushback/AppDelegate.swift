@@ -21,17 +21,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     let pushRegistry = PKPushRegistry(queue: DispatchQueue.main)
     
-    func setupRealm() {
-        // Tell Realm to use this new configuration object for the default Realm
-        Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
-        
-#if DEBUG
-        let realm = try? Realm()
-        Log.debug("message count: \(realm?.objects(Message.self).count ?? 0)")
-#endif
-    }
-    
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         
@@ -47,10 +36,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        /// 配置数据库
-        setupRealm()
-        
-        
         
         UNUserNotificationCenter.current().delegate = self
         
@@ -92,7 +77,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
         let content = response.notification.request.content
-        Log.debug(content)
         
         AppManager.shared.page = .message
         AppManager.shared.router = []
@@ -116,8 +100,14 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        debugPrint(notification.request.content.userInfo)
+        // 由于AppGroup消息通知存在延迟，手动通知一下
+        Task.detached(priority: .background) {
+            let results = MessagesManager.shared.queryGroup()
+            DispatchQueue.main.asyncAfter(deadline: .now()){
+                MessagesManager.shared.groupMessages = results
+                MessagesManager.shared.updateSign += 1
+            }
+        }
         
         if notification.request.content.interruptionLevel.rawValue > 1{
             completionHandler(.banner)

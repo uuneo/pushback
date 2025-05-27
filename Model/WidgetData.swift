@@ -7,6 +7,7 @@
 import SwiftUI
 import Defaults
 import ActivityKit
+import GRDB
 
 extension Defaults.Keys{
     static let widgetData = Key<WidgetData>("widgetData",default: WidgetData.getDefault())
@@ -123,39 +124,44 @@ extension WidgetData{
         
     }
     static func getDefaultSmallOrMedium(_ isSmall:Bool = true) -> Section<Item>{
-        Realm.Configuration.defaultConfiguration = kRealmDefaultConfiguration
         
         let calendar = Calendar.current
         let now = Date()
-        guard let realm = try? Realm() else { return Section()}
         
-        let total = realm.objects(Message.self)
-        
-        
-        let unRead = total.filter({!$0.read})
+        let unRead = MessagesManager.shared.unreadCount()
         
         // 分组个数
         
-        let groups = total.distinct(by: ["group"])
+        let groups = MessagesManager.shared.queryGroup().count
+        
+        let total = try? DatabaseManager.shared.dbQueue.read ({ db in
+            try Message.fetchCount(db)
+        })
         
         // 本周
         let startOfWeek = calendar.startOfWeek(for: now)
-        let weekMessages = total.filter({$0.createDate > startOfWeek})
+        
+        let weekMessages = try? DatabaseManager.shared.dbQueue.read ({ db in
+            try Message.filter(Column("createDate") > startOfWeek).fetchCount(db)
+        })
+//        let weekMessages = total.filter({$0.createDate > startOfWeek})
         
         // 本月
         let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: now))!
-        let monthMessages = total.filter({$0.createDate > startOfMonth})
-        
+        let monthMessages = try? DatabaseManager.shared.dbQueue.read ({ db in
+            try Message.filter(Column("createDate") > startOfMonth).fetchCount(db)
+        })
+   
         /// 平均每天多少条
         let dayCount = calendar.dateComponents([.day], from: startOfMonth, to: now).day! + 1 // 避免除以 0
-        let averagePerDay = Int(max(Double(monthMessages.count) / Double(dayCount),1))
+        let averagePerDay = Int(max(Double(monthMessages ?? 0) / Double(dayCount),1))
         
         let items:[Item] = [
-            .init( name: String(localized: "总计"), value: total.count),
-            .init( name: String(localized: "分组"), value: groups.count),
-            .init( name: String(localized: "未读"), value: unRead.count),
-            .init( name: String(localized: "本周"), value: weekMessages.count),
-            .init( name: String(localized: "本月"), value: monthMessages.count),
+            .init( name: String(localized: "总计"), value: total ?? 0),
+            .init( name: String(localized: "分组"), value: groups),
+            .init( name: String(localized: "未读"), value: unRead),
+            .init( name: String(localized: "本周"), value: weekMessages ?? 0),
+            .init( name: String(localized: "本月"), value: monthMessages ?? 0),
             .init( name: String(localized: "日均"), value: averagePerDay),
         ]
         

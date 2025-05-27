@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import RealmSwift
 import Defaults
 import AVFAudio
 import UniformTypeIdentifiers
@@ -14,7 +13,7 @@ import UniformTypeIdentifiers
 
 struct MessageCard: View {
    
-    @ObservedRealmObject var message:Message
+    var message:Message
     var searchText:String = ""
     var showGroup:Bool =  false
     var showAllTTL:Bool = false
@@ -30,13 +29,11 @@ struct MessageCard: View {
         (timeMode == 1 ? message.createDate.formatString() : message.createDate.agoFormatString())
     }
     
-    @EnvironmentObject private var manager:AppManager
-    @EnvironmentObject private var chatManager:openChatManager
     
     var linColor:Color{
         
-        if let selectId = manager.selectId {
-            let right = selectId.uppercased() == message.id.uuidString
+        if let selectId = AppManager.shared.selectId {
+            let right = selectId.uppercased() == message.id
             return right ?  .red : .clear
         }
         return .clear
@@ -150,8 +147,9 @@ struct MessageCard: View {
                
                 Section{
                     Button{
-                        chatManager.messageId = message.id.uuidString
-                        manager.router.append(.assistant)
+                        
+                        AppManager.shared.askMessageId = message.id
+                        AppManager.shared.router.append(.assistant)
                         AppManager.vibration(style: .light)
                     }label: {
                         Label("问智能助手", image: "chatgpt")
@@ -323,7 +321,7 @@ struct MessageCard: View {
 #Preview {
     
     List {
-        MessageCard(message: RealmManager.examples().first!)
+        MessageCard(message: MessagesManager.examples().first!)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
             .environmentObject(AppManager.shared)

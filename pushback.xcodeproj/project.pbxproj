@@ -66,18 +66,24 @@
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
 		B55B8DFF2DDC139A002EA38E /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B55B8DFE2DDC139A002EA38E /* OpenAI */; };
-		B55B93512DE00B89002EA38E /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
 		B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577DAD42DC5F38000AB7527 /* zoomable.swift */; };
+		B57AF72A2DE3C5FC006C8F7F /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */; };
+		B57AF7332DE3E07A006C8F7F /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B57AF7322DE3E07A006C8F7F /* GRDB */; };
+		B57AF8292DE3E8DF006C8F7F /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B57AF8282DE3E8DF006C8F7F /* GRDB */; };
+		B57AF82B2DE3E8F2006C8F7F /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B57AF82A2DE3E8F2006C8F7F /* GRDB */; };
+		B57AF82C2DE3F3DC006C8F7F /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */; };
+		B57AF82D2DE3FD24006C8F7F /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */; };
+		B57AF82F2DE40B3C006C8F7F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF82E2DE40B35006C8F7F /* DatabaseManager.swift */; };
+		B57AF8302DE40D82006C8F7F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF82E2DE40B35006C8F7F /* DatabaseManager.swift */; };
+		B57AF8312DE40D92006C8F7F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF82E2DE40B35006C8F7F /* DatabaseManager.swift */; };
 		B58133BC2DC9A61F00752D46 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58133BB2DC9A61F00752D46 /* WidgetKit.framework */; };
 		B58133BE2DC9A61F00752D46 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B58133BD2DC9A61F00752D46 /* SwiftUI.framework */; };
 		B58133CF2DC9A62300752D46 /* PushbackWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B58133D72DCAD9BB00752D46 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B58133D62DCAD9BB00752D46 /* Defaults */; };
-		B58133D92DCAD9BB00752D46 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B58133D82DCAD9BB00752D46 /* RealmSwift */; };
 		B58133DC2DCAD9CF00752D46 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204342D9EABFB00527343 /* MessageModel.swift */; };
 		B58133DD2DCAE8AB00752D46 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
 		B58133DE2DCAEA8500752D46 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
 		B58133DF2DCAEA9F00752D46 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204742D9EABFB00527343 /* BaseConfig.swift */; };
-		B58133E02DCAEBF600752D46 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204752D9EABFB00527343 /* RealmConfig.swift */; };
 		B58E28542DC3A13600A42022 /* PushbackSafariExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B58E283C2DC3A13600A42022 /* PushbackSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B5A883102DD46B3F009696F6 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
 		B5A885082DD50049009696F6 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
@@ -97,7 +103,6 @@
 		B5C5148A2DD3776200DE6F65 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C514862DD3770400DE6F65 /* VoiceManager.swift */; };
 		B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204462D9EABFB00527343 /* Snapshot.swift */; };
 		B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
-		B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046B2D9EABFB00527343 /* RealmManager.swift */; };
 		B5D2048C2D9EABFB00527343 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046E2D9EABFB00527343 /* ImageManager.swift */; };
 		B5D2048D2D9EABFB00527343 /* HackerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204482D9EABFB00527343 /* HackerTextView.swift */; };
 		B5D2048E2D9EABFB00527343 /* MarkdownColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204632D9EABFB00527343 /* MarkdownColors.swift */; };
@@ -120,7 +125,6 @@
 		B5D204A02D9EABFB00527343 /* Navigation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2045E2D9EABFB00527343 /* Navigation+Extension.swift */; };
 		B5D204A12D9EABFB00527343 /* image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204622D9EABFB00527343 /* image+.swift */; };
 		B5D204A22D9EABFB00527343 /* TrayHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204382D9EABFB00527343 /* TrayHelper.swift */; };
-		B5D204A42D9EABFB00527343 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204752D9EABFB00527343 /* RealmConfig.swift */; };
 		B5D204A52D9EABFB00527343 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
 		B5D204A62D9EABFB00527343 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
 		B5D204A72D9EABFB00527343 /* Splash+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2045F2D9EABFB00527343 /* Splash+.swift */; };
@@ -140,7 +144,6 @@
 		B5D2057C2D9EAE1C00527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2057B2D9EAE1C00527343 /* Defaults */; };
 		B5D2057F2D9EAE2C00527343 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2057E2D9EAE2C00527343 /* Kingfisher */; };
 		B5D205882D9EAE6A00527343 /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205872D9EAE6A00527343 /* QRScanner */; };
-		B5D2058D2D9EAE8A00527343 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058C2D9EAE8A00527343 /* RealmSwift */; };
 		B5D205902D9EAEA800527343 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058F2D9EAEA800527343 /* Splash */; };
 		B5D205932D9EAEBE00527343 /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205922D9EAEBE00527343 /* cmark-gfm */; };
 		B5D205952D9EAEBE00527343 /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5D205942D9EAEBE00527343 /* cmark-gfm-extensions */; };
@@ -177,7 +180,6 @@
 		B5D2061D2D9EB4AB00527343 /* PushParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204712D9EABFB00527343 /* PushParams.swift */; };
 		B5D206212D9EB78600527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D206202D9EB78600527343 /* Defaults */; };
 		B5D206232D9EB78600527343 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5D206222D9EB78600527343 /* Kingfisher */; };
-		B5D206252D9EB78600527343 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B5D206242D9EB78600527343 /* RealmSwift */; };
 		B5D206292D9EB78600527343 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B5D206282D9EB78600527343 /* SwiftyJSON */; };
 		B5D2062B2D9EB7BD00527343 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2062A2D9EB7BD00527343 /* Kingfisher */; };
 		B5D2062E2D9EB85F00527343 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D2062D2D9EB85E00527343 /* StoreKit.framework */; };
@@ -185,7 +187,6 @@
 		B5D206302D9EB90E00527343 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204722D9EABFB00527343 /* Clipboard.swift */; };
 		B5D206312D9EB90E00527343 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204732D9EABFB00527343 /* LocalKeys.swift */; };
 		B5D206322D9EB90E00527343 /* BaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204742D9EABFB00527343 /* BaseConfig.swift */; };
-		B5D206332D9EB90E00527343 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204752D9EABFB00527343 /* RealmConfig.swift */; };
 		B5D206342D9EB97800527343 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
 		B5D206352D9EB99800527343 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204352D9EABFB00527343 /* OtherModel.swift */; };
 		B5D206362D9EB9A300527343 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204342D9EABFB00527343 /* MessageModel.swift */; };
@@ -194,7 +195,6 @@
 		B5D206392D9EBA4D00527343 /* Extension+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204602D9EABFB00527343 /* Extension+.swift */; };
 		B5D2063A2D9EBAD700527343 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D204652D9EABFB00527343 /* CloudManager.swift */; };
 		B5D2063C2D9EBAFE00527343 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5D2063B2D9EBAFE00527343 /* Defaults */; };
-		B5D2064C2D9EBFDB00527343 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = B5D2058C2D9EAE8A00527343 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		B5D206502D9EC74900527343 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D2064F2D9EC74900527343 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -286,7 +286,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B5D2064C2D9EBFDB00527343 /* RealmSwift in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,6 +321,8 @@
 		B555FA6A2DACC33A0008D11E /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		B555FA752DACC33B0008D11E /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
 		B577DAD42DC5F38000AB7527 /* zoomable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zoomable.swift; sourceTree = "<group>"; };
+		B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
+		B57AF82E2DE40B35006C8F7F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PushbackWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B58133BB2DC9A61F00752D46 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		B58133BD2DC9A61F00752D46 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -361,7 +362,6 @@
 		B5D204662D9EABFB00527343 /* OpenChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenChatManager.swift; sourceTree = "<group>"; };
 		B5D204692D9EABFB00527343 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		B5D2046A2D9EABFB00527343 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
-		B5D2046B2D9EABFB00527343 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		B5D2046D2D9EABFB00527343 /* cryptoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cryptoManager.swift; sourceTree = "<group>"; };
 		B5D2046E2D9EABFB00527343 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		B5D2046F2D9EABFB00527343 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -369,7 +369,6 @@
 		B5D204722D9EABFB00527343 /* Clipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
 		B5D204732D9EABFB00527343 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
 		B5D204742D9EABFB00527343 /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
-		B5D204752D9EABFB00527343 /* RealmConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		B5D2059D2D9EAEFE00527343 /* NotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D205AE2D9EAF1500527343 /* NotificationContentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationContentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D205B02D9EAF1500527343 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -552,11 +551,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B58133D92DCAD9BB00752D46 /* RealmSwift in Frameworks */,
 				B58133D72DCAD9BB00752D46 /* Defaults in Frameworks */,
 				B58133BE2DC9A61F00752D46 /* SwiftUI.framework in Frameworks */,
 				B58133BC2DC9A61F00752D46 /* WidgetKit.framework in Frameworks */,
 				B5A8851A2DD51453009696F6 /* cmark-gfm-extensions in Frameworks */,
+				B57AF82B2DE3E8F2006C8F7F /* GRDB in Frameworks */,
 				B5A885182DD51453009696F6 /* cmark-gfm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,9 +571,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5D2058D2D9EAE8A00527343 /* RealmSwift in Frameworks */,
 				B55B8DFF2DDC139A002EA38E /* OpenAI in Frameworks */,
 				B5D205902D9EAEA800527343 /* Splash in Frameworks */,
+				B57AF7332DE3E07A006C8F7F /* GRDB in Frameworks */,
 				B5D2057F2D9EAE2C00527343 /* Kingfisher in Frameworks */,
 				B5D2062E2D9EB85F00527343 /* StoreKit.framework in Frameworks */,
 				B5D205932D9EAEBE00527343 /* cmark-gfm in Frameworks */,
@@ -590,11 +589,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5D206252D9EB78600527343 /* RealmSwift in Frameworks */,
 				B5D206232D9EB78600527343 /* Kingfisher in Frameworks */,
 				B5D206212D9EB78600527343 /* Defaults in Frameworks */,
 				B5D206292D9EB78600527343 /* SwiftyJSON in Frameworks */,
 				B5A8850C2DD5135C009696F6 /* cmark-gfm-extensions in Frameworks */,
+				B57AF8292DE3E8DF006C8F7F /* GRDB in Frameworks */,
 				B5D206092D9EB13700527343 /* cmark-gfm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,11 +757,12 @@
 		B5D204702D9EABFB00527343 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B57AF82E2DE40B35006C8F7F /* DatabaseManager.swift */,
+				B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */,
 				B5D204652D9EABFB00527343 /* CloudManager.swift */,
 				B5D204662D9EABFB00527343 /* OpenChatManager.swift */,
 				B5D204692D9EABFB00527343 /* AudioManager.swift */,
 				B5D2046A2D9EABFB00527343 /* AppManager.swift */,
-				B5D2046B2D9EABFB00527343 /* RealmManager.swift */,
 				B5D2046D2D9EABFB00527343 /* cryptoManager.swift */,
 				B5D2046E2D9EABFB00527343 /* ImageManager.swift */,
 				B5D2046F2D9EABFB00527343 /* NetworkManager.swift */,
@@ -780,7 +780,6 @@
 				B5D204722D9EABFB00527343 /* Clipboard.swift */,
 				B5D204732D9EABFB00527343 /* LocalKeys.swift */,
 				B5D204742D9EABFB00527343 /* BaseConfig.swift */,
-				B5D204752D9EABFB00527343 /* RealmConfig.swift */,
 			);
 			path = Publics;
 			sourceTree = "<group>";
@@ -822,9 +821,9 @@
 			name = PushbackWidgetExtension;
 			packageProductDependencies = (
 				B58133D62DCAD9BB00752D46 /* Defaults */,
-				B58133D82DCAD9BB00752D46 /* RealmSwift */,
 				B5A885172DD51453009696F6 /* cmark-gfm */,
 				B5A885192DD51453009696F6 /* cmark-gfm-extensions */,
+				B57AF82A2DE3E8F2006C8F7F /* GRDB */,
 			);
 			productName = PushbackWidgetExtension;
 			productReference = B58133BA2DC9A61F00752D46 /* PushbackWidgetExtension.appex */;
@@ -881,12 +880,12 @@
 				B5D2057B2D9EAE1C00527343 /* Defaults */,
 				B5D2057E2D9EAE2C00527343 /* Kingfisher */,
 				B5D205872D9EAE6A00527343 /* QRScanner */,
-				B5D2058C2D9EAE8A00527343 /* RealmSwift */,
 				B5D2058F2D9EAEA800527343 /* Splash */,
 				B5D205922D9EAEBE00527343 /* cmark-gfm */,
 				B5D205942D9EAEBE00527343 /* cmark-gfm-extensions */,
 				B5D205972D9EAED900527343 /* SwiftyJSON */,
 				B55B8DFE2DDC139A002EA38E /* OpenAI */,
+				B57AF7322DE3E07A006C8F7F /* GRDB */,
 			);
 			productName = pushback;
 			productReference = B5D204252D9EABA300527343 /* pushback.app */;
@@ -913,9 +912,9 @@
 				B5D206082D9EB13700527343 /* cmark-gfm */,
 				B5D206202D9EB78600527343 /* Defaults */,
 				B5D206222D9EB78600527343 /* Kingfisher */,
-				B5D206242D9EB78600527343 /* RealmSwift */,
 				B5D206282D9EB78600527343 /* SwiftyJSON */,
 				B5A8850B2DD5135C009696F6 /* cmark-gfm-extensions */,
+				B57AF8282DE3E8DF006C8F7F /* GRDB */,
 			);
 			productName = NotificationServiceExtension;
 			productReference = B5D2059D2D9EAEFE00527343 /* NotificationServiceExtension.appex */;
@@ -1048,11 +1047,11 @@
 				B5D2057A2D9EAE1C00527343 /* XCRemoteSwiftPackageReference "Defaults" */,
 				B5D2057D2D9EAE2C00527343 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				B5D205862D9EAE6A00527343 /* XCRemoteSwiftPackageReference "QRScanner" */,
-				B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				B5D2058E2D9EAEA800527343 /* XCRemoteSwiftPackageReference "Splash" */,
 				B5D205912D9EAEBE00527343 /* XCRemoteSwiftPackageReference "swift-cmark" */,
 				B5D205962D9EAED900527343 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				B55B8DFD2DDC139A002EA38E /* XCRemoteSwiftPackageReference "OpenAI" */,
+				B57AF7312DE3E07A006C8F7F /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B5D204262D9EABA300527343 /* Products */;
@@ -1167,10 +1166,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57AF8312DE40D92006C8F7F /* DatabaseManager.swift in Sources */,
+				B57AF82D2DE3FD24006C8F7F /* MessagesManager.swift in Sources */,
 				B51515FA2DCDC2A600E6158B /* DefaultsConfig.swift in Sources */,
 				B5A885162DD513BD009696F6 /* Markdown.swift in Sources */,
 				B51515EF2DCDBBDE00E6158B /* WidgetData.swift in Sources */,
-				B58133E02DCAEBF600752D46 /* RealmConfig.swift in Sources */,
 				B58133DF2DCAEA9F00752D46 /* BaseConfig.swift in Sources */,
 				B58133DE2DCAEA8500752D46 /* OtherModel.swift in Sources */,
 				B58133DD2DCAE8AB00752D46 /* Extension+.swift in Sources */,
@@ -1193,7 +1193,6 @@
 				B5D204892D9EABFB00527343 /* Snapshot.swift in Sources */,
 				B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */,
 				B5A885132DD513BD009696F6 /* Markdown.swift in Sources */,
-				B5D2048B2D9EABFB00527343 /* RealmManager.swift in Sources */,
 				B5D2048C2D9EABFB00527343 /* ImageManager.swift in Sources */,
 				B5D2048D2D9EABFB00527343 /* HackerTextView.swift in Sources */,
 				B5D2048E2D9EABFB00527343 /* MarkdownColors.swift in Sources */,
@@ -1221,16 +1220,17 @@
 				B5D204A02D9EABFB00527343 /* Navigation+Extension.swift in Sources */,
 				B5D204A12D9EABFB00527343 /* image+.swift in Sources */,
 				B5D204A22D9EABFB00527343 /* TrayHelper.swift in Sources */,
-				B5D204A42D9EABFB00527343 /* RealmConfig.swift in Sources */,
 				B5D204A52D9EABFB00527343 /* Extension+.swift in Sources */,
 				B5D204A62D9EABFB00527343 /* OtherModel.swift in Sources */,
 				B5D204A72D9EABFB00527343 /* Splash+.swift in Sources */,
 				B5D204A82D9EABFB00527343 /* TagField.swift in Sources */,
 				B5D204A92D9EABFB00527343 /* WaveformScrubber.swift in Sources */,
+				B57AF82F2DE40B3C006C8F7F /* DatabaseManager.swift in Sources */,
 				B5D204AA2D9EABFB00527343 /* CloudManager.swift in Sources */,
 				B5D204AB2D9EABFB00527343 /* HeroEffect.swift in Sources */,
 				B5D204AC2D9EABFB00527343 /* AudioManager.swift in Sources */,
 				B5D204AD2D9EABFB00527343 /* Clipboard.swift in Sources */,
+				B57AF72A2DE3C5FC006C8F7F /* MessagesManager.swift in Sources */,
 				B5D204AE2D9EABFB00527343 /* ParallaxImageView.swift in Sources */,
 				B5D204AF2D9EABFB00527343 /* ParticleEffect.swift in Sources */,
 				B51515F92DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
@@ -1245,7 +1245,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55B93512DE00B89002EA38E /* RealmManager.swift in Sources */,
+				B57AF8302DE40D82006C8F7F /* DatabaseManager.swift in Sources */,
+				B57AF82C2DE3F3DC006C8F7F /* MessagesManager.swift in Sources */,
 				B5A885122DD513BD009696F6 /* Markdown.swift in Sources */,
 				B5A885082DD50049009696F6 /* VoiceManager.swift in Sources */,
 				B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */,
@@ -1260,7 +1261,6 @@
 				B5D206312D9EB90E00527343 /* LocalKeys.swift in Sources */,
 				B51515F82DCDC10D00E6158B /* DefaultsConfig.swift in Sources */,
 				B5D206322D9EB90E00527343 /* BaseConfig.swift in Sources */,
-				B5D206332D9EB90E00527343 /* RealmConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2014,6 +2014,14 @@
 				kind = branch;
 			};
 		};
+		B57AF7312DE3E07A006C8F7F /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		B5D205772D9EAE0400527343 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/swift-markdown-ui";
@@ -2041,14 +2049,6 @@
 		B5D205862D9EAE6A00527343 /* XCRemoteSwiftPackageReference "QRScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/QRScanner.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
 				branch = master;
 				kind = branch;
@@ -2091,15 +2091,25 @@
 			package = B55B8DFD2DDC139A002EA38E /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
 		};
+		B57AF7322DE3E07A006C8F7F /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B57AF7312DE3E07A006C8F7F /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+		B57AF8282DE3E8DF006C8F7F /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B57AF7312DE3E07A006C8F7F /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+		B57AF82A2DE3E8F2006C8F7F /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B57AF7312DE3E07A006C8F7F /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
 		B58133D62DCAD9BB00752D46 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B5D2057A2D9EAE1C00527343 /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
-		};
-		B58133D82DCAD9BB00752D46 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 		B5A8850B2DD5135C009696F6 /* cmark-gfm-extensions */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2156,11 +2166,6 @@
 			package = B5D205862D9EAE6A00527343 /* XCRemoteSwiftPackageReference "QRScanner" */;
 			productName = QRScanner;
 		};
-		B5D2058C2D9EAE8A00527343 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
 		B5D2058F2D9EAEA800527343 /* Splash */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B5D2058E2D9EAEA800527343 /* XCRemoteSwiftPackageReference "Splash" */;
@@ -2215,11 +2220,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B5D2057D2D9EAE2C00527343 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		B5D206242D9EB78600527343 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B5D205892D9EAE8A00527343 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 		B5D206282D9EB78600527343 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -6,109 +6,77 @@
 //
 
 import SwiftUI
-import RealmSwift
 import Defaults
 
 struct GroupMessagesView: View {
     
-    @EnvironmentObject private var groupModel: MessagesData
+    @EnvironmentObject private var messageManager: MessagesManager
     @EnvironmentObject private var manager:AppManager
-    
-    @State private var messages:[Message]  = []
-    @State private var currentPage:Int = 0
-    @State private var messagesCount:Int = 100
-    
-    var maxPage:Int{
-      Int(ceil(Double(messagesCount) / Double(50)))
-    }
-    
+
     var body: some View {
         ScrollViewReader { proxy in
             List{
              
-                ForEach(messages,id: \.group){ message in
+                ForEach(messageManager.groupMessages, id: \.id){ message in
        
-                        MessageRow(message: message, unreadCount: unRead(message))
-                            .pressEvents(onRelease: { value in
-                                manager.router = [.messageDetail(message.group)]
-                                return true
-                            })
-                            .id(message.group)
-                            .swipeActions(edge: .leading) {
-                                Button {
-                                    let group = message.group
-                                    Task.detached(priority: .background){
-                                        RealmManager.handler { proxy in
-                                            let datas = proxy.objects(Message.self).where({$0.group == group}).where({!$0.read})
-                                            try? proxy.write {
-                                                datas.setValue(true, forKey: "read")
-                                            }
-                                            
-                                        }
-                                    }
-                                    
-                                } label: {
-                                    
-                                    Label( "标记", systemImage: unRead(message) == 0 ?  "envelope.open" : "envelope")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.white, Color.primary)
-                                    
-                                }.tint(.blue)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                Button {
+                    MessageRow(message: message, unreadCount: unRead(message))
+                        .pressEvents(onRelease: { value in
+                            manager.router = [.messageDetail(message.group)]
+                            return true
+                        })
+                        .id(message.group)
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                messageManager.markAllRead(group: message.group)
+                            } label: {
+                                
+                                Label( "标记", systemImage: unRead(message) == 0 ?  "envelope.open" : "envelope")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.white, Color.primary)
+                                
+                            }.tint(.blue)
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button {
 
-                                    withAnimation {
-                                        groupModel.delete(message: message)
-                                    }
+                                withAnimation {
+                                    messageManager.groupMessages.removeAll(where: {$0.id == message.id})
                                    
-                                } label: {
-                                    
-                                    Label( "删除", systemImage: "trash")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.white, Color.primary)
-                                    
-                                }.tint(.red)
-                            }
+                                }
+                                
+                                Task.detached(priority: .background){
+                                
+                                    _ = await messageManager.deleteAll(inGroup: message.group)
+                                }
+                               
+                            } label: {
+                                
+                                Label( "删除", systemImage: "trash")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.white, Color.primary)
+                                
+                            }.tint(.red)
+                        }
                     
                 }
                 
                 HStack{
+                    Spacer()
                     ProgressView()
                     Text("正在加载中...")
+                    Spacer()
                 }
-                .opacity(currentPage >= maxPage ? 0 : 1)
                 .listRowBackground(Color.clear)
-                .onAppear{
-                    Task{
-                        currentPage += 1
-                        loadData(proxy: proxy)
-                        proxyTo(proxy: proxy, selectGroup: manager.selectGroup)
-                    }
-                }
-                
+                .opacity(messageManager.showGroupLoading ? 1 : 0)
+                .animation(.easeInOut, value: messageManager.showGroupLoading)
                 
             }
-            .onChange(of: manager.selectGroup){value in  proxyTo(proxy: proxy, selectGroup: value)}
-            .refreshable {
-                loadData(proxy: proxy)
-            }
+            
         }
-        .animation(.snappy(), value: groupModel.messages)
-        .hideNavBarOnSwipe(false)
+        .animation(.default, value: messageManager.groupMessages)
         
     }
     
-    private func loadData(proxy:ScrollViewProxy){
-        guard let realm = try? Realm() else { return }
-        let results = realm.objects(Message.self)
-            .distinct(by: ["group"]).sorted(by: {$0.createDate > $1.createDate})
-        let size = min(self.currentPage * 50, results.count)
-        DispatchQueue.main.async {
-            self.messagesCount = results.count
-            self.messages = Array(results.prefix(size))
-        }
-    }
     
     private func proxyTo(proxy: ScrollViewProxy, selectGroup:String?){
         if let value = selectGroup{
@@ -124,7 +92,7 @@ struct GroupMessagesView: View {
     
 
     private func unRead(_ message: Message) -> Int{
-        RealmManager.unRead(message.group)
+        messageManager.unreadCount(group: message.group)
     }
     
 }

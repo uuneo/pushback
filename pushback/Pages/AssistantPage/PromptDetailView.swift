@@ -9,7 +9,6 @@ struct PromptDetailView: View {
     let prompt: ChatPrompt?
     
     @State private var title: String
-    @State private var address: String
     @State private var content: String
     @State private var showDeleteConfirmation = false
     @State private var isEditing = false
@@ -19,7 +18,6 @@ struct PromptDetailView: View {
         _title = State(initialValue: prompt?.title ?? "")
         _content = State(initialValue: prompt?.content ?? "")
         _isEditing = State(initialValue: prompt == nil)
-        _address = State(wrappedValue: prompt?.address ?? "")
     }
     
     var body: some View {
@@ -27,9 +25,6 @@ struct PromptDetailView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     titleSection
-                    if address.count > 5 || isEditing{
-                        addressSection
-                    }
                     contentSection
                     promptInfoSection
                     actionButtonsSection
@@ -56,18 +51,7 @@ struct PromptDetailView: View {
             }
         }
     }
-    
-    // MARK: - View Components
-    private var addressSection: some View {
-        SectionView(false,title: String(localized: "自动更新")) {
-            if isEditing {
-                TextField("请输入网络地址", text: $address)
-                    .textFieldStyle(.roundedBorder)
-            } else {
-                Text(address).font(.body)
-            }
-        }
-    }
+
     
     private var contentSection: some View {
         SectionView(title: String(localized: "内容")) {
@@ -89,7 +73,7 @@ struct PromptDetailView: View {
         Group {
             if let prompt = prompt {
                 VStack(spacing: 12) {
-                    if prompt.isBuiltIn {
+                    if prompt.inside {
                         InfoBanner(
                             icon: "info.circle",
                             title: String(localized: "内置提示词"),
@@ -135,7 +119,7 @@ struct PromptDetailView: View {
     
     private var trailingToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
-            if prompt?.isBuiltIn == false {
+            if prompt?.inside == false {
                 if isEditing {
                     Button("保存") {
                         handleSavePrompt()
@@ -162,33 +146,37 @@ struct PromptDetailView: View {
     }
     
     private func handleUsePrompt() {
-        if prompt != nil{
-            let chatprompt = ChatPrompt()
-            chatprompt.title = title
-            chatprompt.content = content
-            chatprompt.address = address
-            chatprompt.isBuiltIn = false
+        guard prompt != nil else { return }
             
-            RealmManager.handler{ realm in
-                realm.writeAsync {
-                    realm.add(chatprompt)
+            let chatPrompt = ChatPrompt(
+                title: title,
+                content: content,
+                inside: false,
+                selected: false,
+            )
+            
+            do {
+                try DatabaseManager.shared.dbQueue.write { db in
+                    try chatPrompt.insert(db)
                 }
+                dismiss()
+            } catch {
+                print("❌ 插入 ChatPrompt 失败:", error)
             }
-            dismiss()
-        }
        
     }
     
     private func handleSavePrompt() {
-        if let prompt = prompt{
-            RealmManager.handler { realm in
-                if let item = realm.objects(ChatPrompt.self).first(where: {$0.id == prompt.id}){
-                    realm.writeAsync {
-                        item.title = title
-                        item.content = content
-                    }
+        do {
+            try DatabaseManager.shared.dbQueue.write { db in
+                if var item = try ChatPrompt.fetchOne(db, key: prompt?.id) {
+                    item.title = title
+                    item.content = content
+                    try item.update(db)
                 }
             }
+        } catch {
+            print("❌ 更新 ChatPrompt 失败:", error)
         }
         if prompt == nil {
             dismiss()
@@ -263,6 +251,6 @@ private struct InfoBanner: View {
 
 #Preview("提示词详情") {
     PromptDetailView(
-        prompt: ChatPrompt()
+        prompt: ChatPrompt(id: "", timestamp: .now, title: "", content: "", inside: false, selected: false)
     )
 }

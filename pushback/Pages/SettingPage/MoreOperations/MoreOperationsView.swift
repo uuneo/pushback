@@ -11,7 +11,6 @@
 
 
 import SwiftUI
-import RealmSwift
 import Defaults
 import UniformTypeIdentifiers
 import SwiftyJSON
@@ -119,10 +118,8 @@ struct MoreOperationsView: View {
                         }
                     }.onChange(of: badgeMode) { newValue in
                         if Defaults[.badgeMode] == .auto{
-                            RealmManager.handler{ proxy in
-                                let unRead = proxy.objects(Message.self).filter({ !$0.read }).count
-                                UNUserNotificationCenter.current().setBadgeCount( unRead )
-                            }
+                            let unRead =  MessagesManager.shared.unreadCount()
+                            UNUserNotificationCenter.current().setBadgeCount( unRead )
                         }
                     }
                     
@@ -255,8 +252,8 @@ struct TextFileMessage: FileDocument {
 	var content: [Message]
 
 	// 初始化器（设置默认内容）
-	init(content: Results<Message>) {
-		self.content = Array(content)
+	init(content: [Message]) {
+		self.content = content
 	}
 
 	// 从文件中读取内容

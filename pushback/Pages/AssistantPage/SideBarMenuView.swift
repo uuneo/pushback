@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import RealmSwift
+import GRDB
 
 struct ChatMessageSection {
     var id:String = UUID().uuidString
@@ -15,7 +15,7 @@ struct ChatMessageSection {
 }
 
 struct SideBarMenuView: View {
-    @ObservedResults(ChatGroup.self, sortDescriptor: SortDescriptor(keyPath: \ChatGroup.timestamp, ascending: false)) var chatGroups
+    @State private var chatGroups:[ChatGroup] = []
     
     var chatGroupSection:[ChatMessageSection]{
         getGroupedMessages(allMessages: chatGroups)
@@ -53,14 +53,21 @@ struct SideBarMenuView: View {
             }content: {
                 if let chatgroup = selectdChatGroup{
                     CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        RealmManager.handler { realm in
-                            if let group = realm.objects(ChatGroup.self).where({$0.id == chatgroup.id}).first{
-                                realm.writeAsync {
+                        do {
+                            try DatabaseManager.shared.dbQueue.write { db in
+                                if var group = try ChatGroup
+                                    .filter(ChatGroup.Columns.id == chatgroup.id)
+                                    .fetchOne(db)
+                                {
                                     group.name = text
+                                    try group.update(db)
                                 }
                             }
+                        } catch {
+                            print("❌ 更新 group.name 失败: \(error)")
                         }
                     }
+
                 }else {
                     Spacer()
                         .onAppear{
@@ -91,21 +98,18 @@ struct SideBarMenuView: View {
                     
                     HStack{
                         Button{
-                            RealmManager.handler{ realm in
+                            try? DatabaseManager.shared.dbQueue.write { db in
+                                // 将所有不等于指定 id 的 group 设置为非 current
+                                try ChatGroup
+                                    .filter(ChatGroup.Columns.id != chatgroup.id)
+                                    .updateAll(db, ChatGroup.Columns.current.set(to: false))
                                 
-                                let results = realm.objects(ChatGroup.self)
-                                
-                                let current = results.where({$0.id == chatgroup.id})
-                                
-                                let noCurrent = results.where({$0.id != chatgroup.id})
-                                
-                                realm.writeAsync {
-                                    current.setValue(true, forKey: "current")
-                                    noCurrent.setValue(false, forKey: "current")
-                                }
-
-                                
+                                // 将指定 id 的 group 设置为 current
+                                try ChatGroup
+                                    .filter(ChatGroup.Columns.id == chatgroup.id)
+                                    .updateAll(db, [ChatGroup.Columns.current.set(to: true)])
                             }
+
                             self.showMenu.toggle()
                         }label: {
                             
@@ -142,18 +146,19 @@ struct SideBarMenuView: View {
                             Text("重命名")
                         }
                         Button(role: .destructive){
-                            RealmManager.handler{ realm in
-                                if let group = realm.objects(ChatGroup.self).first(where: {$0.id == chatgroup.id}){
+                            try? DatabaseManager.shared.dbQueue.write { db in
+                                // 查找 ChatGroup
+                                if let group = try ChatGroup.fetchOne(db, key: chatgroup.id) {
+                                    // 删除与该 group.id 关联的所有 ChatMessage
+                                    try ChatMessage
+                                        .filter(ChatMessage.Columns.chat == group.id)
+                                        .deleteAll(db)
                                     
-                                    let msgs = realm.objects(ChatMessage.self).filter({$0.chat == group.id})
-                                    
-                                    realm.writeAsync {
-                                        realm.delete(msgs)
-                                        realm.delete(group)
-                                    }
-
+                                    // 删除该 ChatGroup 本身
+                                    try group.delete(db)
                                 }
                             }
+
                         }label:{
                             Text("删除")
                         }
@@ -211,13 +216,12 @@ struct SideBarMenuView: View {
             HStack{
                 Spacer()
                 Button{
-                    RealmManager.handler { realm in
-                        let datas = realm.objects(ChatGroup.self)
-                        
-                        realm.writeAsync {
-                            datas.setValue(false, forKey: "current")
-                        }
+                    _ = try? DatabaseManager.shared.dbQueue.write { db in
+                        try ChatGroup
+                            
+                            .updateAll(db, [ChatGroup.Columns.current.set(to: false)])
                     }
+
                     self.showMenu.toggle()
                 }label: {
                     Text("开始新聊天")
@@ -236,14 +240,16 @@ struct SideBarMenuView: View {
     }
     
     private func getleftIconName(group:String)-> String{
-        if let realm = try? Realm(){
-           return  realm.objects(ChatMessage.self).filter({$0.messageId == group}).count == 0 ? "rectangle.3.group.bubble" :"message.badge.circle"
+        let count = try? DatabaseManager.shared.dbQueue.read { db in
+            try ChatMessage
+                .filter(ChatMessage.Columns.message == group)
+                .fetchCount(db)
         }
-        return "rectangle.3.group.bubble"
+        return (count ?? 0) == 0 ? "rectangle.3.group.bubble" : "message.badge.circle"
     }
     
     
-    private func getGroupedMessages(allMessages: Results<ChatGroup>) -> [ChatMessageSection] {
+    private func getGroupedMessages(allMessages: [ChatGroup]) -> [ChatMessageSection] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         

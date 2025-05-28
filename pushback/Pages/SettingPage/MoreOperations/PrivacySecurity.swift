@@ -117,14 +117,14 @@ struct PrivacySecurity:View {
                             let results = try await  DatabaseManager.shared.dbPool.read { db in
                                 try Message.fetchAll(db)
                             }
-                            DispatchQueue.main.async {
+                             DispatchQueue.main.async {
                                 self.messages = results
                                 self.showexportLoading = false
                                 self.showexport = true
                             }
                         }catch{
                             debugPrint(error.localizedDescription)
-                            DispatchQueue.main.async{
+                             DispatchQueue.main.async{
                                 self.showexportLoading = false
                             }
                         }
@@ -335,7 +335,7 @@ struct PrivacySecurity:View {
                                     Toast.error(title: "数据库整理失败")
                                 }
                               
-                                DispatchQueue.main.async{
+                                 DispatchQueue.main.async{
                                     self.showDriveCheckLoading = false
                                     calculateSize()
                                 }

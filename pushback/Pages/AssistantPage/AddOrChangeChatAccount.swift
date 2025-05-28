@@ -131,7 +131,9 @@ struct AddOrChangeChatAccount:View {
                         Button{
                             self.dismiss()
                             let local = PBScheme.pb.scheme(host: .assistant, params: ["text":config])
-                            AppManager.shared.sheetPage = .quickResponseCode(text: local.absoluteString, title: String(localized: "智能助手"), preview: String(localized: "智能助手"))
+                            DispatchQueue.main.async{
+                                AppManager.shared.sheetPage = .quickResponseCode(text: local.absoluteString, title: String(localized: "智能助手"), preview: String(localized: "智能助手"))
+                            }
                         }label:{
                             Label("分享", systemImage: "qrcode")
                         }

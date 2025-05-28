@@ -17,7 +17,9 @@ struct SearchMessageView:View {
                 MessageCard(message: message, searchText: searchText, showGroup: true){
                     withAnimation(.easeInOut) {
                         AppManager.hideKeyboard()
-                        AppManager.shared.selectMessage = message
+                        DispatchQueue.main.async {
+                            AppManager.shared.selectMessage = message
+                        }
                     }
                 }
                     .onAppear{
@@ -53,7 +55,7 @@ struct SearchMessageView:View {
             guard !Task.isCancelled else { return }
             
             let results = await DatabaseManager.shared.query(search: searchText, group: group, limit: limit, item?.createDate)
-            DispatchQueue.main.async{
+             DispatchQueue.main.async{
                 if item == nil{
                     self.messages = results.0
                 }else{

@@ -42,7 +42,7 @@ class MessagesManager: ObservableObject{
                 print("Failed to observe unread count:", error)
             },
             onChange: { [weak self] newUnreadCount in
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     self?.showGroupLoading = true
                     self?.updateSign += 1
                     self?.unreadCount = newUnreadCount.0

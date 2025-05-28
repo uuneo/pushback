@@ -182,7 +182,7 @@ struct UploadIclondIcon:View {
     
     /// Saving Items to SwiftData
     func saveItems() async  {
-        DispatchQueue.main.async {
+         DispatchQueue.main.async {
             self.pictureLoading = true
         }
         let err = await CloudManager.shared.savePushIconModel(self.pushIcon)
@@ -195,7 +195,7 @@ struct UploadIclondIcon:View {
             break
         }
         
-        DispatchQueue.main.async {
+         DispatchQueue.main.async {
             self.tips = err.tips
             self.pictureLoading = false
         }

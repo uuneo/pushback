@@ -143,7 +143,7 @@ struct AssistantPageView:View {
             .sheet(isPresented: $showMenu) {
                 SideBarMenuView(showMenu: $showMenu)
                     .onChange(of: showMenu) { value in
-                        DispatchQueue.main.async {
+                         DispatchQueue.main.async {
                             AppManager.hideKeyboard()
                         }
                     }
@@ -307,7 +307,7 @@ struct AssistantPageView:View {
         if !text.isEmpty {
            
             
-            DispatchQueue.main.async{
+             DispatchQueue.main.async{
                 chatManager.currentMessageId = UUID().uuidString
                 manager.isLoading = true
                 chatManager.currentRequest = text
@@ -322,7 +322,7 @@ struct AssistantPageView:View {
                    
                     if let res = result.choices.first?.delta.content {
                         
-                        DispatchQueue.main.async{
+                         DispatchQueue.main.async{
                             chatManager.currentContent = chatManager.currentContent + res
                         }
                         
@@ -345,7 +345,7 @@ struct AssistantPageView:View {
                 if let error{
                     Toast.error(title: "发生错误\(error.localizedDescription)")
                     Log.error(error)
-                    DispatchQueue.main.async{
+                     DispatchQueue.main.async{
                         manager.isLoading = false
                         chatManager.currentRequest = ""
                         chatManager.currentContent = ""
@@ -368,14 +368,14 @@ struct AssistantPageView:View {
                             
                             if openChatManager.shared.chatgroup == nil {
                                 try newGroup.insert(db)
-                                DispatchQueue.main.async{
+                                 DispatchQueue.main.async{
                                     openChatManager.shared.chatgroup = newGroup
                                 }
                             }
                             
                             try responseMessage.insert(db)
                         }
-                        DispatchQueue.main.async {
+                         DispatchQueue.main.async {
                             openChatManager.shared.currentRequest = ""
                             AppManager.shared.isLoading = false
                             AppManager.hideKeyboard()

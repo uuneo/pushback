@@ -203,7 +203,7 @@ struct ContentView: View {
                     }
                     
                     // 回到主线程设置语言
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         lang = currentLang
                     }
                 }
@@ -218,7 +218,7 @@ struct ContentView: View {
         switch manager.outParamsHandler(address: url.absoluteString) {
         case .crypto(let text):
             Log.debug(text)
-            DispatchQueue.main.async {
+             DispatchQueue.main.async {
                 manager.page = .setting
                 manager.router = [.privacy, .crypto(text)]
             }
@@ -226,7 +226,7 @@ struct ContentView: View {
             Task{
                 let success = await manager.appendServer(server: PushServerModel(url: url))
                 if success{
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         manager.page = .setting
                         manager.router = [.server]
                     }
@@ -236,7 +236,7 @@ struct ContentView: View {
             Task{
                 let success = await manager.restore(address: url, deviceKey: key)
                 if success{
-                    DispatchQueue.main.async {
+                     DispatchQueue.main.async {
                         manager.page = .setting
                         manager.router = [.server]
                     }
@@ -244,7 +244,7 @@ struct ContentView: View {
             }
         case .assistant(let text):
             if let account = AssistantAccount(base64: text){
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     manager.page = .setting
                     manager.router = [.assistant,.assistantSetting(account)]
                 }
@@ -252,7 +252,7 @@ struct ContentView: View {
         case .page(page: let page,title: let title, data: let data):
             switch page{
             case .widget:
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     manager.page = .setting
                     manager.router = [.more, .widget(title: title, data: data)]
                 }

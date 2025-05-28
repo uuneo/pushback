@@ -157,9 +157,10 @@ struct MessageCard: View {
                
                 Section{
                     Button{
-                        
-                        AppManager.shared.askMessageId = message.id
-                        AppManager.shared.router.append(.assistant)
+                         DispatchQueue.main.async{
+                            AppManager.shared.askMessageId = message.id
+                            AppManager.shared.router.append(.assistant)
+                        }
                         AppManager.vibration(style: .light)
                     }label: {
                         Label("问智能助手", image: "chatgpt")

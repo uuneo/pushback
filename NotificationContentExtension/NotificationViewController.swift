@@ -193,7 +193,7 @@ extension NotificationViewController{
         alertController.addAction(UIAlertAction(title:  String(localized:"确定"), style: .default, handler: nil))
 
         // 显示弹窗
-        DispatchQueue.main.async {
+         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
     }

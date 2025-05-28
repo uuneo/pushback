@@ -205,7 +205,7 @@ extension AppManager{
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert, .providesAppNotificationSettings]) { (granted, _) in
             if granted {
                 // 如果授权，注册设备接收推送通知
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             } else {
@@ -299,5 +299,3 @@ extension AppManager{
     
     
 }
-
-

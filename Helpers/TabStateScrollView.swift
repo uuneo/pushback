@@ -94,7 +94,7 @@ fileprivate struct CustomGesture: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {
-        DispatchQueue.main.async {
+         DispatchQueue.main.async {
             /// Verifying if there is already any gesture is Added
             if let superView = uiView.superview?.superview, !(superView.gestureRecognizers?.contains(where: { $0.name == gestureID }) ?? false) {
                 let gesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.gestureChange(gesture:)))

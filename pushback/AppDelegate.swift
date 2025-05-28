@@ -78,9 +78,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         let content = response.notification.request.content
         
-        AppManager.shared.page = .message
-        AppManager.shared.router = []
+       
         DispatchQueue.main.async{
+            AppManager.shared.page = .message
+            AppManager.shared.router = []
             AppManager.shared.selectId = response.notification.request.content.targetContentIdentifier
             AppManager.shared.selectGroup = content.threadIdentifier
         }
@@ -121,8 +122,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
-        AppManager.shared.page = .setting
-        AppManager.shared.router = [.more]
+        DispatchQueue.main.async{
+            AppManager.shared.page = .setting
+            AppManager.shared.router = [.more]
+        }
     }
     
 }

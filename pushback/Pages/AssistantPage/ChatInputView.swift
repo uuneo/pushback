@@ -229,12 +229,17 @@ private struct PromptLabelView: View {
                         .onAppear{
                             Task.detached(priority: .background) {
                                 try? await  DatabaseManager.shared.dbPool.write { db in
-                                   
-                                    openChatManager.shared.chatgroup = nil
+                                     DispatchQueue.main.async{
+                                        openChatManager.shared.chatgroup = nil
+                                    }
+                                    
                                     // 尝试查找 quote.id 对应的 group
                                     if let group = try  ChatGroup.fetchOne(db, key: quote.id) {
                                         // 如果存在，就设为 current
-                                        openChatManager.shared.chatgroup = group
+                                         DispatchQueue.main.async{
+                                            openChatManager.shared.chatgroup = group
+                                        }
+                                        
                                         try group.update(db)
                                     } else {
                                         // 如果不存在，创建一个新的
@@ -245,7 +250,10 @@ private struct PromptLabelView: View {
                                             host: "",
                                         )
                                         try group.insert(db)
-                                        openChatManager.shared.chatgroup = group
+                                         DispatchQueue.main.async{
+                                            openChatManager.shared.chatgroup = group
+                                        }
+                                        
                                     }
                                 }
                             }

@@ -153,7 +153,7 @@ struct MessageDetailPage: View {
         Task.detached(priority: .userInitiated) {
             let results = await DatabaseManager.shared.query(group: self.group, limit: limit, item?.createDate)
             let count = DatabaseManager.shared.count(group: self.group)
-            DispatchQueue.main.async {
+             DispatchQueue.main.async {
                 self.allCount = count
                 if item == nil {
                     self.messages = results
@@ -164,6 +164,7 @@ struct MessageDetailPage: View {
                     withAnimation {
                         proxy?.scrollTo(selectId, anchor: .center)
                     }
+                   
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3){
                         manager.selectId = nil
                         manager.selectGroup = nil

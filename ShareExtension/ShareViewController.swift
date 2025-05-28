@@ -109,7 +109,7 @@ fileprivate struct ShareView: View {
                             return
                         }
                         
-                        DispatchQueue.main.async {
+                         DispatchQueue.main.async {
                             
                             self.pushIcon = .init(id: UUID().uuidString, name: "", description: [], size: pngData.count, sha256: pngData.sha256(), file: tempURL, previewImage: image)
                         }

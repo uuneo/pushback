@@ -164,7 +164,7 @@ struct CloudIcon: View {
                                         return
                                     }
                                     
-                                    DispatchQueue.main.async {
+                                     DispatchQueue.main.async {
                                         dropImage = .init(id: UUID().uuidString, name: "", description: [], size: pngData.count, sha256: pngData.sha256(), file: tempURL, previewImage: image)
                                     }
                                 }

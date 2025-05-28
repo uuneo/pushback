@@ -60,7 +60,7 @@ final class openChatManager: ObservableObject {
             onChange: { [weak self] newUnreadCount in
                 print("监听 SqlLite \(newUnreadCount)")
                 
-                DispatchQueue.main.async {
+                 DispatchQueue.main.async {
                     self?.groupsCount = newUnreadCount.0
                     self?.messagesCount = newUnreadCount.1
                     self?.promptCount = newUnreadCount.2
@@ -76,7 +76,7 @@ final class openChatManager: ObservableObject {
                     if var group = try ChatGroup.filter(Column("id") == groupId).fetchOne(db) {
                         group.name = newName
                         try group.update(db)
-                        DispatchQueue.main.async {
+                         DispatchQueue.main.async {
                             openChatManager.shared.chatgroup = group
                         }
                         

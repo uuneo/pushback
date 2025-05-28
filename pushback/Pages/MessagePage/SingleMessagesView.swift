@@ -155,7 +155,7 @@ struct SingleMessagesView: View {
             
            let results = await DatabaseManager.shared.query( limit: limit, item?.createDate)
             
-            DispatchQueue.main.async {
+             DispatchQueue.main.async {
  
                 if item == nil {
                     

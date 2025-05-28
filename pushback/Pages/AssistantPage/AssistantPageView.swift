@@ -364,7 +364,7 @@ struct AssistantPageView:View {
                 Task.detached(priority: .userInitiated) {
                     do{
                         
-                        try await openChatManager.shared.dbPool.write { db in
+                        try await DatabaseManager.shared.dbPool.write { db in
                             
                             if openChatManager.shared.chatgroup == nil {
                                 try newGroup.insert(db)

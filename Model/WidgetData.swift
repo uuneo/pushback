@@ -128,13 +128,13 @@ extension WidgetData{
         let calendar = Calendar.current
         let now = Date()
         
-        let unRead = MessagesManager.shared.unreadCount()
+        let unRead = DatabaseManager.shared.unreadCount()
         
         // 分组个数
         
-        let groups = MessagesManager.shared.queryGroup().count
+        let groups = DatabaseManager.shared.queryGroup().count
         
-        let total = MessagesManager.shared.count()
+        let total = DatabaseManager.shared.count()
         
         // 本周
         let startOfWeek = calendar.startOfWeek(for: now)

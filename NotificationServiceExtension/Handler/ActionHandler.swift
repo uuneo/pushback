@@ -31,7 +31,7 @@ class ActionHandler: NotificationContentHandler{
 		switch Defaults[.badgeMode] {
 		case .auto:
 			// MARK: 通知角标 .auto
-            bestAttemptContent.badge = NSNumber(value:  MessagesManager.shared.unreadCount())
+            bestAttemptContent.badge = NSNumber(value:  DatabaseManager.shared.unreadCount())
 			
         case .custom:
             // MARK: 通知角标 .custom
@@ -41,7 +41,7 @@ class ActionHandler: NotificationContentHandler{
         }
 
 		// MARK: - 删除过期消息
-        await MessagesManager.shared.deleteExpired()
+        await DatabaseManager.shared.deleteExpired()
         
         // MARK: - 静音分组
         for setting in Defaults[.muteSetting] {

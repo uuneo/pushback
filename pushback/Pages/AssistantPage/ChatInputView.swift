@@ -22,7 +22,7 @@ struct ChatInputView: View {
     
     private var quote:Message?{
         guard let messageId = manager.askMessageId else { return nil }
-        return  MessagesManager.shared.query(id: messageId)
+        return  DatabaseManager.shared.query(id: messageId)
     }
    
     var body: some View {
@@ -181,7 +181,7 @@ private struct PromptLabelView: View {
     
     private var quote:Message?{
         guard let messageId = AppManager.shared.askMessageId  else { return nil }
-        return  MessagesManager.shared.query(id: messageId)
+        return  DatabaseManager.shared.query(id: messageId)
     }
     
     var body: some View {
@@ -228,7 +228,7 @@ private struct PromptLabelView: View {
                     QuoteView(message: quote)
                         .onAppear{
                             Task.detached(priority: .background) {
-                                try? await  chatManager.dbPool.write { db in
+                                try? await  DatabaseManager.shared.dbPool.write { db in
                                    
                                     openChatManager.shared.chatgroup = nil
                                     // 尝试查找 quote.id 对应的 group

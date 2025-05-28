@@ -155,52 +155,7 @@ struct ChatMessageListView: View {
 }
 
 
-struct HistoryMessage:View {
-    @Binding var showHistory:Bool
-    @State private var messages:[ChatMessage] = []
-    
-    init(showHistory: Binding<Bool>, group:String) {
-        self._showHistory = showHistory
-//        self._messages = ObservedResults(ChatMessage.self,where: {$0.chat == group},sortDescriptor: .init(keyPath: \ChatMessage.timestamp, ascending: false))
-    }
-    
-    var body: some View {
-        NavigationStack{
-            ScrollView{
-                LazyVStack{
-                    ForEach(messages, id:\.id) { message in
-                        
-                        ChatMessageView(message: message,isLoading: false)
-                            .id(message.id)
-                    }
-                    
-                    Text("已加载全部数据")
-                        .font(.caption)
-                        .foregroundStyle(.gray)
-                }
-                
-            }
-            
-            .navigationTitle("历史记录")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        self.showHistory = false
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                    
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("\(messages.count)")
-                        .font(.caption2)
-                        .foregroundStyle(Color.gray)
-                }
-            }
-        }
-    }
-}
+
 
 class Throttler {
     private var lastExecution: Date = .distantPast

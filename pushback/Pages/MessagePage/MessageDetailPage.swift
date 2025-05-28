@@ -20,7 +20,7 @@ struct MessageDetailPage: View {
 
     // 分页相关状态
     @State private var messages:[Message]  = []
-    @State private var allCount:Int = 100
+    @State private var allCount:Int = 1000000
 
     @State private var isLoading: Bool = false
     @State private var showAllTTL:Bool = false
@@ -62,7 +62,12 @@ struct MessageDetailPage: View {
                                        
                                     }
                                     Task.detached(priority: .background){
-                                        _ = await messageManager.delete(message)
+                                        let count = await DatabaseManager.shared.delete(message)
+                                        if count == 0{
+                                            await MainActor.run{
+                                                self.dismiss()
+                                            }
+                                        }
                                     }
                                     
                                    
@@ -75,7 +80,7 @@ struct MessageDetailPage: View {
                                 }.tint(.red)
                             }
                             .onAppear{
-                                if messages.last == message{
+                                if messages.count < allCount && messages.last == message{
                                     loadData(proxy: proxy,item: message)
                                 }
                             }
@@ -146,8 +151,8 @@ struct MessageDetailPage: View {
         
         
         Task.detached(priority: .userInitiated) {
-            let results = await messageManager.query(group: self.group, limit: limit, item?.createDate)
-            let count = await messageManager.count(group: self.group)
+            let results = await DatabaseManager.shared.query(group: self.group, limit: limit, item?.createDate)
+            let count = DatabaseManager.shared.count(group: self.group)
             DispatchQueue.main.async {
                 self.allCount = count
                 if item == nil {

@@ -48,7 +48,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
             
             let message = Message(id: id, group: group, createDate: .now, title: title, subtitle: subtitle, body: body, icon: icon, url: url, image: image,  host: host, level: Int(level), ttl: saveDays, read: false)
             Task.detached(priority: .background) {
-                await MessagesManager.shared.add(message)
+                await DatabaseManager.shared.add(message)
             }
             
         }

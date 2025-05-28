@@ -59,7 +59,7 @@ struct SingleMessagesView: View {
                                
                             }
                             Task.detached(priority: .background){
-                                _ = await messageManager.delete(message)
+                                _ = await DatabaseManager.shared.delete(message)
                             }
                         } label: {
                             
@@ -70,7 +70,8 @@ struct SingleMessagesView: View {
                         }.tint(.red)
                     }
                     .onAppear{
-                        if messageManager.singleMessages.last == message{
+                        if messageManager.singleMessages.count < messageManager.allCount &&
+                            messageManager.singleMessages.last == message{
                             self.loadData(proxy: proxy, item: message)
                         }
                     }
@@ -152,7 +153,7 @@ struct SingleMessagesView: View {
         self.showLoading = true
        Task.detached(priority: .userInitiated) {
             
-            let results = await messageManager.query( limit: limit, item?.createDate)
+           let results = await DatabaseManager.shared.query( limit: limit, item?.createDate)
             
             DispatchQueue.main.async {
  

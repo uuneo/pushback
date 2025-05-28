@@ -15,26 +15,24 @@ struct MessagePage: View {
     @StateObject private var messageManager = MessagesManager.shared
     
     var body: some View {
-       
-            Group{
-                if manager.searchText.isEmpty{
-                    if showGroup{
+        
+        Group{
+            if manager.searchText.isEmpty{
+                SingleMessagesView()
+                    .if(showGroup) {
                         GroupMessagesView()
-                    }else{
-                        SingleMessagesView()
                     }
-                }else{
-                   
-                    SearchMessageView(searchText: $manager.searchText)
-                }
-                
-                
+            }else{
+                SearchMessageView(searchText: $manager.searchText)
             }
-            .environmentObject(messageManager)
-            .searchable(text: $manager.searchText)
-            .listRowSpacing(10)
-            .navigationTitle( "消息")
-            .toolbar{
+            
+            
+        }
+        .navigationTitle( "消息")
+        .environmentObject(messageManager)
+        .searchable(text: $manager.searchText)
+        .listRowSpacing(10)
+        .toolbar{
                 
                 ToolbarItem( placement: .topBarLeading) {
                     Button{
@@ -51,7 +49,6 @@ struct MessagePage: View {
                     }
                 }
                 
-                
                 ToolbarItem{
                     Image(systemName: "questionmark.circle")
                         .symbolRenderingMode(.palette)
@@ -63,7 +60,6 @@ struct MessagePage: View {
                             
                         })
                 }
-                
                 
                 ToolbarItem {
                     
@@ -100,39 +96,39 @@ struct MessagePage: View {
                     }
                     
                 }
-                
             
-            }
-            .actionSheet(isPresented: $showAction) {
+            
+        }
+        .actionSheet(isPresented: $showAction) {
+            
+            ActionSheet(title: Text( "删除以下时间的信息!"),
+                        buttons: MessageAction.allCases.map({ item in
                 
-                ActionSheet(title: Text( "删除以下时间的信息!"),
-                            buttons: MessageAction.allCases.map({ item in
-                    
-                    item == .cancel ?
-                    Alert.Button.cancel() :
-                    Alert.Button.default(Text(item.localized), action: {
-                        deleteMessage(item)
-                    })
-                    
-                }))
-            }
-
-
+                item == .cancel ?
+                Alert.Button.cancel() :
+                Alert.Button.default(Text(item.localized), action: {
+                    deleteMessage(item)
+                })
+                
+            }))
+        }
+        
+        
     }
-
     
-   
+    
+    
     
     func deleteMessage(_ mode: MessageAction){
         
         if mode != .cancel{
             Task.detached(priority: .background) {
-                await messageManager.delete(date: mode.date)
+                await DatabaseManager.shared.delete(date: mode.date)
             }
         }
     }
     
-  
+    
     
 }
 

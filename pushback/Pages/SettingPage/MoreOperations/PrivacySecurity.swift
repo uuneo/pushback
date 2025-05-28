@@ -114,7 +114,7 @@ struct PrivacySecurity:View {
                     self.showexportLoading = true
                     cancelTask = Task.detached(priority: .background) {
                         do{
-                            let results = try await  messageManager.dbPool.read { db in
+                            let results = try await  DatabaseManager.shared.dbPool.read { db in
                                 try Message.fetchAll(db)
                             }
                             DispatchQueue.main.async {
@@ -396,7 +396,7 @@ struct PrivacySecurity:View {
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .secondsSince1970
                 let messages = try decoder.decode([Message].self, from: data)
-                try?  messageManager.dbPool.write { db in
+                try?  DatabaseManager.shared.dbPool.write { db in
                     for message in messages {
                         try message.insert(db)
                     }

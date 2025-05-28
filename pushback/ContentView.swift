@@ -50,9 +50,15 @@ struct ContentView: View {
         .alert(isPresented: $showAlart) {
             Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
                 Task.detached(priority: .userInitiated) {
-                    await MessagesManager.shared.delete(allRead: true)
+                    await DatabaseManager.shared.delete(allRead: true)
                 }
             }), secondaryButton: .cancel()) }
+//        .task {
+//            Task.detached(priority: .userInitiated) {
+//                await DatabaseManager.CreateStresstest(max: 200000)
+//            }
+//           
+//        }
         
     }
     
@@ -126,8 +132,8 @@ struct ContentView: View {
                 }
             }
             Task.detached(priority: .userInitiated) {
-                for item in MessagesManager.examples(){
-                   await  MessagesManager.shared.add(item)
+                for item in DatabaseManager.examples(){
+                    await  DatabaseManager.shared.add(item)
                 }
             }
             
@@ -177,17 +183,17 @@ struct ContentView: View {
         }
         
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        UNUserNotificationCenter.current().setBadgeCount(messageManager.unreadCount())
+        UNUserNotificationCenter.current().setBadgeCount(DatabaseManager.shared.unreadCount())
         WidgetCenter.shared.reloadAllTimelines()
         Task.detached(priority: .userInitiated) {
-            await MessagesManager.shared.deleteExpired()
+            await DatabaseManager.shared.deleteExpired()
         }
     }
     
     func setLangAssistantPrompt(){
         if let currentLang  = Locale.preferredLanguages.first{
             Task.detached(priority: .background) {
-                try await openChatManager.shared.dbPool.write { db in
+                try await DatabaseManager.shared.dbPool.write { db in
                     // 删除 inside == true 的项
                     try ChatPrompt.filter(ChatPrompt.Columns.inside == true).deleteAll(db)
                     

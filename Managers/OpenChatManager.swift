@@ -29,8 +29,8 @@ final class openChatManager: ObservableObject {
     @Published var chatPrompt:ChatPrompt? = nil
     @Published var chatMessages:[ChatMessage] = []
     
-    let local:URL
-    let dbPool:DatabasePool
+    private let DB: DatabaseManager = DatabaseManager.shared
+
     private var observationCancellable: AnyDatabaseCancellable?
     var cancellableRequest:CancellableRequest? = nil
     
@@ -40,8 +40,6 @@ final class openChatManager: ObservableObject {
     
     
     private init(){
-        self.local = DatabaseManager.shared.localPath
-        self.dbPool = DatabaseManager.shared.dbPool
         startObservingUnreadCount()
     }
     
@@ -54,7 +52,7 @@ final class openChatManager: ObservableObject {
         }
         
         observationCancellable = observation.start(
-            in: dbPool,
+            in: DB.dbPool,
             scheduling: .async(onQueue: .global()),
             onError: { error in
                 print("Failed to observe unread count:", error)
@@ -74,7 +72,7 @@ final class openChatManager: ObservableObject {
     func updateGroupName( groupId: String, newName: String) {
         Task.detached(priority: .userInitiated) {
             do {
-                try await self.dbPool.write { db in
+                try await self.DB.dbPool.write { db in
                     if var group = try ChatGroup.filter(Column("id") == groupId).fetchOne(db) {
                         group.name = newName
                         try group.update(db)
@@ -131,7 +129,7 @@ extension openChatManager{
         var params:[ChatQuery.ChatCompletionMessageParam] = []
         
         ///  增加system的前置参数
-        if let promt = try? dbPool.read({ db in
+        if let promt = try? DB.dbPool.read({ db in
             try ChatPrompt.filter(Column("selected")).fetchOne(db)
         }){
             params.append(.system(.init(content: promt.content, name: promt.title)))
@@ -139,7 +137,7 @@ extension openChatManager{
         
         var inputText:String{
             
-            if let messageId = messageId, let message = MessagesManager.shared.query(id: messageId){
+            if let messageId = messageId, let message = DatabaseManager.shared.query(id: messageId){
                 return message.search + "\n" + text
             }
             return text
@@ -147,7 +145,7 @@ extension openChatManager{
         
         
         /// 连续对话，获取前多少条的对话
-        if (try? dbPool.read({ db in
+        if (try? DB.dbPool.read({ db in
             try ChatGroup.filter(ChatGroup.Columns.id == chatgroup?.id).fetchOne(db)
         })) != nil{
             return ChatQuery(messages: [.user(.init(content: .string(inputText)))], model: account.model)
@@ -156,7 +154,7 @@ extension openChatManager{
         
         
         let limit = Defaults[.historyMessageCount]
-        if  let messageRaw = try? dbPool.read({ db in
+        if  let messageRaw = try? DB.dbPool.read({ db in
             try ChatMessage
                 .order(Column("timestamp").desc)
                 .limit(limit)
@@ -214,7 +212,7 @@ extension openChatManager{
     func clearunuse(){
         Task.detached(priority: .background) {
             do {
-                try self.dbPool.write { db in
+                try self.DB.dbPool.write { db in
                     
                     // 1. 查找无关联 ChatMessage 的 ChatGroup
                     let allGroups = try ChatGroup.fetchAll(db)

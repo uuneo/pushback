@@ -118,7 +118,7 @@ struct MoreOperationsView: View {
                         }
                     }.onChange(of: badgeMode) { newValue in
                         if Defaults[.badgeMode] == .auto{
-                            let unRead =  MessagesManager.shared.unreadCount()
+                            let unRead =  DatabaseManager.shared.unreadCount()
                             UNUserNotificationCenter.current().setBadgeCount( unRead )
                         }
                     }

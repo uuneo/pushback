@@ -11,7 +11,7 @@ struct ChatMessageView: View {
     
     private var quote:Message?{
         guard let messageId = AppManager.shared.askMessageId  else { return nil }
-        return  MessagesManager.shared.query(id: messageId)
+        return  DatabaseManager.shared.query(id: messageId)
     }
     
     @Default(.showCodeViewColor) var showCodeViewColor

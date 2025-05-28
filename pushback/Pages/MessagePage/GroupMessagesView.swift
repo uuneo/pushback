@@ -13,13 +13,14 @@ struct GroupMessagesView: View {
     
     @EnvironmentObject private var messageManager: MessagesManager
     @EnvironmentObject private var manager:AppManager
-
+    
     var body: some View {
         ScrollViewReader { proxy in
+            
             List{
                 
                 ForEach(messageManager.groupMessages, id: \.id){ message in
-       
+                    
                     MessageRow(message: message)
                         .pressEvents(onRelease: { value in
                             manager.router = [.messageDetail(message.group)]
@@ -28,16 +29,18 @@ struct GroupMessagesView: View {
                         .id(message.group)
                 }
                 
+                
+                
                 if messageManager.showGroupLoading && messageManager.groupMessages.count == 0{
                     HStack{
                         Spacer()
                         VStack(spacing: 16) {
                             ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .progressViewStyle(CircularProgressViewStyle(tint: .primary))
                                 .scaleEffect(1.5)
                             
                             Text("数据分组中...")
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                                 .font(.body)
                                 .bold()
                         }
@@ -49,9 +52,9 @@ struct GroupMessagesView: View {
                 }
                 
             }
-            
+            .animation(.default, value: messageManager.groupMessages)
         }
-        .animation(.default, value: messageManager.groupMessages)
+        
         
     }
     
@@ -64,7 +67,7 @@ struct GroupMessagesView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 manager.router = [.messageDetail(value)]
             }
-           
+            
         }
     }
     
@@ -101,7 +104,7 @@ struct MessageRow: View {
                     }
                 }
             
-           
+            
             
             
             VStack(alignment: .leading) {
@@ -130,7 +133,7 @@ struct MessageRow: View {
         .swipeActions(edge: .leading) {
             Button {
                 Task.detached(priority: .userInitiated) {
-                    await messageManager.markAllRead(group: message.group)
+                    await DatabaseManager.shared.markAllRead(group: message.group)
                 }
             } label: {
                 
@@ -142,17 +145,17 @@ struct MessageRow: View {
         }
         .swipeActions(edge: .trailing) {
             Button {
-
+                
                 withAnimation {
                     messageManager.groupMessages.removeAll(where: {$0.id == message.id})
-                   
+                    
                 }
                 
                 Task.detached(priority: .background){
-                
-                    _ = await messageManager.deleteAll(inGroup: message.group)
+                    
+                    _ = await DatabaseManager.shared.delete(message, in: true)
                 }
-               
+                
             } label: {
                 
                 Label( "删除", systemImage: "trash")
@@ -169,7 +172,7 @@ struct MessageRow: View {
     
     private func loadCount(){
         Task.detached(priority: .background) {
-            let count = try await messageManager.dbPool.read { db in
+            let count = try await DatabaseManager.shared.dbPool.read { db in
                 try Message
                     .filter(Message.Columns.group == message.group)
                     .filter(Message.Columns.read == false)

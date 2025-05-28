@@ -52,7 +52,7 @@ struct SearchMessageView:View {
             try? await Task.sleep(nanoseconds: 300_000_000) // 防抖延迟
             guard !Task.isCancelled else { return }
             
-            let results = await MessagesManager.shared.query(search: searchText, group: group, limit: limit, item?.createDate)
+            let results = await DatabaseManager.shared.query(search: searchText, group: group, limit: limit, item?.createDate)
             DispatchQueue.main.async{
                 if item == nil{
                     self.messages = results.0

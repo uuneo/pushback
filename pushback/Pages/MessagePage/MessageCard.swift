@@ -25,8 +25,18 @@ struct MessageCard: View {
     @State private var timeMode:Int = 0
     
     var dateTime:String{
-        showAllTTL ?  message.expiredTime() :
-        (timeMode == 1 ? message.createDate.formatString() : message.createDate.agoFormatString())
+        if showAllTTL{
+            return message.expiredTime()
+        }else{
+            switch timeMode {
+            case 1:
+                return message.createDate.formatString()
+            case 2:
+                return message.expiredTime()
+            default:
+                return  message.createDate.agoFormatString()
+            }
+        }
     }
     
     
@@ -321,7 +331,7 @@ struct MessageCard: View {
 #Preview {
     
     List {
-        MessageCard(message: MessagesManager.examples().first!)
+        MessageCard(message: DatabaseManager.examples().first!)
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
             .environmentObject(AppManager.shared)

@@ -43,8 +43,8 @@ struct MessageCard: View {
     var linColor:Color{
         
         if let selectId = AppManager.shared.selectId {
-            let right = selectId.uppercased() == message.id
-            return right ?  .red : .clear
+            let right = selectId.uppercased() == message.id.uppercased()
+            return right ?  .accent : .clear
         }
         return .clear
         
@@ -247,7 +247,7 @@ struct MessageCard: View {
         }header: {
             MessageViewHeader()
                 .padding(5)
-                .background(linColor)
+                .background(linColor.gradient)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 
         }footer: {
@@ -267,7 +267,8 @@ struct MessageCard: View {
            
             Text(dateTime)
                 .font(.caption2)
-                .foregroundStyle( message.createDate.colorForDate() )
+                .foregroundStyle(AppManager.shared.selectId?.uppercased() == message.id.uppercased() ?
+                    .white : message.createDate.colorForDate() )
                 .pressEvents(onRelease: { value in
                     withAnimation {
                         let number = self.timeMode + 1

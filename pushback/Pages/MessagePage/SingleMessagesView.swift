@@ -140,7 +140,7 @@ struct SingleMessagesView: View {
     private func proxyTo(proxy: ScrollViewProxy, selectId:String?){
         if let selectId = selectId{
             withAnimation {
-                proxy.scrollTo(UUID(uuidString: selectId), anchor: .center)
+                proxy.scrollTo(selectId, anchor: .center)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                 manager.selectId = nil

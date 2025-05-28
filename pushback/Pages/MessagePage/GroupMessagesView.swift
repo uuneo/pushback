@@ -53,6 +53,15 @@ struct GroupMessagesView: View {
                 
             }
             .animation(.default, value: messageManager.groupMessages)
+            .onChange(of: messageManager.allCount) { _ in
+                if let selectGroup = manager.selectGroup{
+                    proxyTo(proxy: proxy, selectGroup: selectGroup)
+                    DispatchQueue.main.async{
+                        manager.router.append(.messageDetail(selectGroup))
+                    }
+                }
+                
+            }
         }
         
         

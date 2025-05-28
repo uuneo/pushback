@@ -161,9 +161,13 @@ struct MessageDetailPage: View {
                     self.messages += results
                 }
                 if let selectId = manager.selectId{
-                    proxy?.scrollTo(selectId, anchor: .center)
-                    manager.selectId = nil
-                    manager.selectGroup = nil
+                    withAnimation {
+                        proxy?.scrollTo(selectId, anchor: .center)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                        manager.selectId = nil
+                        manager.selectGroup = nil
+                    }
                 }
             }
         }

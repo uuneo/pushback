@@ -84,6 +84,8 @@ struct MessageDetailPage: View {
                                     loadData(proxy: proxy,item: message)
                                 }
                             }
+                            .opacity(manager.selectMessage == message ? 0 : 1)
+                           
                         }
                         
                        

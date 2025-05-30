@@ -23,6 +23,8 @@ struct SingleMessagesView: View {
     
     @State private var showLoading:Bool = false
     
+    
+    @Namespace var namespace
     var body: some View {
         
         ScrollViewReader { proxy in

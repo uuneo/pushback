@@ -132,7 +132,8 @@ extension openChatManager{
         if let promt = try? DB.dbPool.read({ db in
             try ChatPrompt.filter(Column("selected")).fetchOne(db)
         }){
-            params.append(.system(.init(content: promt.content, name: promt.title)))
+//            params.append(.system(.init(content: .textContent(promt.content), name: promt.title)))
+            params.append(.system(.init(content: .textContent(promt.content), name: promt.title)))
         }
         
         var inputText:String{
@@ -165,7 +166,7 @@ extension openChatManager{
                 
                 for message in messageRaw{
                     params.append(.user(.init(content: .string(message.request))))
-                    params.append(.assistant(.init(content: message.content)))
+                    params.append(.assistant(.init(content: .textContent(message.content))))
                     
                 }
             }

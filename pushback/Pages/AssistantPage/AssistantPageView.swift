@@ -325,11 +325,8 @@ struct AssistantPageView:View {
                          DispatchQueue.main.async{
                             chatManager.currentContent = chatManager.currentContent + res
                         }
-                        
-                        Task{
-                            if await manager.inAssistant {
-                                AppManager.vibration(style: .light)
-                            }
+                        if AppManager.shared.inAssistant {
+                            AppManager.vibration(style: .light)
                         }
                     }
                     
@@ -355,14 +352,16 @@ struct AssistantPageView:View {
                 
                 let newGroup = openChatManager.shared.chatgroup ?? ChatGroup(id: AppManager.shared.askMessageId ?? UUID().uuidString,timestamp: .now,name: openChatManager.shared.currentRequest, host: "")
                 
-                let responseMessage:ChatMessage = {
-                    var message = openChatManager.shared.currentChatMessage
-                    message.chat = newGroup.id
-                    return message
-                }()
+               
                 
                 Task.detached(priority: .userInitiated) {
                     do{
+                        
+                        let responseMessage:ChatMessage = {
+                            var message = openChatManager.shared.currentChatMessage
+                            message.chat = newGroup.id
+                            return message
+                        }()
                         
                         try await DatabaseManager.shared.dbPool.write { db in
                             
@@ -375,7 +374,7 @@ struct AssistantPageView:View {
                             
                             try responseMessage.insert(db)
                         }
-                         DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                             openChatManager.shared.currentRequest = ""
                             AppManager.shared.isLoading = false
                             AppManager.hideKeyboard()

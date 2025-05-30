@@ -34,6 +34,7 @@ class AppManager: NetworkManager, ObservableObject{
     @Published var isWarmStart:Bool = false
     
     @Published var selectMessage:Message? = nil
+    @Published var selectPoint:CGPoint = .zero
     
     
     /// 首页彩色框

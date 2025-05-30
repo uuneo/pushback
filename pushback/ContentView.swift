@@ -37,7 +37,7 @@ struct ContentView: View {
             
             IphoneHomeView()
                 .if(ISPAD) { IpadHomeView() }
-            
+                
             if firstStart{
                 firstStartLauchFirstStartView()
             }

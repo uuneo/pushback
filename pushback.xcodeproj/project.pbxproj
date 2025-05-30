@@ -65,6 +65,7 @@
 		B555FA5A2DAA77AC0008D11E /* shake.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA2C2DAA77AC0008D11E /* shake.caf */; };
 		B555FA5B2DAA77AC0008D11E /* call.caf in Resources */ = {isa = PBXBuildFile; fileRef = B555FA222DAA77AC0008D11E /* call.caf */; };
 		B555FACF2DAF90B70008D11E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D2046F2D9EABFB00527343 /* NetworkManager.swift */; };
+		B55B70072DE94D5400048438 /* ZoomGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55B70062DE94D5400048438 /* ZoomGesture.swift */; };
 		B55B8DFF2DDC139A002EA38E /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B55B8DFE2DDC139A002EA38E /* OpenAI */; };
 		B577DAD52DC5F38900AB7527 /* zoomable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577DAD42DC5F38000AB7527 /* zoomable.swift */; };
 		B57AF72A2DE3C5FC006C8F7F /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */; };
@@ -319,6 +320,7 @@
 		B555FA332DAA77AC0008D11E /* xiu.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = xiu.caf; sourceTree = "<group>"; };
 		B555FA6A2DACC33A0008D11E /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
 		B555FA752DACC33B0008D11E /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		B55B70062DE94D5400048438 /* ZoomGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGesture.swift; sourceTree = "<group>"; };
 		B577DAD42DC5F38000AB7527 /* zoomable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zoomable.swift; sourceTree = "<group>"; };
 		B57AF7292DE3C5F4006C8F7F /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
 		B57AF82E2DE40B35006C8F7F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 		B5D2044A2D9EABFB00527343 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B55B70062DE94D5400048438 /* ZoomGesture.swift */,
 				B53B104D2DD99255007848AA /* ToastView.swift */,
 				B577DAD42DC5F38000AB7527 /* zoomable.swift */,
 				B53934542DA92578001B9336 /* PopOutView.swift */,
@@ -1191,6 +1194,7 @@
 				B5D2048A2D9EABFB00527343 /* NetworkManager.swift in Sources */,
 				B5A885132DD513BD009696F6 /* Markdown.swift in Sources */,
 				B5D2048C2D9EABFB00527343 /* ImageManager.swift in Sources */,
+				B55B70072DE94D5400048438 /* ZoomGesture.swift in Sources */,
 				B5D2048D2D9EABFB00527343 /* HackerTextView.swift in Sources */,
 				B5D2048E2D9EABFB00527343 /* MarkdownColors.swift in Sources */,
 				B5D2048F2D9EABFB00527343 /* CustomAlertDrawer.swift in Sources */,

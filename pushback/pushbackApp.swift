@@ -7,7 +7,7 @@
 
 
 import SwiftUI
-
+import OpenAI
 @main
 struct pushbackApp: SwiftUI.App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -150,6 +150,9 @@ struct RootView<Content: View>: View {
 
 fileprivate class PassthroughWindow: UIWindow {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if AppManager.shared.selectMessage == nil{
+            AppManager.shared.selectPoint = point
+        }
         guard let hitView = super.hitTest(point, with: event),
                 let rootView = rootViewController?.view
         else { return nil }
@@ -185,6 +188,7 @@ extension View{
                     case .sound:
                         SoundView()
                     case .assistant:
+                        
                         AssistantPageView()
                             .navigationBarBackButtonHidden()
                     case .crypto(let text):

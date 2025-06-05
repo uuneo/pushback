@@ -1237,7 +1237,8 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
-				INFOPLIST_KEY_NSSiriUsageDescription = "我们需要访问 Siri 来为您提供消息搜索和删除功能。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need to access your photo library to select pictures and send notifications";
+				INFOPLIST_KEY_NSSiriUsageDescription = "We need to access siri to provide you with message search and deletion functions.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1272,7 +1273,8 @@
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
-				INFOPLIST_KEY_NSSiriUsageDescription = "我们需要访问 Siri 来为您提供消息搜索和删除功能。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need to access your photo library to select pictures and send notifications";
+				INFOPLIST_KEY_NSSiriUsageDescription = "We need to access siri to provide you with message search and deletion functions.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

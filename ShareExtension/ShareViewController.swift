@@ -2,7 +2,7 @@
 //  ShareViewController.swift
 //  ShareExtension
 //
-//  Created by lynn on 2025/4/3.
+//  Created by lynn on 2025/6/2.
 //
 
 import UIKit
@@ -93,7 +93,8 @@ fileprivate struct ShareView: View {
         
         DispatchQueue.global(qos: .userInteractive).async {
             for provider in itemProviders {
-                _ = provider.loadDataRepresentation(for: .image) { data, error in
+                
+                _ = provider.loadDataRepresentation(for: .data) { data, error in
                     guard let data = data else { return }
                     
                     if let image = data.toThumbnail(max: 300){

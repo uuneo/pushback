@@ -48,7 +48,7 @@ class MessagesManager: ObservableObject{
                     self?.unreadCount = newUnreadCount.0
                     self?.allCount = newUnreadCount.1
                 }
-                Task.detached(priority: .background) { [unowned self] in
+                Task.detached(priority: .userInitiated) { [unowned self] in
                     await self?.updateGroup()
                     await MainActor.run {
                         self?.showGroupLoading = false

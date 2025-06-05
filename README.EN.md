@@ -50,10 +50,10 @@ For POST requests, the parameter names are the same as above
 
 ## Parameters
 
-* Markdown
+* markdown / md
 ```
-// Specify category=markdown to render Markdown in the push notification
-https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+// The push notification will render Markdown
+https://push.uuneo.com/yourkey/?markdown=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
 ```
 
 * url

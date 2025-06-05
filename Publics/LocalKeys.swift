@@ -5,11 +5,10 @@
 //  Created by uuneo 2024/10/26.
 //
 
-@_exported import Defaults
+import Defaults
 import Foundation
 
 extension Defaults.Keys {
-    
     static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
     static let cloudServers = Key<[PushServerModel]>("serverArrayCloudStroage", [], iCloud: true)
     static let cryptoConfig = Key<CryptoModelConfig>("CryptoSettingFields", CryptoModelConfig.data)
@@ -19,7 +18,6 @@ extension Defaults.Keys {
     static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)
     static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[], iCloud: true)
-    
 }
 
 extension ExpirationTime: Defaults.Serializable{ }
@@ -32,7 +30,6 @@ extension CryptoAlgorithm: Defaults.Serializable{}
 extension CryptoMode: Defaults.Serializable{}
 extension BadgeAutoMode: Defaults.Serializable{}
 extension PushServerModel: Defaults.Serializable{}
-
 
 
 

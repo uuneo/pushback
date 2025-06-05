@@ -99,12 +99,25 @@ public class DatabaseManager {
 extension DatabaseManager{
     static func examples() ->[Message]{
         [
-            Message(id: UUID().uuidString, group: String(localized: "示例"), createDate: .now, title: String(localized: "示例"), body: String(localized:  "点击或者滑动可以修改信息状态"), level: 1, ttl: 1, read: false),
+            Message(id: UUID().uuidString, group: "Markdown", createDate: .now,
+                    title: String(localized: "示例"),
+                    body: "# Pushback \n## Pushback \n### Pushback",
+                    url: "weixin://", level: 1, ttl: 1, read: false),
             
-            Message(id: UUID().uuidString, group: "App", createDate: .now, title: String(localized: "点击跳转app"), body: String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),url: "weixin://", level: 1, ttl: 1, read: false),
+            Message(id: UUID().uuidString, group: String(localized: "示例"), createDate: .now + 10,
+                    title: String(localized: "使用方法"),
+                    body: String(localized:  """
+                        * 左上角切换分组显示
+                        * 右上角示例和删除消息
+                        * 单击图片/双击消息全屏查看
+                        * 左滑删除，右滑朗读，长按显示菜单。
+                        """),
+                    level: 1, ttl: 1, read: false),
             
-            Message(id: UUID().uuidString, group: "Markdown", createDate: .now, title: String(localized: "示例"), body: "# Pushback \n## Pushback \n### Pushback",url: "weixin://", level: 1, ttl: 1, read: false)
-            
+            Message(id: UUID().uuidString, group: "App", createDate: .now ,
+                    title: String(localized: "点击跳转app"),
+                    body: String(localized:  "url属性可以打开URLScheme, 点击通知消息自动跳转，前台收到消息自动跳转"),
+                    url: "weixin://", level: 1, ttl: 1, read: false)
         ]
     }
     
@@ -390,7 +403,7 @@ extension DatabaseManager{
         return ((try? await  Self.shared.dbPool.write { db in
             for k in 0...number{
                 let message =  Message(id: UUID().uuidString,
-                                       group: "\(k % 20)",
+                                       group: "\(k % 10)",
                                        createDate: .now,
                                        title: "\(k) Test",
                                        body: "Text Data \(k)",

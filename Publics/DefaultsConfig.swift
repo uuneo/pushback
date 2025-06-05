@@ -22,7 +22,7 @@ extension Defaults.Keys{
     static let firstStart = Key<Bool>("firstStartApp", true)
     static let autoSaveToAlbum = Key<Bool>("autoSaveImageToPhotoAlbum", false)
     static let sound = Key<String>("defaultSound", "xiu")
-    static let showGroup = Key<Bool>("showGroupMessage", true)
+    static let showGroup = Key<Bool>("showGroupMessage", false)
     static let historyMessageCount = Key<Int>("historyMessageCount", 10)
     static let historyMessageBool = Key<Bool>("historyMessageBool", false)
     static let showCodeViewColor = Key<Bool>("showCodeViewColor", true)
@@ -34,6 +34,7 @@ extension Defaults.Keys{
     static let lang = Key<String>("LocalePreferredLanguagesFirst","")
     static let voicesAutoSpeak = Key<Bool>("voicesAutoSpeak", false)
     static let voicesAutoPreloading = Key<Bool>("voicesAutoPreloading", false)
+    static let showVoiceView = Key<Bool>("voicesShowPreloading", true)
     static let allMessagecount = Key<Int>("allMessagecount", 0, iCloud: true)
     static let widgetURL = Key<String>("widgetURL",default: "")
 }

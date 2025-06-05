@@ -18,25 +18,25 @@ extension UIImage {
     func bat_save(intoAlbum albumName: String?, complete: @escaping (_ success: Bool, _ authorizationStatus: PHAuthorizationStatus) -> ()) {
         
         let oldStatus = PHPhotoLibrary.authorizationStatus()
-        PHPhotoLibrary.requestAuthorization({ status in
-			 DispatchQueue.main.async{
-				if status == .denied {
-					// 用户拒绝当前App访问相册
-					if oldStatus != .notDetermined {
-						// 提醒用户打开开关
-						complete(false, PHAuthorizationStatus.denied)
-					}
-				} else if status == .authorized {
-					// 用户允许当前App访问相册
-					self.p_excuteSaveImage(intoAlbum: albumName, complete: complete)
-					complete(true, .authorized)
-				} else if status == .restricted {
-					// 无法访问相册
-					complete(false, .restricted)
-				}
-			}
-            
-        })
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            DispatchQueue.main.async{
+               if status == .denied {
+                   // 用户拒绝当前App访问相册
+                   if oldStatus != .notDetermined {
+                       // 提醒用户打开开关
+                       complete(false, PHAuthorizationStatus.denied)
+                   }
+               } else if status == .authorized {
+                   // 用户允许当前App访问相册
+                   self.p_excuteSaveImage(intoAlbum: albumName, complete: complete)
+                   complete(true, .authorized)
+               } else if status == .restricted {
+                   // 无法访问相册
+                   complete(false, .restricted)
+               }
+           }
+           
+       }
     }
     
     /// 私有的，负责具体的保存图片的操作
@@ -116,6 +116,12 @@ extension UIImage {
             return nil
         }
         return PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
+    }
+    
+    func scaledSize(withWidth width: CGFloat) -> CGSize {
+        let scaleFactor = width / self.size.width
+        let newHeight = self.size.height * scaleFactor
+        return CGSize(width: width, height: newHeight)
     }
 }
 

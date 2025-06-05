@@ -10,7 +10,7 @@ import Kingfisher
 
 /// A manager class that handles image caching and downloading operations
 class ImageManager {
-    
+
     /// Stores an image in the specified cache
     /// - Parameters:
     ///   - cache: The ImageCache instance to store the image in. If nil, uses default cache
@@ -81,4 +81,5 @@ class ImageManager {
               let cache = try? ImageCache(name: "shared", cacheDirectoryURL: containerURL) else { return nil }
         return cache
     }
+    
 }

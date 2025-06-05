@@ -447,3 +447,28 @@ extension Calendar {
         self.date(from: self.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
     }
 }
+
+extension UIApplication {
+    var currentKeyWindow: UIWindow? {
+        return self.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+    }
+}
+public func NSLocalizedString(_ key: String, tableName: String? = nil, bundle: Bundle = Bundle.main, value: String = "", comment: String? = nil) -> String{
+    NSLocalizedString(key, tableName: tableName, bundle: bundle, value: value, comment: comment ?? "")
+}
+
+extension UIApplication {
+    var topSafeAreaHeight: CGFloat {
+        let scenes = self.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+        for scene in scenes {
+            if let window = scene.windows.first(where: { $0.isKeyWindow }) {
+                return window.safeAreaInsets.top
+            }
+        }
+        return 50
+    }
+}

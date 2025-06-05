@@ -52,10 +52,10 @@ post 请求 参数名也是上面这些
 
 ## 功能参数
 
-* Markdown
+* markdown / md
 ```
-// 指定 category=markdown 推送将渲染Markdown
-https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+// 推送将渲染Markdown
+https://push.uuneo.com/yourkey/?markdown=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
 ```
 
 

@@ -33,10 +33,8 @@ class NetworkManager {
     
     
     /// 无返回值
-    func fetchVoid(url: String, method: requestMethod = .get, params: [String: Any] = [:]) {
-        Task.detached(priority: .background) {
-            _ = try? await self.fetch(url: url, method: method, params: params)
-        }
+    func fetchVoid(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async {
+        _ = try? await self.fetch(url: url, method: method, params: params)
     }
     
     /// 通用网络请求方法
@@ -45,7 +43,7 @@ class NetworkManager {
     ///   - method: 请求方法（默认为 GET）
     ///   - params: 请求参数（支持 GET 查询参数或 POST body）
     /// - Returns: 返回泛型解码后的模型数据
-    func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async throws -> T? {
+    func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async throws -> T {
         let data = try await self.fetch(url: url, method: method, params: params)
         // 尝试将响应的 JSON 解码为泛型模型 T
         let result = try JSONDecoder().decode(T.self, from: data)

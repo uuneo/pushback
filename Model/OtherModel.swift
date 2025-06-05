@@ -478,7 +478,7 @@ enum RouterPage: Hashable {
     case tts
 }
 
-enum TabPage :String{
+enum TabPage :String, Sendable{
     case message
     case setting
 }

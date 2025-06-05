@@ -10,7 +10,8 @@ import SwiftUI
 import Defaults
 import Foundation
 
-class AppManager: NetworkManager, ObservableObject{
+
+class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
 	static let shared = AppManager()
 	
     @Published var page:TabPage = .message
@@ -18,8 +19,6 @@ class AppManager: NetworkManager, ObservableObject{
 	@Published var fullPage:SubPage = .none
 	@Published var scanUrl:String = ""
     @Published var crashLog:String?
-    
-    
     
 	@Published var PremiumUser:Bool = false
     
@@ -36,7 +35,7 @@ class AppManager: NetworkManager, ObservableObject{
     @Published var selectMessage:Message? = nil
     @Published var selectPoint:CGPoint = .zero
     
-    
+    @Published var showHomeAlert:Bool = false
     /// 首页彩色框
     @Published var isLoading:Bool = false
     @Published var inAssistant:Bool = false
@@ -94,34 +93,45 @@ class AppManager: NetworkManager, ObservableObject{
     
     func register(server:PushServerModel, reset:Bool = false, msg:Bool = true) async -> PushServerModel{
         var server = server
-        let deviceToken = reset ? UUID().uuidString : Defaults[.deviceToken]
-        let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary() ?? [:]
         
-        let response:baseResponse<DeviceInfo>? = try? await self.fetch(url: server.url + "/register",method: .post, params: params)
-        
-        if let response = response,  let data = response.data {
-            server.key = data.deviceKey
-            server.status = true
-            if msg{
-                if reset{
-                    Toast.info(title: "解绑成功")
-                }else{
-                    Toast.success(title: "注册成功")
+        do{ 
+            
+            let deviceToken = reset ? UUID().uuidString : Defaults[.deviceToken]
+            let params  = DeviceInfo(deviceKey: server.key, deviceToken: deviceToken ).toEncodableDictionary() ?? [:]
+            
+            let response:baseResponse<DeviceInfo> = try await self.fetch(url: server.url + "/register",method: .post, params: params)
+            
+            if let data = response.data {
+                server.key = data.deviceKey
+                server.status = true
+                if msg{
+                    if reset{
+                        Toast.info(title: "解绑成功")
+                    }else{
+                        Toast.success(title: "注册成功")
+                    }
+                    
                 }
-                
+            }else{
+                server.status = false
+                if msg{
+                    Toast.error(title: "注册失败")
+                }
             }
-        }else{
-            server.status = false
-            if msg{
-                Toast.error(title: "注册失败")
-            }
+            
+            return server
+        }catch{
+            debugPrint(error.localizedDescription)
+            return server
         }
-        
-        return server
     }
     
 
     func appendServer(server:PushServerModel) async -> Bool{
+        
+        if Defaults[.deviceToken].count < 5{
+            AppManager.shared.registerForRemoteNotifications()
+        }
         
         guard !Defaults[.servers].contains(where: {$0.key == server.key && $0.url == server.url})else{
             Toast.error(title: "服务器已存在")
@@ -152,7 +162,58 @@ class AppManager: NetworkManager, ObservableObject{
         }
     }
 
-	
+     func HandlerOpenUrl(url:URL){
+       
+        switch self.outParamsHandler(address: url.absoluteString) {
+        case .crypto(let text):
+            Log.debug(text)
+            DispatchQueue.main.async {
+                self.page = .setting
+                self.router = [.privacy, .crypto(text)]
+            }
+        case .server(let url):
+            Task.detached(priority: .userInitiated) {
+                let success = await self.appendServer(server: PushServerModel(url: url))
+                if success{
+                    DispatchQueue.main.async {
+                        self.page = .setting
+                        self.router = [.server]
+                    }
+                }
+            }
+        case .serverKey(let url, let key):
+            Task.detached(priority: .userInitiated) {
+                let success = await self.restore(address: url, deviceKey: key)
+                if success{
+                    DispatchQueue.main.async {
+                        self.page = .setting
+                        self.router = [.server]
+                    }
+                }
+            }
+        case .assistant(let text):
+            if let account = AssistantAccount(base64: text){
+                DispatchQueue.main.async {
+                    self.page = .setting
+                    self.router = [.assistant,.assistantSetting(account)]
+                }
+            }
+        case .page(page: let page,title: let title, data: let data):
+            switch page{
+            case .widget:
+                DispatchQueue.main.async {
+                    self.page = .setting
+                    self.router = [.more, .widget(title: title, data: data)]
+                }
+            case .icon:
+                self.page = .setting
+                self.sheetPage = .cloudIcon
+            }
+        default:
+            break
+            
+        }
+    }
     
 }
 
@@ -203,7 +264,8 @@ extension AppManager{
     
     // MARK: 注册设备以接收远程推送通知
     func registerForRemoteNotifications() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert, .providesAppNotificationSettings]) { (granted, _) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .criticalAlert, .providesAppNotificationSettings]) { (granted, error) in
+
             if granted {
                 // 如果授权，注册设备接收推送通知
                  DispatchQueue.main.async {

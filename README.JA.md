@@ -52,8 +52,8 @@ POSTリクエストの場合、パラメータ名は上記と同じです
 
 * Markdown
 ```
-// category=markdown を指定すると、プッシュ通知でMarkdownがレンダリングされます
-https://push.uuneo.com/yourkey/?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
+// プッシュ通知がMarkdownをレンダリングします
+https://push.uuneo.com/yourkey/?markdown=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback
 ```
 
 * url

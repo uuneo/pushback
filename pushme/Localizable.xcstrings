@@ -113,6 +113,34 @@
         }
       }
     },
+    "/#/encryption" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/en-us/encryption"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/ja/encryption"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/ko/encryption"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/encryption"
+          }
+        }
+      }
+    },
     "/#/policy" : {
       "localizations" : {
         "en" : {
@@ -137,6 +165,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "/#/policy"
+          }
+        }
+      }
+    },
+    "/#/tutorial" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/en-us/tutorial"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/ja/tutorial"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/ko/tutorial"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "/#/tutorial"
           }
         }
       }
@@ -953,34 +1009,6 @@
         }
       }
     },
-    "https://pushback.uuneo.com/#/encryption" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://pushback.uuneo.com/#/encryption"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://pushback.uuneo.com/#/ja/encryption"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://pushback.uuneo.com/#/ko/encryption"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://pushback.uuneo.com/#/en-us/encryption"
-          }
-        }
-      }
-    },
     "iCloud 云图标" : {
       "localizations" : {
         "en" : {
@@ -1485,34 +1513,6 @@
         }
       }
     },
-    "Pitch" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pitch"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ピッチ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "피치"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "音调"
-          }
-        }
-      }
-    },
     "Premium 会员" : {
       "localizations" : {
         "en" : {
@@ -1593,34 +1593,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pushback（反推）是一款消息提醒应用程序"
-          }
-        }
-      }
-    },
-    "Rate" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rate"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "レート"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "속도"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "语速"
           }
         }
       }
@@ -7656,13 +7628,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Server"
+            "value" : "サーバー"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Server"
+            "value" : "서버"
           }
         },
         "zh-Hans" : {
@@ -8285,6 +8257,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模式"
+          }
+        }
+      }
+    },
+    "欢迎使用 %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@へようこそ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 오신 것을 환영합니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "欢迎使用 %@"
           }
         }
       }
@@ -10865,6 +10865,34 @@
         }
       }
     },
+    "试听" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preview"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "試聴"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미리듣기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "试听"
+          }
+        }
+      }
+    },
     "语音服务区域" : {
       "localizations" : {
         "en" : {
@@ -12657,58 +12685,58 @@
         }
       }
     },
-    "默认语调，范围 -100 到 100" : {
+    "默认语调" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Default pitch, range -100 to 100"
+            "value" : "Default tone"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "デフォルトピッチ、範囲 -100 から 100"
+            "value" : "デフォルトトーン"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기본 피치, 범위 -100에서 100"
+            "value" : "기본 톤"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "默认语调，范围 -100 到 100"
+            "value" : "默认语调"
           }
         }
       }
     },
-    "默认语速，范围 -100 到 100" : {
+    "默认语速" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Default speed, range -100 to 100"
+            "value" : "Default speech rate"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "デフォルト速度、範囲 -100 から 100"
+            "value" : "デフォルト話速"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기본 속도, 범위 -100에서 100"
+            "value" : "기본 말하기 속도"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "默认语速，范围 -100 到 100"
+            "value" : "默认语速"
           }
         }
       }

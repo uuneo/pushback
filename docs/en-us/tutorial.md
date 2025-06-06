@@ -62,23 +62,26 @@ curl -X "POST" "https://push.uuneo.com/push" \
 ```
 
 ## Request Parameters
-The list of supported parameters, the specific effects can be previewed in the app.
+List of supported parameters, specific effects can be previewed in the APP.
+All parameters support various formats: SubTitle / subTitle / subtitle / sub_title / sub-title /
 
 | Parameter | Bark | Pushback Usage Differences |
-| --------- | ---- | -------------------------- |
-| id | None | Pass UUID to overwrite existing message with same id |
-| title | Push notification title | Same |
-| subtitle | Push notification subtitle | Same |
-| body | Push notification content | Same, requires category=markdown when sending markdown |
-| level | Push notification interruption level.<br>**active**: Default, the system will immediately light up the screen to show the notification.<br>**timeSensitive**: Time-sensitive notifications, displayed even during focus mode.<br>**passive**: Adds notifications to the notification list without lighting up the screen.<br>**critical**: Critical notifications, displayed even during focus mode or silent mode. | Compatible. Parameters can be replaced with numbers: `level=1`<br>0: passive<br>1: active<br>2: timeSensitive<br>3...10: critical, where numbers are used for volume (`level=3...10`). |
-| volume | Volume level for critical mode notifications. Range: 0...10 | Same |
-| call | Long notification, similar to a WeChat call notification | Same |
-| badge | Push notification badge, can be any number | Requires enabling custom badges in-app. Otherwise, calculated based on unread count. |
-| autoCopy | Automatically copies the push content on iOS 14.5 or below. For iOS 14.5 and above, requires long-pressing or pulling down the notification manually. | Only available on iOS 16+ in this app. |
-| copy | Specifies the content to copy when copying a push notification. If not specified, the entire push content will be copied. | Same |
-| sound | Sets a custom sound for the push notification. | Default sound can be set in-app. |
-| icon | Sets a custom icon for the push notification. The custom icon replaces the default Bark icon.<br>The icon is automatically cached locally, and identical URLs will only be downloaded once. | Compatible |
-| image | URL of an image to be downloaded and cached when the notification is received. | Can view the image by pulling down the notification or within the app.<br>Locally renamed images can be directly used via `icon=local_name`. |
-| group | Groups notifications by the specified value. Notifications will appear grouped in the notification center and can be filtered in the history list. | Compatible |
-| isArchive | `1` to save the notification, any other value to discard. If not provided, the app's settings will determine whether to save. | Uses `ttl=days`. If not provided, app settings are used. |
-| url | URL to open when the push notification is clicked. Supports URL Scheme and Universal Link. | Same |
+| ----- | ----------- | ----------- |
+| id | None | UUID, messages with same id will override existing messages |
+| title | Push title | Same |
+| subtitle | Push subtitle | Same |
+| body | Push content | Same (supports content/message/data/text as alternatives to body) |
+| markdown | Not supported | Renders Markdown (supports md shorthand) |
+| level | Push interruption level.<br>**active**: Default value, system will immediately light up screen to show notification<br>**timeSensitive**: Time-sensitive notification, can be shown during focus mode<br>**passive**: Only adds notification to notification list, won't light up screen<br>**critical**: Important alert, can notify during focus mode or silent mode | Compatible. Parameter can use numbers instead: `level=1`<br>0: passive<br>1: active<br>2: timeSensitive<br>3...10: critical, in this mode numbers will be used for volume (`level=3...10`) |
+| volume | Volume in `level=critical` mode, range 0...10 | Same |
+| call | Long alert, similar to WeChat call notification | Same |
+| badge | Push badge, can be any number | Calculated based on unread count |
+| autoCopy | Auto-copy push content below iOS 14.5, requires manual long-press or pull-down above iOS 14.5 | This app iOS 16+ |
+| copy | When copying push, specifies content to copy. If not provided, copies entire push content | Same |
+| sound | Can set different ringtones for push | Default ringtone can be set in app |
+| icon | Set custom icon for push, icon is automatically cached | Same, with additional cloud icon upload support |
+| image | Pass image URL, automatically downloaded and cached when received | Same |
+| savealbum | Not supported | Pass "1" to automatically save image to album |
+| group | Groups messages, pushes will be displayed in notification center by `group`<br>Can also view different groups in history message list | Compatible |
+| isArchive | Pass `1` to save push, pass other values to not save, if not passed follows app settings | Use `ttl=days` |
+| url | URL to jump to when clicking push, supports URL Scheme and Universal Link | Same |

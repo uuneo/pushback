@@ -19,10 +19,9 @@ struct SettingsPage: View {
 	
     @Default(.sound) var sound
 	@Default(.servers) var servers
-
+    @Default(.assistantAccouns) var assistantAccouns
 
 	@State private var webShow:Bool = false
-	@State private var webUrl:String = BaseConfig.helpWebUrl
 	@State private var showLoading:Bool = false
 	@State private var showPaywall:Bool = false
 	@State private var buildDetail:Bool = false
@@ -104,8 +103,11 @@ struct SettingsPage: View {
                         } icon: {
                             Image(systemName: "message.and.waveform")
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green,Color.primary)
-                                .symbolEffect(.variableColor)
+                                .foregroundStyle(assistantAccouns.count > 0 ? .green : .red ,Color.primary)
+                                .if(assistantAccouns.count == 0){ view in
+                                    view.symbolEffect(.variableColor)
+                                }
+                                
                         }
                     }action: {
                         manager.router = [.assistant]
@@ -145,7 +147,7 @@ struct SettingsPage: View {
                                 Image(systemName: "photo")
                                     .scaleEffect(0.4)
                                     .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.tint)
+                                    .foregroundStyle(.green)
                                     .offset(y: 2)
                             } .scaleEffect(0.9)
                         }
@@ -162,6 +164,7 @@ struct SettingsPage: View {
                                 .scaleEffect(0.9)
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.bounce,delay: 3)
                         }
                     } trailing: {
                         Text(sound)
@@ -180,7 +183,7 @@ struct SettingsPage: View {
                             Image(systemName: "bolt.shield")
                                 .scaleEffect(0.9)
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
+                                .foregroundStyle(.green, Color.primary)
                                 .symbolEffect(.pulse, delay: 5)
                         }
                     } action: {
@@ -220,10 +223,10 @@ struct SettingsPage: View {
                             Image(systemName: "person.fill.questionmark")
                                 .scaleEffect(0.9)
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
+                                .foregroundStyle(.green, Color.primary)
                         }
                     } action: {
-                        manager.fullPage = .web(BaseConfig.helpWebUrl)
+                        manager.fullPage = .web(BaseConfig.docServer + String(localized: "/#/tutorial"))
                         return true
                     }
                     

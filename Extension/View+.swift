@@ -122,6 +122,7 @@ struct replaceSymbol: ViewModifier{
 // MARK: - TextFieldModifier
 struct TextFieldModifier: ViewModifier {
 	var icon: String
+    var background: Bool = true
 	var complete: (()-> Void)? = nil
 	
 	func body(content: Content) -> some View {
@@ -129,14 +130,14 @@ struct TextFieldModifier: ViewModifier {
 			.overlay(
 				HStack {
 					Image(systemName: icon)
-						.frame(width: 30, height: 30)
-						.background(.ultraThinMaterial)
-						.cornerRadius(8)
-						.modifier(OutlineOverlay(cornerRadius: 14))
-						.offset(x: -46)
-						.accessibility(hidden: true)
-						.symbolRenderingMode(.palette)
-						.foregroundStyle(.tint,.secondary)
+                        .frame(width: 30, height: 30)
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(8)
+                        .modifier(OutlineOverlay(cornerRadius: 14))
+                        .offset(x: -46)
+                        .accessibility(hidden: true)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.tint,.secondary)
                         .onTapGesture {
                             complete?()
                         }
@@ -146,7 +147,10 @@ struct TextFieldModifier: ViewModifier {
 			.foregroundStyle(.primary)
 			.padding()
 			.padding(.leading, 43)
-            .background(.ultraThinMaterial)
+            .if(background){ view in
+                view
+                    .background(.ultraThinMaterial)
+            }
 			.cornerRadius(20)
 			.modifier(OutlineOverlay(cornerRadius: 20))
 	}
@@ -286,8 +290,8 @@ extension View {
         self.modifier(SlideFadeIn(show: show, offset: offset))
     }
     
-    func customField(icon: String, complete: (()-> Void)? = nil) -> some View {
-        self.modifier(TextFieldModifier( icon: icon,complete: complete))
+    func customField(icon: String,_ background:Bool = true, complete: (()-> Void)? = nil) -> some View {
+        self.modifier(TextFieldModifier( icon: icon,background: background, complete: complete))
     }
     
 	func loading(_ show:Bool, _ title:String = "")-> some View{

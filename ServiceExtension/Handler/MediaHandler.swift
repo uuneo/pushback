@@ -24,8 +24,10 @@ class MediaHandler:NotificationContentHandler{
             /// 每个图片只保存一遍
             if let uiimage = UIImage(contentsOfFile: localPath), let sha256 = uiimage.pngData()?.sha256(){
                 
-                if let autoSave:String = bestAttemptContent.userInfo.raw(.autocopy), !autoSave.isEmpty{
-                    UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
+                if let saveAlbum:String = bestAttemptContent.userInfo.raw(.savealbum){
+                    if saveAlbum == "1"{
+                        UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
+                    }
                 }else{
                     if Defaults[.autoSaveToAlbum], Defaults[.imageSaves].first(where: {$0 == sha256}) == nil{
                         Defaults[.imageSaves].append(sha256)

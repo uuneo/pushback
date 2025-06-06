@@ -50,6 +50,14 @@ POSTリクエストの場合、パラメータ名は上記と同じです
 
 ## Parameters
 
+* body 
+```
+// content ｜ message ｜ data ｜ text | == body
+https://push.uuneo.com/yourkey/?body=Test
+https://push.uuneo.com/yourkey/?content=Test
+                                            ...
+``
+
 * Markdown
 ```
 // プッシュ通知がMarkdownをレンダリングします

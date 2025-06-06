@@ -13,6 +13,7 @@ struct SpeakSettingsView:View {
     @Default(.voiceList) var voiceList
     
     @Default(.voicesAutoSpeak) var voicesAutoSpeak
+    @EnvironmentObject private var manager:AppManager
     
     var groupedVoices: [String: [VoiceManager.MicrosoftVoice]] {
         if searchText.isEmpty {
@@ -50,58 +51,99 @@ struct SpeakSettingsView:View {
             .textCase(.none)
             
             
-            Section("语音服务区域") {
+            Section {
                 baseRegionField
+            }header: {
+                Text("语音服务区域")
+                    .padding(.leading)
             }
             .textCase(.none)
-            .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets())
             .listRowSpacing(0)
             
             
-            Section("默认语音") {
+            Section{
                 baseVoiceField
                     .VButton( onRelease: { _ in
                         self.showVoiceSelect.toggle()
                         return true
                     })
+            }header: {
+                Text("默认语音")
+                    .padding(.leading)
             }
             .textCase(.none)
-            .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets())
             .listRowSpacing(0)
             
-            
-            Section("默认语速，范围 -100 到 100") {
-                baseRateField
+            Section {
+                HStack{
+                    Text(verbatim: "-100")
+                    Slider(value:Binding(get: {
+                        Double(voiceConfig.defaultRate)
+                    }, set: { value in
+                        voiceConfig.defaultRate = Int(value)
+                    }) , in: -100...100)
+                    Text(verbatim: "100")
+                }
+                .onChange(of: voiceConfig.defaultRate) { _ in
+                    Haptic.impact(.light, limitFrequency: true)
+                }
+            } header: {
+                HStack{
+                    Text("默认语速")
+                    Spacer()
+                    Text("\(voiceConfig.defaultRate)")
+                        .font(.body)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.blue)
+                   
+                }
             }
             .textCase(.none)
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets())
             .listRowSpacing(0)
             
             
-            Section("默认语调，范围 -100 到 100") {
-                basePitchField
-            }
+            Section {
+                HStack{
+                    Text(verbatim: "-100")
+                    Slider(value: Binding(get: {
+                        Double(voiceConfig.defaultPitch)
+                    }, set: { value in
+                        voiceConfig.defaultPitch = Int(value)
+                    }), in: -100...100)
+                    Text(verbatim:"100")
+                }
+                .onChange(of: voiceConfig.defaultPitch) { _ in
+                    Haptic.impact(.light,limitFrequency: true)
+                }
+            } header: {
+               HStack{
+                   Text("默认语调")
+                   Spacer()
+                   Text("\(voiceConfig.defaultPitch)")
+                       .font(.body)
+                       .fontWeight(.bold)
+                       .foregroundStyle(.blue)
+                  
+               }
+           }
             .textCase(.none)
-            .listRowBackground(Color.clear)
-            .listRowInsets(EdgeInsets())
             .listRowSpacing(0)
             
-            Section("默认音频格式") {
+            Section {
                 baseFormatField
                     .VButton(onRelease: {_ in
                         showFormatSelect.toggle()
                         return true
                     })
+            }header: {
+                Text("默认音频格式")
+                    .padding(.leading)
             }
             .textCase(.none)
-            .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets())
             .listRowSpacing(0)
-         
-            
         }
         .navigationTitle("语音配置")
         .sheet(isPresented: $showVoiceSelect) { VoiceSelectView() }
@@ -119,6 +161,24 @@ struct SpeakSettingsView:View {
                 .navigationBarTitleDisplayMode(.inline)
             }.presentationDetents([.height(300)])
                
+        }
+        .toolbar {
+            ToolbarItem{
+                Button{
+                    guard !manager.speaking else { return }
+                    Task.detached(priority: .userInitiated) {
+                        guard let player = await AudioManager.shared.Speak(String(localized: "欢迎使用 \(BaseConfig.AppName)"),noCache: true) else {
+                            return
+                        }
+                        player.play()
+                        Haptic.impact(.light)
+                        
+                    }
+                }label:{
+                    Label("试听", systemImage: manager.speaking ? "livephoto.play" : "play.circle")
+                        .animation(.default, value: manager.speaking)
+                }
+            }
         }
         
     }
@@ -223,7 +283,7 @@ struct SpeakSettingsView:View {
         TextField("Region", text: $voiceConfig.region)
             .autocapitalization(.none)
             .customField(
-                icon: "atom"
+                icon: "atom", false
             )
     }
     
@@ -232,64 +292,20 @@ struct SpeakSettingsView:View {
             .autocapitalization(.none)
             .disabled(true)
             .customField(
-                icon: "speaker.wave.2.bubble.left"
+                icon: "speaker.wave.2.bubble.left", false
             )
     }
     
-    private var baseRateField: some View {
-        TextField("Rate", text: $voiceConfig.defaultRate)
-            .autocapitalization(.none)
-            .customField(
-                icon: speedIcon(voiceConfig.defaultRate)
-            ).onChange(of: voiceConfig.defaultRate) { newValue in
-                voiceConfig.defaultRate = inputHandler(newValue)
-            }
-    }
     
-    private var basePitchField: some View {
-        TextField("Pitch", text: $voiceConfig.defaultPitch)
-            .autocapitalization(.none)
-            .customField(
-                icon: speedIcon(voiceConfig.defaultPitch)
-            )
-            .onChange(of: voiceConfig.defaultPitch) { newValue in
-                voiceConfig.defaultPitch = inputHandler(newValue)
-            }
-    }
     
     private var baseFormatField: some View {
         TextField("Format", text: Binding(get: {  voiceConfig.defaultFormat.rawValue }, set: { _ in}))
             .autocapitalization(.none)
             .disabled(true)
             .customField(
-                icon: "paintbrush"
+                icon: "paintbrush", false
             )
     }
     
-    func speedIcon(_ newValue:String)->String{
-        
-        
-        if let value = Int(newValue) {
-            if value < -50{
-                return "gauge.low"
-            }else if value > 50{
-                return "gauge.high"
-            }else{
-                return "gauge.medium"
-            }
-        }
-        return "gauge.medium"
-    }
-    
-    func inputHandler(_ newValue:String)-> String{
-        // 允许中间输入为 "-"
-        if newValue == "-" { return  newValue }
-        
-        if let value = Int(newValue) {
-            return String(min(max(value, -100), 100))
-        } else {
-           return  String(newValue.contains("-") ? -1 : 0)
-        }
-    }
     
 }

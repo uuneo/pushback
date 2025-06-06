@@ -52,7 +52,7 @@ extension UNMutableNotificationContent {
  
 	/// 声音名称
 	var soundName: String? {
-        if let sound:String = self.userInfo.raw(Params.sound), sound.count > 0{
+        if let sound:String = self.userInfo.raw(.sound), sound.count > 0{
             return sound
         }
         return nil
@@ -63,7 +63,7 @@ extension UNMutableNotificationContent {
         let defaultLevel: UInt = 1
 
         // 获取 level 字符串
-        guard let level:String = self.userInfo.raw(Params.level) else {
+        guard let level:String = self.userInfo.raw(.level) else {
             return defaultLevel
         }
 
@@ -82,7 +82,7 @@ extension UNMutableNotificationContent {
 
 	func getVolume(levelNumber: UInt) -> Float{
 
-        if let volume:String = self.userInfo.raw(Params.volume), let volume = Float(volume) {
+        if let volume:String = self.userInfo.raw(.volume), let volume = Float(volume) {
             return max(0.0, min(10.0, volume / 10.0))
 		}
         

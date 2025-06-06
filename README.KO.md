@@ -50,6 +50,14 @@ POST 요청의 경우 매개변수 이름은 위와 동일합니다
 
 ## 매개변수
 
+* body 
+```
+// content ｜ message ｜ data ｜ text | == body
+https://push.uuneo.com/yourkey/?body=Test
+https://push.uuneo.com/yourkey/?content=Test
+                                            ...
+``
+
 * Markdown
 ```
 //  지정하면 푸시 알림에서 마크다운이 렌더링됩니다

@@ -23,10 +23,9 @@ class BaseConfig {
 #else
 	static let defaultServer = "https://push.uuneo.com"
 #endif
-	static let docServer = "https://pushback.uuneo.com"
+	static let docServer = "https://docs.uuneo.com"
     static let statusServer = "https://status.uuneo.com"
 	static let defaultImage = docServer + "/_media/avatar.jpg"
-	static let helpWebUrl = docServer + "/#/tutorial"
 	static let problemWebUrl = docServer + "/#/faq"
 	static let delpoydoc = docServer + "/#/?id=pushback"
 	static let emailHelpUrl = docServer + "/#/email"

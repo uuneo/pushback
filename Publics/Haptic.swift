@@ -10,7 +10,7 @@ import UIKit
 enum Haptic {
     
     private static var lastImpactTime: Date?
-    private static var minInterval: TimeInterval = 0.2 // 最小震动间隔
+    private static var minInterval: TimeInterval = 0.1 // 最小震动间隔
 
     static func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .medium,
                        limitFrequency: Bool = false) {

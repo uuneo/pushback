@@ -237,7 +237,7 @@ struct MessageCard: View {
                 
                 Section{
                     Button {
-                        Task(priority: .high) {
+                        Task.detached(priority: .userInitiated) {
                             guard let player = await AudioManager.shared.Speak(message.voiceText) else {
                                 return
                             }

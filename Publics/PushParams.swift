@@ -43,7 +43,8 @@ enum Params: String, CaseIterable{
     
     case widget
     
-    case autosave
+    case savealbum
+    
 
     var name:String{ self.rawValue }
 

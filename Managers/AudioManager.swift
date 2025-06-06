@@ -241,7 +241,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
         
     }
     
-    func Speak(_ text: String) async -> AVAudioPlayer? {
+    func Speak(_ text: String, noCache:Bool = false) async -> AVAudioPlayer? {
         
         do{
             let start = DispatchTime.now()
@@ -254,7 +254,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             }
             
             let client = try VoiceManager()
-            let audio = try await client.createVoice(text: text)
+            let audio = try await client.createVoice(text: text,noCache: noCache)
             await MainActor.run{
                 self.ShareURL = audio
             }

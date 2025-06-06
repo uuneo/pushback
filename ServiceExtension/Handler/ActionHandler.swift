@@ -21,9 +21,6 @@ class ActionHandler: NotificationContentHandler{
             bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound]).caf" ))
         }
 		
-		
-       
-		
 		// MARK: - 处理 badge
 		switch Defaults[.badgeMode] {
 		case .auto:

@@ -50,6 +50,14 @@ For POST requests, the parameter names are the same as above
 
 ## Parameters
 
+* body 
+```
+// content ｜ message ｜ data ｜ text | == body
+https://push.uuneo.com/yourkey/?body=Test
+https://push.uuneo.com/yourkey/?content=Test
+                                            ...
+``
+
 * markdown / md
 ```
 // The push notification will render Markdown

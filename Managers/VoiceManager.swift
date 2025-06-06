@@ -131,8 +131,8 @@ class VoiceManager {
         // Use default values if not specified
         let voice = request.voice.isEmpty ? Defaults[.ttsConfig].defaultVoice : request.voice
         let style = request.style.isEmpty ? "general" : request.style
-        let rate = request.rate.isEmpty ? Defaults[.ttsConfig].defaultRate : request.rate
-        let pitch = request.pitch.isEmpty ? Defaults[.ttsConfig].defaultPitch : request.pitch
+        let rate = request.rate.isEmpty ? "\(Defaults[.ttsConfig].defaultRate)" : request.rate
+        let pitch = request.pitch.isEmpty ? "\(Defaults[.ttsConfig].defaultPitch)" : request.pitch
         
         // Get locale
         let locale = TextUtils.getLocaleFromVoice(voice)
@@ -157,7 +157,8 @@ class VoiceManager {
         httpRequest.httpMethod = "POST"
         httpRequest.setValue(endpoint["t"], forHTTPHeaderField: "Authorization")
         httpRequest.setValue("application/ssml+xml", forHTTPHeaderField: "Content-Type")
-        httpRequest.setValue(Defaults[.ttsConfig].defaultFormat.rawValue, forHTTPHeaderField: "X-Microsoft-OutputFormat")
+        httpRequest.setValue( "\(Defaults[.ttsConfig].defaultFormat.rawValue)",
+                              forHTTPHeaderField: "X-Microsoft-OutputFormat")
         httpRequest.setValue("okhttp/4.5.0", forHTTPHeaderField: "User-Agent")
         httpRequest.httpBody = ssml.data(using: .utf8)
         httpRequest.timeoutInterval = TimeInterval(Defaults[.ttsConfig].requestTimeout)
@@ -172,12 +173,17 @@ class VoiceManager {
         rate: String? = nil,
         pitch: String? = nil,
         style: String? = nil,
+        noCache:Bool = false,
         maxConcurrency: Int = 10
     ) async throws -> URL {
         let text = TextUtils.processMarkdownText(text)
         
-        if let data = try? FileUtils.getCache(text){
-            return data
+        if let fileUrl = try? FileUtils.getCache(text){
+            if noCache{
+                try? FileManager.default.removeItem(at: fileUrl)
+            }else{
+                return fileUrl
+            }
         }
         
         guard  text.count < Defaults[.ttsConfig].maxTextLength else {
@@ -190,8 +196,8 @@ class VoiceManager {
             let request = TTSRequest(
                 text: text,
                 voice: voice ?? Defaults[.ttsConfig].defaultVoice,
-                rate: rate ?? Defaults[.ttsConfig].defaultRate,
-                pitch: pitch ?? Defaults[.ttsConfig].defaultPitch,
+                rate: rate ?? "\(Defaults[.ttsConfig].defaultRate)",
+                pitch: pitch ?? "\(Defaults[.ttsConfig].defaultPitch)",
                 style: style ?? "general"
             )
             
@@ -226,8 +232,8 @@ class VoiceManager {
                     let request = TTSRequest(
                         text: segment,
                         voice: voice ?? Defaults[.ttsConfig].defaultVoice,
-                        rate: rate ?? Defaults[.ttsConfig].defaultRate,
-                        pitch: pitch ?? Defaults[.ttsConfig].defaultPitch,
+                        rate: rate ?? "\(Defaults[.ttsConfig].defaultRate)",
+                        pitch: pitch ?? "\(Defaults[.ttsConfig].defaultPitch)",
                         style: style ?? "general"
                     )
                     
@@ -735,8 +741,8 @@ class VoiceManager {
         static let `default` = TTSConfig(
             region: "eastasia",
             defaultVoice: "zh-CN-XiaochenMultilingualNeural",
-            defaultRate: "0",
-            defaultPitch: "0",
+            defaultRate: 0,
+            defaultPitch: 0,
             defaultFormat: .audio24khz48kbitrateMonoMP3,
             maxTextLength: 65535,
             requestTimeout: 36,
@@ -750,8 +756,8 @@ class VoiceManager {
         
         var region: String
         var defaultVoice: String
-        var defaultRate: String
-        var defaultPitch: String
+        var defaultRate: Int
+        var defaultPitch: Int
         var defaultFormat: AudioFormat
         var maxTextLength: Int
         var requestTimeout: Int

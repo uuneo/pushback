@@ -52,6 +52,14 @@ post 请求 参数名也是上面这些
 
 ## 功能参数
 
+* body 
+```
+// content ｜ message ｜ data ｜ text | == body
+https://push.uuneo.com/yourkey/?body=Test
+https://push.uuneo.com/yourkey/?content=Test
+                                            ...
+``
+
 * markdown / md
 ```
 // 推送将渲染Markdown

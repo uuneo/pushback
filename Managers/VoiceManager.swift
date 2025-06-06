@@ -480,28 +480,9 @@ class VoiceManager {
             let text = input.replacingOccurrences(of: " ", with: "")
             
             // 第二步：处理每个换行符前的字符
-            var result = ""
-            let characters = Array(text)
-            var i = 0
-            
-            // 定义允许不插入逗号的字符集合（中英文逗号和句号）
-            let validPunctuation: Set<Character> = ["，", "。", ",", "."]
-            
-            while i < characters.count {
-                let currentChar = characters[i]
-                if currentChar == "\n" {
-                    if let prev = result.last, !validPunctuation.contains(prev) {
-                        result.append(",") // 插入中文逗号
-                    }
-                    // 跳过换行符
-                    i += 1
-                    continue
-                }
-                result.append(currentChar)
-                i += 1
-            }
-            
-            return result
+            return PBMarkdown.plain(text).components(separatedBy: .newlines)
+                .filter { !$0.isEmpty }
+                .joined(separator: ",")
         }
 
     }

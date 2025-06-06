@@ -22,10 +22,7 @@ class ActionHandler: NotificationContentHandler{
         }
 		
 		
-        // MARK: - markdownbody body 显示
-        if bestAttemptContent.categoryIdentifier == Identifiers.markdownCategory{
-            bestAttemptContent.body =  String(localized: "下拉查看详情...")
-        }
+       
 		
 		// MARK: - 处理 badge
 		switch Defaults[.badgeMode] {

@@ -18,6 +18,23 @@ class ArchiveMessageHandler: NotificationContentHandler{
         
         let userInfo = bestAttemptContent.userInfo
         
+        var body:String {
+            if let body:String = userInfo.raw(.body){
+                /// 解决换行符渲染问题
+                return DatabaseManager.ensureMarkdownLineBreaks(body)
+            }
+           return ""
+        }
+        
+        // MARK: - markdownbody body 显示
+        if bestAttemptContent.categoryIdentifier == Identifiers.markdownCategory{
+            let plainText = PBMarkdown.plain(body).components(separatedBy: .newlines)
+                .filter { !$0.isEmpty }
+                .joined(separator: ",")
+            bestAttemptContent.body = plainText.count > 15 ? String(plainText.prefix(15)) + "..." : plainText
+        }
+        
+        
         let group:String = userInfo.raw(.group) ?? String(localized: "默认")
         bestAttemptContent.threadIdentifier = group
         
@@ -31,13 +48,6 @@ class ArchiveMessageHandler: NotificationContentHandler{
         let messageId = bestAttemptContent.targetContentIdentifier
         let level =  bestAttemptContent.getLevel()
         
-        var body:String? {
-            if let body:String = userInfo.raw(.body){
-                /// 解决换行符渲染问题
-                return DatabaseManager.ensureMarkdownLineBreaks(body)
-            }
-           return nil
-        }
         
         //  获取保存时间
         var saveDays:Int {
@@ -50,7 +60,7 @@ class ArchiveMessageHandler: NotificationContentHandler{
         
         Defaults[.allMessagecount] += 1
         
-        guard title != nil || subtitle != nil || body != nil else  {
+        guard title != nil || subtitle != nil || !body.isEmpty else  {
             bestAttemptContent.interruptionLevel = .passive
             return bestAttemptContent
         }

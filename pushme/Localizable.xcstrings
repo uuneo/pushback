@@ -2689,6 +2689,9 @@
         }
       }
     },
+    "保存图片时出现错误：%@" : {
+
+    },
     "保存天数" : {
       "localizations" : {
         "en" : {
@@ -4817,6 +4820,9 @@
         }
       }
     },
+    "图片已成功保存到相册！" : {
+
+    },
     "图片默认保存时间，本地化图片不受影响" : {
       "localizations" : {
         "en" : {
@@ -5012,6 +5018,9 @@
           }
         }
       }
+    },
+    "处理中..." : {
+
     },
     "复制" : {
       "localizations" : {
@@ -6722,6 +6731,7 @@
       }
     },
     "提前生成" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6750,6 +6760,7 @@
       }
     },
     "提前生成会影响推送时效" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6946,6 +6957,7 @@
       }
     },
     "播放界面" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7420,6 +7432,9 @@
           }
         }
       }
+    },
+    "是否将图片保存到相册？" : {
+
     },
     "是否确定清空?" : {
       "localizations" : {
@@ -9746,6 +9761,7 @@
       }
     },
     "端到端加密" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -12406,6 +12422,7 @@
       }
     },
     "隐私与安全" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

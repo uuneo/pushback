@@ -42,6 +42,8 @@ enum Params: String, CaseIterable{
     case callback
     
     case widget
+    
+    case autosave
 
     var name:String{ self.rawValue }
 

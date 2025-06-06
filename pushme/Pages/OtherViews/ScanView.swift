@@ -68,7 +68,8 @@ struct ScanView: View {
 						.foregroundColor(.secondary)
 						.padding(8)
 						.background(.ultraThinMaterial, in: Circle())
-						.backgroundStyle(cornerRadius: 18)
+                    // TODO: - 待修改
+//						.backgroundStyle(cornerRadius: 18)
 						.onTapGesture {
 							self.dismiss()
 						}
@@ -85,7 +86,7 @@ struct ScanView: View {
                         .foregroundStyle(.accent,.ultraThinMaterial)
                         .symbolEffect(.replace)
                         .padding()
-                        .pressEvents(onRelease: { _ in
+                        .VButton(onRelease: { _ in
                             self.torchIsOn.toggle()
                             return true
                         })

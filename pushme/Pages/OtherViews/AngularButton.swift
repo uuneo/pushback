@@ -36,7 +36,7 @@ struct AngularButton: View {
                         .opacity(disable ? 0.6 : 1)
                 )
                
-				.pressEvents { _ in
+				.VButton { _ in
 					if !disable && loading == "" {
 						self.ispress = true
 					}

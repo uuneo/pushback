@@ -173,25 +173,23 @@ struct SettingsPage: View {
                        
                     }
                     
-                    
+                    ListButton {
+                        Label {
+                            Text( "算法配置")
+                        } icon: {
+                            Image(systemName: "bolt.shield")
+                                .scaleEffect(0.9)
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                .symbolEffect(.pulse, delay: 5)
+                        }
+                    } action: {
+                        manager.router.append(.crypto(nil))
+                        return true
+                    }
                     
                     
                     if #available(iOS 18.0, *) {
-                        ListButton {
-                            Label {
-                                Text("隐私与安全")
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                Image(systemName: "lock.shield")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(serverTypeColor,Color.primary)
-                                
-                            }
-                        } action: {
-                            manager.router = [.privacy]
-                            return true
-                            
-                        }
                         
                         ListButton  {
                             Label {
@@ -247,22 +245,7 @@ struct SettingsPage: View {
                             return true
                         }
                     }else{
-                        ListButton {
-                            Label {
-                                Text("隐私与安全")
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                Image(systemName: "lock.shield")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(serverTypeColor,Color.primary)
-                                
-                            }
-                        } action: {
-                            manager.router = [.privacy]
-                            return true
-                            
-                        }
-                        
+  
                         ListButton  {
                             Label {
                                 Text( "更多操作")

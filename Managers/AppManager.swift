@@ -45,8 +45,8 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     /// 开始播放语音
     @Published var speaking:Bool = false
     
-    private static var lastFeedbackTime: TimeInterval = 0
-    private static let cooldown: TimeInterval = 0.1
+    
+   
 	
     var fullShow:Binding<Bool>{  Binding { self.fullPage != .none } set: { _ in self.fullPage = .none } }
 	
@@ -169,7 +169,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
             Log.debug(text)
             DispatchQueue.main.async {
                 self.page = .setting
-                self.router = [.privacy, .crypto(text)]
+                self.router = [.more, .crypto(text)]
             }
         case .server(let url):
             Task.detached(priority: .userInitiated) {
@@ -243,19 +243,7 @@ extension AppManager{
         }
     }
 
-    
-    class func vibration(style: UIImpactFeedbackGenerator.FeedbackStyle, custom:Bool = false) {
-        if !custom {
-            let now = Date().timeIntervalSince1970
-            guard now - lastFeedbackTime > cooldown else { return } // 限制频率
-            lastFeedbackTime = now
-        }
-       
-        let generator = UIImpactFeedbackGenerator(style: style)
-        generator.prepare()
-        generator.impactOccurred()
-    }
-    
+
     
     class func hideKeyboard(){
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),to: nil,from: nil,for: nil)
@@ -331,7 +319,7 @@ extension AppManager{
         if PBScheme.schemes.contains(scheme),let host = url.host(),let host = PBScheme.HostType(rawValue: host), let components = URLComponents(url: url, resolvingAgainstBaseURL: false){
             let params = components.getParams()
             
-            if host == .server, let url = params["text"],let urlResponse = URL(string: url), url.isHttpAndHttps() {
+            if host == .server, let url = params["text"],let urlResponse = URL(string: url), url.hasHttp() {
                 let (result, key) = urlResponse.findNameAndKey()
                 if let key{
                     return .serverKey(url: result, key: key)
@@ -362,3 +350,4 @@ extension AppManager{
     
     
 }
+

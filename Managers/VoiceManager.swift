@@ -174,6 +174,7 @@ class VoiceManager {
         style: String? = nil,
         maxConcurrency: Int = 10
     ) async throws -> URL {
+        let text = TextUtils.processMarkdownText(text)
         
         if let data = try? FileUtils.getCache(text){
             return data
@@ -473,6 +474,36 @@ class VoiceManager {
             
             return result
         }
+        
+        static func processMarkdownText(_ input: String) -> String {
+            // 第一步：去除所有空格
+            let text = input.replacingOccurrences(of: " ", with: "")
+            
+            // 第二步：处理每个换行符前的字符
+            var result = ""
+            let characters = Array(text)
+            var i = 0
+            
+            // 定义允许不插入逗号的字符集合（中英文逗号和句号）
+            let validPunctuation: Set<Character> = ["，", "。", ",", "."]
+            
+            while i < characters.count {
+                let currentChar = characters[i]
+                if currentChar == "\n" {
+                    if let prev = result.last, !validPunctuation.contains(prev) {
+                        result.append(",") // 插入中文逗号
+                    }
+                    // 跳过换行符
+                    i += 1
+                    continue
+                }
+                result.append(currentChar)
+                i += 1
+            }
+            
+            return result
+        }
+
     }
 
     /// File utilities
@@ -781,7 +812,6 @@ class VoiceManager {
 
 
 // MARK: - MODELS
-
 extension Defaults.Keys {
     static let ttsConfig = Key<VoiceManager.TTSConfig>("SpeakTTSConfig", VoiceManager.TTSConfig.default)
     static let voiceList = Key<[VoiceManager.MicrosoftVoice]>("SpeakVoiceList", [])

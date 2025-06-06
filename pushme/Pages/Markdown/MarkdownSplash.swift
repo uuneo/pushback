@@ -1,9 +1,59 @@
 
-
 import MarkdownUI
 import SwiftUI
 import Splash
 
+
+struct CodeBlock: View {
+    var configuration: CodeBlockConfiguration
+    
+    init(_ configuration: CodeBlockConfiguration) {
+        self.configuration = configuration
+    }
+    
+    var language: String {
+        configuration.language ?? "code"
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(language)
+                    .font(.footnote)
+                    .fontWeight(.semibold)
+                Spacer()
+                
+                Button(action: {
+                    Clipboard.set(configuration.content)
+                    Toast.copy(title: "复制成功")
+                }) {
+                    Image(systemName: "doc.on.doc")
+                        .padding(7)
+                }
+                .buttonStyle(GrowingButton())
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 4)
+            .background(MarkdownColors.secondaryBackground)
+            
+            Divider()
+            
+            ScrollView(.horizontal) {
+                configuration.label
+                    .fixedSize(horizontal: false, vertical: true)
+                    .relativeLineSpacing(.em(0.225))
+                    .markdownTextStyle {
+                        FontFamilyVariant(.monospaced)
+                        FontSize(.em(0.85))
+                    }
+                    .padding(16)
+            }
+        }
+        .background(MarkdownColors.secondaryBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .markdownMargin(top: .zero, bottom: .em(0.8))
+    }
+}
 
 struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {
     private let syntaxHighlighter: SyntaxHighlighter<TextOutputFormat>
@@ -69,3 +119,13 @@ extension TextOutputFormat {
         }
     }
 }
+
+struct GrowingButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 1.2 : 1)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+}
+
+

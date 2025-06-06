@@ -86,7 +86,7 @@ struct ChatMessageListView: View {
                         scrollViewProxy.scrollTo(chatLastMessageId)
                     }
                 }
-                AppManager.vibration(style: .soft)
+                Haptic.impact(.soft)
             }
             .onChange(of: chatManager.isFocusedInput) { newValue in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){

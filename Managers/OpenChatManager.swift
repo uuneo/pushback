@@ -9,6 +9,7 @@ import Foundation
 import OpenAI
 import Defaults
 import GRDB
+import UIKit
 
 
 final class openChatManager: ObservableObject {

@@ -109,7 +109,7 @@ struct ExampleView: View {
                             Text(item.title)
                                 .font(.headline)
                                 .fontWeight(.bold)
-                        }.pressEvents( onRelease: { _ in
+                        }.VButton( onRelease: { _ in
                             AppManager.shared.sheetPage = .quickResponseCode(text: resultUrl,title: item.title, preview: item.title)
                             return true
                         })
@@ -122,7 +122,7 @@ struct ExampleView: View {
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint, Color.primary)
                             .padding(.horizontal)
-                            .pressEvents( onRelease: { _ in
+                            .VButton( onRelease: { _ in
                                 UIPasteboard.general.string = resultUrl
                                 Toast.copy(title:  "复制成功")
                                 return true
@@ -131,8 +131,8 @@ struct ExampleView: View {
                             .scaleEffect(1.3)
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.tint, Color.primary)
-                            .pressEvents( onRelease: { _ in
-                                if resultUrl.isValidURL() == .remote, let url = URL(string: resultUrl) {
+                            .VButton( onRelease: { _ in
+                                if resultUrl.hasHttp(), let url = URL(string: resultUrl) {
                                     UIApplication.shared.open(url)
                                 }
                                 return true
@@ -356,7 +356,7 @@ struct ExampleView: View {
         .simultaneousGesture(
             DragGesture().onEnded { trans in
                 if trans.translation.height > 50{
-                    AppManager.hideKeyboard()
+                    self.hideKeyboard()
                 }
             }
         )
@@ -389,7 +389,7 @@ extension ExampleView{
             PushExampleModel(header: AnyView(Spacer()),
                              footer: AnyView(Text( "GET方法需要URIConponent编码")),
                              title: String(localized:"Markdown样式"),
-                             params: "?category=markdown&body=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback",
+                             params: "?markdown=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback",
                              index: 2),
             
             PushExampleModel(header:

@@ -134,6 +134,7 @@ struct SelectMessageView:View {
                                 withAnimation {
                                     scaleFactor = scaleFactor == 1.0 ? 3.0 : 1.0
                                 }
+                                Haptic.impact(.light)
                             }
                     )
                 )
@@ -159,6 +160,7 @@ struct SelectMessageView:View {
                     withAnimation(.spring()){
                         self.dismiss()
                     }
+                    Haptic.impact(.light)
                 }) {
                     
                     Image(systemName: "xmark")
@@ -174,7 +176,9 @@ struct SelectMessageView:View {
         .scaleEffect(scale)
         .ignoresSafeArea()
         .background(.ultraThinMaterial)
-        
+        .onAppear{
+            self.hideKeyboard()
+        }
     }
     
 

@@ -17,22 +17,30 @@ struct MusicInfo: View {
     @State private var currentTime: TimeInterval = 0
     @State private var isPlaying: Bool = false
     @State private var onActive: Bool = false
+    @State private var waitTimes: TimeInterval = 0
    
     
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         HStack(spacing: 0) {
-            if let audioUrl = audioManager.ShareURL{
-                ShareLink(item: audioUrl, preview: SharePreview("pushback.mp3")){
-                    Image(systemName: "display.and.arrow.down")
-                }.simultaneousGesture(
-                    TapGesture()
-                        .onEnded({ _ in
-                            audioManager.speakPlayer?.pause()
-                        })
-                )
+            VStack{
+                if let audioUrl = audioManager.ShareURL{
+                    ShareLink(item: audioUrl, preview: SharePreview("pushback.mp3")){
+                        Image(systemName: "display.and.arrow.down")
+                    }.simultaneousGesture(
+                        TapGesture()
+                            .onEnded({ _ in
+                                audioManager.speakPlayer?.pause()
+                            })
+                    )
+                    
+                }
             }
+            .if(audioManager.loading) { view in
+                ProgressView()
+            }
+            
           
             /// Adding Matched Geometry Effect (Hero Animation
             VStack{
@@ -58,11 +66,28 @@ struct MusicInfo: View {
                                 .foregroundColor(.gray)
                         }
                     }
+                }else{
+                    VStack{
+                        Spacer()
+                        HStack {
+                            Spacer(minLength: 0)
+                            Text(formatTime(waitTimes / 10))
+                                .font(.body)
+                                .foregroundColor(.red)
+                            Text("处理中...")
+                                .font(.body)
+                                .foregroundColor(.gray)
+                            Spacer(minLength: 0)
+                        }
+                        Spacer()
+                    }
+                   
                 }
                 
                 
-            }.padding(.leading, 10)
-                .padding(.trailing)
+            }
+            .padding(.leading, 10)
+            .padding(.trailing)
             
             
             Spacer(minLength: 0)
@@ -89,17 +114,17 @@ struct MusicInfo: View {
                     withAnimation {
                         audioManager.speakPlayer?.stop()
                         AppManager.shared.speaking.toggle()
+                        audioManager.speakPlayer = nil
                     }
                     
                 } label: {
-                    Image(systemName: "stop.fill")
+                    Image(systemName: "xmark.seal.fill")
                         .font(.title2)
+                        .foregroundStyle(.red)
                 }
                 .padding(.leading, 10)
             }
-            .if(audioManager.loading) { view in
-                ProgressView()
-            }
+           
             
         }
     
@@ -115,6 +140,8 @@ struct MusicInfo: View {
                     progress =  currentTime / duration
                 }
                 self.isPlaying = player.isPlaying
+            }else{
+                waitTimes += 1
             }
         }
     }

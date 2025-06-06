@@ -84,7 +84,7 @@ struct SideBarMenuView: View {
                 ToolbarItem {
                     Label("关闭", systemImage: "xmark.seal")
                         .foregroundStyle(.red)
-                        .pressEvents(onRelease: { _ in
+                        .VButton(onRelease: { _ in
                             self.showMenu.toggle()
                             return true
                         })

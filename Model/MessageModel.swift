@@ -124,6 +124,8 @@ extension Message{
         
         return text.joined(separator: ",")
     }
+    
+    
 }
 
 

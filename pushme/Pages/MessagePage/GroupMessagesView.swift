@@ -22,7 +22,7 @@ struct GroupMessagesView: View {
                 ForEach(messageManager.groupMessages, id: \.id){ message in
                     
                     MessageRow(message: message)
-                        .pressEvents(onRelease: { value in
+                        .VButton(onRelease: { value in
                             manager.router = [.messageDetail(message.group)]
                             return true
                         })

@@ -107,7 +107,7 @@ struct MessageDetailPage: View {
             ToolbarItem {
                 Text("\(messages.count)/\(allCount)")
                     .font(.caption)
-                    .pressEvents(onRelease: { _ in
+                    .VButton(onRelease: { _ in
                         withAnimation {
                             self.showAllTTL.toggle()
                         }

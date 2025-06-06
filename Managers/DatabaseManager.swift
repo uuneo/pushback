@@ -416,5 +416,21 @@ extension DatabaseManager{
         }) != nil)
     }
 
+    static func ensureMarkdownLineBreaks(_ text: String) -> String {
+        // 将文本按行分割
+        let lines = text.components(separatedBy: .newlines)
+        
+        // 处理每一行：检查结尾是否已经有两个空格
+        let processedLines = lines.map { line in
+            if line.hasSuffix("  ") || line.isEmpty {
+                return line
+            } else {
+                return line + "  "  // 添加两个空格
+            }
+        }
+        
+        // 使用 \n 连接回去
+        return processedLines.joined(separator: "\n")
+    }
     
 }

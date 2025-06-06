@@ -17,12 +17,15 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     
     private var timer: Timer?
     private var isUserSeeking = false
-
+    private var waitingTime:Int = 0
     
     
     var audioPlayer: AVAudioPlayer? {
         didSet {
             if let player = audioPlayer {
+                playPauseButton.isEnabled = true
+                stopButton.isEnabled = true
+                
                 stopButton.setTitle(formatTime(player.duration), for: .normal)
                 progressSlider.value = 0
                 playPauseButton.setTitle("0:00", for: .normal)
@@ -37,12 +40,17 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     
     var text: String? {
         didSet {
-            Task {
-                guard let text = text else{ return }
+            startTimer()
+            Task.detached(priority: .userInitiated) {[weak self] in
+                guard let self = self, let text = await text else { return }
                 let client = try VoiceManager()
                 let filePath = try await client.createVoice(text: text)
-                self.audioPlayer = try AVAudioPlayer(contentsOf: filePath)
-                self.audioPlayer?.delegate = self
+                let player = try AVAudioPlayer(contentsOf: filePath)
+                await MainActor.run {
+                    self.audioPlayer = player
+                    self.audioPlayer!.delegate = self
+                }
+               
             }
         }
     }
@@ -56,6 +64,7 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
                 timer?.invalidate()
                 audioPlayer?.pause()
             }
+            Haptic.impact()
         }
     }
     
@@ -71,17 +80,21 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     
 
     private func setupUI() {
-        playPauseButton.setTitle("0.00", for: .normal)
-        stopButton.setTitle("0.00", for: .normal)
+        playPauseButton.setTitle("0.00", for: .disabled)
+        stopButton.setTitle("-.--", for: .disabled)
+        playPauseButton.isEnabled = false
+        stopButton.isEnabled = false
+        stopButton.setTitleColor(UIColor.red, for: .disabled)
+        playPauseButton.setTitleColor(UIColor.red, for: .disabled)
         // 播放进度滑块
         progressSlider.minimumValue = 0
         progressSlider.maximumValue = 1
         progressSlider.value = 0
         progressSlider.minimumTrackTintColor = .systemOrange
         progressSlider.maximumTrackTintColor = UIColor.systemGray5
-        progressSlider.thumbTintColor = .systemOrange
+        
+        
     
-        // 假设你有一个名为"logo"的图片资源
         if let originalImage = UIImage(named: "logo") {
             // 1. 调整图片大小
             let size = CGSize(width: 20, height: 20)
@@ -92,13 +105,17 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
             
             // 2. 设置渲染模式并应用颜色
             if let resizedImage = resizedImage {
-                let tintedImage = resizedImage.withRenderingMode(.alwaysTemplate)
+                let tintedImage = resizedImage
+                    .withRenderingMode(.alwaysTemplate)
                     .withTintColor(.systemOrange)
                 
                 // 3. 将处理后的图片应用到滑块
+                progressSlider.tintColor = .systemOrange
                 progressSlider.setThumbImage(tintedImage, for: .normal)
+            
             }
         }
+        
         progressSlider.addTarget(self, action: #selector(handleSliderChange), for: .valueChanged)
         progressSlider.addTarget(self, action: #selector(beginSeeking), for: .touchDown)
         progressSlider.addTarget(self, action: #selector(endSeeking), for: [.touchUpInside, .touchUpOutside])
@@ -138,7 +155,7 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
         audioPlayer?.currentTime = 0
         progressSlider.value = 0
         playPauseButton.setTitle("0:00", for: .normal)
-        
+        Haptic.impact()
     }
 
     private func startTimer() {
@@ -154,12 +171,19 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     }
 
     @objc private func updateUI() {
-        guard let player = audioPlayer, !isUserSeeking else { return }
+        guard let player = audioPlayer, !isUserSeeking else {
+            waitingTime += 1
+            if waitingTime % 10 == 0{
+                stopButton.setTitle(formatTime(TimeInterval(waitingTime / 10)), for: .disabled)
+            }
+            return
+        }
         playPauseButton.setTitle(formatTime(player.currentTime), for: .normal)
         progressSlider.value = Float(player.currentTime / player.duration)
     }
     
     @objc private func beginSeeking() {
+        Haptic.impact()
         isUserSeeking = true
         audioPlayer?.pause()
         timer?.invalidate()
@@ -175,11 +199,13 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
         
         startTimer()
         player.play()
+        Haptic.impact()
     }
     
     @objc private func handleSliderChange() {
         guard let player = audioPlayer else { return }
         playPauseButton.setTitle(formatTime(TimeInterval(progressSlider.value) * player.duration), for: .normal)
+        Haptic.impact(.heavy, limitFrequency: true)
     }
 
     private func formatTime(_ time: TimeInterval) -> String {

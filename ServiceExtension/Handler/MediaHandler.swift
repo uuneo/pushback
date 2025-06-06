@@ -22,10 +22,15 @@ class MediaHandler:NotificationContentHandler{
 
             /// 自动保存图片到相册 前提 打开了自动存储，并且缓存内没有的图片
             /// 每个图片只保存一遍
-            if let uiimage = UIImage(contentsOfFile: localPath), Defaults[.autoSaveToAlbum], let sha256 = uiimage.pngData()?.sha256(){
-                if Defaults[.imageSaves].first(where: {$0 == sha256}) == nil{
-                    Defaults[.imageSaves].append(sha256)
+            if let uiimage = UIImage(contentsOfFile: localPath), let sha256 = uiimage.pngData()?.sha256(){
+                
+                if let autoSave:String = bestAttemptContent.userInfo.raw(.autocopy), !autoSave.isEmpty{
                     UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
+                }else{
+                    if Defaults[.autoSaveToAlbum], Defaults[.imageSaves].first(where: {$0 == sha256}) == nil{
+                        Defaults[.imageSaves].append(sha256)
+                        UIImageWriteToSavedPhotosAlbum(uiimage, self, nil, nil)
+                    }
                 }
             }
 

@@ -42,7 +42,7 @@ struct CloudIcon: View {
                         }
                         self.dropImage = nil
                     } endEditing: {
-                        AppManager.hideKeyboard()
+                        self.hideKeyboard()
                     }
                 }else{
                     ScrollView(.vertical, showsIndicators: false){
@@ -66,7 +66,7 @@ struct CloudIcon: View {
                                         .multilineTextAlignment(.center)  // 使文字居中
                                         .frame(maxWidth: .infinity, alignment: .center)  // 保证在容器中居中
                                         .lineSpacing(10)
-                                        .pressEvents(onRelease: { _ in
+                                        .VButton(onRelease: { _ in
                                             AppManager.openUrl(url: URL(string: "photos-redirect://")!)
                                             self.dismiss()
                                             return true
@@ -197,7 +197,7 @@ struct CloudIcon: View {
                 if icons.count > 0 {
                     ToolbarItem(placement: .topBarTrailing) {
                         Image(systemName: !showTips ? "text.viewfinder" : "viewfinder")
-                            .pressEvents( onRelease: { _ in
+                            .VButton( onRelease: { _ in
                                 withAnimation {
                                     self.showTips.toggle()
                                 }

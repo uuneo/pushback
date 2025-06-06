@@ -470,7 +470,6 @@ enum RouterPage: Hashable {
     case crypto(String?)
     case server
     case assistantSetting(AssistantAccount?)
-    case privacy
     case more
     
     case widget(title:String?, data:String)

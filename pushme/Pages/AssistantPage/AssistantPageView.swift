@@ -43,7 +43,7 @@ struct AssistantPageView:View {
                     
                     ChatMessageListView()
                     .onTapGesture {
-                        AppManager.hideKeyboard()
+                        self.hideKeyboard()
                     }
                     
                 }else{
@@ -74,7 +74,7 @@ struct AssistantPageView:View {
                     }
                     .transition(.slide)
                     .onTapGesture {
-                        AppManager.hideKeyboard()
+                        self.hideKeyboard()
                     }
                 }
                 
@@ -98,10 +98,10 @@ struct AssistantPageView:View {
                         .onEnded({ value in
                             Log.debug(value.translation, value.startLocation)
                             if -value.translation.height > 200{
-                                AppManager.vibration(style: .heavy)
+                                Haptic.impact(.heavy)
                                 self.showMenu.toggle()
                             }else if value.translation.height > 100 {
-                                AppManager.hideKeyboard()
+                                self.hideKeyboard()
                             }
                             
                         })
@@ -127,7 +127,7 @@ struct AssistantPageView:View {
                 ToolbarItem {
                     Label("设置", systemImage: "gear")
                         .foregroundStyle(.accent)
-                        .pressEvents(onRelease: { _ in
+                        .VButton(onRelease: { _ in
                             withAnimation {
                                 manager.router.append(.assistantSetting(nil))
                             }
@@ -144,7 +144,7 @@ struct AssistantPageView:View {
                 SideBarMenuView(showMenu: $showMenu)
                     .onChange(of: showMenu) { value in
                          DispatchQueue.main.async {
-                            AppManager.hideKeyboard()
+                           self.hideKeyboard()
                         }
                     }
                     .customPresentationCornerRadius(20)
@@ -174,7 +174,7 @@ struct AssistantPageView:View {
                     Menu {
                         
                         Button {
-                            AppManager.vibration(style: .heavy)
+                            Haptic.impact(.heavy)
                             self.showMenu.toggle()
                         }label: {
                             Label("对话列表", systemImage: "chevron.up")
@@ -250,7 +250,7 @@ struct AssistantPageView:View {
                     .transition(.scale)
                     .onTapGesture {
                         self.showMenu = true
-                        AppManager.vibration(style: .heavy)
+                        Haptic.impact(.heavy)
                     }
                 }
                 
@@ -265,7 +265,7 @@ struct AssistantPageView:View {
             Button{
                 manager.inAssistant = false
                 manager.router.removeAll(where: {$0 == .assistant})
-                AppManager.vibration(style: .heavy)
+                Haptic.impact(.heavy)
             }label: {
                 Image(systemName: "arrow.left")
                 
@@ -326,7 +326,7 @@ struct AssistantPageView:View {
                             chatManager.currentContent = chatManager.currentContent + res
                         }
                         if AppManager.shared.inAssistant {
-                            AppManager.vibration(style: .light)
+                            Haptic.impact(.heavy, limitFrequency: true)
                         }
                     }
                     
@@ -337,7 +337,7 @@ struct AssistantPageView:View {
                 }
             } completion: {  error in
                 
-                AppManager.vibration(style: .heavy,custom: true)
+                Haptic.impact()
           
                 if let error{
                     Toast.error(title: "发生错误\(error.localizedDescription)")
@@ -377,7 +377,7 @@ struct AssistantPageView:View {
                         DispatchQueue.main.async {
                             openChatManager.shared.currentRequest = ""
                             AppManager.shared.isLoading = false
-                            AppManager.hideKeyboard()
+                            self.hideKeyboard()
                         }
                         
                        

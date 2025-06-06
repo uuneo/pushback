@@ -62,7 +62,7 @@ struct SoundItemView: View {
                     }
                 
             }
-            .pressEvents(onRelease:{ _ in
+            .VButton(onRelease:{ _ in
                 self.progress = 0
                  DispatchQueue.main.async{
                     withAnimation(.easeInOut(duration: duration )) {

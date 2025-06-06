@@ -58,16 +58,10 @@ class ActionHandler: NotificationContentHandler{
         let http = NetworkManager()
         if let host:String = bestAttemptContent.userInfo.raw(.host),
            let id = bestAttemptContent.targetContentIdentifier,
-           let url = http.appendQueryParameter(to: host, key: "id", value: id){
+           let url = http.appendQueryParameter(to: host.hasHttp() ? host : "https://\(host)", key: "id", value: id){
             await http.fetchVoid(url: url)
         }
-        
-        
-        if Defaults[.voicesAutoPreloading]{
-            let text = bestAttemptContent.userInfo.voiceText()
-            let client = try VoiceManager()
-            let _ = try await client.createVoice(text: text)
-        }
+    
         
         if let widget:String = bestAttemptContent.userInfo.raw(.widget), let _ = URL(string: widget){
             Defaults[.widgetURL] = widget
@@ -77,6 +71,7 @@ class ActionHandler: NotificationContentHandler{
         
     
 	}
+    
 }
 
 

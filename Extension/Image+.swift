@@ -1,13 +1,12 @@
 //
-//  image+.swift
-//  Meow
+//  Image+.swift
+//  pushme
 //
-//  Created by uuneo 2024/8/29.
+//  Created by lynn on 2025/6/5.
 //
-
-import UIKit
-import Photos
 import SwiftUI
+import Photos
+
 
 //MARK: - 保存图片到相册
 extension UIImage {
@@ -16,6 +15,8 @@ extension UIImage {
     /// @param albumName 自定义相册的名字
     /// @param complete `success`代表图片保存是否成功,`authorizationStatus`代表授权状态
     func bat_save(intoAlbum albumName: String?, complete: @escaping (_ success: Bool, _ authorizationStatus: PHAuthorizationStatus) -> ()) {
+        
+        let albumName = albumName ?? BaseConfig.AppName
         
         let oldStatus = PHPhotoLibrary.authorizationStatus()
         PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
@@ -125,22 +126,20 @@ extension UIImage {
     }
 }
 
-
-
 extension Image {
-	func customDraggable(_ width:CGFloat = .zero, appear:((Image)-> Void)? = nil, disappear:((Image)-> Void)? = nil) -> some View{
-		self
-			.draggable(self){
-				self
-					.resizable()
-					.aspectRatio(contentMode: .fill)
-					.frame(width: width == .zero ? 300 : width)
-					.onAppear{
-						appear?(self)
-					}
-					.onDisappear{
-						disappear?(self)
-					}
-			}
-	}
+    func customDraggable(_ width:CGFloat = .zero, appear:((Image)-> Void)? = nil, disappear:((Image)-> Void)? = nil) -> some View{
+        self
+            .draggable(self){
+                self
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width == .zero ? 300 : width)
+                    .onAppear{
+                        appear?(self)
+                    }
+                    .onDisappear{
+                        disappear?(self)
+                    }
+            }
+    }
 }

@@ -30,6 +30,7 @@ struct ContentView: View {
             IphoneHomeView()
                 .if(ISPAD) { IpadHomeView() }
                 
+                
             if firstStart{
                 firstStartLauchFirstStartView()
             }
@@ -40,23 +41,20 @@ struct ContentView: View {
         .safeAreaInset(edge: .bottom) {
             if manager.speaking {
                 Rectangle()
-                    .fill(.ultraThickMaterial)
-                    .overlay { MusicInfo() }
+                    .fill(.ultraThinMaterial)
+                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
                     .frame(height: 70)
-                /// Separator Line
                     .overlay(alignment: .bottom, content: {
                         Rectangle()
                             .fill(.gray.opacity(0.3))
                             .frame(height: 1)
                     })
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
                     .shadow(radius: 3)
-                    .padding(.horizontal)
-                /// 49: Default Tab Bar Height
+                    .padding(.horizontal, 5)
                     .offset(y: manager.router.count == 0 ? -49 : 0)
                     .animation(.easeInOut, value: manager.router)
-                    .transition(.move(edge: .leading))
-                    
+                    .transition(.move(edge: .trailing))
             }
         }
         .overlay{
@@ -149,9 +147,9 @@ struct ContentView: View {
             .tag(TabPage.setting)
             
         }
-        
-        
-        
+        .onChange(of: manager.page) { _ in
+            Haptic.impact()
+        }
     }
     
     @ViewBuilder
@@ -195,7 +193,7 @@ struct ContentView: View {
                 ChangeKeyView()
             case .scan:
                 ScanView{ code in
-                    if code.isValidURL() == .remote{
+                    if code.hasHttp(){
                         let success = await manager.appendServer(server: PushServerModel(url: code))
                         if success{
                             manager.router = [.server]
@@ -265,9 +263,6 @@ extension View{
                         
                     case .assistantSetting(let account):
                         AssistantSettingsView(account: account)
-                    case .privacy:
-                        PrivacySecurity()
-                        
                     case .more:
                         MoreOperationsView()
                         

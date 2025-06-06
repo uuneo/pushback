@@ -59,7 +59,7 @@ struct ChatInputView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .onTapGesture {
                         if !manager.isLoading{
-                            AppManager.vibration(style: .heavy)
+                            Haptic.impact(.heavy)
                             self.isHistoryMessage.toggle()
                         }
                        
@@ -75,7 +75,7 @@ struct ChatInputView: View {
             
         }
         .background(.background)
-        .cornerRadius(30, corners: [.topLeft, .topRight])
+        .clipShape(UnevenRoundedRectangle(topLeadingRadius: 30, topTrailingRadius: 30))
         .onTapGesture {
             self.isFocusedInput = !manager.isLoading
         }

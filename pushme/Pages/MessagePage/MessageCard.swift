@@ -60,25 +60,19 @@ struct MessageCard: View {
                     if let uiImage = image{
                         
                         let image = Image(uiImage: uiImage)
-                        let size = uiImage.scaledSize(withWidth: 200)
                         image
                             .resizable()
+                            .customDraggable(200)
                             .aspectRatio(contentMode: .fill)
                             .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
-                            .draggable( image ) {
-                                // 拖动时的预览图
-                                image
-                                    .resizable()
-                                    .frame(width: size.width, height: size.height)
-                            }
                         
                     }
                 }
-                .frame(height: image == nil ? 0 : 150)
-                .clipShape(UnevenRoundedRectangle(topLeadingRadius: 15, topTrailingRadius: 15))
-                
+                .frame(height: image == nil ? 0 : 120)
+                .clipShape(Rectangle())
                 .onTapGesture {
                     self.complete?()
+                    Haptic.impact(.light)
                 }
                
                 VStack{
@@ -139,32 +133,27 @@ struct MessageCard: View {
                     }
                     
                     if let body = message.body{
-                        MarkdownCustomView(content: body, userInfo: message.search, searchText: searchText,showRaw: showRaw)
-                            .font(.body)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 5)
+                        ScrollView(.vertical) {
+                            MarkdownCustomView(content: body, userInfo: message.search, searchText: searchText,showRaw: showRaw)
+                                .font(.body)
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.vertical, 5)
+                        }
+                        .frame(maxHeight: 365)
+                        .scrollIndicators(.hidden)
                     }
                 }
                 .contentShape(Rectangle())
                 .onTapGesture(count: 2) {
                     self.complete?()
+                    Haptic.impact(.light)
                 }
-                
+                .padding(8)
             }
-            .padding(8)
+            
             .background(
                 Color.whiteGary
-                    .overlay(alignment: .topTrailing){
-                        if image != nil{
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .rotationEffect(.degrees(45))
-                                .foregroundStyle(.gray.opacity(0.3))
-                                .frame(maxHeight: 50)
-                        }
-                    }
             )
             .overlay(alignment: .bottom) {
                 RoundedRectangle(cornerRadius: 0)
@@ -172,7 +161,10 @@ struct MessageCard: View {
                     .frame(height: 5)
                     .background(.ultraThinMaterial)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipShape(UnevenRoundedRectangle(topLeadingRadius: image == nil ? 10 : 25,
+                                              bottomLeadingRadius: 10,
+                                              bottomTrailingRadius: 10,
+                                              topTrailingRadius:  image == nil ? 10 : 25))
             .contentShape(Rectangle())
             .contextMenu{
                
@@ -182,7 +174,7 @@ struct MessageCard: View {
                             AppManager.shared.askMessageId = message.id
                             AppManager.shared.router.append(.assistant)
                         }
-                        AppManager.vibration(style: .light)
+                        Haptic.impact(.light)
                     }label: {
                         Label("问智能助手", image: "chatgpt")
                     }
@@ -193,7 +185,7 @@ struct MessageCard: View {
                         Button{
                             Clipboard.set(body)
                             Toast.copy(title: "复制成功")
-                            AppManager.vibration(style: .light)
+                            Haptic.impact(.light)
                         }label:{
                             Label("复制内容", systemImage: "doc")
                                 .symbolRenderingMode(.palette)
@@ -214,7 +206,7 @@ struct MessageCard: View {
                                 Clipboard.set(message.search)
                             }
                             Toast.copy(title: "复制成功")
-                            AppManager.vibration(style: .light)
+                            Haptic.impact(.light)
                         }
                     }label:{
                         Label("复制全部", systemImage: "doc.on.doc")
@@ -232,6 +224,7 @@ struct MessageCard: View {
                                     Toast.question(title: "保存失败")
                                 }
                             }
+                            Haptic.impact(.light)
                         } label: {
                             Label("保存图片", systemImage: "square.and.arrow.down.on.square")
                                 .symbolRenderingMode(.palette)
@@ -249,6 +242,7 @@ struct MessageCard: View {
                                 return
                             }
                             player.play()
+                            Haptic.impact(.light)
                         }
                     }label: {
                         Label("朗读内容",  systemImage: "waveform")
@@ -262,7 +256,7 @@ struct MessageCard: View {
                         
                         Button{
                             AppManager.openUrl(url: fileUrl)
-                            AppManager.vibration(style: .light)
+                            Haptic.impact(.light)
                         }label:{
                             Label("打开链接", systemImage: "airplane.departure")
                                 .symbolRenderingMode(.palette)
@@ -273,7 +267,7 @@ struct MessageCard: View {
                     
                     Button {
                         self.complete?()
-                        AppManager.vibration(style: .light)
+                        Haptic.impact(.light)
                     } label: {
                         Label("全屏查看", systemImage: "arrow.up.left.arrow.down.right")
                             .symbolRenderingMode(.palette)
@@ -318,7 +312,7 @@ struct MessageCard: View {
                 .font(.caption2)
                 .foregroundStyle(AppManager.shared.selectId?.uppercased() == message.id.uppercased() ?
                     .white : message.createDate.colorForDate() )
-                .pressEvents(onRelease: { value in
+                .VButton(onRelease: { value in
                     withAnimation {
                         let number = self.timeMode + 1
                         self.timeMode = number > 2 ? 0 : number
@@ -335,7 +329,7 @@ struct MessageCard: View {
                     .foregroundStyle(.blue, .green)
                     .symbolEffect(.bounce,delay: 1)
                     .padding(.leading, 10)
-                    .pressEvents(onRelease: { value in
+                    .VButton(onRelease: { value in
                         AppManager.openUrl(url: url)
                         return true
                     })
@@ -345,7 +339,7 @@ struct MessageCard: View {
                 Image(systemName: "xmark.circle")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(Color.primary, .green)
-                    .pressEvents(onRelease:{ result in
+                    .VButton(onRelease:{ result in
                         self.showRaw.toggle()
                         return true
                     })

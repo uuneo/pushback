@@ -16,7 +16,7 @@ struct SearchMessageView:View {
             ForEach(messages, id: \.id) { message in
                 MessageCard(message: message, searchText: searchText, showGroup: true){
                     withAnimation(.easeInOut) {
-                        AppManager.hideKeyboard()
+                       self.hideKeyboard()
                         DispatchQueue.main.async {
                             AppManager.shared.selectMessage = message
                         }

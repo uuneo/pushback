@@ -1,12 +1,13 @@
 //
-//  MarkdownColors.swift
-//  DeepSeek
+//  MarkdownColor+.swift
+//  pushme
 //
-//  Created by Harlans on 2024/12/3.
+//  Created by lynn on 2025/6/5.
 //
 
-import SwiftUI
 import MarkdownUI
+import SwiftUI
+//import Splash
 
 struct MarkdownColors {
     // 主文本颜色
@@ -41,7 +42,7 @@ struct MarkdownColors {
 }
 
 extension View {
-    func markdownHeadingStyle(fontSize: CGFloat, fontWeight: Font.Weight = .semibold) -> some View {
+    func markdownHeadingStyle(fontSize: CGFloat, fontWeight: SwiftUI.Font.Weight = .semibold) -> some View {
         self
             .relativeLineSpacing(.em(0.125))
             .markdownMargin(top: 24, bottom: 16)
@@ -168,53 +169,3 @@ struct MarkdownTheme {
     }
 }
 
-struct CodeBlock: View {
-    var configuration: CodeBlockConfiguration
-    
-    init(_ configuration: CodeBlockConfiguration) {
-        self.configuration = configuration
-    }
-    
-    var language: String {
-        configuration.language ?? "code"
-    }
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text(language)
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                Spacer()
-                
-                Button(action: {
-                    Clipboard.set(configuration.content)
-                    Toast.copy(title: "复制成功")
-                }) {
-                    Image(systemName: "doc.on.doc")
-                        .padding(7)
-                }
-                .buttonStyle(GrowingButton())
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 4)
-            .background(MarkdownColors.secondaryBackground)
-            
-            Divider()
-            
-            ScrollView(.horizontal) {
-                configuration.label
-                    .fixedSize(horizontal: false, vertical: true)
-                    .relativeLineSpacing(.em(0.225))
-                    .markdownTextStyle {
-                        FontFamilyVariant(.monospaced)
-                        FontSize(.em(0.85))
-                    }
-                    .padding(16)
-            }
-        }
-        .background(MarkdownColors.secondaryBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .markdownMargin(top: .zero, bottom: .em(0.8))
-    }
-}

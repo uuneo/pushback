@@ -66,7 +66,7 @@ struct ChangeKeyCenterView: View {
                         
                         Button{
                             self.keyHost = item.url
-                            AppManager.vibration(style: .medium)
+                            Haptic.impact()
                         }label:{
                             Text(item.url.removeHTTPPrefix())
                                 .minimumScaleFactor(0.5)
@@ -247,7 +247,7 @@ struct ChangeKeyCenterView: View {
                 try? await Task.sleep(for: .seconds(0.5))
                 
                 
-                guard keyHost.isValidURL() == .remote, !keyName.isEmpty else {
+                guard keyHost.hasHttp(), !keyName.isEmpty else {
                     await view.next(.fail)
                     Toast.info(title: "参数错误")
                      DispatchQueue.main.async {
@@ -301,7 +301,7 @@ struct ChangeKeyCenterView: View {
                 self.buttonState = .loading(0)
                 try? await Task.sleep(for: .seconds(0.5))
                 
-                guard keyHost.count > 3 && keyHost.isValidURL() == .remote else {
+                guard keyHost.count > 3 && keyHost.hasHttp() else {
                     Toast.error(title: "格式错误")
                     await view.next(.fail)
                      DispatchQueue.main.async {
@@ -371,7 +371,7 @@ struct ChangeKeyView: View {
                 } else {
                     withAnimation(.spring(response: 0.5, dampingFraction: 0.6)) {
                         viewState = .zero
-                        AppManager.hideKeyboard()
+                        self.hideKeyboard()
                     }
                 }
             }
@@ -457,6 +457,15 @@ struct ChangeKeyView: View {
             manager.fullPage = .none
         }
   
+    }
+}
+
+// MARK: -   PreferenceKey+.swift
+
+struct CirclePreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
     }
 }
 

@@ -18,9 +18,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var musicView: UIView!
     @IBOutlet var web: WKWebView!
     
-    var voiceHeight: CGFloat{
-        Defaults[.showVoiceView] ? 35 : 0
-    }
+    private let voiceHeight: CGFloat =  35
     
     override func viewDidLoad() {
         super.viewDidLoad()

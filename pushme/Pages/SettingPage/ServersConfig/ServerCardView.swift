@@ -67,7 +67,7 @@ struct ServerCardView:View {
                     }
                 }
                 
-                .pressEvents( onRelease: { _ in
+                .VButton( onRelease: { _ in
                     if !showDevice{
                         withAnimation(.easeInOut) {
                             self.showDevice = true
@@ -113,7 +113,7 @@ struct ServerCardView:View {
                     } .font(.caption2)
                     
                 }
-                .pressEvents(onRelease: { _ in
+                .VButton(onRelease: { _ in
                     let local = PBScheme.pb.scheme(host: .server, params: ["text": item.server])
                     manager.sheetPage = .quickResponseCode(text: local.absoluteString, title: String(localized: "服务器配置"),preview: nil)
                     return true

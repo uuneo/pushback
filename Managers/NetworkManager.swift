@@ -55,7 +55,7 @@ class NetworkManager {
         
         // 尝试将字符串转换为 URL，如果失败则抛出错误
         guard var requestUrl = URL(string: url) else {
-            throw StringError("url error")
+            throw "url error"
         }
 
         // 如果是 GET 请求并且有参数，将参数拼接到 URL 的 query 中

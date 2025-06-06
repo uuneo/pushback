@@ -125,7 +125,8 @@ struct AssistantSettingsView: View {
                                 if let index = assistantAccouns.firstIndex(where: {$0.id == account.id}){
                                     assistantAccouns.remove(at: index)
                                 }
-                                AppManager.vibration(style: .heavy)
+                                Haptic.impact(.heavy)
+                               
                             } label: {
                                 Label("删除", systemImage: "trash")
                             }

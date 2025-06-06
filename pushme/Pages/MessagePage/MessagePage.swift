@@ -55,7 +55,7 @@ struct MessagePage: View {
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(.green, Color.primary)
                         .symbolEffect(delay: 0)
-                        .pressEvents(onRelease: { value in
+                        .VButton(onRelease: { value in
                             manager.router = [.example]
                             return true
                             
@@ -67,7 +67,7 @@ struct MessagePage: View {
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(.green, Color.primary)
                         .symbolEffect(delay: 0)
-                        .pressEvents(onRelease: { value in
+                        .VButton(onRelease: { value in
                             manager.registerForRemoteNotifications()
                             return true
                             
@@ -103,7 +103,7 @@ struct MessagePage: View {
                         .foregroundStyle(.green, Color.primary)
                         .symbolEffect(delay: 0)
                         .padding(.horizontal)
-                        .pressEvents(onRelease: { value in
+                        .VButton(onRelease: { value in
                             self.showAction = true
                             return true
                             

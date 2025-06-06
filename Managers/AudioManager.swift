@@ -88,13 +88,13 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     /// 加载系统默认音效和用户自定义音效文件列表
     private func setFileList() {
-        
-        let (customSounds, defaultSounds) = self.getFileList()
-        
-        // 回到主线程，更新界面相关状态（如 SwiftUI 或 UIKit 列表）
-         DispatchQueue.main.async {
-            self.customSounds = customSounds
-            self.defaultSounds = defaultSounds
+        Task.detached(priority: .userInitiated) {
+            let (customSounds, defaultSounds) = self.getFileList()
+            // 回到主线程，更新界面相关状态（如 SwiftUI 或 UIKit 列表）
+             DispatchQueue.main.async {
+                self.customSounds = customSounds
+                self.defaultSounds = defaultSounds
+            }
         }
         
     }
@@ -285,6 +285,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
          DispatchQueue.main.async{
             withAnimation(.default) {
                 AppManager.shared.speaking = false
+                self.speakPlayer = nil
             }
         }
     }

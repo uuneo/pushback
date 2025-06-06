@@ -11,10 +11,8 @@ struct SpeakSettingsView:View {
     @Default(.ttsConfig) var voiceConfig
   
     @Default(.voiceList) var voiceList
-    @Default(.showVoiceView) var showVoiceView
     
     @Default(.voicesAutoSpeak) var voicesAutoSpeak
-    @Default(.voicesAutoPreloading) var voicesAutoPreloading
     
     var groupedVoices: [String: [VoiceManager.MicrosoftVoice]] {
         if searchText.isEmpty {
@@ -46,18 +44,8 @@ struct SpeakSettingsView:View {
                 Toggle(isOn: $voicesAutoSpeak) {
                     Label("自动播放", systemImage: "memories")
                 }
-                
-                Toggle(isOn: $voicesAutoPreloading) {
-                    Label("提前生成", systemImage: "arrow.down.square")
-                }
-                
-                Toggle(isOn: $showVoiceView) {
-                    Label("播放界面", systemImage: "play.tv")
-                }
             }header:{
                 Text("下拉自动播放语音")
-            }footer: {
-                Text("提前生成会影响推送时效")
             }
             .textCase(.none)
             
@@ -73,7 +61,7 @@ struct SpeakSettingsView:View {
             
             Section("默认语音") {
                 baseVoiceField
-                    .pressEvents( onRelease: { _ in
+                    .VButton( onRelease: { _ in
                         self.showVoiceSelect.toggle()
                         return true
                     })
@@ -103,7 +91,7 @@ struct SpeakSettingsView:View {
             
             Section("默认音频格式") {
                 baseFormatField
-                    .pressEvents(onRelease: {_ in
+                    .VButton(onRelease: {_ in
                         showFormatSelect.toggle()
                         return true
                     })
@@ -112,7 +100,8 @@ struct SpeakSettingsView:View {
             .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets())
             .listRowSpacing(0)
-        
+         
+            
         }
         .navigationTitle("语音配置")
         .sheet(isPresented: $showVoiceSelect) { VoiceSelectView() }
@@ -156,7 +145,7 @@ struct SpeakSettingsView:View {
                                         item.shortName == voiceConfig.defaultVoice ? Color.green : Color.gray.opacity(0.1)
                                     )
                                     .id(item.shortName)
-                                    .pressEvents(onRelease: { _ in
+                                    .VButton(onRelease: { _ in
                                         voiceConfig.defaultVoice = item.shortName
                                         self.showVoiceSelect.toggle()
                                         return true
@@ -205,7 +194,7 @@ struct SpeakSettingsView:View {
                 .toolbar {
                     ToolbarItem {
                         Image(systemName: "gobackward")
-                            .pressEvents(onRelease: {_ in
+                            .VButton(onRelease: {_ in
                                 Defaults.reset(.voiceList)
                                 Task{
                                     do{

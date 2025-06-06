@@ -53,13 +53,8 @@ struct QuickResponseCodeview:View {
                         }else{
                             if let image = image{
                                 image
+                                    .customDraggable(100)
                                     .transition(.scale.combined(with: .opacity))
-                                    .draggable( image) {
-                                        // 拖动时的预览图
-                                        image
-                                            .resizable()
-                                            .frame(width: 100, height: 100)
-                                    }
                             }
                         }
                     }
@@ -81,7 +76,7 @@ struct QuickResponseCodeview:View {
                     Image(systemName: "arrow.left")
                         .font(.title2)
                         .foregroundStyle(.gray)
-                        .pressEvents( onRelease: { _ in
+                        .VButton( onRelease: { _ in
                             self.dismiss()
                             return true
                         })
@@ -93,7 +88,7 @@ struct QuickResponseCodeview:View {
                         .foregroundStyle(.green, .gray)
                         .fontWeight(.bold)
                         .symbolEffect(.replace)
-                        .pressEvents(onRelease: { _ in
+                        .VButton(onRelease: { _ in
                             self.raw.toggle()
                             return true
                         })

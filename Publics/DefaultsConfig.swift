@@ -33,8 +33,6 @@ extension Defaults.Keys{
     static let id = Key<String>("UserUniqueId","")
     static let lang = Key<String>("LocalePreferredLanguagesFirst","")
     static let voicesAutoSpeak = Key<Bool>("voicesAutoSpeak", false)
-    static let voicesAutoPreloading = Key<Bool>("voicesAutoPreloading", false)
-    static let showVoiceView = Key<Bool>("voicesShowPreloading", true)
     static let allMessagecount = Key<Int>("allMessagecount", 0, iCloud: true)
     static let widgetURL = Key<String>("widgetURL",default: "")
 }

@@ -35,7 +35,6 @@ struct ContentView: View {
                 firstStartLauchFirstStartView()
             }
             
-            
         }
         .environmentObject(manager)
         .safeAreaInset(edge: .bottom) {

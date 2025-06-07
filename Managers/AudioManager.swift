@@ -91,7 +91,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
         Task.detached(priority: .userInitiated) {
             let (customSounds, defaultSounds) = self.getFileList()
             // 回到主线程，更新界面相关状态（如 SwiftUI 或 UIKit 列表）
-             DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 self.customSounds = customSounds
                 self.defaultSounds = defaultSounds
             }
@@ -188,7 +188,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             if self.playingAudio == url {
                 // 释放资源
                 AudioServicesDisposeSystemSoundID(self.soundID)
-                 DispatchQueue.main.async {
+                DispatchQueue.main.async {
                     // 重置播放状态
                     self.playingAudio = nil
                     self.soundID = 0
@@ -282,7 +282,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-         DispatchQueue.main.async{
+        DispatchQueue.main.async{
             withAnimation(.default) {
                 AppManager.shared.speaking = false
                 self.speakPlayer = nil

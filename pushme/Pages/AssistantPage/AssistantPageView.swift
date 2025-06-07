@@ -143,7 +143,7 @@ struct AssistantPageView:View {
             .sheet(isPresented: $showMenu) {
                 SideBarMenuView(showMenu: $showMenu)
                     .onChange(of: showMenu) { value in
-                         DispatchQueue.main.async {
+                        DispatchQueue.main.async {
                            self.hideKeyboard()
                         }
                     }
@@ -307,7 +307,7 @@ struct AssistantPageView:View {
         if !text.isEmpty {
            
             
-             DispatchQueue.main.async{
+            DispatchQueue.main.async {
                 chatManager.currentMessageId = UUID().uuidString
                 manager.isLoading = true
                 chatManager.currentRequest = text
@@ -322,7 +322,7 @@ struct AssistantPageView:View {
                    
                     if let res = result.choices.first?.delta.content {
                         
-                         DispatchQueue.main.async{
+                        DispatchQueue.main.async {
                             chatManager.currentContent = chatManager.currentContent + res
                         }
                         if AppManager.shared.inAssistant {

@@ -175,6 +175,7 @@ fileprivate struct ToastView: View {
                     if abs(endX) > 10 {
                         /// Removing Toast
                         removeToast()
+                        Haptic.impact(.light)
                     }
                 })
         )

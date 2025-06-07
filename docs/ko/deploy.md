@@ -1,73 +1,83 @@
-*[BARK](https://github.com/Finb/Bark) 오픈 소스 프로젝트에 감사드립니다.*
+*[BARK](https://github.com/Finb/Bark) 오픈소스 프로젝트에 감사드립니다*
 
-## Docker-Compose  
-* 구성  
+## Docker-Compose 
+* 설정
 
-```yaml  
+```yaml
 system: # 시스템 설정
-  name: "Pushback" # 서비스 이름
+  name: "pushback" # 서비스 이름
   user: "" # 서비스 사용자 이름
   password: "" # 서비스 비밀번호
-  host: "0.0.0.0" # 서비스 주소
-  port: "8180" # 서비스 포트
-  mode: "release" # debug, release
-  dbType: "default" # 데이터베이스 유형
-  dbPath: "./" # 데이터베이스 파일 경로
-  hostName: "https://push.uuneo.com" # 서비스 도메인
+  address: "0.0.0.0:8080" # 서비스 리스닝 주소
+  debug: false # 디버그 모드 활성화
+  dsn: "" # mysql user:password@tcp(host:port)
+  maxApnsClientCount: 1 # 최대 APNs 클라이언트 연결 수
 
-mysql: # 데이터베이스 설정
-  host: "localhost"
-  port: "3306"
-  user: "root"
-  password: "root"
-
-apple: # 애플 푸시 설정
-  keyId: "BNY5GUGV38"
-  teamId: "FUWV6U942Q"
-  topic: "me.uuneo.Meoworld"
-  develop: true # 푸시 프로그램 모드
+apple: # Apple 푸시 알림 설정
+  keyId: "BNY5GUGV38" # 키 ID
+  teamId: "FUWV6U942Q" # 팀 ID
+  topic: "me.uuneo.Meoworld" # 푸시 토픽
+  develop: false # 개발 환경
+  apnsPrivateKey: |- # APNs 개인 키
+    -----BEGIN PRIVATE KEY-----
+    MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgvjopbchDpzJNojnc
+    o7ErdZQFZM7Qxho6m61gqZuGVRigCgYIKoZIzj0DAQehRANCAAQ8ReU0fBNg+sA+
+    ZdDf3w+8FRQxFBKSD/Opt7n3tmtnmnl9Vrtw/nUXX4ldasxA2gErXR4YbEL9Z+uJ
+    REJP/5bp
+    -----END PRIVATE KEY-----
   adminId: "" # 관리자 ID
-  apnsPrivateKey: 
 
 ```
-## Docker 배포  
 
+### 명령줄 매개변수
+
+설정 파일 외에도 명령줄 매개변수나 환경 변수를 사용하여 서비스를 구성할 수 있습니다:
+
+| 매개변수 | 환경 변수 | 설명 | 기본값 |
+|---------|----------|------|--------|
+| `--addr` | `PB_SERVER_ADDR` | 서버 리스닝 주소 | 비어있음 |
+| `--config`, `-c` | `PB_SERVER_CONFIG` | 설정 파일 경로 | `/data/config.yaml` |
+| `--dsn` | `PB_SERVER_DSN` | MySQL DSN | 비어있음 |
+| `--maxApnsClientCount`, `-max` | `PB_MAX_APNS_CLIENT_COUNT` | 최대 APNs 클라이언트 수 | 0（제한 없음） |
+| `--debug` | `PB_DEBUG` | 디버그 모드 활성화 | false |
+| `--develop`, `-dev` | `PB_DEVELOP` | 푸시 개발 모드 활성화 | false |
+| `--user`, `-u` | `PB_USER` | 서버 사용자 이름 | 비어있음 |
+| `--password`, `-p` | `PB_PASSWORD` | 서버 비밀번호 | 비어있음 |
+
+명령줄 매개변수는 설정 파일보다 우선순위가 높으며, 환경 변수는 명령줄 매개변수보다 우선순위가 높습니다.
+
+## Docker 배포
 
 ```shell
-docker run -d --name pushback-server -p 8080:8080 -v ./data:/data  --restart=always  neouu/pushback:latest
+docker run -d --name pushback-server -p 8080:8080 -v ./data:/data  --restart=always  sanvx/pushback:latest
 ```
 
-## Docker-compose 배포  
-* 프로젝트의 `/deploy` 폴더를 서버로 복사한 후, 아래 명령어를 실행하세요.  
-* `/data/config.yaml` 구성 파일이 반드시 있어야 하며, 그렇지 않으면 서비스가 시작되지 않습니다. 필요에 따라 파일의 구성 옵션을 수정할 수 있습니다.
+## Docker-compose 배포
+* 프로젝트의 `/deploy` 폴더를 서버에 복사한 후 다음 명령을 실행합니다.
+* 선택적으로 `config.yaml` 설정 파일을 구성할 수 있으며, 설정 항목은 필요에 따라 수정할 수 있습니다.
 
-* 시작  
-```shell  
-docker-compose up -d 
+* 시작
+```shell
+docker-compose up -d
 ```
 
 ## 수동 배포
 
-1. 플랫폼에 맞는 실행 파일 다운로드:  
-   <a href='https://github.com/uuneo/pushbackServer/releases'>https://github.com/uuneo/pushbackServer/releases</a>  
-   또는 직접 컴파일:  
-   <a href="https://github.com/uuneo/pushbackServer">https://github.com/uuneo/pushbackServer</a>
+1. 플랫폼에 따라 실행 파일 다운로드:<br> <a href='https://github.com/uuneo/pushbackServer/releases'>https://github.com/uuneo/pushbackServer/releases</a><br>
+또는 직접 컴파일:<br>
+<a href="https://github.com/uuneo/pushbackServer">https://github.com/uuneo/pushbackServer</a>
 
-2. 실행  
-```sh
-./binary-file-name -c config.yaml
+2. 실행
+---
 ```
-3. 필요 시  
-```sh
-chmod +x binary-file-name
+./main
 ```
-`pushback-server`는 반드시 구성 파일을 지정하여 실행해야 합니다.
-
 
 ## 기타
 
-1. 앱 측에서 <a href="https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application">DeviceToken</a>을 서버로 전송해야 합니다. <br>서버가 푸시 요청을 받으면 Apple 서버로 푸시 알림을 전송하며, 이후 휴대폰이 푸시 알림을 수신합니다.
+1. 앱은 <a href="https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application">DeviceToken</a>을 서버로 전송할 책임이 있습니다.<br>서버가 푸시 요청을 수신하면 Apple 서버로 푸시를 전송합니다. 그 후 휴대폰이 푸시 알림을 수신합니다.
 
-2. 서버 측 코드: <a href='https://github.com/uuneo/pushbackServer'>https://github.com/uuneo/pushbackServer</a><br>
+2. 서버 코드: <a href='https://github.com/uuneo/pushbackServer'>https://github.com/uuneo/pushbackServer</a><br>
 
 3. 앱 코드: <a href="https://github.com/uuneo/pushback">https://github.com/uuneo/pushback</a>
+

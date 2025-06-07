@@ -19,7 +19,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var tipsView: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
-    private let voiceHeight: CGFloat =  35 
+    private var voiceHeight: CGFloat {
+        Defaults[.voicesViewShow] ? 35 : 0
+    }
     
     var contentSize: CGSize{
         let height = imageView.bounds.height + musicView.bounds.height + tipsView.bounds.height
@@ -54,13 +56,17 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
             }
         }
         
-        var music: MusicInfoView{
-            let music = MusicInfoView()
-            music.text = userInfo.voiceText()
-            music.frame = musicView.frame
-            return music
+        if Defaults[.voicesViewShow]{
+            var music: MusicInfoView{
+                let music = MusicInfoView()
+                music.text = userInfo.voiceText()
+                music.frame = musicView.frame
+                return music
+            }
+            self.musicView.addSubview(music)
         }
-        self.musicView.addSubview(music)
+        
+        
         self.preferredContentSize = CGSize(width: self.view.bounds.width, height: voiceHeight)
         
         let imageList = mediaHandler(userInfo: userInfo, name: Params.image.name)

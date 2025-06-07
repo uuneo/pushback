@@ -13,6 +13,7 @@ struct SpeakSettingsView:View {
     @Default(.voiceList) var voiceList
     
     @Default(.voicesAutoSpeak) var voicesAutoSpeak
+    @Default(.voicesViewShow) var voicesViewShow
     @EnvironmentObject private var manager:AppManager
     
     var groupedVoices: [String: [VoiceManager.MicrosoftVoice]] {
@@ -42,6 +43,10 @@ struct SpeakSettingsView:View {
         Form{
             
             Section {
+                Toggle(isOn: $voicesViewShow) {
+                    Label("开启语音", systemImage: voicesViewShow ? "lock.open.display" : "lock.display")
+                        .symbolEffect(.replace)
+                }
                 Toggle(isOn: $voicesAutoSpeak) {
                     Label("自动播放", systemImage: "memories")
                 }
@@ -66,6 +71,7 @@ struct SpeakSettingsView:View {
                 baseVoiceField
                     .VButton( onRelease: { _ in
                         self.showVoiceSelect.toggle()
+                        self.hideKeyboard()
                         return true
                     })
             }header: {
@@ -199,17 +205,25 @@ struct SpeakSettingsView:View {
                                             .fontWeight(item.shortName == voiceConfig.defaultVoice ? .bold : .light)
                                         Text("(\(item.gender))")
                                         Spacer()
+                                        Button {
+                                            voiceConfig.defaultVoice = item.shortName
+                                            self.showVoiceSelect.toggle()
+                                            Haptic.impact()
+                                        }label:{
+                                            Image(systemName: "cursorarrow.click")
+                                                .imageScale(.large)
+                                        }
                                     }
-                                    .padding(20)
+                                    .padding()
                                     .background(
                                         item.shortName == voiceConfig.defaultVoice ? Color.green : Color.gray.opacity(0.1)
                                     )
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .padding(.horizontal)
+                                    
                                     .id(item.shortName)
-                                    .VButton(onRelease: { _ in
-                                        voiceConfig.defaultVoice = item.shortName
-                                        self.showVoiceSelect.toggle()
-                                        return true
-                                    })
+                                
+                                    
                                     
                                 }
                             } header: {
@@ -256,26 +270,32 @@ struct SpeakSettingsView:View {
                         Image(systemName: "gobackward")
                             .VButton(onRelease: {_ in
                                 Defaults.reset(.voiceList)
-                                Task{
-                                    do{
-                                        let client = try VoiceManager()
-                                        _ = try await client.listVoices()
-                                        
+                                Task.detached(priority: .userInitiated) {
+                                    let client = try VoiceManager()
+                                    _ = try await client.listVoices()
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                                         withAnimation {
                                             proxy.scrollTo(voiceConfig.defaultVoice, anchor: .center)
                                         }
-                                        
-                                    }catch{
-                                        debugPrint(error)
                                     }
+                                }
+                                
+                                return true
+                            })
+                    }
+                    ToolbarItem(placement: .topBarLeading) {
+                        Image(systemName: "pin.fill")
+                            .VButton(onRelease: {_ in
+                                withAnimation {
+                                    proxy.scrollTo(voiceConfig.defaultVoice, anchor: .center)
                                 }
                                 return true
                             })
                     }
                 }
             }
-            .searchable(text: $searchText)
-            
+            .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
+        
         }
     }
     

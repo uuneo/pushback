@@ -31,14 +31,14 @@ struct ZoomableModifier: ViewModifier {
                 if #available(iOS 17.0, *) {
                     view.gesture(magnificationGesture)
                 } else {
-                    view.gesture(oldMagnificationGesture)
+                    view.gesture(oldmagnificationGesture)
                 }
             }
             .gesture(doubleTapGesture)
     }
 
     @available(iOS, introduced: 16.0, deprecated: 17.0)
-    private var oldMagnificationGesture: some Gesture {
+    private var oldmagnificationGesture: some Gesture {
         MagnificationGesture()
             .onChanged { value in
                 let zoomFactor = 0.5

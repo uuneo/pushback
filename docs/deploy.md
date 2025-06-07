@@ -5,42 +5,57 @@
 
 ```yaml
 system: # 系统配置
-  name: "Pushback" # 服务名称
+  name: "pushback" # 服务名称
   user: "" # 服务用户名
   password: "" # 服务密码
-  host: "0.0.0.0" # 服务地址
-  port: "8180" # 服务端口
-  mode: "release" # debug, release
-  dbType: "default" # 数据库类型
-  dbPath: "./" # 数据库文件路径
-  hostName: "https://push.uuneo.com" # 服务域名
-
-mysql: # 数据库配置
-  host: "localhost"
-  port: "3306"
-  user: "root"
-  password: "root"
+  address: "0.0.0.0:8080" # 服务监听地址
+  debug: false # 是否开启调试模式
+  dsn: "" # mysql user:password@tcp(host:port)
+  maxApnsClientCount: 1 # 最大APNs客户端连接数
 
 apple: # 苹果推送配置
-  keyId: "BNY5GUGV38"
-  teamId: "FUWV6U942Q"
-  topic: "me.uuneo.Meoworld"
-  develop: true # 推送程序的模式
-  adminId: "" # 管理员id
-  apnsPrivateKey: 
+  keyId: "BNY5GUGV38" # 密钥ID
+  teamId: "FUWV6U942Q" # 团队ID
+  topic: "me.uuneo.Meoworld" # 推送主题
+  develop: false # 是否开发环境
+  apnsPrivateKey: |- # APNs私钥
+    -----BEGIN PRIVATE KEY-----
+    MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgvjopbchDpzJNojnc
+    o7ErdZQFZM7Qxho6m61gqZuGVRigCgYIKoZIzj0DAQehRANCAAQ8ReU0fBNg+sA+
+    ZdDf3w+8FRQxFBKSD/Opt7n3tmtnmnl9Vrtw/nUXX4ldasxA2gErXR4YbEL9Z+uJ
+    REJP/5bp
+    -----END PRIVATE KEY-----
+  adminId: "" # 管理员ID
 
 ```
+
+### 命令行参数
+
+除了配置文件外，还可以通过命令行参数或环境变量来配置服务：
+
+| 参数 | 环境变量 | 说明 | 默认值 |
+|------|----------|------|--------|
+| `--addr` | `PB_SERVER_ADDR` | 服务器监听地址 | 空 |
+| `--config`, `-c` | `PB_SERVER_CONFIG` | 配置文件路径 | `/data/config.yaml` |
+| `--dsn` | `PB_SERVER_DSN` | MySQL DSN | 空 |
+| `--maxApnsClientCount`, `-max` | `PB_MAX_APNS_CLIENT_COUNT` | 最大 APNs 客户端数量 | 0（无限制） |
+| `--debug` | `PB_DEBUG` | 启用调试模式 | false |
+| `--develop`, `-dev` | `PB_DEVELOP` | 启用推送开发模式 | false |
+| `--user`, `-u` | `PB_USER` | 服务器用户名 | 空 |
+| `--password`, `-p` | `PB_PASSWORD` | 服务器密码 | 空 |
+
+命令行参数优先级高于配置文件，环境变量优先级高于命令行参数。
 
 ## Docker部署
 
 ```shell
 
-docker run -d --name pushback-server -p 8080:8080 -v ./data:/data  --restart=always  neouu/pushback:latest
+docker run -d --name pushback-server -p 8080:8080 -v ./data:/data  --restart=always  sanvx/pushback:latest
 ```
 
 ## Docker-compose部署
 * 复制项目中的/deploy文件夹到服务器上，然后执行以下命令即可。
-* 必须有/data/config.yaml 的配置文件，否则无法启动，文件中的配置项，可以根据自己的需求进行修改。
+* 可选 `config.yaml` 配置文件，文件中的配置项，可以根据自己的需求进行修改。
 
 * 启动
 ```shell
@@ -54,14 +69,10 @@ docker-compose up -d
 <a href="https://github.com/uuneo/pushbackServer">https://github.com/uuneo/pushbackServer</a>
 
 2. 运行
+---
 ```
-./二进制文件名 -c config.yaml
+./main
 ```
-3. 你可能需要
-```
-chmod +x 二进制文件名
-```
-请注意 pushback-server 单独运行必须指定 配置文件地址
 
 ## 其他
 

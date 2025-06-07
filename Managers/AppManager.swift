@@ -167,7 +167,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
         switch self.outParamsHandler(address: url.absoluteString) {
         case .crypto(let text):
             Log.debug(text)
-            DispatchQueue.main.async {
+            DispatchQueue.main.async{
                 self.page = .setting
                 self.router = [.more, .crypto(text)]
             }
@@ -256,7 +256,7 @@ extension AppManager{
 
             if granted {
                 // 如果授权，注册设备接收推送通知
-                 DispatchQueue.main.async {
+                DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             } else {

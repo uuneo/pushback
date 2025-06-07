@@ -18,7 +18,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var musicView: UIView!
     @IBOutlet var web: WKWebView!
     
-    private let voiceHeight: CGFloat =  35
+    private var voiceHeight: CGFloat {
+        Defaults[.voicesViewShow] ? 35 : 0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         web.frame = view.bounds
         web.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        self.preferredContentSize = CGSize(width: view.bounds.width, height: 10) // 初始高度
+        self.preferredContentSize = CGSize(width: view.bounds.width, height: 1) // 初始高度
         
         // 监听 WKWebView 高度变化
         web.scrollView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
@@ -55,17 +57,21 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     func didReceive(_ notification: UNNotification) {
         let userInfo = notification.request.content.userInfo
         
-        self.musicView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: voiceHeight)
         
         
-        var music: MusicInfoView{
-            let music = MusicInfoView()
-            music.text = userInfo.voiceText()
-            music.frame = musicView.frame
-            return music
+        if Defaults[.voicesViewShow]{
+            self.musicView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: voiceHeight)
+            var music: MusicInfoView{
+                let music = MusicInfoView()
+                music.text = userInfo.voiceText()
+                music.frame = musicView.frame
+                return music
+            }
+            
+            self.musicView.addSubview(music)
         }
+        
        
-        self.musicView.addSubview(music)
         self.preferredContentSize = CGSize(width: self.view.bounds.width, height: voiceHeight)
         
         if let body:String = userInfo.raw(Params.body),

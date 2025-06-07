@@ -9,8 +9,8 @@ import SwiftUI
 import Defaults
 
 struct AssistantSettingsView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject private var chatManager: openChatManager
+
+    @StateObject private var chatManager = openChatManager.shared
     
     @Default(.assistantAccouns) var assistantAccouns
     @Default(.historyMessageCount) var historyMessageCount

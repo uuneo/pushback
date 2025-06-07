@@ -189,7 +189,7 @@ fileprivate struct ViewExtractHelper: UIViewRepresentable {
         let view  = UIView(frame: .zero)
         view.backgroundColor = .clear
         view.isUserInteractionEnabled = false
-         DispatchQueue.main.async {
+        DispatchQueue.main.async {
             if let uikitview = view.superview?.superview?.subviews.last?.subviews.first{
                 result(uikitview)
             }

@@ -1,17 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pushback.png",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "black.png",
+      "filename" : "logo_画板 1 副本.png",
       "idiom" : "universal"
     }
   ],

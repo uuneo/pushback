@@ -9,6 +9,7 @@ import SwiftUI
 import Defaults
 import CloudKit
 import UniformTypeIdentifiers
+import PhotosUI
 
 struct CloudIcon: View {
     @Environment(\.dismiss) var dismiss
@@ -29,9 +30,8 @@ struct CloudIcon: View {
     @State private var dropImage:PushIcon?
     
     @State private var rotation: Double = 0
-    
-    @State private var showTips:Bool = false
-    
+    @State private var selectItem: PhotosPickerItem? = nil
+ 
     var body: some View {
         NavigationStack{
             VStack{
@@ -47,32 +47,15 @@ struct CloudIcon: View {
                 }else{
                     ScrollView(.vertical, showsIndicators: false){
                         
-                        if showTips || icons.count == 0{
+                        if  ProcessInfo.processInfo.isiOSAppOnMac{
                             VStack{
-                                
-                                if ProcessInfo.processInfo.isiOSAppOnMac{
-                                    Text("拖动图片到此处")
-                                        .font(.largeTitle)
-                                        .foregroundStyle(.orange)
-                                        .multilineTextAlignment(.center)  // 使文字居中
-                                        .lineSpacing(10)
-                                        .padding(.vertical, 50)
-                                        .frame(maxWidth: .infinity, alignment: .center)
-                                    
-                                }else{
-                                    Text("打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端")
-                                        .padding(.top, 50)
-                                        .foregroundStyle(.blue)
-                                        .multilineTextAlignment(.center)  // 使文字居中
-                                        .frame(maxWidth: .infinity, alignment: .center)  // 保证在容器中居中
-                                        .lineSpacing(10)
-                                        .VButton(onRelease: { _ in
-                                            AppManager.openUrl(url: URL(string: "photos-redirect://")!)
-                                            self.dismiss()
-                                            return true
-                                        })
-                                }
-                                
+                                Text("拖动图片到此处")
+                                    .font(.largeTitle)
+                                    .foregroundStyle(Color.accentColor)
+                                    .multilineTextAlignment(.center)  // 使文字居中
+                                    .lineSpacing(10)
+                                    .padding(.vertical)
+                                    .frame(maxWidth: .infinity, alignment: .center)
                             }
                             .blur(radius: loading ? 5 : 0)
                         }
@@ -99,6 +82,7 @@ struct CloudIcon: View {
                                                 }label:{
                                                     
                                                     Label("查看图标", systemImage: "photo.artframe.circle")
+                                                        .customForegroundStyle(.accent, .primary)
                                                 }
                                                 
                                                 Button {
@@ -107,6 +91,7 @@ struct CloudIcon: View {
                                                 }label:{
                                                     
                                                     Label("复制key", systemImage: "doc.on.doc")
+                                                        .customForegroundStyle(.accent, .primary)
                                                 }
                                                 
                                                 Section{
@@ -114,7 +99,7 @@ struct CloudIcon: View {
                                                         
                                                         CloudManager.shared.deleteCloudIcon( icon.recordID.recordName) { error in
                                                             if let error{
-                                                                Toast.error(title: "\(error.localizedDescription)")
+                                                                Toast.shared.present(title: "\(error.localizedDescription)", symbol: .error, tint: .red)
                                                             }else{
                                                                 Toast.success(title: "图片删除成功")
                                                                 if let index = icons.firstIndex(where: {$0.recordID.recordName == icon.recordID.recordName}){
@@ -125,6 +110,7 @@ struct CloudIcon: View {
                                                     }label:{
                                                         
                                                         Label("删除云图标", systemImage: "trash")
+                                                            .customForegroundStyle(.accent, .primary)
                                                     }
                                                 }
                                                 
@@ -139,7 +125,7 @@ struct CloudIcon: View {
                                 }
                                 
                             }
-                            .padding(.top ,30)
+                            .padding(.top )
                             .blur(radius: selectImage == nil ? 0 : 5)
                         }
                         
@@ -150,25 +136,10 @@ struct CloudIcon: View {
                             _ = item.loadDataRepresentation(for: .image) { data, error in
                                 
                                 guard let data = data else { return }
-                                
-                                if let image = data.toThumbnail(max: 300){
-                                    let tempDir = FileManager.default.temporaryDirectory
-                                    let tempURL = tempDir.appendingPathComponent("cloudIcon.png")
-                                    
-                                    guard let pngData = image.pngData() else { return }
-                                    
-                                    do{
-                                        try pngData.write(to: tempURL)
-                                    }catch{
-                                        Log.error(error.localizedDescription)
-                                        return
-                                    }
-                                    
-                                     DispatchQueue.main.async {
-                                        dropImage = .init(id: UUID().uuidString, name: "", description: [], size: pngData.count, sha256: pngData.sha256(), file: tempURL, previewImage: image)
-                                    }
+
+                                DispatchQueue.main.async {
+                                    dropImage = toPushIcon(data)
                                 }
-                                
                             }
                         }
                         return true
@@ -186,23 +157,11 @@ struct CloudIcon: View {
             .navigationTitle("云图标")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        manager.sheetPage = .none
-                    }label: {
-                        Image(systemName: "x.circle")
-                    }
-                    
-                }
-                if icons.count > 0 {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Image(systemName: !showTips ? "text.viewfinder" : "viewfinder")
-                            .VButton( onRelease: { _ in
-                                withAnimation {
-                                    self.showTips.toggle()
-                                }
-                                return true
-                            })
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    PhotosPicker(selection: $selectItem) {
+                        Image(systemName: "photo.circle")
+                            .VButton( onRelease: { _ in true})
                     }
                 }
                 
@@ -219,7 +178,7 @@ struct CloudIcon: View {
                             Text("加载中...")
                                 .font(.headline)
                                 .foregroundColor(.gray)
-                                .frame(width: UIScreen.main.bounds.width)
+                                .frame(width: windowWidth)
                             
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -291,6 +250,26 @@ struct CloudIcon: View {
                 getIcons()
                 
             }
+            .onChange(of: selectItem) { newItem in
+                
+                guard let newItem else{ return }
+                self.dropImage = nil
+                Task.detached(priority: .userInitiated) {
+                    do{
+                        if let data = try await newItem.loadTransferable(type: Data.self) {
+                            await MainActor.run{
+                                dropImage = toPushIcon(data)
+                            }
+                        }
+                        
+                    }catch{
+                        Log.error(error.localizedDescription)
+                    }
+                    await MainActor.run {
+                        self.selectItem = nil
+                    }
+                }
+            }
            
         }
     }
@@ -306,6 +285,26 @@ struct CloudIcon: View {
                 }
             }
         }
+    }
+    
+    func toPushIcon(_ data: Data)-> PushIcon?{
+        if let image = data.toThumbnail(max: 300){
+            let tempDir = FileManager.default.temporaryDirectory
+            let tempURL = tempDir.appendingPathComponent("cloudIcon.png")
+            
+            guard let pngData = image.pngData() else { return nil }
+            
+            do{
+                try pngData.write(to: tempURL)
+                return PushIcon(id: UUID().uuidString, name: "",
+                             description: [], size: pngData.count, sha256: pngData.sha256(), file: tempURL, previewImage: image)
+            }catch{
+                Log.error(error.localizedDescription)
+            }
+            
+           
+        }
+        return nil
     }
     
     /// Tag View

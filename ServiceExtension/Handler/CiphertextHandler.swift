@@ -5,7 +5,6 @@
 //  Created by uuneo 2024/11/23.
 //
 
-import SwiftyJSON
 import Foundation
 import UserNotifications
 
@@ -19,7 +18,8 @@ class CiphertextHandler:NotificationContentHandler{
 
 		// 解密推送信息
 		do {
-			let map = try self.decrypt(ciphertext: ciphertext, iv: userInfo[Params.iv.name] as? String)
+            let ciphertNumber:Int? = userInfo.raw(.ciphernumber)
+            let map = try self.decrypt(ciphertext: ciphertext, iv: userInfo[Params.iv.name] as? String, number: ciphertNumber)
 			
 			var alert = [String: Any]()
 			var soundName: String? = nil
@@ -86,14 +86,13 @@ class CiphertextHandler:NotificationContentHandler{
 	
     
 	// MARK: 解密
-	func decrypt(ciphertext: String, iv: String? = nil) throws -> [AnyHashable: Any] {
+    func decrypt(ciphertext: String, iv: String? = nil, number:Int? = nil) throws -> [AnyHashable: Any] {
+        var cryptoConfig = Defaults[.cryptoConfigs].config(number)
 		
-		var fields = Defaults[.cryptoConfig]
-		
-		if let iv = iv { fields.iv = iv }
+		if let iv = iv { cryptoConfig.iv = iv }
 
 		guard let textData = Data(base64Encoded: ciphertext),
-			  let json = CryptoManager(fields).decrypt(textData),
+			  let json = CryptoManager(cryptoConfig).decrypt(textData),
 			  let data = json.data(using: .utf8),
 			  let map = JSON(data).dictionaryObject else { throw "JSON parsing failed"  }
 

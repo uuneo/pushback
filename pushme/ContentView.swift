@@ -11,10 +11,11 @@ import UniformTypeIdentifiers
 import WidgetKit
 import Defaults
 
+
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
-  
     
+    @Default(.showGroup) private var showGroup
     @StateObject private var manager = AppManager.shared
     @StateObject private var messageManager = MessagesManager.shared
     
@@ -29,34 +30,14 @@ struct ContentView: View {
             
             IphoneHomeView()
                 .if(ISPAD) { IpadHomeView() }
-                
-                
+            
+            
             if firstStart{
                 firstStartLauchFirstStartView()
             }
             
-            
         }
         .environmentObject(manager)
-        .safeAreaInset(edge: .bottom) {
-            if manager.speaking {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
-                    .frame(height: 70)
-                    .overlay(alignment: .bottom, content: {
-                        Rectangle()
-                            .fill(.gray.opacity(0.3))
-                            .frame(height: 1)
-                    })
-                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
-                    .shadow(radius: 3)
-                    .padding(.horizontal, 5)
-                    .offset(y: manager.router.count == 0 ? -49 : 0)
-                    .animation(.easeInOut, value: manager.router)
-                    .transition(.move(edge: .trailing))
-            }
-        }
         .overlay{
             if let message = manager.selectMessage{
                 SelectMessageView(message: message) {
@@ -65,7 +46,7 @@ struct ContentView: View {
                     }
                 }
                 .ignoresSafeArea(.all, edges: .top)
-                .transition(.move(edge: .bottom))
+                .transition(.move(edge: .leading))
             }
         }
         
@@ -90,46 +71,47 @@ struct ContentView: View {
                     view
                 }
             }
-           
+            
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
-        .alert(isPresented: $manager.showHomeAlert) {
-            Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
-                Task.detached(priority: .userInitiated) {
-                    await DatabaseManager.shared.delete(allRead: true)
-                }
-            }), secondaryButton: .cancel()) }
-//        .task {
-//            
-//            Task.detached(priority: .userInitiated) {
-//                await DatabaseManager.CreateStresstest(max: 100000)
-//            }
-//
-//        }
+        .safeAreaInset(edge: .bottom) {
+            if manager.speaking {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
+                    .frame(height: 70)
+                    .overlay(alignment: .bottom, content: {
+                        Rectangle()
+                            .fill(.gray.opacity(0.3))
+                            .frame(height: 1)
+                    })
+                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
+                    .shadow(radius: 3)
+                    .padding(.horizontal, 5)
+                    .animation(.easeInOut, value: manager.router)
+                    .transition(.move(edge: .trailing))
+            }
+        }
+        
         
     }
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
-        TabView(selection: Binding(get: {
-            manager.page
-        }, set: { value in
-            manager.page = value
-        })) {
-            
+        TabView(selection: $manager.page) {
             
             NavigationStack(path: $manager.router){
                 // MARK: 信息页面
                 MessagePage().router(manager)
                 
             }
-            .badge(messageManager.unreadCount)
             .tabItem {
                 Label( "消息", systemImage: "ellipsis.message")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
             }
+            .badge(messageManager.unreadCount)
             .tag(TabPage.message)
             
             
@@ -145,7 +127,6 @@ struct ContentView: View {
                     .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
             }
             .tag(TabPage.setting)
-            
         }
         .onChange(of: manager.page) { _ in
             Haptic.impact()
@@ -205,6 +186,7 @@ struct ContentView: View {
                 }
             case .web(let url):
                 SFSafariView(url: url).ignoresSafeArea()
+
             default:
                 EmptyView().onAppear{  manager.fullPage = .none }
             }
@@ -222,21 +204,36 @@ struct ContentView: View {
             case .cloudIcon:
                 CloudIcon() .presentationDetents([.medium, .large])
             case .paywall:
-                if #available(iOS 18.0, *) { PayWallHighView() }
+                if #available(iOS 18.0, *) { PayWallHighView() }else{
+                    EmptyView()
+                        .onAppear{ manager.sheetPage = .none }
+                }
             case .quickResponseCode(let text, let title, let preview):
                 QuickResponseCodeview(text:text, title: title, preview:preview).presentationDetents([.medium])
+            case .scan:
+                ScanView{ code in
+                    if code.hasHttp(){
+                        let success = await manager.appendServer(server: PushServerModel(url: code))
+                        if success{
+                            manager.router = [.server]
+                        }
+                        return success
+                    }
+                    return false
+                    
+                }
+            case .crypto(let item):
+                ChangeCryptoConfigView(item: item)
             default:
                 EmptyView().onAppear{ manager.sheetPage = .none }
             }
         }
         .environmentObject(manager)
-        .customPresentationCornerRadius(20)
+        .customPresentationCornerRadius(30)
     }
     
 }
 
-
-@available(iOS 16.0, *)
 extension View{
     func router(_ manager:AppManager) -> some View{
         self
@@ -249,34 +246,38 @@ extension View{
                     case .messageDetail(let group):
                         MessageDetailPage(group: group)
                             .navigationTitle(group)
+                        
                     case .sound:
                         SoundView()
-                    case .assistant:
                         
+                    case .assistant:
                         AssistantPageView()
-                            .navigationBarBackButtonHidden()
-                    case .crypto(let text):
-                        CryptoConfigView(config: text)
+                        
+                    case .assistantSetting(let account):
+                        AssistantSettingsView(account: account)
+                        
+                    case .crypto:
+                        CryptoConfigListView()
                         
                     case .server:
                         ServersConfigView()
                         
-                    case .assistantSetting(let account):
-                        AssistantSettingsView(account: account)
                     case .more:
                         MoreOperationsView()
                         
                     case .widget(title: let title, data: let data):
                         WidgetChartView(data: data)
                             .navigationTitle(title ?? "小组件")
+                        
                     case .tts:
                         SpeakSettingsView()
-                       
+             
                     }
                 }
                 .toolbar(.hidden, for: .tabBar)
+                .navigationBarTitleDisplayMode(.large)
                 .environmentObject(manager)
-               
+                
                 
                 
             }

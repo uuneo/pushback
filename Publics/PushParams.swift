@@ -8,47 +8,12 @@
 import UserNotifications
 
 enum Params: String, CaseIterable{
-    case ciphertext
-    case ttl
-    case title
-    case subtitle
-    case body
-    case icon
-    case image
-    case from
-    case host
-    case group
-    case sound
-    case badge
-    case call
-    case mode
-    case url
-    case iv
-    case aps
-    case alert
-    case caf
-    case autocopy
-    case copy
-    case calstartdate
-    case calenddate
-    case caltitle
-    case calcolor
-    case calminutes
-    case id
-    case category
-    case level
-    case volume
+    case ciphertext, ttl, title, subtitle, body, icon, image, from, host, group,
+         sound, badge, call, mode, url, iv, aps, alert, caf, autocopy, copy,
+         calstartdate, calenddate, caltitle, calcolor, calminutes, ciphernumber,
+         id, category, level, volume, callback, widget, savealbum, count, index
     
-    case callback
-    
-    case widget
-    
-    case savealbum
-    
-
     var name:String{ self.rawValue }
-
-    
 }
 
 
@@ -61,6 +26,12 @@ extension [AnyHashable : Any]{
         case .sound:
             return (self[Params.aps.name] as? [AnyHashable: Any])?[Params.sound.name] as? T
         default:
+            if T.self == Int.self, let data = self[params.name] as? String, let intValue = Int(data) {
+                return intValue as? T
+            } else if let intValue = self[params.name] as? Int {
+                return intValue as? T
+            }
+            
             return self[params.name] as? T
         }
     }

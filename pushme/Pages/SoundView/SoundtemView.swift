@@ -32,7 +32,7 @@ struct SoundItemView: View {
     @State private var progress:CGFloat = 0
 	
     var wavConfig:WaveformScrubber.Config{
-        selectSound ? .init(activeTint: .orange) : .init(activeTint: .textBlack)
+        selectSound ? .init(activeTint: Color.accentColor) : .init(activeTint: .textBlack)
     }
 
     var body: some View{
@@ -43,7 +43,7 @@ struct SoundItemView: View {
                 VStack(alignment: .leading){
                     Text( name)
                         .foregroundStyle(selectSound ? Color.green :  Color.textBlack)
-                    Text("\(formatDuration(duration))s")
+                    Text(verbatim: "\(formatDuration(duration))s")
                         .font(.caption)
                         .foregroundStyle(.gray)
                 }
@@ -90,6 +90,7 @@ struct SoundItemView: View {
                     .onTapGesture {
                         Clipboard.set(self.name)
                         Toast.copy(title: "复制成功")
+                        Haptic.impact()
                     }
             }else{
                 Text("长度不能超过30秒")

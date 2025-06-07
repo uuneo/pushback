@@ -17,18 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="startapp" translatesAutoresizingMaskIntoConstraints="NO" id="gQQ-aX-Iqk">
-                                <rect key="frame" x="21.666666666666657" y="191" width="350" height="350"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" highlightedImage="launch" translatesAutoresizingMaskIntoConstraints="NO" id="gQQ-aX-Iqk">
+                                <rect key="frame" x="121.66666666666669" y="251" width="150" height="150"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="350" id="6tY-fU-Oq0"/>
-                                    <constraint firstAttribute="width" constant="350" id="FhS-5d-quK"/>
-                                    <constraint firstAttribute="width" secondItem="gQQ-aX-Iqk" secondAttribute="height" multiplier="1:1" id="YNC-G0-pYQ"/>
+                                    <constraint firstAttribute="height" constant="150" id="GdH-wt-KrV"/>
+                                    <constraint firstAttribute="width" constant="150" id="V07-Mq-TIt"/>
                                 </constraints>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="ultraLight"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PUSHME" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ugc-jp-QHf">
-                                <rect key="frame" x="126.33333333333333" y="780" width="140.66666666666669" height="42"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NoWords" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ugc-jp-QHf">
+                                <rect key="frame" x="103.33333333333333" y="761" width="186.33333333333337" height="61"/>
+                                <fontDescription key="fontDescription" name="Impact" family="Impact" pointSize="50"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -36,10 +35,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Ugc-jp-QHf" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="HTG-3V-xy9"/>
-                            <constraint firstItem="gQQ-aX-Iqk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="NCg-ep-0W6"/>
-                            <constraint firstItem="gQQ-aX-Iqk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-60" id="PeH-Pk-F9P"/>
-                            <constraint firstAttribute="bottom" secondItem="Ugc-jp-QHf" secondAttribute="bottom" constant="30" id="gjh-xn-17w"/>
+                            <constraint firstItem="Ugc-jp-QHf" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0Zs-nX-Npz"/>
+                            <constraint firstAttribute="bottom" secondItem="Ugc-jp-QHf" secondAttribute="bottom" constant="30" id="RPN-pk-sAz"/>
+                            <constraint firstItem="gQQ-aX-Iqk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cyz-gK-Kt4"/>
+                            <constraint firstItem="gQQ-aX-Iqk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-100" id="ybR-3Y-ZNq"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -49,7 +48,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="startapp" width="1024" height="1024"/>
+        <image name="launch" width="1024" height="1024"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

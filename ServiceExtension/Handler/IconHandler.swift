@@ -9,6 +9,7 @@ import Foundation
 import Intents
 import Defaults
 import UserNotifications
+import UIKit
 
 class IconHandler: NotificationContentHandler{
     func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
@@ -34,9 +35,15 @@ class IconHandler: NotificationContentHandler{
         }
         
         
+        var imageData: Data?{
+            if let localPath = localPath, let localImageData = NSData(contentsOfFile: localPath) as? Data{
+                return localImageData
+            }else{
+                return imageUrl.avatarImage()?.pngData()
+            }
+        }
         
-        
-        guard let localPath = localPath, let imageData = NSData(contentsOfFile: localPath) as? Data else{ return bestAttemptContent }
+        guard let imageData = imageData else { return bestAttemptContent }
         
         
         let avatar = INImage(imageData: imageData)
@@ -92,10 +99,14 @@ class IconHandler: NotificationContentHandler{
         
         do {
             try await interaction.donate()
-            let content = try bestAttemptContent.updating(from: intent) as! UNMutableNotificationContent
-            return content
+            return try bestAttemptContent.updating(from: intent) as! UNMutableNotificationContent
         } catch {
             return bestAttemptContent
         }
     }
+
+   
+    
+
 }
+

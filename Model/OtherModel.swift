@@ -35,11 +35,45 @@ enum requestHeader :String {
 	case http = "http://"
 }
 
-enum Identifiers {
-	static let reminderCategory = "myNotificationCategory"
-    static let markdownCategory = "markdown"
-	static let copyAction = "copy"
-    static let muteAction = "mute"
+enum Identifiers:String,CaseIterable {
+	case reminderCategory = "myNotificationCategory"
+    case markdownCategory = "markdown"
+    
+    enum Action:String, CaseIterable{
+        case copyAction = "copy"
+        case muteAction = "mute"
+        
+        var title:String{
+            switch self {
+            case .copyAction:
+                String(localized: "复制")
+            case .muteAction:
+                String(localized: "静音分组1小时")
+            }
+        }
+        var icon:String{
+            switch self {
+            case .copyAction:
+                "doc.on.doc"
+            case .muteAction:
+                "speaker.slash"
+            }
+        }
+    }
+    
+    static func setCategories(){
+        
+        let actions =  Action.allCases.compactMap { item in
+            UNNotificationAction(identifier: item.rawValue, title: item.title, options: [.foreground], icon: .init(systemImageName: item.icon))
+        }
+        
+        let categories = Self.allCases.compactMap { item in
+            UNNotificationCategory(identifier: item.rawValue, actions: actions,
+                                   intentIdentifiers: [],  options: [.hiddenPreviewsShowTitle])
+        }
+        
+        UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
+    }
 }
 
 
@@ -84,49 +118,27 @@ enum MessageAction: String, CaseIterable, Equatable{
 enum QuickAction: String{
     
     case assistant
-    case alldelread
-    
-	static var selectAction:UIApplicationShortcutItem?
 
     static func allShortcutItems(showAssistant:Bool) -> [UIApplicationShortcutItem] {
+        
         if showAssistant{
-            return [
-                
-                UIApplicationShortcutItem(
-                    type: Self.assistant.rawValue,
-                    localizedTitle: String(localized:  "问智能助手"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
-                    userInfo: ["name":"assistant" as NSSecureCoding]
-                ),
-
-                UIApplicationShortcutItem(
-                    type: Self.alldelread.rawValue,
-                    localizedTitle: String(localized: "删除全部已读"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-                    userInfo: ["name":"alldelread" as NSSecureCoding]
-                )
-                
-            ]
-        }else{
-            return [
-                UIApplicationShortcutItem(
-                    type: Self.alldelread.rawValue,
-                    localizedTitle: String(localized: "删除全部已读"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-                    userInfo: ["name":"alldelread" as NSSecureCoding]
-                )
-            ]
+            return [UIApplicationShortcutItem(
+                type: Self.assistant.rawValue,
+                localizedTitle: String(localized:  "问智能助手"),
+                localizedSubtitle: "",
+                icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
+                userInfo: ["name":"assistant" as NSSecureCoding]
+            )]
         }
+        
+        return []
         
     }
 }
 
 // MARK: - PushServerModel
 
-struct PushServerModel: Codable, Identifiable,Equatable, Hashable{
+struct PushServerModel: Codable, Identifiable, Equatable, Hashable{
 	var id:String = UUID().uuidString
     var device:String
 	var url:String
@@ -166,130 +178,29 @@ enum BadgeAutoMode:String, CaseIterable {
 	case custom = "Custom"
 }
 
-// MARK: - CryptoMode
 
-enum CryptoMode: String, Codable,CaseIterable, RawRepresentable {
-	
-	case CBC, ECB, GCM
-	var padding: String {
-		self == .GCM ? "Space" : "PKCS7"
-	}
-
-	
-}
-
-enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable {
-	case AES128 = 16 // 16 bytes = 128 bits
-	case AES192 = 24 // 24 bytes = 192 bits
-	case AES256 = 32 // 32 bytes = 256 bits
-	
-	var name:String{
-		self == .AES128 ? "AES128" : (self == .AES192 ? "AES192" : "AES256")
-	}
-}
-
-
-struct CryptoModelConfig: Equatable, Codable{
-
-	var algorithm: CryptoAlgorithm
-	var mode: CryptoMode
-	var key: String
-	var iv: String
-
-	static let data = CryptoModelConfig(algorithm: .AES256, mode: .GCM, key: "KXkwFRs2ttGJi7mJdJk9AsjAF4jbr135", iv: "xBCSyAxsjkdrjFCa")
-
-	static func generateRandomString(_ length: Int = 16) -> String {
-		// 创建可用字符集（大写、小写字母和数字）
-		let charactersArray = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-		
-		return String(Array(1...length).compactMap { _ in charactersArray.randomElement() })
-	}
-	
-}
-
-extension CryptoModelConfig {
-    func obfuscator() -> String? {
-        
-        guard iv.count == 16, key.count >= 16, mode.rawValue.count == 3 else { return nil }
-        
-        let position: (Int, Int, Int) = CryptoModelConfig.calculateInsertPositions(for: iv + key + mode.rawValue)
-
-        var result = iv + key
-        let inserts = Array(mode.rawValue.lowercased())
-        let positions = [position.0, position.1, position.2].sorted()
-
-        // 从后往前插入，防止位置错乱
-        for i in (0..<3).reversed() {
-            let idx = result.index(result.startIndex, offsetBy: positions[i])
-            result.insert(inserts[i], at: idx)
-        }
-
-        return String(result.reversed())
-    }
-
-    static func deobfuscator(result: String) -> CryptoModelConfig? {
-        
-        let result = String(result.reversed())
-        guard result.count > 20 else { return nil}
-        
-        let position: (Int, Int, Int) = CryptoModelConfig.calculateInsertPositions(for: result)
-        
-        var original = result
-        let positions = [position.0, position.1, position.2].sorted()
-        var inserts = ""
-        
-        // 从前往后移除字符（位置会因为删除而变化）
-        for i in 0..<3 {
-            let index = original.index(original.startIndex, offsetBy: positions[i])
-            inserts.append(original[index])
-            original.remove(at: index)
-        }
-        let startIndex = original.startIndex
-        let splitIndex = original.index(startIndex, offsetBy: 16)
-        
-        let ivData = String(original[startIndex..<splitIndex])
-        let keyData = String(original[splitIndex...])
-        inserts = inserts.uppercased()
-        if let mode = CryptoMode(rawValue: inserts), let algorithm = CryptoAlgorithm(rawValue: keyData.count){
-           return CryptoModelConfig(algorithm: algorithm, mode: mode, key: keyData, iv: ivData)
-        }
-        return nil
-      
-    }
-
-
-    static func calculateInsertPositions(for string: String) -> (Int, Int, Int) {
-        let hashValue = string.count - 3
-        let pos1 = abs(hashValue / 3 + 1)
-        let pos2 = abs(hashValue / 2 - 2)
-        let pos3 = abs(hashValue - pos1)
-        return (pos1, pos2, pos3)
-    }
-
-}
 
 
 // MARK: - AppIconMode
 
-enum AppIconEnum:String, CaseIterable,Equatable{
-    case king
-	case pushback
+enum AppIconEnum:String, CaseIterable, Equatable{
+    case pushback
+    case pushback1
+    case pushback2
+    case pushback3
     case bell
-    case Whale
-    
+    case box
     
     var name: String? { self == .pushback ? nil : self.rawValue }
     
     var logo: String{
         switch self {
-        case .pushback:
-            return "logo"
-        case .bell:
-            return "logo1"
-        case .Whale:
-            return "logo2"
-        case .king:
-            return "logo3"
+        case .pushback: "logo"
+        case .pushback1: "logoblue"
+        case .pushback2: "logored"
+        case .pushback3: "logowhite"
+        case .bell:     "logo1"
+        case .box:      "logo2"
         }
     }
 }
@@ -313,16 +224,13 @@ enum DefaultBrowserModel: String, CaseIterable {
 	case app
 
 	var title:String{
-		switch self {
-			case .safari: "Safari"
-			case .app: String(localized: "内部")
-		}
+        self == .safari ? "Safari" : String(localized: "内部")
 	}
 
 }
 
 
-struct AssistantAccount: Codable, Identifiable, Equatable,Hashable{
+struct AssistantAccount: Codable, Identifiable, Equatable, Hashable{
     var id:String = UUID().uuidString
     var current:Bool = false
     var timestamp:Date = .now
@@ -363,12 +271,12 @@ struct AssistantAccount: Codable, Identifiable, Equatable,Hashable{
 
 extension AssistantAccount{
     mutating func trimAssistantAccountParameters() {
-        name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        host = host.trimmingCharacters(in: .whitespacesAndNewlines)
+        name = name.trimmingSpaceAndNewLines
+        host = host.trimmingSpaceAndNewLines
         host = host.removeHTTPPrefix()
-        basePath = basePath.trimmingCharacters(in: .whitespacesAndNewlines)
-        key = key.trimmingCharacters(in: .whitespacesAndNewlines)
-        model = model.trimmingCharacters(in: .whitespacesAndNewlines)
+        basePath = basePath.trimmingSpaceAndNewLines
+        key = key.trimmingSpaceAndNewLines
+        model = model.trimmingSpaceAndNewLines
     }
 
 }
@@ -449,43 +357,7 @@ struct SelectMessage: Codable{
 }
 
 
-// MARK: - Page model
-enum SubPage: Equatable{
-    case customKey
-    case scan
-    case appIcon
-    case web(String)
-    case cloudIcon
-    case paywall
-    case quickResponseCode(text:String,title: String?,preview: String?)
-    case none
-    
-}
 
-enum RouterPage: Hashable {
-    case example
-    case messageDetail(String)
-    case assistant
-    case sound
-    case crypto(String?)
-    case server
-    case assistantSetting(AssistantAccount?)
-    case more
-    
-    case widget(title:String?, data:String)
-    
-    case tts
-}
-
-enum TabPage :String, Sendable{
-    case message
-    case setting
-}
-
-enum outRouterPage: String{
-    case widget
-    case icon
-}
 
 enum PBScheme: String, CaseIterable{
     case pb
@@ -511,6 +383,43 @@ enum PBScheme: String, CaseIterable{
         }
         
         return components.url!
+    }
+    
+}
+
+struct MoreMessage:Codable,Hashable{
+    var createDate:Date
+    var id:String
+    var body:String
+    var index:Int
+    var count:Int
+}
+
+
+
+struct PushToTalkGroup: Codable, Hashable{
+    var id: UUID
+    var name: String
+    var avatar: URL?
+    var active: Bool
+    private(set) var prefix: Int = 10
+    private(set) var suffix: Int = 1
+    
+    var uiimage:UIImage?{
+        if let avatar{
+            UIImage(contentsOfFile: avatar.absoluteString)
+        }else{
+            UIImage(contentsOfFile: "logo2")
+        }
+    }
+    
+    mutating func set(_ prefix: Int? = nil, suffix: Int? = nil){
+        if let prefix {
+            self.prefix = max(min(prefix, 999), 10)
+        }
+        if let suffix{
+            self.suffix = max(min(suffix, 999), 1)
+        }
     }
     
 }

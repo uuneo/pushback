@@ -29,34 +29,6 @@
         }
       }
     },
-    "(%@)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "(%@)"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "(%@)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "(%@)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "(%@)"
-          }
-        }
-      }
-    },
     "[%@]分组静音成功" : {
       "localizations" : {
         "en" : {
@@ -197,86 +169,30 @@
         }
       }
     },
-    "%@" : {
+    "%@  %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@"
+            "state" : "new",
+            "value" : "%1$@  %2$@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@"
+            "value" : "%1$@  %2$@"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@"
+            "value" : "%1$@  %2$@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@"
-          }
-        }
-      }
-    },
-    "%@;" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@;"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@;"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@;"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@;"
-          }
-        }
-      }
-    },
-    "%@s" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@s"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@s"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@s"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@s"
+            "value" : "%1$@  %2$@"
           }
         }
       }
@@ -393,90 +309,6 @@
         }
       }
     },
-    "%lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld"
-          }
-        }
-      }
-    },
-    "%lld / %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld / %2$lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld / %2$lld"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld / %2$lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld / %2$lld"
-          }
-        }
-      }
-    },
-    "%lld/%lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld/%2$lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld/%2$lld"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld/%2$lld"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld/%lld"
-          }
-        }
-      }
-    },
     "%lld个月" : {
       "localizations" : {
         "en" : {
@@ -561,30 +393,30 @@
         }
       }
     },
-    "+%lld" : {
+    "❗️需要配置大模型" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld"
+            "value" : "❗️Large model configuration required"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld"
+            "value" : "❗️大規模モデルの設定が必要"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld"
+            "value" : "❗️대규모 모델 구성 필요"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld"
+            "value" : "❗️需要配置大模型"
           }
         }
       }
@@ -868,6 +700,9 @@
           }
         }
       }
+    },
+    "Authorization failed" : {
+
     },
     "BasePath" : {
       "localizations" : {
@@ -1317,6 +1152,9 @@
         }
       }
     },
+    "KEY:" : {
+
+    },
     "key不正确" : {
       "localizations" : {
         "en" : {
@@ -1625,6 +1463,34 @@
         }
       }
     },
+    "Select Language" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Language"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語を選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어 선택"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择语言"
+          }
+        }
+      }
+    },
     "Tab Button Intent" : {
       "localizations" : {
         "en" : {
@@ -1677,6 +1543,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Title Button Intent"
+          }
+        }
+      }
+    },
+    "TOKEN" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TOKEN"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "トークン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "토큰"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "令牌"
           }
         }
       }
@@ -2157,6 +2051,34 @@
         }
       }
     },
+    "中文" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chinese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中国語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "중국어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中文"
+          }
+        }
+      }
+    },
     "中进行配置" : {
       "localizations" : {
         "en" : {
@@ -2297,114 +2219,142 @@
         }
       }
     },
-    "令牌" : {
+    "你是一位经验丰富的程序员，擅长编写清晰、简洁、易于维护的代码。请根据以下原则回答问题：\n1. 提供完整、可运行的代码示例。\n2. 简明解释关键实现细节。\n3. 指出潜在的性能或结构优化点。\n4. 关注代码的可扩展性、安全性和效率。\n下面我给你内容，直接按照 %@ 语言给我回复" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Token"
+            "value" : "You are an experienced programmer, skilled at writing clear, concise, and maintainable code. Please answer questions according to the following principles:\n1. Provide complete, runnable code examples.\n2. Briefly explain key implementation details.\n3. Point out potential performance or structural optimization points.\n4. Focus on code scalability, security, and efficiency.\nBelow I give you content, reply directly in %@ language"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "トークン"
+            "value" : "あなたは経験豊富なプログラマーで、明確で簡潔で保守しやすいコードを書くことに長けています。以下の原則に従って質問に答えてください：\n1. 完全で実行可能なコード例を提供する。\n2. 重要な実装詳細を簡潔に説明する。\n3. 潜在的なパフォーマンスまたは構造の最適化ポイントを指摘する。\n4. コードの拡張性、セキュリティ、効率性に注目する。\n以下に内容を提供します、%@言語で直接返信してください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "토큰"
+            "value" : "당신은 명확하고 간결하며 유지보수하기 쉬운 코드를 작성하는 데 능숙한 경험 많은 프로그래머입니다. 다음 원칙에 따라 질문에 답하십시오:\n1. 완전하고 실행 가능한 코드 예제를 제공하십시오.\n2. 주요 구현 세부사항을 간결하게 설명하십시오.\n3. 잠재적인 성능 또는 구조 최적화 포인트를 지적하십시오.\n4. 코드의 확장성, 보안 및 효율성에 중점을 두십시오.\n아래에 내용을 제공합니다, %@ 언어로 직접 답장하십시오"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "令牌"
+            "value" : "你是一位经验丰富的程序员，擅长编写清晰、简洁、易于维护的代码。请根据以下原则回答问题：\n1. 提供完整、可运行的代码示例。\n2. 简明解释关键实现细节。\n3. 指出潜在的性能或结构优化点。\n4. 关注代码的可扩展性、安全性和效率。\n下面我给你内容，直接按照 %@ 语言给我回复"
           }
         }
       }
     },
-    "作为一名专业写作助手，你擅长各类文体的写作和润色。你的任务包括：\n1. 改进文章结构和逻辑。\n2. 优化用词和表达方式。\n3. 确保文章连贯性和流畅性。\n4. 突出重点内容和核心信息。\n5. 使文章符合目标读者的阅读习惯。" : {
+    "你是一名专业写作助手，擅长各类文体的写作与润色。请根据以下要求优化文本：\n1. 明确文章结构，增强逻辑连贯性。\n2. 优化用词，使语言更准确流畅。\n3. 强调重点，突出核心信息。\n4. 使风格贴合目标读者的阅读习惯。\n5. 纠正语法、标点和格式错误。\n下面我给你内容，直接按照 %@ 语言给我回复" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As a professional writing assistant, you excel in various writing styles and editing. Your tasks include:\n1. Improving article structure and logic.\n2. Optimizing word choice and expression.\n3. Ensuring article coherence and fluency.\n4. Highlighting key content and core information.\n5. Making articles suitable for target readers' reading habits."
+            "value" : "You are a professional writing assistant, skilled at writing and polishing various styles of text. Please optimize the text according to the following requirements:\n1. Clarify article structure and enhance logical coherence.\n2. Optimize word choice to make language more accurate and fluent.\n3. Emphasize key points and highlight core information.\n4. Adapt style to match target readers' reading habits.\n5. Correct grammar, punctuation, and formatting errors.\nBelow I give you content, reply directly in %@ language"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "プロのライティングアシスタントとして、様々な文体の執筆と編集に精通しています。あなたの任務は以下の通りです：\n1. 記事の構造と論理の改善。\n2. 言葉遣いと表現方法の最適化。\n3. 記事の一貫性と流暢さの確保。\n4. 重要な内容と核心情報の強調。\n5. ターゲット読者の読書習慣に合わせた記事作成。"
+            "value" : "あなたはプロのライティングアシスタントで、様々な文体の執筆と磨き上げに長けています。以下の要求に従ってテキストを最適化してください：\n1. 記事の構造を明確にし、論理的な一貫性を強化する。\n2. 語彙を最適化し、言語をより正確で流暢にする。\n3. 重要なポイントを強調し、核心情報を際立たせる。\n4. スタイルをターゲット読者の読書習慣に合わせる。\n5. 文法、句読点、フォーマットの誤りを修正する。\n以下に内容を提供します、%@言語で直接返信してください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "전문 글쓰기 어시스턴트로서 다양한 문체의 글쓰기와 교정에 능숙합니다. 당신의 임무는 다음과 같습니다:\n1. 글의 구조와 논리 개선.\n2. 어휘와 표현 방식 최적화.\n3. 글의 일관성과 유창성 확보.\n4. 핵심 내용과 중요 정보 강조.\n5. 대상 독자의 독서 습관에 맞는 글 작성."
+            "value" : "당신은 다양한 문체의 글쓰기와 다듬기에 능숙한 전문 작문 어시스턴트입니다. 다음 요구사항에 따라 텍스트를 최적화하십시오:\n1. 기사 구조를 명확히 하고 논리적 일관성을 강화하십시오.\n2. 어휘를 최적화하여 언어를 더 정확하고 유창하게 만드십시오.\n3. 핵심 포인트를 강조하고 핵심 정보를 부각시키십시오.\n4. 스타일을 대상 독자의 읽기 습관에 맞추십시오.\n5. 문법, 구두점 및 형식 오류를 수정하십시오.\n아래에 내용을 제공합니다, %@ 언어로 직접 답장하십시오"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作为一名专业写作助手，你擅长各类文体的写作和润色。你的任务包括：\n1. 改进文章结构和逻辑。\n2. 优化用词和表达方式。\n3. 确保文章连贯性和流畅性。\n4. 突出重点内容和核心信息。\n5. 使文章符合目标读者的阅读习惯。"
+            "value" : "你是一名专业写作助手，擅长各类文体的写作与润色。请根据以下要求优化文本：\n1. 明确文章结构，增强逻辑连贯性。\n2. 优化用词，使语言更准确流畅。\n3. 强调重点，突出核心信息。\n4. 使风格贴合目标读者的阅读习惯。\n5. 纠正语法、标点和格式错误。\n下面我给你内容，直接按照 %@ 语言给我回复"
           }
         }
       }
     },
-    "作为一名专业翻译，你精通多国语言，擅长准确传达原文的含义和风格。你的职责包括：\n1. 保持原文的语气和风格。\n2. 考虑文化差异和语言习惯。\n3. 在必要时提供注释或说明。\n4. 对专业术语进行解释和澄清。" : {
+    "你是一名专业总结助手，擅长从大量信息中提炼关键内容。总结时请遵循以下原则：\n1. 提取核心观点，排除冗余信息。\n2. 保持逻辑清晰，结构紧凑, 确定文章的中心主题，理解作者的论点和观点。\n3. 列出关键点来传达文章的信息和细节。确保总结保持一致性，语言简洁明了\n4. 可根据需要生成段落式或要点式总结, 遵循原文结构以提升阅读体验。\n5. 有效地传达主要观点和情感层面，同时使用简洁清晰的语言\n下面我给你内容，直接按照 %@ 语言给我回复" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As a professional translator, you are proficient in multiple languages and excel at accurately conveying the meaning and style of the original text. Your responsibilities include:\n1. Maintaining the tone and style of the original text.\n2. Considering cultural differences and language habits.\n3. Providing annotations or explanations when necessary.\n4. Explaining and clarifying professional terminology."
+            "value" : "You are a professional summary assistant, skilled at extracting key content from large amounts of information. When summarizing, please follow these principles:\n1. Extract core viewpoints and eliminate redundant information.\n2. Maintain clear logic and compact structure, identify the central theme of the article, and understand the author's arguments and viewpoints.\n3. List key points to convey the article's information and details. Ensure the summary maintains consistency with concise and clear language.\n4. Generate paragraph-style or bullet-point summaries as needed, following the original structure to enhance reading experience.\n5. Effectively convey main viewpoints and emotional aspects while using concise and clear language.\nBelow I give you content, reply directly in %@ language"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "プロの翻訳者として、複数の言語に精通し、原文の意味とスタイルを正確に伝えることに長けています。あなたの職責は以下の通りです：\n1. 原文のトーンとスタイルの維持。\n2. 文化的差異と言語習慣の考慮。\n3. 必要に応じて注釈や説明の提供。\n4. 専門用語の説明と明確化。"
+            "value" : "あなたはプロの要約アシスタントで、大量の情報から重要な内容を抽出することに長けています。要約する際は、以下の原則に従ってください：\n1. 核心的な視点を抽出し、冗長な情報を排除する。\n2. 論理を明確に保ち、構造をコンパクトにし、記事の中心テーマを特定し、著者の論点と視点を理解する。\n3. 記事の情報と詳細を伝えるための重要なポイントをリストアップする。要約が一貫性を保ち、言語が簡潔で明確であることを確保する。\n4. 必要に応じて段落形式または箇条書きの要約を生成し、原文の構造に従って読書体験を向上させる。\n5. 簡潔で明確な言語を使用しながら、主要な視点と感情的な側面を効果的に伝える。\n以下に内容を提供します、%@言語で直接返信してください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "전문 번역가로서 여러 언어에 능통하며 원문의 의미와 스타일을 정확하게 전달하는 데 능숙합니다. 당신의 책임은 다음과 같습니다:\n1. 원문의 어조와 스타일 유지.\n2. 문화적 차이와 언어 습관 고려.\n3. 필요시 주석이나 설명 제공.\n4. 전문 용어 설명 및 명확화."
+            "value" : "당신은 대량의 정보에서 핵심 내용을 추출하는 데 능숙한 전문 요약 어시스턴트입니다. 요약할 때 다음 원칙을 따르십시오:\n1. 핵심 관점을 추출하고 중복 정보를 제거하십시오.\n2. 논리를 명확하게 유지하고 구조를 간결하게 하며, 기사의 중심 주제를 파악하고 저자의 논점과 관점을 이해하십시오.\n3. 기사의 정보와 세부사항을 전달하기 위한 핵심 포인트를 나열하십시오. 요약이 일관성을 유지하고 언어가 간결하고 명확하도록 보장하십시오.\n4. 필요에 따라 단락 형식 또는 글머리 기호 요약을 생성하고, 원문 구조를 따라 읽기 경험을 향상시키십시오.\n5. 간결하고 명확한 언어를 사용하면서 주요 관점과 감정적 측면을 효과적으로 전달하십시오.\n아래에 내용을 제공합니다, %@ 언어로 직접 답장하십시오"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作为一名专业翻译，你精通多国语言，擅长准确传达原文的含义和风格。你的职责包括：\n1. 保持原文的语气和风格。\n2. 考虑文化差异和语言习惯。\n3. 在必要时提供注释或说明。\n4. 对专业术语进行解释和澄清。"
+            "value" : "你是一名专业总结助手，擅长从大量信息中提炼关键内容。总结时请遵循以下原则：\n1. 提取核心观点，排除冗余信息。\n2. 保持逻辑清晰，结构紧凑, 确定文章的中心主题，理解作者的论点和观点。\n3. 列出关键点来传达文章的信息和细节。确保总结保持一致性，语言简洁明了\n4. 可根据需要生成段落式或要点式总结, 遵循原文结构以提升阅读体验。\n5. 有效地传达主要观点和情感层面，同时使用简洁清晰的语言\n下面我给你内容，直接按照 %@ 语言给我回复"
           }
         }
       }
     },
-    "作为一名经验丰富的程序员，你擅长编写清晰、简洁且易于维护的代码。在回答问题时：\n1. 提供详细的代码示例。\n2. 解释代码的关键部分。\n3. 指出潜在的优化空间。\n4. 考虑代码的性能和安全性。" : {
+    "你是一名专业摘要助手，擅长用简洁准确的语言提炼关键信息。\n请基于以下内容，提炼出 2~3 句话，清晰概括核心观点和情感基调。\n仅输出摘要内容，不添加解释或说明。\n下面我给你内容，直接按照 %@ 语言给我回复" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As an experienced programmer, you excel at writing clear, concise, and maintainable code. When answering questions:\n1. Providing detailed code examples.\n2. Explaining key parts of the code.\n3. Pointing out potential optimization spaces.\n4. Considering code performance and security."
+            "value" : "You are a professional summary assistant, skilled at extracting key information with concise and accurate language.\nPlease extract 2-3 sentences from the following content, clearly summarizing the core viewpoints and emotional tone.\nOnly output the summary content, do not add explanations or clarifications.\nBelow I provide you with content, reply directly in %@ language"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "経験豊富なプログラマーとして、明確で簡潔で保守しやすいコードを書くことに長けています。質問に答えるとき:\n1. 詳細なコード例を提供する。\n2. コードの重要な部分を説明する。\n3. 潜在的な最適化スペースを指摘する。\n4. コードのパフォーマンスとセキュリティを考慮する。"
+            "value" : "あなたはプロの要約アシスタントで、簡潔で正確な言語で重要な情報を抽出することに長けています。\n以下の内容に基づいて、2〜3文を抽出し、核心的な視点と感情的なトーンを明確に要約してください。\n要約内容のみを出力し、説明や注釈は追加しないでください。\n以下に内容を提供します、%@言語で直接返信してください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "경험이 풍부한 프로그래머로서 명확하고 간결하며 유지 보수가 쉬운 코드를 작성할 수 있습니다. 질문에 답변할 때:\n1. 자세한 코드 예제를 제공합니다.\n2. 코드의 중요한 부분을 설명합니다.\n3. 잠재적인 최적화 공간을 지적합니다.\n4. 코드 성능과 보안을 고려합니다."
+            "value" : "당신은 간결하고 정확한 언어로 핵심 정보를 추출하는 데 능숙한 전문 요약 어시스턴트입니다.\n다음 내용을 바탕으로 2-3문장을 추출하여 핵심 관점과 감정적 톤을 명확하게 요약하십시오.\n요약 내용만 출력하고 설명이나 주석을 추가하지 마십시오.\n아래에 내용을 제공합니다, %@ 언어로 직접 답장하십시오"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "作为一名经验丰富的程序员，你擅长编写清晰、简洁且易于维护的代码。在回答问题时：\n1. 提供详细的代码示例。\n2. 解释代码的关键部分。\n3. 指出潜在的优化空间。\n4. 考虑代码的性能和安全性。"
+            "value" : "你是一名专业摘要助手，擅长用简洁准确的语言提炼关键信息。\n请基于以下内容，提炼出 2~3 句话，清晰概括核心观点和情感基调。\n仅输出摘要内容，不添加解释或说明。\n下面我给你内容，直接按照 %@ 语言给我回复"
+          }
+        }
+      }
+    },
+    "你是一名专业翻译，精通多国语言，能够准确传达原文含义与风格。翻译时请遵循以下要点：\n1. 保持语气一致，忠实还原原文风格。\n2. 合理调整以符合目标语言习惯与文化。\n3. 优先选择自然、通顺的表达方式, 只返回翻译，不要添加任何其他内容。\n下面我给你内容，直接按照 %@ 进行翻译." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are a professional translator, proficient in multiple languages, and able to accurately convey the meaning and style of the original text. Please follow these guidelines when translating:\n1. Maintain a consistent tone and faithfully reproduce the original style.\n2. Make reasonable adjustments to fit the habits and culture of the target language.\n3. Prefer natural and fluent expressions. Only return the translation, do not add any other content.\nBelow I provide you with content, please translate directly in %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "あなたはプロの翻訳者であり、多言語に精通し、原文の意味とスタイルを正確に伝えることができます。翻訳時は以下のポイントに従ってください：\n1. 口調を統一し、原文のスタイルを忠実に再現する。\n2. 対象言語の習慣や文化に合わせて適切に調整する。\n3. 自然で流暢な表現を優先し、翻訳のみを返し、他の内容は追加しないでください。\n以下に内容を提供しますので、%@ で直接翻訳してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "당신은 전문 번역가로서 여러 언어에 능통하며, 원문의 의미와 스타일을 정확하게 전달할 수 있습니다. 번역 시 다음 사항을 준수하십시오:\n1. 어조를 일관되게 유지하고 원문의 스타일을 충실히 재현하십시오.\n2. 대상 언어의 습관과 문화에 맞게 적절히 조정하십시오.\n3. 자연스럽고 유창한 표현을 우선적으로 사용하고, 번역만 반환하며 다른 내용을 추가하지 마십시오.\n아래에 내용을 제공합니다. %@ 언어로 직접 번역해 주십시오."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你是一名专业翻译，精通多国语言，能够准确传达原文含义与风格。翻译时请遵循以下要点：\n1. 保持语气一致，忠实还原原文风格。\n2. 合理调整以符合目标语言习惯与文化。\n3. 优先选择自然、通顺的表达方式, 只返回翻译，不要添加任何其他内容。\n下面我给你内容，直接按照 %@ 进行翻译."
           }
         }
       }
@@ -2573,6 +2523,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用示例"
+          }
+        }
+      }
+    },
+    "俄语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Russian"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロシア語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "러시아어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "俄语"
           }
         }
       }
@@ -2913,33 +2891,8 @@
         }
       }
     },
-    "全屏查看" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View full screen"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全画面表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "전체 화면 보기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "全屏查看"
-          }
-        }
-      }
+    "修改配置" : {
+
     },
     "关闭" : {
       "localizations" : {
@@ -3277,6 +3230,9 @@
         }
       }
     },
+    "分组模式" : {
+
+    },
     "分组选择" : {
       "localizations" : {
         "en" : {
@@ -3360,6 +3316,9 @@
           }
         }
       }
+    },
+    "列表模式" : {
+
     },
     "刚刚" : {
       "localizations" : {
@@ -3529,62 +3488,6 @@
         }
       }
     },
-    "删除以下时间的信息!" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete information for the following time!"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以下の時間の情報を削除します!"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다음 시간의 정보를 삭제합니다!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除以下时间的信息!"
-          }
-        }
-      }
-    },
-    "删除全部已读" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete all read"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべて既読を削除"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모두 읽은 것을 삭제"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除全部已读"
-          }
-        }
-      }
-    },
     "删除后不能还原!!!" : {
       "localizations" : {
         "en" : {
@@ -3609,6 +3512,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除后不能还原!!!"
+          }
+        }
+      }
+    },
+    "删除所有分组" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete all groups"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのグループを削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 그룹 삭제"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除所有分组"
           }
         }
       }
@@ -3921,6 +3852,34 @@
         }
       }
     },
+    "加载失败" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Load failed"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み込みに失敗しました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로딩 실패"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加载失败"
+          }
+        }
+      }
+    },
     "半年前" : {
       "localizations" : {
         "en" : {
@@ -3945,6 +3904,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "半年前"
+          }
+        }
+      }
+    },
+    "印地语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hindi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヒンディー語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "힌디어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "印地语"
+          }
+        }
+      }
+    },
+    "印尼语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indonesian"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インドネシア語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인도네시아어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "印尼语"
           }
         }
       }
@@ -4201,6 +4216,9 @@
         }
       }
     },
+    "参数长度不正确" : {
+
+    },
     "反向样式" : {
       "localizations" : {
         "en" : {
@@ -4337,6 +4355,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
+          }
+        }
+      }
+    },
+    "取消静音分组" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmute group"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "グループのミュートを解除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그룹 음소거 해제"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取消静音分组"
           }
         }
       }
@@ -4593,34 +4639,6 @@
         }
       }
     },
-    "图片" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "画像"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미지"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "图片"
-          }
-        }
-      }
-    },
     "图片:" : {
       "localizations" : {
         "en" : {
@@ -4817,6 +4835,34 @@
         }
       }
     },
+    "图片未加载" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image not loaded"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像が読み込まれていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미지가 로드되지 않았습니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片未加载"
+          }
+        }
+      }
+    },
     "图片默认保存时间，本地化图片不受影响" : {
       "localizations" : {
         "en" : {
@@ -4873,6 +4919,34 @@
         }
       }
     },
+    "地址错误" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address error"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アドレスエラー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주소 오류"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地址错误"
+          }
+        }
+      }
+    },
     "基本用法示例" : {
       "localizations" : {
         "en" : {
@@ -4897,34 +4971,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "基本用法示例"
-          }
-        }
-      }
-    },
-    "基础配置" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Basic configuration"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "基本設定"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기본 설정"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "基础配置"
           }
         }
       }
@@ -4985,58 +5031,30 @@
         }
       }
     },
-    "处理中" : {
+    "声音与反馈" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Processing"
+            "value" : "Sound & Feedback"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "処理中"
+            "value" : "サウンドとフィードバック"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "처리 중"
+            "value" : "소리 및 피드백"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "处理中"
-          }
-        }
-      }
-    },
-    "处理中..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Processing..."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "処理中..."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "처리 중..."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "处理中..."
+            "value" : "声音与反馈"
           }
         }
       }
@@ -5125,89 +5143,8 @@
         }
       }
     },
-    "复制Python脚本" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy Python script"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pythonスクリプトをコピー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Python 스크립트 복사"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制Python脚本"
-          }
-        }
-      }
-    },
-    "复制全部" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy all"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべてコピー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모두 복사"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制全部"
-          }
-        }
-      }
-    },
-    "复制内容" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy content"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "内容をコピー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내용 복사"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制内容"
-          }
-        }
-      }
+    "复制Pyhon示例" : {
+
     },
     "复制成功" : {
       "localizations" : {
@@ -5345,34 +5282,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完成"
-          }
-        }
-      }
-    },
-    "对话列表" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conversation list"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "会話リスト"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "대화 목록"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "对话列表"
           }
         }
       }
@@ -5825,6 +5734,34 @@
         }
       }
     },
+    "开启语音" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable voice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声を有効にする"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음성 활성화"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启语音"
+          }
+        }
+      }
+    },
     "开始使用" : {
       "localizations" : {
         "en" : {
@@ -5880,6 +5817,9 @@
           }
         }
       }
+    },
+    "开始设置" : {
+
     },
     "张" : {
       "localizations" : {
@@ -5965,30 +5905,30 @@
         }
       }
     },
-    "彩色代码" : {
+    "德语" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Color code"
+            "value" : "German"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "カラ―コード"
+            "value" : "ドイツ語"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "색상 코드"
+            "value" : "독일어"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "彩色代码"
+            "value" : "德语"
           }
         }
       }
@@ -6073,6 +6013,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "快速预览"
+          }
+        }
+      }
+    },
+    "总结" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summary"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まとめ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요약"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总结"
+          }
+        }
+      }
+    },
+    "总结助手" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summary Assistant"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サマリーアシスタント"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요약 어시스턴트"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "总结助手"
           }
         }
       }
@@ -6329,62 +6325,6 @@
         }
       }
     },
-    "打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open the album \n Click on the image > Share > Push back \n Upload to the cloud"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アルバムを開く \n 画像をクリック > 共有 > 反推 \n クラウドにアップロード"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "앨범 열기 \n 이미지 클릭 > 공유 > 반추 \n 클라우드에 업로드"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开 相册 \n 点击图片 > 分享 > 反推 \n 上传到云端"
-          }
-        }
-      }
-    },
-    "打开链接" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open link"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "リンクを開く"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "링크 열기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开链接"
-          }
-        }
-      }
-    },
     "扫码失败" : {
       "localizations" : {
         "en" : {
@@ -6437,34 +6377,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "扫码成功"
-          }
-        }
-      }
-    },
-    "拍照" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Take a photo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真を撮る"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사진 찍기"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "拍照"
           }
         }
       }
@@ -6861,6 +6773,9 @@
         }
       }
     },
+    "搜索结果" : {
+
+    },
     "携带一个image,会自动下载缓存" : {
       "localizations" : {
         "en" : {
@@ -6917,30 +6832,30 @@
         }
       }
     },
-    "操作不可逆!" : {
+    "摘要助手" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Operation is irreversible!"
+            "value" : "Summary Assistant"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "操作は元に戻せません!"
+            "value" : "サマリーアシスタント"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "작업은 되돌릴 수 없습니다!"
+            "value" : "요약 어시스턴트"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "操作不可逆!"
+            "value" : "摘要助手"
           }
         }
       }
@@ -7085,34 +7000,6 @@
         }
       }
     },
-    "数据排序中..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sorting data..."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "データを並べ替え中..."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "데이터 정렬 중..."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数据排序中..."
-          }
-        }
-      }
-    },
     "数据管理" : {
       "localizations" : {
         "en" : {
@@ -7141,33 +7028,8 @@
         }
       }
     },
-    "文件" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "File"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ファイル"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "파일"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文件"
-          }
-        }
-      }
+    "新增配置" : {
+
     },
     "新对话" : {
       "localizations" : {
@@ -7337,6 +7199,34 @@
         }
       }
     },
+    "日语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日本語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일본어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日语"
+          }
+        }
+      }
+    },
     "昨天" : {
       "localizations" : {
         "en" : {
@@ -7417,34 +7307,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "是否确定清空?"
-          }
-        }
-      }
-    },
-    "是否确认删除所有已读消息!" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete all read messages!"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すべての既読メッセージを削除してもよろしいですか！"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모든 읽은 메시지를 삭제하시겠습니까!"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "是否确认删除所有已读消息!"
           }
         }
       }
@@ -7589,6 +7451,9 @@
         }
       }
     },
+    "更多" : {
+
+    },
     "更多操作" : {
       "localizations" : {
         "en" : {
@@ -7616,6 +7481,9 @@
           }
         }
       }
+    },
+    "更新成功" : {
+
     },
     "服务器" : {
       "localizations" : {
@@ -8401,6 +8269,34 @@
         }
       }
     },
+    "此操作将删除 %@ 数据，且无法恢复。确定要继续吗？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action will delete %@ data and cannot be undone. Are you sure you want to continue?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この操作は%@のデータを削除し、元に戻すことはできません。本当に続行しますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 작업은 %@ 데이터를 삭제하며 되돌릴 수 없습니다. 계속하시겠습니까?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此操作将删除 %@ 数据，且无法恢复。确定要继续吗？"
+          }
+        }
+      }
+    },
     "此操作将删除所有聊天记录和设置数据，且无法恢复。确定要继续吗？" : {
       "localizations" : {
         "en" : {
@@ -8569,6 +8465,34 @@
         }
       }
     },
+    "没有相册权限" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No album permission"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アルバムの権限がありません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앨범 권한이 없습니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有相册权限"
+          }
+        }
+      }
+    },
     "没有相机权限" : {
       "localizations" : {
         "en" : {
@@ -8593,6 +8517,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "没有相机权限"
+          }
+        }
+      }
+    },
+    "法语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "French"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フランス語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프랑스어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "法语"
           }
         }
       }
@@ -8705,6 +8657,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "注册成功"
+          }
+        }
+      }
+    },
+    "泰语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thai"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タイ語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "태국어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "泰语"
           }
         }
       }
@@ -9605,90 +9585,6 @@
         }
       }
     },
-    "示例1" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Example 1"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "例1"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "예1"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "示例1"
-          }
-        }
-      }
-    },
-    "示例2" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Example 2"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "例2"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "예2"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "示例2"
-          }
-        }
-      }
-    },
-    "示例3" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Example 3"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "例3"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "예3"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "示例3"
-          }
-        }
-      }
-    },
     "移除" : {
       "localizations" : {
         "en" : {
@@ -9800,6 +9696,9 @@
           }
         }
       }
+    },
+    "算法列表" : {
+
     },
     "算法配置" : {
       "localizations" : {
@@ -10221,6 +10120,34 @@
         }
       }
     },
+    "翻译" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻訳"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "번역"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译"
+          }
+        }
+      }
+    },
     "翻译助手" : {
       "localizations" : {
         "en" : {
@@ -10334,6 +10261,7 @@
       }
     },
     "自动更正Iv参数" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10362,6 +10290,7 @@
       }
     },
     "自动更正Key参数" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10641,6 +10570,62 @@
         }
       }
     },
+    "英语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "英語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "英语"
+          }
+        }
+      }
+    },
+    "葡萄牙语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Portuguese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ポルトガル語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "포르투갈어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "葡萄牙语"
+          }
+        }
+      }
+    },
     "蓝色" : {
       "localizations" : {
         "en" : {
@@ -10693,6 +10678,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "表格配置选项"
+          }
+        }
+      }
+    },
+    "西班牙语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spanish"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スペイン語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스페인어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "西班牙语"
           }
         }
       }
@@ -10753,33 +10766,37 @@
         }
       }
     },
-    "设备推送令牌" : {
+    "设备ID" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Device push token"
+            "value" : "Device ID"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "デバイスポッシュトークン"
+            "value" : "デバイスID"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "장치 푸시 토큰"
+            "value" : "디바이스 ID"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "设备推送令牌"
+            "value" : "设备ID"
           }
         }
       }
+    },
+    "设备信息" : {
+
     },
     "设置" : {
       "localizations" : {
@@ -10808,6 +10825,12 @@
           }
         }
       }
+    },
+    "设置失败" : {
+
+    },
+    "设置成功" : {
+
     },
     "设置每次对话时包含的历史消息数量，数量越多上下文越完整，但会增加 Token 消耗" : {
       "localizations" : {
@@ -10892,6 +10915,9 @@
           }
         }
       }
+    },
+    "语音" : {
+
     },
     "语音服务区域" : {
       "localizations" : {
@@ -11169,6 +11195,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "账户列表"
+          }
+        }
+      }
+    },
+    "越南语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vietnamese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ベトナム語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "베트남어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越南语"
           }
         }
       }
@@ -11677,61 +11731,8 @@
         }
       }
     },
-    "连续对话" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continuous conversation"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "連続対話"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "연속 대화"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "连续对话"
-          }
-        }
-      }
-    },
-    "选择后配置自动保存" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configure auto-save after selection"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選択後に自動保存を設定"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택 후 자동 저장 구성"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择后配置自动保存"
-          }
-        }
-      }
+    "选择加密算法" : {
+
     },
     "选择提示词" : {
       "localizations" : {
@@ -12405,6 +12406,34 @@
         }
       }
     },
+    "阿拉伯语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arabic"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アラビア語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아랍어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿拉伯语"
+          }
+        }
+      }
+    },
     "隐私政策" : {
       "localizations" : {
         "en" : {
@@ -12517,6 +12546,34 @@
         }
       }
     },
+    "需要配置大模型" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large model configuration required"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大規模モデルの設定が必要"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대규모 모델 구성 필요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要配置大模型"
+          }
+        }
+      }
+    },
     "静音分组1小时" : {
       "localizations" : {
         "en" : {
@@ -12569,6 +12626,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "静默通知"
+          }
+        }
+      }
+    },
+    "韩语" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korean"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "韓国語"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한국어"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "韩语"
           }
         }
       }

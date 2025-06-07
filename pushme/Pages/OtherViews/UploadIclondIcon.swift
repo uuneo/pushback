@@ -19,7 +19,7 @@ struct UploadIclondIcon:View {
     @State private var tags: [TagModel] = []
     
     var tsgsTem:[String]{
-        tags.compactMap({$0.value}).filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        tags.compactMap({$0.value}).filter { !$0.trimmingSpaceAndNewLines.isEmpty }
     }
     
     @FocusState private var nameFocus
@@ -84,7 +84,7 @@ struct UploadIclondIcon:View {
                         
                        
                         
-                        Text("\(freeCount)")
+                        Text(verbatim: "\(freeCount)")
                             .foregroundStyle(freeCount < 5 ? .red : .green)
                             .font(.headline)
                             .fontWeight(.bold)

@@ -10,6 +10,58 @@ import SwiftUI
 import Combine
 
 
+struct CustomForegroundStyleModifier: ViewModifier{
+    @Environment(\.colorScheme) var colorScheme
+    var s1: Color
+    var s2: Color? = nil
+    var s3: Color? = nil
+    
+    var primaryColor:Color{
+        colorScheme == .dark ? .white : .black
+    }
+    var primary: Color{
+        s1 == .primary ? primaryColor : s1
+    }
+    
+    var secondary: Color?{
+        if let s2 = s2 {
+            return s2 == .primary ? primaryColor : s2
+        }
+        return nil
+    }
+    
+    var tertiary:Color?{
+        if let s3 = s3 {
+            return s3 == .primary ? primaryColor : s3
+        }
+        return nil
+    }
+    
+    func body(content: Content) -> some View {
+        if let secondary, let tertiary{
+            content
+                .foregroundStyle(primary, secondary, tertiary)
+        }else if let secondary{
+            content
+                .foregroundStyle(primary, secondary)
+        }else{
+            content
+                .foregroundStyle(primary)
+        }
+       
+            
+    }
+    
+    
+}
+
+extension View{
+    func customForegroundStyle(_ s1: Color, _ s2: Color? = nil ,_ s3: Color? = nil) -> some View{
+        modifier(CustomForegroundStyleModifier(s1: s1,s2: s2,s3: s3))
+    }
+}
+
+
 // MARK: - Line 视图
 
 struct OutlineModifier: ViewModifier {
@@ -68,10 +120,12 @@ struct OutlineOverlay: ViewModifier {
 
 // MARK: - buttons 视图
 struct ButtonPress: ViewModifier{
-    var maxX:Double = 10
+    var releaseStyles:Double = 0.0
+    var maxX:Double = 0.0
+    var changeHaptic:Bool = false
 	var onPress:((DragGesture.Value)->Void)? = nil
-	var onRelease:((DragGesture.Value)->Bool)? = nil
-    
+    var onRelease:((DragGesture.Value)->Bool)? = nil
+	
     @State private var ispress = false
     
 	func body(content: Content) -> some View {
@@ -83,19 +137,37 @@ struct ButtonPress: ViewModifier{
 			.simultaneousGesture(
 				DragGesture(minimumDistance: 0)
 					.onChanged({ result in
+
+                        if !ispress && changeHaptic{
+                            Haptic.impact()
+                            onPress?(result)
+                        }
+                        
                         self.ispress = true
-						onPress?(result)
-					})
-					.onEnded({ result in
-                        self.ispress = false
-                        if abs(result.translation.width) <= maxX {
-                            
-                            if let success = onRelease?(result), success{
-                                Haptic.impact()
-                                
+                        
+                        if !changeHaptic{
+                            onPress?(result)
+                        }
+						
+                        if releaseStyles > 0.0 {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + releaseStyles ){
+                                self.ispress = false
                             }
                         }
 					})
+                    .onEnded({ result in
+                        self.ispress = false
+                        if changeHaptic{
+                            if let success = onRelease?(result), success{
+                                Haptic.impact()
+                            }
+                        }else{
+                            if abs(result.translation.width) <= maxX ,
+                               let success = onRelease?(result), success{
+                                Haptic.impact()
+                            }
+                        }
+                    })
 			)
 	}
 }
@@ -137,14 +209,14 @@ struct TextFieldModifier: ViewModifier {
                         .offset(x: -46)
                         .accessibility(hidden: true)
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint,.secondary)
+                        .foregroundStyle(.tint, .secondary)
                         .onTapGesture {
                             complete?()
+                            Haptic.impact()
                         }
 					Spacer()
 				}
 			)
-			.foregroundStyle(.primary)
 			.padding()
 			.padding(.leading, 43)
             .if(background){ view in
@@ -183,13 +255,13 @@ struct LoadingPress: ViewModifier{
 	}
 }
 
-fileprivate struct ViewExtractHelper: UIViewRepresentable {
+struct ViewExtractHelper: UIViewRepresentable {
     var result:(UIView) -> ()
     func makeUIView(context: Context) -> some UIView {
         let view  = UIView(frame: .zero)
         view.backgroundColor = .clear
         view.isUserInteractionEnabled = false
-         DispatchQueue.main.async {
+        DispatchQueue.main.async {
             if let uikitview = view.superview?.superview?.subviews.last?.subviews.first{
                 result(uikitview)
             }
@@ -224,6 +296,8 @@ enum sybolEffectType{
     case wiggle
     
     case replaceblack
+    
+    case none
         
 }
 
@@ -277,7 +351,6 @@ extension View {
         }
     }
     
-    
     @ViewBuilder func `if` <Content: View>(_ condition: Bool, transform: () -> Content) -> some View {
         if condition {
             transform()
@@ -285,6 +358,12 @@ extension View {
             self
         }
     }
+    
+    @ViewBuilder func diff<Content: View>(transform: (Self) -> Content) -> some View {
+        transform(self)
+    }
+    
+
     
     func slideFadeIn(show: Bool, offset: Double = 10) -> some View {
         self.modifier(SlideFadeIn(show: show, offset: offset))
@@ -305,9 +384,15 @@ extension View {
     }
     
     func VButton(_ maxX:Double = 0.0,
+                 release:Double = 0.0,
+                 changeHaptic:Bool = false,
                  onPress: ((DragGesture.Value)->Void)? = nil,
                  onRelease: ((DragGesture.Value)->Bool)? = nil)-> some View{
-        modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onRelease))
+        modifier(ButtonPress(releaseStyles: release, maxX: maxX, changeHaptic: changeHaptic,onPress:onPress, onRelease: onRelease))
+    }
+    
+    func VButton(changeHaptic:Bool = false, onRelease: @escaping (DragGesture.Value)->Bool)-> some View{
+        modifier(ButtonPress(releaseStyles: 0, maxX: 0, changeHaptic:changeHaptic, onPress:nil, onRelease: onRelease))
     }
     
     @ViewBuilder
@@ -348,16 +433,17 @@ extension View {
                 case .scale:
                     self.symbolEffect(.scale.up.byLayer, options: .repeat(repeatBehavior1))
                 case .variableColor:
-                    self.symbolEffect(.variableColor.cumulative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
+                    self.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
                 case .wiggle:
-                    self.symbolEffect(.wiggle.clockwise.byLayer, options: .repeat(repeatBehavior1))
+                    self.symbolEffect(.wiggle.up.byLayer, options: .repeat(repeatBehavior1))
                 case .replace:
                     self.contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .repeat(repeatBehavior1)))
                 case .replaceblack:
                     self.contentTransition(.symbolEffect(.replace))
+                case .none:
+                    self
                 
                 }
-            
             }
             
         } else {
@@ -365,8 +451,51 @@ extension View {
         }
         
     }
+    
 }
- 
+
+
+enum ScrollDirection {
+    case up, down
+}
+
+struct VerticalScrollDetector: ViewModifier {
+    var onScroll: (ScrollDirection, CGFloat) -> Void
+
+    @State private var lastOffset: CGFloat = 0
+
+    func body(content: Content) -> some View {
+        content
+            .background(GeometryReader { geo in
+                Color.clear
+                    .preference(key: ScrollOffsetPreferenceKey.self,
+                                value: geo.frame(in: .global).minY)
+            })
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { newY in
+                let delta = newY - lastOffset
+                if delta != 0 {
+                    let direction: ScrollDirection = delta > 0 ? .down : .up
+                    onScroll(direction, newY)
+                    lastOffset = newY
+                }
+            }
+    }
+
+    struct ScrollOffsetPreferenceKey: PreferenceKey {
+        static var defaultValue: CGFloat = 0
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value = nextValue()
+        }
+    }
+}
+
+extension View {
+    func onVerticalScrollChange(
+        perform: @escaping (ScrollDirection, CGFloat) -> Void
+    ) -> some View {
+        self.modifier(VerticalScrollDetector(onScroll: perform))
+    }
+}
 
 
 

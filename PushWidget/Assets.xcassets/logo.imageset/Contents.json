@@ -1,17 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "pbsvg.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "logo_画板 1 副本.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

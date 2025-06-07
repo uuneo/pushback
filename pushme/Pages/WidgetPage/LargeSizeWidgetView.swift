@@ -15,7 +15,7 @@ struct LargeSizeWidgetView: View {
     let chartTint: Color =  .orange
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            Image("logoup")
+            Image("logo")
                 .resizable()
                 .renderingMode(.template)
                 .foregroundStyle(.accent)
@@ -108,7 +108,7 @@ struct LargeSizeWidgetView: View {
                                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
                                     .foregroundStyle(.red)
                                     .annotation(position: .trailing, alignment: .center, spacing: 5) {
-                                        Text("\(item)")
+                                        Text(verbatim: "\(item)")
                                             .font(.caption.bold())
                                             .foregroundStyle(chartTint)
                                     }

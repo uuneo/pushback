@@ -7,52 +7,45 @@
 
 import UIKit
 import Defaults
+import AVFAudio
+import CloudKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{
     
-    
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
-        
-        let actions = [ UNNotificationAction(identifier: Identifiers.copyAction,
-                                             title:  String(localized: "复制"),
-                                             options: [.foreground],
-                                             icon: .init(systemImageName: "doc.on.doc")),
-                        
-                        UNNotificationAction(identifier: Identifiers.muteAction,
-                                             title:  String(localized: "静音分组1小时"),
-                                             options: [.foreground ],
-                                             icon: .init(systemImageName: "speaker.slash")) ]
-        
-        UNUserNotificationCenter.current().setNotificationCategories([
-            UNNotificationCategory(identifier: Identifiers.reminderCategory,
-                                   actions: actions,
-                                   intentIdentifiers: [],
-                                   options: [.hiddenPreviewsShowTitle])
-        ])
+       
+        Identifiers.setCategories()
+        // 预防用户切换系统语言导致语言不匹配
+        Multilingual.resetTransLang()
         
         if !Defaults[.firstStart] {
             AppManager.shared.registerForRemoteNotifications()
         }
-        
+        Task.detached(priority: .userInitiated) {
+            await CloudManager.shared.getSafeNumbers()
+            try? await CloudManager.shared.createSafeNumbersSubscription()
+        }
+
         return true
     }
     
-    
-    
+
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
         let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         
-        let manager = AppManager.shared
-        
         Defaults[.deviceToken] = token
-        CloudManager.shared.getUserId()
+        Task.detached(priority: .userInitiated) {
+            _ = await CloudManager.shared.queryUser(token: token)
+        }
         
+        let manager = AppManager.shared
         if Defaults[.servers].count == 0{
             Task.detached(priority: .userInitiated) {
                 _ = await manager.appendServer(server: PushServerModel(url: BaseConfig.defaultServer))
@@ -62,17 +55,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // MARK: UISceneSession Lifecycle
     
+    // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
-        if let selectAction = options.shortcutItem{
-            QuickAction.selectAction = selectAction
-        }
-        let sceneonfiguration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        let sceneConfiguration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
         
-        return sceneonfiguration
+        return sceneConfiguration
     }
     
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
@@ -80,10 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
-    
-    
-    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -105,14 +91,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler()
     }
-    
+   
     
     
     // 处理应用程序在前台是否显示通知
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // 由于AppGroup消息通知存在延迟，手动通知一下
+        // 由于Sqlit 底层通知延迟，手动更新
         Task.detached(priority: .background) {
             await  MessagesManager.shared.updateGroup()
         }
@@ -121,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             completionHandler(.banner)
         }else{
             completionHandler(.badge)
+            Haptic.impact(.light)
         }
         
         notificatonHandler(userInfo: notification.request.content.userInfo)
@@ -143,30 +130,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+        if let id:String = userInfo.raw(.id), let group = DatabaseManager.shared.delete(id) {
+            UNUserNotificationCenter.current()
+                .removeDeliveredNotifications(withIdentifiers: [group])
+        }
+        
+        
+        if let ckNotification = CKNotification(fromRemoteNotificationDictionary: userInfo),
+           ckNotification.notificationType == .query,
+           let queryNotification = ckNotification as? CKQueryNotification {
+            if queryNotification.subscriptionID == "SafeNumbers-changes"{
+                // 这里可以拉取最新数据
+                Task.detached(priority: .userInitiated) {
+                    await CloudManager.shared.getSafeNumbers()
+                    Toast.success(title: "更新成功")
+                }
+            }
+            
+        }
+        
         AppManager.shared.registerForRemoteNotifications()
         
-        
-        sendImmediateNotification(title: "Token Update")
-        
         completionHandler(.newData)
+        
     }
     
+
     
-    func sendImmediateNotification(title: String) {
-        // 请求权限（如果还没请求过）
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
-            guard granted else { return }
-            
-            // 创建通知内容
-            let content = UNMutableNotificationContent()
-            content.title = title
-            content.body = Date().formatString()
-            
-            // 创建并添加请求
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content,trigger: nil)
-            UNUserNotificationCenter.current().add(request)
-        }
-    }
 }
-
-

@@ -38,11 +38,10 @@ struct ServerCardView:View {
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .padding(.leading, 10)
-               
             }
             
             
-            HStack{
+            HStack(spacing: 10){
                 
                 Group{
                     if !isCloud {
@@ -56,14 +55,12 @@ struct ServerCardView:View {
                                     .symbolEffect(.variableColor, delay: 1)
                                 
                             })
-                            
-                            
-                        
                     }else{
                         Image(systemName: "externaldrive.badge.icloud")
                             .scaleEffect(1.5)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(.green, Color.primary)
+                            .foregroundStyle(.accent, Color.primary)
+                            .padding(.horizontal,5)
                     }
                 }
                 
@@ -82,35 +79,35 @@ struct ServerCardView:View {
                     return false
                 })
                 
-                VStack(alignment: .leading){
+                VStack(alignment: .leading,spacing: 5){
                     
-                    HStack(alignment: .bottom){
+                    HStack(alignment: .center){
                         Text( String(localized: "服务器") + ":")
                             .font(.caption2)
-                            .frame(width: 40)
-                            .minimumScaleFactor(0.5)
-                            .foregroundStyle(.foreground)
+                            .frame(width:40, alignment: .trailing)
+                            .foregroundStyle(.gray)
                         
                         Text(item.name)
                             .font(.headline)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .foregroundStyle(.foreground)
+                            .foregroundStyle(.primary)
                         Spacer()
                     }
                     .lineLimit(1)
-                    HStack(alignment: .bottom){
-                        Text("Key:")
-                            .frame(width:40)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .foregroundStyle(.foreground)
-                        HackerTextView(text: item.key, trigger: textAnimation)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .foregroundStyle(.foreground)
+                    .minimumScaleFactor(0.5)
+                    Divider()
+                    HStack(alignment: .center){
+                        Text("KEY:")
+                            .font(.caption2)
+                            .frame(width:40, alignment: .trailing)
+                            .foregroundStyle(.gray)
+                        Text(item.key)
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        
                         Spacer()
-                    } .font(.caption2)
+                    }
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                     
                 }
                 .VButton(onRelease: { _ in
@@ -145,6 +142,12 @@ struct ServerCardView:View {
             
             
         }
+        .padding(10)
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(.message)
+                .shadow(group: true)
+        )
         .padding(.vertical, 5)
         .transaction { view in
             view.animation = .snappy

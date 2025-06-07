@@ -7,39 +7,39 @@
 
 import MarkdownUI
 import SwiftUI
-//import Splash
 
 struct MarkdownColors {
-    // 主文本颜色
-    static let text = Color(light: Color(rgba: 0x1A1A1AFF), dark: Color(rgba: 0xE0E0E0FF))
-    
-    // 次要文本颜色
-    static let secondaryText = Color(light: Color(rgba: 0x4A4A4AFF), dark: Color(rgba: 0xA0A0A0FF))
-    
-    // 第三级文本颜色
-    static let tertiaryText = Color(light: Color(rgba: 0x6B6B6BFF), dark: Color(rgba: 0x808080FF))
-    
+    // 主文本颜色：高亮但不刺眼
+    static let text = Color(light: Color(rgba: 0x111111FF), dark: Color(rgba: 0xFAFAFAFF))
+
+    // 次要文本颜色：更温和的中灰偏蓝
+    static let secondaryText = Color(light: Color(rgba: 0x3C4A5AFF), dark: Color(rgba: 0xA5B0C0FF))
+
+    // 第三级文本颜色：蓝灰调，风格更轻快
+    static let tertiaryText = Color(light: Color(rgba: 0x6A7B8EFF), dark: Color(rgba: 0x7F8FA3FF))
+
     // 背景颜色
-    static let background = Color(light: .white, dark: Color(rgba: 0x121212FF))
-    
-    // 次要背景颜色
-    static let secondaryBackground = Color(light: Color(rgba: 0xF5F5F5FF), dark: Color(rgba: 0x1E1E1EFF))
-    
-    // 链接颜色
-    static let link = Color(light: Color(rgba: 0x1A73E8FF), dark: Color(rgba: 0x8AB4F8FF))
-    
-    // 边框颜色
-    static let border = Color(light: Color(rgba: 0xDDDDDDFF), dark: Color(rgba: 0x888888FF))
-    
-    // 分割线颜色
-    static let divider = Color(light: Color(rgba: 0xCCCCCCFF), dark: Color(rgba: 0x2D2D2DFF))
-    
-    // 复选框颜色
-    static let checkbox = Color(rgba: 0x757575FF)
-    
-    // 复选框背景颜色
-    static let checkboxBackground = Color(rgba: 0xEEEEEEFF)
+    static let background = Color(light: Color(rgba: 0xFFFFFFFF), dark: Color(rgba: 0x101418FF))
+
+    // 次要背景颜色：引入冷灰调
+    static let secondaryBackground = Color(light: Color(rgba: 0xF2F6FAFF), dark: Color(rgba: 0x1A1F26FF))
+
+    // 链接颜色：鲜艳蓝调，增强可点击性
+    static let link = Color(light: Color(rgba: 0x0B5FFFff), dark: Color(rgba: 0x61A5FFFF))
+
+    // 边框颜色：色温更高的浅灰蓝
+    static let border = Color(light: Color(rgba: 0xD0D8E0FF), dark: Color(rgba: 0x3A4A5AFF))
+
+    // 分割线颜色：淡蓝灰，避免死灰感
+    static let divider = Color(light: Color(rgba: 0xC8D4E0FF), dark: Color(rgba: 0x2B3642FF))
+
+    // 复选框颜色：鲜亮蓝灰，强调状态
+    static let checkbox = Color(light: Color(rgba: 0x3366CCFF), dark: Color(rgba: 0x85B4FFFF))
+
+    // 复选框背景颜色：有一点明度变化
+    static let checkboxBackground = Color(light: Color(rgba: 0xEAF1FAFF), dark: Color(rgba: 0x2D3A4AFF))
 }
+
 
 extension View {
     func markdownHeadingStyle(fontSize: CGFloat, fontWeight: SwiftUI.Font.Weight = .semibold) -> some View {
@@ -63,6 +63,7 @@ extension View {
 struct MarkdownTheme {
     static func defaultTheme(_ defaultSize:CGFloat = 16, scaleFactor:CGFloat = 1.0) -> Theme {
         Theme()
+        
             .text { FontSize(defaultSize * scaleFactor) }
             .code {
                 FontFamilyVariant(.monospaced)
@@ -163,6 +164,11 @@ struct MarkdownTheme {
                     .relativeFrame(height: .em(0.25))
                     .overlay(MarkdownColors.border)
                     .markdownMargin(top: 24, bottom: 24)
+            }
+            .image { config in
+                config.label
+                    .zoomable()
+                    .zIndex(9999)
             }
             
             

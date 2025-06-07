@@ -13,7 +13,8 @@ import Foundation
 
 class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
 	static let shared = AppManager()
-	
+    
+    
     @Published var page:TabPage = .message
 	@Published var sheetPage:SubPage = .none
 	@Published var fullPage:SubPage = .none
@@ -34,8 +35,6 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     
     @Published var selectMessage:Message? = nil
     @Published var selectPoint:CGPoint = .zero
-    
-    @Published var showHomeAlert:Bool = false
     /// 首页彩色框
     @Published var isLoading:Bool = false
     @Published var inAssistant:Bool = false
@@ -44,14 +43,24 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     @Published var askMessageId:String? = nil
     /// 开始播放语音
     @Published var speaking:Bool = false
-    
-    
    
-	
-    var fullShow:Binding<Bool>{  Binding { self.fullPage != .none } set: { _ in self.fullPage = .none } }
-	
-	var sheetShow:Binding<Bool>{ Binding { self.sheetPage != .none } set: { _ in self.sheetPage = .none } }
-
+    
+    var fullShow:Binding<Bool>{
+        Binding {
+            self.fullPage != .none
+        } set: { _ in
+            self.fullPage = .none
+        }
+    }
+    
+    var sheetShow:Binding<Bool>{
+        Binding {
+            self.sheetPage != .none
+        } set: { _ in
+            self.sheetPage = .none
+        }
+    }
+    
 
 
 	
@@ -69,7 +78,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     }
     
     func registers(msg:Bool = false){
-        Task.detached(priority: .background) {
+        Task.detached(priority: .userInitiated) {
             let servers = Defaults[.servers]
             let results =  await withTaskGroup(of: PushServerModel.self){ group in
                 
@@ -121,7 +130,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
             
             return server
         }catch{
-            debugPrint(error.localizedDescription)
+            Log.error(error.localizedDescription)
             return server
         }
     }
@@ -167,10 +176,14 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
         switch self.outParamsHandler(address: url.absoluteString) {
         case .crypto(let text):
             Log.debug(text)
-            DispatchQueue.main.async {
-                self.page = .setting
-                self.router = [.more, .crypto(text)]
+            if let config = CryptoModelConfig(inputText: text){
+                DispatchQueue.main.async{
+                    self.page = .setting
+                    self.router = [.crypto]
+                    self.sheetPage = .crypto(config)
+                }
             }
+            
         case .server(let url):
             Task.detached(priority: .userInitiated) {
                 let success = await self.appendServer(server: PushServerModel(url: url))
@@ -194,8 +207,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
         case .assistant(let text):
             if let account = AssistantAccount(base64: text){
                 DispatchQueue.main.async {
-                    self.page = .setting
-                    self.router = [.assistant,.assistantSetting(account)]
+                    self.router.append(.assistantSetting(account))
                 }
             }
         case .page(page: let page,title: let title, data: let data):
@@ -256,7 +268,7 @@ extension AppManager{
 
             if granted {
                 // 如果授权，注册设备接收推送通知
-                 DispatchQueue.main.async {
+                DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             } else {
@@ -274,15 +286,15 @@ extension AppManager{
             for fileURL in contents {
                 do{
                     try fileManager.removeItem(at: fileURL)
-                    print("✅ 删除: \(fileURL.lastPathComponent)")
+                    Log.info("✅ 删除: \(fileURL.lastPathComponent)")
                 }catch{
-                    print("❌ 清空失败: \(error.localizedDescription)")
+                    Log.error("❌ 清空失败: \(error.localizedDescription)")
                 }
             }
             
-            print("🧹 清空完成：\(url.path)")
+            Log.info("🧹 清空完成：\(url.path)")
         } catch {
-            print("❌ 清空失败: \(error.localizedDescription)")
+            Log.error("❌ 清空失败: \(error.localizedDescription)")
         }
     }
     
@@ -296,11 +308,10 @@ extension AppManager{
                     if resourceValues.isRegularFile == true {
                         if let fileSize = resourceValues.fileSize {
                             totalSize += UInt64(fileSize)
-                            debugPrint(fileURL.lastPathComponent, UInt64(fileSize))
                         }
                     }
                 } catch {
-                    print("❗️获取文件大小失败: \(fileURL.lastPathComponent) - \(error.localizedDescription)")
+                    Log.error("❗️获取文件大小失败: \(fileURL.lastPathComponent) - \(error.localizedDescription)")
                 }
             }
         }

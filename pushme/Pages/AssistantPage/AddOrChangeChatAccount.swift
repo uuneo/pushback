@@ -129,6 +129,7 @@ struct AddOrChangeChatAccount:View {
                 if let config = data.toBase64() {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button{
+                            Haptic.impact()
                             self.dismiss()
                             let local = PBScheme.pb.scheme(host: .assistant, params: ["text":config])
                             DispatchQueue.main.async{
@@ -203,6 +204,7 @@ struct AddOrChangeChatAccount:View {
                 .foregroundColor(isSecured ? .gray : .primary)
                 .onTapGesture {
                     isSecured.toggle()
+                    Haptic.impact()
                 }
         }
     }

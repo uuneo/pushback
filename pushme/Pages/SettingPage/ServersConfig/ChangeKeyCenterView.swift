@@ -53,6 +53,17 @@ struct ChangeKeyCenterView: View {
                 
                 Spacer()
                 
+                Button {
+                    manager.sheetPage = .scan
+                    Haptic.impact()
+                } label: {
+                    Image(systemName: "qrcode.viewfinder")
+                        .imageScale(.large)
+                        .symbolRenderingMode(.palette)
+                        .customForegroundStyle(.accent, Color.primary)
+                        .symbolEffect(delay: 5)
+                        .padding(.trailing, 10)
+                }
             }
             
             
@@ -77,7 +88,7 @@ struct ChangeKeyCenterView: View {
                         Image(systemName: "filemenu.and.selection")
                             .imageScale(.medium)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(.white, .primary)
+                            .customForegroundStyle(.accent, .primary)
                         
                         Text("选择服务器")
                         
@@ -123,6 +134,7 @@ struct ChangeKeyCenterView: View {
                     .foregroundStyle(Color.accentColor)
                     .onTapGesture {
                         manager.fullPage = .web(BaseConfig.delpoydoc)
+                        Haptic.impact()
                     }
                 
             }
@@ -180,6 +192,7 @@ struct ChangeKeyCenterView: View {
             }
             .onTapGesture {
                 self.isHostFocused = true
+                Haptic.impact()
             }
     }
     
@@ -213,6 +226,7 @@ struct ChangeKeyCenterView: View {
             }
             .onTapGesture {
                 self.isPhoneFocused = true
+                Haptic.impact()
             }
     }
     
@@ -240,7 +254,7 @@ struct ChangeKeyCenterView: View {
                 await view.next(.loading(0))
                 
                  DispatchQueue.main.async {
-                    self.keyName = self.keyName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    self.keyName = self.keyName.trimmingSpaceAndNewLines
                     self.keyHost = self.keyHost.trimmingCharacters(in: .whitespacesAndNewlines)
                 }
                 
@@ -379,11 +393,11 @@ struct ChangeKeyView: View {
     
     var body: some View {
         ZStack {
+            
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .opacity(appear ? 1 : 0)
                 .ignoresSafeArea()
-            
             
             GeometryReader { proxy in
                 ChangeKeyCenterView(dismiss: dismissModal)
@@ -402,7 +416,7 @@ struct ChangeKeyView: View {
                             .blur(radius: appearBackground ? 0 : 40)
                             .hueRotation(.degrees(viewState.width / 5))
                     )
-            }
+            }.frame(maxWidth: ISPAD ? minSize / 2 : .infinity)
             
             VStack{
                 HStack{
@@ -428,6 +442,8 @@ struct ChangeKeyView: View {
             
             
         }
+        
+        
         .onAppear {
             withAnimation(.spring()) {
                 appear = true

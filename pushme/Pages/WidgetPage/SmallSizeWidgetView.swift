@@ -29,7 +29,7 @@ struct SmallSizeWidgetView: View {
             )
             
             HStack{
-                Image("logoup")
+                Image("logo")
                     .resizable()
                     .renderingMode(.template)
                     .aspectRatio(contentMode: .fit)
@@ -62,7 +62,7 @@ struct SmallSizeWidgetView: View {
             HStack{
                 VStack{
                     HStack{
-                        Image("logoup")
+                        Image("logo")
                             .resizable()
                             .renderingMode(.template)
                             .aspectRatio(contentMode: .fit)
@@ -87,7 +87,7 @@ struct SmallSizeWidgetView: View {
                 VStack{
                     HStack{
                         
-                        Image("logoup")
+                        Image("logo")
                             .resizable()
                             .renderingMode(.template)
                             .aspectRatio(contentMode: .fit)

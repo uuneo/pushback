@@ -16,33 +16,30 @@ class ShareViewController: UIViewController  {
     
     override func viewDidLoad() {
         if let itemProviders = (extensionContext!.inputItems.first as? NSExtensionItem)?.attachments {
-            let hostingView = UIHostingController(rootView: ShareView(itemProviders: itemProviders, extensionContext: extensionContext, view: view, openHostApp: openHostApp))
+            let hostingView = UIHostingController(rootView: ShareView(itemProviders: itemProviders, extensionContext: extensionContext, view: view, openHostApp: openURL))
             hostingView.view.frame = view.frame
             
             view.addSubview(hostingView.view)
         }
     }
     
+
     
-    func openHostApp(_ localKey:URL) {
-        var responder: UIResponder? = self // 从当前对象开始
-        
-        while let currentResponder = responder {
-            // 检查是否是 UIApplication 类型
-            if let app = currentResponder as? UIApplication{
-                app.open(localKey, options: [:]) { success in
-                    Log.debug("打开app状态：\(success)")
+    @objc func openURL(_ url: URL) -> Bool {
+        var responder: UIResponder? = self
+        while responder != nil {
+            if let application = responder as? UIApplication {
+                if #available(iOS 18.0, *) {
+                    application.open(url, options: [:], completionHandler: nil)
+                    return true
+                } else {
+                    return application.perform(#selector(openURL(_:)), with: url) != nil
                 }
-                return
             }
-            
-            // 遍历下一个响应者
-            responder = currentResponder.next
+            responder = responder?.next
         }
-        
-        Log.debug("没有找到响应链")
+        return false
     }
-    
     
 }
 
@@ -50,7 +47,7 @@ fileprivate struct ShareView: View {
     var itemProviders: [NSItemProvider]
     var extensionContext: NSExtensionContext?
     var view:UIView?
-    var openHostApp:(URL)-> Void
+    var openHostApp:(URL)-> Bool
     
    
     @State private var pushIcon:PushIcon?
@@ -70,8 +67,7 @@ fileprivate struct ShareView: View {
             
             if let pushIcon{
                 UploadIclondIcon(pushIcon: pushIcon) { _ in
-                    openHostApp(PBScheme.pb.scheme(host: .openPage, params: ["page" : "icon"]))
-                    
+                    _ = openHostApp(PBScheme.pb.scheme(host: .openPage, params: ["page" : "icon"]))
                     dismiss()
                 } endEditing: {
                     self.view?.endEditing(true)

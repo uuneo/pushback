@@ -11,6 +11,8 @@ import AVFoundation
 import QRScanner
 import UIKit
 
+
+
 struct ScanView: View {
 	@Environment(\.dismiss) var dismiss
 	@State private var torchIsOn = false
@@ -21,19 +23,24 @@ struct ScanView: View {
     
     var response: (String) async-> Bool
     
+    
 	var body: some View {
 		ZStack{
-
-            QRScanner(restart: $restart, flash: $torchIsOn) { code in
+            let config = QRScannerView.Input(focusImage: UIImage(named: "scan"),focusImagePadding: 20, isBlurEffectEnabled: true)
+            
+            QRScanner(rescan: $restart, flash: $torchIsOn, isRuning: true, input: config) { code in
+                
                 Task{
                     if await response(code) {
+                        AudioServicesPlaySystemSound(1052)
                         self.dismiss()
                     }else{
+                        AudioServicesPlaySystemSound(1053)
                         self.showActive.toggle()
                     }
                 }
+            } onFailure: { error in
                 
-            } fail: { error in
                 switch error{
                 case .unauthorized(let status):
                     if status != .authorized{
@@ -44,7 +51,6 @@ struct ScanView: View {
                     Toast.error(title: "扫码失败")
                     self.dismiss()
                 }
-                
             }
             .actionSheet(isPresented: $showActive) {
                 ActionSheet(title: Text( "扫码成功"),buttons: [
@@ -59,20 +65,20 @@ struct ScanView: View {
             }
 
 
-			VStack{
-				HStack{
-
-					Spacer()
-					Image(systemName: "xmark")
+            VStack{
+                HStack{
+                    
+                    Spacer()
+                    Image(systemName: "xmark")
                         .font(.body.bold())
-						.foregroundColor(.secondary)
-						.padding(8)
-						.background(.ultraThinMaterial, in: Circle())
-                    // TODO: - 待修改
-//						.backgroundStyle(cornerRadius: 18)
-						.onTapGesture {
-							self.dismiss()
-						}
+                        .foregroundColor(.secondary)
+                        .padding(8)
+                        .background(.ultraThinMaterial, in: Circle())
+                        // TODO: - 待修改
+                        .onTapGesture {
+                            self.dismiss()
+                            Haptic.impact()
+                        }
 
 				}
 				.padding()
@@ -83,7 +89,7 @@ struct ScanView: View {
                     Image(systemName: torchIsOn ? "bolt" : "bolt.slash")
                         .scaleEffect(3)
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(.accent,.ultraThinMaterial)
+                        .foregroundStyle(Color.accent,.ultraThinMaterial)
                         .symbolEffect(.replace)
                         .padding()
                         .VButton(onRelease: { _ in
@@ -98,7 +104,22 @@ struct ScanView: View {
 
 			}
 
-		}.ignoresSafeArea()
+		}
+        .ignoresSafeArea()
+        .contentShape(Rectangle())
+        .gesture(
+            DragGesture(minimumDistance: 30, coordinateSpace: .global)
+                .onChanged({ active in
+                    Haptic.selection()
+                })
+                .onEnded({ action in
+                   
+                    if  action.translation.height > 100{
+                        manager.fullPage = .none
+                        Haptic.impact()
+                    }
+                })
+        )
 	}
 
 }
@@ -109,5 +130,7 @@ struct ScanView: View {
 #Preview {
     ScanView(){_ in  true }
 }
+
+
 
 

@@ -88,7 +88,7 @@ struct WidgetChartView:View {
                 }
                 Spacer()
             }
-            .frame(minHeight: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height))
+            .frame(minHeight: windowWidth)
             .animation(.default, value: selectMode)
             
             
@@ -126,7 +126,7 @@ struct WidgetChartView:View {
     
     private var lockView: some View{
         ZStack(alignment: .topTrailing) {
-            Image("logoup")
+            Image("logo")
                 .resizable()
                 .renderingMode(.template)
                 .aspectRatio(contentMode: .fit)

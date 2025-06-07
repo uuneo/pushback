@@ -98,7 +98,7 @@ extension WidgetData{
             )
         }
         
-        let names = [String(localized: "示例1"),String(localized: "示例2"),String(localized: "示例3")]
+        let names = [String(localized: "示例") + "1",String(localized: "示例") + "2",String(localized: "示例") + "3"]
         var results = names.indices.compactMap { index in
             let datas = items(index: index)
             

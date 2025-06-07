@@ -19,65 +19,58 @@ extension UIImage {
         let albumName = albumName ?? BaseConfig.AppName
         
         let oldStatus = PHPhotoLibrary.authorizationStatus()
-        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
-            DispatchQueue.main.async{
-               if status == .denied {
-                   // 用户拒绝当前App访问相册
-                   if oldStatus != .notDetermined {
-                       // 提醒用户打开开关
-                       complete(false, PHAuthorizationStatus.denied)
-                   }
-               } else if status == .authorized {
-                   // 用户允许当前App访问相册
-                   self.p_excuteSaveImage(intoAlbum: albumName, complete: complete)
-                   complete(true, .authorized)
-               } else if status == .restricted {
-                   // 无法访问相册
-                   complete(false, .restricted)
-               }
+        if oldStatus == .authorized{
+            let status = self.p_excuteSaveImage(intoAlbum: albumName)
+            complete(status, .authorized)
+        }else{
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+                switch status {
+                case .authorized, .limited:
+                    complete(self.p_excuteSaveImage(intoAlbum: albumName), .authorized)
+                default:
+                    complete(false, status)
+                }
+                
            }
-           
-       }
+        }
+        
     }
     
     /// 私有的，负责具体的保存图片的操作
-    private func p_excuteSaveImage(intoAlbum albumName: String?, complete: @escaping (_ success: Bool, _ authorizationStatus: PHAuthorizationStatus) -> ()) {
+    private func p_excuteSaveImage(intoAlbum albumName: String?) -> Bool {
         
-        // 如果没有设置albumName或albumName为空,则直接保存到`相机胶卷`
-        if albumName == nil || albumName!.count == 0 {
+        guard let albumName = albumName else {
             // 保存图片到`相机胶卷`
-            guard let _ = try? PHPhotoLibrary.shared().performChangesAndWait({
-                PHAssetChangeRequest.creationRequestForAsset(from: self)
-            }) else {
-                complete(false, .authorized)
-                return
+            do{
+                try PHPhotoLibrary.shared().performChangesAndWait({
+                    PHAssetChangeRequest.creationRequestForAsset(from: self)
+                })
+                return true
+            }catch{
+                debugPrint(error.localizedDescription)
+                return false
             }
-            complete(true, .authorized)
-            return
         }
         
         // 获得相片
-        guard let createdAssets = p_createdAssets() else {
-            complete(false, .authorized)
-            return
-        }
+        guard let createdAssets = p_createdAssets() else { return false }
 
         // 获得相册
-        guard let createdCollection = p_createdCollection(albumName: albumName!) else {
-            complete(false, .authorized)
-            return
+        guard let createdCollection = p_createdCollection(albumName: albumName) else {
+            return false
         }
         
-        // 添加刚才保存的图片到`自定义相册`
-        guard let _ = try? PHPhotoLibrary.shared().performChangesAndWait({
-            let request = PHAssetCollectionChangeRequest(for: createdCollection)
-            request?.insertAssets(createdAssets, at: NSIndexSet(index: 0) as IndexSet)
-        }) else {
-            complete(false, .authorized)
-            return
+        do{
+            try PHPhotoLibrary.shared().performChangesAndWait({
+                let request = PHAssetCollectionChangeRequest(for: createdCollection)
+                request?.insertAssets(createdAssets, at: NSIndexSet(index: 0) as IndexSet)
+            })
+            return true
+        }catch{
+            debugPrint(error.localizedDescription)
+            return false
         }
-        // 最后的判断
-        complete(true, .authorized)
+    
     }
     
     /// 当前App对应的自定义相册
@@ -109,14 +102,17 @@ extension UIImage {
     
     /// 返回刚才保存到`相机胶卷`的图片
     private func p_createdAssets() -> PHFetchResult<PHAsset>? {
-        
-        var assetID: String = ""
-        guard let _ = try? PHPhotoLibrary.shared().performChangesAndWait({
-            assetID = PHAssetChangeRequest.creationRequestForAsset(from: self).placeholderForCreatedAsset?.localIdentifier ?? ""
-        }) else {
+        do{
+            var assetID: String = ""
+            try PHPhotoLibrary.shared().performChangesAndWait({
+                assetID = PHAssetChangeRequest.creationRequestForAsset(from: self).placeholderForCreatedAsset?.localIdentifier ?? ""
+            })
+            return PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
+        }catch{
+            debugPrint(error.localizedDescription)
             return nil
         }
-        return PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
+        
     }
     
     func scaledSize(withWidth width: CGFloat) -> CGSize {
@@ -127,6 +123,8 @@ extension UIImage {
 }
 
 extension Image {
+    
+    @ViewBuilder
     func customDraggable(_ width:CGFloat = .zero, appear:((Image)-> Void)? = nil, disappear:((Image)-> Void)? = nil) -> some View{
         self
             .draggable(self){
@@ -143,3 +141,6 @@ extension Image {
             }
     }
 }
+
+
+

@@ -66,7 +66,7 @@ struct PromptChooseView: View {
                     self.prompts = results
                 }
             }catch{
-                debugPrint(error.localizedDescription)
+                Log.error(error.localizedDescription)
             }
         }
     }
@@ -188,6 +188,7 @@ private struct PromptSection: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         onPromptTap(prompt)
+                       
                     }
                     .modifier(PromptSwipeActions(
                         prompt: prompt,
@@ -208,7 +209,7 @@ private struct PromptSection: View {
                                     .deleteAll(db)
                             }
                         } catch {
-                            print("❌ 删除 ChatPrompt 失败: \(error)")
+                            Log.error("❌ 删除 ChatPrompt 失败: \(error)")
                         }
                     }
                 }
@@ -372,7 +373,7 @@ struct AddPromptView: View {
                                 }
                                
                             } catch {
-                                print("❌ 插入 ChatPrompt 失败: \(error)")
+                                Log.error("❌ 插入 ChatPrompt 失败: \(error)")
                             }
                             
                         }

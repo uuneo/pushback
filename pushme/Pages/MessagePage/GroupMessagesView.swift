@@ -27,10 +27,10 @@ struct GroupMessagesView: View {
                             return true
                         })
                         .id(message.group)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listSectionSeparator(.hidden)
                 }
-                
-                
-                
                 if messageManager.showGroupLoading && messageManager.groupMessages.count == 0{
                     HStack{
                         Spacer()
@@ -49,9 +49,11 @@ struct GroupMessagesView: View {
                     .padding(24)
                     .shadow(radius: 10)
                     .listRowBackground(Color.clear)
+                    
                 }
                 
             }
+            .listStyle(.grouped)
             .animation(.default, value: messageManager.groupMessages)
             .onChange(of: messageManager.allCount) { _ in
                 if let selectGroup = manager.selectGroup{
@@ -139,6 +141,15 @@ struct MessageRow: View {
                 .foregroundStyle(.gray)
                 .imageScale(.small)
         }
+        .padding(8)
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(.message)
+                .shadow(group: true)
+        )
+        .padding(.vertical, 8)
+        .padding(.bottom, 3)
+        .padding(.horizontal, 15)
         .swipeActions(edge: .leading) {
             Button {
                 Task.detached(priority: .userInitiated) {
@@ -194,19 +205,19 @@ struct MessageRow: View {
     }
     
     private func groupBody(_ message: Message) -> some View {
-        var text = Text("\("")")
+        var text = Text(verbatim: "")
         
         if let title = message.title {
-            text = Text("\(title);").foregroundColor(.blue)
+            text = Text(verbatim: "\(title);").foregroundColor(.blue)
         }
         
         if let subtitle = message.subtitle {
-            text = text + Text("\(subtitle);").foregroundColor(.gray)
+            text = text + Text(verbatim: "\(subtitle);").foregroundColor(.gray)
         }
         
         if let body = message.body {
             
-            text = text + Text("\(PBMarkdown.plain(body).replacingOccurrences(of: " ", with: ""))").foregroundColor(.primary)
+            text = text + Text(verbatim: "\(PBMarkdown.plain(body).replacingOccurrences(of: " ", with: ""))").foregroundColor(.primary)
         }
         
         return text

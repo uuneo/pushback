@@ -15,7 +15,7 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     private let playPauseButton = UIButton(type: .system)
     private let stopButton = UIButton(type: .system)
     
-    private var timer: Timer?
+    private var timer: CADisplayLink?
     private var isUserSeeking = false
     private var waitingTime:Int = 0
     
@@ -90,14 +90,14 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
         progressSlider.minimumValue = 0
         progressSlider.maximumValue = 1
         progressSlider.value = 0
-        progressSlider.minimumTrackTintColor = .systemOrange
+        progressSlider.minimumTrackTintColor = .systemBlue
         progressSlider.maximumTrackTintColor = UIColor.systemGray5
         
         
     
         if let originalImage = UIImage(named: "logo") {
             // 1. 调整图片大小
-            let size = CGSize(width: 20, height: 20)
+            let size = CGSize(width: 30, height: 30)
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             originalImage.draw(in: CGRect(origin: .zero, size: size))
             let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -105,13 +105,12 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
             
             // 2. 设置渲染模式并应用颜色
             if let resizedImage = resizedImage {
-                let tintedImage = resizedImage
-                    .withRenderingMode(.alwaysTemplate)
-                    .withTintColor(.systemOrange)
-                
+//                let tintedImage = resizedImage
+////                    .withRenderingMode(.alwaysTemplate)
+////                    .withTintColor(.systemBlue)
                 // 3. 将处理后的图片应用到滑块
-                progressSlider.tintColor = .systemOrange
-                progressSlider.setThumbImage(tintedImage, for: .normal)
+                progressSlider.tintColor = .systemBlue
+                progressSlider.setThumbImage(resizedImage, for: .normal)
             
             }
         }
@@ -157,10 +156,12 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
         playPauseButton.setTitle("0:00", for: .normal)
         Haptic.impact()
     }
-
+    
     private func startTimer() {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateUI), userInfo: nil, repeats: true)
+        // 使用 CADisplayLink 替代 Timer（与屏幕刷新率同步，默认 60FPS）
+        timer = CADisplayLink(target: self, selector: #selector(updateUI))
+        timer?.add(to: .main, forMode: .common) // 确保在滚动等操作时仍能更新
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -179,8 +180,11 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
             return
         }
         playPauseButton.setTitle(formatTime(player.currentTime), for: .normal)
-        progressSlider.value = Float(player.currentTime / player.duration)
+        
+        self.progressSlider.value = Float(player.currentTime / player.duration)
+        
     }
+    
     
     @objc private func beginSeeking() {
         Haptic.impact()
@@ -205,12 +209,18 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     @objc private func handleSliderChange() {
         guard let player = audioPlayer else { return }
         playPauseButton.setTitle(formatTime(TimeInterval(progressSlider.value) * player.duration), for: .normal)
-        Haptic.impact(.heavy, limitFrequency: true)
+        Haptic.selection(limitFrequency: false)
     }
 
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
         return String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
+extension UIFont {
+    class func preferredFont(ofSize size: CGFloat, weight: Weight = .regular) -> UIFont {
+        return UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: size, weight: weight))
     }
 }

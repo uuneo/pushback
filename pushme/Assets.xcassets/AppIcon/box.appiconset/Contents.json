@@ -1,0 +1,38 @@
+{
+  "images" : [
+    {
+      "filename" : "motorsag._A_drawing_of_a_cardboard_box_with_a_cute_cat_in_it._T_bb4e471f-f06c-418f-a19e-33d4d805f044 2.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "motorsag._A_drawing_of_a_cardboard_box_with_a_cute_cat_in_it._T_bb4e471f-f06c-418f-a19e-33d4d805f044 3.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "filename" : "motorsag._A_drawing_of_a_cardboard_box_with_a_cute_cat_in_it._T_bb4e471f-f06c-418f-a19e-33d4d805f044 4.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

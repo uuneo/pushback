@@ -48,7 +48,7 @@ struct HistoryMessage:View {
                     
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("\(messages.count)")
+                    Text(verbatim: "\(messages.count)")
                         .font(.caption2)
                         .foregroundStyle(Color.gray)
                 }
@@ -96,7 +96,7 @@ struct HistoryMessage:View {
                 return try request.limit(lim).fetchAll(db)
             }
         } catch {
-            print("Query failed:", error)
+            Log.error("Query failed:", error)
             return []
         }
     }

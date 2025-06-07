@@ -151,7 +151,7 @@ struct PromptDetailView: View {
             let chatPrompt = ChatPrompt(
                 title: title,
                 content: content,
-                inside: false,
+                inside: false
             )
         Task.detached(priority: .userInitiated) {
             
@@ -163,7 +163,7 @@ struct PromptDetailView: View {
                     self.dismiss()
                 }
             } catch {
-                print("❌ 插入 ChatPrompt 失败:", error)
+                Log.error("❌ 插入 ChatPrompt 失败:", error)
             }
         }
        
@@ -182,7 +182,7 @@ struct PromptDetailView: View {
                     }
                 }
             } catch {
-                print("❌ 更新 ChatPrompt 失败:", error)
+                Log.error("❌ 更新 ChatPrompt 失败:", error)
             }
             await MainActor.run {
                 if prompt == nil {

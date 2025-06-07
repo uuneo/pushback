@@ -12,12 +12,14 @@ import UIKit
 struct SoundView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var audioManager = AudioManager.shared
+    @EnvironmentObject private var manager:AppManager
     @State private var showUpload:Bool = false
     
     @State private var uploadLoading:Bool = false
     
     var body: some View {
         List {
+            
             Section {
                 HStack{
                     Spacer()
@@ -35,7 +37,7 @@ struct SoundView: View {
                                 HStack{
                                     Spacer()
                                     ProgressView()
-                                    Text("处理中")
+                                    Text("正在处理中...")
                                     Spacer()
                                 }
                             }
@@ -114,6 +116,19 @@ struct SoundView: View {
             
         }
         .navigationTitle("所有铃声")
+        .toolbar{
+            ToolbarItem(placement: .topBarTrailing) {
+               
+                Image(systemName: "speaker.wave.2.bubble.left")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.tint, .primary)
+                    .VButton(onRelease: { _ in
+                        manager.router.append(.tts)
+                        return true
+                    })
+
+            }
+        }
         .onDisappear{
             audioManager.playAudio(url: nil)
         }

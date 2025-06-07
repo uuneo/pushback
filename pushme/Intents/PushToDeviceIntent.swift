@@ -117,8 +117,13 @@ struct PushToDeviceIntent: AppIntent {
         }
         
         if cipher {
+            
+            let cryptoConfigs = Defaults[.cryptoConfigs]
+            guard let field = cryptoConfigs.first else { return .result(value: false) }
+            
+            
             let jsonData = try JSONSerialization.data(withJSONObject: params)
-            guard let cipherResult = CryptoManager(Defaults[.cryptoConfig]).encrypt(jsonData) else {
+            guard let cipherResult = CryptoManager(field).encrypt(jsonData) else {
                 return .result(value: false)
             }
             params = ["cipherText": cipherResult]

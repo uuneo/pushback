@@ -49,10 +49,9 @@ enum PushIconCloudError: Error {
     
     var tips: String {
         switch self {
-        case .notFile(let msg), .paramsSpace(let msg),
-                .saveError(let msg), .nameRepeat(let msg), .iconRepeat(let msg), .success(let msg), .authority(let msg):
+        case .notFile(let msg), .paramsSpace(let msg), .saveError(let msg), .nameRepeat(let msg), .iconRepeat(let msg), .success(let msg), .authority(let msg):
             return msg
-
+            
         }
     }
 }
@@ -83,10 +82,13 @@ class CloudManager {
         container.publicCloudDatabase
     }
     private let recordType = "PushIcon"
+    private let SafeNumbersType = "SafeNumbers"
     
     func checkAccount() async -> (Bool, String) {
         do {
             let status = try await container.accountStatus()
+            
+          
             
             switch status {
             case .available:
@@ -230,15 +232,136 @@ class CloudManager {
         }
     }
     
-    func getUserId() {
-        Task.detached(priority: .userInitiated) { [self] in
-            if let user =  try? await container.userRecordID(){
-                Defaults[.id] = user.recordName
+    // MARK: - LOGIN
+    func queryUser(_ userID: String? = nil, email: String? = nil, token: String? = nil) async -> CKRecord?{
+        do{
+            let id = try await container.userRecordID()
+            let user = try await database.record(for: id)
+        
+        
+
+            if let userID{
+                user["phone"] = userID as CKRecordValue
+            }
+            
+            if let email{
+                user["email"] = email as CKRecordValue
+            }
+            
+            if let token{
+                user["token"] = token as CKRecordValue
+            }
+           
+            guard userID != nil || email != nil || token != nil else {
+                return user
+            }
+           
+            
+            let recordRes = try await database.save(user)
+            return recordRes
+        }catch{
+            debugPrint(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    func getSafeNumbers() async {
+        let query = CKQuery(recordType: self.SafeNumbersType, predicate: NSPredicate(value: true))
+      
+        do {
+            // 直接使用 async 方法查询
+            let (records, _) = try await database.records(matching: query, resultsLimit: 1)
+            
+            // 返回查询到的记录
+            let results = records.compactMap { (_, result) -> CKRecord? in
+                switch result {
+                case .success(let record):
+                    return record
+                case .failure(let error):
+                    Log.error("获取单个记录失败: \(error.localizedDescription)")
+                    return nil
+                }
+            }
+            
+            guard let data = results.first else { return }
+            
+            if let six = data["six"] as? [Int], six.count == 16{
+                Defaults[.safeNumbers].six = six
+            }
+            
+            if let four = data["four"] as? [Int], four.count == 24{
+                Defaults[.safeNumbers].four = four
+            }
+            
+            if let two = data["two"] as? [Int], two.count == 32 {
+                Defaults[.safeNumbers].two = two
+            }
+            if let ad = data["ad"] as? String{
+                Defaults[.safeNumbers].ad = ad
+            }
+            
+        } catch {
+            Log.error("查询失败: \(error.localizedDescription)")
+        }
+    }
+    
+    func createSafeNumbers() async throws {
+        
+        let query = CKQuery(recordType: self.SafeNumbersType, predicate: NSPredicate(value: true))
+        let id = try await container.userRecordID()
+
+        // 直接使用 async 方法查询
+        let (records, _) = try await database.records(matching: query, resultsLimit: 1)
+        
+        // 返回查询到的记录
+        let results = records.compactMap { (_, result) -> CKRecord? in
+            switch result {
+            case .success(let record):
+                return record
+            case .failure(let error):
+                Log.error("获取单个记录失败: \(error.localizedDescription)")
+                return nil
             }
         }
+        guard let record = results.first else {
+            throw "no data"
+        }
+        let ad = record["ad"] as? String
+        
+        guard ad == id.recordName else{
+            throw "no Permission"
+        }
+        
+        let data = SafeNumbers.create()
+        
+        record["six"] = data.six as CKRecordValue
+        record["four"] = data.four as CKRecordValue
+        record["two"] = data.two as CKRecordValue
+        
+        
+        _ = try await database.save(record)
         
     }
     
+    func createSafeNumbersSubscription() async throws {
+        let subs = try await database.allSubscriptions()
+        if !subs.contains(where: { $0.subscriptionID == "SafeNumbers-changes" }) {
+            // 不存在就重新创建
+            let subscription = CKQuerySubscription(
+                recordType: self.SafeNumbersType,
+                predicate: NSPredicate(value: true),
+                subscriptionID: "SafeNumbers-changes",
+                options: [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
+            )
+
+            let notificationInfo = CKSubscription.NotificationInfo()
+            notificationInfo.shouldSendContentAvailable = true // 静默推送（后台刷新用）
+
+            subscription.notificationInfo = notificationInfo
+            
+            _ = try await database.save(subscription)
+        }
+    }
 }
 
 

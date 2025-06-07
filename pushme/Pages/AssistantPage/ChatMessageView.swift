@@ -14,7 +14,6 @@ struct ChatMessageView: View {
         return  DatabaseManager.shared.query(id: messageId)
     }
     
-    @Default(.showCodeViewColor) var showCodeViewColor
     
     
     var body: some View {
@@ -103,7 +102,7 @@ struct ChatMessageView: View {
     
     /// AI助手消息视图
     private var assistantMessageView: some View {
-        MarkdownCustomView(content: message.content,showCodeViewColor: showCodeViewColor)
+        MarkdownCustomView(content: message.content)
             .padding()
             .foregroundColor(.primary)
             .background(.ultraThinMaterial)
@@ -133,6 +132,7 @@ extension View{
                     }label: {
                         Label("朗读内容",  systemImage: "waveform")
                             .symbolEffect(.variableColor)
+                            .customForegroundStyle(.accent, .primary)
                     }
                 }
                 
@@ -142,6 +142,7 @@ extension View{
                         Toast.success(title: "复制成功")
                     }) {
                         Label("复制", systemImage: "doc.on.doc")
+                            .customForegroundStyle(.accent, .primary)
                     }
                 }
                 
@@ -155,10 +156,11 @@ struct QuoteView:View {
     var body: some View {
         HStack(spacing: 5) {
             
-            Text("\(message.search)")
+            Text(verbatim: "\(message.search.trimmingSpaceAndNewLines)")
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .font(.caption2)
+            
             
             Image(systemName: "quote.bubble")
                 .foregroundColor(.gray)

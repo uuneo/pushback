@@ -14,7 +14,6 @@ import GRDB
 struct AssistantPageView:View {
     
     @Default(.assistantAccouns) var assistantAccouns
-    @Default(.historyMessageBool) var historyMessageBool
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var manager:AppManager
@@ -33,281 +32,249 @@ struct AssistantPageView:View {
     
     @State private var offsetX: CGFloat = 0
     @State private var offsetHistory:CGFloat = 0
-    @State private var rotation:Double = 0
-    
+    @State private var fengche:Bool = false
     
     var body: some View {
-
-            VStack {
-                if  chatManager.chatgroup != nil || manager.isLoading {
-                    
-                    ChatMessageListView()
+        
+        VStack {
+            if chatManager.chatMessages.count > 0 || manager.isLoading {
+                
+                ChatMessageListView()
                     .onTapGesture {
                         self.hideKeyboard()
+                        Haptic.impact()
                     }
-                    
-                }else{
-                    VStack{
-                        Spacer()
-                        
-                        VStack{
-                            Image("chatgpt")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100)
-                            
-                            Text("嗨! 我是智能助手")
-                                .font(.title)
-                                .fontWeight(.medium)
-                                .multilineTextAlignment(.center)
-                                .padding(.vertical, 10)
-                            
-                            Text("我可以帮你搜索，答疑，写作，请把你的任务交给我吧！")
-                                .multilineTextAlignment(.center)
-                                .padding(.vertical)
-                                .font(.body)
-                                .foregroundStyle(.gray)
-                            
-                        }
-                        
-                        Spacer()
-                    }
-                    .transition(.slide)
-                    .onTapGesture {
-                        self.hideKeyboard()
-                    }
-                }
                 
-                
-                
-                
-                Spacer()
-               
-            }
-            .safeAreaInset(edge: .bottom) {
-                // 底部输入框
-                ChatInputView(
-                    text: $inputText,
-                    onSend: sendMessage,
-                    onSelectedPicture: handleSelectedPicture,
-                    onSelectedFile: handleSelectedFile,
-                    onCapturePhoto: {}
-                )
-                .simultaneousGesture(
-                    DragGesture()
-                        .onEnded({ value in
-                            Log.debug(value.translation, value.startLocation)
-                            if -value.translation.height > 200{
-                                Haptic.impact(.heavy)
-                                self.showMenu.toggle()
-                            }else if value.translation.height > 100 {
-                                self.hideKeyboard()
-                            }
-                            
-                        })
-                )
-                
-            }
-            .popView(isPresented: $showChangeGroupName){
-                showChangeGroupName = false
-            }content: {
-                if let chatgroup = chatManager.chatgroup{
-                    CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
-                        chatManager.updateGroupName(groupId: chatgroup.id, newName: text)
-                    }
-                }else {
+            }else{
+                VStack{
                     Spacer()
-                        .onAppear{
-                            self.showChangeGroupName = false
-                        }
-                }
-            }
-            .toolbar {
-                
-                ToolbarItem {
-                    Label("设置", systemImage: "gear")
-                        .foregroundStyle(.accent)
-                        .VButton(onRelease: { _ in
-                            withAnimation {
-                                manager.router.append(.assistantSetting(nil))
+                    
+                    VStack{
+                        Image("openchat")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 200)
+                            .minimumScaleFactor(0.5)
+                            .rotationEffect(fengche ? .degrees(360) :  .degrees(0))
+                            .onAppear{
+                                withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
+                                    fengche.toggle()
+                                }
+                                
                             }
-                            return true
-                        })
+                        
+                        Text("嗨! 我是智能助手")
+                            .font(.title)
+                            .fontWeight(.medium)
+                            .multilineTextAlignment(.center)
+                            .padding(.vertical, 10)
+                        
+                        Text("我可以帮你搜索，答疑，写作，请把你的任务交给我吧！")
+                            .multilineTextAlignment(.center)
+                            .padding(.vertical)
+                            .font(.body)
+                            .foregroundStyle(.gray)
+                        
+                    }
+                    
+                    Spacer()
                 }
-                
-                navigationToolbarContent
-                
-                principalToolbarContent
-                
+                .transition(.slide)
+                .onTapGesture {
+                    self.hideKeyboard()
+                    Haptic.impact()
+                }
             }
-            .sheet(isPresented: $showMenu) {
-                SideBarMenuView(showMenu: $showMenu)
-                    .onChange(of: showMenu) { value in
-                         DispatchQueue.main.async {
-                           self.hideKeyboard()
+            
+            
+            
+            
+            Spacer()
+            
+        }
+        .onChange(of: chatManager.chatgroup){ _ in
+            chatManager.loadData()
+        }
+        .safeAreaInset(edge: .bottom) {
+            // 底部输入框
+            ChatInputView(
+                text: $inputText,
+                rightBtn: {
+                    
+                    Section{
+                        Button(action: {
+                            manager.router.append(.assistantSetting(nil))
+                            Haptic.impact()
+                        }) {
+                            Label(String(localized: "设置"), systemImage: "gear.circle")
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(.accent, .primary)
+                                
                         }
                     }
-                    .customPresentationCornerRadius(20)
+                   
+                    
+                    Section{
+                        Button(action: {
+                            chatManager.cancellableRequest?.cancelRequest()
+                            chatManager.chatgroup = nil
+                            chatManager.chatMessages = []
+                            Haptic.impact()
+                        }) {
+                            Label(String(localized: "新对话"), systemImage: "plus.message")
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(.accent, .primary)
+                        }
+                    }
+                    
+                },
+                onSend: sendMessage
+            )
+            .padding(.bottom)
+            .simultaneousGesture(
+                DragGesture()
+                    .onEnded({ value in
+                        Log.debug(value.translation, value.startLocation)
+                        if -value.translation.height > 200{
+                            Haptic.impact(.heavy)
+                            self.showMenu.toggle()
+                        }else if value.translation.height > 100 {
+                            self.hideKeyboard()
+                        }
+                        
+                    })
+            )
+            
+        }
+        .popView(isPresented: $showChangeGroupName){
+            showChangeGroupName = false
+        }content: {
+            if let chatgroup = chatManager.chatgroup{
+                CustomAlertWithTextField( $showChangeGroupName, text: chatgroup.name) { text in
+                    chatManager.updateGroupName(groupId: chatgroup.id, newName: text)
+                }
+            }else {
+                Spacer()
+                    .onAppear{
+                        self.showChangeGroupName = false
+                    }
             }
-            .onAppear{
-                manager.inAssistant = true
+        }
+        .toolbar {
+            principalToolbarContent
+            if manager.router.count == 0{
+                backupMenu
             }
-            .environmentObject(chatManager)
-            .onDisappear{
-                manager.askMessageId = nil
-                manager.inAssistant = false
-            }
-
+        }
+        .sheet(isPresented: $showMenu) {
+            OpenChatHistoryView(show: $showMenu)
+                .onChange(of: showMenu) { value in
+                    DispatchQueue.main.async {
+                        self.hideKeyboard()
+                    }
+                }
+                .customPresentationCornerRadius(20)
+        }
+        .onAppear{
+            manager.inAssistant = true
+        }
+        .environmentObject(chatManager)
+        .onDisappear{
+            manager.askMessageId = nil
+            manager.inAssistant = false
+        }
+        
     }
     
     
     private var principalToolbarContent: some ToolbarContent {
-        
-        ToolbarItem(placement: .principal) {
-            if  manager.isLoading{
-                StreamingLoadingView()
-                    .transition(.scale)
-            }else{
-                
-                
-                if let chatGroup = chatManager.chatgroup{
-                    Menu {
-                        
-                        Button {
-                            Haptic.impact(.heavy)
-                            self.showMenu.toggle()
-                        }label: {
-                            Label("对话列表", systemImage: "chevron.up")
-                                .foregroundStyle(Color.primary)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                        }
-                        
-                        
-                        Button{
-                            chatManager.cancellableRequest?.cancelRequest()
-                            chatManager.chatgroup = nil
-                            
-                        }label: {
-                            
-                            Label("新对话", systemImage:  "rectangle.3.group.bubble")
-                                .foregroundStyle(Color.primary)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                        }
-                        
-                        Section{
-                            Button(role: .destructive){
-                                self.showChangeGroupName.toggle()
-                            }label: {
-                                Label("重命名", systemImage: "eraser.line.dashed")
-                            }
-                        }
-                        
-                        
-                    } label: {
-                        
-                        HStack{
-                            
-                            Text(chatGroup.name)
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                                .padding(.trailing, 3)
-                            
-                            Image(systemName: "chevron.down")
-                                .imageScale(.large)
-                                .foregroundStyle(.gray.opacity(0.5))
-                                .imageScale(.small)
-                            
-                            Spacer()
-                            
-                        }
-                        .frame(maxWidth: 150)
-                        .foregroundStyle(.foreground)
+            ToolbarItem(placement: .topBarTrailing) {
+                if  manager.isLoading{
+                    StreamingLoadingView()
                         .transition(.scale)
-                        
-                        
-                        
-                    }
+                }else{
                     
-                }else {
-                    HStack{
-                        
-                        
-                        Text( "新对话")
-                            .lineLimit(1)
-                            .truncationMode(.tail)
-                            .padding(.trailing, 3)
-                        
-                        Image(systemName: "chevron.down")
-                            .imageScale(.large)
-                            .foregroundStyle(.gray.opacity(0.5))
-                            .imageScale(.small)
-                        
-                    }
-                    .frame(maxWidth: 150)
-                    .foregroundStyle(.foreground)
-                    .transition(.scale)
-                    .onTapGesture {
-                        self.showMenu = true
-                        Haptic.impact(.heavy)
-                    }
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    private var navigationToolbarContent: some ToolbarContent{
-        ToolbarItem(placement: .navigation) {
-            Button{
-                manager.inAssistant = false
-                manager.router.removeAll(where: {$0 == .assistant})
-                Haptic.impact(.heavy)
-            }label: {
-                Image(systemName: "arrow.left")
-                
-            } .tint(.gray)
-        }
-        
-        
-    }
-    
-    private var hideToolbarContent: some ToolbarContent{
-        ToolbarItem {
-            HStack{
-                
-                Button{
-                    withAnimation {
-                        if !manager.isLoading{
-                            chatManager.currentRequest = ""
-                            chatManager.currentContent = ""
+                    
+                   
+                       Button {
+                            
+                           self.showMenu = true
+                           Haptic.impact()
+                           
+                        } label: {
+                            if let chatGroup = chatManager.chatgroup{
+                                HStack{
+                                    
+                                    Text(chatGroup.name.trimmingSpaceAndNewLines)
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        .padding(.trailing, 3)
+                                    
+                                    Image(systemName: "chevron.down")
+                                        .imageScale(.large)
+                                        .foregroundStyle(.gray.opacity(0.5))
+                                        .imageScale(.small)
+                                    
+                                    Spacer()
+                                    
+                                }
+                                .frame(maxWidth: 150)
+                                .foregroundStyle(.foreground)
+                                .transition(.scale)
+                            }else {
+                                HStack{
+                                    Text( "新对话")
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        .padding(.trailing, 3)
+                                    
+                                    Image(systemName: "chevron.down")
+                                        .imageScale(.large)
+                                        .foregroundStyle(.gray.opacity(0.5))
+                                        .imageScale(.small)
+                                    
+                                }
+                                .frame(maxWidth: 150)
+                                .foregroundStyle(.foreground)
+                                .transition(.scale)
+                            }
+                            
                         }
                         
-                    }
-                }label: {
-                    Text( "隐藏")
+                    
                     
                 }
                 
             }
-            
-        }
+       
+        
     }
     
+    private var backupMenu: some ToolbarContent{
+        ToolbarItem(placement: .topBarLeading) {
+            Button{
+                manager.router = []
+            }label: {
+                HStack(spacing: 10){
+
+                    Label("消息", systemImage: "chevron.left")
+                }
+            }
+        }
+    }
+
     // 发送消息
     private  func sendMessage(_ text: String) {
         guard assistantAccouns.first(where: {$0.current}) != nil else {
+            manager.router.append(.assistantSetting(nil))
             return
         }
         
         
         if !text.isEmpty {
-           
             
-             DispatchQueue.main.async{
+            
+            DispatchQueue.main.async {
                 chatManager.currentMessageId = UUID().uuidString
                 manager.isLoading = true
                 chatManager.currentRequest = text
@@ -316,17 +283,41 @@ struct AssistantPageView:View {
                 chatManager.currentContent = ""
             }
             
+            
+            let newGroup: ChatGroup? = {
+                if let group = openChatManager.shared.chatgroup{
+                    return group
+                }else{
+                    let id = manager.askMessageId ?? UUID().uuidString
+                    let name = String(text.trimmingSpaceAndNewLines.prefix(10))
+                    let group = ChatGroup(id: id, timestamp: .now, name: name, host: "")
+                    do{
+                        try  DatabaseManager.shared.dbPool.write { db in
+                            try group.insert(db)
+                            DispatchQueue.main.async{
+                                chatManager.chatgroup = group
+                            }
+                        }
+                        return group
+                    }catch{
+                        return nil
+                    }
+                }
+            }()
+            
+            guard let newGroup = newGroup else {
+                return
+            }
+            
             chatManager.chatsStream(text: text) { partialResult in
                 switch partialResult {
                 case .success(let result):
-                   
                     if let res = result.choices.first?.delta.content {
-                        
-                         DispatchQueue.main.async{
+                        DispatchQueue.main.async{
                             chatManager.currentContent = chatManager.currentContent + res
                         }
                         if AppManager.shared.inAssistant {
-                            Haptic.impact(.heavy, limitFrequency: true)
+                            Haptic.selection()
                         }
                     }
                     
@@ -338,11 +329,12 @@ struct AssistantPageView:View {
             } completion: {  error in
                 
                 Haptic.impact()
-          
+                
+                
                 if let error{
                     Toast.error(title: "发生错误\(error.localizedDescription)")
                     Log.error(error)
-                     DispatchQueue.main.async{
+                    DispatchQueue.main.async{
                         manager.isLoading = false
                         chatManager.currentRequest = ""
                         chatManager.currentContent = ""
@@ -350,12 +342,13 @@ struct AssistantPageView:View {
                     return
                 }
                 
-                let newGroup = openChatManager.shared.chatgroup ?? ChatGroup(id: AppManager.shared.askMessageId ?? UUID().uuidString,timestamp: .now,name: openChatManager.shared.currentRequest, host: "")
                 
-               
                 
                 Task.detached(priority: .userInitiated) {
+                    
+                    
                     do{
+                        try await Task.sleep(for: .seconds(0.3))
                         
                         let responseMessage:ChatMessage = {
                             var message = openChatManager.shared.currentChatMessage
@@ -363,51 +356,26 @@ struct AssistantPageView:View {
                             return message
                         }()
                         
+                        
+                        
                         try await DatabaseManager.shared.dbPool.write { db in
-                            
-                            if openChatManager.shared.chatgroup == nil {
-                                try newGroup.insert(db)
-                                 DispatchQueue.main.async{
-                                    openChatManager.shared.chatgroup = newGroup
-                                }
-                            }
                             
                             try responseMessage.insert(db)
                         }
+                        
                         DispatchQueue.main.async {
                             openChatManager.shared.currentRequest = ""
                             AppManager.shared.isLoading = false
                             self.hideKeyboard()
                         }
                         
-                       
+                        
                     }catch{
-                        debugPrint(error.localizedDescription)
+                        Log.error(error.localizedDescription)
                     }
                 }
-               
-                
-                
-                
-
             }
-            
         }
-    }
-    
-    
-    
-    
-    func handlePause() {
-        Log.debug("handlePause")
-    }
-    
-    func handleSelectedPicture() {
-        Log.debug("selectedPicture")
-    }
-    
-    func handleSelectedFile() {
-        Log.debug("selectedFile")
     }
     
 }
@@ -492,7 +460,7 @@ struct CustomAlertWithTextField: View {
                 }
             }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.8)
+        .frame(width: windowWidth * 0.8)
         .padding([.horizontal, .bottom], 20)
         .background {
             RoundedRectangle(cornerRadius: 25)
@@ -539,3 +507,12 @@ struct StreamingLoadingView: View {
     }
 }
 
+func runOnMain(_ block: @escaping () -> Void) {
+    if Thread.isMainThread {
+        block()
+    } else {
+        DispatchQueue.main.async {
+            block()
+        }
+    }
+}

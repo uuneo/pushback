@@ -28,6 +28,9 @@ struct ServersConfigView: View {
                             Clipboard.set(item.url + "/" + item.key)
                             Toast.copy(title: "复制 URL 和 KEY 成功")
                         }
+                        .padding(.horizontal, 15)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                         .swipeActions(edge: .leading, allowsFullSwipe: false) {
                             Button{
@@ -68,9 +71,6 @@ struct ServersConfigView: View {
                                 }
                         }
                         
-                        
-                        
-                        
                     }
                     .onMove(perform: { indices, newOffset in
                         servers.move(fromOffsets: indices, toOffset: newOffset)
@@ -80,7 +80,7 @@ struct ServersConfigView: View {
                         Label("使用中的服务器", systemImage: "cup.and.heat.waves")
                             .foregroundStyle(.primary, .green)
                         Spacer()
-                        Text("\(servers.count)")
+                        Text(verbatim: "\(servers.count)")
                     }
                    
                 }
@@ -97,6 +97,11 @@ struct ServersConfigView: View {
                                     _ = await manager.register(server: item)
                                 }
                             }
+                            .padding(.horizontal, 15)
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive){
                                     if let index = cloudServers.firstIndex(where: {$0.id == item.id}){
@@ -117,14 +122,14 @@ struct ServersConfigView: View {
                         Label("历史服务器", systemImage: "cup.and.heat.waves")
                             .foregroundStyle(.primary, .gray)
                         Spacer()
-                        Text("\(cloudServers.count - servers.count)")
+                        Text(verbatim: "\(cloudServers.count - servers.count)")
                     }
                 }
                 
             }
             .animation(.easeInOut, value: servers)
             .listRowSpacing(10)
-           
+            .listStyle(.grouped)
             .refreshable {
                 // MARK: - 刷新策略
                 manager.registers()

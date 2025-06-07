@@ -123,7 +123,7 @@ extension WaveformScrubber {
                     self.info(audioInfo)
                 }
             } catch {
-                print(error.localizedDescription)
+                Log.error(error.localizedDescription)
             }
         }
     }

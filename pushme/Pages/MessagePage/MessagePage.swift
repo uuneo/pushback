@@ -12,82 +12,50 @@ struct MessagePage: View {
     @EnvironmentObject private var manager:AppManager
     @Default(.showGroup) private var showGroup
     @Default(.servers) private var servers
-    @State private var showAction = false
     @StateObject private var messageManager = MessagesManager.shared
-    
+    @State private var showDeleteAction:Bool = false
+    @State private var selectAction:MessageAction? = nil
     var body: some View {
         
-        Group{
+        ZStack{
             if manager.searchText.isEmpty{
                 SingleMessagesView()
-                    .if(showGroup) {
-                        GroupMessagesView()
-                    }
+                    .if(showGroup) { GroupMessagesView() }
+                    .transition(.opacity)
             }else{
                 SearchMessageView(searchText: $manager.searchText)
+                    .transition(.move(edge: .trailing))
             }
-            
-            
         }
         .navigationTitle( "消息")
-        .environmentObject(messageManager)
+        .animation(.easeInOut, value: showGroup)
         .searchable(text: $manager.searchText)
-        .listRowSpacing(10)
+        .environmentObject(messageManager)
         .toolbar{
             
-            ToolbarItem( placement: .topBarLeading) {
-                Button{
-                    self.showGroup.toggle()
-                    manager.selectGroup = nil
-                    manager.selectId = nil
-                }label:{
+            if messageManager.groupMessages.count > 0 {
+                ToolbarItem(placement: .topBarTrailing) {
                     
-                    Image(systemName: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .animation(.easeInOut, value: showGroup)
-                        .symbolEffect(delay: 0)
-                }
-            }
-            if servers.count > 0{
-                ToolbarItem{
-                    Image(systemName: "questionmark.circle")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .symbolEffect(delay: 0)
-                        .VButton(onRelease: { value in
-                            manager.router = [.example]
-                            return true
-                            
-                        })
-                }
-            }else{
-                ToolbarItem{
-                    Image(systemName: "key.viewfinder")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .symbolEffect(delay: 0)
-                        .VButton(onRelease: { value in
-                            manager.registerForRemoteNotifications()
-                            return true
-                            
-                        })
-                }
-            }
-            
-            
-            ToolbarItem {
-                
-                if ISPAD{
                     Menu {
                         ForEach( MessageAction.allCases, id: \.self){ item in
-                            Button(role: item == .cancel ? .destructive : .cancel){
-                                deleteMessage(item)
-                            }label:{
-                                Label(item.localized, systemImage:  "xmark.bin.circle" )
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.green, Color.primary)
+                            if item == .cancel{
+                                Section{
+                                    Button(role: .destructive){}label:{
+                                        Label(item.localized, systemImage: "xmark.seal")
+                                            .symbolRenderingMode(.palette)
+                                            .customForegroundStyle(.accent, .primary)
+                                    }
+                                }
+                            }else{
+                                Button{
+                                    self.selectAction = item
+                                }label:{
+                                    Label(item.localized, systemImage:  "trash" )
+                                        .symbolRenderingMode(.palette)
+                                        .customForegroundStyle(.accent, .primary)
+                                }
                             }
+                           
                         }
                     } label: {
                         Image(systemName: "trash.circle")
@@ -96,51 +64,81 @@ struct MessagePage: View {
                     }
                     
                     
-                }else{
+                }
+            }
+            
+            ToolbarItem( placement: .topBarLeading){
+                Menu{
+                    Section{
+                        Button{
+                            manager.router.append(.example)
+                            Haptic.impact()
+                        }label: {
+                            Label("使用示例", systemImage: "questionmark.bubble")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(Color.accent, Color.primary)
+                        }
+                    }
                     
-                    Image(systemName: "trash.circle")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .symbolEffect(delay: 0)
-                        .padding(.horizontal)
-                        .VButton(onRelease: { value in
-                            self.showAction = true
-                            return true
+                    Section{
+                        
+                        Button{
+                            self.showGroup.toggle()
+                            manager.selectGroup = nil
+                            manager.selectId = nil
+                            Haptic.impact()
+                        }label:{
                             
-                        })
+                            Label(showGroup ? "列表模式" : "分组模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.accent, .primary)
+                                .animation(.easeInOut, value: showGroup)
+                                .symbolEffect(delay: 0)
+                        }
+                    }
+                    Section{
+                        Button{
+                            manager.router = [.assistant]
+                            Haptic.impact()
+                        }label: {
+                            if #available(iOS 18.0, *){
+                                Label("智能助手", systemImage: "apple.intelligence")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.accent, .primary)
+                            }else{
+                                Label("智能助手", systemImage: "atom")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.accent, .primary)
+                            }
+                           
+                        }
+                    }
+
+                    
+                }label: {
+                    Label("更多", systemImage: "shippingbox.circle")
+                }
+            }
+            
+
+        }
+        .alert("确认删除", isPresented: Binding(get: { selectAction != nil }, set: { _ in selectAction = nil })) {
+            Button("取消", role: .cancel) { }
+            Button("删除", role: .destructive) {
+                if let mode = selectAction {
+                    Task.detached(priority: .userInitiated) {
+                        await DatabaseManager.shared.delete(date: mode.date)
+                    }
                 }
                 
             }
-            
-            
-        }
-        .actionSheet(isPresented: $showAction) {
-            
-            ActionSheet(title: Text( "删除以下时间的信息!"),
-                        buttons: MessageAction.allCases.map({ item in
-                
-                item == .cancel ?
-                Alert.Button.cancel() :
-                Alert.Button.default(Text(item.localized), action: {
-                    deleteMessage(item)
-                })
-                
-            }))
-        }
-        
-        
-    }
-    
-    
-    
-    
-    func deleteMessage(_ mode: MessageAction){
-        
-        if mode != .cancel{
-            Task.detached(priority: .background) {
-                await DatabaseManager.shared.delete(date: mode.date)
+        } message: {
+            if let selectAction{
+                Text("此操作将删除 \( selectAction.localized ) 数据，且无法恢复。确定要继续吗？")
             }
+            
         }
+        
     }
     
     

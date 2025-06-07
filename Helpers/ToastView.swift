@@ -13,7 +13,6 @@ class Toast: ObservableObject {
     @Published fileprivate var toasts: [ToastItem] = []
     
     
-    
     func present(title: String, symbol: String?, tint: Color = .primary,isUserInteractionEnabled:Bool = true, timing: ToastTime = .medium) {
         DispatchQueue.main.async{
             withAnimation(.snappy) {
@@ -95,8 +94,8 @@ enum ToastSymbol: String{
         switch self {
         case .success: .green
         case .info: .orange
-        case .question: .pink
-        case .error: .gray
+        case .question: .yellow
+        case .error: .red
         case .copy: .green
         }
     }
@@ -105,24 +104,28 @@ enum ToastSymbol: String{
 
 struct ToastGroup: View {
     @ObservedObject var model = Toast.shared
+
     var body: some View {
         GeometryReader {
             let size = $0.size
             let safeArea = $0.safeAreaInsets
             
             ZStack {
-                ForEach(model.toasts) { toast in
-                    ToastView(size: size, item: toast)
-                        .scaleEffect(scale(toast))
-                        .offset(y: offsetY(toast))
-                        .zIndex(Double(model.toasts.firstIndex(where: { $0.id == toast.id }) ?? 0))
+               
+                ZStack{
+                    ForEach(model.toasts) { toast in
+                        ToastView(size: size, item: toast)
+                            .scaleEffect(scale(toast))
+                            .offset(y: offsetY(toast))
+                            .zIndex(Double(model.toasts.firstIndex(where: { $0.id == toast.id }) ?? 0))
+                    }
                 }
+                
+                
             }
-            
-            
-            
             .padding(.bottom, safeArea.top == .zero ? 15 : 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+
         }
     }
     
@@ -175,6 +178,7 @@ fileprivate struct ToastView: View {
                     if abs(endX) > 10 {
                         /// Removing Toast
                         removeToast()
+                        Haptic.impact(.light)
                     }
                 })
         )

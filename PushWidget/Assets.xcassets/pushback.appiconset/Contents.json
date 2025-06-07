@@ -1,31 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "pushback.png",
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "black.png",
-      "idiom" : "universal",
-      "platform" : "ios",
-      "size" : "1024x1024"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "tinted"
-        }
-      ],
-      "filename" : "tint.png",
+      "filename" : "logo_画板 1 副本.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

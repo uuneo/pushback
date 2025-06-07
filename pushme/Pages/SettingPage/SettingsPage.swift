@@ -20,7 +20,8 @@ struct SettingsPage: View {
     @Default(.sound) var sound
 	@Default(.servers) var servers
     @Default(.assistantAccouns) var assistantAccouns
-
+    
+    
 	@State private var webShow:Bool = false
 	@State private var showLoading:Bool = false
 	@State private var showPaywall:Bool = false
@@ -39,7 +40,7 @@ struct SettingsPage: View {
 			return .orange
 		}
 	}
-
+    
 	// 定义一个 NumberFormatter
 	private var numberFormatter: NumberFormatter {
 		let formatter = NumberFormatter()
@@ -63,266 +64,272 @@ struct SettingsPage: View {
 
 	var body: some View {
         List{
-
-                if ISPAD{
-                    ListButton {
-                        Label( "消息", systemImage: "app.badge")
-                    } action: {
-                        manager.router = []
-                        return true
-                    }
+            
+            Section{
+                HStack{
+                    Spacer()
+                    Image(setting_active_app_icon.logo)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .VButton (onRelease:{ _ in
+                            manager.sheetPage = .appIcon
+                            return true
+                        })
+                        .padding(.top, 50)
+                    Spacer()
                 }
-               
+                   
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+            .listRowInsets(EdgeInsets())
+            
+            
+            
+            
+            if ISPAD{
+                ListButton {
+                    Label( "消息", systemImage: "ellipsis.message")
+                } action: {
+                    manager.router = []
+                    return true
+                }
+            }
+            
+           
+            
+            Section(header: Text("App配置") .textCase(.none)) {
                 
-                Section(header:Text( "基础配置") .textCase(.none)) {
+                ListButton {
+                    Label {
+                        Text("服务器")
+                            .foregroundStyle(.textBlack)
+                    } icon: {
+                        Image(systemName: "externaldrive.badge.wifi")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(serverTypeColor, Color.primary)
+                            .if(serverTypeColor == .red){view in
+                                view
+                                    .symbolEffect(.variableColor, delay: 0.5)
+                            }
+                    }
+                } action: {
+                    manager.router = [.server]
+                    return true
                     
-                    ListButton {
-                        Label {
-                            Text("服务器")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "externaldrive.badge.wifi")
+                }
+                
+                ListButton {
+                    Label {
+                        Text( "云图标")
+                            .foregroundStyle(.textBlack)
+                    } icon: {
+                        ZStack{
+                            Image(systemName: "icloud")
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(serverTypeColor,Color.primary)
-                                .if(serverTypeColor == .red){view in
-                                    view
-                                        .symbolEffect(.variableColor, delay: 0.5)
-                                }
+                                .customForegroundStyle(Color.primary)
+                            Image(systemName: "photo")
+                                .scaleEffect(0.4)
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(.accent)
+                                .offset(y: 2)
+                        }
+                    }
+                } action: {
+                    manager.sheetPage = .cloudIcon
+                    return true
+                }
+                
+                ListButton {
+                    Label {
+                        Text( "声音与反馈")
+                    } icon: {
+                        Image(systemName: "sensor.tag.radiowaves.forward")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(.accent, Color.primary)
+                            .symbolEffect(.bounce,delay: 3)
+                    }
+                } trailing: {
+                    Text(sound)
+                        .foregroundStyle(.gray)
+                } action: {
+                    manager.router.append(.sound)
+                    return true
+                    
+                }
+                
+                ListButton {
+                    Label {
+                        Text( "算法配置")
+                    } icon: {
+                        Image(systemName: "key.viewfinder")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(.green, Color.primary)
+                            .symbolEffect(.pulse, delay: 5)
+                            .scaleEffect(0.9)
+                    }
+                } action: {
+                    manager.router.append(.crypto)
+                    return true
+                }
+                
+                
+                if #available(iOS 18.0, *) {
+                    
+                    ListButton  {
+                        Label {
+                            Text( "更多操作")
+                        } icon: {
+                            Image(systemName: "dial.high")
+                            
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(.accent, Color.primary)
+                                .symbolEffect(.rotate, delay: 2)
                         }
                     } action: {
-                        manager.router = [.server]
+                        manager.router = [.more]
                         return true
                         
                     }
-
-                    
-                    ListButton {
-                        Label {
-                            Text("智能助手")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "message.and.waveform")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(assistantAccouns.count > 0 ? .green : .red ,Color.primary)
-                                .if(assistantAccouns.count == 0){ view in
-                                    view.symbolEffect(.variableColor)
-                                }
-                                
-                        }
-                    }action: {
-                        manager.router = [.assistant]
-                        return true
-                    }
                 }
                 
+            }
             
 
-                Section(header: Text(  "App配置") .textCase(.none)) {
-                    ListButton {
-                        Label {
-                            Text("程序图标")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(setting_active_app_icon.logo)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .scaleEffect(0.9)
-                        }
-                    } action: {
-                        manager.sheetPage = .appIcon
-                        return true
-                    }
-                    
-                    ListButton {
-                        Label {
-                            Text( "云图标")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            ZStack{
-                                Image(systemName: "icloud")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(Color.primary)
-                                Image(systemName: "photo")
-                                    .scaleEffect(0.4)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.green)
-                                    .offset(y: 2)
-                            } .scaleEffect(0.9)
-                        }
-                    } action: {
-                        manager.sheetPage = .cloudIcon
-                        return true
-                    }
-                    
-                    ListButton {
-                        Label {
-                            Text( "铃声列表")
-                        } icon: {
-                            Image(systemName: "headphones.circle")
-                                .scaleEffect(0.9)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.bounce,delay: 3)
-                        }
-                    } trailing: {
-                        Text(sound)
-                            .scaleEffect(0.9)
-                            .foregroundStyle(.gray)
-                    } action: {
-                        manager.router.append(.sound)
-                        return true
-                       
-                    }
-                    
-                    ListButton {
-                        Label {
-                            Text( "算法配置")
-                        } icon: {
-                            Image(systemName: "bolt.shield")
-                                .scaleEffect(0.9)
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, Color.primary)
-                                .symbolEffect(.pulse, delay: 5)
-                        }
-                    } action: {
-                        manager.router.append(.crypto(nil))
-                        return true
-                    }
-                    
-                    
-                    if #available(iOS 18.0, *) {
+            Section {
+                
+                
+                
+                
+                ListButton {
+                    Label {
+                        Text( "使用帮助")
+                            .foregroundStyle(.textBlack)
+                    } icon: {
+                        Image(systemName: "person.fill.questionmark")
                         
-                        ListButton  {
-                            Label {
-                                Text( "更多操作")
-                            } icon: {
-                                Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-                                    .scaleEffect(0.9)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.tint, Color.primary)
-                                    .symbolEffect(.rotate, delay: 2)
-                            }
-                        } action: {
-                            manager.router = [.more]
-                            return true
-                            
-                        }
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(.accent, Color.primary)
                     }
-
+                } action: {
+                    manager.fullPage = .web(BaseConfig.docServer + String(localized: "/#/tutorial"))
+                    return true
                 }
-                Section {
-                    
-                   
+                
+                ListButton {
+                    Label {
+                        Text( "系统设置")
+                            .foregroundStyle(.textBlack)
+                    } icon: {
+                        Image(systemName: "gear.circle")
+                        
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(.accent, Color.primary)
+                            .symbolEffect(.rotate)
+                    }
+                } action:{
+                    AppManager.openSetting()
+                    return true
+                }
+                
+                if #available(iOS 18.0, *) {
                     ListButton {
                         Label {
-                            Text( "使用帮助")
+                            
+                            Text("开发者支持计划")
                                 .foregroundStyle(.textBlack)
                         } icon: {
-                            Image(systemName: "person.fill.questionmark")
-                                .scaleEffect(0.9)
+                            Image(systemName: "creditcard.circle")
+                            
                                 .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, Color.primary)
+                                .customForegroundStyle(.accent, Color.primary)
+                                .symbolEffect(delay: 0)
                         }
                     } action: {
-                        manager.fullPage = .web(BaseConfig.docServer + String(localized: "/#/tutorial"))
+                        manager.sheetPage = .paywall
                         return true
                     }
+                }else{
                     
-                    if #available(iOS 18.0, *) {
-                        ListButton {
-                            Label {
-                                
-                                Text("开发者支持计划")
-                                    .foregroundStyle(.textBlack)
-                            } icon: {
-                                Image(systemName: "creditcard.circle")
-                                    .scaleEffect(0.9)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.tint, Color.primary)
-                                    .symbolEffect(delay: 0)
-                            }
-                        } action: {
-                            manager.sheetPage = .paywall
-                            return true
+                    ListButton  {
+                        Label {
+                            Text( "更多操作")
+                        } icon: {
+                            Image(systemName: "dial.high")
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(.accent, Color.primary)
+                                .symbolEffect(.rotate, delay: 2)
                         }
-                    }else{
-  
-                        ListButton  {
-                            Label {
-                                Text( "更多操作")
-                            } icon: {
-                                Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-                                    .scaleEffect(0.9)
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.tint, Color.primary)
-                                    .symbolEffect(.rotate, delay: 2)
-                            }
-                        } action: {
-                            manager.router = [.more]
-                            return true
-                            
-                        }
-                    }
-
-                }header:{
-                    Text( "其他" )
-                        .textCase(.none)
-                }footer:{
-                    HStack(spacing: 7){
-                        Spacer(minLength: 10)
-
-
-                        Text("\(buildVersion)")
-                            .onTapGesture {
-                                buildDetail.toggle()
-                            }
-                        Circle()
-                            .frame(width: 3,height: 3)
-                        Button{
-                            manager.fullPage = .web(BaseConfig.privacyURL)
-                        }label: {
-                            Text("隐私政策")
-                             
-                                
-                        }
-                        Circle()
-                            .frame(width: 3,height: 3)
-                        Button{
-                            manager.fullPage = .web(BaseConfig.userAgreement)
-                        }label: {
-                            Text("用户协议")
-                               
-                        }
-                    
-                        Spacer(minLength: 10)
-                    }
-                    .font(.caption)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                }
-
-
-			}
-			.navigationTitle("设置")
-			.loading(showLoading)
-			.toolbar {
-                ToolbarItem {
-                    Button {
-                        manager.fullPage = .scan
-                    } label: {
-                        Image(systemName: "qrcode.viewfinder")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(.tint, Color.primary)
-                            .symbolEffect(delay: 0)
+                    } action: {
+                        manager.router = [.more]
+                        return true
+                        
                     }
                 }
-			}
-
+                
+            }header:{
+                Text( "其他" )
+                    .textCase(.none)
+            }footer:{
+                HStack(spacing: 7){
+                    Spacer(minLength: 10)
+                    
+                    
+                    Text(verbatim: "\(buildVersion)")
+                        .onTapGesture {
+                            buildDetail.toggle()
+                            Haptic.impact()
+                        }
+                    Circle()
+                        .frame(width: 3,height: 3)
+                    Button{
+                        manager.fullPage = .web(BaseConfig.privacyURL)
+                        Haptic.impact()
+                    }label: {
+                        Text("隐私政策")
+                        
+                        
+                    }
+                    Circle()
+                        .frame(width: 3,height: 3)
+                    Button{
+                        manager.fullPage = .web(BaseConfig.userAgreement)
+                        Haptic.impact()
+                    }label: {
+                        Text("用户协议")
+                        
+                    }
+                    
+                    Spacer(minLength: 10)
+                }
+                .font(.caption)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+            }
+            
+            
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    manager.fullPage = .scan
+                    Haptic.impact()
+                } label: {
+                    Image(systemName: "qrcode.viewfinder")
+                        .symbolRenderingMode(.palette)
+                        .customForegroundStyle(.accent, Color.primary)
+                        .symbolEffect(delay: 5)
+                        .padding(.trailing, 10)
+                }
+            }
+        }
+        .ignoresSafeArea( edges: [.top])
+        .toolbarBackground(.hidden, for: .navigationBar)
 	}
 
-       
+   
 
 }
 

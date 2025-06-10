@@ -296,7 +296,6 @@ extension AppManager{
                     if resourceValues.isRegularFile == true {
                         if let fileSize = resourceValues.fileSize {
                             totalSize += UInt64(fileSize)
-                            debugPrint(fileURL.lastPathComponent, UInt64(fileSize))
                         }
                     }
                 } catch {

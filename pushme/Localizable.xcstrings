@@ -897,9 +897,6 @@
         }
       }
     },
-    "Date" : {
-
-    },
     "Format" : {
       "localizations" : {
         "en" : {
@@ -4988,6 +4985,34 @@
         }
       }
     },
+    "声音与反馈" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound & Feedback"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サウンドとフィードバック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소리 및 피드백"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "声音与反馈"
+          }
+        }
+      }
+    },
     "处理中" : {
       "localizations" : {
         "en" : {
@@ -5829,7 +5854,32 @@
       }
     },
     "开启语音" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable voice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声を有効にする"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음성 활성화"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启语音"
+          }
+        }
+      }
     },
     "开始使用" : {
       "localizations" : {

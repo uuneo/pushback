@@ -126,9 +126,9 @@ struct SettingsPage: View {
                             Image(setting_active_app_icon.logo)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 25)
+                                .frame(width: 35)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                                .scaleEffect(0.9)
+                              
                         }
                     } action: {
                         manager.sheetPage = .appIcon
@@ -149,7 +149,7 @@ struct SettingsPage: View {
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.green)
                                     .offset(y: 2)
-                            } .scaleEffect(0.9)
+                            }
                         }
                     } action: {
                         manager.sheetPage = .cloudIcon
@@ -158,17 +158,15 @@ struct SettingsPage: View {
                     
                     ListButton {
                         Label {
-                            Text( "铃声列表")
+                            Text( "声音与反馈")
                         } icon: {
-                            Image(systemName: "headphones.circle")
-                                .scaleEffect(0.9)
+                            Image(systemName: "speaker.wave.2.circle")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
                                 .symbolEffect(.bounce,delay: 3)
                         }
                     } trailing: {
                         Text(sound)
-                            .scaleEffect(0.9)
                             .foregroundStyle(.gray)
                     } action: {
                         manager.router.append(.sound)
@@ -181,7 +179,7 @@ struct SettingsPage: View {
                             Text( "算法配置")
                         } icon: {
                             Image(systemName: "bolt.shield")
-                                .scaleEffect(0.9)
+                 
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.green, Color.primary)
                                 .symbolEffect(.pulse, delay: 5)
@@ -199,7 +197,7 @@ struct SettingsPage: View {
                                 Text( "更多操作")
                             } icon: {
                                 Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-                                    .scaleEffect(0.9)
+                          
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.tint, Color.primary)
                                     .symbolEffect(.rotate, delay: 2)
@@ -221,7 +219,7 @@ struct SettingsPage: View {
                                 .foregroundStyle(.textBlack)
                         } icon: {
                             Image(systemName: "person.fill.questionmark")
-                                .scaleEffect(0.9)
+                      
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.green, Color.primary)
                         }
@@ -238,7 +236,7 @@ struct SettingsPage: View {
                                     .foregroundStyle(.textBlack)
                             } icon: {
                                 Image(systemName: "creditcard.circle")
-                                    .scaleEffect(0.9)
+                           
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.tint, Color.primary)
                                     .symbolEffect(delay: 0)
@@ -254,7 +252,7 @@ struct SettingsPage: View {
                                 Text( "更多操作")
                             } icon: {
                                 Image(systemName: "gearshape.arrow.triangle.2.circlepath")
-                                    .scaleEffect(0.9)
+                                 
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.tint, Color.primary)
                                     .symbolEffect(.rotate, delay: 2)

@@ -3,19 +3,14 @@
 //  Author:        Copyright (c) 2024 QingHe. All rights reserved.
 //  Blog  :        https://uuneo.com
 //  E-mail:        to@uuneo.com
-
 //  Description:
-
 //  History:
 //  Created by uuneo on 2024/12/11.
-
-
 import SwiftUI
 import Defaults
 import UniformTypeIdentifiers
 import SwiftyJSON
 import Photos
-
 struct MoreOperationsView: View {
     @EnvironmentObject private var manager:AppManager
     @StateObject private var messageManager = MessagesManager.shared
@@ -51,11 +46,8 @@ struct MoreOperationsView: View {
     
     
     @State private var cancelTask: Task<Void, Never>?
-
 	
-
 	var body: some View {
-
 			List{
                 
                 Section(header:Text( "设备推送令牌")) {
@@ -66,7 +58,7 @@ struct MoreOperationsView: View {
                                 .foregroundStyle(.textBlack)
                         } icon: {
                             Image(systemName: "key")
-                                .scaleEffect(0.9)
+                                
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(Color.primary, .tint)
                         }
@@ -77,7 +69,7 @@ struct MoreOperationsView: View {
                         Image(systemName: "doc.on.doc")
                             .symbolRenderingMode(.palette)
                             .foregroundStyle( .tint, Color.primary)
-                            .scaleEffect(0.9)
+                            
                     }, showRight: false) {
                         if deviceToken != ""{
                             Clipboard.set(deviceToken)
@@ -97,7 +89,7 @@ struct MoreOperationsView: View {
                                 .foregroundStyle(.textBlack)
                         } icon: {
                             Image(systemName: "person.crop.square.filled.and.at.rectangle")
-                                .scaleEffect(0.9)
+                                
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(Color.primary, .tint)
                         }
@@ -108,7 +100,7 @@ struct MoreOperationsView: View {
                         Image(systemName: "doc.on.doc")
                             .symbolRenderingMode(.palette)
                             .foregroundStyle( .tint, Color.primary)
-                            .scaleEffect(0.9)
+                            
                     }, showRight: false) {
                         Clipboard.set(userID)
                         Toast.copy(title:  "复制成功")
@@ -119,7 +111,6 @@ struct MoreOperationsView: View {
                 }
                 
                 Section {
-
                     Button{
                         guard !showexportLoading else { return }
                         self.showexportLoading = true
@@ -143,7 +134,6 @@ struct MoreOperationsView: View {
                         
                     }label: {
                         HStack{
-
                             Label("导出", systemImage: "arrow.up.circle")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
@@ -175,19 +165,15 @@ struct MoreOperationsView: View {
                         self.showexport = false
                         
                     }
-
                     Button{
                         self.showImport.toggle()
                     }label: {
                         HStack{
-
                             Label( "导入", systemImage: "arrow.down.circle")
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
                                 .symbolEffect(.wiggle, delay: 6)
-
                             Spacer()
-
                         }
                     }
                     .fileImporter(isPresented: $showImport, allowedContentTypes: [.trnExportType], allowsMultipleSelection: false, onCompletion: { result in
@@ -199,9 +185,6 @@ struct MoreOperationsView: View {
                             Toast.shared.present(title: err.localizedDescription, symbol: .error)
                         }
                     })
-
-
-
                 } header: {
                     Text( "导出消息列表")
                         .textCase(.none)
@@ -209,7 +192,6 @@ struct MoreOperationsView: View {
                     Text("只能导入.exv结尾的JSON数据")
                 }
                 
-
                 
                 Section(header: Text("默认浏览器设置")){
                     HStack{
@@ -221,27 +203,11 @@ struct MoreOperationsView: View {
                         }label:{
                             Text("默认浏览器")
                         }.pickerStyle(SegmentedPickerStyle())
-
                     }
                     
                 }
                 
                 Section{
-                    ListButton {
-                        Label {
-                            Text("语音配置")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "waveform.circle")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
-                                
-                        }
-                    } action:{
-                        manager.router.append(.tts)
-                        return true
-                    }
-                   
                     
                     ListButton {
                         Label {
@@ -264,11 +230,10 @@ struct MoreOperationsView: View {
                                 .foregroundStyle(.textBlack)
                         } icon: {
                             Image(systemName: "gear.circle")
-                                .scaleEffect(0.9)
+                                
                                 .symbolRenderingMode(.palette)
                                 .foregroundStyle(.tint, Color.primary)
                                 .symbolEffect(.rotate)
-
                         }
                     } action:{
                         AppManager.openSetting()
@@ -307,8 +272,6 @@ struct MoreOperationsView: View {
                             .symbolEffect(.replace)
                         
                     }
-
-
 					Picker(selection: $messageExpiration) {
 						ForEach(ExpirationTime.allCases, id: \.self){ item in
 							Text(item.title)
@@ -323,24 +286,16 @@ struct MoreOperationsView: View {
 								.symbolRenderingMode(.palette)
                                 .foregroundStyle((messageExpiration == .no ? .red : (messageExpiration == .forever  ? .green : .yellow)), Color.primary)
                                 .symbolEffect(.pulse, delay: 1)
-
 						}
 					}
                 
-
-
-
 				}header:{
                     Text("信息页面")
                         .textCase(.none)
 				}footer:{
-
 					Text( "当推送请求URL没有指定 isArchive 参数时，将按照此设置来决定是否保存通知消息")
 						.foregroundStyle(.gray)
-
 				}
-
-
 				Section {
                     
                     Toggle(isOn: $autoSaveToAlbum) {
@@ -376,8 +331,6 @@ struct MoreOperationsView: View {
                             }
                         
                     }
-
-
 					Picker(selection: $imageSaveDays) {
 						ForEach(ExpirationTime.allCases, id: \.self){ item in
 							Text(item.title)
@@ -392,22 +345,17 @@ struct MoreOperationsView: View {
 								.symbolRenderingMode(.palette)
                                 .symbolEffect(.pulse, delay: 1)
                                 .foregroundStyle((imageSaveDays == .no ? .red : (imageSaveDays == .forever  ? .green : .yellow)), Color.primary)
-
 						}
 					}
-
-
 				}header :{
 					Text(  "图片存档")
 						.foregroundStyle(.gray)
                         .textCase(.none)
-
 				}footer:{
 					Text("图片默认保存时间，本地化图片不受影响")
 				}
                 
                 Section(header: Text("缓存大小限制, 建议多清几次")){
-
                     HStack{
                         Label {
                             Text("存储使用")
@@ -426,8 +374,6 @@ struct MoreOperationsView: View {
                             }
                     }
                     
-
-
                     HStack{
                         Button{
                             guard !showDeleteAlert else { return }
@@ -449,7 +395,6 @@ struct MoreOperationsView: View {
                                 Spacer()
                             }
                             
-
                         }.buttonStyle(BorderedProminentButtonStyle())
                             
                     }
@@ -468,11 +413,9 @@ struct MoreOperationsView: View {
                                 Spacer()
                             }
                             
-
                         }
                         .tint(.red)
                         .buttonStyle(BorderedProminentButtonStyle())
-
                     }
                 }
                 
@@ -556,7 +499,6 @@ struct MoreOperationsView: View {
         
     }
    
-
     
     fileprivate func maskString(_ str: String, isID:Bool = false) -> String {
         guard str.count > 9 else { return String(repeating: "*", count: 3) +  str }
@@ -594,11 +536,9 @@ struct MoreOperationsView: View {
         }
     }
     
-
    
 	
 }
-
 extension UInt64{
     func fileSize()->String{
         if self >= 1_073_741_824 { // 1GB
@@ -612,9 +552,6 @@ extension UInt64{
         }
     }
 }
-
 #Preview {
     MoreOperationsView()
 }
-
-

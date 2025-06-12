@@ -126,7 +126,7 @@ struct SettingsPage: View {
                             Image(setting_active_app_icon.logo)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 35)
+                                .frame(width: 30)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                               
                         }
@@ -275,11 +275,13 @@ struct SettingsPage: View {
                         Text("\(buildVersion)")
                             .onTapGesture {
                                 buildDetail.toggle()
+                                Haptic.impact()
                             }
                         Circle()
                             .frame(width: 3,height: 3)
                         Button{
                             manager.fullPage = .web(BaseConfig.privacyURL)
+                            Haptic.impact()
                         }label: {
                             Text("隐私政策")
                              
@@ -289,6 +291,7 @@ struct SettingsPage: View {
                             .frame(width: 3,height: 3)
                         Button{
                             manager.fullPage = .web(BaseConfig.userAgreement)
+                            Haptic.impact()
                         }label: {
                             Text("用户协议")
                                
@@ -309,6 +312,7 @@ struct SettingsPage: View {
                 ToolbarItem {
                     Button {
                         manager.fullPage = .scan
+                        Haptic.impact()
                     } label: {
                         Image(systemName: "qrcode.viewfinder")
                             .symbolRenderingMode(.palette)

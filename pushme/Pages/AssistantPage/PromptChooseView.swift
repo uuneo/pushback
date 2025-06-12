@@ -188,6 +188,7 @@ private struct PromptSection: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         onPromptTap(prompt)
+                       
                     }
                     .modifier(PromptSwipeActions(
                         prompt: prompt,

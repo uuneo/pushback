@@ -299,6 +299,7 @@ struct ExampleView: View {
                         Image(systemName: "dice")
                             .onTapGesture {
                                 params.id = UUID().uuidString
+                                Haptic.impact()
                             }
                     }
                 }

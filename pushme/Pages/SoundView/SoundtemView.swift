@@ -90,6 +90,7 @@ struct SoundItemView: View {
                     .onTapGesture {
                         Clipboard.set(self.name)
                         Toast.copy(title: "复制成功")
+                        Haptic.impact()
                     }
             }else{
                 Text("长度不能超过30秒")

@@ -44,6 +44,7 @@ struct AssistantPageView:View {
                     ChatMessageListView()
                     .onTapGesture {
                         self.hideKeyboard()
+                        Haptic.impact()
                     }
                     
                 }else{
@@ -75,6 +76,7 @@ struct AssistantPageView:View {
                     .transition(.slide)
                     .onTapGesture {
                         self.hideKeyboard()
+                        Haptic.impact()
                     }
                 }
                 
@@ -326,7 +328,7 @@ struct AssistantPageView:View {
                             chatManager.currentContent = chatManager.currentContent + res
                         }
                         if AppManager.shared.inAssistant {
-                            Haptic.impact(.heavy, limitFrequency: true)
+                            Haptic.selection()
                         }
                     }
                     

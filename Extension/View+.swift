@@ -140,6 +140,7 @@ struct TextFieldModifier: ViewModifier {
                         .foregroundStyle(.tint,.secondary)
                         .onTapGesture {
                             complete?()
+                            Haptic.impact()
                         }
 					Spacer()
 				}

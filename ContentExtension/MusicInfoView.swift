@@ -205,7 +205,7 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     @objc private func handleSliderChange() {
         guard let player = audioPlayer else { return }
         playPauseButton.setTitle(formatTime(TimeInterval(progressSlider.value) * player.duration), for: .normal)
-        Haptic.impact(.heavy, limitFrequency: true)
+        Haptic.selection(limitFrequency: false)
     }
 
     private func formatTime(_ time: TimeInterval) -> String {

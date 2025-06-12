@@ -59,20 +59,20 @@ struct ScanView: View {
             }
 
 
-			VStack{
-				HStack{
-
-					Spacer()
-					Image(systemName: "xmark")
+            VStack{
+                HStack{
+                    
+                    Spacer()
+                    Image(systemName: "xmark")
                         .font(.body.bold())
-						.foregroundColor(.secondary)
-						.padding(8)
-						.background(.ultraThinMaterial, in: Circle())
-                    // TODO: - 待修改
-//						.backgroundStyle(cornerRadius: 18)
-						.onTapGesture {
-							self.dismiss()
-						}
+                        .foregroundColor(.secondary)
+                        .padding(8)
+                        .background(.ultraThinMaterial, in: Circle())
+                        // TODO: - 待修改
+                        .onTapGesture {
+                            self.dismiss()
+                            Haptic.impact()
+                        }
 
 				}
 				.padding()

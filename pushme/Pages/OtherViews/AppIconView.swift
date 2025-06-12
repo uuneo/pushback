@@ -69,7 +69,11 @@ struct AppIconView: View {
         .animation(.interactiveSpring, value: setting_active_app_icon)
         .padding()
         .listRowBackground(Color.clear)
+        .VButton( onRelease: { _ in
+            return true
+        })
         .onTapGesture {
+            Haptic.impact()
             setSystemIcon(item)
         }
     }

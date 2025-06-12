@@ -78,6 +78,7 @@ struct ChatInputView: View {
         .clipShape(UnevenRoundedRectangle(topLeadingRadius: 30, topTrailingRadius: 30))
         .onTapGesture {
             self.isFocusedInput = !manager.isLoading
+            Haptic.impact()
         }
         .shadow(color: .gray.opacity(0.3), radius: 2, x: 0, y: -5)
     }

@@ -12,7 +12,6 @@ struct MessagePage: View {
     @EnvironmentObject private var manager:AppManager
     @Default(.showGroup) private var showGroup
     @Default(.servers) private var servers
-    @State private var showAction = false
     @StateObject private var messageManager = MessagesManager.shared
     
     var body: some View {
@@ -26,8 +25,6 @@ struct MessagePage: View {
             }else{
                 SearchMessageView(searchText: $manager.searchText)
             }
-            
-            
         }
         .navigationTitle( "消息")
         .environmentObject(messageManager)
@@ -55,6 +52,7 @@ struct MessagePage: View {
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(.green, Color.primary)
                         .symbolEffect(delay: 0)
+                        .padding(.horizontal, 10)
                         .VButton(onRelease: { value in
                             manager.router = [.example]
                             return true
@@ -78,13 +76,12 @@ struct MessagePage: View {
             
             ToolbarItem {
                 
-                if ISPAD{
                     Menu {
                         ForEach( MessageAction.allCases, id: \.self){ item in
                             Button(role: item == .cancel ? .destructive : .cancel){
                                 deleteMessage(item)
                             }label:{
-                                Label(item.localized, systemImage:  "xmark.bin.circle" )
+                                Label(item.localized, systemImage:  item == .cancel ? "xmark.seal" : "trash" )
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.green, Color.primary)
                             }
@@ -95,37 +92,10 @@ struct MessagePage: View {
                             .foregroundStyle(.green, Color.primary)
                     }
                     
-                    
-                }else{
-                    
-                    Image(systemName: "trash.circle")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .symbolEffect(delay: 0)
-                        .padding(.horizontal)
-                        .VButton(onRelease: { value in
-                            self.showAction = true
-                            return true
-                            
-                        })
-                }
                 
             }
             
             
-        }
-        .actionSheet(isPresented: $showAction) {
-            
-            ActionSheet(title: Text( "删除以下时间的信息!"),
-                        buttons: MessageAction.allCases.map({ item in
-                
-                item == .cancel ?
-                Alert.Button.cancel() :
-                Alert.Button.default(Text(item.localized), action: {
-                    deleteMessage(item)
-                })
-                
-            }))
         }
         
         
@@ -135,9 +105,8 @@ struct MessagePage: View {
     
     
     func deleteMessage(_ mode: MessageAction){
-        
         if mode != .cancel{
-            Task.detached(priority: .background) {
+            Task.detached(priority: .userInitiated) {
                 await DatabaseManager.shared.delete(date: mode.date)
             }
         }

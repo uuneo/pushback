@@ -3530,6 +3530,7 @@
       }
     },
     "删除以下时间的信息!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

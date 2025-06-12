@@ -123,6 +123,7 @@ struct ChangeKeyCenterView: View {
                     .foregroundStyle(Color.accentColor)
                     .onTapGesture {
                         manager.fullPage = .web(BaseConfig.delpoydoc)
+                        Haptic.impact()
                     }
                 
             }
@@ -180,6 +181,7 @@ struct ChangeKeyCenterView: View {
             }
             .onTapGesture {
                 self.isHostFocused = true
+                Haptic.impact()
             }
     }
     
@@ -213,6 +215,7 @@ struct ChangeKeyCenterView: View {
             }
             .onTapGesture {
                 self.isPhoneFocused = true
+                Haptic.impact()
             }
     }
     

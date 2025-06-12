@@ -75,23 +75,20 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
 
     func didReceive(_ response: UNNotificationResponse, completionHandler completion: @escaping (UNNotificationContentExtensionResponseOption) -> Void) {
         let userInfo = response.notification.request.content.userInfo
-        
-        switch response.actionIdentifier {
-        case Identifiers.muteAction:
-            let group = response.notification.request.content.threadIdentifier
-            Defaults[.muteSetting][group] = Date().addingTimeInterval(60 * 60)
-            showTips(text:  String(localized: "[\(group)]分组静音成功"))
-            completion(.doNotDismiss)
-        case Identifiers.copyAction:
-            if let copy = userInfo[Params.copy.name] as? String {
-                UIPasteboard.general.string = copy
-            } else {
-                UIPasteboard.general.string = response.notification.request.content.body
+        if let action = Identifiers.Action(rawValue: response.actionIdentifier){
+            switch action {
+            case .copyAction:
+                if let copy = userInfo[Params.copy.name] as? String {
+                    UIPasteboard.general.string = copy
+                } else {
+                    UIPasteboard.general.string = response.notification.request.content.body
+                }
+                showTips(text:String(localized: "复制成功"))
+            case .muteAction:
+                let group = response.notification.request.content.threadIdentifier
+                Defaults[.muteSetting][group] = Date().addingTimeInterval(60 * 60)
+                showTips(text:  String(localized: "[\(group)]分组静音成功"))
             }
-            showTips(text:String(localized: "复制成功"))
-            completion(.doNotDismiss)
-        default:
-            completion(.doNotDismiss)
         }
         completion(.doNotDismiss)
     }
@@ -214,8 +211,4 @@ extension NotificationViewController{
 }
 
 
-extension UIFont {
-    class func preferredFont(ofSize size: CGFloat, weight: Weight = .regular) -> UIFont {
-        return UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: size, weight: weight))
-    }
-}
+

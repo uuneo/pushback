@@ -23,12 +23,12 @@ final class openChatManager: ObservableObject {
     @Published var isFocusedInput:Bool = false
     
     @Published var groupsCount:Int = 0
-    @Published var messagesCount:Int = 0
     @Published var promptCount:Int = 0
     
     @Published var chatgroup:ChatGroup? = nil
     @Published var chatPrompt:ChatPrompt? = nil
     @Published var chatMessages:[ChatMessage] = []
+    
     
     private let DB: DatabaseManager = DatabaseManager.shared
 
@@ -45,11 +45,11 @@ final class openChatManager: ObservableObject {
     }
     
     private func startObservingUnreadCount() {
-        let observation = ValueObservation.tracking { db -> (Int,Int,Int) in
+        let observation = ValueObservation.tracking { db -> (Int,[ChatMessage],Int) in
             let groupsCount:Int =  try ChatGroup.fetchCount(db)
-            let messagesCount:Int = try ChatMessage.filter(ChatMessage.Columns.chat == self.chatgroup?.id).fetchCount(db)
+            let messages:[ChatMessage] = try ChatMessage.filter(ChatMessage.Columns.chat == self.chatgroup?.id).fetchAll(db)
             let promptCount:Int = try ChatPrompt.fetchCount(db)
-            return (groupsCount, messagesCount, promptCount)
+            return (groupsCount, messages, promptCount)
         }
         
         observationCancellable = observation.start(
@@ -63,7 +63,7 @@ final class openChatManager: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self?.groupsCount = newUnreadCount.0
-                    self?.messagesCount = newUnreadCount.1
+                    self?.chatMessages = newUnreadCount.1
                     self?.promptCount = newUnreadCount.2
                 }
             }
@@ -90,7 +90,24 @@ final class openChatManager: ObservableObject {
         
     }
     
-    
+    func loadData(){
+        if let id = chatgroup?.id{
+            Task.detached(priority: .background) {
+                let results = try await  DatabaseManager.shared.dbPool.read { db in
+                    let results  =  try ChatMessage
+                        .filter(ChatMessage.Columns.chat == id)
+                        .order(ChatMessage.Columns.timestamp)
+                        .limit(10)
+                        .fetchAll(db)
+                        
+                    return results
+                }
+                await MainActor.run {
+                    self.chatMessages = results
+                }
+            }
+        }
+    }
     
 }
 
@@ -114,26 +131,39 @@ extension openChatManager{
             return true
             
         }catch{
-            debugPrint(error)
+            Log.error(error)
             return false
         }
         
         
     }
     
+    func onceParams(text: String, tips:ChatPromptMode) -> ChatQuery?{
+
+        guard  let account =  Defaults[.assistantAccouns].first(where: {$0.current}) else {
+            return nil
+        }
+        let params:[ChatQuery.ChatCompletionMessageParam] = [
+            .system(.init(content: .textContent(tips.prompt.content),name: tips.prompt.title)),
+            .user(.init(content: .string(text)))
+        ]
+        
+        return ChatQuery(messages: params, model: account.model)
+        
+    }
+    
     func getHistoryParams(text: String, messageId:String? = nil)-> ChatQuery?{
         
         
-        guard  let account =  Defaults[.assistantAccouns].first(where: {$0.current}) else {
+        guard  let account = Defaults[.assistantAccouns].first(where: {$0.current}) else {
             return nil
         }
         var params:[ChatQuery.ChatCompletionMessageParam] = []
         
         ///  增加system的前置参数
         if let promt = try? DB.dbPool.read({ db in
-            try ChatPrompt.filter(Column("selected")).fetchOne(db)
+            try ChatPrompt.filter(ChatPrompt.Columns.id == chatPrompt?.id).fetchOne(db)
         }){
-//            params.append(.system(.init(content: .textContent(promt.content), name: promt.title)))
             params.append(.system(.init(content: .textContent(promt.content), name: promt.title)))
         }
         
@@ -146,30 +176,18 @@ extension openChatManager{
         }
         
         
-        /// 连续对话，获取前多少条的对话
-        if (try? DB.dbPool.read({ db in
-            try ChatGroup.filter(ChatGroup.Columns.id == chatgroup?.id).fetchOne(db)
-        })) != nil{
-            return ChatQuery(messages: [.user(.init(content: .string(inputText)))], model: account.model)
-        }
-        
-        
-        
         let limit = Defaults[.historyMessageCount]
         if  let messageRaw = try? DB.dbPool.read({ db in
             try ChatMessage
+                .filter(ChatMessage.Columns.chat == chatgroup?.id)
                 .order(Column("timestamp").desc)
                 .limit(limit)
                 .fetchAll(db)
         }){
-            ///判断是否携带，如果连续对话，则继续判断，如果不是连续对话，必须携带，如果不是连续对话，判断历史记录里是否有
-            if Defaults[.historyMessageBool]{
+            for message in messageRaw{
+                params.append(.user(.init(content: .string(message.request))))
+                params.append(.assistant(.init(content: .textContent(message.content))))
                 
-                for message in messageRaw{
-                    params.append(.user(.init(content: .string(message.request))))
-                    params.append(.assistant(.init(content: .textContent(message.content))))
-                    
-                }
             }
             params.append(.user(.init(content: .string(inputText))))
         }
@@ -205,6 +223,16 @@ extension openChatManager{
         }
         self.cancellableRequest = openchat.chatsStream(query: query, onResult: onResult, completion: completion)
     }
+    
+    func chatsStream(text:String, tips:ChatPromptMode, account:AssistantAccount? = nil,onResult: @escaping @Sendable (Result<ChatStreamResult, Error>) -> Void, completion: (@Sendable (Error?) -> Void)?) -> CancellableRequest? {
+        guard let openchat = self.getReady(), let query = self.onceParams(text: text, tips: tips) else {
+            completion?(chatError.noConfig)
+            return nil
+        }
+        
+        return openchat.chatsStream(query: query, onResult: onResult, completion: completion)
+    }
+    
     
     
     enum chatError: Error {

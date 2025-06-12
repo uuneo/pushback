@@ -80,7 +80,7 @@ struct ServersConfigView: View {
                         Label("使用中的服务器", systemImage: "cup.and.heat.waves")
                             .foregroundStyle(.primary, .green)
                         Spacer()
-                        Text("\(servers.count)")
+                        Text(verbatim: "\(servers.count)")
                     }
                    
                 }
@@ -117,7 +117,7 @@ struct ServersConfigView: View {
                         Label("历史服务器", systemImage: "cup.and.heat.waves")
                             .foregroundStyle(.primary, .gray)
                         Spacer()
-                        Text("\(cloudServers.count - servers.count)")
+                        Text(verbatim: "\(cloudServers.count - servers.count)")
                     }
                 }
                 

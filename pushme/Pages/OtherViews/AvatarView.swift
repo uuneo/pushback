@@ -9,7 +9,7 @@
 import SwiftUI
 import Defaults
 import Kingfisher
-
+import AVKit
 
 struct AvatarView: View {
 
@@ -18,75 +18,71 @@ struct AvatarView: View {
 	
 	@Default(.appIcon) var appicon
 	
-	@State private var success:Bool = true
     @State private var image: URL?
 	
-	var body: some View {
-		GeometryReader {
-			let size = $0.size
-			
-			VStack{
-                
-               
-                if let icon = icon, success, customIcon.isEmpty{
-                    if let image = image {
-                        // 如果已经加载了图片，则显示图片
-                        KFImage(image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: size.width, height: size.height)
-                            
+    var body: some View {
+        GeometryReader { proxy in
+            contentView(size: proxy.size)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: proxy.size.width, height: proxy.size.height)
+        }
+        .onChange(of: icon) { _ in
+            image = nil
+        }
+    }
 
-                    } else {
-                        // 如果图片尚未加载，则显示加载中的视图
-                        ProgressView()
-                            .frame(width: size.width, height: size.height)
-                            .onAppear{
-                                loadImage(icon: icon)
-                            }
-                        
-                    }
-                }else{
-                    if !customIcon.isEmpty{
-                        Image(customIcon)
-                            .resizable()
-                            .frame(width: size.width, height: size.height)
-                    }else{
-                        Image(appicon.logo)
-                            .resizable()
-                            .frame(width: size.width, height: size.height)
-                    }
-                   
+    // MARK: - 主视图构建
+    @ViewBuilder
+    private func contentView(size: CGSize) -> some View {
+        if let icon, customIcon.isEmpty {
+            if icon.hasHttp() {
+                if let image {
+                    KFImage(image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } else {
+                    ProgressView()
+                        .onAppear {
+                            loadImage(icon: icon)
+                        }
                 }
-				
-				
-			}
-			.aspectRatio(contentMode: .fill )
-			.onChange(of: icon) { value in
-				self.image = nil
-			}
+            } else if let imagedata = icon.avatarImage() {
+                Image(uiImage: imagedata)
+                    .resizable()
+                    
+            } else {
+                defaultImage()
+            }
+        } else if !customIcon.isEmpty {
+            Image(customIcon)
+                .resizable()
+                
+        } else {
+            defaultImage()
+        }
+    }
 
 
-			
-		}
-		
-		
-	}
-	
-	private func loadImage(icon:String ) {
-		self.success = true
-        Log.debug(icon)
-		Task.detached(priority: .background)  {
-			if let localPath = await ImageManager.downloadImage(icon) {
-				await MainActor.run {
-                    self.image = URL(fileURLWithPath: localPath)
-				}
-			} else {
-				await MainActor.run {
-					self.success = false
-				}
-			}
-		}
-		
-	}
+    private func defaultImage() -> some View {
+        Image(appicon.logo)
+            .resizable()
+            
+    }
+
+    // MARK: - 加载远程图片
+    private func loadImage(icon: String) {
+        image = nil
+        Task.detached(priority: .background) {
+            if let localPath = await ImageManager.downloadImage(icon) {
+                await MainActor.run {
+                    image = URL(fileURLWithPath: localPath)
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    AvatarView(icon: "")
+        .frame(width: 300, height: 300)
 }

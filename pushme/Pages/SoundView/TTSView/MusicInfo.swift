@@ -74,7 +74,7 @@ struct MusicInfo: View {
                             Text(formatTime(waitTimes / 10))
                                 .font(.body)
                                 .foregroundColor(.red)
-                            Text("处理中...")
+                            Text("正在处理中...")
                                 .font(.body)
                                 .foregroundColor(.gray)
                             Spacer(minLength: 0)

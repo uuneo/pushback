@@ -40,7 +40,7 @@ struct ImageViewer<Content: View, Overlay: View>: View {
                             RoundedRectangle(cornerRadius: config.cornerRadius)
                                 .fill(.black.opacity(0.35))
                                 .overlay {
-                                    Text("+\(remainingCount)")
+                                    Text(verbatim: "+\(remainingCount)")
                                         .font(.largeTitle)
                                         .fontWeight(.semibold)
                                         .foregroundStyle(.white)

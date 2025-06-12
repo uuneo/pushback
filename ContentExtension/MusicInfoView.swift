@@ -214,3 +214,9 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
         return String(format: "%d:%02d", minutes, seconds)
     }
 }
+
+extension UIFont {
+    class func preferredFont(ofSize size: CGFloat, weight: Weight = .regular) -> UIFont {
+        return UIFontMetrics.default.scaledFont(for: UIFont.systemFont(ofSize: size, weight: weight))
+    }
+}

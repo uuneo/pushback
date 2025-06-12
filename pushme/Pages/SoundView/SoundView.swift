@@ -37,7 +37,7 @@ struct SoundView: View {
                                 HStack{
                                     Spacer()
                                     ProgressView()
-                                    Text("处理中")
+                                    Text("正在处理中...")
                                     Spacer()
                                 }
                             }

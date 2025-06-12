@@ -1,13 +1,13 @@
 {
-  "originHash" : "05c5054f8ff7b35204bcfc5417d12b5b40ada335d646af81cbb940a266696034",
+  "originHash" : "f88a8d1469c51c211a1759046bc12215d25f57ece099c8b148b765cc174b8cae",
   "pins" : [
     {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/Defaults.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "d88a5c8cdb498e7536ef5ff88e7120e9b5874806"
+        "revision" : "d88a5c8cdb498e7536ef5ff88e7120e9b5874806",
+        "version" : "0.0.1"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/groue/GRDB.swift.git",
       "state" : {
-        "branch" : "master",
-        "revision" : "a5a1be26b4513dc7ec360eb56bc08a345bac6649"
+        "revision" : "a5a1be26b4513dc7ec360eb56bc08a345bac6649",
+        "version" : "7.5.0"
       }
     },
     {
@@ -29,21 +29,12 @@
       }
     },
     {
-      "identity" : "networkimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/NetworkImage",
-      "state" : {
-        "revision" : "2849f5323265386e200484b0d0f896e73c3411b9",
-        "version" : "6.0.1"
-      }
-    },
-    {
       "identity" : "openai",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/OpenAI.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "08eb64ee09ea99d846d797fe37ba4af779142206"
+        "revision" : "aa1e629951975453267fe95c42aba1fca0a32dde",
+        "version" : "0.0.1"
       }
     },
     {
@@ -51,17 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/QRScanner.git",
       "state" : {
-        "branch" : "master",
-        "revision" : "70d73e36b6775752f291ae7593a16761d4ccdc3a"
-      }
-    },
-    {
-      "identity" : "splash",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AugustDev/Splash",
-      "state" : {
-        "branch" : "master",
-        "revision" : "c31eba0866102be9be29391dac641ecb46795702"
+        "revision" : "72b97e41de89e6fa3fb1fe41f3ef31f14a65e000",
+        "version" : "1.0.0"
       }
     },
     {
@@ -87,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/swift-markdown-ui",
       "state" : {
-        "revision" : "2f5628729f96d12814b3f772f748363819e7246e",
-        "version" : "2.4.2"
+        "revision" : "4e0fea3ec5005204df0d0220e572004c5028e3d8",
+        "version" : "3.0.3"
       }
     },
     {
@@ -107,15 +89,6 @@
       "state" : {
         "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
         "version" : "601.0.1"
-      }
-    },
-    {
-      "identity" : "swiftyjson",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/uuneo/SwiftyJSON.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "c761b43aa03f15f00df64744e70399d78c3bee96"
       }
     }
   ],

@@ -5,20 +5,18 @@ import Combine
 import Defaults
 import GRDB
 
-struct ChatInputView: View {
+
+struct ChatInputView<Content: View>: View  {
     @EnvironmentObject private var chatManager:openChatManager
     @EnvironmentObject private var manager:AppManager
     @Binding var text: String
-    
+    @ViewBuilder var rightBtn: () -> Content
     let onSend: (String) -> Void
-    let onSelectedPicture: () -> Void
-    let onSelectedFile: () -> Void
-    let onCapturePhoto: () -> Void
+    
     
     @State private var showPromptChooseView = false
     @FocusState private var isFocusedInput: Bool
     
-    @Default(.historyMessageBool) var isHistoryMessage
     
     private var quote:Message?{
         guard let messageId = manager.askMessageId else { return nil }
@@ -28,9 +26,9 @@ struct ChatInputView: View {
     var body: some View {
         VStack {
            
-                HStack() {
-                    PromptLabelView(prompt: chatManager.chatPrompt)
-                }.padding( 5)
+            HStack() {
+                PromptLabelView(prompt: chatManager.chatPrompt)
+            }.padding( 5)
             
             
             
@@ -38,39 +36,12 @@ struct ChatInputView: View {
                 inputField
                     .disabled(manager.isLoading)
                 rightActionButton
-                   
+                
             }
             .padding(.horizontal)
             .padding(.top, 5)
             .animation(.default, value: text)
             
-            
-            HStack(spacing: 10){
-                
-                
-                    
-                Label("连续对话", systemImage:  isHistoryMessage ? "lamp.desk.fill" : "lamp.desk")
-                    .foregroundStyle(isHistoryMessage ? Color.accentColor : Color.primary)
-                    .font(.callout)
-                    .fontWeight(isHistoryMessage ? .bold : .light)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .background(.ultraThinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .onTapGesture {
-                        if !manager.isLoading{
-                            Haptic.impact(.heavy)
-                            self.isHistoryMessage.toggle()
-                        }
-                       
-                    }
-                
-                Spacer()
-            
-                
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 8)
             
             
         }
@@ -158,41 +129,42 @@ struct ChatInputView: View {
             } else {
                 
                 // 附件菜单
-                AttachmentMenuView(
-                    onSelectedPicture: onSelectedPicture,
-                    onSelectedFile: onSelectedFile,
-                    onCapturePhoto: onCapturePhoto
-                )
+                Menu {
+                    
+                    rightBtn()
+                    
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.blue)
+                        .opacity(0.7)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
+                        .padding(.trailing, 8)
+                        .transition(.scale)
+                        .menuStyle(.button)
+                }
                 .transition(.scale)
-                
             }
         }
         
         
     }
-    
-   
-}
 
-// MARK: - PromptLabelView
-private struct PromptLabelView: View {
-    let prompt: ChatPrompt?
-
-    @EnvironmentObject private var chatManager:openChatManager
-    
-    private var quote:Message?{
-        guard let messageId = AppManager.shared.askMessageId  else { return nil }
-        return  DatabaseManager.shared.query(id: messageId)
-    }
-    
-    var body: some View {
+    @ViewBuilder
+    func PromptLabelView(prompt: ChatPrompt?)-> some View{
         HStack {
+
             if let prompt {
                 Menu{
                     Button(role: .destructive){
                         chatManager.chatPrompt = nil
                     }label: {
                         Label("清除", systemImage: "eraser")
+                            .customForegroundStyle(.accent, .primary)
                     }
                 }label: {
                     
@@ -210,6 +182,7 @@ private struct PromptLabelView: View {
                                 .stroke(Color.blue.opacity(0.3), lineWidth: 1)
                         )
                         .shadow(color: .blue.opacity(0.2), radius: 3, x: 0, y: 2)
+                        
                 }
             }
            
@@ -224,6 +197,7 @@ private struct PromptLabelView: View {
                         AppManager.shared.askMessageId = nil
                     }label: {
                         Label("清除", systemImage: "eraser")
+                            .customForegroundStyle(.accent, .primary)
                     }
                 }label: {
                     QuoteView(message: quote)
@@ -247,8 +221,8 @@ private struct PromptLabelView: View {
                                         let group = ChatGroup(
                                             id: quote.id,
                                             timestamp: .now,
-                                            name: quote.search,
-                                            host: "",
+                                            name: quote.search.trimmingSpaceAndNewLines,
+                                            host: ""
                                         )
                                         try group.insert(db)
                                          DispatchQueue.main.async{
@@ -259,59 +233,37 @@ private struct PromptLabelView: View {
                                 }
                             }
                         }
+                        .onDisappear{
+                            Task.detached(priority: .background) {
+                                if let group = openChatManager.shared.chatgroup{
+                                    let messages = try await DatabaseManager.shared.dbPool.read { db in
+                                        try  ChatMessage
+                                            .filter(ChatMessage.Columns.chat == group.id)
+                                            .fetchAll(db)
+                                    }
+                                    
+                                    if messages.count == 0{
+                                        _ = try await DatabaseManager.shared.dbPool.write { db in
+                                            try group.delete(db)
+                                        }
+                                        DispatchQueue.main.async{
+                                           openChatManager.shared.chatgroup = nil
+                                       }
+                                    }
+                                    
+                                }
+                                
+                            }
+                        }
                 }
             }
         }
         .padding(.horizontal)
     }
-    
-    
+
 }
 
 
-private struct AttachmentMenuView: View {
-    var onSelectedPicture: () -> Void
-    var onSelectedFile: () -> Void
-    var onCapturePhoto: () -> Void
-     var body: some View {
-        Menu {
-            AttachmentMenuItem(title: String(localized: "图片"), icon: "photo", action: onSelectedPicture)
-                .disabled(true)
-            AttachmentMenuItem(title: String(localized: "文件"), icon: "doc", action: onSelectedFile)
-                .disabled(true)
-            AttachmentMenuItem(title: String(localized: "拍照"), icon: "camera", action: onCapturePhoto)
-                .disabled(true)
-            
-           
-            
-        } label: {
-            Image(systemName: "plus.circle.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 35, height: 35)
-                .foregroundColor(.blue)
-                .opacity(0.7)
-                .background(Color.white)
-                .clipShape(Circle())
-                .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
-                .padding(.trailing, 8)
-                .transition(.scale)
-        }
-    }
-    
-}
-
-private struct AttachmentMenuItem: View {
-    let title: String
-    let icon: String
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Label(title, systemImage: icon)
-        }
-    }
-}
 
 
 

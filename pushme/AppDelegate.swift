@@ -8,51 +8,40 @@
 import UIKit
 import Defaults
 
+
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
-    
-    
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{
+   
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
         
-        let actions = [ UNNotificationAction(identifier: Identifiers.copyAction,
-                                             title:  String(localized: "复制"),
-                                             options: [.foreground],
-                                             icon: .init(systemImageName: "doc.on.doc")),
-                        
-                        UNNotificationAction(identifier: Identifiers.muteAction,
-                                             title:  String(localized: "静音分组1小时"),
-                                             options: [.foreground ],
-                                             icon: .init(systemImageName: "speaker.slash")) ]
         
-        UNUserNotificationCenter.current().setNotificationCategories([
-            UNNotificationCategory(identifier: Identifiers.reminderCategory,
-                                   actions: actions,
-                                   intentIdentifiers: [],
-                                   options: [.hiddenPreviewsShowTitle])
-        ])
+        Identifiers.setCategories()
+        // 预防用户切换系统语言导致语言不匹配
+        Multilingual.resetTransLang()
         
         if !Defaults[.firstStart] {
             AppManager.shared.registerForRemoteNotifications()
+        }
+        
+ 
+        if Defaults[.id] == ""{
+            let id = KeychainHelper.shared.getDeviceID()
+            Defaults[.id] = id
         }
         
         return true
     }
     
     
-    
-    
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        
+        let token = deviceToken.asHexString
+        Defaults[.deviceToken] = token
         
         let manager = AppManager.shared
-        
-        Defaults[.deviceToken] = token
-        CloudManager.shared.getUserId()
-        
         if Defaults[.servers].count == 0{
             Task.detached(priority: .userInitiated) {
                 _ = await manager.appendServer(server: PushServerModel(url: BaseConfig.defaultServer))
@@ -62,14 +51,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // MARK: UISceneSession Lifecycle
     
+    // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
-        if let selectAction = options.shortcutItem{
-            QuickAction.selectAction = selectAction
-        }
         let sceneonfiguration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
         
         return sceneonfiguration
@@ -167,6 +153,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().add(request)
         }
     }
+    
+    
 }
 
 
+extension Data {
+    // Convenience method to convert `Data` to a hex `String`.
+    fileprivate var asHexString: String {
+        let hexString = map { String(format: "%02.2hhx", $0) }.joined()
+        return hexString
+    }
+}

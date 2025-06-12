@@ -99,7 +99,7 @@ struct SpeakSettingsView:View {
                 HStack{
                     Text("默认语速")
                     Spacer()
-                    Text("\(voiceConfig.defaultRate)")
+                    Text(verbatim: "\(voiceConfig.defaultRate)")
                         .font(.body)
                         .fontWeight(.bold)
                         .foregroundStyle(.blue)
@@ -127,7 +127,7 @@ struct SpeakSettingsView:View {
                HStack{
                    Text("默认语调")
                    Spacer()
-                   Text("\(voiceConfig.defaultPitch)")
+                   Text(verbatim: "\(voiceConfig.defaultPitch)")
                        .font(.body)
                        .fontWeight(.bold)
                        .foregroundStyle(.blue)
@@ -157,7 +157,7 @@ struct SpeakSettingsView:View {
             NavigationStack{
                 Picker("选择格式", selection: $voiceConfig.defaultFormat) {
                     ForEach(VoiceManager.AudioFormat.allCases, id: \.rawValue) { item in
-                        Text("\(item.rawValue)")
+                        Text(verbatim: "\(item.rawValue)")
                             .foregroundStyle(voiceConfig.defaultFormat == item ? .green : .gray)
                             .tag(item)
                     }
@@ -200,10 +200,10 @@ struct SpeakSettingsView:View {
                             Section {
                                 ForEach(groupedVoices[locale]!,id: \.id){ item in
                                     HStack{
-                                        Text("\(item.localName)")
+                                        Text(verbatim: "\(item.localName)")
                                             .padding(.horizontal)
                                             .fontWeight(item.shortName == voiceConfig.defaultVoice ? .bold : .light)
-                                        Text("(\(item.gender))")
+                                        Text(verbatim: "(\(item.gender))")
                                         Spacer()
                                         Button {
                                             voiceConfig.defaultVoice = item.shortName
@@ -232,7 +232,7 @@ struct SpeakSettingsView:View {
                                     Text(locale)
                                         .fontWeight(.black)
                                         .padding(.trailing)
-                                        .foregroundStyle(.orange)
+                                        .foregroundStyle(Color.accentColor)
                                         .blendMode(.difference)
                                 }
                             }
@@ -260,7 +260,7 @@ struct SpeakSettingsView:View {
                             proxy.scrollTo(voiceConfig.defaultVoice, anchor: .center)
                         }
                     }catch{
-                        debugPrint(error)
+                        Log.error(error)
                     }
                 })
                 .navigationTitle("选择语音模型")

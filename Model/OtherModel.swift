@@ -35,11 +35,45 @@ enum requestHeader :String {
 	case http = "http://"
 }
 
-enum Identifiers {
-	static let reminderCategory = "myNotificationCategory"
-    static let markdownCategory = "markdown"
-	static let copyAction = "copy"
-    static let muteAction = "mute"
+enum Identifiers:String,CaseIterable {
+	case reminderCategory = "myNotificationCategory"
+    case markdownCategory = "markdown"
+    
+    enum Action:String, CaseIterable{
+        case copyAction = "copy"
+        case muteAction = "mute"
+        
+        var title:String{
+            switch self {
+            case .copyAction:
+                String(localized: "复制")
+            case .muteAction:
+                String(localized: "静音分组1小时")
+            }
+        }
+        var icon:String{
+            switch self {
+            case .copyAction:
+                "doc.on.doc"
+            case .muteAction:
+                "speaker.slash"
+            }
+        }
+    }
+    
+    static func setCategories(){
+        
+        let actions =  Action.allCases.compactMap { item in
+            UNNotificationAction(identifier: item.rawValue, title: item.title, options: [.foreground], icon: .init(systemImageName: item.icon))
+        }
+        
+        let categories = Self.allCases.compactMap { item in
+            UNNotificationCategory(identifier: item.rawValue, actions: actions,
+                                   intentIdentifiers: [],  options: [.hiddenPreviewsShowTitle])
+        }
+        
+        UNUserNotificationCenter.current().setNotificationCategories(Set(categories))
+    }
 }
 
 
@@ -84,42 +118,20 @@ enum MessageAction: String, CaseIterable, Equatable{
 enum QuickAction: String{
     
     case assistant
-    case alldelread
-    
-	static var selectAction:UIApplicationShortcutItem?
 
     static func allShortcutItems(showAssistant:Bool) -> [UIApplicationShortcutItem] {
+        
         if showAssistant{
-            return [
-                
-                UIApplicationShortcutItem(
-                    type: Self.assistant.rawValue,
-                    localizedTitle: String(localized:  "问智能助手"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
-                    userInfo: ["name":"assistant" as NSSecureCoding]
-                ),
-
-                UIApplicationShortcutItem(
-                    type: Self.alldelread.rawValue,
-                    localizedTitle: String(localized: "删除全部已读"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-                    userInfo: ["name":"alldelread" as NSSecureCoding]
-                )
-                
-            ]
-        }else{
-            return [
-                UIApplicationShortcutItem(
-                    type: Self.alldelread.rawValue,
-                    localizedTitle: String(localized: "删除全部已读"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-                    userInfo: ["name":"alldelread" as NSSecureCoding]
-                )
-            ]
+            return [UIApplicationShortcutItem(
+                type: Self.assistant.rawValue,
+                localizedTitle: String(localized:  "问智能助手"),
+                localizedSubtitle: "",
+                icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
+                userInfo: ["name":"assistant" as NSSecureCoding]
+            )]
         }
+        
+        return []
         
     }
 }
@@ -273,9 +285,11 @@ extension CryptoModelConfig {
 
 enum AppIconEnum:String, CaseIterable,Equatable{
     case king
-	case pushback
+    case box
+    case lion
+    case pushback
     case bell
-    case Whale
+    
     
     
     var name: String? { self == .pushback ? nil : self.rawValue }
@@ -286,10 +300,12 @@ enum AppIconEnum:String, CaseIterable,Equatable{
             return "logo"
         case .bell:
             return "logo1"
-        case .Whale:
-            return "logo2"
         case .king:
             return "logo3"
+        case .box:
+            return "logo5"
+        case .lion:
+            return "logo6"
         }
     }
 }
@@ -363,12 +379,12 @@ struct AssistantAccount: Codable, Identifiable, Equatable,Hashable{
 
 extension AssistantAccount{
     mutating func trimAssistantAccountParameters() {
-        name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        host = host.trimmingCharacters(in: .whitespacesAndNewlines)
+        name = name.trimmingSpaceAndNewLines
+        host = host.trimmingSpaceAndNewLines
         host = host.removeHTTPPrefix()
-        basePath = basePath.trimmingCharacters(in: .whitespacesAndNewlines)
-        key = key.trimmingCharacters(in: .whitespacesAndNewlines)
-        model = model.trimmingCharacters(in: .whitespacesAndNewlines)
+        basePath = basePath.trimmingSpaceAndNewLines
+        key = key.trimmingSpaceAndNewLines
+        model = model.trimmingSpaceAndNewLines
     }
 
 }
@@ -449,43 +465,7 @@ struct SelectMessage: Codable{
 }
 
 
-// MARK: - Page model
-enum SubPage: Equatable{
-    case customKey
-    case scan
-    case appIcon
-    case web(String)
-    case cloudIcon
-    case paywall
-    case quickResponseCode(text:String,title: String?,preview: String?)
-    case none
-    
-}
 
-enum RouterPage: Hashable {
-    case example
-    case messageDetail(String)
-    case assistant
-    case sound
-    case crypto(String?)
-    case server
-    case assistantSetting(AssistantAccount?)
-    case more
-    
-    case widget(title:String?, data:String)
-    
-    case tts
-}
-
-enum TabPage :String, Sendable{
-    case message
-    case setting
-}
-
-enum outRouterPage: String{
-    case widget
-    case icon
-}
 
 enum PBScheme: String, CaseIterable{
     case pb
@@ -514,3 +494,13 @@ enum PBScheme: String, CaseIterable{
     }
     
 }
+
+struct MoreMessage:Codable,Hashable{
+    var createDate:Date
+    var id:String
+    var body:String
+    var index:Int
+    var count:Int
+}
+
+

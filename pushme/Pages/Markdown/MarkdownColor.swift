@@ -8,38 +8,6 @@
 import MarkdownUI
 import SwiftUI
 
-//struct MarkdownColors {
-//    // 主文本颜色
-//    static let text = Color(light: Color(rgba: 0x1A1A1AFF), dark: Color(rgba: 0xE0E0E0FF))
-//    
-//    // 次要文本颜色
-//    static let secondaryText = Color(light: Color(rgba: 0x4A4A4AFF), dark: Color(rgba: 0xA0A0A0FF))
-//    
-//    // 第三级文本颜色
-//    static let tertiaryText = Color(light: Color(rgba: 0x6B6B6BFF), dark: Color(rgba: 0x808080FF))
-//    
-//    // 背景颜色
-//    static let background = Color(light: .white, dark: Color(rgba: 0x121212FF))
-//    
-//    // 次要背景颜色
-//    static let secondaryBackground = Color(light: Color(rgba: 0xF5F5F5FF), dark: Color(rgba: 0x1E1E1EFF))
-//    
-//    // 链接颜色
-//    static let link = Color(light: Color(rgba: 0x1A73E8FF), dark: Color(rgba: 0x8AB4F8FF))
-//    
-//    // 边框颜色
-//    static let border = Color(light: Color(rgba: 0xDDDDDDFF), dark: Color(rgba: 0x888888FF))
-//    
-//    // 分割线颜色
-//    static let divider = Color(light: Color(rgba: 0xCCCCCCFF), dark: Color(rgba: 0x2D2D2DFF))
-//    
-//    // 复选框颜色
-//    static let checkbox = Color(rgba: 0x757575FF)
-//    
-//    // 复选框背景颜色
-//    static let checkboxBackground = Color(rgba: 0xEEEEEEFF)
-//}
-
 struct MarkdownColors {
     // 主文本颜色：高亮但不刺眼
     static let text = Color(light: Color(rgba: 0x111111FF), dark: Color(rgba: 0xFAFAFAFF))
@@ -95,6 +63,7 @@ extension View {
 struct MarkdownTheme {
     static func defaultTheme(_ defaultSize:CGFloat = 16, scaleFactor:CGFloat = 1.0) -> Theme {
         Theme()
+        
             .text { FontSize(defaultSize * scaleFactor) }
             .code {
                 FontFamilyVariant(.monospaced)
@@ -195,6 +164,11 @@ struct MarkdownTheme {
                     .relativeFrame(height: .em(0.25))
                     .overlay(MarkdownColors.border)
                     .markdownMargin(top: 24, bottom: 24)
+            }
+            .image { config in
+                config.label
+                    .zoomable()
+                    .zIndex(9999)
             }
             
             

@@ -19,7 +19,7 @@ struct UploadIclondIcon:View {
     @State private var tags: [TagModel] = []
     
     var tsgsTem:[String]{
-        tags.compactMap({$0.value}).filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        tags.compactMap({$0.value}).filter { !$0.trimmingSpaceAndNewLines.isEmpty }
     }
     
     @FocusState private var nameFocus
@@ -84,7 +84,7 @@ struct UploadIclondIcon:View {
                         
                        
                         
-                        Text("\(freeCount)")
+                        Text(verbatim: "\(freeCount)")
                             .foregroundStyle(freeCount < 5 ? .red : .green)
                             .font(.headline)
                             .fontWeight(.bold)
@@ -157,9 +157,9 @@ struct UploadIclondIcon:View {
             pictureLoading = true
             Task{
                 
-                let (success, message) = await CloudManager.shared.checkAccount()
+                let (success, message) = await IconCloudManager.shared.checkAccount()
                 
-                let records = await CloudManager.shared.queryIconsForMe()
+                let records = await IconCloudManager.shared.queryIconsForMe()
                 
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1){
@@ -179,7 +179,7 @@ struct UploadIclondIcon:View {
          DispatchQueue.main.async {
             self.pictureLoading = true
         }
-        let err = await CloudManager.shared.savePushIconModel(self.pushIcon)
+        let err = await IconCloudManager.shared.savePushIconModel(self.pushIcon)
         Log.debug(err.tips)
         
         switch err {

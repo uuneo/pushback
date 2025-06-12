@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5139EB92E02AC79001E924F /* PageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5139EB52E02AC75001E924F /* PageModel.swift */; };
+		B531F48D2E02FD5300A5868B /* SlideToConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */; };
 		B540549F2DF156BD0058DC87 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B540549B2DF156BD0058DC87 /* View+.swift */; };
 		B54054A32DF156BD0058DC87 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B540549B2DF156BD0058DC87 /* View+.swift */; };
 		B54057082DF1B1A20058DC87 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54057072DF1B19E0058DC87 /* Image+.swift */; };
@@ -52,16 +54,23 @@
 		B54057402DF1B6400058DC87 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B540573B2DF1B63E0058DC87 /* Encodable+.swift */; };
 		B54057412DF1B6400058DC87 /* Encodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B540573B2DF1B63E0058DC87 /* Encodable+.swift */; };
 		B54057432DF1B6960058DC87 /* Application+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54057422DF1B6940058DC87 /* Application+.swift */; };
+		B542AC262E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
+		B542AC272E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
+		B542AC282E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
+		B542AC292E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
+		B542AC2A2E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
+		B542AC2B2E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
+		B55BD5512E212CA700A1F014 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358B02DEDD65A0066B32E /* OtherModel.swift */; };
+		B55BD5532E21EFE800A1F014 /* Lang.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55BD5522E21EFE300A1F014 /* Lang.swift */; };
+		B566E52E2E1F9F2A00CC4EBA /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B566E52D2E1F9F2A00CC4EBA /* Splash */; };
 		B58358922DEDD4E10066B32E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B58358912DEDD4E10066B32E /* Defaults */; };
 		B58358952DEDD55B0066B32E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B58358942DEDD55B0066B32E /* GRDB */; };
 		B58358982DEDD5790066B32E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B58358972DEDD5790066B32E /* Kingfisher */; };
 		B583589B2DEDD5980066B32E /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = B583589A2DEDD5980066B32E /* OpenAI */; };
 		B583589E2DEDD5B80066B32E /* QRScanner in Frameworks */ = {isa = PBXBuildFile; productRef = B583589D2DEDD5B80066B32E /* QRScanner */; };
-		B58358A12DEDD5E10066B32E /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B58358A02DEDD5E10066B32E /* Splash */; };
 		B58358A42DEDD6090066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B58358A32DEDD6090066B32E /* cmark-gfm */; };
 		B58358A62DEDD6090066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B58358A52DEDD6090066B32E /* cmark-gfm-extensions */; };
 		B58358A92DEDD62A0066B32E /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = B58358A82DEDD62A0066B32E /* MarkdownUI */; };
-		B58358AC2DEDD64A0066B32E /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B58358AB2DEDD64A0066B32E /* SwiftyJSON */; };
 		B583590D2DEDD65A0066B32E /* HackerTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358C72DEDD65A0066B32E /* HackerTextView.swift */; };
 		B583590E2DEDD65A0066B32E /* TabStateScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358C42DEDD65A0066B32E /* TabStateScrollView.swift */; };
 		B58359122DEDD65A0066B32E /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358C52DEDD65A0066B32E /* Snapshot.swift */; };
@@ -112,7 +121,6 @@
 		B5835D362DEDF9090066B32E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D352DEDF9090066B32E /* Defaults */; };
 		B5835D382DEDF9090066B32E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D372DEDF9090066B32E /* GRDB */; };
 		B5835D3A2DEDF9090066B32E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D392DEDF9090066B32E /* Kingfisher */; };
-		B5835D3C2DEDF9090066B32E /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D3B2DEDF9090066B32E /* SwiftyJSON */; };
 		B5835D3E2DEDF92A0066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D3D2DEDF92A0066B32E /* cmark-gfm */; };
 		B5835D402DEDF92A0066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D3F2DEDF92A0066B32E /* cmark-gfm-extensions */; };
 		B5835D452DEDF9630066B32E /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358B02DEDD65A0066B32E /* OtherModel.swift */; };
@@ -130,6 +138,9 @@
 		B5835D782DEDFFF90066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D772DEDFFF90066B32E /* cmark-gfm */; };
 		B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */; };
 		B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5835D7B2DEE14C10066B32E /* WebKit.framework */; };
+		B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */; };
+		B5BDDF4F2E24F0BA00263FEF /* HeaderPageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */; };
+		B5BDDF6D2E24F89300263FEF /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +208,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B5139EB52E02AC75001E924F /* PageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModel.swift; sourceTree = "<group>"; };
+		B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideToConfirm.swift; sourceTree = "<group>"; };
 		B540549B2DF156BD0058DC87 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		B54057072DF1B19E0058DC87 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		B540570E2DF1B3800058DC87 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -206,6 +219,8 @@
 		B54057342DF1B61A0058DC87 /* Type+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Type+.swift"; sourceTree = "<group>"; };
 		B540573B2DF1B63E0058DC87 /* Encodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+.swift"; sourceTree = "<group>"; };
 		B54057422DF1B6940058DC87 /* Application+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+.swift"; sourceTree = "<group>"; };
+		B542AC252E083D80001B0919 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		B55BD5522E21EFE300A1F014 /* Lang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lang.swift; sourceTree = "<group>"; };
 		B58357F72DEDD3B10066B32E /* pushme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushme.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B58358AD2DEDD65A0066B32E /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
 		B58358AE2DEDD65A0066B32E /* ParamsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamsModel.swift; sourceTree = "<group>"; };
@@ -248,6 +263,9 @@
 		B5835CCE2DEDE8B80066B32E /* PushWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushWidgetExtension.entitlements; sourceTree = "<group>"; };
 		B5835CFE2DEDECA10066B32E /* MarkdownExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MarkdownExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5835D7B2DEE14C10066B32E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBlob.swift; sourceTree = "<group>"; };
+		B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderPageScrollView.swift; sourceTree = "<group>"; };
+		B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -277,10 +295,11 @@
 			membershipExceptions = (
 				AppManager.swift,
 				AudioManager.swift,
-				CloudManager.swift,
 				cryptoManager.swift,
 				DatabaseManager.swift,
+				IconCloudManager.swift,
 				ImageManager.swift,
+				KeychainHelper.swift,
 				MessagesManager.swift,
 				NetworkManager.swift,
 				OpenChatManager.swift,
@@ -332,15 +351,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
-			);
-			target = B58359E62DEDDF860066B32E /* ShareExtension */;
-		};
-		B5835C512DEDE2FE0066B32E /* Exceptions for "Managers" folder in "ShareExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CloudManager.swift,
+				DefaultsBaseKeys.swift,
+				ToolsBox.swift,
 			);
 			target = B58359E62DEDDF860066B32E /* ShareExtension */;
 		};
@@ -380,10 +392,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
+				DefaultsBaseKeys.swift,
 				Markdown.swift,
 				PushParams.swift,
+				ToolsBox.swift,
 			);
 			target = B5835CFD2DEDECA10066B32E /* MarkdownExtension */;
 		};
@@ -391,11 +403,11 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
-				LocalKeys.swift,
+				DefaultsBaseKeys.swift,
+				DefaultsModelKeys.swift,
 				Markdown.swift,
 				PushParams.swift,
+				ToolsBox.swift,
 			);
 			target = B5835B202DEDE0930066B32E /* ContentExtension */;
 		};
@@ -410,9 +422,9 @@
 		B5835D422DEDF94F0066B32E /* Exceptions for "Managers" folder in "ServiceExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				CloudManager.swift,
 				cryptoManager.swift,
 				DatabaseManager.swift,
+				IconCloudManager.swift,
 				ImageManager.swift,
 				NetworkManager.swift,
 				VoiceManager.swift,
@@ -423,11 +435,12 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
-				LocalKeys.swift,
+				DefaultsBaseKeys.swift,
+				DefaultsModelKeys.swift,
 				Markdown.swift,
 				PushParams.swift,
+				SwiftyJSON.swift,
+				ToolsBox.swift,
 			);
 			target = B5835B102DEDE07C0066B32E /* ServiceExtension */;
 		};
@@ -435,9 +448,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
+				DefaultsBaseKeys.swift,
 				Markdown.swift,
+				ToolsBox.swift,
 			);
 			target = B5835CA72DEDE88D0066B32E /* PushWidgetExtension */;
 		};
@@ -490,6 +503,39 @@
 			);
 			target = B5835CFD2DEDECA10066B32E /* MarkdownExtension */;
 		};
+		B5A832462DFFFBC600274589 /* Exceptions for "Sounds" folder in "ServiceExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alarm.caf,
+				aurora.caf,
+				call.caf,
+				com.caf,
+				craft.caf,
+				frog.caf,
+				gold.caf,
+				health.caf,
+				hello.caf,
+				multiway.caf,
+				popcorn.caf,
+				run.caf,
+				shake.caf,
+				silence.caf,
+				snap.caf,
+				success.caf,
+				trill.caf,
+				tritone.caf,
+				typewriter.caf,
+				xiu.caf,
+			);
+			target = B5835B102DEDE07C0066B32E /* ServiceExtension */;
+		};
+		B5E571922E01314100DDE516 /* Exceptions for "Managers" folder in "ShareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				IconCloudManager.swift,
+			);
+			target = B58359E62DEDDF860066B32E /* ShareExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -531,7 +577,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B5835B0B2DEDE0490066B32E /* Exceptions for "Managers" folder in "pushme" target */,
-				B5835C512DEDE2FE0066B32E /* Exceptions for "Managers" folder in "ShareExtension" target */,
+				B5E571922E01314100DDE516 /* Exceptions for "Managers" folder in "ShareExtension" target */,
 				B5835D422DEDF94F0066B32E /* Exceptions for "Managers" folder in "ServiceExtension" target */,
 				B5835D2B2DEDF0E50066B32E /* Exceptions for "Managers" folder in "ContentExtension" target */,
 				B5835D6F2DEDFF8E0066B32E /* Exceptions for "Managers" folder in "PushWidgetExtension" target */,
@@ -573,6 +619,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B5835BD62DEDE1030066B32E /* Exceptions for "Sounds" folder in "pushme" target */,
+				B5A832462DFFFBC600274589 /* Exceptions for "Sounds" folder in "ServiceExtension" target */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -602,14 +649,13 @@
 			files = (
 				B583589E2DEDD5B80066B32E /* QRScanner in Frameworks */,
 				B58358982DEDD5790066B32E /* Kingfisher in Frameworks */,
+				B566E52E2E1F9F2A00CC4EBA /* Splash in Frameworks */,
 				B58358922DEDD4E10066B32E /* Defaults in Frameworks */,
 				B58358A92DEDD62A0066B32E /* MarkdownUI in Frameworks */,
 				B583589B2DEDD5980066B32E /* OpenAI in Frameworks */,
 				B58358952DEDD55B0066B32E /* GRDB in Frameworks */,
 				B58358A42DEDD6090066B32E /* cmark-gfm in Frameworks */,
 				B58358A62DEDD6090066B32E /* cmark-gfm-extensions in Frameworks */,
-				B58358AC2DEDD64A0066B32E /* SwiftyJSON in Frameworks */,
-				B58358A12DEDD5E10066B32E /* Splash in Frameworks */,
 				B58359BA2DEDDB170066B32E /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -635,7 +681,6 @@
 			files = (
 				B5835D3A2DEDF9090066B32E /* Kingfisher in Frameworks */,
 				B5835D362DEDF9090066B32E /* Defaults in Frameworks */,
-				B5835D3C2DEDF9090066B32E /* SwiftyJSON in Frameworks */,
 				B5835D382DEDF9090066B32E /* GRDB in Frameworks */,
 				B5835D402DEDF92A0066B32E /* cmark-gfm-extensions in Frameworks */,
 				B5835D3E2DEDF92A0066B32E /* cmark-gfm in Frameworks */,
@@ -687,6 +732,7 @@
 		B54057062DF1B1900058DC87 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				B542AC252E083D80001B0919 /* Color+.swift */,
 				B54057422DF1B6940058DC87 /* Application+.swift */,
 				B540573B2DF1B63E0058DC87 /* Encodable+.swift */,
 				B54057342DF1B61A0058DC87 /* Type+.swift */,
@@ -739,6 +785,8 @@
 		B58358B12DEDD65A0066B32E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B55BD5522E21EFE300A1F014 /* Lang.swift */,
+				B5139EB52E02AC75001E924F /* PageModel.swift */,
 				B58358AD2DEDD65A0066B32E /* WidgetData.swift */,
 				B58358AE2DEDD65A0066B32E /* ParamsModel.swift */,
 				B58358AF2DEDD65A0066B32E /* MessageModel.swift */,
@@ -750,6 +798,10 @@
 		B58358C92DEDD65A0066B32E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */,
+				B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */,
+				B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */,
+				B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */,
 				B58359B52DEDD9030066B32E /* PassthroughWindow.swift */,
 				B58358B22DEDD65A0066B32E /* ZoomGesture.swift */,
 				B58358B32DEDD65A0066B32E /* ToastView.swift */,
@@ -824,11 +876,10 @@
 				B58358972DEDD5790066B32E /* Kingfisher */,
 				B583589A2DEDD5980066B32E /* OpenAI */,
 				B583589D2DEDD5B80066B32E /* QRScanner */,
-				B58358A02DEDD5E10066B32E /* Splash */,
 				B58358A32DEDD6090066B32E /* cmark-gfm */,
 				B58358A52DEDD6090066B32E /* cmark-gfm-extensions */,
 				B58358A82DEDD62A0066B32E /* MarkdownUI */,
-				B58358AB2DEDD64A0066B32E /* SwiftyJSON */,
+				B566E52D2E1F9F2A00CC4EBA /* Splash */,
 			);
 			productName = pushme;
 			productReference = B58357F72DEDD3B10066B32E /* pushme.app */;
@@ -899,7 +950,6 @@
 				B5835D352DEDF9090066B32E /* Defaults */,
 				B5835D372DEDF9090066B32E /* GRDB */,
 				B5835D392DEDF9090066B32E /* Kingfisher */,
-				B5835D3B2DEDF9090066B32E /* SwiftyJSON */,
 				B5835D3D2DEDF92A0066B32E /* cmark-gfm */,
 				B5835D3F2DEDF92A0066B32E /* cmark-gfm-extensions */,
 			);
@@ -1037,10 +1087,8 @@
 				B58358962DEDD5790066B32E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				B58358992DEDD5980066B32E /* XCRemoteSwiftPackageReference "OpenAI" */,
 				B583589C2DEDD5B80066B32E /* XCRemoteSwiftPackageReference "QRScanner" */,
-				B583589F2DEDD5E10066B32E /* XCRemoteSwiftPackageReference "Splash" */,
 				B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */,
 				B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
-				B58358AA2DEDD64A0066B32E /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B58357F82DEDD3B10066B32E /* Products */;
@@ -1116,6 +1164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B583590D2DEDD65A0066B32E /* HackerTextView.swift in Sources */,
+				B5139EB92E02AC79001E924F /* PageModel.swift in Sources */,
 				B54057212DF1B4560058DC87 /* URL+.swift in Sources */,
 				B583590E2DEDD65A0066B32E /* TabStateScrollView.swift in Sources */,
 				B58359122DEDD65A0066B32E /* Snapshot.swift in Sources */,
@@ -1125,10 +1174,14 @@
 				B54057382DF1B61F0058DC87 /* Type+.swift in Sources */,
 				B58359B62DEDD9060066B32E /* PassthroughWindow.swift in Sources */,
 				B58359172DEDD65A0066B32E /* DisintegrationEffect.swift in Sources */,
+				B531F48D2E02FD5300A5868B /* SlideToConfirm.swift in Sources */,
 				B54057122DF1B3850058DC87 /* Date+.swift in Sources */,
+				B55BD5532E21EFE800A1F014 /* Lang.swift in Sources */,
 				B58359182DEDD65A0066B32E /* ParamsModel.swift in Sources */,
 				B583591B2DEDD65A0066B32E /* ToastView.swift in Sources */,
+				B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */,
 				B583591C2DEDD65A0066B32E /* PopView.swift in Sources */,
+				B542AC272E083D8A001B0919 /* Color+.swift in Sources */,
 				B54057242DF1B52C0058DC87 /* Data+.swift in Sources */,
 				B583591D2DEDD65A0066B32E /* AnimatedSideBar.swift in Sources */,
 				B54057092DF1B1A20058DC87 /* Image+.swift in Sources */,
@@ -1138,6 +1191,7 @@
 				B58359262DEDD65A0066B32E /* StaggeredView.swift in Sources */,
 				B58359272DEDD65A0066B32E /* WaveformScrubber.swift in Sources */,
 				B583592A2DEDD65A0066B32E /* CustomAlertDrawer.swift in Sources */,
+				B5BDDF4F2E24F0BA00263FEF /* HeaderPageScrollView.swift in Sources */,
 				B54057412DF1B6400058DC87 /* Encodable+.swift in Sources */,
 				B54057182DF1B3DB0058DC87 /* String+.swift in Sources */,
 				B583592D2DEDD65A0066B32E /* ZoomGesture.swift in Sources */,
@@ -1151,6 +1205,7 @@
 				B58359392DEDD65A0066B32E /* ParticleEffect.swift in Sources */,
 				B54057432DF1B6960058DC87 /* Application+.swift in Sources */,
 				B583593B2DEDD65A0066B32E /* HeroEffect.swift in Sources */,
+				B5BDDF6D2E24F89300263FEF /* CustomLoadingView.swift in Sources */,
 				B583593C2DEDD65A0066B32E /* TrayHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1166,6 +1221,7 @@
 				B540573A2DF1B61F0058DC87 /* Type+.swift in Sources */,
 				B540571D2DF1B4560058DC87 /* URL+.swift in Sources */,
 				B540573D2DF1B6400058DC87 /* Encodable+.swift in Sources */,
+				B542AC262E083D8A001B0919 /* Color+.swift in Sources */,
 				B54057252DF1B52C0058DC87 /* Data+.swift in Sources */,
 				B5835C4D2DEDE2860066B32E /* OtherModel.swift in Sources */,
 				B540571A2DF1B3DB0058DC87 /* String+.swift in Sources */,
@@ -1185,6 +1241,7 @@
 			files = (
 				B5835D462DEDF9680066B32E /* MessageModel.swift in Sources */,
 				B540571E2DF1B4560058DC87 /* URL+.swift in Sources */,
+				B542AC292E083D8A001B0919 /* Color+.swift in Sources */,
 				B5835D452DEDF9630066B32E /* OtherModel.swift in Sources */,
 				B54057402DF1B6400058DC87 /* Encodable+.swift in Sources */,
 				B54057142DF1B3850058DC87 /* Date+.swift in Sources */,
@@ -1203,6 +1260,7 @@
 				B54057082DF1B1A20058DC87 /* Image+.swift in Sources */,
 				B54057352DF1B61F0058DC87 /* Type+.swift in Sources */,
 				B540571F2DF1B4560058DC87 /* URL+.swift in Sources */,
+				B542AC2A2E083D8A001B0919 /* Color+.swift in Sources */,
 				B540573E2DF1B6400058DC87 /* Encodable+.swift in Sources */,
 				B54057272DF1B52C0058DC87 /* Data+.swift in Sources */,
 				B54057172DF1B3DB0058DC87 /* String+.swift in Sources */,
@@ -1224,6 +1282,7 @@
 				B5835D692DEDFED60066B32E /* OtherModel.swift in Sources */,
 				B5835D532DEDFB2B0066B32E /* WidgetData.swift in Sources */,
 				B54057222DF1B4560058DC87 /* URL+.swift in Sources */,
+				B542AC282E083D8A001B0919 /* Color+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1231,7 +1290,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B55BD5512E212CA700A1F014 /* OtherModel.swift in Sources */,
 				B54057262DF1B52C0058DC87 /* Data+.swift in Sources */,
+				B542AC2B2E083D8A001B0919 /* Color+.swift in Sources */,
 				B540570A2DF1B1A20058DC87 /* Image+.swift in Sources */,
 				B54057362DF1B61F0058DC87 /* Type+.swift in Sources */,
 				B54057202DF1B4560058DC87 /* URL+.swift in Sources */,
@@ -1285,7 +1346,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushme/pushme.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = pushme/Info.plist;
@@ -1304,7 +1365,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1321,7 +1382,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = pushme/pushme.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = pushme/Info.plist;
@@ -1340,7 +1401,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1477,7 +1538,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
@@ -1489,7 +1550,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1504,7 +1565,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ShareExtension/Info.plist;
@@ -1516,7 +1577,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1531,7 +1592,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SafariExtension/SafariExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SafariExtension/Info.plist;
@@ -1543,7 +1604,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1562,7 +1623,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SafariExtension/SafariExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SafariExtension/Info.plist;
@@ -1574,7 +1635,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1593,7 +1654,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ServiceExtension/ServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceExtension/Info.plist;
@@ -1605,7 +1666,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1620,7 +1681,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = ServiceExtension/ServiceExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ServiceExtension/Info.plist;
@@ -1632,7 +1693,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1648,7 +1709,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ContentExtension/ContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ContentExtension/Info.plist;
@@ -1660,7 +1721,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1677,7 +1738,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ContentExtension/ContentExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ContentExtension/Info.plist;
@@ -1689,7 +1750,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1708,7 +1769,7 @@
 				CODE_SIGN_ENTITLEMENTS = PushWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PushWidget/Info.plist;
@@ -1720,7 +1781,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1741,7 +1802,7 @@
 				CODE_SIGN_ENTITLEMENTS = PushWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PushWidget/Info.plist;
@@ -1753,7 +1814,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1769,7 +1830,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MarkdownExtension/MarkdownExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MarkdownExtension/Info.plist;
@@ -1781,7 +1842,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.MarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1796,7 +1857,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MarkdownExtension/MarkdownExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 51;
 				DEVELOPMENT_TEAM = FUWV6U942Q;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MarkdownExtension/Info.plist;
@@ -1808,7 +1869,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.MarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1900,16 +1961,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/Defaults.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
 			};
 		};
 		B58358932DEDD55B0066B32E /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/groue/GRDB.swift.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.5.0;
 			};
 		};
 		B58358962DEDD5790066B32E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -1924,24 +1985,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/OpenAI.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
 			};
 		};
 		B583589C2DEDD5B80066B32E /* XCRemoteSwiftPackageReference "QRScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/QRScanner.git";
 			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-		B583589F2DEDD5E10066B32E /* XCRemoteSwiftPackageReference "Splash" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AugustDev/Splash";
-			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */ = {
@@ -1957,20 +2010,17 @@
 			repositoryURL = "https://github.com/uuneo/swift-markdown-ui";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.2;
-			};
-		};
-		B58358AA2DEDD64A0066B32E /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/uuneo/SwiftyJSON.git";
-			requirement = {
-				branch = master;
-				kind = branch;
+				minimumVersion = 3.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B566E52D2E1F9F2A00CC4EBA /* Splash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = Splash;
+		};
 		B58358912DEDD4E10066B32E /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B58358902DEDD4E10066B32E /* XCRemoteSwiftPackageReference "Defaults" */;
@@ -1996,11 +2046,6 @@
 			package = B583589C2DEDD5B80066B32E /* XCRemoteSwiftPackageReference "QRScanner" */;
 			productName = QRScanner;
 		};
-		B58358A02DEDD5E10066B32E /* Splash */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B583589F2DEDD5E10066B32E /* XCRemoteSwiftPackageReference "Splash" */;
-			productName = Splash;
-		};
 		B58358A32DEDD6090066B32E /* cmark-gfm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */;
@@ -2015,11 +2060,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
-		};
-		B58358AB2DEDD64A0066B32E /* SwiftyJSON */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B58358AA2DEDD64A0066B32E /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
-			productName = SwiftyJSON;
 		};
 		B5835D1D2DEDEF0A0066B32E /* cmark-gfm */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2055,11 +2095,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358962DEDD5790066B32E /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
-		};
-		B5835D3B2DEDF9090066B32E /* SwiftyJSON */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B58358AA2DEDD64A0066B32E /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
-			productName = SwiftyJSON;
 		};
 		B5835D3D2DEDF92A0066B32E /* cmark-gfm */ = {
 			isa = XCSwiftPackageProductDependency;

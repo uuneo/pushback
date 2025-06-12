@@ -9,6 +9,8 @@ import SwiftUI
 import GRDB
 import Defaults
 
+
+
 struct SingleMessagesView: View {
     
     @Default(.showMessageAvatar) var showMessageAvatar
@@ -22,84 +24,37 @@ struct SingleMessagesView: View {
     @EnvironmentObject private var messageManager: MessagesManager
     
     @State private var showLoading:Bool = false
-    
-    
+    @State private var scrollItem:String = ""
     @Namespace var namespace
     var body: some View {
         
         ScrollViewReader { proxy in
             List{
+               
+                    ForEach(messageManager.singleMessages, id: \.id) { message in
+                        
+                        MessageCard(message: message, searchText: "",showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
+                            withAnimation(.easeInOut) {
+                                manager.selectMessage = message
+                            }
+                        }
+                        .id(message.id)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listSectionSeparator(.hidden)
+                        
+                        .onAppear{
+                            if messageManager.singleMessages.count < messageManager.allCount &&
+                                messageManager.singleMessages.last == message{
+                                self.loadData(proxy: proxy, item: message)
+                            }
+                        }
+                        
+                    }
                 
-                ForEach(messageManager.singleMessages, id: \.id) { message in
-                    
-                    MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar:showMessageAvatar){
-                        withAnimation(.easeInOut) {
-                            manager.selectMessage = message
-                        }
-                    }
-                    .id(message.id)
-                    .listRowBackground(Color.clear)
-                    .listSectionSeparator(.visible)
-                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                        Button {
-                            Task(priority: .high) {
-                                guard let player = await AudioManager.shared.Speak(message.voiceText) else {
-                                    return
-                                }
-                                player.play()
-                            }
-                        }label: {
-                            Label("朗读内容",  systemImage: "waveform")
-                                .symbolEffect(.variableColor)
-                        }.tint(.green)
-                    }
-                    .swipeActions(edge: .trailing) {
-                        Button {
-
-                            withAnimation {
-                                messageManager.singleMessages.removeAll(where: {$0.id == message.id})
-                               
-                            }
-                            Task.detached(priority: .background){
-                                _ = await DatabaseManager.shared.delete(message)
-                            }
-                        } label: {
-                            
-                            Label( "删除", systemImage: "trash")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.white, Color.primary)
-                            
-                        }.tint(.red)
-                    }
-                    .onAppear{
-                        if messageManager.singleMessages.count < messageManager.allCount &&
-                            messageManager.singleMessages.last == message{
-                            self.loadData(proxy: proxy, item: message)
-                        }
-                    }
-                    
-                }
-                if showLoading && messageManager.singleMessages.count == 0{
-                    HStack{
-                        Spacer()
-                        VStack(spacing: 16) {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .scaleEffect(1.5)
-                            
-                            Text("数据排序中...")
-                                .foregroundColor(.white)
-                                .font(.body)
-                                .bold()
-                        }
-                        Spacer()
-                    }
-                    .padding(24)
-                    .shadow(radius: 10)
-                    .listRowBackground(Color.clear)
-                }
                 
             }
+            .listStyle(.grouped)
             .refreshable {
                 self.loadData(proxy: proxy , limit: min(messageManager.singleMessages.count, 200))
             }
@@ -107,10 +62,11 @@ struct SingleMessagesView: View {
                 loadData(proxy: proxy, limit: max(messageManager.singleMessages.count, 50))
             }
         }
+        
         .safeAreaInset(edge: .bottom, content: {
             HStack{
                 Spacer()
-                Text("\(messageManager.singleMessages.count) / \(max(messageManager.allCount, messageManager.singleMessages.count))")
+                Text(verbatim: "\(messageManager.singleMessages.count) / \(max(messageManager.allCount, messageManager.singleMessages.count))")
                     .font(.caption)
                     .foregroundStyle(.gray)
                     .padding(.horizontal, 20)
@@ -200,3 +156,6 @@ struct ScrollOffsetKey: PreferenceKey {
         value = nextValue()
     }
 }
+
+
+

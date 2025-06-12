@@ -6,6 +6,7 @@
 	<dict>
 		<key>IntentsSupported</key>
 		<array>
+			<string>INStartCallIntent</string>
 			<string>INSendMessageIntent</string>
 		</array>
 		<key>NSExtensionPointIdentifier</key>

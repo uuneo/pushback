@@ -77,7 +77,7 @@ struct ChangeKeyCenterView: View {
                         Image(systemName: "filemenu.and.selection")
                             .imageScale(.medium)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(.white, .primary)
+                            .customForegroundStyle(.accent, .primary)
                         
                         Text("选择服务器")
                         
@@ -243,7 +243,7 @@ struct ChangeKeyCenterView: View {
                 await view.next(.loading(0))
                 
                  DispatchQueue.main.async {
-                    self.keyName = self.keyName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    self.keyName = self.keyName.trimmingSpaceAndNewLines
                     self.keyHost = self.keyHost.trimmingCharacters(in: .whitespacesAndNewlines)
                 }
                 

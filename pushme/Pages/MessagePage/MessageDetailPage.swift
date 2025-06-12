@@ -24,88 +24,54 @@ struct MessageDetailPage: View {
 
     @State private var isLoading: Bool = false
     @State private var showAllTTL:Bool = false
+    @State private var searchText:String = ""
     
     var body: some View {
         
         Group{
-            if manager.searchText.isEmpty{
+            if searchText.isEmpty{
                 ScrollViewReader{ proxy in
                     List{
+                        
                         ForEach(messages, id: \.id) { message in
                             
-                            MessageCard(message: message, searchText: manager.searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar){
+                            MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar){
                                 withAnimation(.easeInOut) {
                                     manager.selectMessage = message
                                 }
                             }
-                            .id(message.id)
+                            .listRowInsets(EdgeInsets())
                             .listRowBackground(Color.clear)
-                            .listSectionSeparator(.visible)
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    Task(priority: .high) {
-                                        guard let player = await AudioManager.shared.Speak(message.voiceText) else {
-                                            return
-                                        }
-                                        player.play()
-                                    }
-                                }label: {
-                                    Label("朗读内容",  systemImage: "waveform")
-                                        .symbolEffect(.variableColor)
-                                }.tint(.green)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                Button {
-
-                                    withAnimation {
-                                        messages.removeAll(where: {$0.id == message.id})
-                                       
-                                    }
-                                    Task.detached(priority: .background){
-                                        let count = await DatabaseManager.shared.delete(message)
-                                        if count == 0{
-                                            await MainActor.run{
-                                                self.dismiss()
-                                            }
-                                        }
-                                    }
-                                    
-                                   
-                                } label: {
-                                    
-                                    Label( "删除", systemImage: "trash")
-                                        .symbolRenderingMode(.palette)
-                                        .foregroundStyle(.white, Color.primary)
-                                    
-                                }.tint(.red)
-                            }
+                            .listSectionSeparator(.hidden)
+                            .id(message.id)
                             .onAppear{
                                 if messages.count < allCount && messages.last == message{
                                     loadData(proxy: proxy,item: message)
                                 }
                             }
                             .opacity(manager.selectMessage == message ? 0 : 1)
-                           
+                            
+                            
                         }
                         
-                       
                     }
+                    .listStyle(.grouped)
                     .onChange(of: messageManager.updateSign) {  newValue in
                         loadData(proxy: proxy, limit: max(messages.count, 50))
                     }
                 }
                 
             }else {
-                SearchMessageView(searchText: $manager.searchText, group: group)
+                SearchMessageView(searchText: $searchText, group: group)
             }
         }
-        .searchable(text: $manager.searchText)
+        .searchable(text: $searchText)
         .refreshable {
             loadData( limit: min(messages.count, 200))
         }
         .toolbar{
             ToolbarItem {
-                Text("\(messages.count)/\(allCount)")
+                Text(verbatim: "\(messages.count)/\(allCount)")
                     .font(.caption)
                     .VButton(onRelease: { _ in
                         withAnimation {
@@ -121,7 +87,7 @@ struct MessageDetailPage: View {
             Task.detached(priority: .background){
                 try? await DatabaseManager.shared.dbPool.write { db in
                     // 更新指定 group 的未读消息为已读
-                   let count =  try Message
+                    let count =  try Message
                         .filter(Message.Columns.group == group)
                         .filter(Message.Columns.read == false)
                         .fetchCount(db)

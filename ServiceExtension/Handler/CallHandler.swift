@@ -8,6 +8,8 @@ import Foundation
 import AVFAudio
 import AudioToolbox
 import UserNotifications
+import CallKit
+import LiveCommunicationKit
 
 class CallHandler: NotificationContentHandler {
     /// 铃声文件夹，扩展访问不到主APP中的铃声，需要先共享铃声文件
@@ -16,9 +18,11 @@ class CallHandler: NotificationContentHandler {
     
     func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
         // 如果不是来电通知，直接返回
-        guard let call:String = bestAttemptContent.userInfo.raw(.call), call == "1" else {
+        guard let call:Int = bestAttemptContent.userInfo.raw(.call), call == 1 else {
             return bestAttemptContent
         }
+        
+        
 
         // 提取铃声名与类型
         let defaultSoundName = "call"
@@ -37,15 +41,15 @@ class CallHandler: NotificationContentHandler {
         guard let longSoundUrl = getLongSound(soundName: soundName, soundType: soundType) else {
             return bestAttemptContent
         }
-        
+        // Fallback on earlier versions
         // 设置铃声
+        // Fallback on earlier versions
         let soundFile = UNNotificationSoundName(rawValue: longSoundUrl.lastPathComponent)
         if bestAttemptContent.isCritical {
             LevelHandler.setCriticalSound(content: bestAttemptContent, soundName: soundFile.rawValue)
         } else {
             bestAttemptContent.sound = UNNotificationSound(named: soundFile)
         }
-
         return bestAttemptContent
     }
 }
@@ -54,22 +58,19 @@ class CallHandler: NotificationContentHandler {
 extension CallHandler{
 
     func getLongSound(soundName: String, soundType: String) -> URL? {
-        guard let soundsDirectoryUrl else {  return nil }
+        guard let soundsDirectoryUrl else { return nil }
         
         // 已经存在处理过的长铃声，则直接返回
         let longSoundName = "\(BaseConfig.longSoundPrefix).\(soundName).\(soundType)"
         let longSoundPath = soundsDirectoryUrl.appendingPathComponent(longSoundName)
-        if FileManager.default.fileExists(atPath: longSoundPath.path) {
-            return longSoundPath
-        }
+        if FileManager.default.fileExists(atPath: longSoundPath.path) { return longSoundPath }
         
         // 原始铃声路径
         var path: String = soundsDirectoryUrl.appendingPathComponent("\(soundName).\(soundType)").path
         if !FileManager.default.fileExists(atPath: path) {
-            // 不存在自定义的铃声，就用内置的铃声
             path = Bundle.main.path(forResource: soundName, ofType: soundType) ?? ""
         }
-        guard !path.isEmpty else { return nil }
+        guard !path.isEmpty else {  return nil }
         
         // 将原始铃声处理成30s的长铃声，并缓存起来
         return mergeCAFFilesToDuration(inputFile: URL(fileURLWithPath: path))

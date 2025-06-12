@@ -88,7 +88,7 @@ public class DatabaseManager {
                 complete(true)
                 
             }catch{
-                debugPrint(error.localizedDescription)
+                Log.error(error.localizedDescription)
                 complete(false)
             }
         }
@@ -186,68 +186,65 @@ extension DatabaseManager{
             return nil
         }
     }
-    
     func query(search: String, group: String? = nil,
-               limit lim: Int = 50, _ date: Date? = nil) async -> ([Message],Int) {
-        debugPrint(search)
+               limit lim: Int = 50, _ date: Date? = nil) async -> ([Message], Int) {
+        
+        // 1. 分词，去掉空字符串
+        let keywords = search
+            .split(separator: " ")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+
         do {
-            return try await  dbPool.read { db in
-                let escapedQuery = search.replacingOccurrences(of: "%", with: "\\%")
-                    .replacingOccurrences(of: "_", with: "\\_")
-                let pattern = "%" + escapedQuery + "%"
-                
-                var request =  Message.filter(
-                    Message.Columns.title.like(pattern)
-                    || Message.Columns.subtitle.like(pattern)
-                    || Message.Columns.body.like(pattern)
-                    || Message.Columns.group.like(pattern)
-                ).order(Message.Columns.createDate.desc)
-                if let group = group{
+            return try await dbPool.read { db in
+                var request = Message.all()
+
+                // 2. 多关键词叠加 AND 条件
+                for keyword in keywords {
+                    let escaped = keyword
+                        .replacingOccurrences(of: "%", with: "\\%")
+                        .replacingOccurrences(of: "_", with: "\\_")
+
+                    let pattern = "%\(escaped)%"
+
+                    // 每个关键词作用在所有字段：用 OR
+                    let perKeywordFilter =
+                        Message.Columns.title.like(pattern)
+                        || Message.Columns.subtitle.like(pattern)
+                        || Message.Columns.body.like(pattern)
+                        || Message.Columns.group.like(pattern)
+                        || Message.Columns.url.like(pattern)
+
+                    // 每个关键词之间用 AND 累加
+                    request = request.filter(perKeywordFilter)
+                }
+
+                // 3. 附加其他过滤条件
+                if let group = group {
                     request = request.filter(Message.Columns.group == group)
                 }
-                
-                if let date = date{
+
+                if let date = date {
                     request = request.filter(Message.Columns.createDate < date)
                 }
-                
-                
-                return (try request.limit(lim).fetchAll(db),try request.fetchCount(db))
+
+                // 4. 排序与限制
+                request = request
+                    .order(Message.Columns.createDate.desc)
+                    .limit(lim)
+
+                return (try request.fetchAll(db), try request.fetchCount(db))
             }
         } catch {
             print("Query error: \(error)")
             return ([], 0)
         }
     }
-
+    
     func queryGroup() async -> [Message]{
         do {
             return try await dbPool.read { db in
-                
-                let rows = try Row.fetchAll(db, sql: """
-                               SELECT m.*, unread.count AS unreadCount
-                               FROM (
-                                   SELECT *
-                                   FROM (
-                                       SELECT *,
-                                              ROW_NUMBER() OVER (PARTITION BY "group" ORDER BY createDate DESC, id DESC) AS rn
-                                       FROM message
-                                   )
-                                   WHERE rn = 1
-                               ) AS m
-                               LEFT JOIN (
-                                   SELECT "group", COUNT(*) AS count
-                                   FROM message
-                                   WHERE read = 0
-                                   GROUP BY "group"
-                               ) AS unread
-                               ON m."group" = unread."group"
-                               ORDER BY unread.count DESC NULLS LAST, m.createDate DESC
-                           """)
-                
-                
-                let messages = try rows.map { try Message(row: $0) }
-                
-                return messages
+                try self.fetchGroupedMessages(from: db)
             }
         } catch {
             print("Failed to query messages:", error)
@@ -257,38 +254,39 @@ extension DatabaseManager{
     
     func queryGroup() -> [Message] {
         do {
-            return try  dbPool.read { db in
-                
-                let rows = try Row.fetchAll(db, sql: """
-                               SELECT m.*, unread.count AS unreadCount
-                               FROM (
-                                   SELECT *
-                                   FROM (
-                                       SELECT *,
-                                              ROW_NUMBER() OVER (PARTITION BY "group" ORDER BY createDate DESC, id DESC) AS rn
-                                       FROM message
-                                   )
-                                   WHERE rn = 1
-                               ) AS m
-                               LEFT JOIN (
-                                   SELECT "group", COUNT(*) AS count
-                                   FROM message
-                                   WHERE read = 0
-                                   GROUP BY "group"
-                               ) AS unread
-                               ON m."group" = unread."group"
-                               ORDER BY unread.count DESC NULLS LAST, m.createDate DESC
-                           """)
-                
-                
-                let messages = try rows.map { try Message(row: $0) }
-                
-                return messages
+            return try dbPool.read { db in
+                try self.fetchGroupedMessages(from: db)
             }
         } catch {
             print("Failed to query messages:", error)
             return []
         }
+    }
+    
+    
+    private func fetchGroupedMessages(from db: Database) throws -> [Message] {
+        let rows = try Row.fetchAll(db, sql: """
+            SELECT m.*, unread.count AS unreadCount
+            FROM (
+                SELECT *
+                FROM (
+                    SELECT *,
+                           ROW_NUMBER() OVER (PARTITION BY "group" ORDER BY createDate DESC, id DESC) AS rn
+                    FROM message
+                )
+                WHERE rn = 1
+            ) AS m
+            LEFT JOIN (
+                SELECT "group", COUNT(*) AS count
+                FROM message
+                WHERE read = 0
+                GROUP BY "group"
+            ) AS unread
+            ON m."group" = unread."group"
+            ORDER BY unread.count DESC NULLS LAST, m.createDate DESC
+        """)
+
+        return try rows.map { try Message(row: $0) }
     }
     
     func query(group: String? = nil, limit lim: Int = 50, _ date: Date? = nil) async -> [Message] {

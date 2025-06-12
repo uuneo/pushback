@@ -6,10 +6,10 @@
 //  Description:
 //  History:
 //  Created by uuneo on 2024/12/11.
+
 import SwiftUI
 import Defaults
 import UniformTypeIdentifiers
-import SwiftyJSON
 import Photos
 struct MoreOperationsView: View {
     @EnvironmentObject private var manager:AppManager
@@ -18,18 +18,15 @@ struct MoreOperationsView: View {
 	@Default(.messageExpiration) var messageExpiration
 	@Default(.imageSaveDays) var imageSaveDays
 	@Default(.autoSaveToAlbum) var autoSaveToAlbum
-    @Default(.deviceToken) var deviceToken
-    @Default(.id) var userID
+   
     @Default(.badgeMode) var badgeMode
     @Default(.showMessageAvatar) var showMessageAvatar
-    
     @Default(.defaultBrowser) var defaultBrowser
-    
+    @Default(.muteSetting) var muteSetting
     
     @State private var messages:[Message] = []
     @State private var allCount:Int = 0
-    @State private var showTextAnimation:Bool = false
-    @State private var showIdAnimation:Bool = false
+
     
     @State private var showDeleteAlert:Bool = false
     @State private var resetAppShow:Bool = false
@@ -50,65 +47,9 @@ struct MoreOperationsView: View {
 	var body: some View {
 			List{
                 
-                Section(header:Text( "设备推送令牌")) {
-                    ListButton(leading: {
-                        Label {
-                            Text( "令牌")
-                                .lineLimit(1)
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "key")
-                                
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(Color.primary, .tint)
-                        }
-                    }, trailing: {
-                        HackerTextView(text: maskString(deviceToken), trigger:showTextAnimation)
-                            .foregroundStyle(.gray)
-                            
-                        Image(systemName: "doc.on.doc")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .tint, Color.primary)
-                            
-                    }, showRight: false) {
-                        if deviceToken != ""{
-                            Clipboard.set(deviceToken)
-                            Toast.copy(title: "复制成功")
-                            
-                        }else{
-                            Toast.shared.present(title: "请先注册", symbol: "questionmark.circle.dashed")
-                        }
-                        self.showTextAnimation.toggle()
-                        return true
-                    }
-                    
-                    ListButton(leading: {
-                        Label {
-                            Text( "ID")
-                                .lineLimit(1)
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "person.crop.square.filled.and.at.rectangle")
-                                
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(Color.primary, .tint)
-                        }
-                    }, trailing: {
-                        HackerTextView(text: maskString(userID,isID: true), trigger: showIdAnimation)
-                            .foregroundStyle(.gray)
-                            
-                        Image(systemName: "doc.on.doc")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle( .tint, Color.primary)
-                            
-                    }, showRight: false) {
-                        Clipboard.set(userID)
-                        Toast.copy(title:  "复制成功")
-                        self.showIdAnimation.toggle()
-                        return true
-                    }
-                   
-                }
+             
+                
+                
                 
                 Section {
                     Button{
@@ -125,7 +66,7 @@ struct MoreOperationsView: View {
                                     self.showexport = true
                                 }
                             }catch{
-                                debugPrint(error.localizedDescription)
+                                Log.error(error.localizedDescription)
                                  DispatchQueue.main.async{
                                     self.showexportLoading = false
                                 }
@@ -224,22 +165,9 @@ struct MoreOperationsView: View {
                         return true
                     }
                     
-                    ListButton {
-                        Label {
-                            Text( "系统设置")
-                                .foregroundStyle(.textBlack)
-                        } icon: {
-                            Image(systemName: "gear.circle")
-                                
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.tint, Color.primary)
-                                .symbolEffect(.rotate)
-                        }
-                    } action:{
-                        AppManager.openSetting()
-                        return true
-                    }
                 }
+                
+                
              
                 
 				Section {
@@ -288,6 +216,27 @@ struct MoreOperationsView: View {
                                 .symbolEffect(.pulse, delay: 1)
 						}
 					}
+
+                    
+                    ListButton(leading: {
+                        Label {
+                            Text("取消静音分组")
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                           
+                            Image(systemName: "\(muteSetting.count).circle")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.tint, Color.primary)
+                                
+                        }
+                    }, trailing: {
+                        Image(systemName: "trash")
+                             .symbolRenderingMode(.palette)
+                             .foregroundStyle(.tint, Color.primary)
+                    }, showRight: true) {
+                        Defaults[.muteSetting] = [:]
+                        return true
+                    }
                 
 				}header:{
                     Text("信息页面")
@@ -500,15 +449,7 @@ struct MoreOperationsView: View {
     }
    
     
-    fileprivate func maskString(_ str: String, isID:Bool = false) -> String {
-        guard str.count > 9 else { return String(repeating: "*", count: 3) +  str }
-        if isID{
-            return String(repeating: "*", count: 3) + str.suffix(9)
-        }else{
-            return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(6)
-        }
-       
-    }
+   
     
     fileprivate func importMessage(_ fileUrls: [URL]) -> String {
         guard let url = fileUrls.first else { return ""}
@@ -535,6 +476,8 @@ struct MoreOperationsView: View {
             return error.localizedDescription
         }
     }
+    
+  
     
    
 	

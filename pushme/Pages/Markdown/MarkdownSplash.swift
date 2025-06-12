@@ -25,6 +25,7 @@ struct CodeBlock: View {
                 
                 Button(action: {
                     Clipboard.set(configuration.content)
+                    Haptic.impact()
                     Toast.copy(title: "复制成功")
                 }) {
                     Image(systemName: "doc.on.doc")
@@ -115,7 +116,7 @@ extension TextOutputFormat {
         }
         
         func build() -> Text {
-            self.accumulatedText.reduce(Text("\("")"), +)
+            self.accumulatedText.reduce(Text(verbatim: ""), +)
         }
     }
 }

@@ -66,7 +66,7 @@ struct PromptChooseView: View {
                     self.prompts = results
                 }
             }catch{
-                debugPrint(error.localizedDescription)
+                Log.error(error.localizedDescription)
             }
         }
     }

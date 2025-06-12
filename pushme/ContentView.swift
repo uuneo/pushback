@@ -37,25 +37,7 @@ struct ContentView: View {
             
         }
         .environmentObject(manager)
-        .safeAreaInset(edge: .bottom) {
-            if manager.speaking {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
-                    .frame(height: 70)
-                    .overlay(alignment: .bottom, content: {
-                        Rectangle()
-                            .fill(.gray.opacity(0.3))
-                            .frame(height: 1)
-                    })
-                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
-                    .shadow(radius: 3)
-                    .padding(.horizontal, 5)
-                    .offset(y: manager.router.count == 0 ? -49 : 0)
-                    .animation(.easeInOut, value: manager.router)
-                    .transition(.move(edge: .trailing))
-            }
-        }
+        
         .overlay{
             if let message = manager.selectMessage{
                 SelectMessageView(message: message) {
@@ -64,7 +46,7 @@ struct ContentView: View {
                     }
                 }
                 .ignoresSafeArea(.all, edges: .top)
-                .transition(.move(edge: .bottom))
+                .transition(.opacity)
             }
         }
         
@@ -93,62 +75,75 @@ struct ContentView: View {
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
-        .alert(isPresented: $manager.showHomeAlert) {
-            Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
-                Task.detached(priority: .userInitiated) {
-                    await DatabaseManager.shared.delete(allRead: true)
-                }
-            }), secondaryButton: .cancel()) }
-//        .task {
-//            
-//            Task.detached(priority: .userInitiated) {
-//                await DatabaseManager.CreateStresstest(max: 100000)
-//            }
-//
-//        }
+        .safeAreaInset(edge: .bottom) {
+            if manager.speaking {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
+                    .frame(height: 70)
+                    .overlay(alignment: .bottom, content: {
+                        Rectangle()
+                            .fill(.gray.opacity(0.3))
+                            .frame(height: 1)
+                    })
+                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
+                    .shadow(radius: 3)
+                    .padding(.horizontal, 5)
+                    .animation(.easeInOut, value: manager.router)
+                    .transition(.move(edge: .trailing))
+            }
+        }
         
     }
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
-        TabView(selection: Binding(get: {
-            manager.page
-        }, set: { value in
-            manager.page = value
-        })) {
-            
-            
-            NavigationStack(path: $manager.router){
-                // MARK: 信息页面
-                MessagePage().router(manager)
+        VStack(spacing: 0) {
+            TabView(selection: $manager.page) {
                 
+                ForEach(TabPage.allCases, id: \.rawValue){ page in
+                    
+                    NavigationStack(path: $manager.router){
+                        Group{
+                            switch page{
+                            case .message:
+                                MessagePage()
+                            case .assistant:
+                                AssistantPageView()
+                            case .example:
+                                ExampleView()
+                            case .setting:
+                                SettingsPage()
+                            }
+                        }.router(manager)
+                    }
+                    .toolbar(.hidden, for: .tabBar)
+                    .tag(page)
+                    
+                }
             }
-            .badge(messageManager.unreadCount)
-            .tabItem {
-                Label( "消息", systemImage: "ellipsis.message")
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
+            .onChange(of: manager.page) { page in
+                Haptic.impact()
+                if page != .assistant{
+                    manager.oldPage = page
+                }
             }
-            .tag(TabPage.message)
-            
-            
-            
-            NavigationStack(path: $manager.router){
-                // MARK: 设置页面
-                SettingsPage().router(manager)
-                
+            if manager.router.count == 0 && manager.page != .assistant {
+                GeometryReader {proxy in
+                    CustomTabBar(size: proxy.size, activeTab: $manager.page, searchText: $manager.searchText) { search in
+                        manager.isSearchActive = search
+                    } onSearchTextFieldActive: { active in
+                        
+                    }
+                    .transition(.move(edge: .bottom))
+                    
+                }
+                .padding(.horizontal, 10)
+                .frame( height: 56)
+                .background(.ultraThickMaterial)
             }
-            .tabItem {
-                Label( "设置", systemImage: "gear.badge.questionmark")
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
-            }
-            .tag(TabPage.setting)
-            
         }
-        .onChange(of: manager.page) { _ in
-            Haptic.impact()
-        }
+        
     }
     
     @ViewBuilder
@@ -244,24 +239,23 @@ extension View{
                     switch router {
                     case .example:
                         ExampleView()
-                        
                     case .messageDetail(let group):
                         MessageDetailPage(group: group)
                             .navigationTitle(group)
                     case .sound:
                         SoundView()
                     case .assistant:
-                        
                         AssistantPageView()
-                            .navigationBarBackButtonHidden()
+                        
+                    case .assistantSetting(let account):
+                        AssistantSettingsView(account: account)
+                        
                     case .crypto(let text):
                         CryptoConfigView(config: text)
                         
                     case .server:
                         ServersConfigView()
                         
-                    case .assistantSetting(let account):
-                        AssistantSettingsView(account: account)
                     case .more:
                         MoreOperationsView()
                         
@@ -270,10 +264,10 @@ extension View{
                             .navigationTitle(title ?? "小组件")
                     case .tts:
                         SpeakSettingsView()
-                       
                     }
                 }
                 .toolbar(.hidden, for: .tabBar)
+                .navigationBarTitleDisplayMode(.large)
                 .environmentObject(manager)
                
                 

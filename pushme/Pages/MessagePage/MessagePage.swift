@@ -13,78 +13,70 @@ struct MessagePage: View {
     @Default(.showGroup) private var showGroup
     @Default(.servers) private var servers
     @StateObject private var messageManager = MessagesManager.shared
-    
+    @State private var showDeleteAction:Bool = false
+    @State private var selectAction:MessageAction? = nil
     var body: some View {
         
-        Group{
-            if manager.searchText.isEmpty{
+        ZStack{
+            if !manager.isSearchActive{
                 SingleMessagesView()
-                    .if(showGroup) {
-                        GroupMessagesView()
-                    }
+                    .if(showGroup) { GroupMessagesView() }
+                    .transition(.move(edge: .leading))
             }else{
                 SearchMessageView(searchText: $manager.searchText)
+                    .transition(.move(edge: .trailing))
             }
         }
         .navigationTitle( "消息")
+        .animation(.easeInOut, value:  manager.isSearchActive)
+        .animation(.easeInOut, value: showGroup)
         .environmentObject(messageManager)
-        .searchable(text: $manager.searchText)
-        .listRowSpacing(10)
+        .if(manager.isSearchActive){ $0.toolbar(.hidden, for: .navigationBar) }
         .toolbar{
             
             ToolbarItem( placement: .topBarLeading) {
+                
                 Button{
                     self.showGroup.toggle()
                     manager.selectGroup = nil
                     manager.selectId = nil
+                    Haptic.impact()
                 }label:{
                     
-                    Image(systemName: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
+                    Label("显示模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
+                        .customForegroundStyle(.accent, .primary)
                         .animation(.easeInOut, value: showGroup)
                         .symbolEffect(delay: 0)
                 }
-            }
-            if servers.count > 0{
-                ToolbarItem{
-                    Image(systemName: "questionmark.circle")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .symbolEffect(delay: 0)
-                        .padding(.horizontal, 10)
-                        .VButton(onRelease: { value in
-                            manager.router = [.example]
-                            return true
-                            
-                        })
-                }
-            }else{
-                ToolbarItem{
-                    Image(systemName: "key.viewfinder")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, Color.primary)
-                        .symbolEffect(delay: 0)
-                        .VButton(onRelease: { value in
-                            manager.registerForRemoteNotifications()
-                            return true
-                            
-                        })
-                }
-            }
-            
-            
-            ToolbarItem {
                 
+                
+                
+            }
+           
+            if messageManager.groupMessages.count > 0 {
+                ToolbarItem(placement: .topBarTrailing) {
+                    
                     Menu {
                         ForEach( MessageAction.allCases, id: \.self){ item in
-                            Button(role: item == .cancel ? .destructive : .cancel){
-                                deleteMessage(item)
-                            }label:{
-                                Label(item.localized, systemImage:  item == .cancel ? "xmark.seal" : "trash" )
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.green, Color.primary)
+                            if item == .cancel{
+                                Section{
+                                    Button(role: .destructive){}label:{
+                                        Label(item.localized, systemImage: "xmark.seal")
+                                            .symbolRenderingMode(.palette)
+                                            .customForegroundStyle(.accent, .primary)
+                                    }
+                                }
+                            }else{
+                                Button{
+                                    self.selectAction = item
+                                }label:{
+                                    Label(item.localized, systemImage:  "trash" )
+                                        .symbolRenderingMode(.palette)
+                                        .customForegroundStyle(.accent, .primary)
+                                }
                             }
+                           
                         }
                     } label: {
                         Image(systemName: "trash.circle")
@@ -92,24 +84,31 @@ struct MessagePage: View {
                             .foregroundStyle(.green, Color.primary)
                     }
                     
+                    
+                }
+            }
+    
+           
+            
+            
+        }
+        .alert("确认删除", isPresented: Binding(get: { selectAction != nil }, set: { _ in selectAction = nil })) {
+            Button("取消", role: .cancel) { }
+            Button("删除", role: .destructive) {
+                if let mode = selectAction {
+                    Task.detached(priority: .userInitiated) {
+                        await DatabaseManager.shared.delete(date: mode.date)
+                    }
+                }
                 
             }
-            
-            
-        }
-        
-        
-    }
-    
-    
-    
-    
-    func deleteMessage(_ mode: MessageAction){
-        if mode != .cancel{
-            Task.detached(priority: .userInitiated) {
-                await DatabaseManager.shared.delete(date: mode.date)
+        } message: {
+            if let selectAction{
+                Text("此操作将删除 \( selectAction.localized ) 数据，且无法恢复。确定要继续吗？")
             }
+            
         }
+        
     }
     
     

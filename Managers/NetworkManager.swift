@@ -15,7 +15,6 @@ import CommonCrypto
 import Defaults
 
 
-
 class NetworkManager {
 
     let session = URLSession(configuration: .default)
@@ -30,6 +29,7 @@ class NetworkManager {
 	}
     
     struct EmptyResponse: Codable {}
+   
     
     
     /// 无返回值
@@ -43,15 +43,15 @@ class NetworkManager {
     ///   - method: 请求方法（默认为 GET）
     ///   - params: 请求参数（支持 GET 查询参数或 POST body）
     /// - Returns: 返回泛型解码后的模型数据
-    func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async throws -> T {
-        let data = try await self.fetch(url: url, method: method, params: params)
+    func fetch<T: Codable>(url: String, method: requestMethod = .get, params: [String: Any] = [:], headers:[String:String] = [:]) async throws -> T {
+        let data = try await self.fetch(url: url, method: method, params: params, headers: headers)
         // 尝试将响应的 JSON 解码为泛型模型 T
         let result = try JSONDecoder().decode(T.self, from: data)
         return result
         
     }
     
-    func fetch(url: String, method: requestMethod = .get, params: [String: Any] = [:]) async throws -> Data {
+    func fetch(url: String, method: requestMethod = .get, params: [String: Any] = [:], headers:[String:String] = [:]) async throws -> Data {
         
         // 尝试将字符串转换为 URL，如果失败则抛出错误
         guard var requestUrl = URL(string: url) else {
@@ -77,6 +77,10 @@ class NetworkManager {
         request.setValue(self.generateCustomUserAgent(), forHTTPHeaderField: "User-Agent" )
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(Defaults[.id], forHTTPHeaderField: "Authorization")
+        
+        for (key,value) in headers{
+            request.setValue(value, forHTTPHeaderField: key)
+        }
         
         // 如果是 POST 请求，将参数编码为 JSON 设置到 httpBody
         if method == .post && !params.isEmpty {
@@ -212,4 +216,6 @@ class NetworkManager {
 
         return components.url?.absoluteString
     }
+    
+   
 }

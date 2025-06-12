@@ -390,7 +390,7 @@ extension ExampleView{
             PushExampleModel(header: AnyView(Spacer()),
                              footer: AnyView(Text( "GET方法需要URIConponent编码")),
                              title: String(localized:"Markdown样式"),
-                             params: "?markdown=%23%20Pushback%0A%23%23%20Pushback%0A%23%23%23%20Pushback",
+                             params: "?markdown=%7C%20Name%20%20%20%7C%20Age%20%7C%20City%20%20%20%20%20%20%7C%0A%7C--------%7C-----%7C-----------%7C%0A%7C%20Alice%20%20%7C%2024%20%20%7C%20New%20York%20%20%7C%0A%7C%20Bob%20%20%20%20%7C%2030%20%20%7C%20San%20Francisco%20%7C%0A%7C%20Carol%20%20%7C%2028%20%20%7C%20London%20%20%20%20%7C%0A",
                              index: 2),
             
             PushExampleModel(header:
@@ -500,7 +500,6 @@ extension ExampleView{
         
         Task{
             let res:APIPushToDeviceResponse? = try await http.fetch(url: params.server, method: .post, params: query)
-            debugPrint(query)
             if res?.code == 200{
                 Toast.success(title:  "操作成功")
             }else{
@@ -522,5 +521,4 @@ extension ExampleView{
     
    
 }
-
 

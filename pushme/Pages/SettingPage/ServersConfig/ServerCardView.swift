@@ -38,7 +38,6 @@ struct ServerCardView:View {
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .padding(.leading, 10)
-               
             }
             
             
@@ -56,14 +55,11 @@ struct ServerCardView:View {
                                     .symbolEffect(.variableColor, delay: 1)
                                 
                             })
-                            
-                            
-                        
                     }else{
                         Image(systemName: "externaldrive.badge.icloud")
                             .scaleEffect(1.5)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(.green, Color.primary)
+                            .foregroundStyle(.accent, Color.primary)
                     }
                 }
                 

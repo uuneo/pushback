@@ -95,8 +95,8 @@ enum ToastSymbol: String{
         switch self {
         case .success: .green
         case .info: .orange
-        case .question: .pink
-        case .error: .gray
+        case .question: .yellow
+        case .error: .red
         case .copy: .green
         }
     }
@@ -118,11 +118,9 @@ struct ToastGroup: View {
                         .zIndex(Double(model.toasts.firstIndex(where: { $0.id == toast.id }) ?? 0))
                 }
             }
-            
-            
-            
             .padding(.bottom, safeArea.top == .zero ? 15 : 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+            
         }
     }
     

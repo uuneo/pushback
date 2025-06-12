@@ -10,30 +10,34 @@ struct SearchMessageView:View {
     @State private var allCount:Int = 0
     @State private var searchTask: Task<Void, Never>?
 	
-	var body: some View {
-        List{
-            
-            ForEach(messages, id: \.id) { message in
-                MessageCard(message: message, searchText: searchText, showGroup: true){
-                    withAnimation(.easeInOut) {
-                       self.hideKeyboard()
-                        DispatchQueue.main.async {
-                            AppManager.shared.selectMessage = message
+    var body: some View {
+        ScrollView{
+            LazyVStack{
+                ForEach(messages, id: \.id) { message in
+                    MessageCard(message: message, searchText: searchText, showGroup: true){
+                        withAnimation(.easeInOut) {
+                            self.hideKeyboard()
+                            DispatchQueue.main.async {
+                                AppManager.shared.selectMessage = message
+                            }
                         }
                     }
-                }
                     .onAppear{
                         if messages.last == message{
                             loadData( item: message)
                         }
                     }
+                }
             }
+            
+            Spacer()
+                .frame(height: 30)
             
         }
         .safeAreaInset(edge: .top, content: {
             HStack{
                 Spacer()
-                Text("\(messages.count) / \(max(allCount, messages.count))")
+                Text(verbatim: "\(messages.count) / \(max(allCount, messages.count))")
                     .font(.caption)
                     .foregroundStyle(.gray)
                     .padding(.trailing, 20)
@@ -44,6 +48,11 @@ struct SearchMessageView:View {
         .onChange(of: searchText) {  newValue in
             loadData()
         }
+        .onAppear{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
+                loadData()
+            }
+        }
 	}
     
     func loadData(limit:Int = 50, item:Message? = nil){
@@ -51,7 +60,7 @@ struct SearchMessageView:View {
         searchTask?.cancel()
         
         self.searchTask = Task.detached(priority: .userInitiated) {
-            try? await Task.sleep(nanoseconds: 300_000_000) // 防抖延迟
+            try? await Task.sleep(nanoseconds: 200_000_000) // 防抖延迟
             guard !Task.isCancelled else { return }
             
             let results = await DatabaseManager.shared.query(search: searchText, group: group, limit: limit, item?.createDate)

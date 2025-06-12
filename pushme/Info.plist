@@ -37,6 +37,7 @@
 	<true/>
 	<key>NSUserActivityTypes</key>
 	<array>
+		<string>INStartCallIntent</string>
 		<string>INSendMessageIntent</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>

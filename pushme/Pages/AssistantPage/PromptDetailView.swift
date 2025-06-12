@@ -151,7 +151,7 @@ struct PromptDetailView: View {
             let chatPrompt = ChatPrompt(
                 title: title,
                 content: content,
-                inside: false,
+                inside: false
             )
         Task.detached(priority: .userInitiated) {
             

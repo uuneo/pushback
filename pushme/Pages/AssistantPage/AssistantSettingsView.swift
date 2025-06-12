@@ -14,7 +14,7 @@ struct AssistantSettingsView: View {
     
     @Default(.assistantAccouns) var assistantAccouns
     @Default(.historyMessageCount) var historyMessageCount
-    @Default(.showCodeViewColor) var showCodeViewColor
+
     
     @State private var showDeleteOk:Bool = false
     @State private var isSecured = true
@@ -32,7 +32,7 @@ struct AssistantSettingsView: View {
     
     
     var body: some View {
-
+      
             List{
                 Section{
                     
@@ -51,7 +51,7 @@ struct AssistantSettingsView: View {
                     ForEach(assistantAccouns,id: \.id){ account in
                         HStack{
                             HStack{
-                                Text("\(account.name)")
+                                Text(verbatim: "\(account.name)")
                                     .lineLimit(1)
                                     .truncationMode(.tail)
                                     .fontWeight( account.current ? .bold : .light)
@@ -68,7 +68,7 @@ struct AssistantSettingsView: View {
                                 HStack{
                                     Image(systemName: "network")
                                         .imageScale(.small)
-                                    Text("\(account.host)")
+                                    Text(verbatim: "\(account.host)")
                                         .font(.subheadline)
                                         .lineLimit(1)
                                         .truncationMode(.tail)
@@ -79,7 +79,7 @@ struct AssistantSettingsView: View {
                                 HStack{
                                     Image(systemName: "slider.horizontal.2.square.badge.arrow.down")
                                         .imageScale(.small)
-                                    Text("\(account.model)")
+                                    Text(verbatim: "\(account.model)")
                                         .font(.caption)
                                         .lineLimit(1)
                                         .truncationMode(.tail)
@@ -145,24 +145,16 @@ struct AssistantSettingsView: View {
                 
                 Section("AI 助手") {
                     
-                    HStack{
-                        
-                        Toggle(isOn: $showCodeViewColor) {
-                            Label("彩色代码", systemImage: "theatermask.and.paintbrush")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.primary, showCodeViewColor ? .red : .gray)
-                        }
-                    }
-                    
+                   
                     Stepper(
                         value: $historyMessageCount,
-                        in: 1...50,
+                        in: 0...50,
                         step: 1
                     ) {
                         HStack {
                             Label("历史消息数量", systemImage: "clock.arrow.circlepath")
                             Spacer()
-                            Text("\(historyMessageCount)")
+                            Text(verbatim: "\(historyMessageCount)")
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -184,6 +176,7 @@ struct AssistantSettingsView: View {
                
             }
             .navigationTitle( "智能助手")
+            .toolbar(.hidden, for: .tabBar)
             .alert("确认删除", isPresented: $showDeleteOk) {
                 Button("取消", role: .cancel) { }
                 Button("删除", role: .destructive) {
@@ -209,6 +202,9 @@ struct AssistantSettingsView: View {
                     .customPresentationCornerRadius(20)
                     .environmentObject(chatManager)
             }
+        
+
+            
            
         
     }

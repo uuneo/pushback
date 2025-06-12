@@ -7,7 +7,6 @@ import GRDB
 
 
 struct ChatMessageListView: View {
-    @State private var messages:[ChatMessage] = []
     
     @EnvironmentObject private var chatManager:openChatManager
     @EnvironmentObject private var manager:AppManager
@@ -23,7 +22,7 @@ struct ChatMessageListView: View {
     @State private var offsetY: CGFloat = 0
     
     var suffixCount:Int{
-        min(messages.count, 10)
+        min(chatManager.chatMessages.count, 10)
     }
     
     // MARK: - Body
@@ -32,13 +31,13 @@ struct ChatMessageListView: View {
             
             ScrollView {
                 
-                if messages.count > suffixCount{
+                if chatManager.chatMessages.count > suffixCount{
                     Button{
                         self.showHistory.toggle()
                     }label: {
                         HStack{
                             Spacer()
-                            Text("\(suffixCount)/\(messages.count)")
+                            Text(verbatim: "\(suffixCount)/\(chatManager.chatMessages.count)")
                                 .padding(.trailing, 10)
                             Text("点击查看更多")
                            
@@ -53,7 +52,7 @@ struct ChatMessageListView: View {
                 
             
                 
-                ForEach(messages,id: \.id) { message in
+                ForEach(chatManager.chatMessages,id: \.id) { message in
                     ChatMessageView(message: message,isLoading: manager.isLoading)
                         .id(message.id)
                 }
@@ -77,20 +76,16 @@ struct ChatMessageListView: View {
                         .onPreferenceChange(OffsetKey.self) { newValue in
                             offsetY = newValue
                         }
-                }.id(chatLastMessageId)
-                
-            }
-            .onAppear {
-                DispatchQueue.main.async{
-                    withAnimation(.snappy(duration: 0.1)){
-                        scrollViewProxy.scrollTo(chatLastMessageId)
-                    }
+                        .id(chatLastMessageId)
                 }
-                Haptic.impact(.soft)
+                
             }
             .onChange(of: chatManager.isFocusedInput) { newValue in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-                    scrollViewProxy.scrollTo(chatLastMessageId)
+                    withAnimation(.snappy(duration: 0.3)){
+                        scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
+                    }
+                    
                 }
             }
             .onChange(of: chatManager.currentContent){ value in
@@ -103,7 +98,7 @@ struct ChatMessageListView: View {
                    
                 }
             }
-            .onChange(of: manager.isLoading){ value in
+            .onChange(of: chatManager.chatMessages) { value in
                 if offsetY < 800{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                         scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
@@ -123,36 +118,12 @@ struct ChatMessageListView: View {
                 
             }
             .task {
-                loadData()
-            }
-            .onChange(of: chatManager.messagesCount) { value in
-                debugPrint(value)
-                loadData()
-            }
-            .onChange(of: chatManager.groupsCount) { value in
-                debugPrint(value)
-                loadData()
-            }
-            .onChange(of: chatManager.chatgroup) { _ in
-                loadData()
-            }
-        }
-    }
-    
-    private func loadData(){
-        if let id = chatManager.chatgroup?.id{
-            Task.detached(priority: .background) {
-                let results = try await  DatabaseManager.shared.dbPool.read { db in
-                    let results  =  try ChatMessage
-                        .filter(ChatMessage.Columns.chat == id)
-                        .limit(10)
-                        .fetchAll(db)
-                    return results
-                }
-                await MainActor.run {
-                    self.messages = results
+                chatManager.loadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                    scrollViewProxy.scrollTo(chatLastMessageId, anchor: .bottom)
                 }
             }
+           
         }
     }
 }

@@ -48,7 +48,7 @@ struct HistoryMessage:View {
                     
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("\(messages.count)")
+                    Text(verbatim: "\(messages.count)")
                         .font(.caption2)
                         .foregroundStyle(Color.gray)
                 }

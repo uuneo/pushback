@@ -21,9 +21,6 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     static let shared = AudioManager()
     private var manager = FileManager.default
     
-    
-    
-    
     private override init() {
         super.init()
         self.setFileList()
@@ -197,6 +194,15 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
         }
     }
     
+    
+    static func playNumber(number: String){
+        guard let number = Int(number) else { return }
+        AudioServicesPlaySystemSound(SystemSoundID(1200 + number))
+    }
+    
+    
+    
+    
     func convertAudioToCAF(inputURL: URL) async -> URL?  {
         
         do{
@@ -269,14 +275,14 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
             
             let end = DispatchTime.now()
             let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-            debugPrint("运行时间：",Double(nanoTime) / 1_000_000_000)
+            Log.info("运行时间：",Double(nanoTime) / 1_000_000_000)
             return self.speakPlayer
         }catch{
             await MainActor.run {
                 self.speakPlayer = nil
                 self.loading = false
             }
-            debugPrint(error.localizedDescription)
+            Log.error(error.localizedDescription)
             return nil
         }
     }

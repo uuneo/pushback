@@ -64,7 +64,7 @@ struct ContentView: View {
                     }
                 }
                 .ignoresSafeArea(.all, edges: .top)
-                .transition(.move(edge: .bottom))
+                .transition(.opacity)
             }
         }
         
@@ -93,12 +93,6 @@ struct ContentView: View {
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
-        .alert(isPresented: $manager.showHomeAlert) {
-            Alert(title: Text( "操作不可逆!"), message: Text("是否确认删除所有已读消息!"), primaryButton: .destructive( Text("删除"),  action: {
-                Task.detached(priority: .userInitiated) {
-                    await DatabaseManager.shared.delete(allRead: true)
-                }
-            }), secondaryButton: .cancel()) }
 //        .task {
 //            
 //            Task.detached(priority: .userInitiated) {
@@ -118,6 +112,7 @@ struct ContentView: View {
         })) {
             
             
+            
             NavigationStack(path: $manager.router){
                 // MARK: 信息页面
                 MessagePage().router(manager)
@@ -132,13 +127,13 @@ struct ContentView: View {
             .tag(TabPage.message)
             
             
-            
             NavigationStack(path: $manager.router){
                 // MARK: 设置页面
                 SettingsPage().router(manager)
                 
             }
             .tabItem {
+               
                 Label( "设置", systemImage: "gear.badge.questionmark")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
@@ -204,6 +199,10 @@ struct ContentView: View {
                 }
             case .web(let url):
                 SFSafariView(url: url).ignoresSafeArea()
+            case .call(let id):
+                DialCallView(phoneNumber: id)
+            case .answer(let user):
+                AnswerVoiceView(answer: user)
             default:
                 EmptyView().onAppear{  manager.fullPage = .none }
             }
@@ -244,24 +243,23 @@ extension View{
                     switch router {
                     case .example:
                         ExampleView()
-                        
                     case .messageDetail(let group):
                         MessageDetailPage(group: group)
                             .navigationTitle(group)
                     case .sound:
                         SoundView()
                     case .assistant:
-                        
                         AssistantPageView()
-                            .navigationBarBackButtonHidden()
+                        
+                    case .assistantSetting(let account):
+                        AssistantSettingsView(account: account)
+                        
                     case .crypto(let text):
                         CryptoConfigView(config: text)
                         
                     case .server:
                         ServersConfigView()
                         
-                    case .assistantSetting(let account):
-                        AssistantSettingsView(account: account)
                     case .more:
                         MoreOperationsView()
                         
@@ -270,10 +268,14 @@ extension View{
                             .navigationTitle(title ?? "小组件")
                     case .tts:
                         SpeakSettingsView()
-                       
+                    case .call:
+                        PhoneNumberInputView()
+                    case .deviceInfo:
+                        DeviceInfoSettingsView()
                     }
                 }
                 .toolbar(.hidden, for: .tabBar)
+                .navigationBarTitleDisplayMode(.large)
                 .environmentObject(manager)
                
                 

@@ -18,6 +18,8 @@ extension Defaults.Keys {
     static let defaultBrowser = Key<DefaultBrowserModel>("defaultBrowserOpen", .safari)
     static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[], iCloud: true)
+    
+    static let moreMessageCache = Key<[MoreMessage]>("moreMessageCache", default: [])
 }
 
 extension ExpirationTime: Defaults.Serializable{ }
@@ -30,6 +32,16 @@ extension CryptoAlgorithm: Defaults.Serializable{}
 extension CryptoMode: Defaults.Serializable{}
 extension BadgeAutoMode: Defaults.Serializable{}
 extension PushServerModel: Defaults.Serializable{}
+extension MoreMessage: Defaults.Serializable{}
+extension IceServerResponse:Defaults.Serializable{}
+
+struct MoreMessage:Codable,Hashable{
+    var createDate:Date
+    var id:String
+    var body:String
+    var index:Int
+    var count:Int
+}
 
 
 

@@ -95,8 +95,8 @@ enum ToastSymbol: String{
         switch self {
         case .success: .green
         case .info: .orange
-        case .question: .pink
-        case .error: .gray
+        case .question: .yellow
+        case .error: .red
         case .copy: .green
         }
     }

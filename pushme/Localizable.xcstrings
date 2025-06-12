@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "‼️参数可单独使用\n* /内容 或者 /标题/内容\n* group: 分组名，不传显示 `默认`\n* badge： 自定义角标 可选值 -1...\n* ttl: 消息保存时间 可选值 0..." : {
       "localizations" : {
         "en" : {
@@ -896,6 +899,9 @@
           }
         }
       }
+    },
+    "CallID" : {
+
     },
     "Format" : {
       "localizations" : {
@@ -1933,6 +1939,9 @@
         }
       }
     },
+    "上传令牌失败" : {
+
+    },
     "上传到云端" : {
       "localizations" : {
         "en" : {
@@ -2298,6 +2307,7 @@
       }
     },
     "令牌" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3333,6 +3343,9 @@
         }
       }
     },
+    "切换显示模式" : {
+
+    },
     "切换服务器" : {
       "localizations" : {
         "en" : {
@@ -3559,6 +3572,7 @@
       }
     },
     "删除全部已读" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3921,6 +3935,9 @@
           }
         }
       }
+    },
+    "匿名用户" : {
+
     },
     "半年前" : {
       "localizations" : {
@@ -4595,6 +4612,7 @@
       }
     },
     "图片" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4903,6 +4921,7 @@
       }
     },
     "基础配置" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5183,6 +5202,7 @@
       }
     },
     "复制全部" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6023,6 +6043,7 @@
       }
     },
     "彩色代码" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6415,6 +6436,7 @@
       }
     },
     "打开链接" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6499,6 +6521,7 @@
       }
     },
     "拍照" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6975,6 +6998,7 @@
       }
     },
     "操作不可逆!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7057,6 +7081,9 @@
           }
         }
       }
+    },
+    "教程示例" : {
+
     },
     "数据分组中..." : {
       "localizations" : {
@@ -7199,6 +7226,7 @@
       }
     },
     "文件" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7479,6 +7507,7 @@
       }
     },
     "是否确认删除所有已读消息!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -7505,6 +7534,9 @@
           }
         }
       }
+    },
+    "昵称" : {
+
     },
     "显示图标" : {
       "localizations" : {
@@ -7926,6 +7958,9 @@
         }
       }
     },
+    "未知用户" : {
+
+    },
     "未读" : {
       "localizations" : {
         "en" : {
@@ -8009,6 +8044,9 @@
           }
         }
       }
+    },
+    "本机：" : {
+
     },
     "查看" : {
       "localizations" : {
@@ -8458,6 +8496,9 @@
         }
       }
     },
+    "此操作将删除 %@ 数据，且无法恢复。确定要继续吗？" : {
+
+    },
     "此操作将删除所有聊天记录和设置数据，且无法恢复。确定要继续吗？" : {
       "localizations" : {
         "en" : {
@@ -8569,6 +8610,9 @@
           }
         }
       }
+    },
+    "没有找到用户" : {
+
     },
     "没有找到相关提示词" : {
       "localizations" : {
@@ -10698,6 +10742,9 @@
         }
       }
     },
+    "获取用户信息中..." : {
+
+    },
     "蓝色" : {
       "localizations" : {
         "en" : {
@@ -10838,6 +10885,9 @@
         }
       }
     },
+    "设备资料" : {
+
+    },
     "设置" : {
       "localizations" : {
         "en" : {
@@ -10950,6 +11000,9 @@
         }
       }
     },
+    "语音" : {
+
+    },
     "语音服务区域" : {
       "localizations" : {
         "en" : {
@@ -10977,6 +11030,9 @@
           }
         }
       }
+    },
+    "语音通话" : {
+
     },
     "语音配置" : {
       "localizations" : {
@@ -11257,6 +11313,9 @@
           }
         }
       }
+    },
+    "输入 %@ 用户ID" : {
+
     },
     "输入%d位数的key" : {
       "localizations" : {
@@ -11735,6 +11794,7 @@
       }
     },
     "连续对话" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

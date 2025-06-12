@@ -90,8 +90,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             switch name{
             case QuickAction.assistant.rawValue:
                 manager.router = [.assistant]
-            case QuickAction.alldelread.rawValue:
-                manager.showHomeAlert = true
+            case QuickAction.phonenumber.rawValue:
+                manager.router = [.call]
             default:
                 break
             }

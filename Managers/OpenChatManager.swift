@@ -163,13 +163,11 @@ extension openChatManager{
                 .fetchAll(db)
         }){
             ///判断是否携带，如果连续对话，则继续判断，如果不是连续对话，必须携带，如果不是连续对话，判断历史记录里是否有
-            if Defaults[.historyMessageBool]{
+            
+            for message in messageRaw{
+                params.append(.user(.init(content: .string(message.request))))
+                params.append(.assistant(.init(content: .textContent(message.content))))
                 
-                for message in messageRaw{
-                    params.append(.user(.init(content: .string(message.request))))
-                    params.append(.assistant(.init(content: .textContent(message.content))))
-                    
-                }
             }
             params.append(.user(.init(content: .string(inputText))))
         }

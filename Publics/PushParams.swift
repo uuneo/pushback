@@ -45,6 +45,8 @@ enum Params: String, CaseIterable{
     
     case savealbum
     
+    case count
+    case index
 
     var name:String{ self.rawValue }
 
@@ -61,6 +63,12 @@ extension [AnyHashable : Any]{
         case .sound:
             return (self[Params.aps.name] as? [AnyHashable: Any])?[Params.sound.name] as? T
         default:
+            if T.self == Int.self, let data = self[params.name] as? String, let intValue = Int(data) {
+                return intValue as? T
+            } else if let intValue = self[params.name] as? Int {
+                return intValue as? T
+            }
+            
             return self[params.name] as? T
         }
     }

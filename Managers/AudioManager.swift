@@ -197,6 +197,15 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
         }
     }
     
+    
+    static func playNumber(number: String){
+        guard let number = Int(number) else { return }
+        AudioServicesPlaySystemSound(SystemSoundID(1200 + number))
+    }
+    
+    
+    
+    
     func convertAudioToCAF(inputURL: URL) async -> URL?  {
         
         do{

@@ -34,8 +34,6 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     
     @Published var selectMessage:Message? = nil
     @Published var selectPoint:CGPoint = .zero
-    
-    @Published var showHomeAlert:Bool = false
     /// 首页彩色框
     @Published var isLoading:Bool = false
     @Published var inAssistant:Bool = false
@@ -47,11 +45,23 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     
     
    
-	
-    var fullShow:Binding<Bool>{  Binding { self.fullPage != .none } set: { _ in self.fullPage = .none } }
-	
-	var sheetShow:Binding<Bool>{ Binding { self.sheetPage != .none } set: { _ in self.sheetPage = .none } }
-
+    
+    var fullShow:Binding<Bool>{
+        Binding {
+            self.fullPage != .none
+        } set: { _ in
+            self.fullPage = .none
+        }
+    }
+    
+    var sheetShow:Binding<Bool>{
+        Binding {
+            self.sheetPage != .none
+        } set: { _ in
+            self.sheetPage = .none
+        }
+    }
+    
 
 
 	
@@ -69,7 +79,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     }
     
     func registers(msg:Bool = false){
-        Task.detached(priority: .background) {
+        Task.detached(priority: .userInitiated) {
             let servers = Defaults[.servers]
             let results =  await withTaskGroup(of: PushServerModel.self){ group in
                 
@@ -194,8 +204,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
         case .assistant(let text):
             if let account = AssistantAccount(base64: text){
                 DispatchQueue.main.async {
-                    self.page = .setting
-                    self.router = [.assistant,.assistantSetting(account)]
+                    self.router.append(.assistantSetting(account))
                 }
             }
         case .page(page: let page,title: let title, data: let data):

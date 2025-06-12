@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B50B3CEB2DFE6EE800C936F1 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = B50B3CEA2DFE6EE800C936F1 /* Starscream */; };
+		B50B3CEE2DFE6F1600C936F1 /* WebRTC in Frameworks */ = {isa = PBXBuildFile; productRef = B50B3CED2DFE6F1600C936F1 /* WebRTC */; };
+		B50B3D032DFE80C600C936F1 /* CallBasicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B3D022DFE804000C936F1 /* CallBasicManager.swift */; };
+		B5139EB92E02AC79001E924F /* PageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5139EB52E02AC75001E924F /* PageModel.swift */; };
+		B531F48D2E02FD5300A5868B /* SlideToConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */; };
+		B531F48E2E03A26D00A5868B /* CallBasicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B3D022DFE804000C936F1 /* CallBasicManager.swift */; };
+		B531F4942E03BE6000A5868B /* CallProtocos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B531F4932E03BE5900A5868B /* CallProtocos.swift */; };
+		B531F4952E03BE6000A5868B /* CallProtocos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B531F4932E03BE5900A5868B /* CallProtocos.swift */; };
+		B531F4972E03CAC500A5868B /* CallHighManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B531F4962E03CABD00A5868B /* CallHighManager.swift */; };
+		B531F4982E03CAC500A5868B /* CallHighManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B531F4962E03CABD00A5868B /* CallHighManager.swift */; };
 		B540549F2DF156BD0058DC87 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B540549B2DF156BD0058DC87 /* View+.swift */; };
 		B54054A32DF156BD0058DC87 /* View+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B540549B2DF156BD0058DC87 /* View+.swift */; };
 		B54057082DF1B1A20058DC87 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54057072DF1B19E0058DC87 /* Image+.swift */; };
@@ -130,6 +140,14 @@
 		B5835D782DEDFFF90066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D772DEDFFF90066B32E /* cmark-gfm */; };
 		B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */; };
 		B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5835D7B2DEE14C10066B32E /* WebKit.framework */; };
+		B5E5707E2E004E2300DDE516 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E5707D2E004E1800DDE516 /* Websocket.swift */; };
+		B5E5707F2E005F3200DDE516 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B3CF02DFE716800C936F1 /* Config.swift */; };
+		B5E570812E00613500DDE516 /* WebRtcManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E570802E00613400DDE516 /* WebRtcManager.swift */; };
+		B5E5710B2E00E2C000DDE516 /* IceCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E571092E00E2BF00DDE516 /* IceCandidate.swift */; };
+		B5E5710C2E00E2C000DDE516 /* SessionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E571082E00E2BF00DDE516 /* SessionDescription.swift */; };
+		B5E5710D2E00E2C000DDE516 /* RTCStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E571072E00E2BF00DDE516 /* RTCStates.swift */; };
+		B5E571882E011C8600DDE516 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = B5E571872E011C8600DDE516 /* SwiftJWT */; };
+		B5E5718B2E011CD000DDE516 /* VOIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E5718A2E011CC800DDE516 /* VOIP.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +215,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B50B3CF02DFE716800C936F1 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		B50B3D022DFE804000C936F1 /* CallBasicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBasicManager.swift; sourceTree = "<group>"; };
+		B5139EB52E02AC75001E924F /* PageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageModel.swift; sourceTree = "<group>"; };
+		B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideToConfirm.swift; sourceTree = "<group>"; };
+		B531F4932E03BE5900A5868B /* CallProtocos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallProtocos.swift; sourceTree = "<group>"; };
+		B531F4962E03CABD00A5868B /* CallHighManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHighManager.swift; sourceTree = "<group>"; };
 		B540549B2DF156BD0058DC87 /* View+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+.swift"; sourceTree = "<group>"; };
 		B54057072DF1B19E0058DC87 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		B540570E2DF1B3800058DC87 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -248,6 +272,12 @@
 		B5835CCE2DEDE8B80066B32E /* PushWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushWidgetExtension.entitlements; sourceTree = "<group>"; };
 		B5835CFE2DEDECA10066B32E /* MarkdownExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MarkdownExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5835D7B2DEE14C10066B32E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		B5E5707D2E004E1800DDE516 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
+		B5E570802E00613400DDE516 /* WebRtcManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRtcManager.swift; sourceTree = "<group>"; };
+		B5E571072E00E2BF00DDE516 /* RTCStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCStates.swift; sourceTree = "<group>"; };
+		B5E571082E00E2BF00DDE516 /* SessionDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDescription.swift; sourceTree = "<group>"; };
+		B5E571092E00E2BF00DDE516 /* IceCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceCandidate.swift; sourceTree = "<group>"; };
+		B5E5718A2E011CC800DDE516 /* VOIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VOIP.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -277,10 +307,12 @@
 			membershipExceptions = (
 				AppManager.swift,
 				AudioManager.swift,
-				CloudManager.swift,
+				CloudData/CallCloudManager.swift,
+				CloudData/IconCloudManager.swift,
 				cryptoManager.swift,
 				DatabaseManager.swift,
 				ImageManager.swift,
+				KeychainHelper.swift,
 				MessagesManager.swift,
 				NetworkManager.swift,
 				OpenChatManager.swift,
@@ -337,20 +369,10 @@
 			);
 			target = B58359E62DEDDF860066B32E /* ShareExtension */;
 		};
-		B5835C512DEDE2FE0066B32E /* Exceptions for "Managers" folder in "ShareExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CloudManager.swift,
-			);
-			target = B58359E62DEDDF860066B32E /* ShareExtension */;
-		};
 		B5835C532DEDE3450066B32E /* Exceptions for "pushme" folder in "ShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Localizable.xcstrings,
-				Pages/OtherViews/AngularButton.swift,
-				Pages/OtherViews/ColoredBorder.swift,
-				Pages/OtherViews/UploadIclondIcon.swift,
 			);
 			target = B58359E62DEDDF860066B32E /* ShareExtension */;
 		};
@@ -410,7 +432,7 @@
 		B5835D422DEDF94F0066B32E /* Exceptions for "Managers" folder in "ServiceExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				CloudManager.swift,
+				CloudData/IconCloudManager.swift,
 				cryptoManager.swift,
 				DatabaseManager.swift,
 				ImageManager.swift,
@@ -490,6 +512,48 @@
 			);
 			target = B5835CFD2DEDECA10066B32E /* MarkdownExtension */;
 		};
+		B5A832462DFFFBC600274589 /* Exceptions for "Sounds" folder in "ServiceExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alarm.caf,
+				aurora.caf,
+				call.caf,
+				com.caf,
+				craft.caf,
+				frog.caf,
+				gold.caf,
+				health.caf,
+				hello.caf,
+				multiway.caf,
+				popcorn.caf,
+				run.caf,
+				shake.caf,
+				silence.caf,
+				snap.caf,
+				success.caf,
+				trill.caf,
+				tritone.caf,
+				typewriter.caf,
+				xiu.caf,
+			);
+			target = B5835B102DEDE07C0066B32E /* ServiceExtension */;
+		};
+		B5E571802E00FB9400DDE516 /* Exceptions for "Pages" folder in "ShareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				OtherViews/AngularButton.swift,
+				OtherViews/ColoredBorder.swift,
+				OtherViews/UploadIclondIcon.swift,
+			);
+			target = B58359E62DEDDF860066B32E /* ShareExtension */;
+		};
+		B5E571922E01314100DDE516 /* Exceptions for "Managers" folder in "ShareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CloudData/IconCloudManager.swift,
+			);
+			target = B58359E62DEDDF860066B32E /* ShareExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -531,7 +595,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B5835B0B2DEDE0490066B32E /* Exceptions for "Managers" folder in "pushme" target */,
-				B5835C512DEDE2FE0066B32E /* Exceptions for "Managers" folder in "ShareExtension" target */,
+				B5E571922E01314100DDE516 /* Exceptions for "Managers" folder in "ShareExtension" target */,
 				B5835D422DEDF94F0066B32E /* Exceptions for "Managers" folder in "ServiceExtension" target */,
 				B5835D2B2DEDF0E50066B32E /* Exceptions for "Managers" folder in "ContentExtension" target */,
 				B5835D6F2DEDFF8E0066B32E /* Exceptions for "Managers" folder in "PushWidgetExtension" target */,
@@ -573,6 +637,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B5835BD62DEDE1030066B32E /* Exceptions for "Sounds" folder in "pushme" target */,
+				B5A832462DFFFBC600274589 /* Exceptions for "Sounds" folder in "ServiceExtension" target */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -593,6 +658,14 @@
 			path = MarkdownExtension;
 			sourceTree = "<group>";
 		};
+		B5E5714B2E00FB9400DDE516 /* Pages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B5E571802E00FB9400DDE516 /* Exceptions for "Pages" folder in "ShareExtension" target */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,6 +673,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B50B3CEE2DFE6F1600C936F1 /* WebRTC in Frameworks */,
 				B583589E2DEDD5B80066B32E /* QRScanner in Frameworks */,
 				B58358982DEDD5790066B32E /* Kingfisher in Frameworks */,
 				B58358922DEDD4E10066B32E /* Defaults in Frameworks */,
@@ -611,6 +685,8 @@
 				B58358AC2DEDD64A0066B32E /* SwiftyJSON in Frameworks */,
 				B58358A12DEDD5E10066B32E /* Splash in Frameworks */,
 				B58359BA2DEDDB170066B32E /* StoreKit.framework in Frameworks */,
+				B5E571882E011C8600DDE516 /* SwiftJWT in Frameworks */,
+				B50B3CEB2DFE6EE800C936F1 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +760,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B50B3CEF2DFE714E00C936F1 /* WebRTCCall */ = {
+			isa = PBXGroup;
+			children = (
+				B531F48F2E03BDFB00A5868B /* CallManagers */,
+				B5E571892E011CBC00DDE516 /* APNS */,
+				B5E5710A2E00E2BF00DDE516 /* Extensions */,
+				B5E570802E00613400DDE516 /* WebRtcManager.swift */,
+				B5E5707D2E004E1800DDE516 /* Websocket.swift */,
+				B50B3CF02DFE716800C936F1 /* Config.swift */,
+			);
+			path = WebRTCCall;
+			sourceTree = "<group>";
+		};
+		B531F48F2E03BDFB00A5868B /* CallManagers */ = {
+			isa = PBXGroup;
+			children = (
+				B531F4932E03BE5900A5868B /* CallProtocos.swift */,
+				B531F4962E03CABD00A5868B /* CallHighManager.swift */,
+				B50B3D022DFE804000C936F1 /* CallBasicManager.swift */,
+			);
+			path = CallManagers;
+			sourceTree = "<group>";
+		};
 		B54057062DF1B1900058DC87 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -703,6 +802,8 @@
 		B58357EE2DEDD3B10066B32E = {
 			isa = PBXGroup;
 			children = (
+				B5E5714B2E00FB9400DDE516 /* Pages */,
+				B50B3CEF2DFE714E00C936F1 /* WebRTCCall */,
 				B54057062DF1B1900058DC87 /* Extension */,
 				B58358B12DEDD65A0066B32E /* Model */,
 				B5835A7B2DEDE0490066B32E /* Managers */,
@@ -739,6 +840,7 @@
 		B58358B12DEDD65A0066B32E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B5139EB52E02AC75001E924F /* PageModel.swift */,
 				B58358AD2DEDD65A0066B32E /* WidgetData.swift */,
 				B58358AE2DEDD65A0066B32E /* ParamsModel.swift */,
 				B58358AF2DEDD65A0066B32E /* MessageModel.swift */,
@@ -750,6 +852,7 @@
 		B58358C92DEDD65A0066B32E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */,
 				B58359B52DEDD9030066B32E /* PassthroughWindow.swift */,
 				B58358B22DEDD65A0066B32E /* ZoomGesture.swift */,
 				B58358B32DEDD65A0066B32E /* ToastView.swift */,
@@ -791,6 +894,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B5E5710A2E00E2BF00DDE516 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B5E571072E00E2BF00DDE516 /* RTCStates.swift */,
+				B5E571082E00E2BF00DDE516 /* SessionDescription.swift */,
+				B5E571092E00E2BF00DDE516 /* IceCandidate.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B5E571892E011CBC00DDE516 /* APNS */ = {
+			isa = PBXGroup;
+			children = (
+				B5E5718A2E011CC800DDE516 /* VOIP.swift */,
+			);
+			path = APNS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -816,6 +937,7 @@
 			fileSystemSynchronizedGroups = (
 				B58357F92DEDD3B10066B32E /* pushme */,
 				B5835ABD2DEDE0490066B32E /* Publics */,
+				B5E5714B2E00FB9400DDE516 /* Pages */,
 			);
 			name = pushme;
 			packageProductDependencies = (
@@ -829,6 +951,9 @@
 				B58358A52DEDD6090066B32E /* cmark-gfm-extensions */,
 				B58358A82DEDD62A0066B32E /* MarkdownUI */,
 				B58358AB2DEDD64A0066B32E /* SwiftyJSON */,
+				B50B3CEA2DFE6EE800C936F1 /* Starscream */,
+				B50B3CED2DFE6F1600C936F1 /* WebRTC */,
+				B5E571872E011C8600DDE516 /* SwiftJWT */,
 			);
 			productName = pushme;
 			productReference = B58357F72DEDD3B10066B32E /* pushme.app */;
@@ -1041,6 +1166,9 @@
 				B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */,
 				B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				B58358AA2DEDD64A0066B32E /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				B50B3CE92DFE6EE800C936F1 /* XCRemoteSwiftPackageReference "Starscream" */,
+				B50B3CEC2DFE6F1500C936F1 /* XCRemoteSwiftPackageReference "WebRTC" */,
+				B5E571862E011C8600DDE516 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B58357F82DEDD3B10066B32E /* Products */;
@@ -1115,22 +1243,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5E5707F2E005F3200DDE516 /* Config.swift in Sources */,
+				B50B3D032DFE80C600C936F1 /* CallBasicManager.swift in Sources */,
 				B583590D2DEDD65A0066B32E /* HackerTextView.swift in Sources */,
+				B5139EB92E02AC79001E924F /* PageModel.swift in Sources */,
 				B54057212DF1B4560058DC87 /* URL+.swift in Sources */,
 				B583590E2DEDD65A0066B32E /* TabStateScrollView.swift in Sources */,
 				B58359122DEDD65A0066B32E /* Snapshot.swift in Sources */,
 				B58359132DEDD65A0066B32E /* PopOutView.swift in Sources */,
 				B58359142DEDD65A0066B32E /* WidgetData.swift in Sources */,
+				B5E5710B2E00E2C000DDE516 /* IceCandidate.swift in Sources */,
+				B5E5710C2E00E2C000DDE516 /* SessionDescription.swift in Sources */,
+				B5E5710D2E00E2C000DDE516 /* RTCStates.swift in Sources */,
 				B58359162DEDD65A0066B32E /* FullSwipeNavigationStack.swift in Sources */,
 				B54057382DF1B61F0058DC87 /* Type+.swift in Sources */,
 				B58359B62DEDD9060066B32E /* PassthroughWindow.swift in Sources */,
 				B58359172DEDD65A0066B32E /* DisintegrationEffect.swift in Sources */,
+				B531F48D2E02FD5300A5868B /* SlideToConfirm.swift in Sources */,
 				B54057122DF1B3850058DC87 /* Date+.swift in Sources */,
 				B58359182DEDD65A0066B32E /* ParamsModel.swift in Sources */,
 				B583591B2DEDD65A0066B32E /* ToastView.swift in Sources */,
 				B583591C2DEDD65A0066B32E /* PopView.swift in Sources */,
 				B54057242DF1B52C0058DC87 /* Data+.swift in Sources */,
 				B583591D2DEDD65A0066B32E /* AnimatedSideBar.swift in Sources */,
+				B5E5707E2E004E2300DDE516 /* Websocket.swift in Sources */,
 				B54057092DF1B1A20058DC87 /* Image+.swift in Sources */,
 				B58359202DEDD65A0066B32E /* MessageModel.swift in Sources */,
 				B540549F2DF156BD0058DC87 /* View+.swift in Sources */,
@@ -1138,6 +1274,8 @@
 				B58359262DEDD65A0066B32E /* StaggeredView.swift in Sources */,
 				B58359272DEDD65A0066B32E /* WaveformScrubber.swift in Sources */,
 				B583592A2DEDD65A0066B32E /* CustomAlertDrawer.swift in Sources */,
+				B531F4972E03CAC500A5868B /* CallHighManager.swift in Sources */,
+				B5E570812E00613500DDE516 /* WebRtcManager.swift in Sources */,
 				B54057412DF1B6400058DC87 /* Encodable+.swift in Sources */,
 				B54057182DF1B3DB0058DC87 /* String+.swift in Sources */,
 				B583592D2DEDD65A0066B32E /* ZoomGesture.swift in Sources */,
@@ -1145,11 +1283,13 @@
 				B58359302DEDD65A0066B32E /* ImageViewer.swift in Sources */,
 				B58359332DEDD65A0066B32E /* AnimatedButton.swift in Sources */,
 				B58359342DEDD65A0066B32E /* OtherModel.swift in Sources */,
+				B531F4952E03BE6000A5868B /* CallProtocos.swift in Sources */,
 				B58359352DEDD65A0066B32E /* TagLayout.swift in Sources */,
 				B58359362DEDD65A0066B32E /* zoomable.swift in Sources */,
 				B58359382DEDD65A0066B32E /* ParallaxImageView.swift in Sources */,
 				B58359392DEDD65A0066B32E /* ParticleEffect.swift in Sources */,
 				B54057432DF1B6960058DC87 /* Application+.swift in Sources */,
+				B5E5718B2E011CD000DDE516 /* VOIP.swift in Sources */,
 				B583593B2DEDD65A0066B32E /* HeroEffect.swift in Sources */,
 				B583593C2DEDD65A0066B32E /* TrayHelper.swift in Sources */,
 			);
@@ -1183,11 +1323,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B531F48E2E03A26D00A5868B /* CallBasicManager.swift in Sources */,
 				B5835D462DEDF9680066B32E /* MessageModel.swift in Sources */,
 				B540571E2DF1B4560058DC87 /* URL+.swift in Sources */,
 				B5835D452DEDF9630066B32E /* OtherModel.swift in Sources */,
 				B54057402DF1B6400058DC87 /* Encodable+.swift in Sources */,
 				B54057142DF1B3850058DC87 /* Date+.swift in Sources */,
+				B531F4942E03BE6000A5868B /* CallProtocos.swift in Sources */,
+				B531F4982E03CAC500A5868B /* CallHighManager.swift in Sources */,
 				B540571B2DF1B3DB0058DC87 /* String+.swift in Sources */,
 				B540570D2DF1B1A20058DC87 /* Image+.swift in Sources */,
 				B54057392DF1B61F0058DC87 /* Type+.swift in Sources */,
@@ -1304,7 +1447,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1340,7 +1483,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1489,7 +1632,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1516,7 +1659,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ShareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1543,7 +1686,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1574,7 +1717,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -1605,7 +1748,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1632,7 +1775,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1660,7 +1803,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1689,7 +1832,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1720,7 +1863,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1753,7 +1896,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.PushWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1781,7 +1924,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.MarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1808,7 +1951,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = me.uuneo.Meoworld.MarkdownExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1896,6 +2039,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B50B3CE92DFE6EE800C936F1 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.8;
+			};
+		};
+		B50B3CEC2DFE6F1500C936F1 /* XCRemoteSwiftPackageReference "WebRTC" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stasel/WebRTC.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 137.0.0;
+			};
+		};
 		B58358902DEDD4E10066B32E /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/Defaults.git";
@@ -1968,9 +2127,27 @@
 				kind = branch;
 			};
 		};
+		B5E571862E011C8600DDE516 /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B50B3CEA2DFE6EE800C936F1 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B50B3CE92DFE6EE800C936F1 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+		B50B3CED2DFE6F1600C936F1 /* WebRTC */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B50B3CEC2DFE6F1500C936F1 /* XCRemoteSwiftPackageReference "WebRTC" */;
+			productName = WebRTC;
+		};
 		B58358912DEDD4E10066B32E /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B58358902DEDD4E10066B32E /* XCRemoteSwiftPackageReference "Defaults" */;
@@ -2110,6 +2287,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */;
 			productName = "cmark-gfm-extensions";
+		};
+		B5E571872E011C8600DDE516 /* SwiftJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5E571862E011C8600DDE516 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
+			productName = SwiftJWT;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -17,7 +17,8 @@ class ActionHandler: NotificationContentHandler{
 	
 	func handler(identifier: String, content bestAttemptContent: UNMutableNotificationContent) async throws -> UNMutableNotificationContent {
         // MARK: - 处理 Ringtone
-        if bestAttemptContent.soundName == nil && bestAttemptContent.getLevel() < 3{
+        let call:Int? = bestAttemptContent.userInfo.raw(.call)
+        if  call != 1, bestAttemptContent.soundName == nil, bestAttemptContent.getLevel() < 3{
             bestAttemptContent.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(Defaults[.sound]).caf" ))
         }
 		
@@ -33,6 +34,7 @@ class ActionHandler: NotificationContentHandler{
                 bestAttemptContent.badge = NSNumber(value: badge)
             }
         }
+        
 
 		// MARK: - 删除过期消息
         await DatabaseManager.shared.deleteExpired()
@@ -61,12 +63,20 @@ class ActionHandler: NotificationContentHandler{
             Defaults[.widgetURL] = widget
         }
         
+        let mores = Defaults[.moreMessageCache]
+        if mores.count > 0{
+            let oneHourAgo = Date().addingTimeInterval(-3600)
+            Defaults[.moreMessageCache].removeAll { message in
+                message.createDate < oneHourAgo
+            }
+        }
+        
+        
+       
+        
         return bestAttemptContent
         
     
 	}
     
 }
-
-
-

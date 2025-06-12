@@ -7,15 +7,20 @@
 
 import UIKit
 import Defaults
+import PushKit
+
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-    
-    
-    
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, PKPushRegistryDelegate{
+    private var pushRegistry: PKPushRegistry = PKPushRegistry(queue: .main)
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
+        
+        pushRegistry.delegate = self
+        pushRegistry.desiredPushTypes = [.voIP]
+        
         
         let actions = [ UNNotificationAction(identifier: Identifiers.copyAction,
                                              title:  String(localized: "复制"),
@@ -37,22 +42,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if !Defaults[.firstStart] {
             AppManager.shared.registerForRemoteNotifications()
         }
+ 
+        if Defaults[.id] == ""{
+            let id = KeychainHelper.shared.getDeviceID()
+            Defaults[.id] = id
+            Defaults[.user].id = id
+        }
         
         return true
     }
     
     
-    
-    
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        
+        let token = deviceToken.asHexString
+        Defaults.setToken(token: token)
         
         let manager = AppManager.shared
-        
-        Defaults[.deviceToken] = token
-        CloudManager.shared.getUserId()
-        
         if Defaults[.servers].count == 0{
             Task.detached(priority: .userInitiated) {
                 _ = await manager.appendServer(server: PushServerModel(url: BaseConfig.defaultServer))
@@ -167,6 +173,63 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().add(request)
         }
     }
+    
+    func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
+        let token = pushCredentials.token.asHexString
+        Defaults.setToken(voip: token)
+    }
+    
+    
+    func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
+        print("收到通知")
+        let manager = CallMainManager.shared.manager
+        manager.reportNew(uuid: UUID(), callerName: "CallKit") {
+            completion()
+        }
+        AppManager.shared.sheetPage = .none
+        let callUser = CallUser(id: UUID().uuidString, name: "张三F", caller: "100", deviceToken: "", voipToken: "", voip: 1)
+        
+        AppManager.shared.fullPage = .answer(callUser)
+
+       
+        Thread.sleep(forTimeInterval: 0.1
+        )
+        completion()
+        
+    }
+    
 }
 
 
+extension Data {
+    // Convenience method to convert `Data` to a hex `String`.
+    fileprivate var asHexString: String {
+        let hexString = map { String(format: "%02.2hhx", $0) }.joined()
+        return hexString
+    }
+}
+
+
+fileprivate extension Defaults{
+    static func setToken(token: String? = nil, voip: String? = nil){
+        
+        self[.user].voip = BaseConfig.isVoip()
+        
+        if let token {
+            self[.deviceToken] = token
+            self[.user].deviceToken = token
+            
+            Task.detached(priority: .background) {
+                let success = await CallCloudManager.shared.save(self[.user])
+                if !success {
+                    Toast.error(title: "上传令牌失败")
+                }
+            }
+        }
+        
+        if let voip {
+            Self[.voipDeviceToken] = voip
+            Self[.user].voipToken = voip
+        }
+    }
+}

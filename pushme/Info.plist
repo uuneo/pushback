@@ -37,6 +37,7 @@
 	<true/>
 	<key>NSUserActivityTypes</key>
 	<array>
+		<string>INStartCallIntent</string>
 		<string>INSendMessageIntent</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
@@ -59,6 +60,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
+		<string>voip</string>
 	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>

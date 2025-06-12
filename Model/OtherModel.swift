@@ -84,42 +84,35 @@ enum MessageAction: String, CaseIterable, Equatable{
 enum QuickAction: String{
     
     case assistant
-    case alldelread
+    case phonenumber
     
 	static var selectAction:UIApplicationShortcutItem?
 
     static func allShortcutItems(showAssistant:Bool) -> [UIApplicationShortcutItem] {
+        
+        var datas = [
+            UIApplicationShortcutItem(
+                type: Self.phonenumber.rawValue,
+                localizedTitle: String(localized:  "语音通话"),
+                localizedSubtitle: "",
+                icon: UIApplicationShortcutIcon(systemImageName: "phone.and.waveform.fill"),
+                userInfo: ["name":"phonenumber" as NSSecureCoding]
+            )
+            
+        ]
+        
+        
         if showAssistant{
-            return [
-                
-                UIApplicationShortcutItem(
-                    type: Self.assistant.rawValue,
-                    localizedTitle: String(localized:  "问智能助手"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
-                    userInfo: ["name":"assistant" as NSSecureCoding]
-                ),
-
-                UIApplicationShortcutItem(
-                    type: Self.alldelread.rawValue,
-                    localizedTitle: String(localized: "删除全部已读"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-                    userInfo: ["name":"alldelread" as NSSecureCoding]
-                )
-                
-            ]
-        }else{
-            return [
-                UIApplicationShortcutItem(
-                    type: Self.alldelread.rawValue,
-                    localizedTitle: String(localized: "删除全部已读"),
-                    localizedSubtitle: "",
-                    icon: UIApplicationShortcutIcon(systemImageName: "trash"),
-                    userInfo: ["name":"alldelread" as NSSecureCoding]
-                )
-            ]
+            datas.insert( UIApplicationShortcutItem(
+                type: Self.assistant.rawValue,
+                localizedTitle: String(localized:  "问智能助手"),
+                localizedSubtitle: "",
+                icon: UIApplicationShortcutIcon(systemImageName: "message.and.waveform"),
+                userInfo: ["name":"assistant" as NSSecureCoding]
+            ), at: 0)
         }
+        
+        return datas
         
     }
 }
@@ -449,43 +442,7 @@ struct SelectMessage: Codable{
 }
 
 
-// MARK: - Page model
-enum SubPage: Equatable{
-    case customKey
-    case scan
-    case appIcon
-    case web(String)
-    case cloudIcon
-    case paywall
-    case quickResponseCode(text:String,title: String?,preview: String?)
-    case none
-    
-}
 
-enum RouterPage: Hashable {
-    case example
-    case messageDetail(String)
-    case assistant
-    case sound
-    case crypto(String?)
-    case server
-    case assistantSetting(AssistantAccount?)
-    case more
-    
-    case widget(title:String?, data:String)
-    
-    case tts
-}
-
-enum TabPage :String, Sendable{
-    case message
-    case setting
-}
-
-enum outRouterPage: String{
-    case widget
-    case icon
-}
 
 enum PBScheme: String, CaseIterable{
     case pb
@@ -513,4 +470,13 @@ enum PBScheme: String, CaseIterable{
         return components.url!
     }
     
+}
+
+struct IceServerResponse: Codable {
+    let iceServers: [IceServer]
+    struct IceServer: Codable {
+        let urls: [String]
+        let username: String?
+        let credential: String?
+    }
 }

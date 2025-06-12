@@ -22,7 +22,7 @@ class IconHandler: NotificationContentHandler{
         /// 获取icon 云图标
         if localPath == nil {
             
-            let images = await CloudManager.shared.queryIcons(name: imageUrl)
+            let images = await IconCloudManager.shared.queryIcons(name: imageUrl)
             
             if let image = images.first, let icon = image.toPushIcon(), let previewImage = icon.previewImage, let data = previewImage.pngData() {
                 

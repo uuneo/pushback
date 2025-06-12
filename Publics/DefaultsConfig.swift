@@ -18,23 +18,26 @@ extension Defaults.Key{
 
 extension Defaults.Keys{
     
+    
     static let deviceToken = Key<String>("deviceToken", "")
+    static let voipDeviceToken = Key<String>("voipDeviceToken", "")
     static let firstStart = Key<Bool>("firstStartApp", true)
     static let autoSaveToAlbum = Key<Bool>("autoSaveImageToPhotoAlbum", false)
     static let sound = Key<String>("defaultSound", "xiu")
     static let showGroup = Key<Bool>("showGroupMessage", false)
     static let historyMessageCount = Key<Int>("historyMessageCount", 10)
-    static let historyMessageBool = Key<Bool>("historyMessageBool", false)
-    static let showCodeViewColor = Key<Bool>("showCodeViewColor", true)
     static let freeCloudImageCount = Key<Int>("freeCloudImageCount", 30)
     static let muteSetting = Key<[String: Date]>("muteSetting",[:])
+    
     static let imageSaves = Key<[String]>("muteSetting", [])
     static let showMessageAvatar = Key<Bool>("showMessageAvatar",false)
-    static let id = Key<String>("UserUniqueId","")
+    static let id = Key<String>("UserDeviceUniqueId", "")
     static let lang = Key<String>("LocalePreferredLanguagesFirst","")
     static let voicesAutoSpeak = Key<Bool>("voicesAutoSpeak", false)
     static let voicesViewShow = Key<Bool>("voicesViewShow", true)
     static let allMessagecount = Key<Int>("allMessagecount", 0, iCloud: true)
     static let widgetURL = Key<String>("widgetURL",default: "")
+    
 }
+
 

@@ -68,7 +68,8 @@ struct OutlineOverlay: ViewModifier {
 
 // MARK: - buttons 视图
 struct ButtonPress: ViewModifier{
-    var maxX:Double = 10
+    var releaseStyles:Double = 0.0
+    var maxX:Double = 0.0
 	var onPress:((DragGesture.Value)->Void)? = nil
 	var onRelease:((DragGesture.Value)->Bool)? = nil
     
@@ -85,6 +86,11 @@ struct ButtonPress: ViewModifier{
 					.onChanged({ result in
                         self.ispress = true
 						onPress?(result)
+                        if releaseStyles > 0.0 {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + releaseStyles ){
+                                self.ispress = false
+                            }
+                        }
 					})
 					.onEnded({ result in
                         self.ispress = false
@@ -137,7 +143,7 @@ struct TextFieldModifier: ViewModifier {
                         .offset(x: -46)
                         .accessibility(hidden: true)
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(.tint,.secondary)
+                        .foregroundStyle(.tint, .secondary)
                         .onTapGesture {
                             complete?()
                             Haptic.impact()
@@ -145,7 +151,6 @@ struct TextFieldModifier: ViewModifier {
 					Spacer()
 				}
 			)
-			.foregroundStyle(.primary)
 			.padding()
 			.padding(.leading, 43)
             .if(background){ view in
@@ -278,7 +283,6 @@ extension View {
         }
     }
     
-    
     @ViewBuilder func `if` <Content: View>(_ condition: Bool, transform: () -> Content) -> some View {
         if condition {
             transform()
@@ -286,6 +290,12 @@ extension View {
             self
         }
     }
+    
+    @ViewBuilder func diff<Content: View>(transform: (Self) -> Content) -> some View {
+        transform(self)
+    }
+    
+
     
     func slideFadeIn(show: Bool, offset: Double = 10) -> some View {
         self.modifier(SlideFadeIn(show: show, offset: offset))
@@ -306,9 +316,10 @@ extension View {
     }
     
     func VButton(_ maxX:Double = 0.0,
+                 release:Double = 0.0,
                  onPress: ((DragGesture.Value)->Void)? = nil,
                  onRelease: ((DragGesture.Value)->Bool)? = nil)-> some View{
-        modifier(ButtonPress(maxX: maxX, onPress:onPress, onRelease: onRelease))
+        modifier(ButtonPress(releaseStyles: release, maxX: maxX, onPress:onPress, onRelease: onRelease))
     }
     
     @ViewBuilder
@@ -370,7 +381,50 @@ extension View {
  
 
 
+import SwiftUI
 
+enum ScrollDirection {
+    case up, down
+}
+
+struct VerticalScrollDetector: ViewModifier {
+    var onScroll: (ScrollDirection, CGFloat) -> Void
+
+    @State private var lastOffset: CGFloat = 0
+
+    func body(content: Content) -> some View {
+        content
+            .background(GeometryReader { geo in
+                Color.clear
+                    .preference(key: ScrollOffsetPreferenceKey.self,
+                                value: geo.frame(in: .global).minY)
+            })
+            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { newY in
+                print(newY)
+                let delta = newY - lastOffset
+                if delta != 0 {
+                    let direction: ScrollDirection = delta > 0 ? .down : .up
+                    onScroll(direction, newY)
+                    lastOffset = newY
+                }
+            }
+    }
+
+    struct ScrollOffsetPreferenceKey: PreferenceKey {
+        static var defaultValue: CGFloat = 0
+        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+            value = nextValue()
+        }
+    }
+}
+
+extension View {
+    func onVerticalScrollChange(
+        perform: @escaping (ScrollDirection, CGFloat) -> Void
+    ) -> some View {
+        self.modifier(VerticalScrollDetector(onScroll: perform))
+    }
+}
 
 
 

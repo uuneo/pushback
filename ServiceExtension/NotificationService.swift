@@ -43,7 +43,6 @@ class NotificationService: UNNotificationServiceExtension {
                     return
                 }
             }
-            
 
             contentHandler(bestAttemptContent)
         }

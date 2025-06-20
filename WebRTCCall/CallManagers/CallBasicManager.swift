@@ -15,7 +15,7 @@ class  CallBasicManager:CallerManager{
     
     func answer() async throws {
         CXProvider.reportNewIncomingVoIPPushPayload([:]) { error in
-            <#code#>
+        
         }
     }
     

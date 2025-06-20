@@ -8,7 +8,8 @@
 import Foundation
 import WebRTC
 import AVFoundation
-
+import Foundation
+import CryptoKit
 
 
 
@@ -123,7 +124,7 @@ class WebRtcManager: NSObject, RTCPeerConnectionDelegate {
     }
     
     
-    static func fetchTurnConfig() async -> IceServerResponse? {
+    static func fetchPublicTurn() async -> IceServerResponse? {
         let network = NetworkManager()
         let apiURL = "http://192.168.1.7:8080" + "/ICEServer"
         do{
@@ -135,5 +136,24 @@ class WebRtcManager: NSObject, RTCPeerConnectionDelegate {
         }
         
     }
-
+    
+    
+    static func fetchPrivateTurn(id:String, apiToken:String) async -> IceServerResponse?{
+        let network = NetworkManager()
+        let apiUrl = "https://rtc.live.cloudflare.com/v1/turn/keys/\(id)/credentials/generate-ice-servers"
+        
+        let data:IceServerResponse? = try? await network.fetch(url: apiUrl,method: .post,params: [
+            "ttl":86400
+        ],headers: [
+            "authorization":"Bearer \(apiToken)"
+        ])
+        
+        return data
+    }
+    
+  
+    
 }
+
+
+

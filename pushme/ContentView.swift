@@ -93,13 +93,6 @@ struct ContentView: View {
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
-//        .task {
-//            
-//            Task.detached(priority: .userInitiated) {
-//                await DatabaseManager.CreateStresstest(max: 100000)
-//            }
-//
-//        }
         
     }
     

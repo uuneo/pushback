@@ -19,7 +19,7 @@ extension Defaults.Keys {
     static let imageSaveDays = Key<ExpirationTime>("imageSaveDays", .forever)
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[], iCloud: true)
     
-    static let moreMessageCache = Key<[MoreMessage]>("moreMessageCache", default: [])
+    static let moreMessageCache = Key<[MoreMessage]>("moreMessageCache", [])
 }
 
 extension ExpirationTime: Defaults.Serializable{ }
@@ -35,13 +35,6 @@ extension PushServerModel: Defaults.Serializable{}
 extension MoreMessage: Defaults.Serializable{}
 extension IceServerResponse:Defaults.Serializable{}
 
-struct MoreMessage:Codable,Hashable{
-    var createDate:Date
-    var id:String
-    var body:String
-    var index:Int
-    var count:Int
-}
 
 
 

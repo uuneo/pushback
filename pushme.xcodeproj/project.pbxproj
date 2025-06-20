@@ -140,6 +140,7 @@
 		B5835D782DEDFFF90066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D772DEDFFF90066B32E /* cmark-gfm */; };
 		B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */; };
 		B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5835D7B2DEE14C10066B32E /* WebKit.framework */; };
+		B590EADA2E05305800BC4AA2 /* privatekey.der in Resources */ = {isa = PBXBuildFile; fileRef = B590EAD92E05305800BC4AA2 /* privatekey.der */; };
 		B5E5707E2E004E2300DDE516 /* Websocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E5707D2E004E1800DDE516 /* Websocket.swift */; };
 		B5E5707F2E005F3200DDE516 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50B3CF02DFE716800C936F1 /* Config.swift */; };
 		B5E570812E00613500DDE516 /* WebRtcManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E570802E00613400DDE516 /* WebRtcManager.swift */; };
@@ -147,7 +148,7 @@
 		B5E5710C2E00E2C000DDE516 /* SessionDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E571082E00E2BF00DDE516 /* SessionDescription.swift */; };
 		B5E5710D2E00E2C000DDE516 /* RTCStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E571072E00E2BF00DDE516 /* RTCStates.swift */; };
 		B5E571882E011C8600DDE516 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = B5E571872E011C8600DDE516 /* SwiftJWT */; };
-		B5E5718B2E011CD000DDE516 /* VOIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E5718A2E011CC800DDE516 /* VOIP.swift */; };
+		B5E5718B2E011CD000DDE516 /* Apns.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E5718A2E011CC800DDE516 /* Apns.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -272,12 +273,13 @@
 		B5835CCE2DEDE8B80066B32E /* PushWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushWidgetExtension.entitlements; sourceTree = "<group>"; };
 		B5835CFE2DEDECA10066B32E /* MarkdownExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MarkdownExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5835D7B2DEE14C10066B32E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		B590EAD92E05305800BC4AA2 /* privatekey.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = privatekey.der; sourceTree = "<group>"; };
 		B5E5707D2E004E1800DDE516 /* Websocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Websocket.swift; sourceTree = "<group>"; };
 		B5E570802E00613400DDE516 /* WebRtcManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRtcManager.swift; sourceTree = "<group>"; };
 		B5E571072E00E2BF00DDE516 /* RTCStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTCStates.swift; sourceTree = "<group>"; };
 		B5E571082E00E2BF00DDE516 /* SessionDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDescription.swift; sourceTree = "<group>"; };
 		B5E571092E00E2BF00DDE516 /* IceCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceCandidate.swift; sourceTree = "<group>"; };
-		B5E5718A2E011CC800DDE516 /* VOIP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VOIP.swift; sourceTree = "<group>"; };
+		B5E5718A2E011CC800DDE516 /* Apns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apns.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -364,8 +366,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
+				DefaultsBaseKeys.swift,
+				ToolsBox.swift,
 			);
 			target = B58359E62DEDDF860066B32E /* ShareExtension */;
 		};
@@ -402,10 +404,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
+				DefaultsBaseKeys.swift,
 				Markdown.swift,
 				PushParams.swift,
+				ToolsBox.swift,
 			);
 			target = B5835CFD2DEDECA10066B32E /* MarkdownExtension */;
 		};
@@ -413,11 +415,11 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
-				LocalKeys.swift,
+				DefaultsBaseKeys.swift,
+				DefaultsModelKeys.swift,
 				Markdown.swift,
 				PushParams.swift,
+				ToolsBox.swift,
 			);
 			target = B5835B202DEDE0930066B32E /* ContentExtension */;
 		};
@@ -445,11 +447,11 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
-				LocalKeys.swift,
+				DefaultsBaseKeys.swift,
+				DefaultsModelKeys.swift,
 				Markdown.swift,
 				PushParams.swift,
+				ToolsBox.swift,
 			);
 			target = B5835B102DEDE07C0066B32E /* ServiceExtension */;
 		};
@@ -457,9 +459,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				BaseConfig.swift,
-				DefaultsConfig.swift,
-				Haptic.swift,
+				DefaultsBaseKeys.swift,
 				Markdown.swift,
+				ToolsBox.swift,
 			);
 			target = B5835CA72DEDE88D0066B32E /* PushWidgetExtension */;
 		};
@@ -820,6 +822,7 @@
 				B5835BC12DEDE1020066B32E /* Sounds */,
 				B58358C92DEDD65A0066B32E /* Helpers */,
 				B5835CCE2DEDE8B80066B32E /* PushWidgetExtension.entitlements */,
+				B590EAD92E05305800BC4AA2 /* privatekey.der */,
 			);
 			sourceTree = "<group>";
 		};
@@ -907,7 +910,7 @@
 		B5E571892E011CBC00DDE516 /* APNS */ = {
 			isa = PBXGroup;
 			children = (
-				B5E5718A2E011CC800DDE516 /* VOIP.swift */,
+				B5E5718A2E011CC800DDE516 /* Apns.swift */,
 			);
 			path = APNS;
 			sourceTree = "<group>";
@@ -1191,6 +1194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B590EADA2E05305800BC4AA2 /* privatekey.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1289,7 +1293,7 @@
 				B58359382DEDD65A0066B32E /* ParallaxImageView.swift in Sources */,
 				B58359392DEDD65A0066B32E /* ParticleEffect.swift in Sources */,
 				B54057432DF1B6960058DC87 /* Application+.swift in Sources */,
-				B5E5718B2E011CD000DDE516 /* VOIP.swift in Sources */,
+				B5E5718B2E011CD000DDE516 /* Apns.swift in Sources */,
 				B583593B2DEDD65A0066B32E /* HeroEffect.swift in Sources */,
 				B583593C2DEDD65A0066B32E /* TrayHelper.swift in Sources */,
 			);

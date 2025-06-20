@@ -21,15 +21,12 @@ class BaseConfig {
     static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
 #if DEBUG
     static let defaultServer = "https://dev.uuneo.com"
-#else
-    static let defaultServer = "https://push.uuneo.com"
-#endif
-    
-#if DEBUG
     static let defaultApns = "https://api.development.push.apple.com/3/device/"
 #else
+    static let defaultServer = "https://push.uuneo.com"
     static let defaultApns = "https://api.push.apple.com/3/device/"
 #endif
+
     static let docServer = "https://docs.uuneo.com"
     static let statusServer = "https://status.uuneo.com"
     static let defaultImage = docServer + "/_media/avatar.jpg"
@@ -51,6 +48,7 @@ class BaseConfig {
         ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
         ?? "Pushback"
     }
+    
     static var testData:String{
         "{\"title\": \"\(String(localized: "这是一个加密示例"))\",\"body\": \"\(String(localized: "这是加密的正文部分"))\", \"sound\": \"typewriter\"}"
     }
@@ -85,6 +83,7 @@ class BaseConfig {
             do {
                 try FileManager.default.createDirectory(at: imagesDirectory, withIntermediateDirectories: true, attributes: nil)
             } catch {
+            
                 Log.error("Failed to create images directory: \(error.localizedDescription)")
                 return nil
             }
@@ -148,58 +147,5 @@ class BaseConfig {
             return nil
         }
         
-    }
-}
-
-public class Log {
-    
-    /// 日志级别
-    enum Level: String {
-        case debug = "DEBUG"
-        case info = "INFO"
-        case error = "ERROR"
-    }
-    
-    /// 日志输出函数类型
-    typealias LogOutput = (String) -> Void
-    
-    /// 默认日志输出函数（打印到控制台）
-    private static var logOutput: LogOutput = { message in
-#if DEBUG
-        debugPrint(message)
-#endif
-    }
-    
-    /// 设置自定义日志输出函数
-    static func setLogOutput(_ output: @escaping LogOutput) {
-        logOutput = output
-    }
-    
-    /// 基础日志方法
-    /// - Parameters:
-    ///   - level: 日志级别
-    ///   - message: 日志消息
-    ///   - file: 调用日志的文件名（自动捕获）
-    ///   - function: 调用日志的函数名（自动捕获）
-    ///   - line: 调用日志的行号（自动捕获）
-    private class func base(level: Level, file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-        let fileName = (file as NSString).lastPathComponent // 提取文件名
-        let logMessage = "[\(level.rawValue)] \(fileName):\(line) \(function) -> \(message.compactMap { "\($0)" }.joined(separator: ", "))"
-        logOutput(logMessage) // 使用配置的日志输出函数
-    }
-    
-    /// 打印调试日志
-    class func debug(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-        base(level: .debug, file: file, function: function, line: line, message)
-    }
-    
-    /// 打印信息日志
-    class func info(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-        base(level: .info, file: file, function: function, line: line, message)
-    }
-    
-    /// 打印错误日志
-    class func error(file: String = #file, function: String = #function, line: Int = #line, _ message: Any...) {
-        base(level: .error, file: file, function: function, line: line, message)
     }
 }

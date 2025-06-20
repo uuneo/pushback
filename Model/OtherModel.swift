@@ -480,3 +480,12 @@ struct IceServerResponse: Codable {
         let credential: String?
     }
 }
+
+
+struct MoreMessage:Codable,Hashable{
+    var createDate:Date
+    var id:String
+    var body:String
+    var index:Int
+    var count:Int
+}

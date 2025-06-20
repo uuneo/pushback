@@ -98,7 +98,6 @@ struct ButtonPress: ViewModifier{
                             
                             if let success = onRelease?(result), success{
                                 Haptic.impact()
-                                
                             }
                         }
 					})

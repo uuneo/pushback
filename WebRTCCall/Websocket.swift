@@ -22,18 +22,14 @@ class WebSocketManager: WebSocketDelegate {
         socket = WebSocket(request: request)
         socket.delegate = self
         socket.connect()
-        startPing()
+        pingTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
+            self?.socket.write(ping: "ping".data(using: .utf8)!){}
+        }
     }
     
     deinit{
         socket.disconnect()
         pingTimer?.invalidate()
-    }
-    
-    func startPing() {
-        pingTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true) { [weak self] _ in
-            self?.socket.write(ping: "ping".data(using: .utf8)!){}
-        }
     }
     
     func connect() {

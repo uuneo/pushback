@@ -36,7 +36,7 @@ extension Defaults.Keys{
     static let voicesAutoSpeak = Key<Bool>("voicesAutoSpeak", false)
     static let voicesViewShow = Key<Bool>("voicesViewShow", true)
     static let allMessagecount = Key<Int>("allMessagecount", 0, iCloud: true)
-    static let widgetURL = Key<String>("widgetURL",default: "")
+    static let widgetURL = Key<String>("widgetURL", "")
     
 }
 

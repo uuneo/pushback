@@ -5,6 +5,7 @@
 //  Created by lynn on 2025/6/15.
 //
 import Foundation
+import CallKit
 
 
 class  CallBasicManager:CallerManager{
@@ -13,7 +14,9 @@ class  CallBasicManager:CallerManager{
     }
     
     func answer() async throws {
-        
+        CXProvider.reportNewIncomingVoIPPushPayload([:]) { error in
+            <#code#>
+        }
     }
     
     

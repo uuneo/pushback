@@ -183,9 +183,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
         print("收到通知")
         let manager = CallMainManager.shared.manager
-        manager.reportNew(uuid: UUID(), callerName: "CallKit") {
-            completion()
-        }
+        manager.reportNew(uuid: UUID(), callerName: "CallKit") { }
         AppManager.shared.sheetPage = .none
         let callUser = CallUser(id: UUID().uuidString, name: "张三F", caller: "100", deviceToken: "", voipToken: "", voip: 1)
         

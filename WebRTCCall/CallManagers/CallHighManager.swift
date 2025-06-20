@@ -35,13 +35,13 @@ class LiveCommunicationManager: NSObject,  CallerManager{
         }
         
         let config = ConversationManager.Configuration(
-            ringtoneName: nil,
-            iconTemplateImageData: UIImage(named: "logo1")?.pngData(), // 图标的 PNG 数据
+            ringtoneName: "call.caf",
+            iconTemplateImageData: UIImage(named: "logo")?.pngData(), // 图标的 PNG 数据
             maximumConversationGroups: 1, // 最大对话组数
             maximumConversationsPerConversationGroup: 1, // 每个对话组内最大对话数
             includesConversationInRecents: false, // 是否在通话记录中显示
             supportsVideo: true, // 是否支持视频
-            supportedHandleTypes: [.generic] // 支持的通话类型
+            supportedHandleTypes: [.generic, .emailAddress, .phoneNumber] // 支持的通话类型
         
         )
          
@@ -78,17 +78,17 @@ class LiveCommunicationManager: NSObject,  CallerManager{
         Task.detached(priority: .userInitiated) {
            
             let local = Handle(type: .generic, value: callerName, displayName: callerName)
+            
 
-            let update = Conversation.Update(localMember: local,members: [local],activeRemoteMembers: [local])
+            let update = Conversation.Update(activeRemoteMembers: [local])
              
+            
             do {
                 try await self.manager.reportNewIncomingConversation(uuid: uuid, update: update)
-                
-                complete()
+
                 print("成功报告新来电")
             } catch {
                 print("报告新来电失败: \(error.localizedDescription)")
-                complete()
             }
             
             

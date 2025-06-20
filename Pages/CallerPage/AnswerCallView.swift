@@ -59,11 +59,20 @@ struct AnswerVoiceView: View {
                     SlideToConfirm(config: configButton, disabled: true) {
                         print("Swiped!")
                         Task.detached(priority: .userInitiated) {
-                            let manager = CallMainManager.shared.manager
-                            try await manager.answer()
-                            DispatchQueue.main.asyncAfter(deadline: .now()){
-                                self.answered.toggle()
+                            do{
+                                let manager = CallMainManager.shared.manager
+                                try await manager.answer()
+                                DispatchQueue.main.asyncAfter(deadline: .now()){
+                                    self.answered.toggle()
+                                }
+                            }catch{
+                                let manager = CallMainManager.shared.manager
+                                manager.endCall()
+                                await MainActor.run {
+                                    AppManager.shared.fullPage = .none
+                                }
                             }
+                            
                         }
                        
                     } .opacity(answered ? 0 : 1)

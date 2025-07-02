@@ -9,21 +9,20 @@ import Foundation
 import LiveCommunicationKit
 import UIKit
 import AVFAudio
+ 
 
 
 @available(iOS 17.4, *)
-class LiveCommunicationManager: NSObject,  CallerManager{
-   
+class LiveCommunicationManager: CallerManager{
+    
+    var delegate: LiveCommunicationDelegate?
     
 
-     
-    var isInvalidate:Bool = false
     var manager: ConversationManager!
      
     var currentCallID: UUID?
-     
-    override init() {
-        super.init()
+    
+    init() {
         createNew()
         manager.delegate = self
     }
@@ -72,7 +71,7 @@ class LiveCommunicationManager: NSObject,  CallerManager{
         try await manager.perform([action])
         
     }
-    func reportNew(uuid: UUID, callerName: String, complete: @escaping () -> Void){
+    func reportNew(uuid: UUID, callerName: String){
         createNew()
         self.currentCallID = uuid
         Task.detached(priority: .userInitiated) {
@@ -90,10 +89,6 @@ class LiveCommunicationManager: NSObject,  CallerManager{
             } catch {
                 print("报告新来电失败: \(error.localizedDescription)")
             }
-            
-            
-            
-            
         }
     }
      
@@ -106,46 +101,32 @@ class LiveCommunicationManager: NSObject,  CallerManager{
             }
         }
     }
-     
-  
-    
-
 }
 
 @available(iOS 17.4, *)
 extension LiveCommunicationManager: ConversationManagerDelegate {
     func conversationManager(_ manager: ConversationManager, conversationChanged conversation: Conversation) {
        
-        print("会话状态改变了", conversation.state)
-        switch conversation.state {
-        case .idle:
-            print("初始状态，未开始连接")
-        case .joining:
-            print("正在连接远端")
-        case .joined:
-            print("已建立连接，通话活跃")
-        case .paused:
-            print("临时中断音视频（例如 App 进入后台）")
-        case .leaving:
-            print("正在挂断中")
-        case .left:
-            print("已结束通话")
-        @unknown default:
-            print("其他")
-        }
+        Log.info("会话状态改变了", conversation.state)
 
     }
      
     func conversationManagerDidBegin(_ manager: ConversationManager) {
-        print("会话已经开始了")
+        Log.info("会话已经开始了")
     }
      
     func conversationManagerDidReset(_ manager: ConversationManager) {
-        print("会话将要清除了") 
+        Log.info("会话将要清除了")
     }
      
     func conversationManager(_ manager: ConversationManager, perform action: ConversationAction) {
-        print("操作按钮：", action)
+        Log.info("操作按钮：", action)
+        
+       
+        
+        if action is JoinConversationAction{
+            delegate?.callerManagerJoinConversation()
+        }
         
         action.fulfill()
         
@@ -180,5 +161,6 @@ extension LiveCommunicationManager: ConversationManagerDelegate {
      
     func conversationManager(_ manager: ConversationManager, didDeactivate audioSession: AVAudioSession) {
         print("会话结束")
+        delegate?.callerManagerDidEndCall()
     }
 }

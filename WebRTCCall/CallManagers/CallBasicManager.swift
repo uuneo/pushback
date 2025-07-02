@@ -7,8 +7,11 @@
 import Foundation
 
 
-class  CallBasicManager:CallerManager{
-    func reportNew(uuid: UUID, callerName: String, complete: @escaping () -> Void) {
+class CallBasicManager:CallerManager{
+    weak var delegate: LiveCommunicationDelegate?
+    
+    
+    func reportNew(uuid: UUID, callerName: String) {
         
     }
     

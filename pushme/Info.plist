@@ -106,5 +106,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>我们需要访问麦克风用于语音通话</string>
 </dict>
 </plist>

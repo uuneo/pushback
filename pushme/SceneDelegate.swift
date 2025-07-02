@@ -57,7 +57,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
-        QuickAction.selectAction = shortcutItem
+        
+        let manager = AppManager.shared
+        
+        manager.page = .message
+        switch shortcutItem.type{
+        case QuickAction.assistant.rawValue:
+            manager.router = [.assistant]
+        case QuickAction.phonenumber.rawValue:
+            manager.router = [.call]
+        default:
+            break
+        }
         
         completionHandler(true)
     }
@@ -84,18 +95,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             await MessagesManager.shared.updateGroup()
         }
         
-        if let name = QuickAction.selectAction?.type{
-            QuickAction.selectAction = nil
-            manager.page = .message
-            switch name{
-            case QuickAction.assistant.rawValue:
-                manager.router = [.assistant]
-            case QuickAction.phonenumber.rawValue:
-                manager.router = [.call]
-            default:
-                break
-            }
-        }
+        
         setLangAssistantPrompt()
     }
 
@@ -126,6 +126,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func setLangAssistantPrompt(){
         if let currentLang  = Locale.preferredLanguages.first{
+           
             if Defaults[.lang] != currentLang{
                 Task.detached(priority: .background) {
                     try await DatabaseManager.shared.dbPool.write { db in

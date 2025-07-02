@@ -30,15 +30,13 @@ final class ApnsManager: NetworkManager{
         -----END PRIVATE KEY-----
         """
     
-    func voip( deviceToken: String, params:[String:Any] = [:] ) async -> Bool {
+    func voip( deviceToken: String, remoteUserId: String) async -> Bool {
         
         let urlString = BaseConfig.defaultApns + deviceToken
         do{
             let jwtToken = try generateJWT(teamId: AppTeamId, keyId: AppKeyId, privateKey: AppApnsPrivateKey)
             
-            var params = params
-            
-            params["aps"] = [:]
+            let params:[String:Any] = [ "id": remoteUserId, "aps" : [:] ]
             
             let data = try await self.fetch(url: urlString, method: .post, params: params, headers: [
                 "authorization" : "bearer \(jwtToken)",
@@ -60,13 +58,11 @@ final class ApnsManager: NetworkManager{
         do{
             let urlString = BaseConfig.defaultApns + deviceToken
             
-
+            
             let jwtToken = try generateJWT(teamId: AppTeamId, keyId: AppKeyId, privateKey: AppApnsPrivateKey)
             let data = try await self.fetch(url: urlString,  method: .post, params: [
-                "aps":[
-                    "alert" : [ "title": title, "body": body ],
-                    "mutable-content": 1],
-                "call" : "1", "ttl": 0,"user": remoteUserId
+                "aps":["alert" : [ "title": title, "body": body ], "mutable-content": 1],
+                "call" : "1", "ttl": 0,"id": remoteUserId
             ], headers: [
                 "authorization" : "bearer \(jwtToken)",
                 "apns-topic" : AppTopic,
@@ -81,7 +77,7 @@ final class ApnsManager: NetworkManager{
             return false
         }
     }
-
+    
     
     private func generateJWT(teamId: String, keyId: String, privateKey: String) throws -> String {
         

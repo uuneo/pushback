@@ -37,25 +37,7 @@ struct ContentView: View {
             
         }
         .environmentObject(manager)
-        .safeAreaInset(edge: .bottom) {
-            if manager.speaking {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
-                    .frame(height: 70)
-                    .overlay(alignment: .bottom, content: {
-                        Rectangle()
-                            .fill(.gray.opacity(0.3))
-                            .frame(height: 1)
-                    })
-                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
-                    .shadow(radius: 3)
-                    .padding(.horizontal, 5)
-                    .offset(y: manager.router.count == 0 ? -49 : 0)
-                    .animation(.easeInOut, value: manager.router)
-                    .transition(.move(edge: .trailing))
-            }
-        }
+        
         .overlay{
             if let message = manager.selectMessage{
                 SelectMessageView(message: message) {
@@ -93,7 +75,25 @@ struct ContentView: View {
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
-        
+        .safeAreaInset(edge: .bottom) {
+            if manager.speaking {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .overlay { MusicInfo().transition(.move(edge: .leading)) }
+                    .frame(height: 70)
+                    .overlay(alignment: .bottom, content: {
+                        Rectangle()
+                            .fill(.gray.opacity(0.3))
+                            .frame(height: 1)
+                    })
+                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 10, topTrailingRadius: 10))
+                    .shadow(radius: 3)
+                    .padding(.horizontal, 5)
+                    .offset(y: (manager.router.count == 0 && manager.selectMessage == nil) ? -49 : 0)
+                    .animation(.easeInOut, value: manager.router)
+                    .transition(.move(edge: .trailing))
+            }
+        }
     }
     
     @ViewBuilder

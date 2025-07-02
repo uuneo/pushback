@@ -39,7 +39,7 @@ class IconHandler: NotificationContentHandler{
             if let localPath = localPath, let localImageData = NSData(contentsOfFile: localPath) as? Data{
                 return localImageData
             }else{
-                return avatarImage(from: imageUrl)?.pngData()
+                return imageUrl.avatarImage()?.pngData()
             }
         }
         
@@ -99,54 +99,14 @@ class IconHandler: NotificationContentHandler{
         
         do {
             try await interaction.donate()
-            let content = try bestAttemptContent.updating(from: intent) as! UNMutableNotificationContent
-            return content
+            return try bestAttemptContent.updating(from: intent) as! UNMutableNotificationContent
         } catch {
             return bestAttemptContent
         }
     }
 
-    func avatarImage(from text: String, size: CGFloat = 300) -> UIImage? {
-        
-        // 准备文字
-        let displayText = String(text.prefix(1))
-        let singleEmoji = displayText.first?.isEmoji ?? false
-        
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: size, height: size))
-        
-        var backgroundColor: UIColor{
-            singleEmoji ? .clear : .systemBlue
-        }
-       
-        return renderer.image { context in
-            // 画圆形背景
-            let rect = CGRect(x: 0, y: 0, width: size, height: size)
-            backgroundColor.setFill()
-            context.cgContext.fillEllipse(in: rect)
-            
-            // 设置字体
-            let attributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize:  size * ( singleEmoji ? 1 : 0.85),
-                                         weight: .medium),
-                .foregroundColor: UIColor.white
-            ]
-            
-            // 计算文字大小
-            let textSize = displayText.size(withAttributes: attributes)
-            let textOrigin = CGPoint(x: (size - textSize.width) / 2,
-                                     y: (size - textSize.height) / 2)
-            
-            // 画文字
-            displayText.draw(at: textOrigin, withAttributes: attributes)
-        }
-    }
+   
     
 
 }
 
-extension Character {
-    var isEmoji: Bool {
-        return unicodeScalars.contains { $0.properties.isEmoji } &&
-               (unicodeScalars.first?.properties.isEmojiPresentation == true || unicodeScalars.count > 1)
-    }
-}

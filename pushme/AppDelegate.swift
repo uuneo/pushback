@@ -42,6 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if !Defaults[.firstStart] {
             AppManager.shared.registerForRemoteNotifications()
         }
+        
+       
  
         if Defaults[.id] == ""{
             let id = KeychainHelper.shared.getDeviceID()
@@ -68,14 +70,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    // MARK: UISceneSession Lifecycle
     
+    // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
-        if let selectAction = options.shortcutItem{
-            QuickAction.selectAction = selectAction
-        }
         let sceneonfiguration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
         
         return sceneonfiguration
@@ -182,16 +181,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType, completion: @escaping () -> Void) {
         print("收到通知")
-        let manager = CallMainManager.shared.manager
-        manager.reportNew(uuid: UUID(), callerName: "CallKit") { }
-        AppManager.shared.sheetPage = .none
-        let callUser = CallUser(id: UUID().uuidString, name: "张三F", caller: "100", deviceToken: "", voipToken: "", voip: 1)
         
-        AppManager.shared.fullPage = .answer(callUser)
+        let userid:String = payload.dictionaryPayload.raw(.id) ?? ""
+        
+        debugPrint("userid",userid)
+        let manager = WebRtcManager.shared
+        manager.reportNew(uuid: UUID(), callerName: "CallKit")
+        AppManager.shared.sheetPage = .none
+
+        Task.detached(priority: .userInitiated) {
+            guard  let callUser = await CallCloudManager.shared.downloadUser(id: userid)else { return }
+            await MainActor.run{
+                manager.remoteCallUser = callUser
+                AppManager.shared.fullPage = .answer(callUser)
+            }
+        }
+        
+        
 
        
-        Thread.sleep(forTimeInterval: 0.1
-        )
+        Thread.sleep(forTimeInterval: 0.1)
         completion()
         
     }

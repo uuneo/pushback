@@ -33,7 +33,6 @@ extension CryptoMode: Defaults.Serializable{}
 extension BadgeAutoMode: Defaults.Serializable{}
 extension PushServerModel: Defaults.Serializable{}
 extension MoreMessage: Defaults.Serializable{}
-extension IceServerResponse:Defaults.Serializable{}
 
 
 

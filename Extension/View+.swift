@@ -376,11 +376,9 @@ extension View {
         }
         
     }
+    
 }
- 
 
-
-import SwiftUI
 
 enum ScrollDirection {
     case up, down

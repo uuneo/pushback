@@ -205,7 +205,7 @@ struct CallUser: Identifiable, Codable, Equatable {
     var voipToken:String
     var voip: Int
     
-    static let `default` = CallUser(id: "", name: "", caller: "", deviceToken: "", voipToken: "", voip: 1)
+    static let `default` = CallUser(id: Defaults[.id], name: "", caller: "", deviceToken: "", voipToken: "", voip: 1)
     
     func toRecord(recordType: String) -> CKRecord?{
         
@@ -227,6 +227,8 @@ struct CallUser: Identifiable, Codable, Equatable {
 extension CallUser: Defaults.Serializable{}
 extension Defaults.Keys{
     static let user = Key<CallUser>("CallUser",default: CallUser.default)
+    static let turnId = Key<String>("CloudflareId",default: "", iCloud: true)
+    static let turnToken = Key<String>("CloudflareApiToken",default: "", iCloud: true)
 }
 
 

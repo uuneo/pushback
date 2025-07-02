@@ -121,19 +121,31 @@ extension openChatManager{
         
     }
     
+    func onceParams(text: String, tips:ChatPromptMode) -> ChatQuery?{
+        guard  let account =  Defaults[.assistantAccouns].first(where: {$0.current}) else {
+            return nil
+        }
+        let params:[ChatQuery.ChatCompletionMessageParam] = [
+            .system(.init(content: .textContent(tips.prompt.content),name: tips.prompt.title)),
+            .user(.init(content: .string(text)))
+        ]
+        
+        return ChatQuery(messages: params, model: account.model)
+        
+    }
+    
     func getHistoryParams(text: String, messageId:String? = nil)-> ChatQuery?{
         
         
-        guard  let account =  Defaults[.assistantAccouns].first(where: {$0.current}) else {
+        guard  let account = Defaults[.assistantAccouns].first(where: {$0.current}) else {
             return nil
         }
         var params:[ChatQuery.ChatCompletionMessageParam] = []
         
         ///  增加system的前置参数
         if let promt = try? DB.dbPool.read({ db in
-            try ChatPrompt.filter(Column("selected")).fetchOne(db)
+            try ChatPrompt.filter(ChatPrompt.Columns.id == chatPrompt?.id).fetchOne(db)
         }){
-//            params.append(.system(.init(content: .textContent(promt.content), name: promt.title)))
             params.append(.system(.init(content: .textContent(promt.content), name: promt.title)))
         }
         
@@ -146,24 +158,14 @@ extension openChatManager{
         }
         
         
-        /// 连续对话，获取前多少条的对话
-        if (try? DB.dbPool.read({ db in
-            try ChatGroup.filter(ChatGroup.Columns.id == chatgroup?.id).fetchOne(db)
-        })) != nil{
-            return ChatQuery(messages: [.user(.init(content: .string(inputText)))], model: account.model)
-        }
-        
-        
-        
         let limit = Defaults[.historyMessageCount]
         if  let messageRaw = try? DB.dbPool.read({ db in
             try ChatMessage
+                .filter(ChatMessage.Columns.chat == chatgroup?.id)
                 .order(Column("timestamp").desc)
                 .limit(limit)
                 .fetchAll(db)
         }){
-            ///判断是否携带，如果连续对话，则继续判断，如果不是连续对话，必须携带，如果不是连续对话，判断历史记录里是否有
-            
             for message in messageRaw{
                 params.append(.user(.init(content: .string(message.request))))
                 params.append(.assistant(.init(content: .textContent(message.content))))
@@ -203,6 +205,16 @@ extension openChatManager{
         }
         self.cancellableRequest = openchat.chatsStream(query: query, onResult: onResult, completion: completion)
     }
+    
+    func chatsStream(text:String, tips:ChatPromptMode, account:AssistantAccount? = nil,onResult: @escaping @Sendable (Result<ChatStreamResult, Error>) -> Void, completion: (@Sendable (Error?) -> Void)?) -> CancellableRequest? {
+        guard let openchat = self.getReady(), let query = self.onceParams(text: text, tips: tips) else {
+            completion?(chatError.noConfig)
+            return nil
+        }
+        
+        return openchat.chatsStream(query: query, onResult: onResult, completion: completion)
+    }
+    
     
     
     enum chatError: Error {

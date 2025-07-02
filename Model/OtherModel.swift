@@ -85,8 +85,6 @@ enum QuickAction: String{
     
     case assistant
     case phonenumber
-    
-	static var selectAction:UIApplicationShortcutItem?
 
     static func allShortcutItems(showAssistant:Bool) -> [UIApplicationShortcutItem] {
         
@@ -356,12 +354,12 @@ struct AssistantAccount: Codable, Identifiable, Equatable,Hashable{
 
 extension AssistantAccount{
     mutating func trimAssistantAccountParameters() {
-        name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        host = host.trimmingCharacters(in: .whitespacesAndNewlines)
+        name = name.trimmingSpaceAndNewLines
+        host = host.trimmingSpaceAndNewLines
         host = host.removeHTTPPrefix()
-        basePath = basePath.trimmingCharacters(in: .whitespacesAndNewlines)
-        key = key.trimmingCharacters(in: .whitespacesAndNewlines)
-        model = model.trimmingCharacters(in: .whitespacesAndNewlines)
+        basePath = basePath.trimmingSpaceAndNewLines
+        key = key.trimmingSpaceAndNewLines
+        model = model.trimmingSpaceAndNewLines
     }
 
 }
@@ -471,16 +469,6 @@ enum PBScheme: String, CaseIterable{
     }
     
 }
-
-struct IceServerResponse: Codable {
-    let iceServers: [IceServer]
-    struct IceServer: Codable {
-        let urls: [String]
-        let username: String?
-        let credential: String?
-    }
-}
-
 
 struct MoreMessage:Codable,Hashable{
     var createDate:Date

@@ -36,7 +36,7 @@ struct ChartTint: AppEntity {
     static var defaultQuery = ChartTintQuery()
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "图表颜色"
     var displayRepresentation: DisplayRepresentation {
-        return .init(title: "\(name)")
+        return DisplayRepresentation(stringLiteral: name)
     }
 }
 

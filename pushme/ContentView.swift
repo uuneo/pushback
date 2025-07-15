@@ -46,7 +46,7 @@ struct ContentView: View {
                     }
                 }
                 .ignoresSafeArea(.all, edges: .top)
-                .transition(.opacity)
+                .transition(.move(edge: .leading))
             }
         }
         

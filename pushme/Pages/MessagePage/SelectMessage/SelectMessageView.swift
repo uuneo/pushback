@@ -233,9 +233,19 @@ struct SelectMessageView:View {
             })
             .scaleEffect(scale)
             .background(
-                Rectangle()
-                    .fill(.background)
-                    .ignoresSafeArea()
+                ZStack(alignment: .top){
+                    Rectangle()
+                        .fill(.background)
+                        
+                    if let image {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .blur(radius: 20)
+                            .scaleEffect(x: 2)
+                    }
+                }.ignoresSafeArea()
+               
             )
             .safeAreaInset(edge: .bottom, alignment: .leading){
                 HStack{

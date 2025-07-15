@@ -101,8 +101,7 @@ extension DatabaseManager{
         [
             Message(id: UUID().uuidString, group: "Markdown", createDate: .now,
                     title: String(localized: "示例"),
-                    body: "# Pushback \n## Pushback \n### Pushback",
-                    url: "weixin://", level: 1, ttl: 1, read: false),
+                    body: "# Pushback \n## Pushback \n### Pushback", level: 1, ttl: 1, read: false),
             
             Message(id: UUID().uuidString, group: String(localized: "示例"), createDate: .now + 10,
                     title: String(localized: "使用方法"),

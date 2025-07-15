@@ -15,11 +15,9 @@ struct SearchMessageView:View {
             LazyVStack{
                 ForEach(messages, id: \.id) { message in
                     MessageCard(message: message, searchText: searchText, showGroup: true){
-                        withAnimation(.easeInOut) {
-                            self.hideKeyboard()
-                            DispatchQueue.main.async {
-                                AppManager.shared.selectMessage = message
-                            }
+                        self.hideKeyboard()
+                        withAnimation(.easeInOut){
+                            AppManager.shared.selectMessage = message
                         }
                     }
                     .onAppear{
@@ -34,6 +32,7 @@ struct SearchMessageView:View {
                 .frame(height: 30)
             
         }
+        .background(.ultraThinMaterial)
         .safeAreaInset(edge: .top, content: {
             HStack{
                 Spacer()

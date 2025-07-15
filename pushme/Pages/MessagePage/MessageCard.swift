@@ -85,14 +85,19 @@ struct MessageCard: View {
                                 .fontWeight(.bold)
                                 .foregroundStyle(.gray)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                        } else {
-                            if let url =  message.url{
+                        }
+                        
+                        if let url =  message.url{
+                            HStack(spacing: 1){
+                                Image(systemName: "network")
+                                    .imageScale(.small)
+                                    
                                 MarkdownCustomView.highlightedText(searchText: searchText, text: url)
                                     .font(.subheadline)
                                     .fontWeight(.bold)
-                                    .foregroundStyle(.gray)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                             }
+                            .foregroundStyle(.accent)
                         }
                     }
                     Spacer(minLength: 0)
@@ -102,6 +107,18 @@ struct MessageCard: View {
                             .foregroundStyle(.gray)
                     }
                 }
+                .contentShape(Rectangle())
+                .if(message.url != nil){ view in
+                    view
+                        .VButton{ _ in
+                            if let url = message.url, let fileUrl = URL(string: url){
+                                AppManager.openUrl(url: fileUrl)
+                                
+                            }
+                            return true
+                        }
+                }
+                
                 
                 if message.title != nil || message.subtitle != nil || message.url != nil || showAvatar{
                     Line()
@@ -111,90 +128,88 @@ struct MessageCard: View {
                         .padding(.horizontal, 3)
                     
                 }
-                if let uiImage = image{
-                    GeometryReader { proxy in
-                        
-                        VStack{
+                VStack{
+                    if let uiImage = image{
+                        GeometryReader { proxy in
                             
-                            
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
-                                .onAppear{
-                                    let size = uiImage.size
-                                    let aspectRatio = size.height / size.width
-                                    imageHeight = proxy.size.width * aspectRatio
-                                }
-                                .contextMenu{
-                                    Button{
-                                        if let image = image{
-                                            image.bat_save(intoAlbum: nil) { success, status in
-                                                if status == .authorized || status == .limited{
-                                                    if success{
-                                                        Toast.success(title: "保存成功")
-                                                    }else{
-                                                        Toast.question(title: "保存失败")
-                                                    }
-                                                }else{
-                                                    Toast.error(title: "没有相册权限")
-                                                }
-                                                
-                                            }
-                                        }
-                                    }label:{
-                                        Label("保存图片", systemImage: "square.and.arrow.down.on.square")
+                            VStack{
+                                
+                                
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
+                                    .onAppear{
+                                        let size = uiImage.size
+                                        let aspectRatio = size.height / size.width
+                                        imageHeight = proxy.size.width * aspectRatio
                                     }
-                                }preview: {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
-                                }
+                                    .contextMenu{
+                                        Button{
+                                            if let image = image{
+                                                image.bat_save(intoAlbum: nil) { success, status in
+                                                    if status == .authorized || status == .limited{
+                                                        if success{
+                                                            Toast.success(title: "保存成功")
+                                                        }else{
+                                                            Toast.question(title: "保存失败")
+                                                        }
+                                                    }else{
+                                                        Toast.error(title: "没有相册权限")
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }label:{
+                                            Label("保存图片", systemImage: "square.and.arrow.down.on.square")
+                                        }
+                                    }preview: {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .topLeading)
+                                    }
+                                
+                               
+                                
+                                Line()
+                                    .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [5,3]))
+                                    .frame(height: 1)
+                                    .padding(.vertical,1)
+                                    .padding(.horizontal, 3)
+                            }
                             
-                           
-                            
-                            Line()
-                                .stroke(.gray, style: StrokeStyle(lineWidth: 1, lineCap: .butt, lineJoin: .miter, dash: [5,3]))
-                                .frame(height: 1)
-                                .padding(.vertical,1)
-                                .padding(.horizontal, 3)
+                        }
+                        
+                        .frame(height: imageHeight)
+                        .clipShape(Rectangle())
+                        .contentShape(Rectangle())
+                        .VButton{ _ in
+                            self.complete?()
+                            return true
                         }
                     }
                     
-                    .frame(height: imageHeight)
-                    .clipShape(Rectangle())
-                    .onTapGesture {
-                        self.complete?()
-                        Haptic.impact(.light)
+                    if let body = message.body{
+                        ScrollView(.vertical) {
+                            MarkdownCustomView(content: body, searchText: searchText)
+                                .font(.body)
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.bottom, 5)
+                        }
+                        .frame(maxHeight: 365)
+                        .scrollIndicators(.hidden)
+                        .onTapGesture(count: 2) {
+                            self.complete?()
+                            Haptic.impact(.light)
+                        }
                     }
                 }
                 
-                if let body = message.body{
-                    ScrollView(.vertical) {
-                        MarkdownCustomView(content: body, searchText: searchText)
-                            .font(.body)
-                            .textSelection(.enabled)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.bottom, 5)
-                    }
-                    .frame(maxHeight: 365)
-                    .scrollIndicators(.hidden)
-                    
-                }
-            }
-            .onTapGesture {
-                if let url = message.url, let fileUrl = URL(string: url){
-                    AppManager.openUrl(url: fileUrl)
-                    
-                }else{
-                    self.complete?()
-                    
-                }
-                Haptic.impact(.light)
+               
             }
             .padding(8)
-            .background(.ultraThinMaterial)
             .swipeActions(edge: .trailing) {
                 Button {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
@@ -215,13 +230,16 @@ struct MessageCard: View {
                 }.tint(.red)
             }
             .overlay(alignment: .bottom) {
-                RoundedRectangle(cornerRadius: 0)
-                    .fill(Color.clear)
-                    .frame(height: 5)
-                    .background(.ultraThinMaterial)
+                UnevenRoundedRectangle(topLeadingRadius: 15, bottomLeadingRadius: 5, bottomTrailingRadius: 5, topTrailingRadius: 15,style: .continuous)
+                    .fill(.gray.opacity(0.6))
+                    .frame(height: 3)
+                    .padding(.horizontal, 30)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 15))
-            .contentShape(Rectangle())
+            .background(
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(.message)
+                    .shadow(group: false)
+            )
             .onAppear{
                 Task(priority: .userInitiated) {
                     if let image = message.image,
@@ -231,9 +249,9 @@ struct MessageCard: View {
                     }
                 }
             }
-            .shadow()
-            .padding(.horizontal, 15)
             
+            .padding(.horizontal, 15)
+            .padding(.vertical, 5)
             
         }header: {
             MessageViewHeader()
@@ -323,7 +341,7 @@ struct MessageCard: View {
             
         }
         .padding(.horizontal, 15)
-        .padding(.bottom, 3)
+        .padding(.bottom, 5)
     }
     
     
@@ -355,8 +373,8 @@ struct MessageCard: View {
             .listRowBackground(Color.clear)
             .listSectionSeparator(.hidden)
             .environmentObject(AppManager.shared)
-        
-    }.listStyle(GroupedListStyle())
+            .listRowInsets(EdgeInsets())
+    }.listStyle(.grouped)
     
     
 }
@@ -374,9 +392,9 @@ struct Line: Shape{
 }
 
 extension View{
-    func shadow(shadow: Color = Color.primary ) -> some View {
-        self.shadow(color: Color.shadow2, radius: 1, x: -1, y: -1)
-            .shadow(color: Color.shadow1, radius: 1, x: 1, y: 1)
-            .shadow(color: Color.shadow1, radius: 5, x: 5, y: 8)
+    func shadow(group: Bool) -> some View {
+        self
+            .shadow(color: Color.shadow2, radius: 1, x: -1, y: -1)
+            .shadow(color: Color.shadow1, radius: 5, x: 3, y: 5)
     }
 }

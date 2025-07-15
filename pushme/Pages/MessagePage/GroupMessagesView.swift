@@ -142,10 +142,12 @@ struct MessageRow: View {
                 .imageScale(.small)
         }
         .padding(8)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 15))
-        .shadow()
-        .padding(.vertical, 5)
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(.message)
+                .shadow(group: true)
+        )
+        .padding(.vertical, 8)
         .padding(.bottom, 3)
         .padding(.horizontal, 15)
         .swipeActions(edge: .leading) {

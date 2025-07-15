@@ -69,7 +69,7 @@ struct HeaderPageScrollView<Header: View, Pages: View>: View {
                     Group(subviews: pages) { collection in
                         /// Checking both collection and labels match with each other
                         if collection.count != labels.count {
-                            Text("Tabviews and labels does not match!")
+                            Text(verbatim: "Tabviews and labels does not match!")
                                 .frame(width: size.width, height: size.height)
                         } else {
                             ForEach(labels, id: \.title) { label in

@@ -36,7 +36,7 @@ struct MessageDetailPage: View {
                         ForEach(messages, id: \.id) { message in
                             
                             MessageCard(message: message, searchText: searchText,showAllTTL: showAllTTL,showAvatar: showMessageAvatar){
-                                withAnimation(.easeInOut) {
+                                withAnimation(.easeInOut.speed(10)) {
                                     manager.selectMessage = message
                                 }
                             }

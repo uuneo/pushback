@@ -97,7 +97,7 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     
         if let originalImage = UIImage(named: "logo") {
             // 1. 调整图片大小
-            let size = CGSize(width: 20, height: 20)
+            let size = CGSize(width: 35, height: 35)
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             originalImage.draw(in: CGRect(origin: .zero, size: size))
             let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -106,9 +106,8 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
             // 2. 设置渲染模式并应用颜色
             if let resizedImage = resizedImage {
                 let tintedImage = resizedImage
-                    .withRenderingMode(.alwaysTemplate)
-                    .withTintColor(.systemOrange)
-                
+//                    .withRenderingMode(.alwaysTemplate)
+//                    .withTintColor(.systemOrange)
                 // 3. 将处理后的图片应用到滑块
                 progressSlider.tintColor = .systemOrange
                 progressSlider.setThumbImage(tintedImage, for: .normal)

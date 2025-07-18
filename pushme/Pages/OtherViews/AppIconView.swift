@@ -20,16 +20,8 @@ struct AppIconView: View {
             ScrollView(.horizontal) {
                 HStack{
                     ForEach(AppIconEnum.allCases, id: \.self){ item in
-                        if item == AppIconEnum.allCases.first && manager.PremiumUser {
-                            iconItem(item: item)
-                                .id(item)
-                        }
-                        
-                        
-                        if item != AppIconEnum.allCases.first {
-                            iconItem(item: item)
-                                .id(item)
-                        }
+                        iconItem(item: item)
+                            .id(item)
                     }
                 }
             }

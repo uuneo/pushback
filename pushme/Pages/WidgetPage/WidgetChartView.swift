@@ -126,7 +126,7 @@ struct WidgetChartView:View {
     
     private var lockView: some View{
         ZStack(alignment: .topTrailing) {
-            Image("logoup")
+            Image("logo")
                 .resizable()
                 .renderingMode(.template)
                 .aspectRatio(contentMode: .fit)

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "ftwhite.jpg",
+      "filename" : "mogu.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ftblack 1.jpg",
+      "filename" : "mogublack1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "ftwhite 1.jpg",
+      "filename" : "mogutint1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

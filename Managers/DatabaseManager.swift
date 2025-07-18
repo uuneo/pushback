@@ -132,7 +132,7 @@ extension DatabaseManager{
                 return try request.fetchCount(db)
             }
         }catch{
-            print("查询失败")
+            Log.error("查询失败")
             return 0
         }
         
@@ -150,7 +150,7 @@ extension DatabaseManager{
             }
             return count
         }catch{
-            print(error.localizedDescription)
+            Log.error(error.localizedDescription)
             return 0
         }
     }
@@ -161,7 +161,7 @@ extension DatabaseManager{
                 try message.insert(db, onConflict: .replace)
             }
         } catch {
-            print("Add or update message failed:", error)
+            Log.error("Add or update message failed:", error)
         }
     }
     
@@ -171,7 +171,7 @@ extension DatabaseManager{
                 try Message.fetchOne(db, key: id)
             }
         } catch {
-            print("Failed to query message by id:", error)
+            Log.error("Failed to query message by id:", error)
             return nil
         }
     }
@@ -181,7 +181,7 @@ extension DatabaseManager{
                 try Message.fetchOne(db, key: id)
             }
         } catch {
-            print("Failed to query message by id:", error)
+            Log.error("Failed to query message by id:", error)
             return nil
         }
     }
@@ -235,7 +235,7 @@ extension DatabaseManager{
                 return (try request.fetchAll(db), try request.fetchCount(db))
             }
         } catch {
-            print("Query error: \(error)")
+            Log.error("Query error: \(error)")
             return ([], 0)
         }
     }
@@ -246,7 +246,7 @@ extension DatabaseManager{
                 try self.fetchGroupedMessages(from: db)
             }
         } catch {
-            print("Failed to query messages:", error)
+            Log.error("Failed to query messages:", error)
             return []
         }
     }
@@ -257,7 +257,7 @@ extension DatabaseManager{
                 try self.fetchGroupedMessages(from: db)
             }
         } catch {
-            print("Failed to query messages:", error)
+            Log.error("Failed to query messages:", error)
             return []
         }
     }
@@ -304,7 +304,7 @@ extension DatabaseManager{
                 return try request.limit(lim).fetchAll(db)
             }
         } catch {
-            print("Query failed:", error)
+            Log.error("Query failed:", error)
             return []
         }
     }
@@ -319,7 +319,7 @@ extension DatabaseManager{
                 try request.updateAll(db, [Column("read").set(to: true)])
             }
         }catch{
-            print("markAllRead error")
+            Log.error("markAllRead error")
         }
     }
     
@@ -344,7 +344,7 @@ extension DatabaseManager{
                 try request.deleteAll(db)
             }
         } catch {
-            print("删除消息失败: \(error)")
+            Log.error("删除消息失败: \(error)")
         }
     }
     func delete(_ message: Message, in group: Bool = false) async -> Int {
@@ -363,9 +363,25 @@ extension DatabaseManager{
                 return try Message.filter(Message.Columns.group == message.group).fetchCount(db)
             }
         } catch {
-            print("删除消息失败：\(error)")
+            Log.error("删除消息失败：\(error)")
         }
         return -1
+    }
+    
+    func delete(_ messageId: String) -> String?{
+        do{
+            return  try dbPool.write { db in
+                if  let message = try Message.filter(Message.Columns.id == messageId).fetchOne(db){
+                    try message.delete(db)
+                    return message.group
+                }
+                return nil
+            }
+        }catch{
+            Log.error("删除消息失败：\(error)")
+            return nil
+        }
+        
     }
     
     
@@ -385,7 +401,7 @@ extension DatabaseManager{
                     """, arguments: [ExpirationTime.forever.rawValue, cutoffDateExpr])
             }
         }catch{
-            print("删除失败")
+            Log.error("删除失败")
         }
         
         

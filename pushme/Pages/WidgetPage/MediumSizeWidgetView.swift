@@ -15,7 +15,7 @@ struct MediumSizedWidget: View {
        
         ZStack(alignment: .topTrailing){
             
-            Image("logoup")
+            Image("logo")
                 .resizable()
                 .renderingMode(.template)
                 .foregroundStyle(.accent)

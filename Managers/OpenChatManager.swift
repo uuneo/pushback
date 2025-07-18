@@ -56,10 +56,10 @@ final class openChatManager: ObservableObject {
             in: DB.dbPool,
             scheduling: .async(onQueue: .global()),
             onError: { error in
-                print("Failed to observe unread count:", error)
+                Log.error("Failed to observe unread count:", error)
             },
             onChange: { [weak self] newUnreadCount in
-                print("监听 SqlLite \(newUnreadCount)")
+                Log.info("监听 SqlLite \(newUnreadCount)")
                 
                 DispatchQueue.main.async {
                     self?.groupsCount = newUnreadCount.0
@@ -84,7 +84,7 @@ final class openChatManager: ObservableObject {
                     }
                 }
             } catch {
-                print("更新失败: \(error)")
+                Log.error("更新失败: \(error)")
             }
         }
         
@@ -263,7 +263,7 @@ extension openChatManager{
                     }
                 }
             } catch {
-                print("GRDB 错误: \(error)")
+                Log.error("GRDB 错误: \(error)")
             }
         }
        

@@ -453,7 +453,6 @@ struct VerticalScrollDetector: ViewModifier {
                                 value: geo.frame(in: .global).minY)
             })
             .onPreferenceChange(ScrollOffsetPreferenceKey.self) { newY in
-                print(newY)
                 let delta = newY - lastOffset
                 if delta != 0 {
                     let direction: ScrollDirection = delta > 0 ? .down : .up

@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "king.png",
+      "filename" : "kongquegong.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "kqg.png",
       "idiom" : "universal"
     }
   ],

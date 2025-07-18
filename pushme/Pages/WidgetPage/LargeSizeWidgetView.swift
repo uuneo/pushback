@@ -15,7 +15,7 @@ struct LargeSizeWidgetView: View {
     let chartTint: Color =  .orange
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            Image("logoup")
+            Image("logo")
                 .resizable()
                 .renderingMode(.template)
                 .foregroundStyle(.accent)

@@ -536,6 +536,13 @@
 			);
 			target = B58359E62DEDDF860066B32E /* ShareExtension */;
 		};
+		B5F62EDE2E29373F000D3ED8 /* Exceptions for "Publics" folder in "SafariExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ToolsBox.swift,
+			);
+			target = B5835A172DEDE00B0066B32E /* SafariExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -590,6 +597,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B5835C4F2DEDE29A0066B32E /* Exceptions for "Publics" folder in "ShareExtension" target */,
+				B5F62EDE2E29373F000D3ED8 /* Exceptions for "Publics" folder in "SafariExtension" target */,
 				B5835D442DEDF95D0066B32E /* Exceptions for "Publics" folder in "ServiceExtension" target */,
 				B5835D272DEDF0830066B32E /* Exceptions for "Publics" folder in "ContentExtension" target */,
 				B5835D552DEDFB630066B32E /* Exceptions for "Publics" folder in "PushWidgetExtension" target */,

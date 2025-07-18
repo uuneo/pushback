@@ -45,7 +45,6 @@ struct MarkdownCustomView:View {
             Markdown(content)
                 .markdownImageProvider(WebImageProvider())
                 .environment(\.openURL, OpenURLAction { url in
-                    print("用户点击的链接是：\(url)")
                     AppManager.openUrl(url: url)
                     return .handled // 表示链接已经被处理，不再执行默认行为
                 })

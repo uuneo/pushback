@@ -5,43 +5,57 @@ struct SearchMessageView:View {
 
 	@Binding var searchText: String
     var group:String?
-    
+    @Environment(\.colorScheme) var  colorScheme
     @State private var messages:[Message] = []
     @State private var allCount:Int = 0
     @State private var searchTask: Task<Void, Never>?
 	
     var body: some View {
-        ScrollView{
-            LazyVStack{
-                ForEach(messages, id: \.id) { message in
-                    MessageCard(message: message, searchText: searchText, showGroup: true){
-                        self.hideKeyboard()
-                        withAnimation(.easeInOut){
-                            AppManager.shared.selectMessage = message
-                        }
+        List{
+            ForEach(messages, id: \.id) { message in
+                MessageCard(message: message, searchText: searchText, showGroup: true){
+                    self.hideKeyboard()
+                    withAnimation(.easeInOut){
+                        AppManager.shared.selectMessage = message
                     }
-                    .onAppear{
-                        if messages.last == message{
-                            loadData( item: message)
-                        }
+                }
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+                .listSectionSeparator(.hidden)
+                .onAppear{
+                    if messages.last == message{
+                        loadData( item: message)
                     }
                 }
             }
             
             Spacer()
                 .frame(height: 30)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+                .listSectionSeparator(.hidden)
             
         }
-        .background(.ultraThinMaterial)
+        .listStyle(.grouped)
+        .if(colorScheme == .light) { view in
+            view
+                .background(.ultraThinMaterial)
+        }
         .safeAreaInset(edge: .top, content: {
             HStack{
+                Text("历史消息")
+                    .foregroundStyle(.accent)
+                    .font(.headline)
+                    
                 Spacer()
                 Text(verbatim: "\(messages.count) / \(max(allCount, messages.count))")
                     .font(.caption)
                     .foregroundStyle(.gray)
-                    .padding(.trailing, 20)
+                    
                 
             }
+            .padding(.horizontal)
+            .padding(.bottom, 3)
             .background(.ultraThinMaterial)
         })
         .onChange(of: searchText) {  newValue in

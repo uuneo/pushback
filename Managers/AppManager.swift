@@ -286,15 +286,15 @@ extension AppManager{
             for fileURL in contents {
                 do{
                     try fileManager.removeItem(at: fileURL)
-                    print("✅ 删除: \(fileURL.lastPathComponent)")
+                    Log.info("✅ 删除: \(fileURL.lastPathComponent)")
                 }catch{
-                    print("❌ 清空失败: \(error.localizedDescription)")
+                    Log.error("❌ 清空失败: \(error.localizedDescription)")
                 }
             }
             
-            print("🧹 清空完成：\(url.path)")
+            Log.info("🧹 清空完成：\(url.path)")
         } catch {
-            print("❌ 清空失败: \(error.localizedDescription)")
+            Log.error("❌ 清空失败: \(error.localizedDescription)")
         }
     }
     
@@ -311,7 +311,7 @@ extension AppManager{
                         }
                     }
                 } catch {
-                    print("❗️获取文件大小失败: \(fileURL.lastPathComponent) - \(error.localizedDescription)")
+                    Log.error("❗️获取文件大小失败: \(fileURL.lastPathComponent) - \(error.localizedDescription)")
                 }
             }
         }

@@ -135,7 +135,7 @@ extension CallHandler{
             }
             return longSoundPath
         } catch {
-            print("Error processing CAF file: \(error)")
+            Log.error("Error processing CAF file: \(error)")
             return nil
         }
     }

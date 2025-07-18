@@ -39,7 +39,7 @@ class MessagesManager: ObservableObject{
             in: DB.dbPool,
             scheduling: .async(onQueue: .global()),
             onError: { error in
-                print("Failed to observe unread count:", error)
+                Log.error("Failed to observe unread count:", error)
             },
             onChange: { [weak self] newUnreadCount in
                 DispatchQueue.main.async {

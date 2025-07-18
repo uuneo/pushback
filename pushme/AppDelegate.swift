@@ -28,8 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
  
         if Defaults[.id] == ""{
-            let id = KeychainHelper.shared.getDeviceID()
-            Defaults[.id] = id
+            Defaults[.id] = KeychainHelper.shared.getDeviceID()
         }
         
         return true
@@ -38,7 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
-        let token = deviceToken.asHexString
+        let token = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        
         Defaults[.deviceToken] = token
         
         let manager = AppManager.shared
@@ -56,9 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
-        let sceneonfiguration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        let sceneConfiguration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
         
-        return sceneonfiguration
+        return sceneConfiguration
     }
     
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
@@ -91,14 +91,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         completionHandler()
     }
-    
+   
     
     
     // 处理应用程序在前台是否显示通知
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // 由于AppGroup消息通知存在延迟，手动通知一下
+        // 由于Sqlit 底层通知延迟，手动更新
         Task.detached(priority: .background) {
             await  MessagesManager.shared.updateGroup()
         }
@@ -107,6 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             completionHandler(.banner)
         }else{
             completionHandler(.badge)
+            Haptic.impact(.light)
         }
         
         notificatonHandler(userInfo: notification.request.content.userInfo)
@@ -129,39 +130,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
+        if let id:String = userInfo.raw(.id), let group = DatabaseManager.shared.delete(id) {
+            UNUserNotificationCenter.current()
+                .removeDeliveredNotifications(withIdentifiers: [group])
+        }
+        
         AppManager.shared.registerForRemoteNotifications()
-        
-        
-        sendImmediateNotification(title: "Token Update")
         
         completionHandler(.newData)
     }
     
     
-    func sendImmediateNotification(title: String) {
-        // 请求权限（如果还没请求过）
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
-            guard granted else { return }
-            
-            // 创建通知内容
-            let content = UNMutableNotificationContent()
-            content.title = title
-            content.body = Date().formatString()
-            
-            // 创建并添加请求
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content,trigger: nil)
-            UNUserNotificationCenter.current().add(request)
-        }
-    }
-    
-    
-}
-
-
-extension Data {
-    // Convenience method to convert `Data` to a hex `String`.
-    fileprivate var asHexString: String {
-        let hexString = map { String(format: "%02.2hhx", $0) }.joined()
-        return hexString
-    }
 }

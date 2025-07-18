@@ -284,28 +284,19 @@ extension CryptoModelConfig {
 // MARK: - AppIconMode
 
 enum AppIconEnum:String, CaseIterable,Equatable{
-    case king
-    case box
-    case lion
     case pushback
     case bell
-    
-    
+    case box
+    case peacock
     
     var name: String? { self == .pushback ? nil : self.rawValue }
     
     var logo: String{
         switch self {
-        case .pushback:
-            return "logo"
-        case .bell:
-            return "logo1"
-        case .king:
-            return "logo3"
-        case .box:
-            return "logo5"
-        case .lion:
-            return "logo6"
+        case .pushback: "logo"
+        case .bell:     "logo1"
+        case .box:      "logo2"
+        case .peacock:  "logo3"
         }
     }
 }

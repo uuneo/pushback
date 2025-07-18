@@ -178,7 +178,6 @@ struct MessageCard: View {
                                     .padding(.vertical,1)
                                     .padding(.horizontal, 3)
                             }
-                            
                         }
                         
                         .frame(height: imageHeight)
@@ -210,6 +209,33 @@ struct MessageCard: View {
                
             }
             .padding(8)
+            .swipeActions(edge: .leading, allowsFullSwipe: true){
+                Button{
+                    Haptic.impact()
+                    DispatchQueue.main.async{
+                        AppManager.shared.askMessageId = message.id
+                        AppManager.shared.router.append(.assistant)
+                    }
+                }label:{
+                    Label("智能助手", systemImage: "atom")
+                        .symbolEffect(.bounce, delay: 2)
+                }.tint(.green)
+            }
+            .swipeActions(edge: .leading){
+                Button{
+                    Haptic.impact()
+                    Task(priority: .high) {
+                        guard let player = await AudioManager.shared.Speak(message.voiceText) else {
+                            return
+                        }
+                        player.play()
+                    }
+                }label:{
+                    Label("语音", systemImage: "speaker.wave.2.bubble.left")
+                        .symbolEffect(.variableColor)
+                   
+                }.tint(.blue)
+            }
             .swipeActions(edge: .trailing) {
                 Button {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
@@ -249,7 +275,6 @@ struct MessageCard: View {
                     }
                 }
             }
-            
             .padding(.horizontal, 15)
             .padding(.vertical, 5)
             
@@ -270,7 +295,8 @@ struct MessageCard: View {
                 Spacer()
                 
             }
-            .padding([.top, .horizontal],15)
+            .padding(.horizontal,15)
+            .padding(.top, 3)
             
             
         }
@@ -282,7 +308,7 @@ struct MessageCard: View {
         HStack(alignment: .bottom){
             
             Text(dateTime)
-                .font(.caption2)
+                .font(.subheadline)
                 .lineLimit(1)
                 .foregroundStyle(AppManager.shared.selectId?.uppercased() == message.id.uppercased() ?
                     .white : message.createDate.colorForDate() )
@@ -297,19 +323,10 @@ struct MessageCard: View {
             
             Spacer()
             
-            HStack(spacing: 20){
-                Image(systemName: "speaker.wave.2.bubble.left")
-                    .VButton { _ in
-                        Task(priority: .high) {
-                            guard let player = await AudioManager.shared.Speak(message.voiceText) else {
-                                return
-                            }
-                            player.play()
-                        }
-                        return true
-                    }
+            HStack(spacing: 25){
                
                 Image(systemName: "doc.on.clipboard")
+                    .scaleEffect(0.9)
                     .VButton { _ in
                         if  let image = image {
                             Clipboard.set(message.search,[UTType.image.identifier: image])
@@ -319,20 +336,17 @@ struct MessageCard: View {
                         Toast.copy(title: "复制成功")
                         return true
                     }
-                Image(systemName: "atom")
-                    .VButton { _ in
-                        DispatchQueue.main.async{
-                            AppManager.shared.askMessageId = message.id
-                            AppManager.shared.router.append(.assistant)
-                        }
-                        return true
-                    }
+                
                 Image(systemName: "rectangle.and.arrow.up.right.and.arrow.down.left")
+                    .scaleEffect(0.95)
+                    .bold()
+                    .padding(.trailing)
+                    .symbolEffect(.wiggle, delay: 2)
                     .VButton { _ in
                         self.complete?()
                         return true
                     }
-                
+                    
             }
             .font(.title3)
             .symbolRenderingMode(.palette)
@@ -341,7 +355,6 @@ struct MessageCard: View {
             
         }
         .padding(.horizontal, 15)
-        .padding(.bottom, 5)
     }
     
     

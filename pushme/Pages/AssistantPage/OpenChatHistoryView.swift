@@ -72,7 +72,7 @@ struct OpenChatHistoryView: View {
                                     }
                                 }
                             } catch {
-                                print("❌ 更新 group.name 失败: \(error)")
+                                Log.error("❌ 更新 group.name 失败: \(error)")
                             }
                         }
                     }

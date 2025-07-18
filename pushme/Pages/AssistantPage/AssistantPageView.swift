@@ -50,7 +50,7 @@ struct AssistantPageView:View {
                     Spacer()
                     
                     VStack{
-                        Image("chatgpt")
+                        Image("openchat")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 100)

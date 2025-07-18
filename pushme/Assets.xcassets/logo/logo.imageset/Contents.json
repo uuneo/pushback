@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ftwhite 1.jpg",
+      "filename" : "mogupngtint.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "mogu-png.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +21,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ftblack 1.jpg",
+      "filename" : "mogublackpng.png",
       "idiom" : "universal"
     }
   ],

@@ -47,10 +47,6 @@ struct MoreOperationsView: View {
 	var body: some View {
 			List{
                 
-             
-                
-                
-                
                 Section {
                     Button{
                         guard !showexportLoading else { return }

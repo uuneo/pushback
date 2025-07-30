@@ -7,17 +7,18 @@
 
 import UIKit
 import Defaults
-
+import PushToTalk
+import AVFAudio
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{
-   
+    
+    private let talk = talkManager.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
-        
-        
+       
         Identifiers.setCategories()
         // 预防用户切换系统语言导致语言不匹配
         Multilingual.resetTransLang()
@@ -31,8 +32,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             Defaults[.id] = KeychainHelper.shared.getDeviceID()
         }
         
+        Task{
+            do{
+                self.talk.channelManager = try await PTChannelManager.channelManager(delegate: self, restorationDelegate: self)
+                try await self.talk.channelManager?.setServiceStatus(.ready, channelUUID: self.talk.defaultUUID)
+            }catch{
+                debugPrint(error.localizedDescription)
+            }
+            
+        }
+        
         return true
     }
+    
+
     
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -66,10 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
-    
-    
-    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -138,6 +147,117 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         AppManager.shared.registerForRemoteNotifications()
         
         completionHandler(.newData)
+    }
+    
+    
+}
+
+extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
+    
+    func channelDescriptor(restoredChannelUUID channelUUID: UUID) -> PTChannelDescriptor {
+        let group = Defaults[.pushtalks].first(where: {$0.active}) ?? PushToTalkGroup(id: UUID(), name: "", active: true)
+        
+        var avatar: UIImage?{
+            if let avatar = group.avatar{
+                return  UIImage(contentsOfFile: avatar.absoluteString)
+            }
+            return UIImage(named: "logo2")
+        }
+        
+        Queue.mainQueue().async{
+            AppManager.shared.page = .pushtalk
+            self.talk.active = true
+        }
+        return PTChannelDescriptor(name: group.name, image: avatar)
+    }
+    
+    
+    func channelManager(_ channelManager: PTChannelManager, didJoinChannel channelUUID: UUID, reason: PTChannelJoinReason) {
+        Log.info("didJoinChannel", channelUUID)
+        Queue.mainQueue().async {
+            self.talk.active = true
+        }
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, didLeaveChannel channelUUID: UUID, reason: PTChannelLeaveReason) {
+        Log.info("didLeaveChannel", channelUUID)
+        
+        channelManager.leaveChannel(channelUUID: self.talk.defaultUUID)
+        Queue.mainQueue().async {
+            self.talk.active = false
+        }
+        
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, failedToJoinChannel channelUUID: UUID, error: any Error) {
+        let error = error as NSError
+        print(error)
+        switch error.code{
+        case PTChannelError.channelLimitReached.rawValue:
+            break
+        default:
+            break
+        }
+        DispatchQueue.main.async{
+            self.talk.active = false
+        }
+        
+        Toast.error(title: "服务被其他APP占用!")
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didBeginTransmittingFrom source: PTChannelTransmitRequestSource) {
+        Log.info("didBeginTransmittingFrom:", channelUUID.uuidString, source.rawValue)
+    }
+    
+    
+    func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didEndTransmittingFrom source: PTChannelTransmitRequestSource) {
+        Log.info("didEndTransmittingFrom", source)
+        //        self.playFileName(fileName: "pttnotifyend")
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, receivedEphemeralPushToken pushToken: Data) {
+        let token = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
+        Log.info("token", token)
+    }
+    
+    func incomingPushResult(channelManager: PTChannelManager, channelUUID: UUID, pushPayload: [String : Any]) -> PTPushResult {
+        
+        guard let activeSpeaker = pushPayload["activeSpeaker"] as? String else {
+            // If no active speaker is set, the only other valid operation
+            // is to leave the channel
+            return .leaveChannel
+        }
+        
+        let activeSpeakerImage = UIImage(named: "logo1")
+        let participant = PTParticipant(name: activeSpeaker, image: activeSpeakerImage)
+        return .activeRemoteParticipant(participant)
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, didActivate audioSession: AVAudioSession) {
+        print("Did activate audio session")
+        let start = Date()
+
+
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
+            try audioSession.setActive(true)
+            self.talk.prepareEngine(false)
+            try self.talk.audioEngine.start()
+            print("🎤 开始录音（AGC 已启用）")
+        } catch {
+            print("Failed to configure and activate audio session: \(error)")
+        }
+        
+        
+        let duration = Date().timeIntervalSince(start)
+        print("运行时间：\(duration) 秒")
+        
+    }
+    
+    
+    func channelManager(_ channelManager: PTChannelManager, didDeactivate audioSession: AVAudioSession) {
+        print("Did deactivate audio session")
+        self.talk.OutStopAudioEngine()
     }
     
     

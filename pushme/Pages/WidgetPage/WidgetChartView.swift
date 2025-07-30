@@ -88,7 +88,7 @@ struct WidgetChartView:View {
                 }
                 Spacer()
             }
-            .frame(minHeight: min(UIScreen.main.bounds.width, UIScreen.main.bounds.height))
+            .frame(minHeight: windowWidth)
             .animation(.default, value: selectMode)
             
             

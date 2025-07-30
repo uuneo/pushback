@@ -495,3 +495,30 @@ struct MoreMessage:Codable,Hashable{
 }
 
 
+
+struct PushToTalkGroup: Codable, Hashable{
+    var id: UUID
+    var name: String
+    var avatar: URL?
+    var active: Bool
+    private(set) var prefix: Int = 10
+    private(set) var suffix: Int = 1
+    
+    var uiimage:UIImage?{
+        if let avatar{
+            UIImage(contentsOfFile: avatar.absoluteString)
+        }else{
+            UIImage(contentsOfFile: "logo2")
+        }
+    }
+    
+    mutating func set(_ prefix: Int? = nil, suffix: Int? = nil){
+        if let prefix {
+            self.prefix = max(min(prefix, 9999), 10)
+        }
+        if let suffix{
+            self.suffix = max(min(suffix, 999), 1)
+        }
+    }
+    
+}

@@ -14,7 +14,7 @@ import Defaults
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
   
-    
+    @Default(.showGroup) private var showGroup
     @StateObject private var manager = AppManager.shared
     @StateObject private var messageManager = MessagesManager.shared
     
@@ -110,8 +110,8 @@ struct ContentView: View {
                                 MessagePage()
                             case .assistant:
                                 AssistantPageView()
-                            case .example:
-                                ExampleView()
+                            case .pushtalk:
+                                PushToTalkView()
                             case .setting:
                                 SettingsPage()
                             }
@@ -124,16 +124,32 @@ struct ContentView: View {
             }
             .onChange(of: manager.page) { page in
                 Haptic.impact()
-                if page != .assistant{
+                if page != .assistant && page != .pushtalk{
                     manager.oldPage = page
                 }
             }
-            if manager.router.count == 0 && manager.page != .assistant {
+            if manager.router.count == 0 && manager.page.showTabBar {
                 GeometryReader {proxy in
-                    CustomTabBar(size: proxy.size, activeTab: $manager.page, searchText: $manager.searchText) { search in
+                    CustomTabBar(size: proxy.size, activeTab: manager.page, searchText: $manager.searchText) { search in
                         manager.isSearchActive = search
                     } onSearchTextFieldActive: { active in
                         
+                    } changeTabBar: { tab, number in
+                        if  manager.page == .message && tab == .message {
+                            switch number{
+                            case 0:
+                                manager.router = [.example]
+                            case 1:
+                                self.showGroup.toggle()
+                            default:
+                                break
+                            }
+                            
+                        }else{
+                            manager.page = tab
+                        }
+                       
+                    
                     }
                     .transition(.move(edge: .bottom))
                     
@@ -199,6 +215,8 @@ struct ContentView: View {
                 }
             case .web(let url):
                 SFSafariView(url: url).ignoresSafeArea()
+            case .pushToTalk:
+                PushToTalkView()
             default:
                 EmptyView().onAppear{  manager.fullPage = .none }
             }
@@ -264,6 +282,8 @@ extension View{
                             .navigationTitle(title ?? "小组件")
                     case .tts:
                         SpeakSettingsView()
+                    case .pushtalk:
+                        PushToTalkView()
                     }
                 }
                 .toolbar(.hidden, for: .tabBar)

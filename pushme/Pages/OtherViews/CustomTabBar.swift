@@ -6,20 +6,22 @@
 //
 
 import SwiftUI
-
+import Defaults
 
 struct CustomTabBar: View {
     var size: CGSize
-    @Binding var activeTab: TabPage
+    var activeTab: TabPage
     @Binding var searchText: String
     var onSearchBarExpanded: (Bool) -> ()
     var onSearchTextFieldActive: (Bool) -> ()
+    var changeTabBar: (TabPage, Int)-> ()
     /// View Properties
     @GestureState private var isActive: Bool = false
     @State private var isInitialOffsetSet: Bool = false
     //    @State private var dragOffset: CGFloat = 0
     //    @State private var lastDragOffset: CGFloat?
     /// Search Bar Properties
+    @Default(.showGroup) var showGroup
     @State private var isSearchExpanded: Bool = false
     @FocusState private var isKeyboardActive: Bool
     
@@ -124,30 +126,88 @@ struct CustomTabBar: View {
     /// Tab Item View
     @ViewBuilder
     private func TabItemView(_ tab: TabPage, width: CGFloat, height: CGFloat) -> some View {
-     
-        VStack(spacing: 6) {
-            Image(systemName: tab.symbol)
-                .font(.title2)
-                .symbolVariant(.fill)
-                .symbolRenderingMode(.palette)
-                .foregroundStyle( .accent, .primary)
-            
-            if !isSearchExpanded {
-                Text(tab.title)
-                    .font(.caption2)
-                    .lineLimit(1)
-            }
-        }
-        .foregroundStyle(activeTab == tab && !isSearchExpanded ? accentColor : Color.primary)
-        .frame(width: width, height: height)
-        .contentShape(.capsule)
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded { _ in
-                    activeTab = tab
+        if tab == .message && activeTab == .message {
+            Menu {
+                Section{
+                    Button{
+                        changeTabBar(tab, 1)
+                        Haptic.impact()
+                    }label:{
+                        
+                        Label(showGroup ? "列表模式" : "分组模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(.accent, .primary)
+                            .animation(.easeInOut, value: showGroup)
+                            .symbolEffect(delay: 0)
+                    }
                 }
-        )
-        .optionalGeometryGroup()
+                
+                Section{
+                    Button{
+                        changeTabBar(tab, 0)
+                        Haptic.impact()
+                    }label: {
+                        Label("使用示例", systemImage: "questionmark.bubble")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle(.accent, .primary)
+                            .symbolEffect(delay: 0)
+                    }
+                }
+                
+                                
+            } label: {
+                VStack(spacing: 6) {
+                    Image(systemName: tab.symbol)
+                        .font(.title2)
+                        .symbolVariant(activeTab == tab  ? .fill : .none)
+                        .symbolRenderingMode(.palette)
+                        .symbolEffect(activeTab == tab  ? tab.animate : .none)
+                        .customForegroundStyle(activeTab == tab && !isSearchExpanded ? .white : Color.gray, activeTab == tab && !isSearchExpanded ? .accent : Color.gray)
+                        .scaleEffect(tab == .setting ? 1.2 : 1)
+                    
+                    if !isSearchExpanded {
+                        Text(tab.title)
+                            .font(.caption2)
+                            .lineLimit(1)
+                            .customForegroundStyle(activeTab == tab && !isSearchExpanded ? accentColor : Color.gray, Color.primary)
+                    }
+                }
+                .frame(width: width, height: height)
+                .contentShape(.capsule)
+                .optionalGeometryGroup()
+            }
+        }else{
+          
+            
+            VStack(spacing: 6) {
+                Image(systemName: tab.symbol)
+                    .font(.title2)
+                    .symbolVariant(activeTab == tab  ? .fill : .none)
+                    .symbolRenderingMode(.palette)
+                    .symbolEffect(activeTab == tab  ? tab.animate : .none)
+                    .customForegroundStyle(activeTab == tab && !isSearchExpanded ? .white : Color.gray, activeTab == tab && !isSearchExpanded ? .accent : Color.gray)
+                    .scaleEffect(tab == .setting ? 1.2 : 1)
+                
+                if !isSearchExpanded {
+                    Text(tab.title)
+                        .font(.caption2)
+                        .lineLimit(1)
+                        .customForegroundStyle(activeTab == tab && !isSearchExpanded ? accentColor : Color.gray, Color.primary)
+                }
+            }
+            .frame(width: width, height: height)
+            .contentShape(.capsule)
+            .simultaneousGesture(
+                TapGesture()
+                    .onEnded { _ in
+                        changeTabBar(tab, -1)
+                    }
+            )
+            .optionalGeometryGroup()
+
+        }
+        
+        
     }
     
     /// Tab Bar Background View

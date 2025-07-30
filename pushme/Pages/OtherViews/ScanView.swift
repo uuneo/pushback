@@ -89,7 +89,7 @@ struct ScanView: View {
                     Image(systemName: torchIsOn ? "bolt" : "bolt.slash")
                         .scaleEffect(3)
                         .symbolRenderingMode(.palette)
-                        .foregroundStyle(.accent,.ultraThinMaterial)
+                        .foregroundStyle(Color.accent,.ultraThinMaterial)
                         .symbolEffect(.replace)
                         .padding()
                         .VButton(onRelease: { _ in

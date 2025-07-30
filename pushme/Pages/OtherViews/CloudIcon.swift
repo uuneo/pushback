@@ -178,7 +178,7 @@ struct CloudIcon: View {
                             Text("加载中...")
                                 .font(.headline)
                                 .foregroundColor(.gray)
-                                .frame(width: UIScreen.main.bounds.width)
+                                .frame(width: windowWidth)
                             
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)

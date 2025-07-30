@@ -63,6 +63,8 @@
 		B55BD5512E212CA700A1F014 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358B02DEDD65A0066B32E /* OtherModel.swift */; };
 		B55BD5532E21EFE800A1F014 /* Lang.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55BD5522E21EFE300A1F014 /* Lang.swift */; };
 		B566E52E2E1F9F2A00CC4EBA /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B566E52D2E1F9F2A00CC4EBA /* Splash */; };
+		B56D83A42E36786E002B3377 /* libopus in Frameworks */ = {isa = PBXBuildFile; productRef = B56D83A32E36786E002B3377 /* libopus */; };
+		B56D83A62E378C88002B3377 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56D83A52E378C88002B3377 /* CustomSlider.swift */; };
 		B58358922DEDD4E10066B32E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B58358912DEDD4E10066B32E /* Defaults */; };
 		B58358952DEDD55B0066B32E /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = B58358942DEDD55B0066B32E /* GRDB */; };
 		B58358982DEDD5790066B32E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B58358972DEDD5790066B32E /* Kingfisher */; };
@@ -141,6 +143,7 @@
 		B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */; };
 		B5BDDF4F2E24F0BA00263FEF /* HeaderPageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */; };
 		B5BDDF6D2E24F89300263FEF /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */; };
+		B5CE7EF52E35D425005A830E /* OpusBinding in Frameworks */ = {isa = PBXBuildFile; productRef = B5CE7EF42E35D425005A830E /* OpusBinding */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +224,7 @@
 		B54057422DF1B6940058DC87 /* Application+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+.swift"; sourceTree = "<group>"; };
 		B542AC252E083D80001B0919 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		B55BD5522E21EFE300A1F014 /* Lang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lang.swift; sourceTree = "<group>"; };
+		B56D83A52E378C88002B3377 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B58357F72DEDD3B10066B32E /* pushme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushme.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B58358AD2DEDD65A0066B32E /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
 		B58358AE2DEDD65A0066B32E /* ParamsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamsModel.swift; sourceTree = "<group>"; };
@@ -302,7 +306,10 @@
 				KeychainHelper.swift,
 				MessagesManager.swift,
 				NetworkManager.swift,
-				OpenChatManager.swift,
+				openChatManager.swift,
+				opusManager.swift,
+				Queue.swift,
+				talkManager.swift,
 				VoiceManager.swift,
 			);
 			target = B58357F62DEDD3B10066B32E /* pushme */;
@@ -326,19 +333,27 @@
 			membershipExceptions = (
 				alarm.caf,
 				aurora.caf,
+				bottle.aac,
 				call.caf,
+				cbegin.aac,
 				com.caf,
 				craft.caf,
+				da.aac,
+				fart.aac,
 				frog.caf,
 				gold.caf,
 				health.caf,
 				hello.caf,
 				multiway.caf,
 				popcorn.caf,
+				pttconnect.aac,
+				pttnotifyend.aac,
+				qrcode.aac,
 				run.caf,
 				shake.caf,
 				silence.caf,
 				snap.caf,
+				so.aac,
 				success.caf,
 				trill.caf,
 				tritone.caf,
@@ -517,6 +532,8 @@
 				hello.caf,
 				multiway.caf,
 				popcorn.caf,
+				pttconnect.aac,
+				pttnotifyend.aac,
 				run.caf,
 				shake.caf,
 				silence.caf,
@@ -545,11 +562,22 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		B58A9A122E2BB1DC00422C2D /* Exceptions for "pushme" folder in "Embed Foundation Extensions" phase from "pushme" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = B58359CB2DEDDF180066B32E /* Embed Foundation Extensions */;
+			membershipExceptions = (
+				"Digital-7 Mono.ttf",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B58357F92DEDD3B10066B32E /* pushme */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B58358092DEDD3B40066B32E /* Exceptions for "pushme" folder in "pushme" target */,
+				B58A9A122E2BB1DC00422C2D /* Exceptions for "pushme" folder in "Embed Foundation Extensions" phase from "pushme" target */,
 				B5835C532DEDE3450066B32E /* Exceptions for "pushme" folder in "ShareExtension" target */,
 				B5835E742DEE8F440066B32E /* Exceptions for "pushme" folder in "SafariExtension" target */,
 				B5835E762DEE8F4C0066B32E /* Exceptions for "pushme" folder in "ServiceExtension" target */,
@@ -664,7 +692,9 @@
 				B58358952DEDD55B0066B32E /* GRDB in Frameworks */,
 				B58358A42DEDD6090066B32E /* cmark-gfm in Frameworks */,
 				B58358A62DEDD6090066B32E /* cmark-gfm-extensions in Frameworks */,
+				B56D83A42E36786E002B3377 /* libopus in Frameworks */,
 				B58359BA2DEDDB170066B32E /* StoreKit.framework in Frameworks */,
+				B5CE7EF52E35D425005A830E /* OpusBinding in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +836,7 @@
 		B58358C92DEDD65A0066B32E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B56D83A52E378C88002B3377 /* CustomSlider.swift */,
 				B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */,
 				B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */,
 				B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */,
@@ -888,6 +919,8 @@
 				B58358A52DEDD6090066B32E /* cmark-gfm-extensions */,
 				B58358A82DEDD62A0066B32E /* MarkdownUI */,
 				B566E52D2E1F9F2A00CC4EBA /* Splash */,
+				B5CE7EF42E35D425005A830E /* OpusBinding */,
+				B56D83A32E36786E002B3377 /* libopus */,
 			);
 			productName = pushme;
 			productReference = B58357F72DEDD3B10066B32E /* pushme.app */;
@@ -1097,6 +1130,8 @@
 				B583589C2DEDD5B80066B32E /* XCRemoteSwiftPackageReference "QRScanner" */,
 				B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */,
 				B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				B5CE7EF32E35D425005A830E /* XCRemoteSwiftPackageReference "OpusBinding" */,
+				B56D83A22E36786E002B3377 /* XCRemoteSwiftPackageReference "libopus" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B58357F82DEDD3B10066B32E /* Products */;
@@ -1175,6 +1210,7 @@
 				B5139EB92E02AC79001E924F /* PageModel.swift in Sources */,
 				B54057212DF1B4560058DC87 /* URL+.swift in Sources */,
 				B583590E2DEDD65A0066B32E /* TabStateScrollView.swift in Sources */,
+				B56D83A62E378C88002B3377 /* CustomSlider.swift in Sources */,
 				B58359122DEDD65A0066B32E /* Snapshot.swift in Sources */,
 				B58359132DEDD65A0066B32E /* PopOutView.swift in Sources */,
 				B58359142DEDD65A0066B32E /* WidgetData.swift in Sources */,
@@ -1361,9 +1397,11 @@
 				INFOPLIST_KEY_CFBundleDisplayName = pushback;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need to access your microphone for pushtalk";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need to access your photo library to select pictures and send notifications";
 				INFOPLIST_KEY_NSSiriUsageDescription = "We need to access siri to provide you with message search and deletion functions.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "识别语音消息为文字";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1397,9 +1435,11 @@
 				INFOPLIST_KEY_CFBundleDisplayName = pushback;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "we need access to you Camera";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need to access your microphone for pushtalk";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "We need access to your photo album！";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We need to access your photo library to select pictures and send notifications";
 				INFOPLIST_KEY_NSSiriUsageDescription = "We need to access siri to provide you with message search and deletion functions.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "识别语音消息为文字";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1965,6 +2005,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B56D83A22E36786E002B3377 /* XCRemoteSwiftPackageReference "libopus" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uuneo/libopus.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.15;
+			};
+		};
 		B58358902DEDD4E10066B32E /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uuneo/Defaults.git";
@@ -1994,7 +2042,7 @@
 			repositoryURL = "https://github.com/uuneo/OpenAI.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				minimumVersion = 0.0.2;
 			};
 		};
 		B583589C2DEDD5B80066B32E /* XCRemoteSwiftPackageReference "QRScanner" */ = {
@@ -2021,6 +2069,14 @@
 				minimumVersion = 3.0.3;
 			};
 		};
+		B5CE7EF32E35D425005A830E /* XCRemoteSwiftPackageReference "OpusBinding" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uuneo/OpusBinding.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2028,6 +2084,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = Splash;
+		};
+		B56D83A32E36786E002B3377 /* libopus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B56D83A22E36786E002B3377 /* XCRemoteSwiftPackageReference "libopus" */;
+			productName = libopus;
 		};
 		B58358912DEDD4E10066B32E /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -2153,6 +2214,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */;
 			productName = "cmark-gfm-extensions";
+		};
+		B5CE7EF42E35D425005A830E /* OpusBinding */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5CE7EF32E35D425005A830E /* XCRemoteSwiftPackageReference "OpusBinding" */;
+			productName = OpusBinding;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

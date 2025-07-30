@@ -34,26 +34,6 @@ struct MessagePage: View {
         .if(manager.isSearchActive){ $0.toolbar(.hidden, for: .navigationBar) }
         .toolbar{
             
-            ToolbarItem( placement: .topBarLeading) {
-                
-                Button{
-                    self.showGroup.toggle()
-                    manager.selectGroup = nil
-                    manager.selectId = nil
-                    Haptic.impact()
-                }label:{
-                    
-                    Label("显示模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
-                        .symbolRenderingMode(.palette)
-                        .customForegroundStyle(.accent, .primary)
-                        .animation(.easeInOut, value: showGroup)
-                        .symbolEffect(delay: 0)
-                }
-                
-                
-                
-            }
-           
             if messageManager.groupMessages.count > 0 {
                 ToolbarItem(placement: .topBarTrailing) {
                     
@@ -87,10 +67,36 @@ struct MessagePage: View {
                     
                 }
             }
-    
-           
             
-            
+//            ToolbarItem( placement: .topBarLeading) {
+//                Button{
+//                    manager.router.append(.example)
+//                }label: {
+//                    Label("使用示例", systemImage: "questionmark.bubble")
+//                }
+//                
+//            }
+//            
+//            ToolbarItem( placement: .topBarLeading) {
+//             
+//                Button{
+//                    self.showGroup.toggle()
+//                    manager.selectGroup = nil
+//                    manager.selectId = nil
+//                    Haptic.impact()
+//                }label:{
+//                    
+//                    Label("显示模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
+//                        .symbolRenderingMode(.palette)
+//                        .customForegroundStyle(.accent, .primary)
+//                        .animation(.easeInOut, value: showGroup)
+//                        .symbolEffect(delay: 0)
+//                }
+//                
+//                
+//                
+//                
+//            }
         }
         .alert("确认删除", isPresented: Binding(get: { selectAction != nil }, set: { _ in selectAction = nil })) {
             Button("取消", role: .cancel) { }

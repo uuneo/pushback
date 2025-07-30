@@ -452,7 +452,7 @@ struct CustomAlertWithTextField: View {
                 }
             }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.8)
+        .frame(width: windowWidth * 0.8)
         .padding([.horizontal, .bottom], 20)
         .background {
             RoundedRectangle(cornerRadius: 25)

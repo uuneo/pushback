@@ -177,7 +177,7 @@ struct SelectMessageView:View {
                     
                     
                 }
-                .frame(width: UIScreen.main.bounds.width)
+                .frame(width: windowWidth)
                 .onAppear{
                     Task(priority: .userInitiated) {
                         if let image = message.image,

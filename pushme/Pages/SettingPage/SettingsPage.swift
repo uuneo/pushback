@@ -90,9 +90,16 @@ struct SettingsPage: View {
             
             if ISPAD{
                 ListButton {
-                    Label( "消息", systemImage: "app.badge")
+                    Label( TabPage.message.title, systemImage: TabPage.message.symbol)
                 } action: {
                     manager.router = []
+                    return true
+                }
+                
+                ListButton {
+                    Label( TabPage.pushtalk.title, systemImage: TabPage.pushtalk.symbol)
+                } action: {
+                    manager.router = [.pushtalk]
                     return true
                 }
             }

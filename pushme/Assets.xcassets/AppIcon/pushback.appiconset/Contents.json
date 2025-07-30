@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "mogu.png",
+      "filename" : "AppIcon-01.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "mogublack1.png",
+      "filename" : "AppIcon-02.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -25,7 +25,7 @@
           "value" : "tinted"
         }
       ],
-      "filename" : "mogutint1.png",
+      "filename" : "AppIcon-03.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

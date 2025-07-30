@@ -45,7 +45,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             overlayWindow = overlay
         }
         
-        
         if let urlContext = connectionOptions.urlContexts.first {
             let url = urlContext.url
             // 处理这个 URL
@@ -95,6 +94,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
         setLangAssistantPrompt()
+        
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

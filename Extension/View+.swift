@@ -122,9 +122,10 @@ struct OutlineOverlay: ViewModifier {
 struct ButtonPress: ViewModifier{
     var releaseStyles:Double = 0.0
     var maxX:Double = 0.0
+    var changeHaptic:Bool = false
 	var onPress:((DragGesture.Value)->Void)? = nil
-	var onRelease:((DragGesture.Value)->Bool)? = nil
-    
+    var onRelease:((DragGesture.Value)->Bool)? = nil
+	
     @State private var ispress = false
     
 	func body(content: Content) -> some View {
@@ -136,23 +137,37 @@ struct ButtonPress: ViewModifier{
 			.simultaneousGesture(
 				DragGesture(minimumDistance: 0)
 					.onChanged({ result in
+
+                        if !ispress && changeHaptic{
+                            Haptic.impact()
+                            onPress?(result)
+                        }
+                        
                         self.ispress = true
-						onPress?(result)
+                        
+                        if !changeHaptic{
+                            onPress?(result)
+                        }
+						
                         if releaseStyles > 0.0 {
                             DispatchQueue.main.asyncAfter(deadline: .now() + releaseStyles ){
                                 self.ispress = false
                             }
                         }
 					})
-					.onEnded({ result in
+                    .onEnded({ result in
                         self.ispress = false
-                        if abs(result.translation.width) <= maxX {
-                            
+                        if changeHaptic{
                             if let success = onRelease?(result), success{
                                 Haptic.impact()
                             }
+                        }else{
+                            if abs(result.translation.width) <= maxX ,
+                               let success = onRelease?(result), success{
+                                Haptic.impact()
+                            }
                         }
-					})
+                    })
 			)
 	}
 }
@@ -281,6 +296,8 @@ enum sybolEffectType{
     case wiggle
     
     case replaceblack
+    
+    case none
         
 }
 
@@ -368,13 +385,14 @@ extension View {
     
     func VButton(_ maxX:Double = 0.0,
                  release:Double = 0.0,
+                 changeHaptic:Bool = false,
                  onPress: ((DragGesture.Value)->Void)? = nil,
                  onRelease: ((DragGesture.Value)->Bool)? = nil)-> some View{
-        modifier(ButtonPress(releaseStyles: release, maxX: maxX, onPress:onPress, onRelease: onRelease))
+        modifier(ButtonPress(releaseStyles: release, maxX: maxX, changeHaptic: changeHaptic,onPress:onPress, onRelease: onRelease))
     }
     
-    func VButton(onRelease: @escaping (DragGesture.Value)->Bool)-> some View{
-        modifier(ButtonPress(releaseStyles: 0, maxX: 0, onPress:nil, onRelease: onRelease))
+    func VButton(changeHaptic:Bool = false, onRelease: @escaping (DragGesture.Value)->Bool)-> some View{
+        modifier(ButtonPress(releaseStyles: 0, maxX: 0, changeHaptic:changeHaptic, onPress:nil, onRelease: onRelease))
     }
     
     @ViewBuilder
@@ -415,16 +433,17 @@ extension View {
                 case .scale:
                     self.symbolEffect(.scale.up.byLayer, options: .repeat(repeatBehavior1))
                 case .variableColor:
-                    self.symbolEffect(.variableColor.cumulative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
+                    self.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
                 case .wiggle:
                     self.symbolEffect(.wiggle.clockwise.byLayer, options: .repeat(repeatBehavior1))
                 case .replace:
                     self.contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .repeat(repeatBehavior1)))
                 case .replaceblack:
                     self.contentTransition(.symbolEffect(.replace))
+                case .none:
+                    self
                 
                 }
-            
             }
             
         } else {
@@ -477,6 +496,8 @@ extension View {
         self.modifier(VerticalScrollDetector(onScroll: perform))
     }
 }
+
+
 
 
 

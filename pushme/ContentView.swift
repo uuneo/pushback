@@ -11,9 +11,10 @@ import UniformTypeIdentifiers
 import WidgetKit
 import Defaults
 
+
 struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
-  
+    
     @Default(.showGroup) private var showGroup
     @StateObject private var manager = AppManager.shared
     @StateObject private var messageManager = MessagesManager.shared
@@ -29,15 +30,14 @@ struct ContentView: View {
             
             IphoneHomeView()
                 .if(ISPAD) { IpadHomeView() }
-                
-                
+            
+            
             if firstStart{
                 firstStartLauchFirstStartView()
             }
             
         }
         .environmentObject(manager)
-        
         .overlay{
             if let message = manager.selectMessage{
                 SelectMessageView(message: message) {
@@ -71,7 +71,7 @@ struct ContentView: View {
                     view
                 }
             }
-           
+            
         }
         .sheet(isPresented: manager.sheetShow){ ContentSheetViewPage().customPresentationCornerRadius(20) }
         .fullScreenCover(isPresented: manager.fullShow){ ContentFullViewPage() }
@@ -94,72 +94,43 @@ struct ContentView: View {
             }
         }
         
+        
     }
     
     @ViewBuilder
     func IphoneHomeView()-> some View{
-        VStack(spacing: 0) {
-            TabView(selection: $manager.page) {
+        TabView(selection: $manager.page) {
+            
+            NavigationStack(path: $manager.router){
+                // MARK: 信息页面
+                MessagePage().router(manager)
                 
-                ForEach(TabPage.allCases, id: \.rawValue){ page in
-                    
-                    NavigationStack(path: $manager.router){
-                        Group{
-                            switch page{
-                            case .message:
-                                MessagePage()
-                            case .assistant:
-                                AssistantPageView()
-                            case .pushtalk:
-                                PushToTalkView()
-                            case .setting:
-                                SettingsPage()
-                            }
-                        }.router(manager)
-                    }
-                    .toolbar(.hidden, for: .tabBar)
-                    .tag(page)
-                    
-                }
             }
-            .onChange(of: manager.page) { page in
-                Haptic.impact()
-                if page != .assistant && page != .pushtalk{
-                    manager.oldPage = page
-                }
+            .tabItem {
+                Label( "消息", systemImage: "ellipsis.message")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
             }
-            if manager.router.count == 0 && manager.page.showTabBar {
-                GeometryReader {proxy in
-                    CustomTabBar(size: proxy.size, activeTab: manager.page, searchText: $manager.searchText) { search in
-                        manager.isSearchActive = search
-                    } onSearchTextFieldActive: { active in
-                        
-                    } changeTabBar: { tab, number in
-                        if  manager.page == .message && tab == .message {
-                            switch number{
-                            case 0:
-                                manager.router = [.example]
-                            case 1:
-                                self.showGroup.toggle()
-                            default:
-                                break
-                            }
-                            
-                        }else{
-                            manager.page = tab
-                        }
-                       
-                    
-                    }
-                    .transition(.move(edge: .bottom))
-                    
-                }
-                .padding(.horizontal, 10)
-                .frame( height: 56)
-                .background(.ultraThickMaterial)
+            .badge(messageManager.unreadCount)
+            .tag(TabPage.message)
+            
+            
+            
+            NavigationStack(path: $manager.router){
+                // MARK: 设置页面
+                SettingsPage().router(manager)
+                
             }
+            .tabItem {
+                Label( "设置", systemImage: "gear.badge.questionmark")
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle( .green, colorScheme == .dark ? Color.white : Color.black)
+            }
+            .tag(TabPage.setting)
         }
-        
+        .onChange(of: manager.page) { _ in
+            Haptic.impact()
+        }
     }
     
     @ViewBuilder
@@ -215,8 +186,7 @@ struct ContentView: View {
                 }
             case .web(let url):
                 SFSafariView(url: url).ignoresSafeArea()
-            case .pushToTalk:
-                PushToTalkView()
+
             default:
                 EmptyView().onAppear{  manager.fullPage = .none }
             }
@@ -234,21 +204,36 @@ struct ContentView: View {
             case .cloudIcon:
                 CloudIcon() .presentationDetents([.medium, .large])
             case .paywall:
-                if #available(iOS 18.0, *) { PayWallHighView() }
+                if #available(iOS 18.0, *) { PayWallHighView() }else{
+                    EmptyView()
+                        .onAppear{ manager.sheetPage = .none }
+                }
             case .quickResponseCode(let text, let title, let preview):
                 QuickResponseCodeview(text:text, title: title, preview:preview).presentationDetents([.medium])
+            case .scan:
+                ScanView{ code in
+                    if code.hasHttp(){
+                        let success = await manager.appendServer(server: PushServerModel(url: code))
+                        if success{
+                            manager.router = [.server]
+                        }
+                        return success
+                    }
+                    return false
+                    
+                }
+            case .crypto(let item):
+                ChangeCryptoConfigView(item: item)
             default:
                 EmptyView().onAppear{ manager.sheetPage = .none }
             }
         }
         .environmentObject(manager)
-        .customPresentationCornerRadius(20)
+        .customPresentationCornerRadius(30)
     }
     
 }
 
-
-@available(iOS 16.0, *)
 extension View{
     func router(_ manager:AppManager) -> some View{
         self
@@ -257,19 +242,22 @@ extension View{
                     switch router {
                     case .example:
                         ExampleView()
+                        
                     case .messageDetail(let group):
                         MessageDetailPage(group: group)
                             .navigationTitle(group)
+                        
                     case .sound:
                         SoundView()
+                        
                     case .assistant:
                         AssistantPageView()
                         
                     case .assistantSetting(let account):
                         AssistantSettingsView(account: account)
                         
-                    case .crypto(let text):
-                        CryptoConfigView(config: text)
+                    case .crypto:
+                        CryptoConfigListView()
                         
                     case .server:
                         ServersConfigView()
@@ -280,8 +268,10 @@ extension View{
                     case .widget(title: let title, data: let data):
                         WidgetChartView(data: data)
                             .navigationTitle(title ?? "小组件")
+                        
                     case .tts:
                         SpeakSettingsView()
+                        
                     case .pushtalk:
                         PushToTalkView()
                     }
@@ -289,7 +279,7 @@ extension View{
                 .toolbar(.hidden, for: .tabBar)
                 .navigationBarTitleDisplayMode(.large)
                 .environmentObject(manager)
-               
+                
                 
                 
             }

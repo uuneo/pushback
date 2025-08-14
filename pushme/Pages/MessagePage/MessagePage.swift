@@ -18,20 +18,19 @@ struct MessagePage: View {
     var body: some View {
         
         ZStack{
-            if !manager.isSearchActive{
+            if manager.searchText.isEmpty{
                 SingleMessagesView()
                     .if(showGroup) { GroupMessagesView() }
-                    .transition(.move(edge: .leading))
+                    .transition(.opacity)
             }else{
                 SearchMessageView(searchText: $manager.searchText)
                     .transition(.move(edge: .trailing))
             }
         }
         .navigationTitle( "消息")
-        .animation(.easeInOut, value:  manager.isSearchActive)
         .animation(.easeInOut, value: showGroup)
+        .searchable(text: $manager.searchText)
         .environmentObject(messageManager)
-        .if(manager.isSearchActive){ $0.toolbar(.hidden, for: .navigationBar) }
         .toolbar{
             
             if messageManager.groupMessages.count > 0 {
@@ -68,35 +67,71 @@ struct MessagePage: View {
                 }
             }
             
-//            ToolbarItem( placement: .topBarLeading) {
-//                Button{
-//                    manager.router.append(.example)
-//                }label: {
-//                    Label("使用示例", systemImage: "questionmark.bubble")
-//                }
-//                
-//            }
-//            
-//            ToolbarItem( placement: .topBarLeading) {
-//             
-//                Button{
-//                    self.showGroup.toggle()
-//                    manager.selectGroup = nil
-//                    manager.selectId = nil
-//                    Haptic.impact()
-//                }label:{
-//                    
-//                    Label("显示模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
-//                        .symbolRenderingMode(.palette)
-//                        .customForegroundStyle(.accent, .primary)
-//                        .animation(.easeInOut, value: showGroup)
-//                        .symbolEffect(delay: 0)
-//                }
-//                
-//                
-//                
-//                
-//            }
+            ToolbarItem( placement: .topBarLeading){
+                Menu{
+                    Section{
+                        Button{
+                            manager.router.append(.example)
+                            Haptic.impact()
+                        }label: {
+                            Label("使用示例", systemImage: "questionmark.bubble")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(Color.accent, Color.primary)
+                        }
+                    }
+                    
+                    Section{
+                        
+                        Button{
+                            self.showGroup.toggle()
+                            manager.selectGroup = nil
+                            manager.selectId = nil
+                            Haptic.impact()
+                        }label:{
+                            
+                            Label(showGroup ? "列表模式" : "分组模式", systemImage: showGroup ? "rectangle.3.group.bubble.left" : "checklist")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.accent, .primary)
+                                .animation(.easeInOut, value: showGroup)
+                                .symbolEffect(delay: 0)
+                        }
+                    }
+                    Section{
+                        Button{
+                            manager.router = [.assistant]
+                            Haptic.impact()
+                        }label: {
+                            if #available(iOS 18.0, *){
+                                Label("智能助手", systemImage: "apple.intelligence")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.accent, .primary)
+                            }else{
+                                Label("智能助手", systemImage: "atom")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.accent, .primary)
+                            }
+                           
+                        }
+                    }
+                    
+                    Section{
+                        Button{
+                            manager.router = [.pushtalk]
+                            Haptic.impact()
+                        }label: {
+                            Label("语音对讲", systemImage: "person.line.dotted.person")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.accent, .primary)
+                        }
+                    }
+                    
+                    
+                }label: {
+                    Label("更多", systemImage: "shippingbox.circle")
+                }
+            }
+            
+
         }
         .alert("确认删除", isPresented: Binding(get: { selectAction != nil }, set: { _ in selectAction = nil })) {
             Button("取消", role: .cancel) { }

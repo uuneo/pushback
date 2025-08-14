@@ -255,7 +255,7 @@ struct LoadingPress: ViewModifier{
 	}
 }
 
-fileprivate struct ViewExtractHelper: UIViewRepresentable {
+struct ViewExtractHelper: UIViewRepresentable {
     var result:(UIView) -> ()
     func makeUIView(context: Context) -> some UIView {
         let view  = UIView(frame: .zero)
@@ -435,7 +435,7 @@ extension View {
                 case .variableColor:
                     self.symbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing, options: .repeat(repeatBehavior1))
                 case .wiggle:
-                    self.symbolEffect(.wiggle.clockwise.byLayer, options: .repeat(repeatBehavior1))
+                    self.symbolEffect(.wiggle.up.byLayer, options: .repeat(repeatBehavior1))
                 case .replace:
                     self.contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .repeat(repeatBehavior1)))
                 case .replaceblack:
@@ -496,6 +496,7 @@ extension View {
         self.modifier(VerticalScrollDetector(onScroll: perform))
     }
 }
+
 
 
 

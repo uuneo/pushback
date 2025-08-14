@@ -21,7 +21,7 @@ extension View{
 }
 
 struct TouchCaptureView: UIViewRepresentable {
-    @Binding var hasMoveTopRight:Bool
+    @Binding var hasMoveTopRight: Bool
     @Binding var isPressing: Bool
     var onBegan: () -> Void
     var onEnded: () -> Void
@@ -38,15 +38,15 @@ struct TouchCaptureView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIView, context: Context) {}
     
-    
     func makeCoordinator() -> Coordinator {
         Coordinator(hasMoveTopRight: $hasMoveTopRight, isPressing: $isPressing)
     }
     
     class Coordinator {
         var hasMoveTopRight: Binding<Bool>
-        var isPressing: Binding<Bool> // ✅ 新增
-
+        var isPressing: Binding<Bool>
+        var lastTouchTime: Date? // ⏱ 记录上次点击时间
+        
         init(hasMoveTopRight: Binding<Bool>, isPressing: Binding<Bool>) {
             self.hasMoveTopRight = hasMoveTopRight
             self.isPressing = isPressing
@@ -58,13 +58,21 @@ struct TouchCaptureView: UIViewRepresentable {
         var onBegan: (() -> Void)?
         var onEnded: (() -> Void)?
         var onCancelled: (() -> Void)?
-        var onMovedOutside: (() -> Void)?
         private var touchStartTime: Date?
         
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            coordinator?.hasMoveTopRight.wrappedValue = false
-            coordinator?.isPressing.wrappedValue = true // ✅ 设置按下状态
-            touchStartTime = Date()
+            guard let coord = coordinator else { return }
+            
+            let now = Date()
+            if let last = coord.lastTouchTime, now.timeIntervalSince(last) < 1.0 {
+                // ⛔ 距离上次点击不足 1 秒，忽略
+                return
+            }
+            coord.lastTouchTime = now
+            
+            coord.hasMoveTopRight.wrappedValue = false
+            coord.isPressing.wrappedValue = true
+            touchStartTime = now
             onBegan?()
         }
         
@@ -77,18 +85,18 @@ struct TouchCaptureView: UIViewRepresentable {
             }
             
             let elapsed = Date().timeIntervalSince(start)
-            if elapsed <= 1 {
+            if elapsed < 1 {
                 coordinator?.hasMoveTopRight.wrappedValue = true
-                onCancelled?() // 未满 1 秒算取消
+                onCancelled?()
                 touchStartTime = nil
                 return
             }
             
             touchStartTime = nil
             
-            if let cancel =  coordinator?.hasMoveTopRight.wrappedValue, cancel{
+            if coordinator?.hasMoveTopRight.wrappedValue == true {
                 onCancelled?()
-            }else{
+            } else {
                 onEnded?()
             }
         }
@@ -102,31 +110,27 @@ struct TouchCaptureView: UIViewRepresentable {
             JC(touches)
         }
         
-        @objc func JC(_ touches: Set<UITouch>){
+        @objc func JC(_ touches: Set<UITouch>) {
             guard let touch = touches.first else { return }
             let location = touch.location(in: self)
-            
             let center = CGPoint(x: bounds.midX, y: bounds.midY)
             let radius = bounds.width / 2 - 15
             let distance = hypot(location.x - center.x, location.y - center.y)
             let isInsideCircle = distance <= radius
-            if coordinator?.hasMoveTopRight.wrappedValue != !isInsideCircle { coordinator?.hasMoveTopRight.wrappedValue = !isInsideCircle
+            if coordinator?.hasMoveTopRight.wrappedValue != !isInsideCircle {
+                coordinator?.hasMoveTopRight.wrappedValue = !isInsideCircle
             }
         }
         
-        
         override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-            // 圆心
             let center = CGPoint(x: bounds.midX, y: bounds.midY)
-            
             let radius = min(bounds.width, bounds.height) / 2 - 15
-            
             let distance = hypot(point.x - center.x, point.y - center.y)
-            
             return distance <= radius
         }
     }
 }
+
 
 
 
@@ -145,6 +149,7 @@ struct CustomSheetForTalk<Sub: View>: ViewModifier{
                     Rectangle()
                         .fill(.gray.opacity(0.001))
                         .onTapGesture {
+                            Haptic.impact()
                             self.show.toggle()
                         }
                     
@@ -182,4 +187,22 @@ struct BackgroundClearView: UIViewRepresentable {
         return view
     }
     func updateUIView(_ uiView: UIView, context: Context) {}
+}
+
+struct HourAndMinuteView: View {
+    @State private var currentTime = Date()
+    private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    
+    var body: some View {
+        Text(timeString(from: currentTime))
+            .onReceive(timer) { input in
+                currentTime = input
+            }
+    }
+    
+    private func timeString(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"  // 24小时制，如果要12小时制改成 "hh:mm a"
+        return formatter.string(from: date)
+    }
 }

@@ -101,7 +101,7 @@ struct PushParams:Codable, Defaults.Serializable {
         
         if !cipherText.isEmpty{
             guard let jsonData = try? JSONSerialization.data(withJSONObject: dict),
-                  let cipherResult = CryptoManager(Defaults[.cryptoConfig]).encrypt(jsonData) else {
+                  let cipherResult = CryptoManager(Defaults[.cryptoConfigs].config()).encrypt(jsonData) else {
                 return [:]
             }
             return ["cipherText":  cipherResult]

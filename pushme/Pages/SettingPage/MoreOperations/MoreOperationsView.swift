@@ -24,6 +24,10 @@ struct MoreOperationsView: View {
     @Default(.defaultBrowser) var defaultBrowser
     @Default(.muteSetting) var muteSetting
     
+    @Default(.deviceToken) var deviceToken
+    @Default(.id) var userID
+    @Default(.pttToken) var pttToken
+    
     @State private var messages:[Message] = []
     @State private var allCount:Int = 0
 
@@ -46,6 +50,96 @@ struct MoreOperationsView: View {
 	
 	var body: some View {
 			List{
+                
+                Section{
+                    ListButton(leading: {
+                        Label {
+                            Text( "TOKEN")
+                                .lineLimit(1)
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "captions.bubble")
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(.primary, .accent)
+                                
+                        }
+                    }, trailing: {
+                        HackerTextView(text: maskString(deviceToken), trigger: false)
+                            .foregroundStyle(.gray)
+                        
+                        Image(systemName: "doc.on.doc")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle( .accent, Color.primary)
+                       
+                        
+                    }, showRight: false) {
+                        if deviceToken != ""{
+                            Clipboard.set(deviceToken)
+                            Toast.copy(title: "复制成功")
+                            
+                        }else{
+                            Toast.shared.present(title: "请先注册", symbol: "questionmark.circle.dashed")
+                        }
+                        return true
+                    }
+                    
+                    ListButton(leading: {
+                        Label {
+                            Text( "ID")
+                                .lineLimit(1)
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "person.badge.key")
+                            
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(Color.primary, .accent)
+                        }
+                    }, trailing: {
+                        HackerTextView(text: maskString(userID), trigger: false)
+                            .foregroundStyle(.gray)
+                        
+                        Image(systemName: "doc.on.doc")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle( .accent, Color.primary)
+                        
+                    }, showRight: false) {
+                        Clipboard.set(userID)
+                        Toast.copy(title:  "复制成功")
+                        return true
+                    }
+                    
+                    
+                    ListButton(leading: {
+                        Label {
+                            Text( "PTT")
+                                .lineLimit(1)
+                                .foregroundStyle(.textBlack)
+                        } icon: {
+                            Image(systemName: "message.and.waveform")
+                            
+                                .symbolRenderingMode(.palette)
+                                .customForegroundStyle(Color.primary, .accent)
+                        }
+                    }, trailing: {
+                        HackerTextView(text: maskString(pttToken), trigger: false)
+                            .foregroundStyle(.gray)
+                        
+                        Image(systemName: "doc.on.doc")
+                            .symbolRenderingMode(.palette)
+                            .customForegroundStyle( .accent, Color.primary)
+                        
+                    }, showRight: false) {
+                        Clipboard.set(userID)
+                        Toast.copy(title:  "复制成功")
+                        return true
+                    }
+                    
+                    
+              
+                } header:{
+                    Text( "设备信息")
+                        .textCase(.none)
+                }
                 
                 Section {
                     Button{
@@ -474,7 +568,10 @@ struct MoreOperationsView: View {
     }
     
   
-    
+    fileprivate func maskString(_ str: String) -> String {
+        guard str.count > 9 else { return String(repeating: "*", count: 3) +  str }
+        return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(6)
+    }
    
 	
 }

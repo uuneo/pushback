@@ -43,9 +43,9 @@ struct SearchMessageView:View {
         }
         .safeAreaInset(edge: .top, content: {
             HStack{
-                Text("历史消息")
-                    .foregroundStyle(.accent)
-                    .font(.headline)
+                Text("搜索结果")
+                    .foregroundStyle(.gray)
+                    .font(.subheadline)
                     
                 Spacer()
                 Text(verbatim: "\(messages.count) / \(max(allCount, messages.count))")

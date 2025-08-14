@@ -28,6 +28,9 @@ struct ServersConfigView: View {
                             Clipboard.set(item.url + "/" + item.key)
                             Toast.copy(title: "复制 URL 和 KEY 成功")
                         }
+                        .padding(.horizontal, 15)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                         .swipeActions(edge: .leading, allowsFullSwipe: false) {
                             Button{
@@ -68,9 +71,6 @@ struct ServersConfigView: View {
                                 }
                         }
                         
-                        
-                        
-                        
                     }
                     .onMove(perform: { indices, newOffset in
                         servers.move(fromOffsets: indices, toOffset: newOffset)
@@ -97,6 +97,11 @@ struct ServersConfigView: View {
                                     _ = await manager.register(server: item)
                                 }
                             }
+                            .padding(.horizontal, 15)
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive){
                                     if let index = cloudServers.firstIndex(where: {$0.id == item.id}){
@@ -124,7 +129,7 @@ struct ServersConfigView: View {
             }
             .animation(.easeInOut, value: servers)
             .listRowSpacing(10)
-           
+            .listStyle(.grouped)
             .refreshable {
                 // MARK: - 刷新策略
                 manager.registers()

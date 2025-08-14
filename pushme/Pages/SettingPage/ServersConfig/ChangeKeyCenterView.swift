@@ -53,6 +53,17 @@ struct ChangeKeyCenterView: View {
                 
                 Spacer()
                 
+                Button {
+                    manager.sheetPage = .scan
+                    Haptic.impact()
+                } label: {
+                    Image(systemName: "qrcode.viewfinder")
+                        .imageScale(.large)
+                        .symbolRenderingMode(.palette)
+                        .customForegroundStyle(.accent, Color.primary)
+                        .symbolEffect(delay: 5)
+                        .padding(.trailing, 10)
+                }
             }
             
             
@@ -382,11 +393,11 @@ struct ChangeKeyView: View {
     
     var body: some View {
         ZStack {
+            
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .opacity(appear ? 1 : 0)
                 .ignoresSafeArea()
-            
             
             GeometryReader { proxy in
                 ChangeKeyCenterView(dismiss: dismissModal)
@@ -405,7 +416,7 @@ struct ChangeKeyView: View {
                             .blur(radius: appearBackground ? 0 : 40)
                             .hueRotation(.degrees(viewState.width / 5))
                     )
-            }
+            }.frame(maxWidth: ISPAD ? minSize / 2 : .infinity)
             
             VStack{
                 HStack{
@@ -431,6 +442,8 @@ struct ChangeKeyView: View {
             
             
         }
+        
+        
         .onAppear {
             withAnimation(.spring()) {
                 appear = true

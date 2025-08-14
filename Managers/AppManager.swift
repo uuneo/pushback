@@ -14,7 +14,6 @@ import Foundation
 class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
 	static let shared = AppManager()
     
-    @Published var oldPage:TabPage = .message
     
     @Published var page:TabPage = .message
 	@Published var sheetPage:SubPage = .none
@@ -28,7 +27,6 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     @Published var selectId:String? = nil
     @Published var selectGroup:String? = nil
     @Published var searchText:String = ""
-    @Published var isSearchActive: Bool = false
     
     
     @Published var router:[RouterPage] = []
@@ -45,8 +43,6 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     @Published var askMessageId:String? = nil
     /// 开始播放语音
     @Published var speaking:Bool = false
-    
-    
    
     
     var fullShow:Binding<Bool>{
@@ -180,10 +176,14 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
         switch self.outParamsHandler(address: url.absoluteString) {
         case .crypto(let text):
             Log.debug(text)
-            DispatchQueue.main.async{
-                self.page = .setting
-                self.router = [.more, .crypto(text)]
+            if let config = CryptoModelConfig(inputText: text){
+                DispatchQueue.main.async{
+                    self.page = .setting
+                    self.router = [.crypto]
+                    self.sheetPage = .crypto(config)
+                }
             }
+            
         case .server(let url):
             Task.detached(priority: .userInitiated) {
                 let success = await self.appendServer(server: PushServerModel(url: url))

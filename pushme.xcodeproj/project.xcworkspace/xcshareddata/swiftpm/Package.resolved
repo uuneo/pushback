@@ -1,5 +1,5 @@
 {
-  "originHash" : "64af9c0e26dfdb0c0d21152d897f2de7b66096653f007fd9960b4c3dba9c8ca9",
+  "originHash" : "e0ac25b7863399f4ce5638e5fabe1a4c28593406c137b43a92f99c0dedca71cc",
   "pins" : [
     {
       "identity" : "defaults",
@@ -29,15 +29,6 @@
       }
     },
     {
-      "identity" : "libopus",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/uuneo/libopus.git",
-      "state" : {
-        "revision" : "562455c4032a817894fd2dea29a8dc1076b20131",
-        "version" : "1.0.15"
-      }
-    },
-    {
       "identity" : "openai",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/OpenAI.git",
@@ -47,12 +38,12 @@
       }
     },
     {
-      "identity" : "opusbinding",
+      "identity" : "opus",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/uuneo/OpusBinding.git",
+      "location" : "https://github.com/uuneo/Opus.git",
       "state" : {
-        "branch" : "master",
-        "revision" : "5f2991422cd44c19b5a824f73244a4223eb00332"
+        "revision" : "92fac92846550c24b3ad89a3ce170faeaa8b9216",
+        "version" : "1.0.0"
       }
     },
     {

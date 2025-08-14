@@ -138,7 +138,7 @@ enum QuickAction: String{
 
 // MARK: - PushServerModel
 
-struct PushServerModel: Codable, Identifiable,Equatable, Hashable{
+struct PushServerModel: Codable, Identifiable, Equatable, Hashable{
 	var id:String = UUID().uuidString
     var device:String
 	var url:String
@@ -178,116 +178,15 @@ enum BadgeAutoMode:String, CaseIterable {
 	case custom = "Custom"
 }
 
-// MARK: - CryptoMode
 
-enum CryptoMode: String, Codable,CaseIterable, RawRepresentable {
-	
-	case CBC, ECB, GCM
-	var padding: String {
-		self == .GCM ? "Space" : "PKCS7"
-	}
-
-	
-}
-
-enum CryptoAlgorithm: Int, Codable, CaseIterable,RawRepresentable {
-	case AES128 = 16 // 16 bytes = 128 bits
-	case AES192 = 24 // 24 bytes = 192 bits
-	case AES256 = 32 // 32 bytes = 256 bits
-	
-	var name:String{
-		self == .AES128 ? "AES128" : (self == .AES192 ? "AES192" : "AES256")
-	}
-}
-
-
-struct CryptoModelConfig: Equatable, Codable{
-
-	var algorithm: CryptoAlgorithm
-	var mode: CryptoMode
-	var key: String
-	var iv: String
-
-	static let data = CryptoModelConfig(algorithm: .AES256, mode: .GCM, key: "KXkwFRs2ttGJi7mJdJk9AsjAF4jbr135", iv: "xBCSyAxsjkdrjFCa")
-
-	static func generateRandomString(_ length: Int = 16) -> String {
-		// 创建可用字符集（大写、小写字母和数字）
-		let charactersArray = Array("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-		
-		return String(Array(1...length).compactMap { _ in charactersArray.randomElement() })
-	}
-	
-}
-
-extension CryptoModelConfig {
-    func obfuscator() -> String? {
-        
-        guard iv.count == 16, key.count >= 16, mode.rawValue.count == 3 else { return nil }
-        
-        let position: (Int, Int, Int) = CryptoModelConfig.calculateInsertPositions(for: iv + key + mode.rawValue)
-
-        var result = iv + key
-        let inserts = Array(mode.rawValue.lowercased())
-        let positions = [position.0, position.1, position.2].sorted()
-
-        // 从后往前插入，防止位置错乱
-        for i in (0..<3).reversed() {
-            let idx = result.index(result.startIndex, offsetBy: positions[i])
-            result.insert(inserts[i], at: idx)
-        }
-
-        return String(result.reversed())
-    }
-
-    static func deobfuscator(result: String) -> CryptoModelConfig? {
-        
-        let result = String(result.reversed())
-        guard result.count > 20 else { return nil}
-        
-        let position: (Int, Int, Int) = CryptoModelConfig.calculateInsertPositions(for: result)
-        
-        var original = result
-        let positions = [position.0, position.1, position.2].sorted()
-        var inserts = ""
-        
-        // 从前往后移除字符（位置会因为删除而变化）
-        for i in 0..<3 {
-            let index = original.index(original.startIndex, offsetBy: positions[i])
-            inserts.append(original[index])
-            original.remove(at: index)
-        }
-        let startIndex = original.startIndex
-        let splitIndex = original.index(startIndex, offsetBy: 16)
-        
-        let ivData = String(original[startIndex..<splitIndex])
-        let keyData = String(original[splitIndex...])
-        inserts = inserts.uppercased()
-        if let mode = CryptoMode(rawValue: inserts), let algorithm = CryptoAlgorithm(rawValue: keyData.count){
-           return CryptoModelConfig(algorithm: algorithm, mode: mode, key: keyData, iv: ivData)
-        }
-        return nil
-      
-    }
-
-
-    static func calculateInsertPositions(for string: String) -> (Int, Int, Int) {
-        let hashValue = string.count - 3
-        let pos1 = abs(hashValue / 3 + 1)
-        let pos2 = abs(hashValue / 2 - 2)
-        let pos3 = abs(hashValue - pos1)
-        return (pos1, pos2, pos3)
-    }
-
-}
 
 
 // MARK: - AppIconMode
 
-enum AppIconEnum:String, CaseIterable,Equatable{
+enum AppIconEnum:String, CaseIterable, Equatable{
     case pushback
     case bell
     case box
-    case peacock
     
     var name: String? { self == .pushback ? nil : self.rawValue }
     
@@ -296,7 +195,6 @@ enum AppIconEnum:String, CaseIterable,Equatable{
         case .pushback: "logo"
         case .bell:     "logo1"
         case .box:      "logo2"
-        case .peacock:  "logo3"
         }
     }
 }
@@ -320,16 +218,13 @@ enum DefaultBrowserModel: String, CaseIterable {
 	case app
 
 	var title:String{
-		switch self {
-			case .safari: "Safari"
-			case .app: String(localized: "内部")
-		}
+        self == .safari ? "Safari" : String(localized: "内部")
 	}
 
 }
 
 
-struct AssistantAccount: Codable, Identifiable, Equatable,Hashable{
+struct AssistantAccount: Codable, Identifiable, Equatable, Hashable{
     var id:String = UUID().uuidString
     var current:Bool = false
     var timestamp:Date = .now
@@ -514,7 +409,7 @@ struct PushToTalkGroup: Codable, Hashable{
     
     mutating func set(_ prefix: Int? = nil, suffix: Int? = nil){
         if let prefix {
-            self.prefix = max(min(prefix, 9999), 10)
+            self.prefix = max(min(prefix, 999), 10)
         }
         if let suffix{
             self.suffix = max(min(suffix, 999), 1)

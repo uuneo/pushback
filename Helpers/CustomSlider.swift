@@ -75,7 +75,7 @@ struct CustomSlider: View {
             )
             .onChange(of: sliderProgress) { newValue in
                 /// Initial Progress Settings
-                guard sliderProgress != progress, (sliderProgress > 0 && sliderProgress < 1) else { return }
+                guard sliderProgress != progress else { return }
                 progress = max(min(sliderProgress, 1.0), .zero)
                 dragOffset = progress * orientationSize
                 lastDragOffset = dragOffset
@@ -84,10 +84,16 @@ struct CustomSlider: View {
                 dragOffset = progress * orientationSize
                 lastDragOffset = dragOffset
             }
+            .onAppear{
+                progress = max(min(sliderProgress, 1.0), .zero)
+                dragOffset = progress * orientationSize
+                lastDragOffset = dragOffset
+            }
         }
         .onChange(of: progress) { oldValue in
             sliderProgress = max(min(progress, 1.0), .zero)
         }
+        
     }
     
     /// Calculating Progress
@@ -96,9 +102,7 @@ struct CustomSlider: View {
         let bottomAndLeadingExcessOffset = dragOffset < 0 ? (dragOffset * 0.1) : dragOffset
         
         let progress = (dragOffset > orientationSize ? topAndTrailingExcessOffset : bottomAndLeadingExcessOffset) / orientationSize
-        /// For Limitation
-        // let limitation: CGFloat = 0.1
-        // self.progress = progress < 0 ? (-progress > limitation ? -limitation : progress) : (progress > (1.0 + limitation) ? (1.0 + limitation) : progress)
+        
         self.progress = progress
     }
     

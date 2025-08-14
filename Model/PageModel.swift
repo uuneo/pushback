@@ -17,6 +17,8 @@ enum SubPage: Equatable{
             return a == b
         case let (.quickResponseCode(ta, tia, pra), .quickResponseCode(tb, tib, prb)):
             return ta == tb && tia == tib && pra == prb
+        case let (.crypto(a), .crypto(b)):
+            return a == b
         default:
             return false
         }
@@ -29,17 +31,17 @@ enum SubPage: Equatable{
     case cloudIcon
     case paywall
     case quickResponseCode(text:String,title: String?,preview: String?)
-    case pushToTalk
+    case crypto(CryptoModelConfig)
     case none
     
 }
 
-enum RouterPage: Hashable {
+enum RouterPage: Hashable, Equatable {
     case example
     case messageDetail(String)
     case assistant
     case sound
-    case crypto(String?)
+    case crypto
     case server
     case assistantSetting(AssistantAccount?)
     case more
@@ -48,67 +50,10 @@ enum RouterPage: Hashable {
     case pushtalk
 }
 
+
 enum TabPage: String, Sendable, CaseIterable{
     case message
-    case assistant
-    case pushtalk
     case setting
-    
-    var title: String{
-        switch self {
-        case .message: String(localized: "消息")
-        case .assistant: String(localized: "智能助手")
-        case .pushtalk: String(localized: "语音信息")
-        case .setting: String(localized: "设置")
-        }
-    }
-    
-    var symbol: String {
-        switch self {
-        case .message: 
-            return "ellipsis.message"
-        case .assistant:
-            if #available(iOS 18.0, *){
-                return "apple.intelligence"
-            }else{
-               return "atom"
-            }
-        case .pushtalk:
-            return "speaker.wave.2.bubble.left"
-        case .setting:
-            return "gear.circle"
-        }
-    }
-    
-    var index: Int {  Self.allCases.firstIndex(of: self) ?? 0}
-    
-    var showSearch:Bool{ self == .message }
-    
-    var animate: sybolEffectType{
-        switch self {
-        case .message:
-                .variableColor
-        case .assistant:
-                .rotate
-        case .pushtalk:
-                .variableColor
-        case .setting:
-                .rotate
-        }
-    }
-    
-    var showTabBar:Bool{
-        switch self {
-        case .message:
-            true
-        case .assistant:
-            false
-        case .pushtalk:
-            false
-        case .setting:
-            true
-        }
-    }
 }
 
 enum outRouterPage: String{

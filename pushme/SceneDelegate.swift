@@ -25,7 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let hosting = UIHostingController(rootView: ContentView() )
+        let hosting = UIHostingController(rootView: ContentView())
+       
         self.window?.rootViewController = hosting
         window?.makeKeyAndVisible()
         // 2. 添加 overlay window（如 Toast 层）

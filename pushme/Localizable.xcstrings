@@ -169,6 +169,9 @@
         }
       }
     },
+    "%@" : {
+
+    },
     "%@  %@" : {
       "localizations" : {
         "en" : {
@@ -309,6 +312,9 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "%lld个月" : {
       "localizations" : {
         "en" : {
@@ -420,6 +426,9 @@
           }
         }
       }
+    },
+    "0" : {
+
     },
     "1周" : {
       "localizations" : {
@@ -588,6 +597,9 @@
           }
         }
       }
+    },
+    "12″" : {
+
     },
     "AI 助手" : {
       "localizations" : {
@@ -1149,6 +1161,9 @@
         }
       }
     },
+    "KEY:" : {
+
+    },
     "key不正确" : {
       "localizations" : {
         "en" : {
@@ -1345,9 +1360,6 @@
         }
       }
     },
-    "PLAYER" : {
-
-    },
     "Premium 会员" : {
       "localizations" : {
         "en" : {
@@ -1375,6 +1387,9 @@
           }
         }
       }
+    },
+    "PTT" : {
+
     },
     "pushback.mp3" : {
       "localizations" : {
@@ -1456,34 +1471,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "地区"
-          }
-        }
-      }
-    },
-    "Search..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search..."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "検索..."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "검색..."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索..."
           }
         }
       }
@@ -2916,6 +2903,9 @@
         }
       }
     },
+    "修改配置" : {
+
+    },
     "关闭" : {
       "localizations" : {
         "en" : {
@@ -3167,9 +3157,6 @@
           }
         }
       }
-    },
-    "准备中..." : {
-
     },
     "分享" : {
       "localizations" : {
@@ -3428,6 +3415,9 @@
           }
         }
       }
+    },
+    "初始化失败" : {
+
     },
     "删除" : {
       "localizations" : {
@@ -3736,6 +3726,12 @@
           }
         }
       }
+    },
+    "加入失败" : {
+
+    },
+    "加入成功" : {
+
     },
     "加密" : {
       "localizations" : {
@@ -4101,9 +4097,6 @@
         }
       }
     },
-    "历史消息" : {
-
-    },
     "历史消息数量" : {
       "localizations" : {
         "en" : {
@@ -4159,6 +4152,9 @@
           }
         }
       }
+    },
+    "历史频道" : {
+
     },
     "参数不全" : {
       "localizations" : {
@@ -4244,6 +4240,9 @@
         }
       }
     },
+    "参数长度不正确" : {
+
+    },
     "反向样式" : {
       "localizations" : {
         "en" : {
@@ -4299,6 +4298,9 @@
           }
         }
       }
+    },
+    "发送成功" : {
+
     },
     "发送通知" : {
       "localizations" : {
@@ -4383,9 +4385,6 @@
           }
         }
       }
-    },
-    "取消发送" : {
-
     },
     "取消静音分组" : {
       "localizations" : {
@@ -5171,33 +5170,8 @@
         }
       }
     },
-    "复制Python脚本" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy Python script"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pythonスクリプトをコピー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Python 스크립트 복사"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "复制Python脚本"
-          }
-        }
-      }
+    "复制Pyhon示例" : {
+
     },
     "复制成功" : {
       "localizations" : {
@@ -5786,9 +5760,6 @@
           }
         }
       }
-    },
-    "开启服务" : {
-
     },
     "开启语音" : {
       "localizations" : {
@@ -6826,6 +6797,9 @@
         }
       }
     },
+    "搜索结果" : {
+
+    },
     "携带一个image,会自动下载缓存" : {
       "localizations" : {
         "en" : {
@@ -7077,6 +7051,9 @@
           }
         }
       }
+    },
+    "新增配置" : {
+
     },
     "新对话" : {
       "localizations" : {
@@ -7386,35 +7363,6 @@
         }
       }
     },
-    "显示模式" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Display Mode"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "表示モード"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "표시 모드"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示模式"
-          }
-        }
-      }
-    },
     "显示设置" : {
       "localizations" : {
         "en" : {
@@ -7526,6 +7474,9 @@
           }
         }
       }
+    },
+    "更多" : {
+
     },
     "更多操作" : {
       "localizations" : {
@@ -8435,6 +8386,9 @@
         }
       }
     },
+    "没有历史记录" : {
+
+    },
     "没有图片" : {
       "localizations" : {
         "en" : {
@@ -8995,6 +8949,9 @@
         }
       }
     },
+    "消息列表" : {
+
+    },
     "消息存档" : {
       "localizations" : {
         "en" : {
@@ -9499,6 +9456,12 @@
         }
       }
     },
+    "监听公共频道" : {
+
+    },
+    "监听私密频道" : {
+
+    },
     "目标线" : {
       "localizations" : {
         "en" : {
@@ -9782,6 +9745,9 @@
         }
       }
     },
+    "算法列表" : {
+
+    },
     "算法配置" : {
       "localizations" : {
         "en" : {
@@ -9921,9 +9887,6 @@
           }
         }
       }
-    },
-    "结束服务" : {
-
     },
     "给智能助手发消息" : {
       "localizations" : {
@@ -10346,6 +10309,7 @@
       }
     },
     "自动更正Iv参数" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10374,6 +10338,7 @@
       }
     },
     "自动更正Key参数" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10850,6 +10815,7 @@
       }
     },
     "设备ID" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -10876,6 +10842,9 @@
           }
         }
       }
+    },
+    "设备信息" : {
+
     },
     "设置" : {
       "localizations" : {
@@ -10992,7 +10961,7 @@
     "语音" : {
 
     },
-    "语音信息" : {
+    "语音对讲" : {
 
     },
     "语音服务区域" : {
@@ -11695,9 +11664,6 @@
         }
       }
     },
-    "返回" : {
-
-    },
     "这是一个内置提示词，你可以基于它创建一个新的自定义提示词" : {
       "localizations" : {
         "en" : {
@@ -11782,6 +11748,12 @@
         }
       }
     },
+    "远程频道关闭失败" : {
+
+    },
+    "远程频道关闭成功" : {
+
+    },
     "连接失败" : {
       "localizations" : {
         "en" : {
@@ -11810,33 +11782,11 @@
         }
       }
     },
-    "选择后配置自动保存" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configure auto-save after selection"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選択後に自動保存を設定"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "선택 후 자동 저장 구성"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择后配置自动保存"
-          }
-        }
-      }
+    "选择" : {
+
+    },
+    "选择加密算法" : {
+
     },
     "选择提示词" : {
       "localizations" : {
@@ -12789,6 +12739,12 @@
           }
         }
       }
+    },
+    "音频引擎启动失败" : {
+
+    },
+    "频道:" : {
+
     },
     "默认" : {
       "localizations" : {

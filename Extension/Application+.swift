@@ -44,6 +44,10 @@ extension View{
         return windowScene.screen.bounds.size
     }
     
+    var minSize:CGFloat{
+        min( windowSize.width, windowSize.height)
+    }
+    
     var windowWidth: CGFloat {
         windowSize.width
     }

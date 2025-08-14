@@ -20,13 +20,9 @@ class MessagesManager: ObservableObject{
     @Published var singleMessages: [Message] = []
     @Published var showGroupLoading:Bool = false
     
-    private init() {
-        startObservingUnreadCount()
-    }
+    private init() { startObservingUnreadCount() }
     
-    deinit{
-        observationCancellable?.cancel()
-    }
+    deinit{ observationCancellable?.cancel() }
     
     private func startObservingUnreadCount() {
         let observation = ValueObservation.tracking { db -> (Int,Int) in
@@ -61,10 +57,12 @@ class MessagesManager: ObservableObject{
     func updateGroup() async {
         let results = await DB.queryGroup()
         let count  = DB.count()
+        let unCount = DB.unreadCount()
         await MainActor.run {
             self.groupMessages = results
             self.updateSign += 1
             self.allCount = count
+            self.unreadCount = unCount
         }
     }
 

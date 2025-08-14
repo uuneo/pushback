@@ -14,21 +14,19 @@ let ISPAD = UIDevice.current.userInterfaceIdiom == .pad
 let CONTAINER =  FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: BaseConfig.groupName)
 
 class BaseConfig {
-    
-    static let  groupName = "group.pushback"
-    static let 	icloudName = "iCloud.pushback"
-    static let  sounds = "Library/Sounds"
-    static let	signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
+
+    static let appSymbol = "Domogo"
+    static let groupName = "group.pushback"
+    static let icloudName = "iCloud.pushback"
+    static let sounds = "Library/Sounds"
+    static let signKey = "com.uuneo.pushback.xxxxxxxxxxxxxxxxxxxxxx"
 #if DEBUG
     static let defaultServer = "https://dev.uuneo.com"
-    static let defaultApns = "https://api.development.push.apple.com/3/device/"
 #else
-    static let defaultServer = "https://push.uuneo.com"
-    static let defaultApns = "https://api.push.apple.com/3/device/"
+    static let defaultServer = "https://uuneo.com"
 #endif
 
     static let docServer = "https://docs.uuneo.com"
-    static let statusServer = "https://status.uuneo.com"
     static let defaultImage = docServer + "/_media/avatar.jpg"
     static let problemWebUrl = docServer + "/#/faq"
     static let delpoydoc = docServer + "/#/?id=pushback"
@@ -39,14 +37,12 @@ class BaseConfig {
     static let privacyURL = docServer + String(localized: "/#/policy")
     static let longSoundPrefix = "pb.sounds.30s"
     static let userAgreement = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
-    static let musicUrl = "https://convertio.co/mp3-caf/"
-    static let imageIcloudKey = "uploadImageForcloud.png"
 
     
     static var AppName: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
-        ?? "Pushback"
+        ?? "Domogo"
     }
     
     static var testData:String{
@@ -95,7 +91,24 @@ class BaseConfig {
     class func getVoiceDirectory() -> URL? {
         guard let containerURL = CONTAINER else { return nil }
         
-        let imagesDirectory = containerURL.appendingPathComponent("Voice")
+        let voicesDirectory = containerURL.appendingPathComponent("Voice")
+        
+        // If the directory doesn't exist, create it
+        if !FileManager.default.fileExists(atPath: voicesDirectory.path) {
+            do {
+                try FileManager.default.createDirectory(at: voicesDirectory, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                Log.error("Failed to create images directory: \(error.localizedDescription)")
+                return nil
+            }
+        }
+        return voicesDirectory
+    }
+    
+    class func getPTTDirectory() -> URL?{
+        guard let containerURL = CONTAINER else { return nil }
+        
+        let imagesDirectory = containerURL.appendingPathComponent("PUshToTalk")
         
         // If the directory doesn't exist, create it
         if !FileManager.default.fileExists(atPath: imagesDirectory.path) {

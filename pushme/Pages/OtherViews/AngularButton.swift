@@ -29,11 +29,11 @@ struct AngularButton: View {
 				.animation(.easeInOut,value: loading)
 				.animation(.easeInOut,value: disable)
 				.frame(height: 50)
-                .foregroundStyle(.white)
+                .foregroundStyle(disable ? .gray : .white)
 				.background(
                     RoundedRectangle(cornerRadius: 20)
                         .fill( backgroundColor)
-                        .opacity(disable ? 0.6 : 1)
+                        .opacity(disable ? 0.3 : 1)
                 )
                
 				.VButton { _ in
@@ -42,12 +42,15 @@ struct AngularButton: View {
 					}
 				  
 				} onRelease: { res in
-                    self.ispress = false
+                    if !disable && loading == "" {
+                        self.ispress = false
+                    }
                     
                     if !disable && loading == "" && abs(res.translation.width) < 10 {
+                        
                         onTap()
 					}
-                    return true
+                    return !disable && loading == ""
 				}
 			Spacer()
 		}

@@ -20,8 +20,7 @@ struct SettingsPage: View {
     @Default(.sound) var sound
 	@Default(.servers) var servers
     @Default(.assistantAccouns) var assistantAccouns
-    @Default(.deviceToken) var deviceToken
-    @Default(.id) var userID
+    
     
 	@State private var webShow:Bool = false
 	@State private var showLoading:Bool = false
@@ -90,16 +89,9 @@ struct SettingsPage: View {
             
             if ISPAD{
                 ListButton {
-                    Label( TabPage.message.title, systemImage: TabPage.message.symbol)
+                    Label( "消息", systemImage: "ellipsis.message")
                 } action: {
                     manager.router = []
-                    return true
-                }
-                
-                ListButton {
-                    Label( TabPage.pushtalk.title, systemImage: TabPage.pushtalk.symbol)
-                } action: {
-                    manager.router = [.pushtalk]
                     return true
                 }
             }
@@ -107,38 +99,6 @@ struct SettingsPage: View {
            
             
             Section(header: Text("App配置") .textCase(.none)) {
-                
-                ListButton(leading: {
-                    Label {
-                        Text( "TOKEN")
-                            .lineLimit(1)
-                            .foregroundStyle(.textBlack)
-                    } icon: {
-                        Image(systemName: "captions.bubble")
-                            .symbolRenderingMode(.palette)
-                            .customForegroundStyle(.primary, .accent)
-                            
-                    }
-                }, trailing: {
-                    HackerTextView(text: maskString(deviceToken), trigger: false)
-                        .foregroundStyle(.gray)
-                    
-                    Image(systemName: "doc.on.doc")
-                        .symbolRenderingMode(.palette)
-                        .customForegroundStyle( .accent, Color.primary)
-                   
-                    
-                }, showRight: false) {
-                    if deviceToken != ""{
-                        Clipboard.set(deviceToken)
-                        Toast.copy(title: "复制成功")
-                        
-                    }else{
-                        Toast.shared.present(title: "请先注册", symbol: "questionmark.circle.dashed")
-                    }
-                    return true
-                }
-          
                 
                 ListButton {
                     Label {
@@ -202,15 +162,14 @@ struct SettingsPage: View {
                     Label {
                         Text( "算法配置")
                     } icon: {
-                        Image(systemName: "envelope.badge.shield.half.filled")
-                        
+                        Image(systemName: "key.viewfinder")
                             .symbolRenderingMode(.palette)
                             .customForegroundStyle(.green, Color.primary)
                             .symbolEffect(.pulse, delay: 5)
                             .scaleEffect(0.9)
                     }
                 } action: {
-                    manager.router.append(.crypto(nil))
+                    manager.router.append(.crypto)
                     return true
                 }
                 
@@ -239,31 +198,6 @@ struct SettingsPage: View {
 
             Section {
                 
-                
-                ListButton(leading: {
-                    Label {
-                        Text( "设备ID")
-                            .lineLimit(1)
-                            .foregroundStyle(.textBlack)
-                    } icon: {
-                        Image(systemName: "person.badge.key")
-                        
-                            .symbolRenderingMode(.palette)
-                            .customForegroundStyle(Color.primary, .accent)
-                    }
-                }, trailing: {
-                    HackerTextView(text: maskString(userID), trigger: false)
-                        .foregroundStyle(.gray)
-                    
-                    Image(systemName: "doc.on.doc")
-                        .symbolRenderingMode(.palette)
-                        .customForegroundStyle( .accent, Color.primary)
-                    
-                }, showRight: false) {
-                    Clipboard.set(userID)
-                    Toast.copy(title:  "复制成功")
-                    return true
-                }
                 
                 
                 
@@ -393,10 +327,7 @@ struct SettingsPage: View {
         .toolbarBackground(.hidden, for: .navigationBar)
 	}
 
-    fileprivate func maskString(_ str: String) -> String {
-        guard str.count > 9 else { return String(repeating: "*", count: 3) +  str }
-        return str.prefix(3) + String(repeating: "*", count: 5) + str.suffix(6)
-    }
+   
 
 }
 

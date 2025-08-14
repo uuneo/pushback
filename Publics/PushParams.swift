@@ -10,7 +10,7 @@ import UserNotifications
 enum Params: String, CaseIterable{
     case ciphertext, ttl, title, subtitle, body, icon, image, from, host, group,
          sound, badge, call, mode, url, iv, aps, alert, caf, autocopy, copy,
-         calstartdate, calenddate, caltitle, calcolor, calminutes,
+         calstartdate, calenddate, caltitle, calcolor, calminutes, ciphernumber,
          id, category, level, volume, callback, widget, savealbum, count, index
     
     var name:String{ self.rawValue }

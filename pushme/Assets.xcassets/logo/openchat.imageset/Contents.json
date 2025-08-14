@@ -1,19 +1,18 @@
 {
   "images" : [
     {
-      "filename" : "streamline-stickies-color--sent-from-computer-duo (1).png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "mogu_chat.png",
+      "idiom" : "universal"
     },
     {
-      "filename" : "streamline-stickies-color--sent-from-computer-duo.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "openChat.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "domogo_chat2.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

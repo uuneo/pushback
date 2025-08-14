@@ -16,7 +16,7 @@ struct ExampleView: View {
     @State private var pickerSelection:Int = 0
     @State private var showAlart = false
     @Default(.servers) var servers
-    @Default(.cryptoConfig) var cryptoConfig
+    @Default(.cryptoConfigs) var cryptoConfigs
     
     @State private var showCustomMode:Bool = false
     
@@ -71,6 +71,7 @@ struct ExampleView: View {
             Section{
                 HStack{
                     Spacer()
+         
                     Picker(selection: $pickerSelection, label: Text("切换服务器")) {
                         ForEach(servers.indices, id: \.self){index in
                             let server = servers[index]
@@ -93,7 +94,7 @@ struct ExampleView: View {
     func customHelpItemView() -> some View{
         List{
             selectServer()
-            ForEach(createExample(cryptoData: cryptoConfig),id: \.id){ item in
+            ForEach(createExample(cryptoData: cryptoConfigs.config()),id: \.id){ item in
                 //            let server = servers[pickerSeletion >= servers.count ? 0 : pickerSeletion]
                 let server = (pickerSelection >= 0 && pickerSelection < servers.count) ? servers[pickerSelection] : servers[0]
                 let resultUrl = server.server + "/" +  item.params
@@ -471,7 +472,7 @@ extension ExampleView{
                                 AnyView( HStack{
                                     Text( "需要在")
                                     Button{
-                                        manager.router.append(.crypto(nil))
+                                        manager.router.append(.crypto)
                                     }label:{
                                         Text("算法配置")
                                             .font(.callout)

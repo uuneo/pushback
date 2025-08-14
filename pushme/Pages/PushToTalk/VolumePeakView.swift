@@ -10,7 +10,7 @@ import SwiftUI
 
 struct VolumePeakView: View {
     var micLevel: Float       // 当前音量值（0~6）
-    var maxLevel: Float = 10.0 // 最大音量值，对应全亮
+    var maxLevel: Float = 100.0 // 最大音量值，对应全亮
 
    
     @State private var animatedLevel: Int = 0

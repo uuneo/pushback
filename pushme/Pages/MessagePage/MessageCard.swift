@@ -37,12 +37,10 @@ struct MessageCard: View {
     
     
     var linColor:Color{
-        
-        if let selectId = AppManager.shared.selectId {
-            let right = selectId.uppercased() == message.id.uppercased()
-            return right ?  .accent : .clear
+        guard let selectId = AppManager.shared.selectId else {
+            return .clear
         }
-        return .clear
+        return selectId.uppercased() == message.id.uppercased() ? .orange : .clear
         
     }
     @State private var image:UIImage? = nil
@@ -261,6 +259,7 @@ struct MessageCard: View {
                     .frame(height: 3)
                     .padding(.horizontal, 30)
             }
+            .frame(minHeight: 50)
             .background(
                 RoundedRectangle(cornerRadius: 15)
                     .fill(.message)
@@ -280,13 +279,11 @@ struct MessageCard: View {
             
         }header: {
             MessageViewHeader()
-                .padding(.leading)
-                .background(linColor.gradient)
-                .clipShape(RoundedRectangle(cornerRadius: 5))
+                
             
         }footer: {
             
-            HStack(spacing: 15){
+            HStack{
                 if showGroup{
                     MarkdownCustomView.highlightedText(searchText: searchText, text: message.group)
                         .textSelection(.enabled)
@@ -305,13 +302,14 @@ struct MessageCard: View {
     
     @ViewBuilder
     func MessageViewHeader()-> some View{
-        HStack(alignment: .bottom){
+        HStack{
             
             Text(dateTime)
                 .font(.subheadline)
                 .lineLimit(1)
                 .foregroundStyle(AppManager.shared.selectId?.uppercased() == message.id.uppercased() ?
                     .white : message.createDate.colorForDate() )
+                .padding(.leading, 10)
                 .VButton(onRelease: { value in
                     withAnimation {
                         let number = self.timeMode + 1
@@ -354,6 +352,8 @@ struct MessageCard: View {
             
             
         }
+        .background(linColor.gradient)
+        .clipShape(RoundedRectangle(cornerRadius: 5))
         .padding(.horizontal, 15)
     }
     

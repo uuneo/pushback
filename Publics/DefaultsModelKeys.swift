@@ -11,7 +11,8 @@ import Foundation
 extension Defaults.Keys {
     static let servers = Key<[PushServerModel]>("serverArrayStroage", [])
     static let cloudServers = Key<[PushServerModel]>("serverArrayCloudStroage", [], iCloud: true)
-    static let cryptoConfig = Key<CryptoModelConfig>("CryptoSettingFields", CryptoModelConfig.data)
+    
+    static let cryptoConfigs = Key<[CryptoModelConfig]>("CryptoSettingFieldsList", [CryptoModelConfig.data], iCloud: true)
     static let badgeMode = Key<BadgeAutoMode>("Meowbadgemode", .auto)
     static let appIcon = Key<AppIconEnum>("setting_active_app_icon", .pushback)
     static let messageExpiration = Key<ExpirationTime>("messageExpirtionTime", .forever)
@@ -21,8 +22,7 @@ extension Defaults.Keys {
     static let assistantAccouns = Key<[AssistantAccount]>("AssistantAccount",[], iCloud: true)
     
     static let moreMessageCache = Key<[MoreMessage]>("moreMessageCache", [])
-    
-    static let pushtalks = Key<[PushToTalkGroup]>("PushToTalkGroup",[])
+
 }
 
 extension ExpirationTime: Defaults.Serializable{ }

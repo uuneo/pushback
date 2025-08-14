@@ -13,7 +13,7 @@ import AVFAudio
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{
     
-    private let talk = talkManager.shared
+    private let pttManager = PTTManager.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -31,17 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if Defaults[.id] == ""{
             Defaults[.id] = KeychainHelper.shared.getDeviceID()
         }
-        
         Task{
             do{
-                self.talk.channelManager = try await PTChannelManager.channelManager(delegate: self, restorationDelegate: self)
-                try await self.talk.channelManager?.setServiceStatus(.ready, channelUUID: self.talk.defaultUUID)
+                self.pttManager.channelManager = try await PTChannelManager.channelManager(delegate: self, restorationDelegate: self)
+                try await self.pttManager.channelManager?.setServiceStatus(.ready, channelUUID: self.pttManager.defaultUUID)
             }catch{
                 debugPrint(error.localizedDescription)
             }
-            
         }
-        
         return true
     }
     
@@ -155,37 +152,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
     
     func channelDescriptor(restoredChannelUUID channelUUID: UUID) -> PTChannelDescriptor {
-        let group = Defaults[.pushtalks].first(where: {$0.active}) ?? PushToTalkGroup(id: UUID(), name: "", active: true)
-        
-        var avatar: UIImage?{
-            if let avatar = group.avatar{
-                return  UIImage(contentsOfFile: avatar.absoluteString)
-            }
-            return UIImage(named: "logo2")
-        }
         
         Queue.mainQueue().async{
-            AppManager.shared.page = .pushtalk
-            self.talk.active = true
+            AppManager.shared.router = [.pushtalk]
         }
-        return PTChannelDescriptor(name: group.name, image: avatar)
+        PTTManager.setActive(true)
+        
+        if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
+            Task.detached(priority: .userInitiated){
+                await self.pttManager.JoinOrLeval(channel: activeChannel, api: .join)
+            }
+        }
+        
+        
+        return PTChannelDescriptor(name: "Domogo", image: UIImage(named: "logo2"))
     }
     
     
     func channelManager(_ channelManager: PTChannelManager, didJoinChannel channelUUID: UUID, reason: PTChannelJoinReason) {
         Log.info("didJoinChannel", channelUUID)
-        Queue.mainQueue().async {
-            self.talk.active = true
-        }
+        PTTManager.setActive(true)
+        
     }
     
     func channelManager(_ channelManager: PTChannelManager, didLeaveChannel channelUUID: UUID, reason: PTChannelLeaveReason) {
         Log.info("didLeaveChannel", channelUUID)
         
-        channelManager.leaveChannel(channelUUID: self.talk.defaultUUID)
-        Queue.mainQueue().async {
-            self.talk.active = false
-        }
+        channelManager.leaveChannel(channelUUID: self.pttManager.defaultUUID)
+        PTTManager.setActive(false)
+        Defaults[.pttHisChannel].setActive()
         
     }
     
@@ -198,66 +193,78 @@ extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
         default:
             break
         }
-        DispatchQueue.main.async{
-            self.talk.active = false
-        }
+        PTTManager.setActive(false)
         
         Toast.error(title: "服务被其他APP占用!")
     }
     
     func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didBeginTransmittingFrom source: PTChannelTransmitRequestSource) {
         Log.info("didBeginTransmittingFrom:", channelUUID.uuidString, source.rawValue)
+        self.pttManager.setCategory(isPlay: false)
     }
     
     
     func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didEndTransmittingFrom source: PTChannelTransmitRequestSource) {
         Log.info("didEndTransmittingFrom", source)
-        //        self.playFileName(fileName: "pttnotifyend")
+
     }
     
     func channelManager(_ channelManager: PTChannelManager, receivedEphemeralPushToken pushToken: Data) {
         let token = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
-        Log.info("token", token)
+        Log.info("token:", token)
+        Defaults[.pttToken] = token
+        if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
+            Task.detached(priority: .userInitiated){
+                await self.pttManager.JoinOrLeval(channel: activeChannel, api: .join)
+            }
+        }
     }
     
     func incomingPushResult(channelManager: PTChannelManager, channelUUID: UUID, pushPayload: [String : Any]) -> PTPushResult {
         
-        guard let activeSpeaker = pushPayload["activeSpeaker"] as? String else {
-            // If no active speaker is set, the only other valid operation
-            // is to leave the channel
+        guard let fileName = pushPayload["fileName"] as? String else {
             return .leaveChannel
         }
+       
+        Task.detached(priority: .userInitiated) {
+            await self.pttManager.setCategory(isPlay: true)
+            if let message = await self.pttManager.saveVoice(remoteFileName: fileName),
+               let filePath = message.fileName(){
+                try? await Task.sleep(for: .seconds(0.3))
+                await self.pttManager.startPlaying(filePath: filePath)
+            }else{
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                    channelManager.setActiveRemoteParticipant(nil, channelUUID: self.pttManager.defaultUUID)
+                }
+            }
+            
+        }
         
-        let activeSpeakerImage = UIImage(named: "logo1")
-        let participant = PTParticipant(name: activeSpeaker, image: activeSpeakerImage)
+        let activeSpeakerImage = UIImage(named: "logo2")
+        let participant = PTParticipant(name: "新消息", image: activeSpeakerImage)
+       
         return .activeRemoteParticipant(participant)
     }
     
     func channelManager(_ channelManager: PTChannelManager, didActivate audioSession: AVAudioSession) {
         print("Did activate audio session")
-        let start = Date()
-
-
-        do {
-            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth])
-            try audioSession.setActive(true)
-            self.talk.prepareEngine(false)
-            try self.talk.audioEngine.start()
-            print("🎤 开始录音（AGC 已启用）")
-        } catch {
-            print("Failed to configure and activate audio session: \(error)")
+        
+        if audioSession.category == .playAndRecord{
+            self.pttManager.startRecording()
         }
-        
-        
-        let duration = Date().timeIntervalSince(start)
-        print("运行时间：\(duration) 秒")
         
     }
     
     
     func channelManager(_ channelManager: PTChannelManager, didDeactivate audioSession: AVAudioSession) {
         print("Did deactivate audio session")
-        self.talk.OutStopAudioEngine()
+ 
+        if audioSession.category == .playback{
+            self.pttManager.stopPlaying(pause: false)
+            return
+        }
+        self.pttManager.stopRecording()
     }
     
     

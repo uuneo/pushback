@@ -245,11 +245,11 @@ struct AssistantPageView:View {
     private var backupMenu: some ToolbarContent{
         ToolbarItem(placement: .topBarLeading) {
             Button{
-                manager.page = manager.oldPage
+                manager.router = []
             }label: {
                 HStack(spacing: 10){
-                    Image(systemName: "chevron.left")
-                    Text(manager.oldPage.title)
+
+                    Label("消息", systemImage: "chevron.left")
                 }
             }
         }

@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "mogu-png.png",
+      "filename" : "mogu_logolight.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "mogu_logodark.png",
       "idiom" : "universal"
     }
   ],

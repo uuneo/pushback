@@ -36,7 +36,7 @@ struct PushToTalkView: View {
     @State private var isCancel:Bool = false
     
     @State private var showChannelList:Bool = false
-    @State private var showVoiceList:Bool = true
+    @State private var showVoiceList:Bool = false
     
     @State private var offset:CGFloat = 0
 
@@ -63,13 +63,7 @@ struct PushToTalkView: View {
     
     @State private var isEncryption:Bool = true
     
-    var isPublicChannel:Bool{
-        if let first = pttHisChannel.first(where: {$0.isActive}){
-            return first.password.isEmpty
-        }
-        return true
-    }
-    
+    @State private var newMessages:Int = 0
     
     var body: some View {
         VStack{
@@ -103,49 +97,75 @@ struct PushToTalkView: View {
                 VStack{
                     HStack{
                         HourAndMinuteView()
-                            .font(.numberStyle(size: 30))
+                            .font(.numberStyle(size: 25))
                             
                         Spacer()
                         
                         HStack(spacing: 15){
                            
+                            Image(systemName: "network" )
+                                .symbolVariant(pttManager.active ? .none : .slash)
+                                .symbolEffect(.replace)
+                                .fontWeight(.bold)
+                                .scaleEffect(1.2)
+                                .if(true){view in
+                                    Group{
+                                        if pttManager.active{
+                                            view.foregroundStyle(.white)
+                                        }else{
+                                            view.foregroundStyle(.red,.white)
+                                        }
+                                    }
+                                    
+                                }
+                            
+                            
                             ZStack{
-                                Image(systemName:  "network" )
-                                    .opacity(pttManager.active ? 1 : 0)
-                                    .offset(x: pttManager.active ? 0 : -100)
+                             
+                                Image(systemName: "tray.and.arrow.up" )
+                                    .foregroundStyle(.red, .white)
+                                    .symbolEffect(.wiggle)
+                                    .opacity( pttManager.state == .recording ? 1 : 0)
+                                    .offset(x: pttManager.state == .recording ? 0 : 100)
+                                    .scaleEffect(1.2)
+                                    .offset(y: -3)
+                                
+                                var showTray:Bool{
+                                    pttManager.state == .idle && newMessages <= 0
+                                }
+                                Image(systemName: "tray")
                                     .foregroundStyle(.white)
-                                Image(systemName: "network.slash")
-                                    .opacity(pttManager.active ? 0 : 1)
-                                    .offset(x: pttManager.active ? -100 : 0)
-                                    .foregroundStyle(.red,.white)
-                            }
-                            .fontWeight(.bold)
-                            .scaleEffect(1.2)
-                            .animation(.default, value: pttManager.active)
+                                    .opacity( showTray ? 1 : 0)
+                                    .offset(y: showTray ? 0 : -100)
+                                    .scaleEffect(1.3)
+                                
+                                var showTrayFull:Bool{
+                                    pttManager.state == .idle && newMessages > 0
+                                }
+                                Image(systemName: "tray.full")
+                                    .foregroundStyle(.white)
+                                    .opacity( showTrayFull ? 1 : 0)
+                                    .offset(y: showTrayFull ? 0 : -100)
+                                    .scaleEffect(1.3)
+                                
+                                Image(systemName:  "tray.and.arrow.down")
+                                    .foregroundStyle(.accent, .white)
+                                    .opacity(pttManager.state == .playing ? 1 : 0)
+                                    .symbolEffect(.wiggle)
+                                    .offset(x: pttManager.state == .playing ? 0 : 100)
+                                    .scaleEffect(1.2)
+                                    .offset(y: -3)
+                                   
                             
-                            
-                            ZStack{
-                                
-                                Image(systemName: "envelope.open" )
-                                    .opacity(isPublicChannel ? 1 : 0)
-                                    .offset(x: isPublicChannel ? 0 : 100)
-                                
-                                Image(systemName:  "envelope.badge.shield.half.filled")
-                                    .opacity(isPublicChannel ? 0 : 1)
-                                    .symbolEffect( .wiggle, delay: 1)
-                                    .scaleEffect( 1.2)
-                                    .offset(x: isPublicChannel ? 100 : 0)
-                                    .offset( y: 3)
-                                
                             }
+                            
                             .fontWeight(.bold)
-                            .foregroundStyle( .white)
-                            .animation(.default, value: isPublicChannel)
+                            .animation(.default, value: pttManager.state)
                            
                         }
                         
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 10)
                     .frame( height: 55)
                     .padding(.top, 5)
                     HStack{
@@ -268,6 +288,7 @@ struct PushToTalkView: View {
                             .padding(3)
                             .environment(\.colorScheme, pttManager.active ? .light : .dark)
                             .VButton { _ in
+                                self.newMessages =  self.newMessages == 0 ? 100 : 0
                                 pttManager.setActiveRemoteParticipant()
                                 return true
                             }
@@ -292,7 +313,7 @@ struct PushToTalkView: View {
                     }
                     Spacer(minLength: 0)
                     VStack{
-                        VolumePeakView(micLevel: pttManager.micLevel)
+                        VolumePeakView(micLevel: pttManager.state == .idle ? 0 : pttManager.micLevel)
                     }
                     .frame( height: 5)
                     .padding(.bottom, 5)
@@ -460,6 +481,7 @@ struct PushToTalkView: View {
                     .offset(x: buttonType == .call ? 0 : 100)
                     .VButton { _ in
                         selectServerHandler()
+                        pttManager.setCategory(isPlay: true)
                         if pttManager.active {
                             let channel = pttHisChannel.first(where: {$0.isActive}) ?? pttChannel
                             self.pttManager.LevalChannel(channel)
@@ -771,27 +793,25 @@ struct PushToTalkView: View {
     
     func endRecording(){
         
-        pttManager.stopRecording(){
-            if pttMusicPlay{
-                pttManager.playTips(.pttnotifyend)
-            }
-            
-            if pttVibration{
-                Haptic.notify(.success)
-            }
-        } 
+        pttManager.stopRecording()
+        if pttMusicPlay{
+            pttManager.playTips(.pttnotifyend)
+        }
+        
+        if pttVibration{
+            Haptic.notify(.success)
+        }
     }
     
     func cancelRecording(){
         
-        pttManager.stopRecording(true){
-            if pttMusicPlay{
-                pttManager.playTips(.bottle)
-            }
-            
-            if pttVibration{
-                Haptic.notify(.error)
-            }
+        pttManager.stopRecording(true)
+        if pttMusicPlay{
+            pttManager.playTips(.bottle)
+        }
+        
+        if pttVibration{
+            Haptic.notify(.error)
         }
         
     }

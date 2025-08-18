@@ -156,6 +156,7 @@ extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
         Queue.mainQueue().async{
             AppManager.shared.router = [.pushtalk]
         }
+        
         PTTManager.setActive(true)
         
         if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
@@ -227,7 +228,6 @@ extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
         }
        
         Task.detached(priority: .userInitiated) {
-            await self.pttManager.setCategory(isPlay: true)
             if let message = await self.pttManager.saveVoice(remoteFileName: fileName),
                let filePath = message.fileName(){
                 try? await Task.sleep(for: .seconds(0.3))

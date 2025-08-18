@@ -5,7 +5,10 @@
 //  Created by lynn on 2025/7/27.
 //
 
+
 import SwiftUI
+import UIKit
+
 
 
 struct VolumePeakView: View {
@@ -64,7 +67,7 @@ struct VolumePeakView: View {
         timer?.invalidate()
         let diff = targetLevel - animatedLevel
         let step = diff > 0 ? 1 : -1
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { t in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { t in
             if animatedLevel != targetLevel {
                 animatedLevel += step
             } else {

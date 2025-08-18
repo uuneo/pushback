@@ -15,18 +15,16 @@ import Defaults
 class PTTManager: NetworkManager, ObservableObject{
     
     static let shared = PTTManager()
+
     
-    private let queue = DispatchQueue(label: "com.uuneo.media.manager.queue")
+    private let audioManager = PttAudioManager.shared
+    private let database = DatabaseManager.shared
     
-    private let recorder = RecorderManager.shared
-    private let player = PlayerManager.shared
-    let database = DatabaseManager.shared
     var channelManager:PTChannelManager?
     private var displayLink: CADisplayLink?
     
     private var isInterrupted = false
     
-    private let throttler = Throttler(delay: 0.1)
     private var interruptionObserver: NSObjectProtocol?
     
     private var soundID: SystemSoundID = 0
@@ -46,7 +44,6 @@ class PTTManager: NetworkManager, ObservableObject{
     @Published private(set) var active: Bool = false
     @Published private(set) var channelUsers:Int = 0
     
-    static let throttler = Throttler(delay: 0.1)
     
     private var timer: Timer?
     private let interval: TimeInterval = 20
@@ -63,68 +60,47 @@ class PTTManager: NetworkManager, ObservableObject{
             NotificationCenter.default.removeObserver(observer)
             interruptionObserver = nil
         }
+        self.displayLink?.invalidate()
+        self.displayLink = nil
     }
     
     
     func setCategory(isPlay: Bool = false){
-        queue.async {
-            if isPlay{
-                self.player.setPlayback()
-            }else{
-                self.recorder.setPlayAndRecord()
-            }
+        
+        if isPlay{
+            PttAudioManager.setCategory()
+        }else{
+            PttAudioManager.setCategory(true, .playAndRecord, mode: .default)
         }
     }
     
     func setDB(_ value: Float){
-        self.player.setDB(value)
+        Task{
+            await self.audioManager.setDB(value)
+        }
+        
     }
 
-    func setupRecording() -> Bool{
-        return self.recorder.setupEngine()
-    }
-    
     func addPlayList(_ value: URL){
-        queue.async {
-            self.player.addList(value)
+        Task{
+            await self.audioManager.addList(value)
         }
     }
     
     func startRecording() {
-        displayLink?.isPaused = false
-        if !self.hasMicrophonePermission{
-            self.requestMicrophonePermission()
-        }
-        
-        switch state {
-        case .playing:
-            print("录音优先，停止播放")
-            self.stopPlaying(pause: true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-                self.queue.async {
-                    Self.setState(.recording)
-                    self.recorder.startEngine()
-                }
-            }
-           
-        case .recording:
-            print("已经在录音中")
-            return
-        case .idle:
-            print("空白状态, 开始录音")
-            queue.async {
-                Self.setState(.recording)
-                self.recorder.startEngine()
-            }
+        setDisplayLink(isPaused: false)
+        Task{
+            await self.audioManager.startRecord()
         }
     }
     
     
-    func stopRecording(_ canale:Bool = false, complete: (()-> Void)? = nil) {
-        queue.async {
-            self.displayLink?.isPaused = true
-            if let data = self.recorder.stopEngine(canale){
-                Task.detached(priority: .userInitiated) {
+    func stopRecording(_ canale:Bool = false) {
+        Task{
+            
+            if let data = await self.audioManager.stopRecord(canale){
+                
+                Task.detached(priority: .background){
                     if let message =  await self.saveVoice(data: data){
                         let success = await self.sendVoice(message: message)
                         try await self.database.dbPool.write { db in
@@ -142,35 +118,26 @@ class PTTManager: NetworkManager, ObservableObject{
                     }
                 }
             }
-
-            Self.setState(.idle)
-            complete?()
         }
     }
     
     
     func startPlaying(filePath: URL? = nil) {
-
-        self.displayLink?.isPaused = false
-        queue.async {
-            Self.setState(.playing)
-            Task{@MainActor in
-                await self.player.play(filePath)
-            }
-           
+        setDisplayLink(isPaused: false)
+        Task{
+            await self.audioManager.startPlay(filePath)
         }
     }
     
     func stopPlaying(pause: Bool) {
-        self.displayLink?.isPaused = true
-        queue.async {
-            self.player.stop(pause: pause)
-            Self.setState(.idle)
+     
+        Task{
+            await self.audioManager.stopPlay()
         }
     }
     
     func setActiveRemoteParticipant(_ participant: PTParticipant? = nil){
-        Task{@MainActor in
+        Task{
           try? await self.channelManager?.setActiveRemoteParticipant(participant, channelUUID: self.defaultUUID)
         }
     }
@@ -186,7 +153,7 @@ class PTTManager: NetworkManager, ObservableObject{
         
         channelManager.requestJoinChannel(channelUUID: defaultUUID, descriptor: channelDescriptor)
         
-        channelManager.setTransmissionMode(.halfDuplex, channelUUID: defaultUUID)
+        channelManager.setTransmissionMode(.fullDuplex, channelUUID: defaultUUID)
         
         Task.detached(priority: .userInitiated) {
             let success = await self.JoinOrLeval(channel: channel, api: .join)
@@ -236,11 +203,13 @@ class PTTManager: NetworkManager, ObservableObject{
     }
     
     @objc private func updateDisplay() {
-        DispatchQueue.main.async {
-            self.currentTime = self.current_Time
-            self.micLevel = self.mic_Level
-            self.elapsedTime = self.elapsed_Time
-        }
+        self.currentTime = self.current_Time
+        self.micLevel = self.mic_Level
+        self.elapsedTime = self.elapsed_Time
+    }
+    
+    func setDisplayLink(isPaused:Bool = true){
+        self.displayLink?.isPaused = isPaused
     }
     
     
@@ -328,14 +297,7 @@ extension PTTManager{
         }
     }
     
-    private func requestMicrophonePermission() {
-        
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
-            DispatchQueue.main.async {
-                Self.setHasMicrophonePermission(granted)
-            }
-        }
-    }
+    
     
     private func registerForNotifications() {
         interruptionObserver = NotificationCenter.default.addObserver(
@@ -355,17 +317,10 @@ extension PTTManager{
             switch interruptionType {
             case .began:
                 weakself.isInterrupted = true
-                
-                if weakself.state == .recording {
-                    weakself.queue.async {
-                        _ = weakself.recorder.stopEngine(true)
-                    }
-                }
+                Log.info("音频系统中断")
             case .ended:
                 weakself.isInterrupted = false
-                
-                // Activate session again
-                try? AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+                Log.info("音频系统恢复")
             @unknown default:
                 break
             }

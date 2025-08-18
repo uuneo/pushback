@@ -147,7 +147,7 @@
 		B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */; };
 		B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5835D7B2DEE14C10066B32E /* WebKit.framework */; };
 		B59ADAD72E4CA0C200C1B5DD /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
-		B59ADAD82E4CA0C200C1B5DD /* Toolsbox.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B59ADAD82E4CA0C200C1B5DD /* Toolsbox.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */; };
 		B5BDDF4F2E24F0BA00263FEF /* HeaderPageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */; };
 		B5BDDF6D2E24F89300263FEF /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */; };
@@ -1111,7 +1111,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					B58357F62DEDD3B10066B32E = {
 						CreatedOnToolsVersion = 16.3;

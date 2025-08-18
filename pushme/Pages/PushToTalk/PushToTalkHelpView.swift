@@ -193,6 +193,8 @@ struct HourAndMinuteView: View {
     @State private var currentTime = Date()
     private let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
+    
+    
     var body: some View {
         Text(timeString(from: currentTime))
             .onReceive(timer) { input in
@@ -205,4 +207,9 @@ struct HourAndMinuteView: View {
         formatter.dateFormat = "HH:mm"  // 24小时制，如果要12小时制改成 "hh:mm a"
         return formatter.string(from: date)
     }
+}
+
+
+#Preview {
+    PushToTalkView()
 }

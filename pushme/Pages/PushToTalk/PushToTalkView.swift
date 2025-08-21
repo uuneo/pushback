@@ -40,7 +40,6 @@ struct PushToTalkView: View {
     
     @State private var offset:CGFloat = 0
 
-    
     var buttonColor: Color{
         if isCancel{
             return pttManager.state == .recording ?  .red : .clear
@@ -259,6 +258,7 @@ struct PushToTalkView: View {
                             .foregroundStyle(pttMusicPlay ? .black : .white.opacity(0.5))
                             .padding(.horizontal)
                             .VButton { _ in
+    
                                 self.pttMusicPlay.toggle()
                                 return true
                             }
@@ -271,6 +271,7 @@ struct PushToTalkView: View {
                             .foregroundStyle(pttVibration ? .black : .white.opacity(0.5))
                             .VButton { _ in
                                 self.pttVibration.toggle()
+                               
                                 return true
                             }
                         
@@ -288,8 +289,9 @@ struct PushToTalkView: View {
                             .padding(3)
                             .environment(\.colorScheme, pttManager.active ? .light : .dark)
                             .VButton { _ in
-                                self.newMessages =  self.newMessages == 0 ? 100 : 0
-                                pttManager.setActiveRemoteParticipant()
+                                if let file = pttManager.last{
+                                    pttManager.startPlaying(filePath: file)
+                                }
                                 return true
                             }
                         

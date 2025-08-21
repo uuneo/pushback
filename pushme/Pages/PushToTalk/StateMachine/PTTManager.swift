@@ -43,7 +43,7 @@ class PTTManager: NetworkManager, ObservableObject{
     @Published private(set) var hasMicrophonePermission:Bool  = false
     @Published private(set) var active: Bool = false
     @Published private(set) var channelUsers:Int = 0
-    
+    @Published var last:URL? = nil
     
     private var timer: Timer?
     private let interval: TimeInterval = 20
@@ -102,6 +102,10 @@ class PTTManager: NetworkManager, ObservableObject{
                 
                 Task.detached(priority: .background){
                     if let message =  await self.saveVoice(data: data){
+                        await MainActor.run{
+                            self.last = message.fileName()
+                        }
+                        
                         let success = await self.sendVoice(message: message)
                         try await self.database.dbPool.write { db in
                             var message = message
@@ -152,8 +156,6 @@ class PTTManager: NetworkManager, ObservableObject{
         let channelDescriptor = PTChannelDescriptor(name: "独蘑菇频道", image: UIImage(named: "logo"))
         
         channelManager.requestJoinChannel(channelUUID: defaultUUID, descriptor: channelDescriptor)
-        
-        channelManager.setTransmissionMode(.fullDuplex, channelUUID: defaultUUID)
         
         Task.detached(priority: .userInitiated) {
             let success = await self.JoinOrLeval(channel: channel, api: .join)
@@ -502,5 +504,36 @@ extension PTTManager{
             return nil
         }
         
+    }
+    
+    static func setCategory(_ active: Bool = true,
+                            _ category: AVAudioSession.Category = .playback,
+                            mode: AVAudioSession.Mode = .default){
+        
+        let session = AVAudioSession.sharedInstance()
+        
+        do{
+            if active{
+                try session.setCategory(category,
+                                        mode: mode,
+                                        options: [.allowBluetooth,
+                                                  .interruptSpokenAudioAndMixWithOthers,
+                                                  .allowBluetoothA2DP
+                                        ] )
+            }
+            
+            
+            
+            try session.setActive(active, options: .notifyOthersOnDeactivation)
+            try session.overrideOutputAudioPort(.speaker)
+            
+            if let inputs = AVAudioSession.sharedInstance().availableInputs {
+                if let bluetooth = inputs.first(where: { $0.portType == .bluetoothHFP }) {
+                    try AVAudioSession.sharedInstance().setPreferredInput(bluetooth)
+                }
+            }
+        }catch{
+            Log.error("设置setActive失败：",error.localizedDescription)
+        }
     }
 }

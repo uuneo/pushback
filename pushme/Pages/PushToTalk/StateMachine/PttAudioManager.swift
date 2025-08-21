@@ -138,7 +138,6 @@ extension PttAudioManager{
                 self.setCurrentData(currentTime: currentTime, micLevel: micLevel, elapsedTime: 0)
             }
             
-            playerEngine.prepare()
             
             try playerEngine.start()
             
@@ -246,7 +245,6 @@ extension PttAudioManager{
         
         self.recordEngine.inputNode.removeTap(onBus: 0)
         self.recordEngine.stop()
-        self.recordEngine.reset()
         
         self.state = .idle
         
@@ -291,8 +289,11 @@ extension PttAudioManager{
         self.oggWriter.inputSampleRate = Int32(format.sampleRate)
         self.oggWriter.begin(with: self.dataItem)
         
+        input.engine?.stop()
+        
         input.removeTap(onBus: 0)
         input.installTap(onBus: 0, bufferSize:  1024, format: format) { buffer, when in
+        
             
             let elapsedTime = self.oggWriter.encodedDuration()
             
@@ -377,11 +378,22 @@ extension PttAudioManager {
             if active{
                 try session.setCategory(category,
                                         mode: mode,
-                                        options: [.allowBluetooth, .interruptSpokenAudioAndMixWithOthers] )
+                                        options: [.allowBluetooth,
+                                                  .interruptSpokenAudioAndMixWithOthers,
+                                                  .allowBluetoothA2DP
+                                        ] )
             }
             
             
+            
             try session.setActive(active, options: .notifyOthersOnDeactivation)
+            try session.overrideOutputAudioPort(.speaker)
+            
+            if let inputs = AVAudioSession.sharedInstance().availableInputs {
+                if let bluetooth = inputs.first(where: { $0.portType == .bluetoothHFP }) {
+                    try AVAudioSession.sharedInstance().setPreferredInput(bluetooth)
+                }
+            }
         }catch{
             Log.error("设置setActive失败：",error.localizedDescription)
         }

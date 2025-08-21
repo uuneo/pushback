@@ -246,9 +246,13 @@ extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
        
         return .activeRemoteParticipant(participant)
     }
+//    AVAudioSessionCategorySoloAmbient
     
     func channelManager(_ channelManager: PTChannelManager, didActivate audioSession: AVAudioSession) {
-        print("Did activate audio session")
+        print("Did activate audio session", audioSession.mode,
+              audioSession.category,
+              audioSession.categoryOptions)
+    
         
         if audioSession.category == .playAndRecord{
             self.pttManager.startRecording()
@@ -258,7 +262,7 @@ extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
     
     
     func channelManager(_ channelManager: PTChannelManager, didDeactivate audioSession: AVAudioSession) {
-        print("Did deactivate audio session")
+        print("Did deactivate audio session", audioSession.category)
  
         if audioSession.category == .playback{
             self.pttManager.stopPlaying(pause: false)

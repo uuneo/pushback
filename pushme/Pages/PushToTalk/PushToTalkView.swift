@@ -4,11 +4,11 @@
 //
 //  Created by lynn on 2025/7/18.
 //
+
 import SwiftUI
 import AVFAudio
 import Combine
 import Defaults
-
 
 
 struct PushToTalkView: View {
@@ -897,7 +897,6 @@ struct PushToTalkView: View {
         }
     }
 }
-
 
 
 #Preview {

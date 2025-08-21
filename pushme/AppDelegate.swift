@@ -7,12 +7,10 @@
 
 import UIKit
 import Defaults
-import PushToTalk
 import AVFAudio
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{
-    
     private let pttManager = PTTManager.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -31,14 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if Defaults[.id] == ""{
             Defaults[.id] = KeychainHelper.shared.getDeviceID()
         }
-        Task{
-            do{
-                self.pttManager.channelManager = try await PTChannelManager.channelManager(delegate: self, restorationDelegate: self)
-                try await self.pttManager.channelManager?.setServiceStatus(.ready, channelUUID: self.pttManager.defaultUUID)
-            }catch{
-                debugPrint(error.localizedDescription)
-            }
-        }
+  
         return true
     }
     
@@ -144,131 +135,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         AppManager.shared.registerForRemoteNotifications()
         
         completionHandler(.newData)
-    }
-    
-    
-}
-
-extension AppDelegate:  PTChannelManagerDelegate, PTChannelRestorationDelegate{
-    
-    func channelDescriptor(restoredChannelUUID channelUUID: UUID) -> PTChannelDescriptor {
-        
-        Queue.mainQueue().async{
-            AppManager.shared.router = [.pushtalk]
-        }
-        
-        PTTManager.setActive(true)
-        
-        if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
-            Task.detached(priority: .userInitiated){
-                await self.pttManager.JoinOrLeval(channel: activeChannel, api: .join)
-            }
-        }
-        
-        
-        return PTChannelDescriptor(name: "Domogo", image: UIImage(named: "logo2"))
-    }
-    
-    
-    func channelManager(_ channelManager: PTChannelManager, didJoinChannel channelUUID: UUID, reason: PTChannelJoinReason) {
-        Log.info("didJoinChannel", channelUUID)
-        PTTManager.setActive(true)
-        
-    }
-    
-    func channelManager(_ channelManager: PTChannelManager, didLeaveChannel channelUUID: UUID, reason: PTChannelLeaveReason) {
-        Log.info("didLeaveChannel", channelUUID)
-        
-        channelManager.leaveChannel(channelUUID: self.pttManager.defaultUUID)
-        PTTManager.setActive(false)
-        Defaults[.pttHisChannel].setActive()
-        
-    }
-    
-    func channelManager(_ channelManager: PTChannelManager, failedToJoinChannel channelUUID: UUID, error: any Error) {
-        let error = error as NSError
-        print(error)
-        switch error.code{
-        case PTChannelError.channelLimitReached.rawValue:
-            break
-        default:
-            break
-        }
-        PTTManager.setActive(false)
-        
-        Toast.error(title: "服务被其他APP占用!")
-    }
-    
-    func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didBeginTransmittingFrom source: PTChannelTransmitRequestSource) {
-        Log.info("didBeginTransmittingFrom:", channelUUID.uuidString, source.rawValue)
-        self.pttManager.setCategory(isPlay: false)
-    }
-    
-    
-    func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didEndTransmittingFrom source: PTChannelTransmitRequestSource) {
-        Log.info("didEndTransmittingFrom", source)
-
-    }
-    
-    func channelManager(_ channelManager: PTChannelManager, receivedEphemeralPushToken pushToken: Data) {
-        let token = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
-        Log.info("token:", token)
-        Defaults[.pttToken] = token
-        if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
-            Task.detached(priority: .userInitiated){
-                await self.pttManager.JoinOrLeval(channel: activeChannel, api: .join)
-            }
-        }
-    }
-    
-    func incomingPushResult(channelManager: PTChannelManager, channelUUID: UUID, pushPayload: [String : Any]) -> PTPushResult {
-        
-        guard let fileName = pushPayload["fileName"] as? String else {
-            return .leaveChannel
-        }
-       
-        Task.detached(priority: .userInitiated) {
-            if let message = await self.pttManager.saveVoice(remoteFileName: fileName),
-               let filePath = message.fileName(){
-                try? await Task.sleep(for: .seconds(0.3))
-                await self.pttManager.startPlaying(filePath: filePath)
-            }else{
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
-                    channelManager.setActiveRemoteParticipant(nil, channelUUID: self.pttManager.defaultUUID)
-                }
-            }
-            
-        }
-        
-        let activeSpeakerImage = UIImage(named: "logo2")
-        let participant = PTParticipant(name: "新消息", image: activeSpeakerImage)
-       
-        return .activeRemoteParticipant(participant)
-    }
-//    AVAudioSessionCategorySoloAmbient
-    
-    func channelManager(_ channelManager: PTChannelManager, didActivate audioSession: AVAudioSession) {
-        print("Did activate audio session", audioSession.mode,
-              audioSession.category,
-              audioSession.categoryOptions)
-    
-        
-        if audioSession.category == .playAndRecord{
-            self.pttManager.startRecording()
-        }
-        
-    }
-    
-    
-    func channelManager(_ channelManager: PTChannelManager, didDeactivate audioSession: AVAudioSession) {
-        print("Did deactivate audio session", audioSession.category)
- 
-        if audioSession.category == .playback{
-            self.pttManager.stopPlaying(pause: false)
-            return
-        }
-        self.pttManager.stopRecording()
     }
     
     

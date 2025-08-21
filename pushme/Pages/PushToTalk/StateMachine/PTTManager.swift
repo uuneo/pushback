@@ -4,36 +4,27 @@
 //
 //  Created by lynn on 2025/8/9.
 //
+
+
 import Foundation
 import AVFAudio
-import PushToTalk
 import UIKit
 import Defaults
 
+import PushToTalk
 
 
 class PTTManager: NetworkManager, ObservableObject{
     
     static let shared = PTTManager()
 
-    
-    private let audioManager = PttAudioManager.shared
     private let database = DatabaseManager.shared
+    private let audioManager = PttAudioManager.shared
     
     var channelManager:PTChannelManager?
-    private var displayLink: CADisplayLink?
-    
-    private var isInterrupted = false
-    
-    private var interruptionObserver: NSObjectProtocol?
-    
-    private var soundID: SystemSoundID = 0
     
     let defaultUUID = UUID(uuidString: "2F2A187B-A8E9-1F3A-92F9-212B57199105")!
-    
-    private var current_Time: TimeInterval = 0
-    private var mic_Level: Float = .zero
-    private var elapsed_Time: TimeInterval = 0
+
     
     @Published private(set) var micLevel: Float = .zero
     @Published private(set) var elapsedTime: TimeInterval = 0
@@ -43,68 +34,52 @@ class PTTManager: NetworkManager, ObservableObject{
     @Published private(set) var hasMicrophonePermission:Bool  = false
     @Published private(set) var active: Bool = false
     @Published private(set) var channelUsers:Int = 0
-    @Published var last:URL? = nil
     
     private var timer: Timer?
     private let interval: TimeInterval = 20
-    
+    private var throttler = Throttler(delay: 0.02)
    
     private override init() {
         super.init()
-        self.registerForNotifications()
-        self.setupDisplayLink()
-    }
-    
-    deinit{
-        if let observer = interruptionObserver {
-            NotificationCenter.default.removeObserver(observer)
-            interruptionObserver = nil
+        PTChannelManager.channelManager(delegate: self, restorationDelegate: self){ manager, err in
+            guard err == nil else { return }
+            self.channelManager = manager
         }
-        self.displayLink?.invalidate()
-        self.displayLink = nil
-    }
-    
-    
-    func setCategory(isPlay: Bool = false){
-        
-        if isPlay{
-            PttAudioManager.setCategory()
-        }else{
-            PttAudioManager.setCategory(true, .playAndRecord, mode: .default)
+        Task.detached(priority: .userInitiated) {
+            await self.audioManager.setCallback(response: self.setCurrentData)
         }
-    }
-    
-    func setDB(_ value: Float){
-        Task{
-            await self.audioManager.setDB(value)
-        }
-        
+       
     }
 
-    func addPlayList(_ value: URL){
-        Task{
-            await self.audioManager.addList(value)
-        }
+    private(set) var playArr:[PttPlayInfo] = []
+    
+    func startTransmitting(){
+        
+        channelManager?.requestBeginTransmitting(channelUUID: defaultUUID)
+    }
+    func stopTransmitting(){
+        self.stopRecording()
+        channelManager?.stopTransmitting(channelUUID: defaultUUID)
     }
     
-    func startRecording() {
-        setDisplayLink(isPaused: false)
-        Task{
-            await self.audioManager.startRecord()
+
+    func addPlayList(_ value: PttPlayInfo){
+        self.playArr.append(value)
+    }
+    
+    func setDB( _ value: Float){
+        Task.detached(priority: .userInitiated) {
+            await self.audioManager.setVolume(Float(value) * 15)
         }
     }
     
     
     func stopRecording(_ canale:Bool = false) {
-        Task{
-            
-            if let data = await self.audioManager.stopRecord(canale){
-                
-                Task.detached(priority: .background){
+        Task.detached(priority: .userInitiated) {
+            if let data = await self.audioManager.end(){
+              
+                if !canale {
                     if let message =  await self.saveVoice(data: data){
-                        await MainActor.run{
-                            self.last = message.fileName()
-                        }
                         
                         let success = await self.sendVoice(message: message)
                         try await self.database.dbPool.write { db in
@@ -121,29 +96,50 @@ class PTTManager: NetworkManager, ObservableObject{
                         self.micLevel = 0
                     }
                 }
+                
+                if self.playArr.count > 0 {
+                    Self.setState(.playing)
+                    await self._playNext()
+                }
+                
+                
             }
         }
     }
     
     
-    func startPlaying(filePath: URL? = nil) {
-        setDisplayLink(isPaused: false)
-        Task{
-            await self.audioManager.startPlay(filePath)
+    private func _playNext() async {
+        guard playArr.count > 0 && self.state == .playing else {
+            
+            self.stopPlaying()
+            
+            return
+        }
+        let info = playArr.removeFirst()
+        self.setActiveRemoteParticipant(.init(name: info.name, image: info.avatar))
+        
+        do{
+            try await self.audioManager.play(filePath: info.file)
+            await self._playNext()
+        }catch{
+            self.stopPlaying() 
+            debugPrint( "播放失败：",error.localizedDescription)
         }
     }
     
-    func stopPlaying(pause: Bool) {
-     
-        Task{
-            await self.audioManager.stopPlay()
+    
+    func stopPlaying() {
+        Task.detached(priority: .userInitiated) {
+          
+            await self.audioManager.stop()
+            self.setActiveRemoteParticipant()
+            Self.setState(.idle)
+            debugPrint("正常播放结束")
         }
     }
     
     func setActiveRemoteParticipant(_ participant: PTParticipant? = nil){
-        Task{
-          try? await self.channelManager?.setActiveRemoteParticipant(participant, channelUUID: self.defaultUUID)
-        }
+        self.channelManager?.setActiveRemoteParticipant(participant, channelUUID: self.defaultUUID)
     }
     
 
@@ -198,31 +194,26 @@ class PTTManager: NetworkManager, ObservableObject{
         Self.setChannelUsers(0)
     }
     
-    private func setupDisplayLink() {
-      displayLink = CADisplayLink(target: self, selector: #selector(updateDisplay))
-      displayLink?.add(to: .current, forMode: .default)
-      displayLink?.isPaused = true
+    func playTips(_ name: TipsSound, complete: @escaping () -> Void){
+        Task.detached(priority: .userInitiated) {
+            await self.audioManager.playTips(name) {
+                complete()
+            }
+        }
     }
-    
-    @objc private func updateDisplay() {
-        self.currentTime = self.current_Time
-        self.micLevel = self.mic_Level
-        self.elapsedTime = self.elapsed_Time
-    }
-    
-    func setDisplayLink(isPaused:Bool = true){
-        self.displayLink?.isPaused = isPaused
-    }
-    
     
 }
 
 extension PTTManager{
     
-    static func setCurrentData(currentTime: Double, micLevel: Float, elapsedTime: Double){
-        Self.shared.current_Time = currentTime
-        Self.shared.mic_Level = micLevel
-        Self.shared.elapsed_Time = elapsedTime
+    func setCurrentData(_ currentTime: Double, _ micLevel: Double, _  elapsedTime: Double){
+        throttler.throttle {
+            DispatchQueue.main.async {
+                self.currentTime = currentTime
+                self.micLevel = Float(micLevel)
+                self.elapsedTime = elapsedTime
+            }
+        }
     }
     
     static func setState(_ value: TalkieState){
@@ -299,81 +290,7 @@ extension PTTManager{
         }
     }
     
-    
-    
-    private func registerForNotifications() {
-        interruptionObserver = NotificationCenter.default.addObserver(
-            forName: AVAudioSession.interruptionNotification,
-            object: nil,
-            queue: nil
-        )
-        { [weak self] (notification) in
-            guard let weakself = self else {
-                return
-            }
-            
-            let userInfo = notification.userInfo
-            let interruptionTypeValue: UInt = userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt ?? 0
-            let interruptionType = AVAudioSession.InterruptionType(rawValue: interruptionTypeValue)!
-            
-            switch interruptionType {
-            case .began:
-                weakself.isInterrupted = true
-                Log.info("音频系统中断")
-            case .ended:
-                weakself.isInterrupted = false
-                Log.info("音频系统恢复")
-            @unknown default:
-                break
-            }
-        }
-    }
-    
-    
-    
-    enum TipsSound: String{
-        case pttconnect
-        case pttnotifyend
-        case cbegin
-        case bottle
-        case qrcode
-    }
-    
-    func playTips(_ fileName: TipsSound, fileExtension:String = "aac", complete:(()->Void)? = nil) {
-        
-        guard let url = Bundle.main.url(forResource: fileName.rawValue, withExtension: fileExtension) else { return }
-        // 先释放之前的 SystemSoundID（如果有），避免内存泄漏或重复播放
-        AudioServicesDisposeSystemSoundID(self.soundID)
-        
-        let session = AVAudioSession.sharedInstance()
-        if session.category != .playback{
-            do {
-                // 配置为播放模式
-                try session.setCategory(.playback, mode: .default, options: [])
-                
-                try session.setActive(true)
-                
-            } catch {
-                print("Failed to play sound: \(error)")
-            }
-        }
-        
-        AudioServicesCreateSystemSoundID(url as CFURL, &self.soundID)
-        // 播放音频，播放完成后执行回调
-        AudioServicesPlaySystemSoundWithCompletion(self.soundID) {
-            // 释放资源
-            AudioServicesDisposeSystemSoundID(self.soundID)
-            DispatchQueue.main.async {
-                // 重置播放状态
-                self.soundID = 0
-                complete?()
-            }
-        }
-        
-    }
-    
 }
-
 
 extension PTTManager{
     enum API: String{
@@ -506,7 +423,7 @@ extension PTTManager{
         
     }
     
-    static func setCategory(_ active: Bool = true,
+    func setCategory(_ active: Bool = true,
                             _ category: AVAudioSession.Category = .playback,
                             mode: AVAudioSession.Mode = .default){
         
@@ -536,4 +453,172 @@ extension PTTManager{
             Log.error("设置setActive失败：",error.localizedDescription)
         }
     }
+    
+    func getFileUrl( name: String, folderName:String = "PTT") -> URL? {
+        
+        let fileManager = FileManager.default
+        
+        do {
+            // 获取应用的 Documents 目录
+            let documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            
+            // 创建文件夹的路径
+            let folderURL = documentsDirectory.appendingPathComponent(folderName)
+            
+            // 检查文件夹是否存在，如果不存在则创建
+            if !fileManager.fileExists(atPath: folderURL.path) {
+                try fileManager.createDirectory(at: folderURL, withIntermediateDirectories: true, attributes: nil)
+                print("Folder created at: \(folderURL.path)")
+            }
+            
+            // 创建文件的保存路径
+            let fileURL = folderURL.appendingPathComponent(name)
+            return fileURL
+        }catch{
+            Log.error(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    
+    func requestMicrophonePermission() {
+        
+        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+            self.hasMicrophonePermission = granted
+        }
+    }
 }
+
+extension PTTManager: PTChannelManagerDelegate, PTChannelRestorationDelegate{
+   
+    
+    func channelDescriptor(restoredChannelUUID channelUUID: UUID) -> PTChannelDescriptor {
+        
+        Queue.mainQueue().async{
+            AppManager.shared.router = [.pushtalk]
+        }
+        
+        PTTManager.setActive(true)
+        
+        if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
+            Task.detached(priority: .userInitiated){
+                await self.JoinOrLeval(channel: activeChannel, api: .join)
+            }
+        }
+        
+        
+        return PTChannelDescriptor(name: "Domogo", image: UIImage(named: "logo2"))
+    }
+    
+    
+    func channelManager(_ channelManager: PTChannelManager, didJoinChannel channelUUID: UUID, reason: PTChannelJoinReason) {
+        Log.info("didJoinChannel", channelUUID)
+        PTTManager.setActive(true)
+        channelManager.setTransmissionMode(.fullDuplex, channelUUID: defaultUUID)
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, didLeaveChannel channelUUID: UUID, reason: PTChannelLeaveReason) {
+        Log.info("didLeaveChannel", channelUUID)
+
+        PTTManager.setActive(false)
+        Defaults[.pttHisChannel].setActive()
+        
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, failedToJoinChannel channelUUID: UUID, error: any Error) {
+        let error = error as NSError
+        print(error)
+        switch error.code{
+        case PTChannelError.channelLimitReached.rawValue:
+            break
+        default:
+            break
+        }
+        PTTManager.setActive(false)
+        
+        Toast.error(title: "服务被其他APP占用!")
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didBeginTransmittingFrom source: PTChannelTransmitRequestSource) {
+        Log.info("didBeginTransmittingFrom:", channelUUID.uuidString, source.rawValue)
+        if state == .playing{
+            self.stopPlaying()
+        }
+        Self.setState(.recording)
+        
+        self.setCategory(true, .playAndRecord, mode: .default)
+    }
+    
+    
+    func channelManager(_ channelManager: PTChannelManager, channelUUID: UUID, didEndTransmittingFrom source: PTChannelTransmitRequestSource) {
+        Log.info("didEndTransmittingFrom", source)
+        Self.setState(.idle)
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, receivedEphemeralPushToken pushToken: Data) {
+        let token = pushToken.map { String(format: "%02.2hhx", $0) }.joined()
+        Log.info("token:", token)
+        Defaults[.pttToken] = token
+        if let activeChannel = Defaults[.pttHisChannel].first(where: {$0.isActive}){
+            Task.detached(priority: .userInitiated){
+                await self.JoinOrLeval(channel: activeChannel, api: .join)
+            }
+        }
+    }
+    
+    func incomingPushResult(channelManager: PTChannelManager, channelUUID: UUID, pushPayload: [String : Any]) -> PTPushResult {
+        
+        guard let fileName = pushPayload["fileName"] as? String else {
+            return .leaveChannel
+        }
+        let defaultUUID = self.defaultUUID
+        Task.detached(priority: .userInitiated) { 
+            if let message = await self.saveVoice(remoteFileName: fileName),
+               let filePath = message.fileName(){
+                try? await Task.sleep(for: .seconds(0.3))
+            
+                await MainActor.run {
+                    self.playArr.append(PttPlayInfo(name: "新消息", image: "logo2", file: filePath))
+                }
+                if self.state == .idle {
+                    Self.setState(.playing)
+                    self.setCategory(true, .playAndRecord)
+                    await self._playNext()
+                }
+               
+            }else{
+                try? await Task.sleep(for: .seconds(0.3))
+                try? await channelManager.setActiveRemoteParticipant(nil, channelUUID: defaultUUID)
+            }
+            
+        }
+        
+        let activeSpeakerImage = UIImage(named: "logo2")
+        let participant = PTParticipant(name: "新消息", image: activeSpeakerImage)
+       
+        return .activeRemoteParticipant(participant)
+    }
+    
+    func channelManager(_ channelManager: PTChannelManager, didActivate audioSession: AVAudioSession) {
+        print("Did activate audio session", audioSession.mode,
+              audioSession.category,
+              audioSession.categoryOptions)
+        
+        if state == .recording{
+            Task.detached(priority: .userInitiated) {
+                try await self.audioManager.record()
+            }
+            
+        }
+        
+    }
+    
+    
+    func channelManager(_ channelManager: PTChannelManager, didDeactivate audioSession: AVAudioSession) {
+        print("Did deactivate audio session", audioSession.category)
+       
+    }
+    
+    
+}
+

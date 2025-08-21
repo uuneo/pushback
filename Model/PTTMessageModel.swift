@@ -7,6 +7,7 @@
 
 import Foundation
 import GRDB
+import UIKit
 
 
 
@@ -66,4 +67,20 @@ struct PttMessageRequest: Codable{
     var id: String
     var channel: String
     var key:String
+}
+
+
+struct PttPlayInfo: Codable{
+    var id:UUID = UUID()
+    var name: String 
+    var image: String
+    var file: URL
+    
+    
+    var avatar: UIImage?{
+        if !image.isEmpty{
+            return UIImage(contentsOfFile: image)
+        }
+        return UIImage(named: "logo2")
+    }
 }

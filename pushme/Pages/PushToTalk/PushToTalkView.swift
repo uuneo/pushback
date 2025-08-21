@@ -289,9 +289,7 @@ struct PushToTalkView: View {
                             .padding(3)
                             .environment(\.colorScheme, pttManager.active ? .light : .dark)
                             .VButton { _ in
-                                if let file = pttManager.last{
-                                    pttManager.startPlaying(filePath: file)
-                                }
+                                pttManager.stopPlaying()
                                 return true
                             }
                         
@@ -483,7 +481,7 @@ struct PushToTalkView: View {
                     .offset(x: buttonType == .call ? 0 : 100)
                     .VButton { _ in
                         selectServerHandler()
-                        pttManager.setCategory(isPlay: true)
+                        pttManager.setCategory(true, .playback,mode:  .default)
                         if pttManager.active {
                             let channel = pttHisChannel.first(where: {$0.isActive}) ?? pttChannel
                             self.pttManager.LevalChannel(channel)
@@ -780,14 +778,15 @@ struct PushToTalkView: View {
         if pttMusicPlay{
             pttManager.playTips(.cbegin){
                 if !isCancel{
-                    pttManager.startRecording()
+                    pttManager.startTransmitting()
                 }
             }
         }else{
             // 解决震动反馈不生效 延迟0.05启动录音
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05){
+            Task{
+                try await Task.sleep(for: .seconds(0.05))
                 if !isCancel{
-                    pttManager.startRecording()
+                    pttManager.startTransmitting()
                 }
             }
         }
@@ -795,9 +794,9 @@ struct PushToTalkView: View {
     
     func endRecording(){
         
-        pttManager.stopRecording()
+        pttManager.stopTransmitting()
         if pttMusicPlay{
-            pttManager.playTips(.pttnotifyend)
+            pttManager.playTips(.pttnotifyend){}
         }
         
         if pttVibration{
@@ -809,7 +808,7 @@ struct PushToTalkView: View {
         
         pttManager.stopRecording(true)
         if pttMusicPlay{
-            pttManager.playTips(.bottle)
+            pttManager.playTips(.bottle){}
         }
         
         if pttVibration{

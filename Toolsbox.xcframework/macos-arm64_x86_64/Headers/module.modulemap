@@ -1,4 +1,0 @@
-module Encryptor {
-    header "Encryptor.h"
-    export *
-}

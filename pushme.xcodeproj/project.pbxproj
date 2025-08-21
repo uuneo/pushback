@@ -64,11 +64,6 @@
 		B542AC2B2E083D8A001B0919 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B542AC252E083D80001B0919 /* Color+.swift */; };
 		B55BD5512E212CA700A1F014 /* OtherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358B02DEDD65A0066B32E /* OtherModel.swift */; };
 		B55BD5532E21EFE800A1F014 /* Lang.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55BD5522E21EFE300A1F014 /* Lang.swift */; };
-		B55FB5312E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
-		B55FB5322E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
-		B55FB5332E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
-		B55FB5352E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
-		B55FB5362E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
 		B566E52E2E1F9F2A00CC4EBA /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = B566E52D2E1F9F2A00CC4EBA /* Splash */; };
 		B56D83A62E378C88002B3377 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56D83A52E378C88002B3377 /* CustomSlider.swift */; };
 		B58358922DEDD4E10066B32E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = B58358912DEDD4E10066B32E /* Defaults */; };
@@ -146,11 +141,12 @@
 		B5835D782DEDFFF90066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D772DEDFFF90066B32E /* cmark-gfm */; };
 		B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */; };
 		B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5835D7B2DEE14C10066B32E /* WebKit.framework */; };
-		B59ADAD72E4CA0C200C1B5DD /* Toolsbox.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; };
-		B59ADAD82E4CA0C200C1B5DD /* Toolsbox.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */; };
 		B5BDDF4F2E24F0BA00263FEF /* HeaderPageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */; };
 		B5BDDF6D2E24F89300263FEF /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */; };
+		B5D636022E57759100A28C9A /* Encryptor in Frameworks */ = {isa = PBXBuildFile; productRef = B5D636012E57759100A28C9A /* Encryptor */; };
+		B5D636042E5775CF00A28C9A /* Encryptor in Frameworks */ = {isa = PBXBuildFile; productRef = B5D636032E5775CF00A28C9A /* Encryptor */; };
+		B5D636062E5775DD00A28C9A /* Encryptor in Frameworks */ = {isa = PBXBuildFile; productRef = B5D636052E5775DD00A28C9A /* Encryptor */; };
 		B5E111372E44585F0069CCF5 /* PTTMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E111362E4458530069CCF5 /* PTTMessageModel.swift */; };
 		B5E111382E4483B90069CCF5 /* PTTMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E111362E4458530069CCF5 /* PTTMessageModel.swift */; };
 		B5E111392E4483CB0069CCF5 /* PTTMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E111362E4458530069CCF5 /* PTTMessageModel.swift */; };
@@ -208,7 +204,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B59ADAD82E4CA0C200C1B5DD /* Toolsbox.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,7 +241,6 @@
 		B54057422DF1B6940058DC87 /* Application+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+.swift"; sourceTree = "<group>"; };
 		B542AC252E083D80001B0919 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		B55BD5522E21EFE300A1F014 /* Lang.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lang.swift; sourceTree = "<group>"; };
-		B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Toolsbox.xcframework; sourceTree = "<group>"; };
 		B56D83A52E378C88002B3377 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		B58357F72DEDD3B10066B32E /* pushme.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pushme.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B58358AD2DEDD65A0066B32E /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
@@ -705,10 +699,10 @@
 			files = (
 				B583589E2DEDD5B80066B32E /* QRScanner in Frameworks */,
 				B527948F2E3C81C700578952 /* Opus in Frameworks */,
-				B59ADAD72E4CA0C200C1B5DD /* Toolsbox.xcframework in Frameworks */,
 				B58358982DEDD5790066B32E /* Kingfisher in Frameworks */,
 				B566E52E2E1F9F2A00CC4EBA /* Splash in Frameworks */,
 				B58358922DEDD4E10066B32E /* Defaults in Frameworks */,
+				B5D636022E57759100A28C9A /* Encryptor in Frameworks */,
 				B58358A92DEDD62A0066B32E /* MarkdownUI in Frameworks */,
 				B583589B2DEDD5980066B32E /* OpenAI in Frameworks */,
 				B58358952DEDD55B0066B32E /* GRDB in Frameworks */,
@@ -723,7 +717,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55FB5322E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */,
 				B5835D612DEDFD070066B32E /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -742,8 +735,8 @@
 				B5835D3A2DEDF9090066B32E /* Kingfisher in Frameworks */,
 				B5835D362DEDF9090066B32E /* Defaults in Frameworks */,
 				B5835D382DEDF9090066B32E /* GRDB in Frameworks */,
+				B5D636042E5775CF00A28C9A /* Encryptor in Frameworks */,
 				B5835D402DEDF92A0066B32E /* cmark-gfm-extensions in Frameworks */,
-				B55FB5332E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */,
 				B5835D3E2DEDF92A0066B32E /* cmark-gfm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -754,8 +747,8 @@
 			files = (
 				B5835D302DEDF3370066B32E /* Kingfisher in Frameworks */,
 				B5835D2E2DEDF3370066B32E /* Defaults in Frameworks */,
+				B5D636062E5775DD00A28C9A /* Encryptor in Frameworks */,
 				B5835B232DEDE0930066B32E /* UserNotificationsUI.framework in Frameworks */,
-				B55FB5362E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */,
 				B5835B222DEDE0930066B32E /* UserNotifications.framework in Frameworks */,
 				B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */,
 				B5835D782DEDFFF90066B32E /* cmark-gfm in Frameworks */,
@@ -769,7 +762,6 @@
 				B5835D582DEDFBCB0066B32E /* Defaults in Frameworks */,
 				B5835CAA2DEDE88D0066B32E /* SwiftUI.framework in Frameworks */,
 				B5835CA92DEDE88D0066B32E /* WidgetKit.framework in Frameworks */,
-				B55FB5312E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */,
 				B5835D5A2DEDFBCB0066B32E /* GRDB in Frameworks */,
 				B5835D752DEDFFC60066B32E /* cmark-gfm-extensions in Frameworks */,
 				B5835D732DEDFFC60066B32E /* cmark-gfm in Frameworks */,
@@ -783,7 +775,6 @@
 				B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */,
 				B5835D1E2DEDEF0A0066B32E /* cmark-gfm in Frameworks */,
 				B5835D002DEDECA10066B32E /* UserNotificationsUI.framework in Frameworks */,
-				B55FB5352E43261D00E96E8E /* Toolsbox.xcframework in Frameworks */,
 				B5835D202DEDEF0A0066B32E /* cmark-gfm-extensions in Frameworks */,
 				B5835CFF2DEDECA10066B32E /* UserNotifications.framework in Frameworks */,
 				B5835D6B2DEDFF040066B32E /* Defaults in Frameworks */,
@@ -906,7 +897,6 @@
 				B58359D32DEDDF360066B32E /* UserNotificationsUI.framework */,
 				B58359FB2DEDDFE10066B32E /* WidgetKit.framework */,
 				B58359FD2DEDDFE10066B32E /* SwiftUI.framework */,
-				B55FB5302E43261D00E96E8E /* Toolsbox.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -951,6 +941,7 @@
 				B566E52D2E1F9F2A00CC4EBA /* Splash */,
 				B527948E2E3C81C700578952 /* Opus */,
 				B52794912E3C827000578952 /* Opus */,
+				B5D636012E57759100A28C9A /* Encryptor */,
 			);
 			productName = pushme;
 			productReference = B58357F72DEDD3B10066B32E /* pushme.app */;
@@ -1023,6 +1014,7 @@
 				B5835D392DEDF9090066B32E /* Kingfisher */,
 				B5835D3D2DEDF92A0066B32E /* cmark-gfm */,
 				B5835D3F2DEDF92A0066B32E /* cmark-gfm-extensions */,
+				B5D636032E5775CF00A28C9A /* Encryptor */,
 			);
 			productName = ServiceExtension;
 			productReference = B5835B112DEDE07C0066B32E /* ServiceExtension.appex */;
@@ -1049,6 +1041,7 @@
 				B5835D2F2DEDF3370066B32E /* Kingfisher */,
 				B5835D772DEDFFF90066B32E /* cmark-gfm */,
 				B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */,
+				B5D636052E5775DD00A28C9A /* Encryptor */,
 			);
 			productName = ContentExtension;
 			productReference = B5835B212DEDE0930066B32E /* ContentExtension.appex */;
@@ -2082,7 +2075,7 @@
 			repositoryURL = "https://github.com/uuneo/Opus.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.0.1;
 			};
 		};
 		B58358902DEDD4E10066B32E /* XCRemoteSwiftPackageReference "Defaults" */ = {
@@ -2282,6 +2275,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */;
 			productName = "cmark-gfm-extensions";
+		};
+		B5D636012E57759100A28C9A /* Encryptor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B52794902E3C827000578952 /* XCRemoteSwiftPackageReference "Opus" */;
+			productName = Encryptor;
+		};
+		B5D636032E5775CF00A28C9A /* Encryptor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B52794902E3C827000578952 /* XCRemoteSwiftPackageReference "Opus" */;
+			productName = Encryptor;
+		};
+		B5D636052E5775DD00A28C9A /* Encryptor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B52794902E3C827000578952 /* XCRemoteSwiftPackageReference "Opus" */;
+			productName = Encryptor;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

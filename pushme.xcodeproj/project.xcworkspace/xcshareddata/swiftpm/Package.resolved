@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/uuneo/Opus.git",
       "state" : {
-        "revision" : "92fac92846550c24b3ad89a3ce170faeaa8b9216",
-        "version" : "1.0.0"
+        "revision" : "eb2d8a0a7e08c03e4c767a45a6d1afa78e6f64d8",
+        "version" : "1.0.1"
       }
     },
     {

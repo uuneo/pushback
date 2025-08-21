@@ -66,8 +66,6 @@
 		<string>remote-notification</string>
 		<string>push-to-talk</string>
 		<string>audio</string>
-		<string>fetch</string>
-		<string>processing</string>
 		<string>bluetooth-central</string>
 	</array>
 	<key>UTExportedTypeDeclarations</key>

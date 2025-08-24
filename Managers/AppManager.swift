@@ -80,18 +80,23 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
     func registers(msg:Bool = false){
         Task.detached(priority: .userInitiated) {
             let servers = Defaults[.servers]
-            let results =  await withTaskGroup(of: PushServerModel.self){ group in
-                
-                for server in servers {
-                    group.addTask{  await self.register(server: server,msg: msg) }
+            let results = await withTaskGroup(of: (Int, PushServerModel).self) { group in
+                for (index, server) in servers.enumerated() {
+                    group.addTask {
+                        let result = await self.register(server: server, msg: msg)
+                        return (index, result)
+                    }
                 }
-                var results:[PushServerModel] = []
                 
-                for await result in group{
-                    results.append(result)
+                var tmp: [(Int, PushServerModel)] = []
+                for await pair in group {
+                    tmp.append(pair)
                 }
-                return results
+                
+                // 按 index 排序，保证和 servers 顺序一致
+                return tmp.sorted { $0.0 < $1.0 }.map { $0.1 }
             }
+
             await MainActor.run {
                 Defaults[.servers] = results
                 Self.syncLocalToCloud()

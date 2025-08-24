@@ -18,7 +18,7 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
     private var timer: CADisplayLink?
     private var isUserSeeking = false
     private var waitingTime:Int = 0
-    
+    private var lastWaitingUpdate: CFTimeInterval = .zero
     
     var audioPlayer: AVAudioPlayer? {
         didSet {
@@ -173,9 +173,12 @@ class MusicInfoView: UIView, AVAudioPlayerDelegate {
 
     @objc private func updateUI() {
         guard let player = audioPlayer, !isUserSeeking else {
-            waitingTime += 1
-            if waitingTime % 10 == 0{
-                stopButton.setTitle(formatTime(TimeInterval(waitingTime / 10)), for: .disabled)
+            let now = CACurrentMediaTime()
+            // 每 1 秒更新一次 title
+            if now - lastWaitingUpdate >= 1 {
+                lastWaitingUpdate = now
+                waitingTime += 1
+                stopButton.setTitle(formatTime(TimeInterval(waitingTime)), for: .disabled)
             }
             return
         }

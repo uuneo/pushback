@@ -15,7 +15,7 @@ import CommonCrypto
 import Defaults
 
 
-class NetworkManager {
+class NetworkManager: NSObject {
 
     let session = URLSession(configuration: .default)
 

@@ -158,7 +158,7 @@ class VoiceManager {
         httpRequest.setValue("application/ssml+xml", forHTTPHeaderField: "Content-Type")
         httpRequest.setValue( "\(Defaults[.ttsConfig].defaultFormat.rawValue)",
                               forHTTPHeaderField: "X-Microsoft-OutputFormat")
-        httpRequest.setValue("okhttp/4.5.0", forHTTPHeaderField: "User-Agent")
+        httpRequest.setValue("okhttp/5.1.0", forHTTPHeaderField: "User-Agent")
         httpRequest.httpBody = ssml.data(using: .utf8)
         httpRequest.timeoutInterval = TimeInterval(Defaults[.ttsConfig].requestTimeout)
         
@@ -505,7 +505,7 @@ class VoiceManager {
         static func FileName(text:String) throws -> URL{
             let fileName = text.sha256()
             
-            guard let group = BaseConfig.getVoiceDirectory() else {
+            guard let group = BaseConfig.getDir(.voice) else {
                 throw NSError(domain: "writeToFile", code: 1, userInfo: [
                     "msg":"No Group"
                 ])

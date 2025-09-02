@@ -24,21 +24,20 @@ struct MusicInfo: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            VStack{
-                if let audioUrl = audioManager.ShareURL{
-                    ShareLink(item: audioUrl, preview: SharePreview("pushback.mp3")){
-                        Image(systemName: "display.and.arrow.down")
-                    }.simultaneousGesture(
-                        TapGesture()
-                            .onEnded({ _ in
-                                audioManager.speakPlayer?.pause()
-                            })
-                    )
-                    
+            Button {
+                withAnimation {
+                    if let player = audioManager.speakPlayer{
+                        
+                        if isPlaying{
+                            player.pause()
+                        }else{
+                            player.play()
+                        }
+                    }
                 }
-            }
-            .if(audioManager.loading) { view in
-                ProgressView()
+            } label: {
+                Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                    .font(.title2)
             }
             
           
@@ -64,7 +63,7 @@ struct MusicInfo: View {
                             Text(formatTime(duration))
                                 .font(.caption)
                                 .foregroundColor(.gray)
-                        }
+                        }.padding(.top, 5)
                     }
                 }else{
                     VStack{
@@ -93,22 +92,23 @@ struct MusicInfo: View {
             Spacer(minLength: 0)
             
             HStack{
-                Button {
-                    withAnimation {
-                        if let player = audioManager.speakPlayer{
-                            
-                            if isPlaying{
-                                player.pause()
-                            }else{
-                                player.play()
-                            }
-                        }
-                    }
-                } label: {
-                    Image(systemName: isPlaying ? "pause.fill" : "play.fill")
-                        .font(.title2)
-                }
                 
+                VStack{
+                    if let audioUrl = audioManager.ShareURL{
+                        ShareLink(item: audioUrl, preview: SharePreview("pushback.mp3")){
+                            Image(systemName: "display.and.arrow.down")
+                        }.simultaneousGesture(
+                            TapGesture()
+                                .onEnded({ _ in
+                                    audioManager.speakPlayer?.pause()
+                                })
+                        )
+                        
+                    }
+                }
+                .if(audioManager.loading) { view in
+                    ProgressView()
+                }
                 
                 Button {
                     withAnimation {

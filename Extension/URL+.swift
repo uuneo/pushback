@@ -23,7 +23,6 @@ extension URL{
 
 
 // MARK: -  URLSession+.swift
-
 extension URLSession{
     enum APIError:Error{
         case invalidURL
@@ -33,6 +32,7 @@ extension URLSession{
     func data(for request:URLRequest) async throws -> Data{
     
         let (data,response) = try await self.data(for: request)
+       
         guard let response = response as? HTTPURLResponse else{ throw APIError.invalidURL }
         guard 200...299 ~= response.statusCode else {throw APIError.invalidCode(response.statusCode) }
         return data

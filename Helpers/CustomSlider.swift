@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CustomSlider: View {
+    @Binding var isPress: Bool
     @Binding var sliderProgress: CGFloat
     /// Configuration
     var symbol: Symbol?
@@ -58,13 +59,14 @@ struct CustomSlider: View {
                         let movement = (axis == .horizontal ? translation.width : -translation.height) + lastDragOffset
                         dragOffset = movement
                         calculateProgress(orientationSize: orientationSize)
+                        self.isPress = true
                     }
                     .onEnded { _ in
                         withAnimation(.smooth) {
                             dragOffset = dragOffset > orientationSize ? orientationSize : (dragOffset < 0 ? 0 : dragOffset)
                             calculateProgress(orientationSize: orientationSize)
                         }
-                        
+                        self.isPress = false
                         lastDragOffset = dragOffset
                     }
             )
@@ -75,8 +77,8 @@ struct CustomSlider: View {
             )
             .onChange(of: sliderProgress) { newValue in
                 /// Initial Progress Settings
-                guard sliderProgress != progress else { return }
-                progress = max(min(sliderProgress, 1.0), .zero)
+                guard newValue != progress else { return }
+                progress = max(min(newValue, 1.0), .zero)
                 dragOffset = progress * orientationSize
                 lastDragOffset = dragOffset
             }
@@ -90,8 +92,11 @@ struct CustomSlider: View {
                 lastDragOffset = dragOffset
             }
         }
-        .onChange(of: progress) { oldValue in
-            sliderProgress = max(min(progress, 1.0), .zero)
+        .onChange(of: progress) { newValue in
+            let clampedValue = max(min(newValue, 1.0), .zero)
+            if clampedValue != sliderProgress {
+                sliderProgress = clampedValue
+            }
         }
         
     }
@@ -103,7 +108,10 @@ struct CustomSlider: View {
         
         let progress = (dragOffset > orientationSize ? topAndTrailingExcessOffset : bottomAndLeadingExcessOffset) / orientationSize
         
-        self.progress = progress
+        // 防止 NaN 和无限值
+        if progress.isFinite && !progress.isNaN {
+            self.progress = progress
+        }
     }
     
     /// Symbol Configuration

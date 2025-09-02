@@ -113,7 +113,18 @@ struct MessagePage: View {
                            
                         }
                     }
-
+                    
+                    Section{
+                        Button{
+                            manager.router = [.pushtalk]
+                            Haptic.impact()
+                        }label: {
+                            Label("语音对讲", systemImage: "person.line.dotted.person")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.accent, .primary)
+                        }
+                    }
+                    
                     
                 }label: {
                     Label("更多", systemImage: "shippingbox.circle")

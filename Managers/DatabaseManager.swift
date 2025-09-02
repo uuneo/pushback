@@ -29,6 +29,7 @@ public class DatabaseManager {
         try ChatGroup.createInit(dbPool: dbPool)
         try ChatMessage.createInit(dbPool: dbPool)
         try ChatPrompt.createInit(dbPool: dbPool)
+        try PttMessageModel.createInit(dbPool: dbPool)
     }
     
     func checkDriveData(complete: @escaping (Bool) -> Void) {

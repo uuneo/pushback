@@ -104,6 +104,13 @@ enum ToastSymbol: String{
 
 struct ToastGroup: View {
     @ObservedObject var model = Toast.shared
+    @StateObject private var manager = AppManager.shared
+        var hideStatus:Bool{
+            if let last = manager.router.last{
+                return last == .pushtalk
+            }
+            return false
+        }
 
     var body: some View {
         GeometryReader {
@@ -125,7 +132,7 @@ struct ToastGroup: View {
             }
             .padding(.bottom, safeArea.top == .zero ? 15 : 10)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-
+            .statusBarHidden(hideStatus)
         }
     }
     

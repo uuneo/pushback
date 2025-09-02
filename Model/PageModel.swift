@@ -47,6 +47,7 @@ enum RouterPage: Hashable, Equatable {
     case more
     case widget(title:String?, data:String)
     case tts
+    case pushtalk
 }
 
 

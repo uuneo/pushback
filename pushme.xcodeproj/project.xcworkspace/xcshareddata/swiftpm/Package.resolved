@@ -1,5 +1,5 @@
 {
-  "originHash" : "f88a8d1469c51c211a1759046bc12215d25f57ece099c8b148b765cc174b8cae",
+  "originHash" : "c810adec1b0e5203675cce66c4c64e56d9785a3f1eb423e45936447fc9de1f5e",
   "pins" : [
     {
       "identity" : "defaults",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "bf9aa18029cd22d39dad3e1f00dd40a5a4777f57",
         "version" : "0.0.2"
+      }
+    },
+    {
+      "identity" : "opus",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uuneo/Opus.git",
+      "state" : {
+        "revision" : "eb2d8a0a7e08c03e4c767a45a6d1afa78e6f64d8",
+        "version" : "1.0.1"
       }
     },
     {

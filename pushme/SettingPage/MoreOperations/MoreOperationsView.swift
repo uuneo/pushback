@@ -458,8 +458,8 @@ struct MoreOperationsView: View {
                             self.showDriveCheckLoading = true
                             if let cache = ImageManager.defaultCache(),
                                let imageCache = ImageManager.defaultCache(mode: .image),
-                               let fileUrl = BaseConfig.getSoundsGroupDirectory(),
-                               let voiceUrl = BaseConfig.getVoiceDirectory()
+                               let fileUrl = BaseConfig.getDir(.sounds),
+                               let voiceUrl = BaseConfig.getDir(.voice)
                             {
                                 cache.clearDiskCache()
                                 imageCache.clearDiskCache()
@@ -497,10 +497,9 @@ struct MoreOperationsView: View {
     
     func calculateSize(){
         if let group = CONTAINER,
-           let soundsUrl = BaseConfig.getSoundsGroupDirectory(),
-           let imageUrl = BaseConfig.getImagesDirectory(),
-           let voiceUrl = BaseConfig.getVoiceDirectory()
-        {
+           let soundsUrl = BaseConfig.getDir(.sounds),
+           let imageUrl = BaseConfig.getDir(.image),
+           let voiceUrl = BaseConfig.getDir(.voice) {
             self.totalSize = manager.calculateDirectorySize(at: group)
             
             self.cacheSize =  manager.calculateDirectorySize(at: soundsUrl) +  manager.calculateDirectorySize(at: imageUrl) +

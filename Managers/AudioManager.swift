@@ -64,7 +64,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
         // 加载 App Group 共享目录中的自定义 caf 音频资源
         let customSounds: [URL] = {
             // 获取共享目录路径
-            guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return [] }
+            guard let soundsDirectoryUrl = BaseConfig.getDir(.sounds) else { return [] }
             
             // 获取指定后缀（caf），排除长音前缀的文件
             var urlemp = self.getFilesInDirectory(directory: soundsDirectoryUrl.path(), suffix: "caf")
@@ -100,6 +100,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
         do {
             // 获取目录下所有文件名（字符串）
             let files = try manager.contentsOfDirectory(atPath: directory)
+        
             
             // 过滤符合条件的文件，并转换为完整的 URL
             return files.compactMap { file -> URL? in
@@ -119,7 +120,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     /// 通用文件保存方法
     func saveSound(url sourceUrl: URL, name lastPath: String? = nil) {
         // 获取 App Group 的共享铃声目录路径
-        guard let groupDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return }
+        guard let groupDirectoryUrl = BaseConfig.getDir(.sounds) else { return }
         
         // 构造目标路径：使用传入的自定义文件名（lastPath），否则使用源文件名
         let groupDestinationUrl = groupDirectoryUrl.appendingPathComponent(lastPath ?? sourceUrl.lastPathComponent)
@@ -146,7 +147,7 @@ class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate{
     
     func deleteSound(url: URL) {
         // 获取 App Group 中的共享铃声目录
-        guard let soundsDirectoryUrl = BaseConfig.getSoundsGroupDirectory() else { return }
+        guard let soundsDirectoryUrl = BaseConfig.getDir(.sounds) else { return }
         
         // 删除本地 sounds 目录下的铃声文件
         try? manager.removeItem(at: url)

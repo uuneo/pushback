@@ -82,7 +82,7 @@ class NetworkManager: NSObject {
         request.setValue( sign(url: url, params: params, key: BaseConfig.signKey), forHTTPHeaderField: "X-Signature" )
         request.setValue(self.customUserAgentDetailed(), forHTTPHeaderField: "User-Agent" )
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(Defaults[.id], forHTTPHeaderField: "Authorization")
+        request.setValue(Defaults[.id], forHTTPHeaderField: "Authorization") 
         
         for (key,value) in headers{
             request.setValue(value, forHTTPHeaderField: key)
@@ -196,7 +196,7 @@ class NetworkManager: NSObject {
         // 对参数字典按 key 升序排序，然后拼接成字符串：key1:value1,key2:value2,...
         let paramsStr = flatParams
             .sorted(by: { $0.key < $1.key })
-            .map { "\($0.key):\($0.value)" }
+            .map { "\($0.key.lowercased()):\($0.value.lowercased())" }
             .joined(separator: ",")
 
         // 将参数字符串转为 Data，如果失败则返回空字符串

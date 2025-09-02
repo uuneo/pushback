@@ -80,7 +80,6 @@
 		B58359162DEDD65A0066B32E /* FullSwipeNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358C22DEDD65A0066B32E /* FullSwipeNavigationStack.swift */; };
 		B58359172DEDD65A0066B32E /* DisintegrationEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358C02DEDD65A0066B32E /* DisintegrationEffect.swift */; };
 		B58359182DEDD65A0066B32E /* ParamsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358AE2DEDD65A0066B32E /* ParamsModel.swift */; };
-		B583591B2DEDD65A0066B32E /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358B32DEDD65A0066B32E /* ToastView.swift */; };
 		B583591C2DEDD65A0066B32E /* PopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358BF2DEDD65A0066B32E /* PopView.swift */; };
 		B583591D2DEDD65A0066B32E /* AnimatedSideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358C82DEDD65A0066B32E /* AnimatedSideBar.swift */; };
 		B58359202DEDD65A0066B32E /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58358AF2DEDD65A0066B32E /* MessageModel.swift */; };
@@ -139,9 +138,13 @@
 		B5835D782DEDFFF90066B32E /* cmark-gfm in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D772DEDFFF90066B32E /* cmark-gfm */; };
 		B5835D7A2DEDFFF90066B32E /* cmark-gfm-extensions in Frameworks */ = {isa = PBXBuildFile; productRef = B5835D792DEDFFF90066B32E /* cmark-gfm-extensions */; };
 		B5835D7C2DEE14C10066B32E /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5835D7B2DEE14C10066B32E /* WebKit.framework */; };
+		B583A8082E5DEE3300F4FC3F /* PTTMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583A7982E5DEE3300F4FC3F /* PTTMessageModel.swift */; };
+		B583A8CB2E6040DB00F4FC3F /* PTTMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583A7982E5DEE3300F4FC3F /* PTTMessageModel.swift */; };
+		B583A8CC2E6040ED00F4FC3F /* PTTMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583A7982E5DEE3300F4FC3F /* PTTMessageModel.swift */; };
 		B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */; };
 		B5BDDF4F2E24F0BA00263FEF /* HeaderPageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */; };
 		B5BDDF6D2E24F89300263FEF /* CustomLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */; };
+		B5D1B5922E5B3D5800661C28 /* Opus in Frameworks */ = {isa = PBXBuildFile; productRef = B5D1B5912E5B3D5800661C28 /* Opus */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,7 +243,6 @@
 		B58358AF2DEDD65A0066B32E /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		B58358B02DEDD65A0066B32E /* OtherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherModel.swift; sourceTree = "<group>"; };
 		B58358B22DEDD65A0066B32E /* ZoomGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomGesture.swift; sourceTree = "<group>"; };
-		B58358B32DEDD65A0066B32E /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		B58358B42DEDD65A0066B32E /* zoomable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zoomable.swift; sourceTree = "<group>"; };
 		B58358B52DEDD65A0066B32E /* PopOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopOutView.swift; sourceTree = "<group>"; };
 		B58358B62DEDD65A0066B32E /* CustomAlertDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertDrawer.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 		B5835CCE2DEDE8B80066B32E /* PushWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushWidgetExtension.entitlements; sourceTree = "<group>"; };
 		B5835CFE2DEDECA10066B32E /* MarkdownExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MarkdownExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5835D7B2DEE14C10066B32E /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		B583A7982E5DEE3300F4FC3F /* PTTMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTTMessageModel.swift; sourceTree = "<group>"; };
 		B5ABA0072E0C0A640024DCDD /* AnimatedBlob.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBlob.swift; sourceTree = "<group>"; };
 		B5BDDF4E2E24F0BA00263FEF /* HeaderPageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderPageScrollView.swift; sourceTree = "<group>"; };
 		B5BDDF6C2E24F89300263FEF /* CustomLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingView.swift; sourceTree = "<group>"; };
@@ -378,9 +381,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Localizable.xcstrings,
-				Pages/OtherViews/AngularButton.swift,
-				Pages/OtherViews/ColoredBorder.swift,
-				Pages/OtherViews/UploadIclondIcon.swift,
+				OtherViews/AngularButton.swift,
+				OtherViews/ColoredBorder.swift,
+				OtherViews/UploadIclondIcon.swift,
 			);
 			target = B58359E62DEDDF860066B32E /* ShareExtension */;
 		};
@@ -689,6 +692,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B583589E2DEDD5B80066B32E /* QRScanner in Frameworks */,
+				B5D1B5922E5B3D5800661C28 /* Opus in Frameworks */,
 				B58358982DEDD5790066B32E /* Kingfisher in Frameworks */,
 				B566E52E2E1F9F2A00CC4EBA /* Splash in Frameworks */,
 				B58358922DEDD4E10066B32E /* Defaults in Frameworks */,
@@ -832,6 +836,7 @@
 				B58358AE2DEDD65A0066B32E /* ParamsModel.swift */,
 				B58358AF2DEDD65A0066B32E /* MessageModel.swift */,
 				B58358B02DEDD65A0066B32E /* OtherModel.swift */,
+				B583A7982E5DEE3300F4FC3F /* PTTMessageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -846,7 +851,6 @@
 				B531F48C2E02FD5300A5868B /* SlideToConfirm.swift */,
 				B58359B52DEDD9030066B32E /* PassthroughWindow.swift */,
 				B58358B22DEDD65A0066B32E /* ZoomGesture.swift */,
-				B58358B32DEDD65A0066B32E /* ToastView.swift */,
 				B58358B42DEDD65A0066B32E /* zoomable.swift */,
 				B58358B52DEDD65A0066B32E /* PopOutView.swift */,
 				B58358B62DEDD65A0066B32E /* CustomAlertDrawer.swift */,
@@ -924,6 +928,7 @@
 				B58358A52DEDD6090066B32E /* cmark-gfm-extensions */,
 				B58358A82DEDD62A0066B32E /* MarkdownUI */,
 				B566E52D2E1F9F2A00CC4EBA /* Splash */,
+				B5D1B5912E5B3D5800661C28 /* Opus */,
 			);
 			productName = pushme;
 			productReference = B58357F72DEDD3B10066B32E /* pushme.app */;
@@ -1133,6 +1138,7 @@
 				B583589C2DEDD5B80066B32E /* XCRemoteSwiftPackageReference "QRScanner" */,
 				B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */,
 				B58358A72DEDD62A0066B32E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				B5D1B5902E5B3D5800661C28 /* XCRemoteSwiftPackageReference "Opus" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B58357F82DEDD3B10066B32E /* Products */;
@@ -1210,6 +1216,7 @@
 				B583590D2DEDD65A0066B32E /* HackerTextView.swift in Sources */,
 				B5139EB92E02AC79001E924F /* PageModel.swift in Sources */,
 				B54057212DF1B4560058DC87 /* URL+.swift in Sources */,
+				B583A8082E5DEE3300F4FC3F /* PTTMessageModel.swift in Sources */,
 				B583590E2DEDD65A0066B32E /* TabStateScrollView.swift in Sources */,
 				B56D83A62E378C88002B3377 /* CustomSlider.swift in Sources */,
 				B58359122DEDD65A0066B32E /* Snapshot.swift in Sources */,
@@ -1223,7 +1230,6 @@
 				B54057122DF1B3850058DC87 /* Date+.swift in Sources */,
 				B55BD5532E21EFE800A1F014 /* Lang.swift in Sources */,
 				B58359182DEDD65A0066B32E /* ParamsModel.swift in Sources */,
-				B583591B2DEDD65A0066B32E /* ToastView.swift in Sources */,
 				B5ABA0082E0C0A660024DCDD /* AnimatedBlob.swift in Sources */,
 				B583591C2DEDD65A0066B32E /* PopView.swift in Sources */,
 				B542AC272E083D8A001B0919 /* Color+.swift in Sources */,
@@ -1284,6 +1290,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B583A8CC2E6040ED00F4FC3F /* PTTMessageModel.swift in Sources */,
 				B5835D462DEDF9680066B32E /* MessageModel.swift in Sources */,
 				B540571E2DF1B4560058DC87 /* URL+.swift in Sources */,
 				B542AC292E083D8A001B0919 /* Color+.swift in Sources */,
@@ -1317,6 +1324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B583A8CB2E6040DB00F4FC3F /* PTTMessageModel.swift in Sources */,
 				B5835D702DEDFF950066B32E /* MessageModel.swift in Sources */,
 				B540570B2DF1B1A20058DC87 /* Image+.swift in Sources */,
 				B54057292DF1B52C0058DC87 /* Data+.swift in Sources */,
@@ -2102,6 +2110,14 @@
 				minimumVersion = 3.0.3;
 			};
 		};
+		B5D1B5902E5B3D5800661C28 /* XCRemoteSwiftPackageReference "Opus" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uuneo/Opus.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2234,6 +2250,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B58358A22DEDD6090066B32E /* XCRemoteSwiftPackageReference "swift-cmark" */;
 			productName = "cmark-gfm-extensions";
+		};
+		B5D1B5912E5B3D5800661C28 /* Opus */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B5D1B5902E5B3D5800661C28 /* XCRemoteSwiftPackageReference "Opus" */;
+			productName = Opus;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

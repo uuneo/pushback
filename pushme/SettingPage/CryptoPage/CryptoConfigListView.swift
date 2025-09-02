@@ -118,7 +118,7 @@ struct CryptoConfigListView: View {
                             Clipboard.set(data)
                             Toast.copy(title: "复制成功")
                         }label:{
-                            Label("复制Pyhon示例", systemImage: "doc.on.doc")
+                            Label("复制Python示例", systemImage: "doc.on.doc")
                         }.tint(.green)
                     }
                    

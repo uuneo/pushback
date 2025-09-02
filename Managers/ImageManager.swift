@@ -18,7 +18,7 @@ class ImageManager {
     ///   - data: The image data to store
     ///   - key: The key to store the image under
     ///   - expiration: The expiration time for the cached image
-    class func storeImage(cache: ImageCache? = nil, mode: BaseConfig.ImageMode = .icon, data: Data, key: String, expiration: StorageExpiration = .never) async {
+    class func storeImage(cache: ImageCache? = nil, mode: BaseConfig.FolderType = .icon, data: Data, key: String, expiration: StorageExpiration = .never) async {
         
         let cacheTem: ImageCache
         
@@ -40,7 +40,7 @@ class ImageManager {
     ///   - mode: The image mode (icon or other) to determine cache location
     ///   - expiration: The expiration time for the cached image
     /// - Returns: The local cache path of the downloaded image, or nil if download fails
-    class func downloadImage(_ imageUrl: String, mode: BaseConfig.ImageMode = .icon, expiration: StorageExpiration = .never) async -> String? {
+    class func downloadImage(_ imageUrl: String, mode: BaseConfig.FolderType = .icon, expiration: StorageExpiration = .never) async -> String? {
         
         guard let cache = defaultCache(mode: mode) else { return nil }
         
@@ -72,13 +72,13 @@ class ImageManager {
             }
         }
     }
-
+    
     /// Gets the default image cache for the specified mode
     /// - Parameter mode: The image mode (icon or other) to determine cache location
     /// - Returns: An ImageCache instance, or nil if cache creation fails
-    class func defaultCache(mode: BaseConfig.ImageMode = .icon) -> ImageCache? {
-        guard let containerURL = BaseConfig.getImagesDirectory(mode: mode),
-              let cache = try? ImageCache(name: "shared", cacheDirectoryURL: containerURL) else { return nil }
+    class func defaultCache(mode: BaseConfig.FolderType = .icon) -> ImageCache? {
+        guard  let cache = try? ImageCache(name: "shared", cacheDirectoryURL: mode.path)
+        else { return nil }
         return cache
     }
     

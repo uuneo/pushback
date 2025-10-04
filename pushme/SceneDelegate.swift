@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let urlContext = connectionOptions.urlContexts.first {
             let url = urlContext.url
             // 处理这个 URL
-            _ = AppManager.shared.HandlerOpenUrl(url: url)
+            _ = AppManager.shared.HandlerOpenUrl(url: url.absoluteString)
         }
         
     }
@@ -129,7 +129,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
-        _ = AppManager.shared.HandlerOpenUrl(url: url)
+        _ = AppManager.shared.HandlerOpenUrl(url: url.absoluteString)
     }
 }
 

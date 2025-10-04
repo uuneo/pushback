@@ -202,11 +202,17 @@ struct ContentView: View {
                 ChangeKeyView()
             case .scan:
                 ScanView{ code in
-                    if let url = URL(string: code){
-                        return  AppManager.shared.HandlerOpenUrl(url: url)
+                    if let data = AppManager.shared.HandlerOpenUrl(url: code){
+                        manager.fullPage = .none
+                        AppManager.shared.sheetPage =
+                            .quickResponseCode(
+                                text: data,
+                                title: String(localized: "二维码"),
+                                preview: nil
+                            )
                     }
+                    manager.fullPage = .none
                     return false
-                    
                 }
             case .web(let url):
                 SFSafariView(url: url).ignoresSafeArea()
@@ -235,19 +241,24 @@ struct ContentView: View {
                         .onAppear{ manager.sheetPage = .none }
                 }
             case .quickResponseCode(let text, let title, let preview):
-                QuickResponseCodeview(text:text, title: title, preview:preview).presentationDetents([.medium])
+                QuickResponseCodeview(text:text, title: title, preview:preview)
+                    .presentationDetents([.medium])
             case .scan:
                 ScanView{ code in
-                    if code.hasHttp(){
-                        let success = await manager.appendServer(server: PushServerModel(url: code))
-                        if success{
-                            manager.page = .setting
-                            manager.settingsRouter = [.server]
+                    if let data = AppManager.shared.HandlerOpenUrl(url: code){
+                        if data.hasHttp(){
+                            let success = await manager.appendServer(server: PushServerModel(url: data))
+                            if success{
+                                manager.sheetPage = .none
+                                manager.fullPage = .none
+                                manager.page = .setting
+                                manager.settingsRouter = [.server]
+                                return false
+                            }
+
                         }
-                        return success
                     }
-                    return false
-                    
+                    return true
                 }
             case .crypto(let item):
                 ChangeCryptoConfigView(item: item)

@@ -21,39 +21,34 @@ struct ScanView: View {
     
     @EnvironmentObject private var manager:AppManager
     
-    var response: (String) async-> Bool
-    
+    var response: (String)async-> Bool
+
     
 	var body: some View {
 		ZStack{
             let config = QRScannerView.Input(focusImage: UIImage(named: "scan"),focusImagePadding: 20, isBlurEffectEnabled: true)
-            
+
             QRScanner(rescan: $restart, flash: $torchIsOn, isRuning: true, input: config) { code in
-                
-                Task{
-                    if await response(code) {
-                        AudioServicesPlaySystemSound(1052)
-                        self.dismiss()
-                    }else{
-                        AudioServicesPlaySystemSound(1053)
-                        self.showActive.toggle()
-                    }
+
+                Task{@MainActor in
+                    AudioServicesPlaySystemSound(1052)
+                    self.showActive = await response(code)
                 }
+
             } onFailure: { error in
-                
+                AudioServicesPlaySystemSound(1053)
                 switch error{
                 case .unauthorized(let status):
                     if status != .authorized{
                         Toast.info(title:  "没有相机权限")
                     }
-                    self.dismiss()
                 default:
                     Toast.error(title: "扫码失败")
-                    self.dismiss()
                 }
+                self.showActive = true
             }
             .actionSheet(isPresented: $showActive) {
-                ActionSheet(title: Text( "扫码成功"),buttons: [
+                ActionSheet(title: Text( "扫码提示!"),buttons: [
                     .default(Text( "重新扫码"), action: {
                         self.showActive = false
                         self.restart.toggle()
@@ -122,13 +117,17 @@ struct ScanView: View {
         )
 	}
 
+    func showMenu(){
+        self.showActive = true
+    }
+
 }
 
 
 
 
 #Preview {
-    ScanView(){_ in  true }
+    ScanView(){_ in true}
 }
 
 

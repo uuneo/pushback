@@ -191,9 +191,9 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
         }
     }
 
-    func HandlerOpenUrl(url:URL) -> Bool{
+    func HandlerOpenUrl(url:String) -> String?{
 
-        switch self.outParamsHandler(address: url.absoluteString) {
+        switch self.outParamsHandler(address: url) {
         case .crypto(let text):
             Log.debug(text)
             if let config = CryptoModelConfig(inputText: text){
@@ -209,8 +209,8 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
 
                 }
             }
-            return true
-        case .server(let url), .base(let url):
+            return nil
+        case .server(let url):
             Task.detached(priority: .userInitiated) {
                 let success = await self.appendServer(server: PushServerModel(url: url))
                 if success{
@@ -220,7 +220,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
                     }
                 }
             }
-            return true
+            return nil
         case .serverKey(let url, let key):
             Task.detached(priority: .userInitiated) {
                 let success = await self.restore(address: url, deviceKey: key)
@@ -231,7 +231,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
                     }
                 }
             }
-            return true
+            return nil
         case .assistant(let text):
             if let account = AssistantAccount(base64: text){
                 DispatchQueue.main.async {
@@ -239,7 +239,7 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
                     self.messageRouter = [.assistant, .assistantSetting(account)]
                 }
             }
-            return true
+            return nil
         case .page(page: let page,title: let title, data: let data):
             switch page{
             case .widget:
@@ -251,9 +251,11 @@ class AppManager:  NetworkManager, ObservableObject, @unchecked Sendable {
                 self.page = .setting
                 self.sheetPage = .cloudIcon
             }
-            return true
-        default:
-            return false
+            return nil
+        case .otherUrl(let url):
+            return url
+        case .text(let str):
+            return str
 
         }
     }
@@ -372,11 +374,6 @@ extension AppManager{
         guard let url = URL(string: address), let scheme = url.scheme?.lowercased() else {
             return .text(address)
         }
-
-        if scheme.hasHttp(){
-            return .base(address)
-        }
-
         
         if PBScheme.schemes.contains(scheme),let host = url.host(),let host = PBScheme.HostType(rawValue: host), let components = URLComponents(url: url, resolvingAgainstBaseURL: false){
             let params = components.getParams()

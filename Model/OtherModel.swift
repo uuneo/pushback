@@ -305,7 +305,7 @@ extension AssistantAccount{
 
 
 enum OutDataType{
-    case base(String)
+    
     case text(String)
     case crypto(String)
     case server(String)
